@@ -46,6 +46,8 @@ public final class SecurityEmailProperties {
 
     private ActivateUserProperties     activateUser     = new ActivateUserProperties();
 
+    private String                     from;
+
     private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
 
 }

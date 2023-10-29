@@ -24,12 +24,14 @@
 
 package com.bernardomg.security.email.sender;
 
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.email.EmailSender;
-
-import lombok.NonNull;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,7 +43,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
 
-    private final EmailSender          emailService;
+    private final String               fromEmail;
+
+    private final JavaMailSender       mailSender;
 
     private final String               passwordRecoverySubject = "Password recovery";
 
@@ -53,14 +57,15 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final String               userRegisteredUrl;
 
-    public SpringMailSecurityEmailSender(@NonNull final SpringTemplateEngine templateEng,
-            @NonNull final String passRecoveryUrl, @NonNull final String userRegUrl, final EmailSender emailServ) {
+    public SpringMailSecurityEmailSender(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
+            final String frmEmail, final String passRecoveryUrl, final String userRegUrl) {
         super();
 
         templateEngine = templateEng;
+        mailSender = mailSendr;
+        fromEmail = frmEmail;
         userRegisteredUrl = userRegUrl;
         passwordRecoveryUrl = passRecoveryUrl;
-        emailService = emailServ;
     }
 
     @Override
@@ -73,7 +78,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         recoveryUrl = generateUrl(passwordRecoveryUrl, token);
         passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
 
-        emailService.sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
+        sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
         log.debug("Sent password recovery email to {} for {}", email, username);
     }
@@ -89,7 +94,7 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
 
         // TODO: Send template name and parameters
-        emailService.sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
+        sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
 
         log.debug("Sent user registered email to {} for {}", email, username);
     }
@@ -113,6 +118,29 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         }
 
         return url;
+    }
+
+    private final void prepareMessage(final MimeMessage mimeMessage, final String recipient, final String subject,
+            final String content) throws MessagingException {
+        final MimeMessageHelper messageHelper;
+
+        messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        messageHelper.setFrom(fromEmail);
+        messageHelper.setTo(recipient);
+        messageHelper.setSubject(subject);
+        messageHelper.setText(content, true); // 'true' indicates HTML content
+    }
+
+    private final void sendEmail(final String recipient, final String subject, final String content) {
+        final MimeMessagePreparator messagePreparator;
+
+        messagePreparator = mimeMessage -> prepareMessage(mimeMessage, recipient, subject, content);
+
+        try {
+            mailSender.send(messagePreparator);
+        } catch (final Exception e) {
+            log.error("Error sending email", e);
+        }
     }
 
 }

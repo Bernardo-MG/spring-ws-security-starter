@@ -28,9 +28,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.email.EmailSender;
 import com.bernardomg.security.email.sender.DisabledSecurityMessageSender;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.email.sender.SpringMailSecurityEmailSender;
@@ -65,18 +65,18 @@ public class SecurityEmailConfig {
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public SecurityMessageSender getSecurityEmailSender(final SpringTemplateEngine templateEng,
-            final SecurityEmailProperties properties, final EmailSender emailServ) {
+            final JavaMailSender mailSender, final SecurityEmailProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.debug("Using email for security messages");
         log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
             .getUrl());
         log.debug("Activate user URL: {}", properties.getActivateUser()
             .getUrl());
-        return new SpringMailSecurityEmailSender(templateEng, properties.getPasswordRecovery()
-            .getUrl(),
-            properties.getActivateUser()
+        return new SpringMailSecurityEmailSender(templateEng, mailSender, properties.getFrom(),
+            properties.getPasswordRecovery()
                 .getUrl(),
-            emailServ);
+            properties.getActivateUser()
+                .getUrl());
     }
 
 }
