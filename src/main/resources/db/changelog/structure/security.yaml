@@ -1,0 +1,269 @@
+databaseChangeLog:
+  - changeSet:
+      id: security_tables
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+              - column:
+                  name: email
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+                  defaultValue: ''
+              - column:
+                  name: password_expired
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: true
+              - column:
+                  name: expired
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: locked
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+  - changeSet:
+      id: security_permissions
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: resources
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createTable:
+            tableName: actions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createTable:
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resource
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_role_permissions_resource_id
+                    references: resources(name)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: action
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_role_permissions_action_id
+                    references: actions(name)
+                    nullable: false
+                    deleteCascade: true
+  - changeSet:
+      id: security_roles
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createTable:
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_role_permissions_role_id
+                    references: roles(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: permission_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_role_permissions_permission_id
+                    references: permissions(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: granted
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_roles_user_id
+                    references: users(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_roles_role_id
+                    references: roles(id)
+                    nullable: false
+                    deleteCascade: true
+        - addUniqueConstraint:
+            constraintName: role_permissions_unique
+            tableName: role_permissions
+            columnNames: 'role_id, permission_id'
+        - addUniqueConstraint:
+            constraintName: user_roles_unique
+            tableName: user_roles
+            columnNames: 'user_id, role_id'
+  - changeSet:
+      id: token_tables
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: user_tokens
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_token_tables_user_id
+                    references: users(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: scope
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: token
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: creation_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expiration_date
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: consumed
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: revoked
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+  - changeSet:
+      id: security_views
+      author: Bernardo
+      changes:
+        -  createView:
+            remarks: User granted permissions
+            selectQuery: SELECT DISTINCT u.id AS user_id, u.username AS username, p.permission_id AS permission_id, p.resource AS resource, p.action AS action FROM (SELECT p.id AS permission_id, p.resource AS resource, p.action AS action, rp.role_id AS role_id FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN permissions p ON rp.permission_id = p.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id
+            viewName: user_granted_permissions
+        -  createView:
+            remarks: Role granted permissions
+            selectQuery: SELECT p.id AS permission_id, rl.id AS role_id, rl.name AS role, p.resource AS resource, p.action AS action FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN permissions p ON rp.permission_id = p.id WHERE rp.granted = true
+            viewName: role_granted_permissions
+  - changeSet:
+      id: token_views
+      author: Bernardo
+      changes:
+        -  createView:
+            remarks: User tokens with user data
+            selectQuery: SELECT t.id AS id, t.user_id AS user_id, u.name AS name, u.username AS username, t.scope AS scope, t.token AS token, t.creation_date AS creation_date, t.expiration_date AS expiration_date, t.consumed AS consumed, t.revoked AS revoked FROM user_tokens t JOIN users u ON t.user_id = u.id
+            viewName: user_data_tokens

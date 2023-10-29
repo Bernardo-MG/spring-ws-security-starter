@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: configuration_table
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: configurations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: property
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: data
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+                  defaultValue: ''
+      modifySql:
+        - append:
+            dbms: mysql
+            value: ' ENGINE=InnoDB DEFAULT CHARSET=latin1'

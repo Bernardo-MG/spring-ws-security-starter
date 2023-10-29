@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - include:
+      file: structure/sequence.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: structure/security.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: structure/configuration.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: structure/funds.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: structure/membership.yaml
+      relativeToChangelogFile: true
+  - changeSet:
+      id: initial_sequences
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: data/initialize_test_sequences.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: auth_initial_data
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: data/auth/sequences.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
