@@ -6,12 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.user.model.DtoUser;
-import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.model.request.UserCreate;
-import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.User;
+import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.service.UserService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;

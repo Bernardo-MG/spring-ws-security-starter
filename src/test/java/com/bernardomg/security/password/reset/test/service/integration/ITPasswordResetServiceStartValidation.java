@@ -7,8 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.user.exception.UserNotFoundException;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

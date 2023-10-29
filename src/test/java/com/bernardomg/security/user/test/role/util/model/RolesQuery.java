@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.user.test.role.util.model;
 
-import com.bernardomg.security.user.model.request.RoleQuery;
-import com.bernardomg.security.user.model.request.ValidatedRoleQuery;
+import com.bernardomg.security.authorization.role.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.model.request.ValidatedRoleQuery;
 
 public final class RolesQuery {
 

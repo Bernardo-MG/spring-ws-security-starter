@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.user.model.request.UserUpdate;
+import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
 
 import jakarta.validation.ConstraintViolation;

@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.user.model.DtoUser;
-import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.User;
+import com.bernardomg.security.authentication.user.service.UserService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;

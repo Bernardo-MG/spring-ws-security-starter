@@ -3,8 +3,8 @@ package com.bernardomg.security.user.test.util.assertion;
 
 import org.assertj.core.api.Assertions;
 
-import com.bernardomg.security.user.model.User;
-import com.bernardomg.security.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.model.User;
+import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 
 public final class UserAssertions {
 

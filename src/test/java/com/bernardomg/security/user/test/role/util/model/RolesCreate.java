@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.user.test.role.util.model;
 
-import com.bernardomg.security.user.model.request.RoleCreate;
-import com.bernardomg.security.user.model.request.ValidatedRoleCreate;
+import com.bernardomg.security.authorization.role.model.request.RoleCreate;
+import com.bernardomg.security.authorization.role.model.request.ValidatedRoleCreate;
 
 public final class RolesCreate {
 

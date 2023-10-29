@@ -30,11 +30,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.user.model.Role;
-import com.bernardomg.security.user.model.request.RoleUpdate;
-import com.bernardomg.security.user.persistence.model.PersistentRole;
-import com.bernardomg.security.user.persistence.repository.RoleRepository;
-import com.bernardomg.security.user.service.RoleService;
+import com.bernardomg.security.authorization.role.model.Role;
+import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
+import com.bernardomg.security.authorization.role.persistence.model.PersistentRole;
+import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
+import com.bernardomg.security.authorization.service.RoleService;
 import com.bernardomg.security.user.test.role.util.model.RolesUpdate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;

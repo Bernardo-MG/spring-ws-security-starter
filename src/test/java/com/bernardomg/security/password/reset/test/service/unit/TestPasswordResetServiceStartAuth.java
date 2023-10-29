@@ -19,15 +19,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.bernardomg.security.authentication.user.exception.UserDisabledException;
+import com.bernardomg.security.authentication.user.exception.UserExpiredException;
+import com.bernardomg.security.authentication.user.exception.UserLockedException;
+import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.user.exception.UserDisabledException;
-import com.bernardomg.security.user.exception.UserExpiredException;
-import com.bernardomg.security.user.exception.UserLockedException;
-import com.bernardomg.security.user.exception.UserNotFoundException;
-import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)

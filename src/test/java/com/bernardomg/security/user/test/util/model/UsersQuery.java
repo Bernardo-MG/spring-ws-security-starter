@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.user.test.util.model;
 
-import com.bernardomg.security.user.model.request.UserQuery;
-import com.bernardomg.security.user.model.request.ValidatedUserQuery;
+import com.bernardomg.security.authentication.user.model.query.UserQuery;
+import com.bernardomg.security.authentication.user.model.query.ValidatedUserQuery;
 
 public final class UsersQuery {
 

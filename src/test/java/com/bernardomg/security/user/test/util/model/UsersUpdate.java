@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.user.test.util.model;
 
-import com.bernardomg.security.user.model.request.UserUpdate;
-import com.bernardomg.security.user.model.request.ValidatedUserUpdate;
+import com.bernardomg.security.authentication.user.model.query.UserUpdate;
+import com.bernardomg.security.authentication.user.model.query.ValidatedUserUpdate;
 
 public final class UsersUpdate {
 

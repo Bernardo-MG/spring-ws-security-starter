@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.permission.persistence.model.PersistentUserGrantedPermission;
-import com.bernardomg.security.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

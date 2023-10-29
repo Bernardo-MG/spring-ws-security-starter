@@ -3,7 +3,7 @@ package com.bernardomg.security.permission.test.util.assertion;
 
 import org.assertj.core.api.Assertions;
 
-import com.bernardomg.security.permission.persistence.model.PersistentRoleGrantedPermission;
+import com.bernardomg.security.authorization.permission.persistence.model.PersistentRoleGrantedPermission;
 
 public final class RoleGrantedPermissionAssertions {
 

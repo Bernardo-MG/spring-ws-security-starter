@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.exception.InvalidIdException;
-import com.bernardomg.security.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.user.persistence.repository.RoleRepository;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authorization.permission.persistence.repository.ActionRepository;
+import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;

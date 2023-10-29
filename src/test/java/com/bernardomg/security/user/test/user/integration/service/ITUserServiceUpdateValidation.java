@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.user.model.request.UserUpdate;
-import com.bernardomg.security.user.service.UserService;
+import com.bernardomg.security.authentication.user.model.query.UserUpdate;
+import com.bernardomg.security.authentication.user.service.UserService;
 import com.bernardomg.security.user.test.config.AlternativeUser;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;

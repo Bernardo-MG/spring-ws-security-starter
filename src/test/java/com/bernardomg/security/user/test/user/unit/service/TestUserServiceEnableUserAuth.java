@@ -18,16 +18,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.bernardomg.security.authentication.user.exception.UserDisabledException;
+import com.bernardomg.security.authentication.user.exception.UserEnabledException;
+import com.bernardomg.security.authentication.user.exception.UserExpiredException;
+import com.bernardomg.security.authentication.user.exception.UserLockedException;
+import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.service.DefaultUserService;
+import com.bernardomg.security.authentication.user.service.UserService;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.user.exception.UserDisabledException;
-import com.bernardomg.security.user.exception.UserEnabledException;
-import com.bernardomg.security.user.exception.UserExpiredException;
-import com.bernardomg.security.user.exception.UserLockedException;
-import com.bernardomg.security.user.exception.UserNotFoundException;
-import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.service.DefaultUserService;
-import com.bernardomg.security.user.service.UserService;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 

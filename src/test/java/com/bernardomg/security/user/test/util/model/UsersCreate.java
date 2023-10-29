@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.user.test.util.model;
 
-import com.bernardomg.security.user.model.request.UserCreate;
-import com.bernardomg.security.user.model.request.ValidatedUserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.ValidatedUserCreate;
 
 public final class UsersCreate {
 

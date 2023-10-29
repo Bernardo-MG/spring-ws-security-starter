@@ -29,8 +29,13 @@ import java.security.SecureRandom;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.bernardomg.security.authentication.springframework.userdetails.PersistentUserDetailsService;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 
 /**
  * Security configuration.
@@ -49,6 +54,12 @@ public class SecurityConfig {
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
+    }
+
+    @Bean("userDetailsService")
+    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
+            final UserGrantedPermissionRepository userPermsRepository) {
+        return new PersistentUserDetailsService(userRepository, userPermsRepository);
     }
 
 }

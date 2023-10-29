@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.permission.model.Permission;
-import com.bernardomg.security.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.user.test.role.util.model;
 
-import com.bernardomg.security.user.model.request.RoleUpdate;
-import com.bernardomg.security.user.model.request.ValidatedRoleUpdate;
+import com.bernardomg.security.authentication.user.model.query.ValidatedRoleUpdate;
+import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 
 public final class RolesUpdate {
 

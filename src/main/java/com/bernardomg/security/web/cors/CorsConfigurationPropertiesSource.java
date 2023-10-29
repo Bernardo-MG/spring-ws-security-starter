@@ -5,7 +5,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.bernardomg.security.web.config.CorsProperties;
+import com.bernardomg.security.config.CorsProperties;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -16,6 +16,7 @@ public final class CorsConfigurationPropertiesSource implements CorsConfiguratio
     public CorsConfigurationPropertiesSource(final CorsProperties corsProperties) {
         super();
         final CorsConfiguration configuration;
+        // FIXME: remove dependency to properties object
 
         configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(corsProperties.getAllowedOrigins());
