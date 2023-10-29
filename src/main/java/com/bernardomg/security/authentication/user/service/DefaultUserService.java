@@ -24,9 +24,8 @@ import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.validation.DeleteUserValidator;
+import com.bernardomg.security.authentication.user.validation.CreateUserValidator;
 import com.bernardomg.security.authentication.user.validation.UpdateUserValidator;
-import com.bernardomg.security.authorization.role.validation.CreateUserValidator;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.exception.InvalidTokenException;
 import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
@@ -58,8 +57,6 @@ public final class DefaultUserService implements UserService {
 
     private final Validator<UserCreate> validatorCreateUser;
 
-    private final Validator<Long>       validatorDeleteUser;
-
     private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
@@ -76,7 +73,6 @@ public final class DefaultUserService implements UserService {
 
         validatorCreateUser = new CreateUserValidator(userRepo);
         validatorUpdateUser = new UpdateUserValidator(userRepo);
-        validatorDeleteUser = new DeleteUserValidator();
     }
 
     @Override
@@ -116,8 +112,6 @@ public final class DefaultUserService implements UserService {
         if (!userRepository.existsById(userId)) {
             throw new InvalidIdException("user", userId);
         }
-
-        validatorDeleteUser.validate(userId);
 
         userRepository.deleteById(userId);
     }

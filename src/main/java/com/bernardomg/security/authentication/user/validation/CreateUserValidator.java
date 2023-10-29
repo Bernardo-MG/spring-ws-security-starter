@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.role.validation;
+package com.bernardomg.security.authentication.user.validation;
 
 import java.util.Collection;
 
