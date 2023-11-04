@@ -30,7 +30,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.security.user.token.exception.MissingTokenException;
 import com.bernardomg.security.user.token.model.ImmutableUserToken;
 import com.bernardomg.security.user.token.model.UserToken;
 import com.bernardomg.security.user.token.model.UserTokenPartial;
@@ -115,7 +115,7 @@ public final class SpringUserTokenService implements UserTokenService {
         read = userDataTokenRepository.findById(id)
             .map(this::toDto);
         if (read.isEmpty()) {
-            throw new MissingIdException("userToken", id);
+            throw new MissingTokenException(id);
         }
 
         return read.get();
@@ -132,7 +132,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         read = userDataTokenRepository.findById(id);
         if (!read.isPresent()) {
-            throw new MissingIdException("userToken", id);
+            throw new MissingTokenException(id);
         }
 
         validatorPatch.validate(partial);

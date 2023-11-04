@@ -8,7 +8,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.security.authentication.user.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.exception.UserEnabledException;
 import com.bernardomg.security.authentication.user.exception.UserExpiredException;
 import com.bernardomg.security.authentication.user.exception.UserLockedException;
@@ -106,7 +106,7 @@ public final class DefaultUserService implements UserService {
         log.debug("Deleting user {}", userId);
 
         if (!userRepository.existsById(userId)) {
-            throw new MissingIdException("user", userId);
+            throw new MissingUserException(userId);
         }
 
         userRepository.deleteById(userId);
@@ -139,7 +139,7 @@ public final class DefaultUserService implements UserService {
 
         // TODO: Use the read optional
         if (!userRepository.existsById(id)) {
-            throw new MissingIdException("user", id);
+            throw new MissingUserException(id);
         }
 
         return userRepository.findById(id)
@@ -208,7 +208,7 @@ public final class DefaultUserService implements UserService {
         log.debug("Updating user with id {} using data {}", id, user);
 
         if (!userRepository.existsById(id)) {
-            throw new MissingIdException("user", id);
+            throw new MissingUserException(id);
         }
 
         validatorUpdateUser.validate(user);

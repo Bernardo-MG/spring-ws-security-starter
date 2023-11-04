@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.security.authorization.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 import com.bernardomg.security.authorization.service.RoleService;
 import com.bernardomg.security.user.test.role.util.model.RolesUpdate;
@@ -60,7 +60,7 @@ class ITRoleServiceUpdateValidation {
         execution = () -> service.update(1L, data);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
+            .isInstanceOf(MissingRoleException.class);
     }
 
 }

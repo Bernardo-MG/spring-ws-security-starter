@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.security.authorization.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.model.DtoRole;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleCreate;
@@ -91,7 +91,7 @@ public final class DefaultRoleService implements RoleService {
 
         // TODO: Use the read optional
         if (!roleRepository.existsById(id)) {
-            throw new MissingIdException("role", id);
+            throw new MissingRoleException(id);
         }
 
         return roleRepository.findById(id)
@@ -106,7 +106,7 @@ public final class DefaultRoleService implements RoleService {
         log.debug("Updating role with id {} using data {}", id, role);
 
         if (!roleRepository.existsById(id)) {
-            throw new MissingIdException("role", id);
+            throw new MissingRoleException(id);
         }
 
         validatorUpdateRole.validate(role);

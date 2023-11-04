@@ -13,7 +13,7 @@ import com.bernardomg.security.config.UserTokenProperties;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
-import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenCodeException;
 import com.bernardomg.security.user.token.exception.OutOfScopeTokenException;
 import com.bernardomg.security.user.token.exception.RevokedTokenException;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
@@ -82,7 +82,7 @@ class ITPersistentUserTokenStoreValidate {
         executable = () -> store.validate(UserTokenConstants.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingTokenException.class);
+            .isInstanceOf(MissingTokenCodeException.class);
     }
 
     @Test

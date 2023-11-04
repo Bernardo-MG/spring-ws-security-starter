@@ -12,7 +12,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.config.UserTokenProperties;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
-import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenCodeException;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
@@ -96,7 +96,7 @@ class ITPersistentUserTokenStoreConsumeToken {
         executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingTokenException.class);
+            .isInstanceOf(MissingTokenCodeException.class);
     }
 
     @Test
@@ -109,7 +109,7 @@ class ITPersistentUserTokenStoreConsumeToken {
         executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingTokenException.class);
+            .isInstanceOf(MissingTokenCodeException.class);
     }
 
 }

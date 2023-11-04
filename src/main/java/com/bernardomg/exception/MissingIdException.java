@@ -3,7 +3,7 @@ package com.bernardomg.exception;
 
 import java.io.Serializable;
 
-public final class MissingIdException extends RuntimeException {
+public class MissingIdException extends RuntimeException {
 
     private static final long  serialVersionUID = -1589290420417721821L;
 

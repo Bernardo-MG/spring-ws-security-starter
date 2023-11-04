@@ -12,7 +12,7 @@ import com.bernardomg.security.authentication.user.service.UserService;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
-import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenCodeException;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedUserToken;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredUserToken;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
@@ -89,7 +89,7 @@ class ITUserServiceEnableNewUserTokenStatus {
 
         executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing token " + UserTokenConstants.TOKEN);

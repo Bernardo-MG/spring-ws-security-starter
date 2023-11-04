@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.config.UserTokenProperties;
 import com.bernardomg.security.user.test.config.OnlyUser;
-import com.bernardomg.security.user.token.exception.MissingTokenException;
+import com.bernardomg.security.user.token.exception.MissingTokenCodeException;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
@@ -62,7 +62,7 @@ class ITPersistentUserTokenStoreGetUsername {
 
         executable = () -> store.getUsername(UserTokenConstants.TOKEN);
 
-        exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
@@ -78,7 +78,7 @@ class ITPersistentUserTokenStoreGetUsername {
 
         executable = () -> store.getUsername(UserTokenConstants.TOKEN);
 
-        exception = Assertions.catchThrowableOfType(executable, MissingTokenException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing token " + UserTokenConstants.TOKEN);

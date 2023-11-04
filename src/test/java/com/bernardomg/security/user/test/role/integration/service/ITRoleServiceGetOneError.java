@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.exception.MissingIdException;
+import com.bernardomg.security.authorization.exception.MissingRoleException;
 import com.bernardomg.security.authorization.service.RoleService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -32,7 +32,7 @@ class ITRoleServiceGetOneError {
         execution = () -> service.getOne(1L);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingIdException.class);
+            .isInstanceOf(MissingRoleException.class);
     }
 
 }
