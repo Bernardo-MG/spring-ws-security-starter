@@ -37,8 +37,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.lang.Nullable;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,7 +54,7 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Captures and handles exceptions for all the controllers.
+ * Captures and handles general use exceptions. This includes validation exceptions
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
@@ -107,18 +105,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn(ex.getMessage(), ex);
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
-    public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
-            throws Exception {
-        final ErrorResponse response;
-
-        log.warn(ex.getMessage(), ex);
-
-        response = Response.error("Unauthorized");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({ FieldFailureException.class })
