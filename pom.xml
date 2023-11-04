@@ -185,7 +185,6 @@
       <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
       <jjwt.version>0.11.5</jjwt.version>
       <lombok.version>1.18.28</lombok.version>
-      <passay.version>1.6.3</passay.version>
       <spring.boot.version>3.1.0</spring.boot.version>
       <spring.data.version>2023.0.0</spring.data.version>
       <spring.version>6.0.9</spring.version>
@@ -529,15 +528,6 @@
          <!-- Jackson annotations -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-annotations</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================= THYMELEAF ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Passay -->
-         <groupId>org.passay</groupId>
-         <artifactId>passay</artifactId>
-         <version>${passay.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- =========== VERSION ENFORCEMENT ============== -->
