@@ -4,15 +4,11 @@ package com.bernardomg.security.authentication.user.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.exception.MissingIdException;
-import com.bernardomg.security.authentication.user.cache.UserCaches;
 import com.bernardomg.security.authentication.user.exception.UserEnabledException;
 import com.bernardomg.security.authentication.user.exception.UserExpiredException;
 import com.bernardomg.security.authentication.user.exception.UserLockedException;
@@ -203,8 +199,6 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public final User update(final long id, final UserUpdate user) {
         final PersistentUser           userEntity;
         final PersistentUser           created;
