@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.model.DefaultUserTokenPartial;
 import com.bernardomg.security.user.token.model.UserToken;
@@ -131,7 +131,7 @@ class ITSpringUserTokenServicePatch {
         execution = () -> service.patch(1L, request);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(InvalidIdException.class);
+            .isInstanceOf(MissingIdException.class);
     }
 
     @Test

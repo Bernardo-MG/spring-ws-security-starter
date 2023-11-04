@@ -44,7 +44,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.bernardomg.exception.InvalidIdException;
+import com.bernardomg.exception.MissingIdException;
 import com.bernardomg.mvc.response.model.ErrorResponse;
 import com.bernardomg.mvc.response.model.FailureResponse;
 import com.bernardomg.mvc.response.model.Response;
@@ -99,8 +99,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({ InvalidIdException.class })
-    public final ResponseEntity<Object> handleMissingDataException(final InvalidIdException ex,
+    @ExceptionHandler({ MissingIdException.class })
+    public final ResponseEntity<Object> handleMissingDataException(final MissingIdException ex,
             final WebRequest request) throws Exception {
         log.warn(ex.getMessage(), ex);
 
