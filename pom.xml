@@ -182,6 +182,7 @@
       <!-- ============================================== -->
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
+      <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
       <jjwt.version>0.11.5</jjwt.version>
       <lombok.version>1.18.28</lombok.version>
       <passay.version>1.6.3</passay.version>
@@ -235,6 +236,22 @@
    </dependencyManagement>
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+         <version>${bernardomg.framework.validation.version}</version>
+         <exclusions>
+            <exclusion>
+               <!-- SL4J API -->
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
