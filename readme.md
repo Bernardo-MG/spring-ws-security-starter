@@ -49,6 +49,7 @@ If you wish to fork or modify the code, visit the [GitHub project page][scm], wh
 
 The project has been released under the [MIT License][license].
 
+[maven-repo]: http://mvnrepository.com/artifact/com.bernardomg.framework.spring/spring-ws-security-starter
 [issues]: https://github.com/bernardo-mg/spring-ws-security-starter/issues
 [javadoc-develop]: https://docs.bernardomg.com/development/maven/spring-ws-security-starter/apidocs
 [javadoc-release]: https://docs.bernardomg.com/maven/spring-ws-security-starter/apidocs
