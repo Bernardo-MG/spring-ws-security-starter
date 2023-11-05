@@ -30,8 +30,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bernardomg.mvc.response.model.ErrorResponse;
-import com.bernardomg.mvc.response.model.Response;
+import com.bernardomg.web.response.model.ErrorResponse;
+import com.bernardomg.web.response.model.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;

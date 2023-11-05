@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.bernardomg.mvc.response.model.ErrorResponse;
-import com.bernardomg.mvc.response.model.Response;
+import com.bernardomg.web.response.model.ErrorResponse;
+import com.bernardomg.web.response.model.Response;
 
 import lombok.extern.slf4j.Slf4j;
 
