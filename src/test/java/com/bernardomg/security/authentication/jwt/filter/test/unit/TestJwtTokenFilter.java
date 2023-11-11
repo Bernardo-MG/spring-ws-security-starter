@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.jwt.filter.unit;
+package com.bernardomg.security.authentication.jwt.filter.test.unit;
 
 import static org.mockito.BDDMockito.given;
 
