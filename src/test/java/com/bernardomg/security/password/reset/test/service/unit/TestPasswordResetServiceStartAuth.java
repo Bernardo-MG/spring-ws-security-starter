@@ -26,34 +26,34 @@ import com.bernardomg.security.authentication.user.exception.UserNotFoundExcepti
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.password.reset.service.PasswordResetService;
+import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordResetService - recovery start - authentication")
 class TestPasswordResetServiceStartAuth {
 
-    private static final String   EMAIL    = "email@somewhere.com";
+    private static final String                EMAIL    = "email@somewhere.com";
 
-    private static final String   USERNAME = "username";
-
-    @Mock
-    private SecurityMessageSender messageSender;
+    private static final String                USERNAME = "username";
 
     @Mock
-    private PasswordEncoder       passwordEncoder;
+    private SecurityMessageSender              messageSender;
 
     @Mock
-    private UserRepository        repository;
+    private PasswordEncoder                    passwordEncoder;
+
+    @Mock
+    private UserRepository                     repository;
 
     @InjectMocks
-    private PasswordResetService  service;
+    private SpringSecurityPasswordResetService service;
 
     @Mock
-    private UserTokenStore        tokenStore;
+    private UserTokenStore                     tokenStore;
 
     @Mock
-    private UserDetailsService    userDetailsService;
+    private UserDetailsService                 userDetailsService;
 
     public TestPasswordResetServiceStartAuth() {
         super();

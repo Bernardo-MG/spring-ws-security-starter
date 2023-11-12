@@ -26,7 +26,7 @@ import com.bernardomg.security.authentication.user.exception.UserLockedException
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
@@ -35,24 +35,24 @@ import com.bernardomg.security.user.token.test.config.constant.UserTokenConstant
 @DisplayName("DefaultUserService - enable new user - authentication")
 class TestUserActivationServiceEnableUserAuth {
 
-    private static final String   PASSWORD = "1234";
+    private static final String          PASSWORD = "1234";
 
-    private static final String   USERNAME = "username";
-
-    @Mock
-    private SecurityMessageSender messageSender;
+    private static final String          USERNAME = "username";
 
     @Mock
-    private PasswordEncoder       passwordEncoder;
+    private SecurityMessageSender        messageSender;
 
     @Mock
-    private UserRepository        repository;
+    private PasswordEncoder              passwordEncoder;
+
+    @Mock
+    private UserRepository               repository;
 
     @InjectMocks
-    private UserActivationService service;
+    private DefaultUserActivationService service;
 
     @Mock
-    private UserTokenStore        tokenStore;
+    private UserTokenStore               tokenStore;
 
     public TestUserActivationServiceEnableUserAuth() {
         super();
