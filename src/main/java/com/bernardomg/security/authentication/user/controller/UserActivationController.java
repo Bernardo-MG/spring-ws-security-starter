@@ -48,7 +48,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * User activation REST controller. This requires a token, given to the new user when he registers.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -59,17 +59,37 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class UserActivationController {
 
+    /**
+     * Service which handles user activation.
+     */
     private final UserService service;
 
+    /**
+     * Activates a new user.
+     *
+     * @param token
+     *            token identifying the user to activate.
+     * @param request
+     *            additional data required for activation
+     * @return the newly activated user
+     */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User activateNewUser(@PathVariable("token") final String token,
+    public User activate(@PathVariable("token") final String token,
             @Valid @RequestBody final UserActivationRequest request) {
+        // TODO: rename to activate
         return service.activateNewUser(token, request.getPassword());
     }
 
+    /**
+     * Verifies the token is valid.
+     *
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token is valid, {@code false} otherwise
+     */
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserTokenStatus validateToken(@PathVariable("token") final String token) {
         // TODO: Use a generic controller for tokens

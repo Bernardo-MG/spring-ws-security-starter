@@ -55,7 +55,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * User REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -66,8 +66,20 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class UserController {
 
+    /**
+     * Service which handles user queries.
+     *
+     * TODO: Split into UserQueryService
+     */
     private final UserService service;
 
+    /**
+     * Creates a user.
+     *
+     * @param user
+     *            user to add
+     * @return the new user
+     */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
@@ -77,6 +89,12 @@ public class UserController {
         return service.registerNewUser(user);
     }
 
+    /**
+     * Deletes a user by its id.
+     *
+     * @param id
+     *            id of the user to delete
+     */
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true),
@@ -85,27 +103,53 @@ public class UserController {
         service.delete(id);
     }
 
+    /**
+     * Returns all the users in a paginated form.
+     *
+     * @param user
+     *            query to filter users
+     * @param page
+     *            pagination data
+     * @return the requested page
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable pageable) {
-        return service.getAll(user, pageable);
+    public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable page) {
+        return service.getAll(user, page);
     }
 
+    /**
+     * Reads a single user by its id.
+     *
+     * @param id
+     *            id of the user to read
+     * @return the user for the id, or {@code null} if it doesn't exist
+     */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER, key = "#id")
     public User readOne(@PathVariable("id") final long id) {
+        // TODO: maybe optionals must be unwrapped automatically
         return service.getOne(id)
             .orElse(null);
     }
 
+    /**
+     * Updates a user.
+     *
+     * @param id
+     *            id of the user to update
+     * @param user
+     *            updated user data
+     * @return the updated user
+     */
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate form) {
-        return service.update(id, form);
+    public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate user) {
+        return service.update(id, user);
     }
 
 }
