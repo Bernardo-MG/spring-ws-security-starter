@@ -52,19 +52,19 @@ public final class UserAssertions {
         Assertions.assertThat(received.getEmail())
             .withFailMessage("Expected email '%s' but got '%s'", expected.getEmail(), received.getEmail())
             .isEqualTo(expected.getEmail());
-        Assertions.assertThat(received.getPasswordExpired())
-            .withFailMessage("Expected password expired flag '%s' but got '%s'", expected.getPasswordExpired(),
-                received.getPasswordExpired())
-            .isEqualTo(expected.getPasswordExpired());
-        Assertions.assertThat(received.getEnabled())
-            .withFailMessage("Expected enabled flag '%s' but got '%s'", expected.getEnabled(), received.getEnabled())
-            .isEqualTo(expected.getEnabled());
-        Assertions.assertThat(received.getExpired())
-            .withFailMessage("Expected expired flag '%s' but got '%s'", expected.getExpired(), received.getExpired())
-            .isEqualTo(expected.getExpired());
-        Assertions.assertThat(received.getLocked())
-            .withFailMessage("Expected locked flag '%s' but got '%s'", expected.getLocked(), received.getLocked())
-            .isEqualTo(expected.getLocked());
+        Assertions.assertThat(received.isPasswordExpired())
+            .withFailMessage("Expected password expired flag '%s' but got '%s'", expected.isPasswordExpired(),
+                received.isPasswordExpired())
+            .isEqualTo(expected.isPasswordExpired());
+        Assertions.assertThat(received.isEnabled())
+            .withFailMessage("Expected enabled flag '%s' but got '%s'", expected.isEnabled(), received.isEnabled())
+            .isEqualTo(expected.isEnabled());
+        Assertions.assertThat(received.isExpired())
+            .withFailMessage("Expected expired flag '%s' but got '%s'", expected.isExpired(), received.isExpired())
+            .isEqualTo(expected.isExpired());
+        Assertions.assertThat(received.isLocked())
+            .withFailMessage("Expected locked flag '%s' but got '%s'", expected.isLocked(), received.isLocked())
+            .isEqualTo(expected.isLocked());
     }
 
 }

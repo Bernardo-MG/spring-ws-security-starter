@@ -45,22 +45,22 @@ public final class ImmutableUser implements User {
     /**
      * User enabled flag.
      */
-    private final Boolean enabled;
+    private final boolean enabled;
 
     /**
      * User expired flag.
      */
-    private final Boolean expired;
+    private final boolean expired;
 
     /**
      * User id.
      */
-    private final Long    id;
+    private final long    id;
 
     /**
      * User locked flag.
      */
-    private final Boolean locked;
+    private final boolean locked;
 
     /**
      * User name.
@@ -70,7 +70,7 @@ public final class ImmutableUser implements User {
     /**
      * Password expired flag.
      */
-    private final Boolean passwordExpired;
+    private final boolean passwordExpired;
 
     /**
      * User username.
