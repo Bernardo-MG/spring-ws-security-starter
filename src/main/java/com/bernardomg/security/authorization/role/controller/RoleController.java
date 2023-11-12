@@ -42,9 +42,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
-import com.bernardomg.security.authentication.user.model.query.RoleUpdateRequest;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.model.Role;
+import com.bernardomg.security.authorization.role.model.request.RoleUpdateRequest;
 import com.bernardomg.security.authorization.role.model.request.ValidatedRoleCreate;
 import com.bernardomg.security.authorization.role.model.request.ValidatedRoleQuery;
 import com.bernardomg.security.authorization.service.RoleService;

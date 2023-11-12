@@ -1,7 +1,5 @@
 
-package com.bernardomg.security.authentication.user.model.query;
-
-import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
+package com.bernardomg.security.authorization.role.model.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class RoleUpdateRequest implements RoleUpdate {
+public class RoleUpdateRequest implements RoleUpdate {
 
     @NotNull
     private Long   id;
