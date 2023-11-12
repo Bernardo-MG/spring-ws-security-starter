@@ -10,9 +10,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
+import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
-import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
-import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;

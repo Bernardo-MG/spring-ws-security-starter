@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.service.UserRoleService;
-import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

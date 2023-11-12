@@ -19,10 +19,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
-import com.bernardomg.security.user.test.util.model.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PersistentUserDetailsService")

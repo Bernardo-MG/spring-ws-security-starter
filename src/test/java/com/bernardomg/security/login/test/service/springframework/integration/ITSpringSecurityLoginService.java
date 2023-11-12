@@ -7,17 +7,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
+import com.bernardomg.security.authentication.user.test.config.DisabledUser;
+import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
+import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
+import com.bernardomg.security.authentication.user.test.config.LockedUser;
+import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.DtoLoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
-import com.bernardomg.security.user.test.config.DisabledUser;
-import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
-import com.bernardomg.security.user.test.config.ExpiredUser;
-import com.bernardomg.security.user.test.config.LockedUser;
 import com.bernardomg.security.user.test.config.UserWithNotGrantedPermissions;
 import com.bernardomg.security.user.test.config.UserWithoutPermissions;
-import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;

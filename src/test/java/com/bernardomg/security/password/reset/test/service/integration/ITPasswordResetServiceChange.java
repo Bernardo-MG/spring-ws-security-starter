@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
+import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.user.test.config.ExpiredPasswordUser;
-import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;

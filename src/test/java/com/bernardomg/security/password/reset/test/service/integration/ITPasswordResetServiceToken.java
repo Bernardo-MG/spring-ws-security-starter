@@ -6,8 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetConsumedUserToken;
 import com.bernardomg.security.user.token.test.config.annotation.PasswordResetExpiredUserToken;

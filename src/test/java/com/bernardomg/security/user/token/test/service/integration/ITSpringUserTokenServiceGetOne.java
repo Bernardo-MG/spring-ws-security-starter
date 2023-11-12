@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.MissingTokenException;
 import com.bernardomg.security.user.token.model.UserToken;
 import com.bernardomg.security.user.token.service.SpringUserTokenService;
