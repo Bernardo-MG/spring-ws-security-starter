@@ -7,25 +7,25 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.user.test.config.ExpiredUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - get one - password expired")
-@Sql({ "/db/queries/security/user/password_expired.sql" })
-class ITUserServiceGetOnepasswordExpired {
+@DisplayName("User service - get one - expired")
+@ExpiredUser
+class ITUserQueryServiceGetOneExpired {
 
     @Autowired
-    private UserService service;
+    private UserQueryService service;
 
-    public ITUserServiceGetOnepasswordExpired() {
+    public ITUserQueryServiceGetOneExpired() {
         super();
     }
 
@@ -52,9 +52,9 @@ class ITUserServiceGetOnepasswordExpired {
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
-            .passwordExpired(true)
+            .passwordExpired(false)
             .enabled(true)
-            .expired(false)
+            .expired(true)
             .locked(false)
             .build());
     }

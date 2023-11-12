@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -20,12 +20,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("User service - get one - disabled")
 @Sql({ "/db/queries/security/user/disabled.sql" })
-class ITUserServiceGetOneDisabled {
+class ITUserQueryServiceGetOneDisabled {
 
     @Autowired
-    private UserService service;
+    private UserQueryService service;
 
-    public ITUserServiceGetOneDisabled() {
+    public ITUserQueryServiceGetOneDisabled() {
         super();
     }
 

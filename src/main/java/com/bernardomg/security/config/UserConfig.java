@@ -29,8 +29,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.DefaultUserService;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
+import com.bernardomg.security.authentication.user.service.DefaultUserQueryService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.service.DefaultRoleService;
@@ -60,22 +62,27 @@ public class UserConfig {
         return new DefaultRoleService(roleRepo, userRoleRepo);
     }
 
-    @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
-        return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
-    }
-
-    @Bean("userService")
-    public UserService getUserService(final UserRepository userRepo, final SecurityMessageSender mSender,
-            final PasswordEncoder passEncoder, final UserTokenRepository userTokenRepository,
-            final UserTokenProperties tokenProperties) {
+    @Bean("userActivationService")
+    public UserActivationService getUserActivationService(final UserRepository userRepo,
+            final SecurityMessageSender mSender, final PasswordEncoder passEncoder,
+            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
         tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepo, "user_registered",
             tokenProperties.getValidity());
 
-        return new DefaultUserService(userRepo, mSender, tokenStore, passEncoder);
+        return new DefaultUserActivationService(userRepo, mSender, tokenStore, passEncoder);
+    }
+
+    @Bean("userQueryService")
+    public UserQueryService getUserQueryService(final UserRepository userRepo) {
+        return new DefaultUserQueryService(userRepo);
+    }
+
+    @Bean("userRoleService")
+    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserRoleRepository userRoleRepo) {
+        return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
     }
 
 }

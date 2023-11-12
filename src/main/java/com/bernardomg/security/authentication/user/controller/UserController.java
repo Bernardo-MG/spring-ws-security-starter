@@ -48,7 +48,8 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.ValidatedUserCreate;
 import com.bernardomg.security.authentication.user.model.query.ValidatedUserQuery;
 import com.bernardomg.security.authentication.user.model.query.ValidatedUserUpdate;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
@@ -67,11 +68,14 @@ import lombok.AllArgsConstructor;
 public class UserController {
 
     /**
-     * Service which handles user queries.
-     *
-     * TODO: Split into UserQueryService
+     * Service which handles user activation.
      */
-    private final UserService service;
+    private final UserActivationService userActivationService;
+
+    /**
+     * Service which handles user queries.
+     */
+    private final UserQueryService      userQueryService;
 
     /**
      * Creates a user.
@@ -86,7 +90,7 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User create(@Valid @RequestBody final ValidatedUserCreate user) {
-        return service.registerNewUser(user);
+        return userActivationService.registerNewUser(user);
     }
 
     /**
@@ -100,7 +104,7 @@ public class UserController {
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true),
             @CacheEvict(cacheNames = UserCaches.USER, key = "#id") })
     public void delete(@PathVariable("id") final long id) {
-        service.delete(id);
+        userQueryService.delete(id);
     }
 
     /**
@@ -116,7 +120,7 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
     public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable page) {
-        return service.getAll(user, page);
+        return userQueryService.getAll(user, page);
     }
 
     /**
@@ -131,7 +135,7 @@ public class UserController {
     @Cacheable(cacheNames = UserCaches.USER, key = "#id")
     public User readOne(@PathVariable("id") final long id) {
         // TODO: maybe optionals must be unwrapped automatically
-        return service.getOne(id)
+        return userQueryService.getOne(id)
             .orElse(null);
     }
 
@@ -149,7 +153,7 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate user) {
-        return service.update(id, user);
+        return userQueryService.update(id, user);
     }
 
 }

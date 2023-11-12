@@ -36,7 +36,7 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
@@ -46,15 +46,15 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Role service - update")
-class ITUserServiceUpdate {
+class ITUserQueryServiceUpdate {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository   repository;
 
     @Autowired
-    private UserService    service;
+    private UserQueryService service;
 
-    public ITUserServiceUpdate() {
+    public ITUserQueryServiceUpdate() {
         super();
     }
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.model.query.UserCreate;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.assertion.ValidationAssertions;
@@ -18,12 +18,12 @@ import com.bernardomg.validation.failure.FieldFailure;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - register new user - validation")
-class ITUserServiceRegisterNewUserValidation {
+class ITUserActivationServiceRegisterNewUserValidation {
 
     @Autowired
-    private UserService service;
+    private UserActivationService service;
 
-    public ITUserServiceRegisterNewUserValidation() {
+    public ITUserActivationServiceRegisterNewUserValidation() {
         super();
     }
 

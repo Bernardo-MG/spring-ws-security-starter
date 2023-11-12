@@ -11,7 +11,7 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserCreate;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersCreate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -20,15 +20,15 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - register new user")
-class ITUserServiceRegisterNewUser {
+class ITUserActivationServiceRegisterNewUser {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository        repository;
 
     @Autowired
-    private UserService    service;
+    private UserActivationService service;
 
-    public ITUserServiceRegisterNewUser() {
+    public ITUserActivationServiceRegisterNewUser() {
         super();
     }
 

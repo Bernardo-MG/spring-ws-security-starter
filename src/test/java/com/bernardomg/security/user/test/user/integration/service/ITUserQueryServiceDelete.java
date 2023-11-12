@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authorization.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.user.test.config.OnlyUser;
@@ -43,7 +43,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - delete without roles")
-class ITUserServiceDelete {
+class ITUserQueryServiceDelete {
 
     @Autowired
     private ActionRepository actionRepository;
@@ -55,9 +55,9 @@ class ITUserServiceDelete {
     private RoleRepository   roleRepository;
 
     @Autowired
-    private UserService      service;
+    private UserQueryService service;
 
-    public ITUserServiceDelete() {
+    public ITUserQueryServiceDelete() {
         super();
     }
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.user.test.config.AlternativeUser;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.test.util.model.UsersUpdate;
@@ -19,12 +19,12 @@ import com.bernardomg.validation.failure.FieldFailure;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - add roles validation")
-class ITUserServiceUpdateValidation {
+class ITUserQueryServiceUpdateValidation {
 
     @Autowired
-    private UserService service;
+    private UserQueryService service;
 
-    public ITUserServiceUpdateValidation() {
+    public ITUserQueryServiceUpdateValidation() {
         super();
     }
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -20,12 +20,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("User service - get one - enabled")
 @OnlyUser
-class ITUserServiceGetOneEnabled {
+class ITUserQueryServiceGetOneEnabled {
 
     @Autowired
-    private UserService service;
+    private UserQueryService service;
 
-    public ITUserServiceGetOneEnabled() {
+    public ITUserQueryServiceGetOneEnabled() {
         super();
     }
 

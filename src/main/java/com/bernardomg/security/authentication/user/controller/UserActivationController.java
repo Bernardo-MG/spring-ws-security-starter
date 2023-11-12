@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserActivationRequest;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
@@ -62,7 +62,7 @@ public class UserActivationController {
     /**
      * Service which handles user activation.
      */
-    private final UserService service;
+    private final UserActivationService service;
 
     /**
      * Activates a new user.

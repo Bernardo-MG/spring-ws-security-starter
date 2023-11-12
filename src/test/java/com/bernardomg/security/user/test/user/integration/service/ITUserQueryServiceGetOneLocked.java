@@ -10,22 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.service.UserService;
-import com.bernardomg.security.user.test.config.ExpiredUser;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.user.test.config.LockedUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - get one - expired")
-@ExpiredUser
-class ITUserServiceGetOneExpired {
+@DisplayName("User service - get one - locked")
+@LockedUser
+class ITUserQueryServiceGetOneLocked {
 
     @Autowired
-    private UserService service;
+    private UserQueryService service;
 
-    public ITUserServiceGetOneExpired() {
+    public ITUserQueryServiceGetOneLocked() {
         super();
     }
 
@@ -54,8 +54,8 @@ class ITUserServiceGetOneExpired {
             .email("email@somewhere.com")
             .passwordExpired(false)
             .enabled(true)
-            .expired(true)
-            .locked(false)
+            .expired(false)
+            .locked(true)
             .build());
     }
 

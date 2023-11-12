@@ -26,14 +26,14 @@ import com.bernardomg.security.authentication.user.exception.UserLockedException
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
-class TestUserServiceEnableUserAuth {
+class TestUserActivationServiceEnableUserAuth {
 
     private static final String   PASSWORD = "1234";
 
@@ -49,12 +49,12 @@ class TestUserServiceEnableUserAuth {
     private UserRepository        repository;
 
     @InjectMocks
-    private UserService           service;
+    private UserActivationService service;
 
     @Mock
     private UserTokenStore        tokenStore;
 
-    public TestUserServiceEnableUserAuth() {
+    public TestUserActivationServiceEnableUserAuth() {
         super();
     }
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.UserEnabledException;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
@@ -23,12 +23,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - enable new user - token status")
-class ITUserServiceEnableNewUserTokenStatus {
+class ITUserActivationServiceEnableNewUserTokenStatus {
 
     @Autowired
-    private UserService service;
+    private UserActivationService service;
 
-    public ITUserServiceEnableNewUserTokenStatus() {
+    public ITUserActivationServiceEnableNewUserTokenStatus() {
         super();
     }
 

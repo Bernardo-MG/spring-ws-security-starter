@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.user.test.config.OnlyUser;
 import com.bernardomg.security.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.user.test.util.model.UsersQuery;
@@ -20,12 +20,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - get all")
-class ITUserServiceGetAll {
+class ITUserQueryServiceGetAll {
 
     @Autowired
-    private UserService service;
+    private UserQueryService service;
 
-    public ITUserServiceGetAll() {
+    public ITUserQueryServiceGetAll() {
         super();
     }
 

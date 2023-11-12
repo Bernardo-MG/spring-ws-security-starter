@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.test.config.ValidUser;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedUserToken;
@@ -43,12 +43,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Role service - token validation")
-class ITUserServiceToken {
+class ITUserActivationServiceToken {
 
     @Autowired
-    private UserService service;
+    private UserActivationService service;
 
-    public ITUserServiceToken() {
+    public ITUserActivationServiceToken() {
         super();
         // TODO: Maybe should be a unit test
     }

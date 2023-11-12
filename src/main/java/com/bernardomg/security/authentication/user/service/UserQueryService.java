@@ -6,14 +6,10 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
 
-public interface UserService {
-
-    public User activateNewUser(final String token, final String password);
+public interface UserQueryService {
 
     /**
      * Deletes the user with the received id.
@@ -44,15 +40,6 @@ public interface UserService {
     public Optional<User> getOne(final long id);
 
     /**
-     * Persists the received user.
-     *
-     * @param user
-     *            user to persist
-     * @return the persisted user
-     */
-    public User registerNewUser(final UserCreate user);
-
-    /**
      * Updates the user for the received id with the received data.
      *
      * @param id
@@ -62,14 +49,5 @@ public interface UserService {
      * @return the updated user
      */
     public User update(final long id, final UserUpdate user);
-
-    /**
-     * Validate a user registration token.
-     *
-     * @param token
-     *            token to validate
-     * @return token status
-     */
-    public UserTokenStatus validateToken(final String token);
 
 }

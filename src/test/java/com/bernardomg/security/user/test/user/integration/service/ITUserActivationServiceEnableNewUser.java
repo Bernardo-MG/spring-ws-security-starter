@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.test.config.NewlyCreated;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredUserToken;
@@ -20,21 +20,21 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - enable new user - token status")
-class ITUserServiceEnableNewUser {
+class ITUserActivationServiceEnableNewUser {
 
     @Autowired
-    private PasswordEncoder     passwordEncoder;
+    private PasswordEncoder       passwordEncoder;
 
     @Autowired
-    private UserService         service;
+    private UserActivationService service;
 
     @Autowired
-    private UserRepository      userRepository;
+    private UserRepository        userRepository;
 
     @Autowired
-    private UserTokenRepository userTokenRepository;
+    private UserTokenRepository   userTokenRepository;
 
-    public ITUserServiceEnableNewUser() {
+    public ITUserActivationServiceEnableNewUser() {
         super();
     }
 

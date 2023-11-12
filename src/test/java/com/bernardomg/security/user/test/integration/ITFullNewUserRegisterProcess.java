@@ -20,7 +20,7 @@ import com.bernardomg.security.authentication.user.model.query.UserCreate;
 import com.bernardomg.security.authentication.user.model.query.ValidatedUserCreate;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserService;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -30,16 +30,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFullNewUserRegisterProcess {
 
     @Autowired
-    private PasswordEncoder     passwordEncoder;
+    private PasswordEncoder       passwordEncoder;
 
     @Autowired
-    private UserService         service;
+    private UserActivationService userActivationService;
 
     @Autowired
-    private UserRepository      userRepository;
+    private UserRepository        userRepository;
 
     @Autowired
-    private UserTokenRepository userTokenRepository;
+    private UserTokenRepository   userTokenRepository;
 
     public ITFullNewUserRegisterProcess() {
         super();
@@ -88,7 +88,7 @@ class ITFullNewUserRegisterProcess {
             .username("username")
             .name("user")
             .build();
-        service.registerNewUser(newUser);
+        userActivationService.registerNewUser(newUser);
 
         // Validate new token
         token = userTokenRepository.findAll()
@@ -97,7 +97,7 @@ class ITFullNewUserRegisterProcess {
             .get()
             .getToken();
 
-        validTokenStatus = service.validateToken(token);
+        validTokenStatus = userActivationService.validateToken(token);
 
         Assertions.assertThat(validTokenStatus.isValid())
             .isTrue();
@@ -108,7 +108,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        service.activateNewUser(token, "1234");
+        userActivationService.activateNewUser(token, "1234");
 
         user = userRepository.findAll()
             .stream()
