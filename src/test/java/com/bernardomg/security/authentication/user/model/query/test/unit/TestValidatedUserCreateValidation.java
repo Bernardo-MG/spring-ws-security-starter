@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.test.util.model.UsersCreate;
 
 import jakarta.validation.ConstraintViolation;
@@ -23,9 +23,9 @@ class TestValidatedUserCreateValidation {
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
     void validate_invalidEmail() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
-        final ConstraintViolation<UserCreate>      error;
+        final UserRegister                           userCreate;
+        final Set<ConstraintViolation<UserRegister>> errors;
+        final ConstraintViolation<UserRegister>      error;
 
         userCreate = UsersCreate.invalidEmail();
 
@@ -46,9 +46,9 @@ class TestValidatedUserCreateValidation {
     @Test
     @DisplayName("A DTO missing the email is invalid")
     void validate_noEmail() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
-        final ConstraintViolation<UserCreate>      error;
+        final UserRegister                           userCreate;
+        final Set<ConstraintViolation<UserRegister>> errors;
+        final ConstraintViolation<UserRegister>      error;
 
         userCreate = UsersCreate.missingEmail();
 
@@ -69,8 +69,8 @@ class TestValidatedUserCreateValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final UserCreate                           userCreate;
-        final Set<ConstraintViolation<UserCreate>> errors;
+        final UserRegister                           userCreate;
+        final Set<ConstraintViolation<UserRegister>> errors;
 
         userCreate = UsersCreate.valid();
 

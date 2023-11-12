@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.util.model.UsersCreate;
@@ -31,7 +31,7 @@ class ITUserActivationServiceRegisterNewUserValidation {
     @DisplayName("Throws an exception when the email already exists")
     @OnlyUser
     void testRegisterNewUser_ExistingEmail() {
-        final UserCreate       data;
+        final UserRegister     data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -48,7 +48,7 @@ class ITUserActivationServiceRegisterNewUserValidation {
     @DisplayName("Throws an exception when the username already exists")
     @OnlyUser
     void testRegisterNewUser_ExistingUsername() {
-        final UserCreate       data;
+        final UserRegister     data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
 

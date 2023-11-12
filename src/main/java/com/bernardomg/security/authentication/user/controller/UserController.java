@@ -45,8 +45,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserCreateRequest;
 import com.bernardomg.security.authentication.user.model.query.UserQueryRequest;
+import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
 import com.bernardomg.security.authentication.user.model.query.UserUpdateRequest;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
@@ -89,7 +89,7 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User create(@Valid @RequestBody final UserCreateRequest user) {
+    public User create(@Valid @RequestBody final UserRegisterRequest user) {
         return userActivationService.registerNewUser(user);
     }
 

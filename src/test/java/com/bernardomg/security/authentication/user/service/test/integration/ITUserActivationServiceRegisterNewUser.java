@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
@@ -35,7 +35,7 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Adds an entity when creating")
     void testRegisterNewUser_AddsEntity() {
-        final UserCreate user;
+        final UserRegister user;
 
         user = UsersCreate.valid();
 
@@ -48,7 +48,7 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Persists the data, ignoring case")
     void testRegisterNewUser_Case_PersistedData() {
-        final UserCreate     user;
+        final UserRegister   user;
         final PersistentUser entity;
 
         user = UsersCreate.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
@@ -67,8 +67,8 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Returns the created data, ignoring case")
     void testRegisterNewUser_Case_ReturnedData() {
-        final UserCreate user;
-        final User       result;
+        final UserRegister user;
+        final User         result;
 
         user = UsersCreate.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
 
@@ -83,7 +83,7 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
     void testRegisterNewUser_Padded_PersistedData() {
-        final UserCreate     user;
+        final UserRegister   user;
         final PersistentUser entity;
 
         user = UsersCreate.paddedWithWhitespaces();
@@ -108,7 +108,7 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Persists the data")
     void testRegisterNewUser_PersistedData() {
-        final UserCreate     user;
+        final UserRegister   user;
         final PersistentUser entity;
 
         user = UsersCreate.valid();
@@ -133,8 +133,8 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Returns the created data")
     void testRegisterNewUser_ReturnedData() {
-        final UserCreate user;
-        final User       result;
+        final UserRegister user;
+        final User         result;
 
         user = UsersCreate.valid();
 

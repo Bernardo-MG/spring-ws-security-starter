@@ -2,7 +2,7 @@
 package com.bernardomg.security.authentication.user.service;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
 
 public interface UserActivationService {
@@ -16,7 +16,7 @@ public interface UserActivationService {
      *            user to persist
      * @return the persisted user
      */
-    public User registerNewUser(final UserCreate user);
+    public User registerNewUser(final UserRegister user);
 
     /**
      * Validate a user registration token.

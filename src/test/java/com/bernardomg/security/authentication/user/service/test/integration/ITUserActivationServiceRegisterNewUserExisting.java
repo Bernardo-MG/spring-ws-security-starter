@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
@@ -34,8 +34,8 @@ class ITUserActivationServiceRegisterNewUserExisting {
     @DisplayName("Doesn't create over existing ids")
     @OnlyUser
     void testRegisterNewUser() {
-        final User       result;
-        final UserCreate user;
+        final User         result;
+        final UserRegister user;
 
         user = UsersCreate.alternative();
 
@@ -50,7 +50,7 @@ class ITUserActivationServiceRegisterNewUserExisting {
     @DisplayName("Adds an entity when creating with an existing id")
     @OnlyUser
     void testRegisterNewUser_AddsEntity() {
-        final UserCreate user;
+        final UserRegister user;
 
         user = UsersCreate.alternative();
 

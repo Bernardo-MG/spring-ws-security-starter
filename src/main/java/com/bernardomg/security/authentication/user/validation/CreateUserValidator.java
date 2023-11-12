@@ -3,7 +3,7 @@ package com.bernardomg.security.authentication.user.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -11,7 +11,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class CreateUserValidator extends AbstractValidator<UserCreate> {
+public final class CreateUserValidator extends AbstractValidator<UserRegister> {
 
     private final UserRepository userRepository;
 
@@ -22,7 +22,7 @@ public final class CreateUserValidator extends AbstractValidator<UserCreate> {
     }
 
     @Override
-    protected final void checkRules(final UserCreate user, final Collection<FieldFailure> failures) {
+    protected final void checkRules(final UserRegister user, final Collection<FieldFailure> failures) {
         FieldFailure failure;
 
         // Verify the username is not registered

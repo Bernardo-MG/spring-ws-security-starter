@@ -16,8 +16,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
-import com.bernardomg.security.authentication.user.model.query.UserCreateRequest;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
+import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
@@ -77,13 +77,13 @@ class ITFullNewUserRegisterProcess {
         final UserTokenStatus validTokenStatus;
         final String          token;
         final PersistentUser  user;
-        final UserCreate      newUser;
+        final UserRegister    newUser;
 
         // TODO: Set authentication to admin
         changeToAdmin();
 
         // Register new user
-        newUser = UserCreateRequest.builder()
+        newUser = UserRegisterRequest.builder()
             .email("email@somewhere.com")
             .username("username")
             .name("user")

@@ -12,7 +12,7 @@ import com.bernardomg.security.authentication.user.exception.LockedUserException
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.CreateUserValidator;
@@ -31,21 +31,21 @@ public final class DefaultUserActivationService implements UserActivationService
     /**
      * Message sender. Registering new users may require emails, or other kind of messaging.
      */
-    private final SecurityMessageSender messageSender;
+    private final SecurityMessageSender   messageSender;
 
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder       passwordEncoder;
+    private final PasswordEncoder         passwordEncoder;
 
     /**
      * Token processor.
      */
-    private final UserTokenStore        tokenStore;
+    private final UserTokenStore          tokenStore;
 
-    private final UserRepository        userRepository;
+    private final UserRepository          userRepository;
 
-    private final Validator<UserCreate> validatorCreateUser;
+    private final Validator<UserRegister> validatorCreateUser;
 
     public DefaultUserActivationService(final UserRepository userRepo, final SecurityMessageSender mSender,
             final UserTokenStore tStore, final PasswordEncoder passEncoder) {
@@ -92,7 +92,7 @@ public final class DefaultUserActivationService implements UserActivationService
     }
 
     @Override
-    public final User registerNewUser(final UserCreate user) {
+    public final User registerNewUser(final UserRegister user) {
         final PersistentUser userEntity;
         final PersistentUser created;
         final String         token;
@@ -210,7 +210,7 @@ public final class DefaultUserActivationService implements UserActivationService
             .build();
     }
 
-    private final PersistentUser toEntity(final UserCreate user) {
+    private final PersistentUser toEntity(final UserRegister user) {
         return PersistentUser.builder()
             .username(user.getUsername())
             .name(user.getName())
