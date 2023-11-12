@@ -6,9 +6,9 @@ import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.exception.UserEnabledException;
-import com.bernardomg.security.authentication.user.exception.UserExpiredException;
-import com.bernardomg.security.authentication.user.exception.UserLockedException;
+import com.bernardomg.security.authentication.user.exception.EnabledUserException;
+import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
@@ -171,15 +171,15 @@ public final class DefaultUserActivationService implements UserActivationService
     private final void authorizeEnableUser(final PersistentUser user) {
         if (user.getExpired()) {
             log.error("Can't enable new user. User {} is expired", user.getUsername());
-            throw new UserExpiredException(user.getUsername());
+            throw new ExpiredUserException(user.getUsername());
         }
         if (user.getLocked()) {
             log.error("Can't enable new user. User {} is locked", user.getUsername());
-            throw new UserLockedException(user.getUsername());
+            throw new LockedUserException(user.getUsername());
         }
         if (user.getEnabled()) {
             log.error("Can't enable new user. User {} is already enabled", user.getUsername());
-            throw new UserEnabledException(user.getUsername());
+            throw new EnabledUserException(user.getUsername());
         }
     }
 

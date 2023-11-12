@@ -21,9 +21,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.user.exception.UserDisabledException;
-import com.bernardomg.security.authentication.user.exception.UserExpiredException;
-import com.bernardomg.security.authentication.user.exception.UserLockedException;
+import com.bernardomg.security.authentication.user.exception.DisabledUserException;
+import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -144,7 +144,7 @@ class TestPasswordChangeServiceAuth {
 
         executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is disabled");
@@ -163,7 +163,7 @@ class TestPasswordChangeServiceAuth {
 
         executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
+        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is expired");
@@ -182,7 +182,7 @@ class TestPasswordChangeServiceAuth {
 
         executable = () -> service.changePasswordForUserInSession(PASSWORD, "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
+        exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is locked");

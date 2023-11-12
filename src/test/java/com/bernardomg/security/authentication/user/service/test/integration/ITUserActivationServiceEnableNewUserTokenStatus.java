@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.UserEnabledException;
+import com.bernardomg.security.authentication.user.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
@@ -42,7 +42,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
 
         executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User admin is enabled");

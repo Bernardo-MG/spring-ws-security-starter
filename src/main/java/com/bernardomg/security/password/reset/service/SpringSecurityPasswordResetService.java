@@ -31,9 +31,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authentication.user.exception.UserDisabledException;
-import com.bernardomg.security.authentication.user.exception.UserExpiredException;
-import com.bernardomg.security.authentication.user.exception.UserLockedException;
+import com.bernardomg.security.authentication.user.exception.DisabledUserException;
+import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -197,15 +197,15 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: This should be contained in a common class
         if (!userDetails.isAccountNonExpired()) {
             log.error("Can't reset password. User {} is expired", userDetails.getUsername());
-            throw new UserExpiredException(userDetails.getUsername());
+            throw new ExpiredUserException(userDetails.getUsername());
         }
         if (!userDetails.isAccountNonLocked()) {
             log.error("Can't reset password. User {} is locked", userDetails.getUsername());
-            throw new UserLockedException(userDetails.getUsername());
+            throw new LockedUserException(userDetails.getUsername());
         }
         if (!userDetails.isEnabled()) {
             log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
-            throw new UserDisabledException(userDetails.getUsername());
+            throw new DisabledUserException(userDetails.getUsername());
         }
     }
 

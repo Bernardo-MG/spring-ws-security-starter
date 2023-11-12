@@ -19,10 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.user.exception.UserDisabledException;
-import com.bernardomg.security.authentication.user.exception.UserEnabledException;
-import com.bernardomg.security.authentication.user.exception.UserExpiredException;
-import com.bernardomg.security.authentication.user.exception.UserLockedException;
+import com.bernardomg.security.authentication.user.exception.DisabledUserException;
+import com.bernardomg.security.authentication.user.exception.EnabledUserException;
+import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -150,7 +150,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
+        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is expired");
@@ -168,7 +168,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, UserDisabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is disabled");
@@ -185,7 +185,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, UserEnabledException.class);
+        exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is enabled");
@@ -202,7 +202,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, UserExpiredException.class);
+        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is expired");
@@ -219,7 +219,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
 
-        exception = Assertions.catchThrowableOfType(executable, UserLockedException.class);
+        exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User username is locked");

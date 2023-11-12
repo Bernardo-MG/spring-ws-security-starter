@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.exception.UserDisabledException;
-import com.bernardomg.security.authentication.user.exception.UserExpiredException;
-import com.bernardomg.security.authentication.user.exception.UserLockedException;
+import com.bernardomg.security.authentication.user.exception.DisabledUserException;
+import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -90,15 +90,15 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // TODO: This should be contained in a common class
         if (!user.isAccountNonExpired()) {
             log.error("Can't reset password. User {} is expired", user.getUsername());
-            throw new UserExpiredException(user.getUsername());
+            throw new ExpiredUserException(user.getUsername());
         }
         if (!user.isAccountNonLocked()) {
             log.error("Can't reset password. User {} is locked", user.getUsername());
-            throw new UserLockedException(user.getUsername());
+            throw new LockedUserException(user.getUsername());
         }
         if (!user.isEnabled()) {
             log.error("Can't reset password. User {} is disabled", user.getUsername());
-            throw new UserDisabledException(user.getUsername());
+            throw new DisabledUserException(user.getUsername());
         }
     }
 

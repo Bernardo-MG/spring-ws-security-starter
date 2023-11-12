@@ -25,19 +25,17 @@
 package com.bernardomg.security.authentication.user.exception;
 
 /**
- * User not exception.
- *
- * TODO: seems to be the same as missing user
+ * Locked user exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class UserNotFoundException extends RuntimeException {
+public final class LockedUserException extends RuntimeException {
 
     private static final long serialVersionUID = -7226031317959127168L;
 
-    public UserNotFoundException(final String username) {
-        super(String.format("Couldn't find user %s", username));
+    public LockedUserException(final String username) {
+        super(String.format("User %s is locked", username));
     }
 
 }
