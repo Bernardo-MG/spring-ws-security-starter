@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedRoleUpdate implements RoleUpdate {
+public final class RoleUpdateRequest implements RoleUpdate {
 
     @NotNull
     private Long   id;

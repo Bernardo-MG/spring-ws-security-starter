@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.authentication.user.model.query;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,41 +12,37 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedUserQuery implements UserQuery {
+public final class UserUpdateRequest implements UserUpdate {
 
     /**
      * User email.
      */
+    @NotNull
+    @Email
     private String  email;
 
     /**
      * User enabled flag.
      */
+    @NotNull
     private Boolean enabled;
 
     /**
-     * User expired flag.
+     * User id.
      */
-    private Boolean expired;
-
-    /**
-     * User locked flag.
-     */
-    private Boolean locked;
+    @NotNull
+    private Long    id;
 
     /**
      * User name.
      */
+    @NotNull
     private String  name;
 
     /**
      * Password expired flag.
      */
+    @NotNull
     private Boolean passwordExpired;
-
-    /**
-     * User username.
-     */
-    private String  username;
 
 }

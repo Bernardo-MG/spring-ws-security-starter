@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.model.query.UserCreate;
-import com.bernardomg.security.authentication.user.model.query.ValidatedUserCreate;
+import com.bernardomg.security.authentication.user.model.query.UserCreateRequest;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
@@ -83,7 +83,7 @@ class ITFullNewUserRegisterProcess {
         changeToAdmin();
 
         // Register new user
-        newUser = ValidatedUserCreate.builder()
+        newUser = UserCreateRequest.builder()
             .email("email@somewhere.com")
             .username("username")
             .name("user")

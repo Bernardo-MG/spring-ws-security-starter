@@ -2,12 +2,12 @@
 package com.bernardomg.security.authentication.user.test.util.model;
 
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
-import com.bernardomg.security.authentication.user.model.query.ValidatedUserUpdate;
+import com.bernardomg.security.authentication.user.model.query.UserUpdateRequest;
 
 public final class UsersUpdate {
 
     public static final UserUpdate disabled() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .email("email@somewhere.com")
@@ -17,7 +17,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate emailChange() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .email("email2@somewhere.com")
@@ -27,7 +27,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate emailChangeUpperCase() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .email("EMAIL2@SOMEWHERE.COM")
@@ -37,7 +37,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate enabled() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .email("email@somewhere.com")
@@ -47,7 +47,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate invalidEmail() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .email("abc")
@@ -57,7 +57,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate nameChange() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin2")
             .email("email@somewhere.com")
@@ -67,7 +67,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate noEmail() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .enabled(true)
@@ -76,7 +76,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate noEnabled() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .email("email@somewhere.com")
@@ -85,7 +85,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate noId() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .name("Admin")
             .email("email@somewhere.com")
             .enabled(true)
@@ -94,7 +94,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate paddedWithWhitespaces() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name(" Admin ")
             .email(" email2@somewhere.com ")
@@ -104,7 +104,7 @@ public final class UsersUpdate {
     }
 
     public static final UserUpdate passwordExpired() {
-        return ValidatedUserUpdate.builder()
+        return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin")
             .email("email@somewhere.com")

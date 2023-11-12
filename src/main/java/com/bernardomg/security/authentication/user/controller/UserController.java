@@ -45,9 +45,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.ValidatedUserCreate;
-import com.bernardomg.security.authentication.user.model.query.ValidatedUserQuery;
-import com.bernardomg.security.authentication.user.model.query.ValidatedUserUpdate;
+import com.bernardomg.security.authentication.user.model.query.UserCreateRequest;
+import com.bernardomg.security.authentication.user.model.query.UserQueryRequest;
+import com.bernardomg.security.authentication.user.model.query.UserUpdateRequest;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -89,7 +89,7 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User create(@Valid @RequestBody final ValidatedUserCreate user) {
+    public User create(@Valid @RequestBody final UserCreateRequest user) {
         return userActivationService.registerNewUser(user);
     }
 
@@ -119,7 +119,7 @@ public class UserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public Iterable<User> readAll(@Valid final ValidatedUserQuery user, final Pageable page) {
+    public Iterable<User> readAll(@Valid final UserQueryRequest user, final Pageable page) {
         return userQueryService.getAll(user, page);
     }
 
@@ -152,7 +152,7 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserUpdate user) {
+    public User update(@PathVariable("id") final long id, @Valid @RequestBody final UserUpdateRequest user) {
         return userQueryService.update(id, user);
     }
 

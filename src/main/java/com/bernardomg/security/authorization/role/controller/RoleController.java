@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
-import com.bernardomg.security.authentication.user.model.query.ValidatedRoleUpdate;
+import com.bernardomg.security.authentication.user.model.query.RoleUpdateRequest;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.ValidatedRoleCreate;
@@ -101,7 +101,7 @@ public class RoleController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.ROLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true) })
-    public Role update(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedRoleUpdate form) {
+    public Role update(@PathVariable("id") final long id, @Valid @RequestBody final RoleUpdateRequest form) {
         return service.update(id, form);
     }
 

@@ -12,37 +12,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedUserUpdate implements UserUpdate {
+public final class UserCreateRequest implements UserCreate {
 
     /**
      * User email.
      */
     @NotNull
     @Email
-    private String  email;
-
-    /**
-     * User enabled flag.
-     */
-    @NotNull
-    private Boolean enabled;
-
-    /**
-     * User id.
-     */
-    @NotNull
-    private Long    id;
+    private String email;
 
     /**
      * User name.
      */
     @NotNull
-    private String  name;
+    private String name;
 
     /**
-     * Password expired flag.
+     * User username.
      */
     @NotNull
-    private Boolean passwordExpired;
+    private String username;
 
 }
