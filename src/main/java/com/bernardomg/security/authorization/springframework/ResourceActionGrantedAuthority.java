@@ -22,25 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.springframework.userdetails;
+package com.bernardomg.security.authorization.springframework;
 
 import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Builder;
 import lombok.Value;
 
+/**
+ * Granted authority for resource based access.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Value
 @Builder
 public final class ResourceActionGrantedAuthority implements GrantedAuthority {
 
     /**
-     *
+     * Serialization id.
      */
     private static final long serialVersionUID = 2121524436657408632L;
 
-    private final String            action;
+    /**
+     * Action to authorize in the resource.
+     */
+    private final String      action;
 
-    private final String            resource;
+    /**
+     * Resource to authorize.
+     */
+    private final String      resource;
 
     @Override
     public final String getAuthority() {

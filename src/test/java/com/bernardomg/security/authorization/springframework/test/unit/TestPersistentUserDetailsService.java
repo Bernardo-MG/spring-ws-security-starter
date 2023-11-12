@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.springframework.userdetails.test.unit;
+package com.bernardomg.security.authorization.springframework.test.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -17,11 +17,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.springframework.userdetails.PersistentUserDetailsService;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 import com.bernardomg.security.user.test.util.model.Users;
 
 @ExtendWith(MockitoExtension.class)

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.springframework.userdetails;
+package com.bernardomg.security.authorization.springframework;
 
 import java.util.Collection;
 import java.util.List;
