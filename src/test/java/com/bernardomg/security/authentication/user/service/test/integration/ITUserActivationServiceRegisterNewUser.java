@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserCreate;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
@@ -140,7 +140,7 @@ class ITUserActivationServiceRegisterNewUser {
 
         result = service.registerNewUser(user);
 
-        UserAssertions.isEqualTo(result, DtoUser.builder()
+        UserAssertions.isEqualTo(result, ImmutableUser.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")

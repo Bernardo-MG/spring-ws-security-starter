@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
@@ -65,7 +65,7 @@ class ITUserQueryServiceGetAll {
         user = data.iterator()
             .next();
 
-        UserAssertions.isEqualTo(user, DtoUser.builder()
+        UserAssertions.isEqualTo(user, ImmutableUser.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")

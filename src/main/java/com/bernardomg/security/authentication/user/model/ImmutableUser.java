@@ -24,70 +24,57 @@
 
 package com.bernardomg.security.authentication.user.model;
 
+import lombok.Builder;
+import lombok.Value;
+
 /**
- * User data.
+ * Immutable user data.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface User {
+@Value
+@Builder
+public final class ImmutableUser implements User {
 
     /**
-     * Returns the user email.
-     *
-     * @return the user email
+     * User email.
      */
-    public String getEmail();
+    private final String  email;
 
     /**
-     * Returns the user enabled flag.
-     *
-     * @return the user enabled flag
+     * User enabled flag.
      */
-    public Boolean getEnabled();
+    private final Boolean enabled;
 
     /**
-     * Returns the user expired flag.
-     * <p>
-     * This means the user is no longer valid.
-     *
-     * @return the user expired flag
+     * User expired flag.
      */
-    public Boolean getExpired();
+    private final Boolean expired;
 
     /**
-     * Returns the user id.
-     *
-     * @return the user id
+     * User id.
      */
-    public Long getId();
+    private final Long    id;
 
     /**
-     * Returns the user locked flag.
-     *
-     * @return the user locked flag
+     * User locked flag.
      */
-    public Boolean getLocked();
+    private final Boolean locked;
 
     /**
-     * Returns the user name.
-     *
-     * @return the user name
+     * User name.
      */
-    public String getName();
+    private final String  name;
 
     /**
-     * Returns the password expired flag.
-     *
-     * @return the password expired flag
+     * Password expired flag.
      */
-    public Boolean getPasswordExpired();
+    private final Boolean passwordExpired;
 
     /**
-     * Returns the user username.
-     *
-     * @return the user username
+     * User username.
      */
-    public String getUsername();
+    private final String  username;
 
 }

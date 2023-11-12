@@ -10,7 +10,7 @@ import com.bernardomg.security.authentication.user.exception.EnabledUserExceptio
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserCreate;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
@@ -198,7 +198,7 @@ public final class DefaultUserActivationService implements UserActivationService
     }
 
     private final User toDto(final PersistentUser user) {
-        return DtoUser.builder()
+        return ImmutableUser.builder()
             .id(user.getId())
             .username(user.getUsername())
             .name(user.getName())

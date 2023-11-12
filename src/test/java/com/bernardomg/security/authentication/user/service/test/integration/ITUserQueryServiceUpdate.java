@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
-import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
@@ -226,7 +226,7 @@ class ITUserQueryServiceUpdate {
 
         result = service.update(1L, user);
 
-        UserAssertions.isEqualTo(result, DtoUser.builder()
+        UserAssertions.isEqualTo(result, ImmutableUser.builder()
             .username("admin")
             .name("Admin")
             .email("email2@somewhere.com")

@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
@@ -68,7 +68,7 @@ class ITUserQueryServiceGetAllPagination {
             .iterator();
 
         result = data.next();
-        UserAssertions.isEqualTo(result, DtoUser.builder()
+        UserAssertions.isEqualTo(result, ImmutableUser.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")

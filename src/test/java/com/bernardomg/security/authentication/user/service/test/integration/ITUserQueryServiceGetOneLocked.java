@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.DtoUser;
+import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.LockedUser;
@@ -48,7 +48,7 @@ class ITUserQueryServiceGetOneLocked {
         result = service.getOne(1l)
             .get();
 
-        UserAssertions.isEqualTo(result, DtoUser.builder()
+        UserAssertions.isEqualTo(result, ImmutableUser.builder()
             .username("admin")
             .name("Admin")
             .email("email@somewhere.com")
