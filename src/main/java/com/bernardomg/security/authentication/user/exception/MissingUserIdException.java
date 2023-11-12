@@ -29,16 +29,16 @@ import java.io.Serializable;
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing user exception.
+ * Missing user by id exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingUserException extends MissingIdException {
+public final class MissingUserIdException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingUserException(final Serializable id) {
+    public MissingUserIdException(final Serializable id) {
         super("user", id);
     }
 

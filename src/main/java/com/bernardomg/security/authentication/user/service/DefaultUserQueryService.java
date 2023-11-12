@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserException;
+import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
@@ -40,7 +40,7 @@ public final class DefaultUserQueryService implements UserQueryService {
         log.debug("Deleting user {}", userId);
 
         if (!userRepository.existsById(userId)) {
-            throw new MissingUserException(userId);
+            throw new MissingUserIdException(userId);
         }
 
         userRepository.deleteById(userId);
@@ -73,7 +73,7 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         // TODO: Use the read optional
         if (!userRepository.existsById(id)) {
-            throw new MissingUserException(id);
+            throw new MissingUserIdException(id);
         }
 
         return userRepository.findById(id)
@@ -90,7 +90,7 @@ public final class DefaultUserQueryService implements UserQueryService {
         log.debug("Updating user with id {} using data {}", id, user);
 
         if (!userRepository.existsById(id)) {
-            throw new MissingUserException(id);
+            throw new MissingUserIdException(id);
         }
 
         validatorUpdateUser.validate(user);

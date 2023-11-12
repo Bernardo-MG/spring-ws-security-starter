@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserException;
+import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
@@ -83,7 +83,7 @@ class ITUserQueryServiceDelete {
         execution = () -> service.delete(1L);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserException.class);
+            .isInstanceOf(MissingUserIdException.class);
     }
 
     @Test

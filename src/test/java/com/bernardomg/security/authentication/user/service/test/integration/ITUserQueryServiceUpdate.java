@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserException;
+import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
 import com.bernardomg.security.authentication.user.model.DtoUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
@@ -168,7 +168,7 @@ class ITUserQueryServiceUpdate {
         execution = () -> service.update(1L, user);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserException.class);
+            .isInstanceOf(MissingUserIdException.class);
     }
 
     @Test

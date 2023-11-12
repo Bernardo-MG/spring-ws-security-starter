@@ -27,8 +27,6 @@ package com.bernardomg.security.authentication.user.exception;
 /**
  * User not exception.
  *
- * TODO: seems to be the same as missing user
- *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
