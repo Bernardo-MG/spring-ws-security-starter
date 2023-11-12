@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.User;
@@ -40,6 +41,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     @Mock
     private UserRepository                     repository;
 
+    @InjectMocks
     private SpringSecurityPasswordResetService service;
 
     @Mock
@@ -53,12 +55,6 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
     public TestSpringSecurityPasswordResetServiceStartEmail() {
         super();
-    }
-
-    @BeforeEach
-    public void initializeService() {
-        service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
-            passwordEncoder);
     }
 
     @BeforeEach

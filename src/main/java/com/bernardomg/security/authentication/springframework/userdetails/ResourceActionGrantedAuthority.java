@@ -38,9 +38,9 @@ public final class ResourceActionGrantedAuthority implements GrantedAuthority {
      */
     private static final long serialVersionUID = 2121524436657408632L;
 
-    private String            action;
+    private final String            action;
 
-    private String            resource;
+    private final String            resource;
 
     @Override
     public final String getAuthority() {

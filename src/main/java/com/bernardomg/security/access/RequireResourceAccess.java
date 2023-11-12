@@ -52,9 +52,9 @@ public @interface RequireResourceAccess {
     public String action();
 
     /**
-     * Resource to authorize.
+     * Resource to access.
      *
-     * @return resource to authorize
+     * @return resource to access
      */
     public String resource();
 

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +26,6 @@ import com.bernardomg.security.authentication.user.exception.UserLockedException
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.DefaultUserService;
 import com.bernardomg.security.authentication.user.service.UserService;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.store.UserTokenStore;
@@ -48,6 +48,7 @@ class TestUserServiceEnableUserAuth {
     @Mock
     private UserRepository        repository;
 
+    @InjectMocks
     private UserService           service;
 
     @Mock
@@ -55,11 +56,6 @@ class TestUserServiceEnableUserAuth {
 
     public TestUserServiceEnableUserAuth() {
         super();
-    }
-
-    @BeforeEach
-    public void initializeService() {
-        service = new DefaultUserService(repository, messageSender, tokenStore, passwordEncoder);
     }
 
     @BeforeEach

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -38,6 +39,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -99,13 +101,11 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         final Collection<? extends GrantedAuthority> authorities;
         final UserDetails                            details;
 
-        // TODO: Test this
-
         user = userRepository.findOneByUsername(username.toLowerCase(Locale.getDefault()));
 
         if (!user.isPresent()) {
-            log.error("Username {} not found in DB", username);
-            throw new UsernameNotFoundException(username);
+            log.error("Username {} not found in database", username);
+            throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
         }
 
         authorities = getAuthorities(user.get()
@@ -113,7 +113,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
         if (authorities.isEmpty()) {
             log.error("Username {} has no authorities", username);
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(String.format("Username %s has no authorities", username));
         }
 
         details = toUserDetails(user.get(), authorities);
@@ -134,12 +134,17 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @return all the authorities for the user
      */
     private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
+        final Function<PersistentUserGrantedPermission, ResourceActionGrantedAuthority> toAuthority;
+
+        // Maps a persistent permission to an authority
+        toAuthority = p -> ResourceActionGrantedAuthority.builder()
+            .resource(p.getResource())
+            .action(p.getAction())
+            .build();
+
         return userGrantedPermissionRepository.findAllByUserId(id)
             .stream()
-            .map(p -> ResourceActionGrantedAuthority.builder()
-                .resource(p.getResource())
-                .action(p.getAction())
-                .build())
+            .map(toAuthority)
             .distinct()
             .toList();
     }

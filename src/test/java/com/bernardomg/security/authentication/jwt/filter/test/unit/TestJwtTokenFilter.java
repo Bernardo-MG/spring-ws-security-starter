@@ -6,10 +6,10 @@ import static org.mockito.BDDMockito.given;
 import java.io.IOException;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -42,6 +42,7 @@ class TestJwtTokenFilter {
     @Mock
     private TokenDecoder        decoder;
 
+    @InjectMocks
     private JwtTokenFilter      filter;
 
     @Mock
@@ -54,25 +55,16 @@ class TestJwtTokenFilter {
         super();
     }
 
-    @BeforeEach
-    public void initializeFilter() {
-        filter = new JwtTokenFilter(userDetService, validator, decoder);
-    }
-
     private final UserDetails getValidUserDetails() {
         final UserDetails userDetails;
 
         userDetails = Mockito.mock(UserDetails.class);
-        Mockito.when(userDetails.getUsername())
-            .thenReturn(USERNAME);
-        Mockito.when(userDetails.isAccountNonExpired())
-            .thenReturn(true);
-        Mockito.when(userDetails.isAccountNonLocked())
-            .thenReturn(true);
-        Mockito.when(userDetails.isCredentialsNonExpired())
-            .thenReturn(true);
-        Mockito.when(userDetails.isEnabled())
-            .thenReturn(true);
+
+        given(userDetails.getUsername()).willReturn(USERNAME);
+        given(userDetails.isAccountNonExpired()).willReturn(true);
+        given(userDetails.isAccountNonLocked()).willReturn(true);
+        given(userDetails.isCredentialsNonExpired()).willReturn(true);
+        given(userDetails.isEnabled()).willReturn(true);
 
         return userDetails;
     }

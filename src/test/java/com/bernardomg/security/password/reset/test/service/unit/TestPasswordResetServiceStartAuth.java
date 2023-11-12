@@ -7,10 +7,10 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,7 +27,6 @@ import com.bernardomg.security.authentication.user.persistence.model.PersistentU
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,6 +46,7 @@ class TestPasswordResetServiceStartAuth {
     @Mock
     private UserRepository        repository;
 
+    @InjectMocks
     private PasswordResetService  service;
 
     @Mock
@@ -57,12 +57,6 @@ class TestPasswordResetServiceStartAuth {
 
     public TestPasswordResetServiceStartAuth() {
         super();
-    }
-
-    @BeforeEach
-    public void initializeService() {
-        service = new SpringSecurityPasswordResetService(repository, userDetailsService, messageSender, tokenStore,
-            passwordEncoder);
     }
 
     private final void loadDisabledUser() {
