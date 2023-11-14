@@ -33,14 +33,14 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
     }
 
     @Test
-    @DisplayName("Enabling a new user with a user already enabled throws an exception")
+    @DisplayName("Activating a new user with a user already enabled throws an exception")
     @OnlyUser
     @UserRegisteredUserToken
-    void testEnableNewUser_AlreadyEnabled() {
+    void testActivateUser_AlreadyEnabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
@@ -49,14 +49,14 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
     }
 
     @Test
-    @DisplayName("Enabling a new user with a consumed token throws an exception")
+    @DisplayName("Activating a new user with a consumed token throws an exception")
     @OnlyUser
     @UserRegisteredConsumedUserToken
-    void testEnableNewUser_Consumed() {
+    void testActivateUser_Consumed() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
@@ -65,14 +65,14 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
     }
 
     @Test
-    @DisplayName("Enabling a new user with an expired token throws an exception")
+    @DisplayName("Activating a new user with an expired token throws an exception")
     @OnlyUser
     @UserRegisteredExpiredUserToken
-    void testEnableNewUser_Expired() {
+    void testActivateUser_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
@@ -81,13 +81,13 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
     }
 
     @Test
-    @DisplayName("Enabling a new user with no token throws an exception")
+    @DisplayName("Activating a new user with no token throws an exception")
     @OnlyUser
-    void testEnableNewUser_Missing() {
+    void testActivateUser_Missing() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, MissingTokenCodeException.class);
 

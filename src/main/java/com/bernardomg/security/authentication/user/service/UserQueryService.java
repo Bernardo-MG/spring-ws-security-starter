@@ -32,6 +32,12 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 
+/**
+ * User query service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface UserQueryService {
 
     /**

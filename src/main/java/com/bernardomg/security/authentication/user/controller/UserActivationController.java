@@ -80,7 +80,7 @@ public class UserActivationController {
     public User activate(@PathVariable("token") final String token,
             @Valid @RequestBody final UserActivationRequest request) {
         // TODO: rename to activate
-        return service.activateNewUser(token, request.getPassword());
+        return service.activateUser(token, request.getPassword());
     }
 
     /**

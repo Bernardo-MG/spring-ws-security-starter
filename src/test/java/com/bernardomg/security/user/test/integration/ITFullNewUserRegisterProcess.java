@@ -108,7 +108,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        userActivationService.activateNewUser(token, "1234");
+        userActivationService.activateUser(token, "1234");
 
         user = userRepository.findAll()
             .stream()

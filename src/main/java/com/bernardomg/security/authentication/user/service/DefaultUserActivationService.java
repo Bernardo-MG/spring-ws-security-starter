@@ -38,7 +38,7 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.validation.CreateUserValidator;
+import com.bernardomg.security.authentication.user.validation.RegisterUserValidator;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.exception.InvalidTokenException;
 import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
@@ -48,6 +48,12 @@ import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default user activation service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class DefaultUserActivationService implements UserActivationService {
 
@@ -66,40 +72,45 @@ public final class DefaultUserActivationService implements UserActivationService
      */
     private final UserTokenStore          tokenStore;
 
+    /**
+     * User repository.
+     */
     private final UserRepository          userRepository;
 
-    private final Validator<UserRegister> validatorCreateUser;
+    /**
+     * User registration validator.
+     */
+    private final Validator<UserRegister> validatorRegisterUser;
 
     public DefaultUserActivationService(final UserRepository userRepo, final SecurityMessageSender mSender,
             final UserTokenStore tStore, final PasswordEncoder passEncoder) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
-
         tokenStore = Objects.requireNonNull(tStore);
-
         passwordEncoder = Objects.requireNonNull(passEncoder);
-
         messageSender = Objects.requireNonNull(mSender);
 
-        validatorCreateUser = new CreateUserValidator(userRepo);
+        validatorRegisterUser = new RegisterUserValidator(userRepo);
     }
 
     @Override
-    public final User activateNewUser(final String token, final String password) {
-        final String         tokenUsername;
+    public final User activateUser(final String token, final String password) {
+        final String         username;
         final PersistentUser user;
         final String         encodedPassword;
 
+        // Validate token
         tokenStore.validate(token);
 
-        tokenUsername = tokenStore.getUsername(token);
+        // Acquire username
+        username = tokenStore.getUsername(token);
 
-        log.debug("Enabling new user {}", tokenUsername);
+        log.debug("Activating new user {}", username);
 
-        user = getUserByUsername(tokenUsername);
+        user = getUserByUsername(username);
 
-        authorizeEnableUser(user);
+        validateActivation(user);
 
         user.setEnabled(true);
         user.setPasswordExpired(false);
@@ -109,7 +120,7 @@ public final class DefaultUserActivationService implements UserActivationService
         userRepository.save(user);
         tokenStore.consumeToken(token);
 
-        log.debug("Enabled new user {}", tokenUsername);
+        log.debug("Activated new user {}", username);
 
         return toDto(user);
     }
@@ -122,7 +133,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         log.debug("Registering new user {} with email {}", user.getUsername(), user.getEmail());
 
-        validatorCreateUser.validate(user);
+        validatorRegisterUser.validate(user);
 
         userEntity = toEntity(user);
 
@@ -168,8 +179,8 @@ public final class DefaultUserActivationService implements UserActivationService
 
     @Override
     public final UserTokenStatus validateToken(final String token) {
-        boolean      valid;
         final String username;
+        boolean      valid;
 
         try {
             tokenStore.validate(token);
@@ -185,27 +196,6 @@ public final class DefaultUserActivationService implements UserActivationService
             .build();
     }
 
-    /**
-     * Authenticates the new user enabling attempt. If the user is not authenticated, then an exception is thrown.
-     *
-     * @param user
-     *            user for which the password is changed
-     */
-    private final void authorizeEnableUser(final PersistentUser user) {
-        if (user.getExpired()) {
-            log.error("Can't enable new user. User {} is expired", user.getUsername());
-            throw new ExpiredUserException(user.getUsername());
-        }
-        if (user.getLocked()) {
-            log.error("Can't enable new user. User {} is locked", user.getUsername());
-            throw new LockedUserException(user.getUsername());
-        }
-        if (user.getEnabled()) {
-            log.error("Can't enable new user. User {} is already enabled", user.getUsername());
-            throw new EnabledUserException(user.getUsername());
-        }
-    }
-
     private final PersistentUser getUserByUsername(final String username) {
         final Optional<PersistentUser> user;
 
@@ -213,7 +203,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         // Validate the user exists
         if (!user.isPresent()) {
-            log.error("Couldn't enable new user {}, as it doesn't exist", username);
+            log.error("Couldn't activate new user {}, as it doesn't exist", username);
             throw new UserNotFoundException(username);
         }
 
@@ -239,6 +229,27 @@ public final class DefaultUserActivationService implements UserActivationService
             .name(user.getName())
             .email(user.getEmail())
             .build();
+    }
+
+    /**
+     * Checks whether the user can be activated. If the user can't be activated, then an exception is thrown.
+     *
+     * @param user
+     *            user to activate
+     */
+    private final void validateActivation(final PersistentUser user) {
+        if (Boolean.TRUE.equals(user.getExpired())) {
+            log.error("Can't activate new user. User {} is expired", user.getUsername());
+            throw new ExpiredUserException(user.getUsername());
+        }
+        if (Boolean.TRUE.equals(user.getLocked())) {
+            log.error("Can't activate new user. User {} is locked", user.getUsername());
+            throw new LockedUserException(user.getUsername());
+        }
+        if (Boolean.TRUE.equals(user.getEnabled())) {
+            log.error("Can't activate new user. User {} is already enabled", user.getUsername());
+            throw new EnabledUserException(user.getUsername());
+        }
     }
 
 }

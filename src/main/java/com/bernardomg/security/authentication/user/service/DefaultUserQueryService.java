@@ -42,11 +42,23 @@ import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default user query service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class DefaultUserQueryService implements UserQueryService {
 
+    /**
+     * User repository.
+     */
     private final UserRepository        userRepository;
 
+    /**
+     * Update user validator.
+     */
     private final Validator<UserUpdate> validatorUpdateUser;
 
     public DefaultUserQueryService(final UserRepository userRepo) {

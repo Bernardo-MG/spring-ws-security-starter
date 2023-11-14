@@ -28,9 +28,24 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
 
+/**
+ * User activation service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface UserActivationService {
 
-    public User activateNewUser(final String token, final String password);
+    /**
+     * Activates a registered user.
+     *
+     * @param token
+     *            token assigned to the user
+     * @param password
+     *            user password
+     * @return the activated user
+     */
+    public User activateUser(final String token, final String password);
 
     /**
      * Persists the received user.

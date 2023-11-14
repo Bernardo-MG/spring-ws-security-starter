@@ -107,8 +107,8 @@ class TestPasswordResetServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Enabling a new user for a disabled user throws an exception")
-    void testEnableNewUser_Disabled_Exception() {
+    @DisplayName("Activating a new user for a disabled user throws an exception")
+    void testActivateUser_Disabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -124,8 +124,8 @@ class TestPasswordResetServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Enabling a new user for an expired user throws an exception")
-    void testEnableNewUser_Expired_Exception() {
+    @DisplayName("Activating a new user for an expired user throws an exception")
+    void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -141,8 +141,8 @@ class TestPasswordResetServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Enabling a new user for a locked user throws an exception")
-    void testEnableNewUser_Locked_Exception() {
+    @DisplayName("Activating a new user for a locked user throws an exception")
+    void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -158,8 +158,8 @@ class TestPasswordResetServiceStartAuth {
 
     @Test
     @WithMockUser(username = "admin")
-    @DisplayName("Enabling a new user for a not existing user throws an exception")
-    void testEnableNewUser_NotExisting_Exception() {
+    @DisplayName("Activating a new user for a not existing user throws an exception")
+    void testActivateUser_NotExisting_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 

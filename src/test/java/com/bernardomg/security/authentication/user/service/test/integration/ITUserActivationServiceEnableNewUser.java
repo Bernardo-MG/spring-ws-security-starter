@@ -19,7 +19,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - enable new user - token status")
+@DisplayName("User service - activate new user - token status")
 class ITUserActivationServiceEnableNewUser {
 
     @Autowired
@@ -39,13 +39,13 @@ class ITUserActivationServiceEnableNewUser {
     }
 
     @Test
-    @DisplayName("Enabling a new user consumes the token")
+    @DisplayName("Activating a new user consumes the token")
     @NewlyCreated
     @UserRegisteredUserToken
-    void testEnableNewUser_ConsumesToken() {
+    void testActivateUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         consumed = userTokenRepository.findById(1L)
             .get()
@@ -56,13 +56,13 @@ class ITUserActivationServiceEnableNewUser {
     }
 
     @Test
-    @DisplayName("Enabling a new user sets it as enabled")
+    @DisplayName("Activating a new user sets it as enabled")
     @NewlyCreated
     @UserRegisteredUserToken
-    void testEnableNewUser_Enabled() {
+    void testActivateUser_Enabled() {
         final PersistentUser user;
 
-        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
@@ -72,13 +72,13 @@ class ITUserActivationServiceEnableNewUser {
     }
 
     @Test
-    @DisplayName("Enabling a new user sets it's password")
+    @DisplayName("Activating a new user sets it's password")
     @NewlyCreated
     @UserRegisteredUserToken
-    void testEnableNewUser_Password() {
+    void testActivateUser_Password() {
         final PersistentUser user;
 
-        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();
@@ -88,13 +88,13 @@ class ITUserActivationServiceEnableNewUser {
     }
 
     @Test
-    @DisplayName("Enabling a new user sets password expired flag ot false")
+    @DisplayName("Activating a new user sets password expired flag ot false")
     @NewlyCreated
     @UserRegisteredUserToken
-    void testEnableNewUser_PasswordReset() {
+    void testActivateUser_PasswordReset() {
         final PersistentUser user;
 
-        service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         user = userRepository.findById(1L)
             .get();

@@ -142,13 +142,13 @@ class TestUserActivationServiceEnableUserAuth {
     @WithMockUser(username = "admin")
     @DisplayName("Activating a user with expired credentials gives a failure")
     @Disabled
-    void testEnableNewUser_CredentialsExpired_Exception() {
+    void testActivateUser_CredentialsExpired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -160,13 +160,13 @@ class TestUserActivationServiceEnableUserAuth {
     @WithMockUser(username = "admin")
     @DisplayName("Activating a disabled user gives a failure")
     @Disabled
-    void testEnableNewUser_Disabled_Exception() {
+    void testActivateUser_Disabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadDisabledUser();
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
@@ -177,13 +177,13 @@ class TestUserActivationServiceEnableUserAuth {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Activating an enabled user gives a failure")
-    void testEnableNewUser_Enabled_Exception() {
+    void testActivateUser_Enabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadEnabledUser();
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
@@ -194,13 +194,13 @@ class TestUserActivationServiceEnableUserAuth {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Activating a expired user gives a failure")
-    void testEnableNewUser_Expired_Exception() {
+    void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadExpiredUser();
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -211,13 +211,13 @@ class TestUserActivationServiceEnableUserAuth {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Activating a locked user gives a failure")
-    void testEnableNewUser_Locked_Exception() {
+    void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadLockedUser();
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
@@ -228,11 +228,11 @@ class TestUserActivationServiceEnableUserAuth {
     @Test
     @WithMockUser(username = "admin")
     @DisplayName("Activating a not existing user gives a failure")
-    void testEnableNewUser_NotExistingUser_Exception() {
+    void testActivateUser_NotExistingUser_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateNewUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
