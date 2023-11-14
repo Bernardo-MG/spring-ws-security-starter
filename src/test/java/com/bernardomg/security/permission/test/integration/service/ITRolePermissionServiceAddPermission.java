@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.authorization.permission.model.DtoPermission;
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.authorization.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
@@ -68,9 +68,9 @@ class ITRolePermissionServiceAddPermission {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testAddPermission_CallBack() {
-        final Iterable<Permission> result;
-        final Permission           found;
-        final Pageable             pageable;
+        final Iterable<ResourcePermission> result;
+        final ResourcePermission           found;
+        final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
@@ -84,7 +84,7 @@ class ITRolePermissionServiceAddPermission {
         found = result.iterator()
             .next();
 
-        RolePermissionAssertions.isEqualTo(found, DtoPermission.builder()
+        RolePermissionAssertions.isEqualTo(found, ImmutableResourcePermission.builder()
             .action("CREATE")
             .resource("DATA")
             .build());

@@ -22,10 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.model.query;
+package com.bernardomg.security.authorization.permission.model;
 
-public interface PermissionCreate {
+/**
+ * Resource permission data.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface ResourcePermission {
 
-    public Long getPermissionId();
+    /**
+     * Returns the action applied to the resource.
+     *
+     * @return the action applied to the resource
+     */
+    public String getAction();
+
+    /**
+     * Returns the permission id.
+     *
+     * @return the permission id
+     */
+    public Long getId();
+
+    /**
+     * Returns the permission resource.
+     *
+     * @return the permission resource
+     */
+    public String getResource();
 
 }

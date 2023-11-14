@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.model.DtoPermission;
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentPermission;
 import com.bernardomg.security.authorization.permission.persistence.repository.PermissionRepository;
 
@@ -24,7 +24,7 @@ public final class DefaultPermissionService implements PermissionService {
     }
 
     @Override
-    public final Iterable<Permission> getAll(final Pageable pageable) {
+    public final Iterable<ResourcePermission> getAll(final Pageable pageable) {
         log.debug("Reading actions with pagination {}", pageable);
 
         return repository.findAll(pageable)
@@ -32,7 +32,7 @@ public final class DefaultPermissionService implements PermissionService {
     }
 
     @Override
-    public final Optional<Permission> getOne(final long id) {
+    public final Optional<ResourcePermission> getOne(final long id) {
 
         log.debug("Reading action with id {}", id);
 
@@ -40,8 +40,8 @@ public final class DefaultPermissionService implements PermissionService {
             .map(this::toDto);
     }
 
-    private final Permission toDto(final PersistentPermission entity) {
-        return DtoPermission.builder()
+    private final ResourcePermission toDto(final PersistentPermission entity) {
+        return ImmutableResourcePermission.builder()
             .id(entity.getId())
             .resource(entity.getResource())
             .action(entity.getAction())

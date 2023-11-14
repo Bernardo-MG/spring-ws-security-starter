@@ -12,7 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -35,8 +35,8 @@ class ITRolePermissionServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns the page entities")
     void testGetPermissions_Page_Container() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -49,9 +49,9 @@ class ITRolePermissionServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     void testGetPermissions_Page1_Data() {
-        final Iterator<Permission> data;
-        final Permission           result;
-        final Pageable             pageable;
+        final Iterator<ResourcePermission> data;
+        final ResourcePermission           result;
+        final Pageable                     pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -68,9 +68,9 @@ class ITRolePermissionServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns all the data for the second page")
     void testGetPermissions_Page2_Data() {
-        final Iterator<Permission> data;
-        final Permission           result;
-        final Pageable             pageable;
+        final Iterator<ResourcePermission> data;
+        final ResourcePermission           result;
+        final Pageable                     pageable;
 
         pageable = PageRequest.of(1, 1);
 
@@ -87,8 +87,8 @@ class ITRolePermissionServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns a page")
     void testGetPermissions_Paged_Count() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
 
         pageable = PageRequest.of(0, 1);
 
@@ -101,8 +101,8 @@ class ITRolePermissionServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     void testGetPermissions_Unpaged_Container() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 

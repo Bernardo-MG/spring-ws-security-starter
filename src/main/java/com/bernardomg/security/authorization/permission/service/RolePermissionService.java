@@ -3,7 +3,7 @@ package com.bernardomg.security.authorization.permission.service;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 
 public interface RolePermissionService {
@@ -28,7 +28,7 @@ public interface RolePermissionService {
      *            pagination to apply
      * @return permissions the role doesn't have
      */
-    public Iterable<Permission> getAvailablePermissions(final long roleId, final Pageable pageable);
+    public Iterable<ResourcePermission> getAvailablePermissions(final long roleId, final Pageable pageable);
 
     /**
      * Returns all permissions assigned to a role.
@@ -39,7 +39,7 @@ public interface RolePermissionService {
      *            pagination to apply
      * @return role permissions
      */
-    public Iterable<Permission> getPermissions(final long roleId, final Pageable pageable);
+    public Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable pageable);
 
     /**
      * Removes a action from a role.

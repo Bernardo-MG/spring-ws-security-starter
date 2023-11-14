@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.PermissionService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -33,8 +33,8 @@ class ITPermissionServiceGetAll {
     @Test
     @DisplayName("Returns all the entities")
     void testGetAll_Count() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
@@ -47,9 +47,9 @@ class ITPermissionServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     void testGetAll_Data() {
-        final Iterable<Permission> data;
-        final Pageable             pageable;
-        final Collection<String>   names;
+        final Iterable<ResourcePermission> data;
+        final Pageable                     pageable;
+        final Collection<String>           names;
 
         pageable = Pageable.unpaged();
 

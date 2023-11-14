@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.PermissionService;
 
 import lombok.AllArgsConstructor;
@@ -52,19 +52,36 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class PermissionController {
 
+    /**
+     * Permissions service.
+     */
     private final PermissionService service;
 
+    /**
+     * Returns all the permissions in a paginated form.
+     *
+     * @param page
+     *            pagination data
+     * @return the requested page
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.RESOURCES)
-    public Iterable<Permission> readAll(final Pageable pageable) {
-        return service.getAll(pageable);
+    public Iterable<ResourcePermission> readAll(final Pageable page) {
+        return service.getAll(page);
     }
 
+    /**
+     * Reads a single user by its id.
+     *
+     * @param id
+     *            id of the permission to read
+     * @return the permission for the id, or {@code null} if it doesn't exist
+     */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")
     @Cacheable(cacheNames = PermissionCaches.RESOURCE, key = "#id")
-    public Permission readOne(@PathVariable("id") final long id) {
+    public ResourcePermission readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }

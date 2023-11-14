@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.model.DtoPermission;
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentPermission;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentRolePermission;
 import com.bernardomg.security.authorization.permission.persistence.repository.PermissionRepository;
@@ -68,13 +68,13 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final Iterable<Permission> getAvailablePermissions(final long roleId, final Pageable pageable) {
+    public final Iterable<ResourcePermission> getAvailablePermissions(final long roleId, final Pageable pageable) {
         return permissionRepository.findAvailableToRole(roleId, pageable)
             .map(this::toDto);
     }
 
     @Override
-    public final Iterable<Permission> getPermissions(final long roleId, final Pageable pageable) {
+    public final Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable pageable) {
         return permissionRepository.findForRole(roleId, pageable)
             .map(this::toDto);
     }
@@ -122,8 +122,8 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .build();
     }
 
-    private final Permission toDto(final PersistentPermission entity) {
-        return DtoPermission.builder()
+    private final ResourcePermission toDto(final PersistentPermission entity) {
+        return ImmutableResourcePermission.builder()
             .id(entity.getId())
             .resource(entity.getResource())
             .action(entity.getAction())

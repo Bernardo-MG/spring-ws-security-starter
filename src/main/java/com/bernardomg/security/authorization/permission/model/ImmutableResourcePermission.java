@@ -22,10 +22,19 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.model.query;
+package com.bernardomg.security.authorization.permission.model;
 
-public interface PermissionCreate {
+import lombok.Builder;
+import lombok.Data;
 
-    public Long getPermissionId();
+@Data
+@Builder
+public final class ImmutableResourcePermission implements ResourcePermission {
+
+    private final String action;
+
+    private final Long   id;
+
+    private final String resource;
 
 }

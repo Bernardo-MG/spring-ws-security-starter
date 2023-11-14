@@ -5,12 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.model.Permission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 
 public interface PermissionService {
 
-    public Iterable<Permission> getAll(final Pageable pageable);
+    public Iterable<ResourcePermission> getAll(final Pageable pageable);
 
-    public Optional<Permission> getOne(final long id);
+    public Optional<ResourcePermission> getOne(final long id);
 
 }
