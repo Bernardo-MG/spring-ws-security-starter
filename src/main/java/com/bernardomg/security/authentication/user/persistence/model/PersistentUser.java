@@ -40,7 +40,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Dto implementation of {@code User}.
+ * User entity.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

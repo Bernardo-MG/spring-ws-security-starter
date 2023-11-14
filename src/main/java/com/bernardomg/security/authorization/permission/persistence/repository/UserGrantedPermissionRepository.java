@@ -29,7 +29,7 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
-import com.bernardomg.security.authorization.permission.persistence.model.UserPermissionKey;
+import com.bernardomg.security.authorization.permission.persistence.model.UserGrantedPermissionKey;
 
 /**
  * Repository for users.
@@ -38,7 +38,7 @@ import com.bernardomg.security.authorization.permission.persistence.model.UserPe
  *
  */
 public interface UserGrantedPermissionRepository
-        extends JpaRepository<PersistentUserGrantedPermission, UserPermissionKey> {
+        extends JpaRepository<PersistentUserGrantedPermission, UserGrantedPermissionKey> {
 
     public Collection<PersistentUserGrantedPermission> findAllByUserId(final Long id);
 

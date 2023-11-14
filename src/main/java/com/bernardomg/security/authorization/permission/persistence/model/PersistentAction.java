@@ -39,7 +39,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Dto implementation of {@code Action}.
+ * Action entity.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

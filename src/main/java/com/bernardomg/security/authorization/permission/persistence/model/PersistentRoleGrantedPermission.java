@@ -37,7 +37,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Dto implementation of {@code Action}.
+ * Role granted permission entity.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

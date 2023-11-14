@@ -37,14 +37,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Dto implementation of {@code Action}.
+ * User granted permission entity.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Entity(name = "UserGrantedPermission")
 @Table(name = "user_granted_permissions")
-@IdClass(UserPermissionKey.class)
+@IdClass(UserGrantedPermissionKey.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
