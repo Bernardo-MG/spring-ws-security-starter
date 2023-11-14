@@ -49,7 +49,7 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      *            pagination to apply
      * @return a page with the permissions
      */
-    @Query("SELECT p FROM Permission p WHERE p.id NOT IN (SELECT p.id FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId)")
+    @Query("SELECT p FROM ResourcePermission p WHERE p.id NOT IN (SELECT p.id FROM ResourcePermission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId)")
     public Page<ResourcePermissionEntity> findAvailableToRole(@Param("roleId") final Long roleId, final Pageable page);
 
     /**
@@ -61,7 +61,7 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      *            pagination to apply
      * @return a page with the permissions
      */
-    @Query("SELECT p FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
+    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
     public Page<ResourcePermissionEntity> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
 
 }

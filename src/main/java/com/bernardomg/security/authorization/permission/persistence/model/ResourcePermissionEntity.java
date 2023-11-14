@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "Permission")
+@Entity(name = "ResourcePermission")
 @Table(name = "permissions")
 @Data
 @NoArgsConstructor
