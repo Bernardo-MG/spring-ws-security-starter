@@ -44,16 +44,16 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.model.Role;
+import com.bernardomg.security.authorization.role.model.request.RoleCreateRequest;
+import com.bernardomg.security.authorization.role.model.request.RoleQueryRequest;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdateRequest;
-import com.bernardomg.security.authorization.role.model.request.ValidatedRoleCreate;
-import com.bernardomg.security.authorization.role.model.request.ValidatedRoleQuery;
 import com.bernardomg.security.authorization.service.RoleService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * Role REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -64,31 +64,63 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class RoleController {
 
+    /**
+     * Role service.
+     */
     private final RoleService service;
 
+    /**
+     * Creates a role.
+     *
+     * @param request
+     *            role to add
+     * @return the new role
+     */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.ROLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true) })
-    public Role create(@Valid @RequestBody final ValidatedRoleCreate form) {
-        return service.create(form);
+    public Role create(@Valid @RequestBody final RoleCreateRequest request) {
+        return service.create(request);
     }
 
+    /**
+     * Deletes a role by its id.
+     *
+     * @param id
+     *            role id
+     */
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true),
             @CacheEvict(cacheNames = UserCaches.ROLE, key = "#id") })
-    public Boolean delete(@PathVariable("id") final long id) {
-        return service.delete(id);
+    public void delete(@PathVariable("id") final long id) {
+        service.delete(id);
     }
 
+    /**
+     * Returns all the roles in a paginated form.
+     *
+     * @param role
+     *            query to filter roles
+     * @param page
+     *            pagination to apply
+     * @return a page for the roles matching the sample
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.ROLES)
-    public Iterable<Role> readAll(@Valid final ValidatedRoleQuery role, final Pageable pageable) {
-        return service.getAll(role, pageable);
+    public Iterable<Role> readAll(@Valid final RoleQueryRequest role, final Pageable page) {
+        return service.getAll(role, page);
     }
 
+    /**
+     * Reads a single role by its id.
+     *
+     * @param id
+     *            id of the role to read
+     * @return the role for the id, or {@code null} if it doesn't exist
+     */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.ROLE, key = "#id")
@@ -97,12 +129,21 @@ public class RoleController {
             .orElse(null);
     }
 
+    /**
+     * Updates a user.
+     *
+     * @param id
+     *            id of the role to update
+     * @param request
+     *            updated role data
+     * @return the updated role
+     */
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.ROLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true) })
-    public Role update(@PathVariable("id") final long id, @Valid @RequestBody final RoleUpdateRequest form) {
-        return service.update(id, form);
+    public Role update(@PathVariable("id") final long id, @Valid @RequestBody final RoleUpdateRequest request) {
+        return service.update(id, request);
     }
 
 }

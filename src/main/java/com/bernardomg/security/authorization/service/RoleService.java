@@ -51,7 +51,7 @@ public interface RoleService {
      *            id of the role to delete
      * @return {@code true} if it managed to delete, {@code false} otherwise
      */
-    public Boolean delete(final long id);
+    public void delete(final long id);
 
     /**
      * Returns all the roles matching the sample. If the sample fields are empty, then all the roles are returned.

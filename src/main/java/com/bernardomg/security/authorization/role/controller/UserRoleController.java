@@ -43,14 +43,14 @@ import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
-import com.bernardomg.security.authorization.role.model.request.ValidatedUserRoleAdd;
+import com.bernardomg.security.authorization.role.model.request.UserRoleAddRequest;
 import com.bernardomg.security.authorization.service.UserRoleService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * User role REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -61,31 +61,70 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class UserRoleController {
 
+    /**
+     * User role service.
+     */
     private final UserRoleService service;
 
+    /**
+     * Adds a role to a user.
+     *
+     * @param userId
+     *            user id
+     * @param request
+     *            role to add
+     * @return the added role
+     */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(
             cacheNames = { PermissionCaches.PERMISSION_SET, UserCaches.USER_ROLES, UserCaches.USER_AVAILABLE_ROLES },
             allEntries = true)
-    public UserRole add(@PathVariable("id") final long id, @Valid @RequestBody final ValidatedUserRoleAdd role) {
-        return service.addRole(id, role.getId());
+    public UserRole add(@PathVariable("id") final long userId, @Valid @RequestBody final UserRoleAddRequest request) {
+        return service.addRole(userId, request.getId());
     }
 
+    /**
+     * Returns all the user roles in a paginated form.
+     *
+     * @param userId
+     *            user id
+     * @param page
+     *            pagination to apply
+     * @return a page with the user roles
+     */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER_ROLES)
-    public Iterable<Role> readAll(@PathVariable("id") final long userId, final Pageable pageable) {
-        return service.getRoles(userId, pageable);
+    public Iterable<Role> readAll(@PathVariable("id") final long userId, final Pageable page) {
+        return service.getRoles(userId, page);
     }
 
+    /**
+     * Returns all the roles available to a user. That is, those which haven't been assigned to the role.
+     *
+     * @param userId
+     *            user id
+     * @param page
+     *            pagination to apply
+     * @return a page with the available roles
+     */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER_AVAILABLE_ROLES)
-    public Iterable<Role> readAvailable(@PathVariable("id") final long userId, final Pageable pageable) {
-        return service.getAvailableRoles(userId, pageable);
+    public Iterable<Role> readAvailable(@PathVariable("id") final long userId, final Pageable page) {
+        return service.getAvailableRoles(userId, page);
     }
 
+    /**
+     * Removes a role from a user.
+     *
+     * @param userId
+     *            user id
+     * @param roleId
+     *            role id
+     * @return removed role
+     */
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(

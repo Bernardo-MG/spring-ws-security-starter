@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedUserRoleAdd implements UserRoleAdd {
+public final class RoleCreateRequest implements RoleCreate {
 
     @NotNull
-    private Long id;
+    private String name;
 
 }

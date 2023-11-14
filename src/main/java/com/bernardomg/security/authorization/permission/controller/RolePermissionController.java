@@ -68,7 +68,7 @@ public class RolePermissionController {
     /**
      * Adds a permission to a role.
      *
-     * @param id
+     * @param roleId
      *            role id
      * @param permission
      *            permission to add
@@ -78,9 +78,9 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission add(@PathVariable("id") final long id,
+    public RolePermission add(@PathVariable("id") final long roleId,
             @Valid @RequestBody final PermissionCreateQuery permission) {
-        return service.addPermission(id, permission.getPermissionId());
+        return service.addPermission(roleId, permission.getPermissionId());
     }
 
     /**
@@ -90,7 +90,7 @@ public class RolePermissionController {
      *            role id
      * @param page
      *            pagination to apply
-     * @return a page for the permissions for the role
+     * @return a page with the permissions for the role
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
@@ -102,17 +102,17 @@ public class RolePermissionController {
     /**
      * Returns all the permissions available to a role. That is, those which haven't been assigned to the role.
      *
-     * @param id
+     * @param roleId
      *            role id
      * @param page
      *            pagination to apply
-     * @return the requested page
+     * @return a page with the available permissions
      */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_AVAILABLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAvailable(@PathVariable("id") final long id, final Pageable page) {
-        return service.getAvailablePermissions(id, page);
+    public Iterable<ResourcePermission> readAvailable(@PathVariable("id") final long roleId, final Pageable page) {
+        return service.getAvailablePermissions(roleId, page);
     }
 
     /**

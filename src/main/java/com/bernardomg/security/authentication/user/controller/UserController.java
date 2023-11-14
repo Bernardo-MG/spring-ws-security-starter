@@ -80,7 +80,7 @@ public class UserController {
     /**
      * Creates a user.
      *
-     * @param user
+     * @param request
      *            user to add
      * @return the new user
      */
@@ -89,8 +89,8 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User create(@Valid @RequestBody final UserRegisterRequest user) {
-        return userActivationService.registerNewUser(user);
+    public User create(@Valid @RequestBody final UserRegisterRequest request) {
+        return userActivationService.registerNewUser(request);
     }
 
     /**
@@ -144,7 +144,7 @@ public class UserController {
      *
      * @param id
      *            id of the user to update
-     * @param user
+     * @param request
      *            updated user data
      * @return the updated user
      */
@@ -152,8 +152,8 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User update(@PathVariable("id") final long id, @Valid @RequestBody final UserUpdateRequest user) {
-        return userQueryService.update(id, user);
+    public User update(@PathVariable("id") final long id, @Valid @RequestBody final UserUpdateRequest request) {
+        return userQueryService.update(id, request);
     }
 
 }

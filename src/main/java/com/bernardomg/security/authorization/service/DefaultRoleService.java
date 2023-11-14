@@ -61,15 +61,12 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Boolean delete(final long id) {
-
+    public final void delete(final long id) {
         log.debug("Deleting role {}", id);
 
         validatorDeleteRole.validate(id);
 
         roleRepository.deleteById(id);
-
-        return true;
     }
 
     @Override

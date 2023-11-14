@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.authorization.role.model.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class ValidatedRoleQuery implements RoleQuery {
+public final class UserRoleAddRequest implements UserRoleAdd {
 
-    private String name;
+    @NotNull
+    private Long id;
 
 }

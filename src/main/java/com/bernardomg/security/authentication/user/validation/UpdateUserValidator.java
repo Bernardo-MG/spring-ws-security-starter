@@ -33,6 +33,17 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Update user validation.
+ * <p>
+ * It applies the following rules:
+ * <ul>
+ * <li>The email is not registered</li>
+ * </ul>
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
 

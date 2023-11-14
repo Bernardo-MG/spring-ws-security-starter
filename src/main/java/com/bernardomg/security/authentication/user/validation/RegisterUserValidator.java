@@ -33,6 +33,18 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Register user validation.
+ * <p>
+ * It applies the following rules:
+ * <ul>
+ * <li>The username is not registered</li>
+ * <li>The email is not registered</li>
+ * </ul>
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class RegisterUserValidator extends AbstractValidator<UserRegister> {
 
@@ -48,7 +60,7 @@ public final class RegisterUserValidator extends AbstractValidator<UserRegister>
     protected final void checkRules(final UserRegister user, final Collection<FieldFailure> failures) {
         FieldFailure failure;
 
-        // Verify the username is not registered
+        // The username is not registered
         if (userRepository.existsByUsername(user.getUsername())) {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
@@ -57,7 +69,7 @@ public final class RegisterUserValidator extends AbstractValidator<UserRegister>
         }
 
         // TODO: Don't give hints about existing emails
-        // Verify the email is not registered
+        // The email is not registered
         if (userRepository.existsByEmail(user.getEmail())) {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
