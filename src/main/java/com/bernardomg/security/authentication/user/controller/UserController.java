@@ -113,8 +113,8 @@ public class UserController {
      * @param user
      *            query to filter users
      * @param page
-     *            pagination data
-     * @return the requested page
+     *            pagination to apply
+     * @return a page for the users matching the sample
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)

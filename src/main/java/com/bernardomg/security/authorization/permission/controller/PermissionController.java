@@ -61,8 +61,8 @@ public class PermissionController {
      * Returns all the permissions in a paginated form.
      *
      * @param page
-     *            pagination data
-     * @return the requested page
+     *            pagination to apply
+     * @return a page for the permissions
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")
@@ -72,7 +72,7 @@ public class PermissionController {
     }
 
     /**
-     * Reads a single user by its id.
+     * Reads a single permission by its id.
      *
      * @param id
      *            id of the permission to read

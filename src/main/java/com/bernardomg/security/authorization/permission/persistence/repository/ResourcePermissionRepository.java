@@ -22,52 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.model;
+package com.bernardomg.security.authorization.permission.persistence.repository;
 
-import java.io.Serializable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.bernardomg.security.authorization.permission.persistence.model.PersistentResourcePermission;
 
 /**
- * Dto implementation of {@code Action}.
+ * Repository for resource permissions.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "Permission")
-@Table(name = "permissions")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PersistentPermission implements Serializable {
+public interface ResourcePermissionRepository extends JpaRepository<PersistentResourcePermission, Long> {
 
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = -104825862522637053L;
+    @Query("SELECT p FROM Permission p WHERE p.id NOT IN (SELECT p.id FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId)")
+    public Page<PersistentResourcePermission> findAvailableToRole(@Param("roleId") final Long roleId,
+            final Pageable pageable);
 
-    @Column(name = "action", nullable = false)
-    private String            action;
-
-    /**
-     * Entity id.
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_resources_id")
-    @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
-
-    @Column(name = "resource", nullable = false)
-    private String            resource;
+    @Query("SELECT p FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
+    public Page<PersistentResourcePermission> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
 
 }

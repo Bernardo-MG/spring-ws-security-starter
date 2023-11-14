@@ -49,15 +49,16 @@ public interface UserQueryService {
     public void delete(final long userId);
 
     /**
-     * Returns all the users matching the sample. If the sample fields are empty, then all the users are returned.
+     * Returns all the users matching the sample in a paginated form. If the sample fields are empty, then all the users
+     * are returned.
      *
      * @param sample
      *            sample for filtering
-     * @param pageable
+     * @param page
      *            pagination to apply
-     * @return all the users matching the sample
+     * @return a page for the users matching the sample
      */
-    public Iterable<User> getAll(final UserQuery sample, final Pageable pageable);
+    public Iterable<User> getAll(final UserQuery sample, final Pageable page);
 
     /**
      * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

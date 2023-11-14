@@ -89,8 +89,8 @@ public class RolePermissionController {
      * @param id
      *            role id
      * @param page
-     *            pagination data
-     * @return the requested page
+     *            pagination to apply
+     * @return a page for the permissions for the role
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
@@ -105,7 +105,7 @@ public class RolePermissionController {
      * @param id
      *            role id
      * @param page
-     *            pagination data
+     *            pagination to apply
      * @return the requested page
      */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -128,7 +128,7 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("permission") final Long permission) {
+    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("permission") final long permission) {
         return service.removePermission(id, permission);
     }
 

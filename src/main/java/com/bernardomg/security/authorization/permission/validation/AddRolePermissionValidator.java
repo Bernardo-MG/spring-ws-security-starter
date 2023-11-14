@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.bernardomg.security.authorization.permission.persistence.repository.PermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
@@ -17,11 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class AddRolePermissionValidator implements Validator<RolePermission> {
 
-    private final PermissionRepository rolePermissionRepository;
+    private final ResourcePermissionRepository rolePermissionRepository;
 
-    private final RoleRepository       roleRepository;
+    private final RoleRepository               roleRepository;
 
-    public AddRolePermissionValidator(final RoleRepository roleRepo, final PermissionRepository rolePermissionRepo) {
+    public AddRolePermissionValidator(final RoleRepository roleRepo,
+            final ResourcePermissionRepository rolePermissionRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);

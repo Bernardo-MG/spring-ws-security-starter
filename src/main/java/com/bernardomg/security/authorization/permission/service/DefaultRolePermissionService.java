@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.security.authorization.permission.service;
 
@@ -8,9 +31,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentPermission;
+import com.bernardomg.security.authorization.permission.persistence.model.PersistentResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.authorization.permission.persistence.repository.PermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.validation.AddRolePermissionValidator;
 import com.bernardomg.security.authorization.permission.validation.RemoveRolePermissionValidator;
@@ -21,19 +44,25 @@ import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default role permissions service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class DefaultRolePermissionService implements RolePermissionService {
 
-    private final PermissionRepository      permissionRepository;
+    private final ResourcePermissionRepository permissionRepository;
 
-    private final RolePermissionRepository  rolePermissionRepository;
+    private final RolePermissionRepository     rolePermissionRepository;
 
-    private final Validator<RolePermission> validatorAddRolePermission;
+    private final Validator<RolePermission>    validatorAddRolePermission;
 
-    private final Validator<RolePermission> validatorRemoveRolePermission;
+    private final Validator<RolePermission>    validatorRemoveRolePermission;
 
-    public DefaultRolePermissionService(final RoleRepository roleRepo, final PermissionRepository permissionRepo,
-            final RolePermissionRepository rolePermissionRepo) {
+    public DefaultRolePermissionService(final RoleRepository roleRepo,
+            final ResourcePermissionRepository permissionRepo, final RolePermissionRepository rolePermissionRepo) {
         super();
 
         permissionRepository = Objects.requireNonNull(permissionRepo);
@@ -44,7 +73,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final RolePermission addPermission(final long roleId, final Long permission) {
+    public final RolePermission addPermission(final long roleId, final long permission) {
         final PersistentRolePermission rolePermissionSample;
         final RolePermission           rolePermission;
         final PersistentRolePermission created;
@@ -80,12 +109,12 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final RolePermission removePermission(final long roleId, final Long permission) {
-        final PersistentRolePermission       rolePermissionSample;
-        final RolePermission                 rolePermission;
-        final PersistentRolePermission       updated;
-        final Optional<PersistentPermission> read;
-        final RolePermission                 result;
+    public final RolePermission removePermission(final long roleId, final long permission) {
+        final PersistentRolePermission               rolePermissionSample;
+        final RolePermission                         rolePermission;
+        final PersistentRolePermission               updated;
+        final Optional<PersistentResourcePermission> read;
+        final RolePermission                         result;
 
         log.debug("Removing permission {} for role {}", permission, roleId);
 
@@ -122,7 +151,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .build();
     }
 
-    private final ResourcePermission toDto(final PersistentPermission entity) {
+    private final ResourcePermission toDto(final PersistentResourcePermission entity) {
         return ImmutableResourcePermission.builder()
             .id(entity.getId())
             .resource(entity.getResource())

@@ -22,28 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.repository;
+package com.bernardomg.security.authorization.permission.persistence.model;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import java.io.Serializable;
 
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentPermission;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Repository for action.
+ * Dto implementation of {@code Action}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PermissionRepository extends JpaRepository<PersistentPermission, Long> {
+@Entity(name = "Permission")
+@Table(name = "permissions")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PersistentResourcePermission implements Serializable {
 
-    @Query("SELECT p FROM Permission p WHERE p.id NOT IN (SELECT p.id FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId)")
-    public Page<PersistentPermission> findAvailableToRole(@Param("roleId") final Long roleId, final Pageable pageable);
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = -104825862522637053L;
 
-    @Query("SELECT p FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
-    public Page<PersistentPermission> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
+    @Column(name = "action", nullable = false)
+    private String            action;
+
+    /**
+     * Entity id.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_resources_id")
+    @Column(name = "id", nullable = false, unique = true)
+    private Long              id;
+
+    @Column(name = "resource", nullable = false)
+    private String            resource;
 
 }

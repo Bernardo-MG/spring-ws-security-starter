@@ -27,7 +27,7 @@ package com.bernardomg.security.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.permission.persistence.repository.PermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.DefaultPermissionService;
 import com.bernardomg.security.authorization.permission.service.DefaultRolePermissionService;
@@ -49,13 +49,13 @@ public class PermissionConfig {
     }
 
     @Bean("permissionService")
-    public PermissionService getPermissionService(final PermissionRepository repository) {
+    public PermissionService getPermissionService(final ResourcePermissionRepository repository) {
         return new DefaultPermissionService(repository);
     }
 
     @Bean("rolePermissionService")
     public RolePermissionService getRolePermissionService(final RoleRepository roleRepo,
-            final PermissionRepository permissionRepo, final RolePermissionRepository roleActionsRepo) {
+            final ResourcePermissionRepository permissionRepo, final RolePermissionRepository roleActionsRepo) {
         return new DefaultRolePermissionService(roleRepo, permissionRepo, roleActionsRepo);
     }
 
