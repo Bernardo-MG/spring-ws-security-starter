@@ -32,7 +32,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.user.token.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.exception.ExpiredTokenException;
@@ -112,12 +112,12 @@ public final class PersistentUserTokenStore implements UserTokenStore {
 
     @Override
     public final String createToken(final String username) {
-        final PersistentUserToken      persistentToken;
-        final LocalDateTime            creation;
-        final LocalDateTime            expiration;
-        final String                   tokenCode;
-        final Optional<PersistentUser> readUser;
-        final PersistentUser           user;
+        final PersistentUserToken  persistentToken;
+        final LocalDateTime        creation;
+        final LocalDateTime        expiration;
+        final String               tokenCode;
+        final Optional<UserEntity> readUser;
+        final UserEntity           user;
 
         readUser = userRepository.findOneByUsername(username);
         if (!readUser.isPresent()) {
@@ -164,8 +164,8 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     @Override
     public final void revokeExistingTokens(final String username) {
         final Collection<PersistentUserToken> notRevoked;
-        final Optional<PersistentUser>        readUser;
-        final PersistentUser                  user;
+        final Optional<UserEntity>            readUser;
+        final UserEntity                      user;
 
         readUser = userRepository.findOneByUsername(username);
         if (!readUser.isPresent()) {

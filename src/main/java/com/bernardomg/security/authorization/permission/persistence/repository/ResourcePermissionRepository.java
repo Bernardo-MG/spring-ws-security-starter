@@ -30,7 +30,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentResourcePermission;
+import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 
 /**
  * Repository for resource permissions.
@@ -38,13 +38,13 @@ import com.bernardomg.security.authorization.permission.persistence.model.Persis
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ResourcePermissionRepository extends JpaRepository<PersistentResourcePermission, Long> {
+public interface ResourcePermissionRepository extends JpaRepository<ResourcePermissionEntity, Long> {
 
     @Query("SELECT p FROM Permission p WHERE p.id NOT IN (SELECT p.id FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId)")
-    public Page<PersistentResourcePermission> findAvailableToRole(@Param("roleId") final Long roleId,
+    public Page<ResourcePermissionEntity> findAvailableToRole(@Param("roleId") final Long roleId,
             final Pageable pageable);
 
     @Query("SELECT p FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
-    public Page<PersistentResourcePermission> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
+    public Page<ResourcePermissionEntity> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
 
 }

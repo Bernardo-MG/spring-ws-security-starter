@@ -52,7 +52,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentAction implements Serializable {
+public class ActionEntity implements Serializable {
 
     /**
      * Serialization id.

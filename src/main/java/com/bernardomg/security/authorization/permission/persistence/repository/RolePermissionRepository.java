@@ -26,7 +26,7 @@ package com.bernardomg.security.authorization.permission.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionKey;
 
 /**
@@ -35,7 +35,7 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RolePermissionRepository extends JpaRepository<PersistentRolePermission, RolePermissionKey> {
+public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
 
     public void deleteAllByRoleId(final Long id);
 

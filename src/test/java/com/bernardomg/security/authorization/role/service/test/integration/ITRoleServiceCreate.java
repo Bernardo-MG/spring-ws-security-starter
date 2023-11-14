@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleCreate;
-import com.bernardomg.security.authorization.role.persistence.model.PersistentRole;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.util.model.RolesCreate;
 import com.bernardomg.security.authorization.service.RoleService;
@@ -46,8 +46,8 @@ class ITRoleServiceCreate {
     @Test
     @DisplayName("Persists the data")
     void testCreate_PersistedData() {
-        final RoleCreate     data;
-        final PersistentRole entity;
+        final RoleCreate data;
+        final RoleEntity entity;
 
         data = RolesCreate.valid();
 

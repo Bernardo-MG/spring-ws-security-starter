@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
@@ -76,7 +76,7 @@ class ITFullNewUserRegisterProcess {
     void testNewUser_Valid() {
         final UserTokenStatus validTokenStatus;
         final String          token;
-        final PersistentUser  user;
+        final UserEntity      user;
         final UserRegister    newUser;
 
         // TODO: Set authentication to admin

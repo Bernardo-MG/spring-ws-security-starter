@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.authorization.permission.persistence.model.UserGrantedPermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -86,15 +86,15 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     }
 
     private final Map<String, List<String>> getPermissionsMap(final String username) {
-        Function<PersistentUserGrantedPermission, String> resourceMapper;
-        Function<PersistentUserGrantedPermission, String> actionMapper;
+        Function<UserGrantedPermissionEntity, String> resourceMapper;
+        Function<UserGrantedPermissionEntity, String> actionMapper;
 
         // Resource name in lower case
-        resourceMapper = PersistentUserGrantedPermission::getResource;
+        resourceMapper = UserGrantedPermissionEntity::getResource;
         resourceMapper = resourceMapper.andThen(String::toLowerCase);
 
         // Action name in lower case
-        actionMapper = PersistentUserGrantedPermission::getAction;
+        actionMapper = UserGrantedPermissionEntity::getAction;
         actionMapper = actionMapper.andThen(String::toLowerCase);
 
         // Transform into a map, with the resource as key, and the list of actions as value

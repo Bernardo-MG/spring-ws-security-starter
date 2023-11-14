@@ -14,7 +14,7 @@ import com.bernardomg.security.authentication.user.exception.DisabledUserExcepti
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.password.exception.InvalidPasswordChangeException;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -52,10 +52,10 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
-        final PersistentUser user;
-        final String         encodedPassword;
-        final String         username;
-        final UserDetails    userDetails;
+        final UserEntity  user;
+        final String      encodedPassword;
+        final String      username;
+        final UserDetails userDetails;
 
         username = getCurrentUsername();
 
@@ -114,8 +114,8 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         return auth.getName();
     }
 
-    private final PersistentUser getUser(final String username) {
-        final Optional<PersistentUser> user;
+    private final UserEntity getUser(final String username) {
+        final Optional<UserEntity> user;
 
         user = repository.findOneByUsername(username);
 

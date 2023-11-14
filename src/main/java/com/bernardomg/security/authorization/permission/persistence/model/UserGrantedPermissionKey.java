@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * User permission granted key.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */

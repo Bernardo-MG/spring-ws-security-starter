@@ -26,7 +26,7 @@ package com.bernardomg.security.authorization.role.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.role.persistence.model.PersistentUserRole;
+import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleKey;
 
 /**
@@ -35,7 +35,7 @@ import com.bernardomg.security.authorization.role.persistence.model.UserRoleKey;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserRoleRepository extends JpaRepository<PersistentUserRole, UserRoleKey> {
+public interface UserRoleRepository extends JpaRepository<UserRoleEntity, UserRoleKey> {
 
     public void deleteAllByUserId(final Long userId);
 

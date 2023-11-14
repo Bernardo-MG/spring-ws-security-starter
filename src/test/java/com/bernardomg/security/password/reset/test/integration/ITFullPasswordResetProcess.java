@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
@@ -44,7 +44,7 @@ class ITFullPasswordResetProcess {
     void testResetPassword() {
         final UserTokenStatus validTokenStatus;
         final String          token;
-        final PersistentUser  user;
+        final UserEntity      user;
 
         // Start password reset
         service.startPasswordReset(Users.EMAIL);

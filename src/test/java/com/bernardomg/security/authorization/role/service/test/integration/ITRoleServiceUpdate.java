@@ -32,7 +32,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
-import com.bernardomg.security.authorization.role.persistence.model.PersistentRole;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.util.model.RolesUpdate;
 import com.bernardomg.security.authorization.service.RoleService;
@@ -71,8 +71,8 @@ class ITRoleServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     void testUpdate_PersistedData() {
-        final RoleUpdate     data;
-        final PersistentRole entity;
+        final RoleUpdate data;
+        final RoleEntity entity;
 
         data = RolesUpdate.valid();
 

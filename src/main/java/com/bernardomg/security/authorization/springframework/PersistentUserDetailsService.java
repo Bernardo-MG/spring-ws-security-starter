@@ -37,9 +37,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.authorization.permission.persistence.model.UserGrantedPermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -97,7 +97,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
     @Override
     public final UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final Optional<PersistentUser>               user;
+        final Optional<UserEntity>                   user;
         final Collection<? extends GrantedAuthority> authorities;
         final UserDetails                            details;
 
@@ -134,7 +134,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @return all the authorities for the user
      */
     private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
-        final Function<PersistentUserGrantedPermission, ResourceActionGrantedAuthority> toAuthority;
+        final Function<UserGrantedPermissionEntity, ResourceActionGrantedAuthority> toAuthority;
 
         // Maps a persistent permission to an authority
         toAuthority = p -> ResourceActionGrantedAuthority.builder()
@@ -158,7 +158,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            authorities for the user details
      * @return equivalent user details
      */
-    private final UserDetails toUserDetails(final PersistentUser user,
+    private final UserDetails toUserDetails(final UserEntity user,
             final Collection<? extends GrantedAuthority> authorities) {
         final Boolean enabled;
         final Boolean accountNonExpired;

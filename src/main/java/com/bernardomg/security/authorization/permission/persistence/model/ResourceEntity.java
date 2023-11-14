@@ -28,43 +28,49 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import jakarta.persistence.TableGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Role entity.
+ * Resource entity.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "RolePermission")
-@Table(name = "role_permissions")
-@IdClass(RolePermissionKey.class)
+@Entity(name = "Resource")
+@Table(name = "resources")
+@TableGenerator(name = "seq_resources_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
+        allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentRolePermission implements Serializable {
+public class ResourceEntity implements Serializable {
 
     /**
      * Serialization id.
      */
     private static final long serialVersionUID = 8513041662486312372L;
 
-    @Column(name = "granted", nullable = false)
-    private Boolean           granted;
-
+    /**
+     * Entity id.
+     */
     @Id
-    @Column(name = "permission_id", nullable = false)
-    private Long              permissionId;
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_resources_id")
+    @Column(name = "id", nullable = false, unique = true)
+    private Long              id;
 
-    @Id
-    @Column(name = "role_id", nullable = false)
-    private Long              roleId;
+    /**
+     * Action name.
+     */
+    @Column(name = "name", nullable = false, unique = true, length = 60)
+    private String            name;
 
 }

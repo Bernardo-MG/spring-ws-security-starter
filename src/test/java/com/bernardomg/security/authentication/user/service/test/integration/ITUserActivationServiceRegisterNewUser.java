@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
@@ -49,8 +49,8 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Persists the data, ignoring case")
     void testRegisterNewUser_Case_PersistedData() {
-        final UserRegister   user;
-        final PersistentUser entity;
+        final UserRegister user;
+        final UserEntity   entity;
 
         user = UserRegisterRequests.valid(Users.USERNAME.toUpperCase(), Users.EMAIL.toUpperCase());
 
@@ -84,8 +84,8 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
     void testRegisterNewUser_Padded_PersistedData() {
-        final UserRegister   user;
-        final PersistentUser entity;
+        final UserRegister user;
+        final UserEntity   entity;
 
         user = UserRegisterRequests.paddedWithWhitespaces();
 
@@ -94,7 +94,7 @@ class ITUserActivationServiceRegisterNewUser {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+        UserAssertions.isEqualTo(entity, UserEntity.builder()
             .username(Users.USERNAME)
             .name(Users.NAME)
             .email(Users.EMAIL)
@@ -109,8 +109,8 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Persists the data")
     void testRegisterNewUser_PersistedData() {
-        final UserRegister   user;
-        final PersistentUser entity;
+        final UserRegister user;
+        final UserEntity   entity;
 
         user = UserRegisterRequests.valid();
 
@@ -119,7 +119,7 @@ class ITUserActivationServiceRegisterNewUser {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+        UserAssertions.isEqualTo(entity, UserEntity.builder()
             .username(Users.USERNAME)
             .name(Users.NAME)
             .email(Users.EMAIL)

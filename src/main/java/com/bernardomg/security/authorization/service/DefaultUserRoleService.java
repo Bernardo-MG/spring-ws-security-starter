@@ -9,7 +9,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authorization.role.model.DtoUserRole;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
-import com.bernardomg.security.authorization.role.persistence.model.PersistentUserRole;
+import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.validation.AddUserRoleValidator;
@@ -41,9 +41,9 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     @Override
     public final UserRole addRole(final long userId, final long roleId) {
-        final PersistentUserRole userRoleSample;
-        final UserRole           userRole;
-        final PersistentUserRole created;
+        final UserRoleEntity userRoleSample;
+        final UserRole       userRole;
+        final UserRoleEntity created;
 
         log.debug("Adding role {} to user {}", roleId, userId);
 
@@ -75,8 +75,8 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     @Override
     public final UserRole removeRole(final long userId, final long roleId) {
-        final PersistentUserRole userRoleSample;
-        final UserRole           userRole;
+        final UserRoleEntity userRoleSample;
+        final UserRole       userRole;
 
         log.debug("Removing role {} from user {}", roleId, userId);
 
@@ -94,14 +94,14 @@ public final class DefaultUserRoleService implements UserRoleService {
         return toDto(userRoleSample);
     }
 
-    private final PersistentUserRole getUserRoleSample(final long user, final long role) {
-        return PersistentUserRole.builder()
+    private final UserRoleEntity getUserRoleSample(final long user, final long role) {
+        return UserRoleEntity.builder()
             .userId(user)
             .roleId(role)
             .build();
     }
 
-    private final UserRole toDto(final PersistentUserRole role) {
+    private final UserRole toDto(final UserRoleEntity role) {
         return DtoUserRole.builder()
             .roleId(role.getRoleId())
             .userId(role.getUserId())

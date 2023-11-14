@@ -26,7 +26,7 @@ package com.bernardomg.security.authorization.permission.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentResource;
+import com.bernardomg.security.authorization.permission.persistence.model.ResourceEntity;
 
 /**
  * Repository for resources.
@@ -34,6 +34,6 @@ import com.bernardomg.security.authorization.permission.persistence.model.Persis
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ResourceRepository extends JpaRepository<PersistentResource, Long> {
+public interface ResourceRepository extends JpaRepository<ResourceEntity, Long> {
 
 }

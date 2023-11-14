@@ -53,7 +53,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentUser implements Serializable {
+public class UserEntity implements Serializable {
 
     /**
      * Serialization id.

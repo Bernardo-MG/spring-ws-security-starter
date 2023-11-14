@@ -31,7 +31,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.persistence.model.PersistentRole;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 
 /**
  * Repository for action.
@@ -39,7 +39,7 @@ import com.bernardomg.security.authorization.role.persistence.model.PersistentRo
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RoleRepository extends JpaRepository<PersistentRole, Long> {
+public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 
     public boolean existsByName(final String name);
 

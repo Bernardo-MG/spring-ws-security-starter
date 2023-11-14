@@ -26,7 +26,7 @@ package com.bernardomg.security.authorization.permission.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentRoleGrantedPermission;
+import com.bernardomg.security.authorization.permission.persistence.model.RoleGrantedPermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.model.RoleGrantedPermissionKey;
 
 /**
@@ -36,6 +36,6 @@ import com.bernardomg.security.authorization.permission.persistence.model.RoleGr
  *
  */
 public interface RoleGrantedPermissionRepository
-        extends JpaRepository<PersistentRoleGrantedPermission, RoleGrantedPermissionKey> {
+        extends JpaRepository<RoleGrantedPermissionEntity, RoleGrantedPermissionKey> {
 
 }

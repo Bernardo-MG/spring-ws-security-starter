@@ -22,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
@@ -59,10 +59,10 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
     @BeforeEach
     void initializeUser() {
-        final PersistentUser user;
-        final UserDetails    details;
+        final UserEntity  user;
+        final UserDetails details;
 
-        user = PersistentUser.builder()
+        user = UserEntity.builder()
             .username("admin")
             .email("email@somewhere.com")
             .build();

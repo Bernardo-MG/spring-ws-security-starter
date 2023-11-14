@@ -28,7 +28,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 
 /**
  * Repository for users.
@@ -36,7 +36,7 @@ import com.bernardomg.security.authentication.user.persistence.model.PersistentU
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserRepository extends JpaRepository<PersistentUser, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     /**
      * Returns whether an user with the given email exists.
@@ -74,7 +74,7 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      *            email to search for
      * @return the user details for the received email
      */
-    public Optional<PersistentUser> findOneByEmail(final String email);
+    public Optional<UserEntity> findOneByEmail(final String email);
 
     /**
      * Returns the user for the received username.
@@ -83,6 +83,6 @@ public interface UserRepository extends JpaRepository<PersistentUser, Long> {
      *            username to search for
      * @return the user details for the received username
      */
-    public Optional<PersistentUser> findOneByUsername(final String username);
+    public Optional<UserEntity> findOneByUsername(final String username);
 
 }

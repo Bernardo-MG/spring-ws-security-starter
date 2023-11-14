@@ -36,7 +36,7 @@ import com.bernardomg.security.authentication.user.exception.UserNotFoundExcepti
 import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.RegisterUserValidator;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
@@ -96,9 +96,9 @@ public final class DefaultUserActivationService implements UserActivationService
 
     @Override
     public final User activateUser(final String token, final String password) {
-        final String         username;
-        final PersistentUser user;
-        final String         encodedPassword;
+        final String     username;
+        final UserEntity user;
+        final String     encodedPassword;
 
         // Validate token
         tokenStore.validate(token);
@@ -127,9 +127,9 @@ public final class DefaultUserActivationService implements UserActivationService
 
     @Override
     public final User registerNewUser(final UserRegister user) {
-        final PersistentUser userEntity;
-        final PersistentUser created;
-        final String         token;
+        final UserEntity userEntity;
+        final UserEntity created;
+        final String     token;
 
         log.debug("Registering new user {} with email {}", user.getUsername(), user.getEmail());
 
@@ -196,8 +196,8 @@ public final class DefaultUserActivationService implements UserActivationService
             .build();
     }
 
-    private final PersistentUser getUserByUsername(final String username) {
-        final Optional<PersistentUser> user;
+    private final UserEntity getUserByUsername(final String username) {
+        final Optional<UserEntity> user;
 
         user = userRepository.findOneByUsername(username);
 
@@ -210,7 +210,7 @@ public final class DefaultUserActivationService implements UserActivationService
         return user.get();
     }
 
-    private final User toDto(final PersistentUser user) {
+    private final User toDto(final UserEntity user) {
         return ImmutableUser.builder()
             .id(user.getId())
             .username(user.getUsername())
@@ -223,8 +223,8 @@ public final class DefaultUserActivationService implements UserActivationService
             .build();
     }
 
-    private final PersistentUser toEntity(final UserRegister user) {
-        return PersistentUser.builder()
+    private final UserEntity toEntity(final UserRegister user) {
+        return UserEntity.builder()
             .username(user.getUsername())
             .name(user.getName())
             .email(user.getEmail())
@@ -237,7 +237,7 @@ public final class DefaultUserActivationService implements UserActivationService
      * @param user
      *            user to activate
      */
-    private final void validateActivation(final PersistentUser user) {
+    private final void validateActivation(final UserEntity user) {
         if (Boolean.TRUE.equals(user.getExpired())) {
             log.error("Can't activate new user. User {} is expired", user.getUsername());
             throw new ExpiredUserException(user.getUsername());

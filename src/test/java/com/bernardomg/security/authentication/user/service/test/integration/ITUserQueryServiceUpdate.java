@@ -34,7 +34,7 @@ import com.bernardomg.security.authentication.user.exception.MissingUserIdExcept
 import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
@@ -77,8 +77,8 @@ class ITUserQueryServiceUpdate {
     @DisplayName("Updates persisted data, ignoring case")
     @ValidUser
     void testUpdate_Case_PersistedData() {
-        final UserUpdate     user;
-        final PersistentUser entity;
+        final UserUpdate user;
+        final UserEntity entity;
 
         user = UserUpdateRequests.emailChangeUpperCase();
 
@@ -110,8 +110,8 @@ class ITUserQueryServiceUpdate {
     @DisplayName("Can disable a user when updating")
     @ValidUser
     void testUpdate_Disable_PersistedData() {
-        final UserUpdate     user;
-        final PersistentUser entity;
+        final UserUpdate user;
+        final UserEntity entity;
 
         user = UserUpdateRequests.disabled();
 
@@ -120,7 +120,7 @@ class ITUserQueryServiceUpdate {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+        UserAssertions.isEqualTo(entity, UserEntity.builder()
             .username(Users.USERNAME)
             .name(Users.NAME)
             .email(Users.EMAIL)
@@ -136,8 +136,8 @@ class ITUserQueryServiceUpdate {
     @DisplayName("Can expire a user's password when updating")
     @ValidUser
     void testUpdate_ExpiredPassword_PersistedData() {
-        final UserUpdate     user;
-        final PersistentUser entity;
+        final UserUpdate user;
+        final UserEntity entity;
 
         user = UserUpdateRequests.passwordExpired();
 
@@ -146,7 +146,7 @@ class ITUserQueryServiceUpdate {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+        UserAssertions.isEqualTo(entity, UserEntity.builder()
             .username(Users.USERNAME)
             .name(Users.NAME)
             .email(Users.EMAIL)
@@ -176,8 +176,8 @@ class ITUserQueryServiceUpdate {
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
     @ValidUser
     void testUpdate_Padded_PersistedData() {
-        final UserUpdate     user;
-        final PersistentUser entity;
+        final UserUpdate user;
+        final UserEntity entity;
 
         user = UserUpdateRequests.paddedWithWhitespaces();
 
@@ -194,8 +194,8 @@ class ITUserQueryServiceUpdate {
     @DisplayName("Updates persisted data")
     @ValidUser
     void testUpdate_PersistedData() {
-        final UserUpdate     user;
-        final PersistentUser entity;
+        final UserUpdate user;
+        final UserEntity entity;
 
         user = UserUpdateRequests.emailChange();
 
@@ -204,7 +204,7 @@ class ITUserQueryServiceUpdate {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, PersistentUser.builder()
+        UserAssertions.isEqualTo(entity, UserEntity.builder()
             .username(Users.USERNAME)
             .name(Users.NAME)
             .email(Users.ALTERNATIVE_EMAIL)

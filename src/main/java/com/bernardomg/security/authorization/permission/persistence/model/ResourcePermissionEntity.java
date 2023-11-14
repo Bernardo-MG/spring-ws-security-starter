@@ -49,7 +49,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PersistentResourcePermission implements Serializable {
+public class ResourcePermissionEntity implements Serializable {
 
     /**
      * Serialization id.

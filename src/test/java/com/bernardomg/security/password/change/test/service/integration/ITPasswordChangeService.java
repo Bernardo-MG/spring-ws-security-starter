@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
@@ -36,7 +36,7 @@ class ITPasswordChangeService {
     @DisplayName("Changing password with an existing user changes the password")
     @ValidUser
     void testChangePassword_Existing_Changed() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.changePasswordForUserInSession("1234", "abc");
 
@@ -54,7 +54,7 @@ class ITPasswordChangeService {
     @DisplayName("Changing password with a user with expired password resets the flag")
     @ExpiredPasswordUser
     void testChangePassword_ExpiredPassword() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.changePasswordForUserInSession("1234", "abc");
 
@@ -87,7 +87,7 @@ class ITPasswordChangeService {
     @DisplayName("Changing password with an existing user changes the password")
     @ValidUser
     void testChangePassword_Long_Changed() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.changePasswordForUserInSession("1234",
             "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");

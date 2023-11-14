@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
-import com.bernardomg.security.authorization.role.persistence.model.PersistentUserRole;
+import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.service.UserRoleService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -35,7 +35,7 @@ class ITUserRoleServiceAddRole {
     @DisplayName("Adds an entity when adding a role")
     @ValidUser
     void testAddRole_AddsEntity() {
-        final PersistentUserRole entity;
+        final UserRoleEntity entity;
 
         service.addRole(1L, 1L);
 

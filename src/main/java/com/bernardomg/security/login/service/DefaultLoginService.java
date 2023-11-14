@@ -30,7 +30,7 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
@@ -103,10 +103,10 @@ public final class DefaultLoginService implements LoginService {
     }
 
     private final LoginRequest loadLoginName(final LoginRequest login) {
-        final Matcher                  emailMatcher;
-        final Optional<PersistentUser> readUser;
-        final LoginRequest             validLogin;
-        final String                   username;
+        final Matcher              emailMatcher;
+        final Optional<UserEntity> readUser;
+        final LoginRequest         validLogin;
+        final String               username;
 
         username = login.getUsername()
             .toLowerCase();

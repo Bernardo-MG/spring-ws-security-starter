@@ -25,7 +25,7 @@ import com.bernardomg.security.authentication.user.exception.DisabledUserExcepti
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
@@ -114,9 +114,9 @@ class TestPasswordChangeServiceAuth {
     }
 
     private final void loadPersistentUser() {
-        final PersistentUser user;
+        final UserEntity user;
 
-        user = new PersistentUser();
+        user = new UserEntity();
         user.setEmail("email@somewhere.com");
         user.setUsername(Users.USERNAME);
         user.setPassword(Users.PASSWORD);

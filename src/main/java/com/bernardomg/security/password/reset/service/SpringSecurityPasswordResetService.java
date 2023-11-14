@@ -35,7 +35,7 @@ import com.bernardomg.security.authentication.user.exception.DisabledUserExcepti
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.exception.InvalidTokenException;
@@ -108,9 +108,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     @Override
     @Transactional
     public final void changePassword(final String token, final String password) {
-        final String         username;
-        final PersistentUser user;
-        final String         encodedPassword;
+        final String     username;
+        final UserEntity user;
+        final String     encodedPassword;
 
         tokenStore.validate(token);
 
@@ -134,8 +134,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final void startPasswordReset(final String email) {
-        final PersistentUser user;
-        final String         token;
+        final UserEntity user;
+        final String     token;
 
         log.debug("Requested password recovery for {}", email);
 
@@ -209,8 +209,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         }
     }
 
-    private final PersistentUser getUserByEmail(final String email) {
-        final Optional<PersistentUser> user;
+    private final UserEntity getUserByEmail(final String email) {
+        final Optional<UserEntity> user;
 
         user = userRepository.findOneByEmail(email);
 
@@ -223,8 +223,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         return user.get();
     }
 
-    private final PersistentUser getUserByUsername(final String username) {
-        final Optional<PersistentUser> user;
+    private final UserEntity getUserByUsername(final String username) {
+        final Optional<UserEntity> user;
 
         user = userRepository.findOneByUsername(username);
 

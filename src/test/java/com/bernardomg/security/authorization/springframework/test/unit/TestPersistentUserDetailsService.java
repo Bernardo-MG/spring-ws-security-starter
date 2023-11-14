@@ -17,11 +17,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.PersistentUsers;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
+import com.bernardomg.security.authorization.permission.persistence.model.UserGrantedPermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
@@ -42,8 +42,8 @@ class TestPersistentUserDetailsService {
         super();
     }
 
-    private final PersistentUserGrantedPermission getPersistentPermission() {
-        return PersistentUserGrantedPermission.builder()
+    private final UserGrantedPermissionEntity getPersistentPermission() {
+        return UserGrantedPermissionEntity.builder()
             .resource("resource")
             .action("action")
             .build();
@@ -52,8 +52,8 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is disabled it is returned")
     void testLoadByUsername_Disabled() {
-        final UserDetails    userDetails;
-        final PersistentUser user;
+        final UserDetails userDetails;
+        final UserEntity  user;
 
         user = PersistentUsers.disabled();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
@@ -98,8 +98,8 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is enabled it is returned")
     void testLoadByUsername_Enabled() {
-        final UserDetails    userDetails;
-        final PersistentUser user;
+        final UserDetails userDetails;
+        final UserEntity  user;
 
         user = PersistentUsers.enabled();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
@@ -144,8 +144,8 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is expired it is returned")
     void testLoadByUsername_Expired() {
-        final UserDetails    userDetails;
-        final PersistentUser user;
+        final UserDetails userDetails;
+        final UserEntity  user;
 
         user = PersistentUsers.expired();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
@@ -190,8 +190,8 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is locked it is returned")
     void testLoadByUsername_Locked() {
-        final UserDetails    userDetails;
-        final PersistentUser user;
+        final UserDetails userDetails;
+        final UserEntity  user;
 
         user = PersistentUsers.locked();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
@@ -253,8 +253,8 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user has the password expired it is returned")
     void testLoadByUsername_PasswordExpired() {
-        final UserDetails    userDetails;
-        final PersistentUser user;
+        final UserDetails userDetails;
+        final UserEntity  user;
 
         user = PersistentUsers.passwordExpired();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));

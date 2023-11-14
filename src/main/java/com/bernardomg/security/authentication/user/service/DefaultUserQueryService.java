@@ -35,7 +35,7 @@ import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.UpdateUserValidator;
 import com.bernardomg.validation.Validator;
@@ -83,7 +83,7 @@ public final class DefaultUserQueryService implements UserQueryService {
 
     @Override
     public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
-        final PersistentUser entity;
+        final UserEntity entity;
 
         log.debug("Reading users with sample {} and pagination {}", sample, pageable);
 
@@ -117,10 +117,10 @@ public final class DefaultUserQueryService implements UserQueryService {
 
     @Override
     public final User update(final long id, final UserUpdate user) {
-        final PersistentUser           userEntity;
-        final PersistentUser           created;
-        final Optional<PersistentUser> oldRead;
-        final PersistentUser           old;
+        final UserEntity           userEntity;
+        final UserEntity           created;
+        final Optional<UserEntity> oldRead;
+        final UserEntity           old;
 
         log.debug("Updating user with id {} using data {}", id, user);
 
@@ -162,7 +162,7 @@ public final class DefaultUserQueryService implements UserQueryService {
         return toDto(created);
     }
 
-    private final User toDto(final PersistentUser user) {
+    private final User toDto(final UserEntity user) {
         return ImmutableUser.builder()
             .id(user.getId())
             .username(user.getUsername())
@@ -175,8 +175,8 @@ public final class DefaultUserQueryService implements UserQueryService {
             .build();
     }
 
-    private final PersistentUser toEntity(final UserQuery user) {
-        return PersistentUser.builder()
+    private final UserEntity toEntity(final UserQuery user) {
+        return UserEntity.builder()
             .username(user.getUsername())
             .name(user.getName())
             .email(user.getEmail())
@@ -187,8 +187,8 @@ public final class DefaultUserQueryService implements UserQueryService {
             .build();
     }
 
-    private final PersistentUser toEntity(final UserUpdate user) {
-        return PersistentUser.builder()
+    private final UserEntity toEntity(final UserUpdate user) {
+        return UserEntity.builder()
             .id(user.getId())
             .name(user.getName())
             .email(user.getEmail())

@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
@@ -78,9 +78,9 @@ class TestDefaultLoginServiceToken {
     }
 
     private final void loadUser() {
-        final PersistentUser persistentUser;
+        final UserEntity persistentUser;
 
-        persistentUser = new PersistentUser();
+        persistentUser = new UserEntity();
         persistentUser.setId(1l);
         persistentUser.setUsername(Users.USERNAME);
         persistentUser.setPassword(Users.EMAIL);

@@ -26,7 +26,7 @@ package com.bernardomg.security.authorization.permission.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentAction;
+import com.bernardomg.security.authorization.permission.persistence.model.ActionEntity;
 
 /**
  * Repository for action.
@@ -34,6 +34,6 @@ import com.bernardomg.security.authorization.permission.persistence.model.Persis
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ActionRepository extends JpaRepository<PersistentAction, Long> {
+public interface ActionRepository extends JpaRepository<ActionEntity, Long> {
 
 }

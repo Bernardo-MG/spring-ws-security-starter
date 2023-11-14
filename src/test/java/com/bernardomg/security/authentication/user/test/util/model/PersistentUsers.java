@@ -1,12 +1,12 @@
 
 package com.bernardomg.security.authentication.user.test.util.model;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 
 public final class PersistentUsers {
 
-    public static final PersistentUser disabled() {
-        return PersistentUser.builder()
+    public static final UserEntity disabled() {
+        return UserEntity.builder()
             .id(1L)
             .name(Users.NAME)
             .username(Users.USERNAME)
@@ -19,8 +19,8 @@ public final class PersistentUsers {
             .build();
     }
 
-    public static final PersistentUser enabled() {
-        return PersistentUser.builder()
+    public static final UserEntity enabled() {
+        return UserEntity.builder()
             .id(1L)
             .name(Users.NAME)
             .username(Users.USERNAME)
@@ -33,8 +33,8 @@ public final class PersistentUsers {
             .build();
     }
 
-    public static final PersistentUser expired() {
-        return PersistentUser.builder()
+    public static final UserEntity expired() {
+        return UserEntity.builder()
             .id(1L)
             .name(Users.NAME)
             .username(Users.USERNAME)
@@ -47,8 +47,8 @@ public final class PersistentUsers {
             .build();
     }
 
-    public static final PersistentUser locked() {
-        return PersistentUser.builder()
+    public static final UserEntity locked() {
+        return UserEntity.builder()
             .id(1L)
             .name(Users.NAME)
             .username(Users.USERNAME)
@@ -61,8 +61,8 @@ public final class PersistentUsers {
             .build();
     }
 
-    public static final PersistentUser passwordExpired() {
-        return PersistentUser.builder()
+    public static final UserEntity passwordExpired() {
+        return UserEntity.builder()
             .id(1L)
             .name(Users.NAME)
             .username(Users.USERNAME)

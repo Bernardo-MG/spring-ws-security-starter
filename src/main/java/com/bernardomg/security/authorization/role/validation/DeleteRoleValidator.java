@@ -29,7 +29,7 @@ import java.util.Collection;
 
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.authorization.role.persistence.model.PersistentUserRole;
+import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.validation.Validator;
@@ -56,7 +56,7 @@ public final class DeleteRoleValidator implements Validator<Long> {
     public final void validate(final Long id) {
         final Collection<FieldFailure> failures;
         FieldFailure                   failure;
-        final PersistentUserRole       sample;
+        final UserRoleEntity           sample;
 
         failures = new ArrayList<>();
 
@@ -68,7 +68,7 @@ public final class DeleteRoleValidator implements Validator<Long> {
             failures.add(failure);
         }
 
-        sample = PersistentUserRole.builder()
+        sample = UserRoleEntity.builder()
             .roleId(id)
             .build();
 

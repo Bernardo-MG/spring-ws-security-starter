@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.NewlyCreated;
@@ -60,7 +60,7 @@ class ITUserActivationServiceEnableNewUser {
     @NewlyCreated
     @UserRegisteredUserToken
     void testActivateUser_Enabled() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.activateUser(UserTokenConstants.TOKEN, "1234");
 
@@ -76,7 +76,7 @@ class ITUserActivationServiceEnableNewUser {
     @NewlyCreated
     @UserRegisteredUserToken
     void testActivateUser_Password() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.activateUser(UserTokenConstants.TOKEN, "1234");
 
@@ -92,7 +92,7 @@ class ITUserActivationServiceEnableNewUser {
     @NewlyCreated
     @UserRegisteredUserToken
     void testActivateUser_PasswordReset() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.activateUser(UserTokenConstants.TOKEN, "1234");
 

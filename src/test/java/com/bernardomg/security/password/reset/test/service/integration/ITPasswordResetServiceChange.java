@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
@@ -38,7 +38,7 @@ class ITPasswordResetServiceChange {
     @ValidUser
     @PasswordResetUserToken
     void testChangePassword_Changed() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.changePassword(UserTokenConstants.TOKEN, "abc");
 
@@ -73,7 +73,7 @@ class ITPasswordResetServiceChange {
     @ExpiredPasswordUser
     @PasswordResetUserToken
     void testChangePassword_ExpiredPassword() {
-        final PersistentUser user;
+        final UserEntity user;
 
         service.changePassword(UserTokenConstants.TOKEN, "abc");
 

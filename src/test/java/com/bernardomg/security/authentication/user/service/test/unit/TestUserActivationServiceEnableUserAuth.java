@@ -24,7 +24,7 @@ import com.bernardomg.security.authentication.user.exception.EnabledUserExceptio
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
@@ -61,9 +61,9 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     private final void loadCredentialsExpiredUser() {
-        final PersistentUser user;
+        final UserEntity user;
 
-        user = new PersistentUser();
+        user = new UserEntity();
         user.setEmail(Users.EMAIL);
         user.setUsername(Users.USERNAME);
         user.setPassword(Users.PASSWORD);
@@ -76,9 +76,9 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     private final void loadDisabledUser() {
-        final PersistentUser user;
+        final UserEntity user;
 
-        user = new PersistentUser();
+        user = new UserEntity();
         user.setEmail(Users.EMAIL);
         user.setUsername(Users.USERNAME);
         user.setPassword(Users.PASSWORD);
@@ -91,9 +91,9 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     private final void loadEnabledUser() {
-        final PersistentUser user;
+        final UserEntity user;
 
-        user = new PersistentUser();
+        user = new UserEntity();
         user.setEmail(Users.EMAIL);
         user.setUsername(Users.USERNAME);
         user.setPassword(Users.PASSWORD);
@@ -106,9 +106,9 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     private final void loadExpiredUser() {
-        final PersistentUser user;
+        final UserEntity user;
 
-        user = new PersistentUser();
+        user = new UserEntity();
         user.setEmail(Users.EMAIL);
         user.setUsername(Users.USERNAME);
         user.setPassword(Users.PASSWORD);
@@ -121,9 +121,9 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     private final void loadLockedUser() {
-        final PersistentUser user;
+        final UserEntity user;
 
-        user = new PersistentUser();
+        user = new UserEntity();
         user.setEmail(Users.EMAIL);
         user.setUsername(Users.USERNAME);
         user.setPassword(Users.PASSWORD);

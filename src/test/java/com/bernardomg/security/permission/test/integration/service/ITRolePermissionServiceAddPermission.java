@@ -12,7 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
@@ -44,8 +44,8 @@ class ITRolePermissionServiceAddPermission {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testAddPermission_AddsEntity() {
-        final Iterable<PersistentRolePermission> result;
-        final PersistentRolePermission           found;
+        final Iterable<RolePermissionEntity> result;
+        final RolePermissionEntity           found;
 
         service.addPermission(1l, 1l);
         result = rolePermissionRepository.findAll();
@@ -56,7 +56,7 @@ class ITRolePermissionServiceAddPermission {
         found = result.iterator()
             .next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(1L)
             .roleId(1L)
             .granted(true)
@@ -96,9 +96,9 @@ class ITRolePermissionServiceAddPermission {
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
     void testAddPermission_Existing() {
-        final Iterable<PersistentRolePermission> result;
-        final Iterator<PersistentRolePermission> itr;
-        PersistentRolePermission                 found;
+        final Iterable<RolePermissionEntity> result;
+        final Iterator<RolePermissionEntity> itr;
+        RolePermissionEntity                 found;
 
         service.addPermission(1l, 1l);
         result = rolePermissionRepository.findAll();
@@ -110,7 +110,7 @@ class ITRolePermissionServiceAddPermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(1L)
             .roleId(1L)
             .granted(true)
@@ -118,7 +118,7 @@ class ITRolePermissionServiceAddPermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(2L)
             .roleId(1L)
             .granted(true)
@@ -126,7 +126,7 @@ class ITRolePermissionServiceAddPermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(3L)
             .roleId(1L)
             .granted(true)
@@ -134,7 +134,7 @@ class ITRolePermissionServiceAddPermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(4L)
             .roleId(1L)
             .granted(true)

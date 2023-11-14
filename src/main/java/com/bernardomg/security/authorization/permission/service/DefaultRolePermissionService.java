@@ -31,8 +31,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentResourcePermission;
-import com.bernardomg.security.authorization.permission.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
+import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.validation.AddRolePermissionValidator;
@@ -74,9 +74,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final RolePermission addPermission(final long roleId, final long permission) {
-        final PersistentRolePermission rolePermissionSample;
-        final RolePermission           rolePermission;
-        final PersistentRolePermission created;
+        final RolePermissionEntity rolePermissionSample;
+        final RolePermission       rolePermission;
+        final RolePermissionEntity created;
 
         log.debug("Adding permission {} for role {}", permission, roleId);
 
@@ -110,11 +110,11 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final RolePermission removePermission(final long roleId, final long permission) {
-        final PersistentRolePermission               rolePermissionSample;
-        final RolePermission                         rolePermission;
-        final PersistentRolePermission               updated;
-        final Optional<PersistentResourcePermission> read;
-        final RolePermission                         result;
+        final RolePermissionEntity               rolePermissionSample;
+        final RolePermission                     rolePermission;
+        final RolePermissionEntity               updated;
+        final Optional<ResourcePermissionEntity> read;
+        final RolePermission                     result;
 
         log.debug("Removing permission {} for role {}", permission, roleId);
 
@@ -144,14 +144,14 @@ public final class DefaultRolePermissionService implements RolePermissionService
         return result;
     }
 
-    private final PersistentRolePermission getRolePermissionSample(final long roleId, final long permissionId) {
-        return PersistentRolePermission.builder()
+    private final RolePermissionEntity getRolePermissionSample(final long roleId, final long permissionId) {
+        return RolePermissionEntity.builder()
             .roleId(roleId)
             .permissionId(permissionId)
             .build();
     }
 
-    private final ResourcePermission toDto(final PersistentResourcePermission entity) {
+    private final ResourcePermission toDto(final ResourcePermissionEntity entity) {
         return ImmutableResourcePermission.builder()
             .id(entity.getId())
             .resource(entity.getResource())
@@ -159,7 +159,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .build();
     }
 
-    private final RolePermission toDto(final PersistentRolePermission entity) {
+    private final RolePermission toDto(final RolePermissionEntity entity) {
         return DtoRolePermission.builder()
             .permissionId(entity.getPermissionId())
             .roleId(entity.getRoleId())

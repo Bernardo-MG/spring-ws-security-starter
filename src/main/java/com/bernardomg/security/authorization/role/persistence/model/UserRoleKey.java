@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * User role key.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */

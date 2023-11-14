@@ -13,7 +13,7 @@ import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
-import com.bernardomg.security.authorization.role.persistence.model.PersistentRole;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.validation.CreateRoleValidator;
@@ -46,8 +46,8 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role create(final RoleCreate role) {
-        final PersistentRole entity;
-        final PersistentRole created;
+        final RoleEntity entity;
+        final RoleEntity created;
 
         log.debug("Creating role {}", role);
 
@@ -71,7 +71,7 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
-        final PersistentRole entitySample;
+        final RoleEntity entitySample;
 
         log.debug("Reading roles with sample {} and pagination {}", sample, pageable);
 
@@ -97,8 +97,8 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role update(final long id, final RoleUpdate role) {
-        final PersistentRole entity;
-        final PersistentRole created;
+        final RoleEntity entity;
+        final RoleEntity created;
 
         log.debug("Updating role with id {} using data {}", id, role);
 
@@ -116,27 +116,27 @@ public final class DefaultRoleService implements RoleService {
         return toDto(created);
     }
 
-    private final DtoRole toDto(final PersistentRole role) {
+    private final DtoRole toDto(final RoleEntity role) {
         return DtoRole.builder()
             .id(role.getId())
             .name(role.getName())
             .build();
     }
 
-    private final PersistentRole toEntity(final RoleCreate role) {
-        return PersistentRole.builder()
+    private final RoleEntity toEntity(final RoleCreate role) {
+        return RoleEntity.builder()
             .name(role.getName())
             .build();
     }
 
-    private final PersistentRole toEntity(final RoleQuery role) {
-        return PersistentRole.builder()
+    private final RoleEntity toEntity(final RoleQuery role) {
+        return RoleEntity.builder()
             .name(role.getName())
             .build();
     }
 
-    private final PersistentRole toEntity(final RoleUpdate role) {
-        return PersistentRole.builder()
+    private final RoleEntity toEntity(final RoleUpdate role) {
+        return RoleEntity.builder()
             .id(role.getId())
             .name(role.getName())
             .build();

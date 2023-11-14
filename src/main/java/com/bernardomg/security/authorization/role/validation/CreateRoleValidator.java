@@ -30,7 +30,7 @@ import java.util.Collection;
 import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.authorization.role.model.request.RoleCreate;
-import com.bernardomg.security.authorization.role.persistence.model.PersistentRole;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -53,11 +53,11 @@ public final class CreateRoleValidator implements Validator<RoleCreate> {
     public final void validate(final RoleCreate role) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
-        final PersistentRole           sample;
+        final RoleEntity               sample;
 
         failures = new ArrayList<>();
 
-        sample = PersistentRole.builder()
+        sample = RoleEntity.builder()
             .name(role.getName())
             .build();
 
