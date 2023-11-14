@@ -1,18 +1,6 @@
 databaseChangeLog:
   - include:
-      file: structure/sequence.yaml
-      relativeToChangelogFile: true
-  - include:
       file: structure/security.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: structure/configuration.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: structure/funds.yaml
-      relativeToChangelogFile: true
-  - include:
-      file: structure/membership.yaml
       relativeToChangelogFile: true
   - changeSet:
       id: app_initial_sequences
