@@ -1,12 +1,11 @@
 
 package com.bernardomg.security.authentication.user.test.util.model;
 
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
 
-public final class UsersCreate {
+public final class UserRegisterRequests {
 
-    public static final UserRegister alternative() {
+    public static final UserRegisterRequest alternative() {
         return UserRegisterRequest.builder()
             .username("user")
             .name("User")
@@ -14,7 +13,7 @@ public final class UsersCreate {
             .build();
     }
 
-    public static final UserRegister invalidEmail() {
+    public static final UserRegisterRequest invalidEmail() {
         return UserRegisterRequest.builder()
             .username("admin")
             .name("Admin")
@@ -22,14 +21,14 @@ public final class UsersCreate {
             .build();
     }
 
-    public static final UserRegister missingEmail() {
+    public static final UserRegisterRequest missingEmail() {
         return UserRegisterRequest.builder()
             .username("admin")
             .name("Admin")
             .build();
     }
 
-    public static final UserRegister paddedWithWhitespaces() {
+    public static final UserRegisterRequest paddedWithWhitespaces() {
         return UserRegisterRequest.builder()
             .username(" admin ")
             .name(" Admin ")
@@ -37,7 +36,7 @@ public final class UsersCreate {
             .build();
     }
 
-    public static final UserRegister valid() {
+    public static final UserRegisterRequest valid() {
         return UserRegisterRequest.builder()
             .username("admin")
             .name("Admin")
@@ -45,7 +44,7 @@ public final class UsersCreate {
             .build();
     }
 
-    public static final UserRegister valid(final String username, final String email) {
+    public static final UserRegisterRequest valid(final String username, final String email) {
         return UserRegisterRequest.builder()
             .username(username)
             .name("Admin")

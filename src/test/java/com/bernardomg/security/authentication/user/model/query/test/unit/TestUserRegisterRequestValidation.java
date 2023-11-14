@@ -8,14 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
-import com.bernardomg.security.authentication.user.test.util.model.UsersCreate;
+import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@DisplayName("ValidatedUserCreate validation")
-class TestValidatedUserCreateValidation {
+@DisplayName("UserRegisterRequest validation")
+class TestUserRegisterRequestValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
@@ -27,7 +27,7 @@ class TestValidatedUserCreateValidation {
         final Set<ConstraintViolation<UserRegister>> errors;
         final ConstraintViolation<UserRegister>      error;
 
-        userCreate = UsersCreate.invalidEmail();
+        userCreate = UserRegisterRequests.invalidEmail();
 
         errors = validator.validate(userCreate);
 
@@ -50,7 +50,7 @@ class TestValidatedUserCreateValidation {
         final Set<ConstraintViolation<UserRegister>> errors;
         final ConstraintViolation<UserRegister>      error;
 
-        userCreate = UsersCreate.missingEmail();
+        userCreate = UserRegisterRequests.missingEmail();
 
         errors = validator.validate(userCreate);
 
@@ -72,7 +72,7 @@ class TestValidatedUserCreateValidation {
         final UserRegister                           userCreate;
         final Set<ConstraintViolation<UserRegister>> errors;
 
-        userCreate = UsersCreate.valid();
+        userCreate = UserRegisterRequests.valid();
 
         errors = validator.validate(userCreate);
 

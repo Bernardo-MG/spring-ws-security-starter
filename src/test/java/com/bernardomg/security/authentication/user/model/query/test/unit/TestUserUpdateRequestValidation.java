@@ -8,14 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
-import com.bernardomg.security.authentication.user.test.util.model.UsersUpdate;
+import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@DisplayName("ValidatedUserUpdate validation")
-class TestValidatedUserUpdateValidation {
+@DisplayName("UserUpdateRequest validation")
+class TestUserUpdateRequestValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
         .getValidator();
@@ -27,7 +27,7 @@ class TestValidatedUserUpdateValidation {
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
 
-        userUpdate = UsersUpdate.invalidEmail();
+        userUpdate = UserUpdateRequests.invalidEmail();
 
         errors = validator.validate(userUpdate);
 
@@ -50,7 +50,7 @@ class TestValidatedUserUpdateValidation {
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
 
-        userUpdate = UsersUpdate.noEmail();
+        userUpdate = UserUpdateRequests.noEmail();
 
         errors = validator.validate(userUpdate);
 
@@ -73,7 +73,7 @@ class TestValidatedUserUpdateValidation {
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
 
-        userUpdate = UsersUpdate.noEnabled();
+        userUpdate = UserUpdateRequests.noEnabled();
 
         errors = validator.validate(userUpdate);
 
@@ -96,7 +96,7 @@ class TestValidatedUserUpdateValidation {
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
 
-        userUpdate = UsersUpdate.noId();
+        userUpdate = UserUpdateRequests.noId();
 
         errors = validator.validate(userUpdate);
 
@@ -118,7 +118,7 @@ class TestValidatedUserUpdateValidation {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
 
-        userUpdate = UsersUpdate.enabled();
+        userUpdate = UserUpdateRequests.enabled();
 
         errors = validator.validate(userUpdate);
 

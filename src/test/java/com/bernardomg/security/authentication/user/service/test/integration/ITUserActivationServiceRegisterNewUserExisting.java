@@ -11,7 +11,7 @@ import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.UsersCreate;
+import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -37,7 +37,7 @@ class ITUserActivationServiceRegisterNewUserExisting {
         final User         result;
         final UserRegister user;
 
-        user = UsersCreate.alternative();
+        user = UserRegisterRequests.alternative();
 
         result = service.registerNewUser(user);
 
@@ -52,7 +52,7 @@ class ITUserActivationServiceRegisterNewUserExisting {
     void testRegisterNewUser_AddsEntity() {
         final UserRegister user;
 
-        user = UsersCreate.alternative();
+        user = UserRegisterRequests.alternative();
 
         service.registerNewUser(user);
 

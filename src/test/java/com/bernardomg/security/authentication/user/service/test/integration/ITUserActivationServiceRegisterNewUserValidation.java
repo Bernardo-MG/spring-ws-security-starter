@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.UsersCreate;
+import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -35,7 +35,7 @@ class ITUserActivationServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UsersCreate.valid("abc", "email@somewhere.com");
+        data = UserRegisterRequests.valid("abc", "email@somewhere.com");
 
         executable = () -> service.registerNewUser(data);
 
@@ -52,7 +52,7 @@ class ITUserActivationServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UsersCreate.valid("admin", "email2@somewhere.com");
+        data = UserRegisterRequests.valid("admin", "email2@somewhere.com");
 
         executable = () -> service.registerNewUser(data);
 

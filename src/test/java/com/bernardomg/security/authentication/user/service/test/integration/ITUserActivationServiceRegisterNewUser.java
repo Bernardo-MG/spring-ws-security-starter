@@ -13,7 +13,7 @@ import com.bernardomg.security.authentication.user.persistence.model.PersistentU
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
-import com.bernardomg.security.authentication.user.test.util.model.UsersCreate;
+import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -37,7 +37,7 @@ class ITUserActivationServiceRegisterNewUser {
     void testRegisterNewUser_AddsEntity() {
         final UserRegister user;
 
-        user = UsersCreate.valid();
+        user = UserRegisterRequests.valid();
 
         service.registerNewUser(user);
 
@@ -51,7 +51,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister   user;
         final PersistentUser entity;
 
-        user = UsersCreate.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UserRegisterRequests.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         service.registerNewUser(user);
         entity = repository.findAll()
@@ -70,7 +70,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister user;
         final User         result;
 
-        user = UsersCreate.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UserRegisterRequests.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
 
         result = service.registerNewUser(user);
 
@@ -86,7 +86,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister   user;
         final PersistentUser entity;
 
-        user = UsersCreate.paddedWithWhitespaces();
+        user = UserRegisterRequests.paddedWithWhitespaces();
 
         service.registerNewUser(user);
         entity = repository.findAll()
@@ -111,7 +111,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister   user;
         final PersistentUser entity;
 
-        user = UsersCreate.valid();
+        user = UserRegisterRequests.valid();
 
         service.registerNewUser(user);
         entity = repository.findAll()
@@ -136,7 +136,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister user;
         final User         result;
 
-        user = UsersCreate.valid();
+        user = UserRegisterRequests.valid();
 
         result = service.registerNewUser(user);
 

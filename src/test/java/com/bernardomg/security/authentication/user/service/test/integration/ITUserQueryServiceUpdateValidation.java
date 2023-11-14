@@ -10,7 +10,7 @@ import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.AlternativeUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.UsersUpdate;
+import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -37,7 +37,7 @@ class ITUserQueryServiceUpdateValidation {
         final FieldFailure     failure;
         final UserUpdate       data;
 
-        data = UsersUpdate.emailChange();
+        data = UserUpdateRequests.emailChange();
 
         executable = () -> service.update(1L, data);
 

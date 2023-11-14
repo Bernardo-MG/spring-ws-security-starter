@@ -39,7 +39,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
-import com.bernardomg.security.authentication.user.test.util.model.UsersUpdate;
+import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,7 +64,7 @@ class ITUserQueryServiceUpdate {
     void testUpdate_AddsNoEntity() {
         final UserUpdate user;
 
-        user = UsersUpdate.emailChange();
+        user = UserUpdateRequests.emailChange();
 
         service.update(1L, user);
 
@@ -79,7 +79,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate     user;
         final PersistentUser entity;
 
-        user = UsersUpdate.emailChangeUpperCase();
+        user = UserUpdateRequests.emailChangeUpperCase();
 
         service.update(1L, user);
         entity = repository.findAll()
@@ -97,7 +97,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate user;
         final User       result;
 
-        user = UsersUpdate.emailChangeUpperCase();
+        user = UserUpdateRequests.emailChangeUpperCase();
 
         result = service.update(1L, user);
 
@@ -112,7 +112,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate     user;
         final PersistentUser entity;
 
-        user = UsersUpdate.disabled();
+        user = UserUpdateRequests.disabled();
 
         service.update(1L, user);
         entity = repository.findAll()
@@ -138,7 +138,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate     user;
         final PersistentUser entity;
 
-        user = UsersUpdate.passwordExpired();
+        user = UserUpdateRequests.passwordExpired();
 
         service.update(1L, user);
         entity = repository.findAll()
@@ -163,7 +163,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate       user;
         final ThrowingCallable execution;
 
-        user = UsersUpdate.emailChange();
+        user = UserUpdateRequests.emailChange();
 
         execution = () -> service.update(1L, user);
 
@@ -178,7 +178,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate     user;
         final PersistentUser entity;
 
-        user = UsersUpdate.paddedWithWhitespaces();
+        user = UserUpdateRequests.paddedWithWhitespaces();
 
         service.update(1L, user);
         entity = repository.findAll()
@@ -196,7 +196,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate     user;
         final PersistentUser entity;
 
-        user = UsersUpdate.emailChange();
+        user = UserUpdateRequests.emailChange();
 
         service.update(1L, user);
         entity = repository.findAll()
@@ -222,7 +222,7 @@ class ITUserQueryServiceUpdate {
         final UserUpdate user;
         final User       result;
 
-        user = UsersUpdate.emailChange();
+        user = UserUpdateRequests.emailChange();
 
         result = service.update(1L, user);
 
