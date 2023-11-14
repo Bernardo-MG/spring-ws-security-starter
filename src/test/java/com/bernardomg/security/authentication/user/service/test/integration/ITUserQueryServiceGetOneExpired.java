@@ -13,6 +13,7 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -49,9 +50,9 @@ class ITUserQueryServiceGetOneExpired {
             .get();
 
         UserAssertions.isEqualTo(result, ImmutableUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .passwordExpired(false)
             .enabled(true)
             .expired(true)

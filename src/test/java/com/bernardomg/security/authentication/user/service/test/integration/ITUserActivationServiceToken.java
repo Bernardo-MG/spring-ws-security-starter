@@ -32,6 +32,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.user.token.model.UserTokenStatus;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredConsumedUserToken;
 import com.bernardomg.security.user.token.test.config.annotation.UserRegisteredExpiredUserToken;
@@ -66,7 +67,7 @@ class ITUserActivationServiceToken {
         Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -82,7 +83,7 @@ class ITUserActivationServiceToken {
         Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -98,7 +99,7 @@ class ITUserActivationServiceToken {
         Assertions.assertThat(status.isValid())
             .isTrue();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
 }

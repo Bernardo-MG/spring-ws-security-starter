@@ -8,8 +8,8 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest disabled() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
-            .email("email@somewhere.com")
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .enabled(false)
             .passwordExpired(false)
             .build();
@@ -18,8 +18,8 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest emailChange() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
-            .email("email2@somewhere.com")
+            .name(Users.NAME)
+            .email(Users.ALTERNATIVE_EMAIL)
             .enabled(true)
             .passwordExpired(false)
             .build();
@@ -28,8 +28,8 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest emailChangeUpperCase() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
-            .email("EMAIL2@SOMEWHERE.COM")
+            .name(Users.NAME)
+            .email(Users.ALTERNATIVE_EMAIL.toUpperCase())
             .enabled(true)
             .passwordExpired(false)
             .build();
@@ -38,8 +38,8 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest enabled() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
-            .email("email@somewhere.com")
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .enabled(true)
             .passwordExpired(false)
             .build();
@@ -48,7 +48,7 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest invalidEmail() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
+            .name(Users.NAME)
             .email("abc")
             .enabled(true)
             .passwordExpired(false)
@@ -59,7 +59,7 @@ public final class UserUpdateRequests {
         return UserUpdateRequest.builder()
             .id(1L)
             .name("Admin2")
-            .email("email@somewhere.com")
+            .email(Users.EMAIL)
             .enabled(true)
             .passwordExpired(false)
             .build();
@@ -68,7 +68,7 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest noEmail() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
+            .name(Users.NAME)
             .enabled(true)
             .passwordExpired(false)
             .build();
@@ -77,16 +77,16 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest noEnabled() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
-            .email("email@somewhere.com")
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .passwordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest noId() {
         return UserUpdateRequest.builder()
-            .name("Admin")
-            .email("email@somewhere.com")
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .enabled(true)
             .passwordExpired(false)
             .build();
@@ -95,8 +95,8 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest paddedWithWhitespaces() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name(" Admin ")
-            .email(" email2@somewhere.com ")
+            .name(" " + Users.NAME + " ")
+            .email(" " + Users.ALTERNATIVE_EMAIL + " ")
             .enabled(true)
             .passwordExpired(false)
             .build();
@@ -105,8 +105,8 @@ public final class UserUpdateRequests {
     public static final UserUpdateRequest passwordExpired() {
         return UserUpdateRequest.builder()
             .id(1L)
-            .name("Admin")
-            .email("email@somewhere.com")
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .enabled(true)
             .passwordExpired(true)
             .build();

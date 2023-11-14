@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.user.token.persistence.model.PersistentUserToken;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
@@ -37,7 +38,7 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_CreatedToken() {
         final long count;
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         count = userTokenRepository.count();
 
@@ -51,7 +52,7 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_TokenData() {
         final PersistentUserToken token;
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -76,7 +77,7 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_TokenExists_CreatedToken() {
         final long count;
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         count = userTokenRepository.count();
 
@@ -91,7 +92,7 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_TokenExists_ExpiresToken() {
         final PersistentUserToken token;
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         token = userTokenRepository.findOneByTokenAndScope(UserTokenConstants.TOKEN, "password_reset")
             .get();
@@ -107,7 +108,7 @@ class ITPasswordResetServiceStartToken {
         final boolean exists;
 
         try {
-            service.startPasswordReset("email2@somewhere.com");
+            service.startPasswordReset(Users.ALTERNATIVE_EMAIL);
         } catch (final Exception e) {
 
         }

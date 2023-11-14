@@ -10,6 +10,7 @@ import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -35,11 +36,11 @@ class ITUserActivationServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UserRegisterRequests.valid("abc", "email@somewhere.com");
+        data = UserRegisterRequests.valid("abc", Users.EMAIL);
 
         executable = () -> service.registerNewUser(data);
 
-        failure = FieldFailure.of("email.existing", "email", "existing", "email@somewhere.com");
+        failure = FieldFailure.of("email.existing", "email", "existing", Users.EMAIL);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
@@ -52,11 +53,11 @@ class ITUserActivationServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UserRegisterRequests.valid("admin", "email2@somewhere.com");
+        data = UserRegisterRequests.valid(Users.USERNAME, Users.ALTERNATIVE_EMAIL);
 
         executable = () -> service.registerNewUser(data);
 
-        failure = FieldFailure.of("username.existing", "username", "existing", "admin");
+        failure = FieldFailure.of("username.existing", "username", "existing", Users.USERNAME);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

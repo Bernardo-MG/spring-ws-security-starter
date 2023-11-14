@@ -14,6 +14,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -51,7 +52,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister   user;
         final PersistentUser entity;
 
-        user = UserRegisterRequests.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UserRegisterRequests.valid("ADMIN", "MAIL@SOMEWHERE.COM");
 
         service.registerNewUser(user);
         entity = repository.findAll()
@@ -59,9 +60,9 @@ class ITUserActivationServiceRegisterNewUser {
             .next();
 
         Assertions.assertThat(entity.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(entity.getEmail())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo(Users.EMAIL);
     }
 
     @Test
@@ -70,14 +71,14 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister user;
         final User         result;
 
-        user = UserRegisterRequests.valid("ADMIN", "EMAIL@SOMEWHERE.COM");
+        user = UserRegisterRequests.valid("ADMIN", "MAIL@SOMEWHERE.COM");
 
         result = service.registerNewUser(user);
 
         Assertions.assertThat(result.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(result.getEmail())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo(Users.EMAIL);
     }
 
     @Test
@@ -94,9 +95,9 @@ class ITUserActivationServiceRegisterNewUser {
             .next();
 
         UserAssertions.isEqualTo(entity, PersistentUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .password("")
             .passwordExpired(true)
             .enabled(false)
@@ -119,9 +120,9 @@ class ITUserActivationServiceRegisterNewUser {
             .next();
 
         UserAssertions.isEqualTo(entity, PersistentUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .password("")
             .passwordExpired(true)
             .enabled(false)
@@ -141,9 +142,9 @@ class ITUserActivationServiceRegisterNewUser {
         result = service.registerNewUser(user);
 
         UserAssertions.isEqualTo(result, ImmutableUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .passwordExpired(true)
             .enabled(false)
             .expired(false)

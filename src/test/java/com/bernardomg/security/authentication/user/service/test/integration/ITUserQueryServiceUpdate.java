@@ -40,6 +40,7 @@ import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -87,7 +88,7 @@ class ITUserQueryServiceUpdate {
             .next();
 
         Assertions.assertThat(entity.getEmail())
-            .isEqualTo("email2@somewhere.com");
+            .isEqualTo(Users.ALTERNATIVE_EMAIL);
     }
 
     @Test
@@ -102,7 +103,7 @@ class ITUserQueryServiceUpdate {
         result = service.update(1L, user);
 
         Assertions.assertThat(result.getEmail())
-            .isEqualTo("email2@somewhere.com");
+            .isEqualTo(Users.ALTERNATIVE_EMAIL);
     }
 
     @Test
@@ -120,10 +121,10 @@ class ITUserQueryServiceUpdate {
             .next();
 
         UserAssertions.isEqualTo(entity, PersistentUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
-            .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.EMAIL)
+            .password(Users.ENCODED_PASSWORD)
             .passwordExpired(false)
             .enabled(false)
             .expired(false)
@@ -146,10 +147,10 @@ class ITUserQueryServiceUpdate {
             .next();
 
         UserAssertions.isEqualTo(entity, PersistentUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
-            .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.EMAIL)
+            .password(Users.ENCODED_PASSWORD)
             .passwordExpired(true)
             .enabled(true)
             .expired(false)
@@ -186,7 +187,7 @@ class ITUserQueryServiceUpdate {
             .next();
 
         Assertions.assertThat(entity.getEmail())
-            .isEqualTo("email2@somewhere.com");
+            .isEqualTo(Users.ALTERNATIVE_EMAIL);
     }
 
     @Test
@@ -204,10 +205,10 @@ class ITUserQueryServiceUpdate {
             .next();
 
         UserAssertions.isEqualTo(entity, PersistentUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email2@somewhere.com")
-            .password("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.ALTERNATIVE_EMAIL)
+            .password(Users.ENCODED_PASSWORD)
             .passwordExpired(false)
             .enabled(true)
             .expired(false)
@@ -227,9 +228,9 @@ class ITUserQueryServiceUpdate {
         result = service.update(1L, user);
 
         UserAssertions.isEqualTo(result, ImmutableUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email2@somewhere.com")
+            .username(Users.USERNAME)
+            .name(Users.NAME)
+            .email(Users.ALTERNATIVE_EMAIL)
             .passwordExpired(false)
             .enabled(true)
             .expired(false)

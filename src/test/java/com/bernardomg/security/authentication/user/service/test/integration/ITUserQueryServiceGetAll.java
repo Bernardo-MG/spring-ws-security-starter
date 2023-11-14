@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authentication.user.test.util.model.UsersQuery;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -65,15 +65,7 @@ class ITUserQueryServiceGetAll {
         user = data.iterator()
             .next();
 
-        UserAssertions.isEqualTo(user, ImmutableUser.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
-            .passwordExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(user, Users.enabled());
     }
 
     @Test

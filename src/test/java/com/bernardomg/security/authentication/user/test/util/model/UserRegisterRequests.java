@@ -9,22 +9,22 @@ public final class UserRegisterRequests {
         return UserRegisterRequest.builder()
             .username("user")
             .name("User")
-            .email("email2@somewhere.com")
+            .email(Users.ALTERNATIVE_EMAIL)
             .build();
     }
 
     public static final UserRegisterRequest invalidEmail() {
         return UserRegisterRequest.builder()
-            .username("admin")
-            .name("Admin")
+            .username(Users.NAME)
+            .name(Users.NAME)
             .email("abc")
             .build();
     }
 
     public static final UserRegisterRequest missingEmail() {
         return UserRegisterRequest.builder()
-            .username("admin")
-            .name("Admin")
+            .username(Users.NAME)
+            .name(Users.NAME)
             .build();
     }
 
@@ -38,16 +38,16 @@ public final class UserRegisterRequests {
 
     public static final UserRegisterRequest valid() {
         return UserRegisterRequest.builder()
-            .username("admin")
-            .name("Admin")
-            .email("email@somewhere.com")
+            .username(Users.NAME)
+            .name(Users.NAME)
+            .email(Users.EMAIL)
             .build();
     }
 
     public static final UserRegisterRequest valid(final String username, final String email) {
         return UserRegisterRequest.builder()
             .username(username)
-            .name("Admin")
+            .name(Users.NAME)
             .email(email)
             .build();
     }

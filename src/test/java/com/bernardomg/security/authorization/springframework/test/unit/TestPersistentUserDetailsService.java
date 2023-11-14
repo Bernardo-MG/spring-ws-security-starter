@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.util.model.PersistentUsers;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.model.PersistentUserGrantedPermission;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
@@ -54,7 +55,7 @@ class TestPersistentUserDetailsService {
         final UserDetails    userDetails;
         final PersistentUser user;
 
-        user = Users.disabled();
+        user = PersistentUsers.disabled();
         given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -100,7 +101,7 @@ class TestPersistentUserDetailsService {
         final UserDetails    userDetails;
         final PersistentUser user;
 
-        user = Users.enabled();
+        user = PersistentUsers.enabled();
         given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -108,10 +109,10 @@ class TestPersistentUserDetailsService {
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
-            .isEqualTo("username");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo("1234");
+            .isEqualTo(Users.PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -146,7 +147,7 @@ class TestPersistentUserDetailsService {
         final UserDetails    userDetails;
         final PersistentUser user;
 
-        user = Users.expired();
+        user = PersistentUsers.expired();
         given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -154,10 +155,10 @@ class TestPersistentUserDetailsService {
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
-            .isEqualTo("username");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo("1234");
+            .isEqualTo(Users.PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isFalse();
@@ -192,7 +193,7 @@ class TestPersistentUserDetailsService {
         final UserDetails    userDetails;
         final PersistentUser user;
 
-        user = Users.locked();
+        user = PersistentUsers.locked();
         given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -200,10 +201,10 @@ class TestPersistentUserDetailsService {
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
-            .isEqualTo("username");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo("1234");
+            .isEqualTo(Users.PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -238,7 +239,7 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(PersistentUsers.enabled()));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of());
 
         executable = () -> service.loadUserByUsername("username");
@@ -255,7 +256,7 @@ class TestPersistentUserDetailsService {
         final UserDetails    userDetails;
         final PersistentUser user;
 
-        user = Users.passwordExpired();
+        user = PersistentUsers.passwordExpired();
         given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -263,10 +264,10 @@ class TestPersistentUserDetailsService {
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
-            .isEqualTo("username");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo("1234");
+            .isEqualTo(Users.PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -301,9 +302,9 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.empty());
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.empty());
 
-        executable = () -> service.loadUserByUsername("username");
+        executable = () -> service.loadUserByUsername(Users.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
