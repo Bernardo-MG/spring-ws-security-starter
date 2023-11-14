@@ -31,7 +31,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 
 /**
- * Repository for users.
+ * User repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

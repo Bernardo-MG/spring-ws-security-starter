@@ -30,7 +30,7 @@ import com.bernardomg.security.authorization.role.persistence.model.UserRoleEnti
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleKey;
 
 /**
- * Repository for action.
+ * User role repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

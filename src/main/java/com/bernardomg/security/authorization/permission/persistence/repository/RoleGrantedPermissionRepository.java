@@ -30,7 +30,7 @@ import com.bernardomg.security.authorization.permission.persistence.model.RoleGr
 import com.bernardomg.security.authorization.permission.persistence.model.RoleGrantedPermissionKey;
 
 /**
- * Repository for action.
+ * Action repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

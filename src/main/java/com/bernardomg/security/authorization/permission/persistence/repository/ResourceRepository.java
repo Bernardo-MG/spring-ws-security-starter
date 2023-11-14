@@ -29,7 +29,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourceEntity;
 
 /**
- * Repository for resources.
+ * Resource repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

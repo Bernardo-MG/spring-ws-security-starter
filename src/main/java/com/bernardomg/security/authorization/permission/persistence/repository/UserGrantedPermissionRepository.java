@@ -32,7 +32,7 @@ import com.bernardomg.security.authorization.permission.persistence.model.UserGr
 import com.bernardomg.security.authorization.permission.persistence.model.UserGrantedPermissionKey;
 
 /**
- * Repository for users.
+ * User granted permission repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -40,8 +40,22 @@ import com.bernardomg.security.authorization.permission.persistence.model.UserGr
 public interface UserGrantedPermissionRepository
         extends JpaRepository<UserGrantedPermissionEntity, UserGrantedPermissionKey> {
 
-    public Collection<UserGrantedPermissionEntity> findAllByUserId(final Long id);
+    /**
+     * Returns all permissions for the user.
+     *
+     * @param userId
+     *            user id
+     * @return all the permissions for the user
+     */
+    public Collection<UserGrantedPermissionEntity> findAllByUserId(final Long userId);
 
+    /**
+     * Returns all permissions for the user.
+     *
+     * @param username
+     *            user username
+     * @return all the permissions for the user
+     */
     public Collection<UserGrantedPermissionEntity> findAllByUsername(final String username);
 
 }

@@ -62,7 +62,7 @@ public class PermissionController {
      *
      * @param page
      *            pagination to apply
-     * @return a page for the permissions
+     * @return a page with the permissions
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")

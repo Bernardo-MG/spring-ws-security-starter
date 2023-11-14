@@ -33,17 +33,34 @@ import org.springframework.data.repository.query.Param;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 
 /**
- * Repository for resource permissions.
+ * Resource permission repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 public interface ResourcePermissionRepository extends JpaRepository<ResourcePermissionEntity, Long> {
 
+    /**
+     * Returns all the permissions available to a role, in a paginated form.
+     *
+     * @param roleId
+     *            role id
+     * @param page
+     *            pagination to apply
+     * @return a page with the permissions
+     */
     @Query("SELECT p FROM Permission p WHERE p.id NOT IN (SELECT p.id FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId)")
-    public Page<ResourcePermissionEntity> findAvailableToRole(@Param("roleId") final Long roleId,
-            final Pageable pageable);
+    public Page<ResourcePermissionEntity> findAvailableToRole(@Param("roleId") final Long roleId, final Pageable page);
 
+    /**
+     * Returns all the permissions assigned to a role, in a paginated form..
+     *
+     * @param roleId
+     *            role id
+     * @param page
+     *            pagination to apply
+     * @return a page with the permissions
+     */
     @Query("SELECT p FROM Permission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
     public Page<ResourcePermissionEntity> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
 

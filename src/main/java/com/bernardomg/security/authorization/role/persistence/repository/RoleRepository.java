@@ -34,19 +34,34 @@ import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 
 /**
- * Repository for action.
+ * Role repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 
-    public boolean existsByName(final String name);
-
+    /**
+     * Returns all the roles available to the user, in a paginated form.
+     *
+     * @param userId
+     *            user id
+     * @param page
+     *            pagination to apply
+     * @return a page with the roles
+     */
     @Query("SELECT r FROM Role r WHERE r.id NOT IN (SELECT r.id FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id)")
-    public Page<Role> findAvailableToUser(@Param("id") final Long id, final Pageable pageable);
+    public Page<Role> findAvailableToUser(@Param("id") final Long userId, final Pageable page);
 
+    /**
+     * Returns all the roles assigned to the user, in a paginated form.
+     *
+     * @param userId
+     * @param page
+     *            pagination to apply
+     * @return a page with the roles
+     */
     @Query("SELECT r FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
-    public Page<Role> findForUser(@Param("id") final Long id, final Pageable pageable);
+    public Page<Role> findForUser(@Param("id") final Long userId, final Pageable page);
 
 }
