@@ -35,10 +35,10 @@ import com.bernardomg.security.authentication.user.service.UserActivationService
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.authorization.service.DefaultRoleService;
-import com.bernardomg.security.authorization.service.DefaultUserRoleService;
-import com.bernardomg.security.authorization.service.RoleService;
-import com.bernardomg.security.authorization.service.UserRoleService;
+import com.bernardomg.security.authorization.role.service.DefaultRoleService;
+import com.bernardomg.security.authorization.role.service.DefaultUserRoleService;
+import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.store.PersistentUserTokenStore;

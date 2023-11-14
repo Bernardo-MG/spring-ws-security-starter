@@ -36,6 +36,18 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Add user role validation.
+ * <p>
+ * It applies the following rules:
+ * <ul>
+ * <li>The user exists</li>
+ * <li>The role exists</li>
+ * </ul>
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class AddUserRoleValidator implements Validator<UserRole> {
 
@@ -65,7 +77,7 @@ public final class AddUserRoleValidator implements Validator<UserRole> {
             failures.add(failure);
         }
 
-        // The action exists
+        // The role exists
         if (!roleRepository.existsById(relationship.getRoleId())) {
             log.error("Found no role with id {}", relationship.getRoleId());
             // TODO: Is the code not exists or is it not existing? Make sure all use the same

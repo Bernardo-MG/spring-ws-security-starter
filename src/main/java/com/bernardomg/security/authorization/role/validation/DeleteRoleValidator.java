@@ -38,6 +38,18 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Delete role validation.
+ * <p>
+ * It applies the following rules:
+ * <ul>
+ * <li>The role exists</li>
+ * <li>No user has the role</li>
+ * </ul>
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class DeleteRoleValidator implements Validator<Long> {
 

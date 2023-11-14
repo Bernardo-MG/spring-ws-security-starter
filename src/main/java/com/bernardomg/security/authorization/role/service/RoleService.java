@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.service;
+package com.bernardomg.security.authorization.role.service;
 
 import java.util.Optional;
 

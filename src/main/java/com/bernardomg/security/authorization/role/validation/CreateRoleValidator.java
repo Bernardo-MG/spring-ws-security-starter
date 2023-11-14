@@ -38,6 +38,17 @@ import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Create role validation.
+ * <p>
+ * It applies the following rules:
+ * <ul>
+ * <li>The role name doesn't exist</li>
+ * </ul>
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class CreateRoleValidator implements Validator<RoleCreate> {
 
@@ -61,7 +72,7 @@ public final class CreateRoleValidator implements Validator<RoleCreate> {
             .name(role.getName())
             .build();
 
-        // The role doesn't exist
+        // The role name doesn't exist
         if (roleRepository.exists(Example.of(sample))) {
             log.error("A role already exists with the name {}", role.getName());
             // TODO: Is the code exists or is it existing? Make sure all use the same

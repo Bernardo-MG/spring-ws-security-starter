@@ -44,7 +44,7 @@ import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
 import com.bernardomg.security.authorization.role.model.request.UserRoleAddRequest;
-import com.bernardomg.security.authorization.service.UserRoleService;
+import com.bernardomg.security.authorization.role.service.UserRoleService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

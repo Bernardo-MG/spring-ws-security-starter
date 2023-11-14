@@ -47,7 +47,7 @@ import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleCreateRequest;
 import com.bernardomg.security.authorization.role.model.request.RoleQueryRequest;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdateRequest;
-import com.bernardomg.security.authorization.service.RoleService;
+import com.bernardomg.security.authorization.role.service.RoleService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

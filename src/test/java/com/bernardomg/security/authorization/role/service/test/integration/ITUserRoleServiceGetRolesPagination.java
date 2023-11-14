@@ -14,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.service.UserRoleService;
+import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
