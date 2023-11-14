@@ -1,17 +1,7 @@
 databaseChangeLog:
   - include:
-      file: structure/security.yaml
+      file: structure/auth/security.yaml
       relativeToChangelogFile: true
-  - changeSet:
-      id: app_initial_sequences
-      author: Bernardo
-      changes:
-        - sqlFile:
-            encoding: UTF-8
-            path: data/configuration/sequences.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
   - changeSet:
       id: auth_initial_data
       author: Bernardo
@@ -19,12 +9,6 @@ databaseChangeLog:
         - sqlFile:
             encoding: UTF-8
             path: data/auth/permissions.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
-        - sqlFile:
-            encoding: UTF-8
-            path: data/auth/sequences.sql
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true

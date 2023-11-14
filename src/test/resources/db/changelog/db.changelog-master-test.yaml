@@ -3,7 +3,7 @@ databaseChangeLog:
       file: structure/sequence.yaml
       relativeToChangelogFile: true
   - include:
-      file: structure/security.yaml
+      file: structure/auth/security.yaml
       relativeToChangelogFile: true
   - changeSet:
       id: initial_sequences
