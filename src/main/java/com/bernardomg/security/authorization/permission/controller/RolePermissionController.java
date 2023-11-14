@@ -49,7 +49,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * Role permission REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

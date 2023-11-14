@@ -41,7 +41,7 @@ import com.bernardomg.security.authorization.permission.service.PermissionServic
 import lombok.AllArgsConstructor;
 
 /**
- * Fee REST controller.
+ * Permission REST controller.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,22 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.constant;
+package com.bernardomg.security.authorization.role.exception;
 
-public final class Actions {
+import java.io.Serializable;
 
-    public static final String CREATE = "CREATE";
+import com.bernardomg.exception.MissingIdException;
 
-    public static final String DELETE = "DELETE";
+/**
+ * Missing role id exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingRoleIdException extends MissingIdException {
 
-    public static final String READ   = "READ";
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    public static final String UPDATE = "UPDATE";
-
-    public static final String VIEW   = "VIEW";
-
-    private Actions() {
-        super();
+    public MissingRoleIdException(final Serializable id) {
+        super("role", id);
     }
 
 }
