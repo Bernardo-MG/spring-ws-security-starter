@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.email.sender.SpringMailSecurityEmailSender;
 
@@ -38,7 +39,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     @Test
     @DisplayName("The message content is sent to the target email")
     void testSendEmail_Content() throws Exception {
-        getSender().sendPasswordRecoveryMessage("email@somewhere.com", "username", "token");
+        getSender().sendPasswordRecoveryMessage(Users.EMAIL, Users.USERNAME, "token");
 
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));
     }

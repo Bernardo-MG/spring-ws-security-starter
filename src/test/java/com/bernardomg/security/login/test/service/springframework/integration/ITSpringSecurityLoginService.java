@@ -12,6 +12,7 @@ import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUs
 import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.LockedUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.role.config.UserWithNotGrantedPermissions;
 import com.bernardomg.security.authorization.role.config.UserWithoutPermissions;
 import com.bernardomg.security.login.model.LoginStatus;
@@ -43,8 +44,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -54,7 +55,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -65,8 +66,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("email@somewhere.com");
-        login.setPassword("1234");
+        login.setUsername(Users.EMAIL);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -76,7 +77,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isTrue();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isNotBlank();
     }
@@ -89,8 +90,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -100,7 +101,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -111,8 +112,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -122,7 +123,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -133,8 +134,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -144,7 +145,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -156,7 +157,7 @@ class ITSpringSecurityLoginService {
 
         login = new DtoLoginRequest();
         login.setUsername("abc");
-        login.setPassword("1234");
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -177,8 +178,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -188,7 +189,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -199,8 +200,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -210,7 +211,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -221,8 +222,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -232,7 +233,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isTrue();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isNotBlank();
     }
@@ -245,8 +246,8 @@ class ITSpringSecurityLoginService {
         final DtoLoginRequest login;
 
         login = new DtoLoginRequest();
-        login.setUsername("ADMIN");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME.toUpperCase());
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -256,7 +257,7 @@ class ITSpringSecurityLoginService {
         Assertions.assertThat(status.getLogged())
             .isTrue();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isNotBlank();
     }
@@ -271,8 +272,8 @@ class ITSpringSecurityLoginService {
         final Claims          claims;
 
         login = new DtoLoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        login.setUsername(Users.USERNAME);
+        login.setPassword(Users.PASSWORD);
 
         status = service.login(login);
 
@@ -284,7 +285,7 @@ class ITSpringSecurityLoginService {
             .getBody();
 
         Assertions.assertThat(claims.getSubject())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
 }

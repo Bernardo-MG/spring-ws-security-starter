@@ -56,14 +56,14 @@ class TestPersistentUserDetailsService {
         final PersistentUser user;
 
         user = PersistentUsers.disabled();
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername("username");
+        userDetails = service.loadUserByUsername(Users.USERNAME);
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
-            .isEqualTo("username");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
             .isEqualTo("1234");
@@ -102,10 +102,10 @@ class TestPersistentUserDetailsService {
         final PersistentUser user;
 
         user = PersistentUsers.enabled();
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername("username");
+        userDetails = service.loadUserByUsername(Users.USERNAME);
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
@@ -148,10 +148,10 @@ class TestPersistentUserDetailsService {
         final PersistentUser user;
 
         user = PersistentUsers.expired();
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername("username");
+        userDetails = service.loadUserByUsername(Users.USERNAME);
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
@@ -194,10 +194,10 @@ class TestPersistentUserDetailsService {
         final PersistentUser user;
 
         user = PersistentUsers.locked();
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername("username");
+        userDetails = service.loadUserByUsername(Users.USERNAME);
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
@@ -239,15 +239,15 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(PersistentUsers.enabled()));
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(PersistentUsers.enabled()));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of());
 
-        executable = () -> service.loadUserByUsername("username");
+        executable = () -> service.loadUserByUsername(Users.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username username has no authorities");
+            .isEqualTo("Username " + Users.USERNAME + " has no authorities");
     }
 
     @Test
@@ -257,10 +257,10 @@ class TestPersistentUserDetailsService {
         final PersistentUser user;
 
         user = PersistentUsers.passwordExpired();
-        given(userRepository.findOneByUsername("username")).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername("username");
+        userDetails = service.loadUserByUsername(Users.USERNAME);
 
         Assertions.assertThat(userDetails.getUsername())
             .as("username")
@@ -309,7 +309,7 @@ class TestPersistentUserDetailsService {
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username username not found in database");
+            .isEqualTo("Username " + Users.USERNAME + " not found in database");
     }
 
 }

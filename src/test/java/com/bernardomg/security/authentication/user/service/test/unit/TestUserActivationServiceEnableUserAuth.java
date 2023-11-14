@@ -27,6 +27,7 @@ import com.bernardomg.security.authentication.user.exception.UserNotFoundExcepti
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.user.token.store.UserTokenStore;
 import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
@@ -34,10 +35,6 @@ import com.bernardomg.security.user.token.test.config.constant.UserTokenConstant
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
 class TestUserActivationServiceEnableUserAuth {
-
-    private static final String          PASSWORD = "1234";
-
-    private static final String          USERNAME = "username";
 
     @Mock
     private SecurityMessageSender        messageSender;
@@ -60,82 +57,82 @@ class TestUserActivationServiceEnableUserAuth {
 
     @BeforeEach
     public void initializeToken() {
-        given(tokenStore.getUsername(ArgumentMatchers.anyString())).willReturn(USERNAME);
+        given(tokenStore.getUsername(ArgumentMatchers.anyString())).willReturn(Users.USERNAME);
     }
 
     private final void loadCredentialsExpiredUser() {
         final PersistentUser user;
 
         user = new PersistentUser();
-        user.setEmail("email@somewhere.com");
-        user.setUsername(USERNAME);
-        user.setPassword(PASSWORD);
+        user.setEmail(Users.EMAIL);
+        user.setUsername(Users.USERNAME);
+        user.setPassword(Users.PASSWORD);
         user.setPasswordExpired(true);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadDisabledUser() {
         final PersistentUser user;
 
         user = new PersistentUser();
-        user.setEmail("email@somewhere.com");
-        user.setUsername(USERNAME);
-        user.setPassword(PASSWORD);
+        user.setEmail(Users.EMAIL);
+        user.setUsername(Users.USERNAME);
+        user.setPassword(Users.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadEnabledUser() {
         final PersistentUser user;
 
         user = new PersistentUser();
-        user.setEmail("email@somewhere.com");
-        user.setUsername(USERNAME);
-        user.setPassword(PASSWORD);
+        user.setEmail(Users.EMAIL);
+        user.setUsername(Users.USERNAME);
+        user.setPassword(Users.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadExpiredUser() {
         final PersistentUser user;
 
         user = new PersistentUser();
-        user.setEmail("email@somewhere.com");
-        user.setUsername(USERNAME);
-        user.setPassword(PASSWORD);
+        user.setEmail(Users.EMAIL);
+        user.setUsername(Users.USERNAME);
+        user.setPassword(Users.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(true);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadLockedUser() {
         final PersistentUser user;
 
         user = new PersistentUser();
-        user.setEmail("email@somewhere.com");
-        user.setUsername(USERNAME);
-        user.setPassword(PASSWORD);
+        user.setEmail(Users.EMAIL);
+        user.setUsername(Users.USERNAME);
+        user.setPassword(Users.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(true);
 
-        given(repository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
     }
 
     @Test
@@ -188,7 +185,7 @@ class TestUserActivationServiceEnableUserAuth {
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User username is enabled");
+            .isEqualTo("User " + Users.USERNAME + " is enabled");
     }
 
     @Test
@@ -205,7 +202,7 @@ class TestUserActivationServiceEnableUserAuth {
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User username is expired");
+            .isEqualTo("User " + Users.USERNAME + " is expired");
     }
 
     @Test
@@ -222,7 +219,7 @@ class TestUserActivationServiceEnableUserAuth {
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User username is locked");
+            .isEqualTo("User " + Users.USERNAME + " is locked");
     }
 
     @Test
@@ -237,7 +234,7 @@ class TestUserActivationServiceEnableUserAuth {
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user username");
+            .isEqualTo("Couldn't find user " + Users.USERNAME);
     }
 
 }

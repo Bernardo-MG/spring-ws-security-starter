@@ -52,7 +52,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister   user;
         final PersistentUser entity;
 
-        user = UserRegisterRequests.valid("ADMIN", "MAIL@SOMEWHERE.COM");
+        user = UserRegisterRequests.valid(Users.USERNAME.toUpperCase(), Users.EMAIL.toUpperCase());
 
         service.registerNewUser(user);
         entity = repository.findAll()
@@ -71,7 +71,7 @@ class ITUserActivationServiceRegisterNewUser {
         final UserRegister user;
         final User         result;
 
-        user = UserRegisterRequests.valid("ADMIN", "MAIL@SOMEWHERE.COM");
+        user = UserRegisterRequests.valid(Users.USERNAME.toUpperCase(), Users.EMAIL.toUpperCase());
 
         result = service.registerNewUser(user);
 

@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.model.PersistentUser;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
@@ -81,8 +82,8 @@ class TestDefaultLoginServiceToken {
 
         persistentUser = new PersistentUser();
         persistentUser.setId(1l);
-        persistentUser.setUsername("admin");
-        persistentUser.setPassword("email@somewhere.com");
+        persistentUser.setUsername(Users.USERNAME);
+        persistentUser.setPassword(Users.EMAIL);
         given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(persistentUser));
     }
 
@@ -97,15 +98,15 @@ class TestDefaultLoginServiceToken {
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
 
         login = new DtoLoginRequest();
-        login.setUsername("email@somewhere.com");
-        login.setPassword("1234");
+        login.setUsername(Users.EMAIL);
+        login.setPassword(Users.PASSWORD);
 
         status = getService(true).login(login);
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isEqualTo(UserTokenConstants.TOKEN);
     }
@@ -119,8 +120,8 @@ class TestDefaultLoginServiceToken {
         loadUser();
 
         login = new DtoLoginRequest();
-        login.setUsername("email@somewhere.com");
-        login.setPassword("1234");
+        login.setUsername(Users.EMAIL);
+        login.setPassword(Users.PASSWORD);
 
         status = getService(false).login(login);
 
@@ -130,7 +131,7 @@ class TestDefaultLoginServiceToken {
         Assertions.assertThat(status.getLogged())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
 }

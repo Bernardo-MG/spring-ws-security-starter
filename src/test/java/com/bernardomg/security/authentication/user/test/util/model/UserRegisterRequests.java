@@ -30,9 +30,9 @@ public final class UserRegisterRequests {
 
     public static final UserRegisterRequest paddedWithWhitespaces() {
         return UserRegisterRequest.builder()
-            .username(" admin ")
-            .name(" Admin ")
-            .email(" email@somewhere.com ")
+            .username(" " + Users.NAME + " ")
+            .name(" " + Users.NAME + " ")
+            .email(" " + Users.EMAIL + " ")
             .build();
     }
 
