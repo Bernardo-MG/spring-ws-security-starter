@@ -35,10 +35,10 @@ import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
+import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 /**
@@ -66,7 +66,7 @@ public class LoginConfig {
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
             properties.getValidity());
 
-        return new DefaultLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
     }
 
 }

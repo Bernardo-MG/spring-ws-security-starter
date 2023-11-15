@@ -41,13 +41,13 @@ import com.bernardomg.security.login.model.request.LoginRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default implemention of the login service.
+ * Login service which generates a token for the logged in user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class DefaultLoginService implements LoginService {
+public final class TokenLoginService implements LoginService {
 
     private final Pattern           emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
@@ -57,7 +57,7 @@ public final class DefaultLoginService implements LoginService {
 
     private final UserRepository    userRepository;
 
-    public DefaultLoginService(final Predicate<Login> valid, final UserRepository userRepo,
+    public TokenLoginService(final Predicate<Login> valid, final UserRepository userRepo,
             final LoginTokenEncoder loginTokenEnc) {
         super();
 

@@ -23,14 +23,14 @@ import com.bernardomg.security.authorization.permission.persistence.repository.U
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
-import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
+import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultLoginService - failure handling")
-class TestDefaultLoginServiceFailure {
+@DisplayName("TokenLoginService - failure handling")
+class TestTokenLoginServiceFailure {
 
     @Mock
     private PasswordEncoder                 passEncoder;
@@ -47,11 +47,11 @@ class TestDefaultLoginServiceFailure {
     @Mock
     private UserRepository                  userRepository;
 
-    public TestDefaultLoginServiceFailure() {
+    public TestTokenLoginServiceFailure() {
         super();
     }
 
-    private final DefaultLoginService getService(final UserDetails user) {
+    private final TokenLoginService getService(final UserDetails user) {
         final Predicate<Login>  valid;
         final LoginTokenEncoder loginTokenEncoder;
 
@@ -62,10 +62,10 @@ class TestDefaultLoginServiceFailure {
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
             Duration.ZERO);
 
-        return new DefaultLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
     }
 
-    private final DefaultLoginService getServiceWithNullUser() {
+    private final TokenLoginService getServiceWithNullUser() {
         return getService(null);
     }
 

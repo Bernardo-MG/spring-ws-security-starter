@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authorization.token.exception.MissingTokenException;
 import com.bernardomg.security.authorization.token.model.UserToken;
-import com.bernardomg.security.authorization.token.model.request.UserTokenPartialRequest;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
+import com.bernardomg.security.authorization.token.model.request.UserTokenPartialRequest;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
@@ -37,8 +37,8 @@ class ITSpringUserTokenServicePatch {
     @OnlyUser
     @ValidUserToken
     void testPatch_Empty_Persisted() {
-        final UserTokenEntity token;
-        final UserTokenPartial    request;
+        final UserTokenEntity  token;
+        final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
             .build();
@@ -69,8 +69,8 @@ class ITSpringUserTokenServicePatch {
     @OnlyUser
     @ValidUserToken
     void testPatch_ExpirationDate_Persisted() {
-        final UserTokenEntity token;
-        final UserTokenPartial    request;
+        final UserTokenEntity  token;
+        final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
             .expirationDate(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0))
@@ -139,8 +139,8 @@ class ITSpringUserTokenServicePatch {
     @OnlyUser
     @ValidUserToken
     void testPatch_Revoked_Persisted() {
-        final UserTokenEntity token;
-        final UserTokenPartial    request;
+        final UserTokenEntity  token;
+        final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
             .revoked(true)

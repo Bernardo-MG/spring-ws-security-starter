@@ -59,8 +59,8 @@ class ITPersistentUserTokenStoreCreateToken {
     @OnlyUser
     void testCreateToken_PersistedData() {
         final UserTokenEntity token;
-        final LocalDateTime       lower;
-        final LocalDateTime       upper;
+        final LocalDateTime   lower;
+        final LocalDateTime   upper;
 
         lower = LocalDateTime.now();
 

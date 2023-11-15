@@ -29,14 +29,14 @@ import com.bernardomg.security.authorization.permission.persistence.repository.U
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
-import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
+import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultLoginService - login with various user status")
-class TestDefaultLoginServiceAuth {
+@DisplayName("TokenLoginService - login with various user status")
+class TestTokenLoginServiceAuth {
 
     @Mock
     private PasswordEncoder                 passEncoder;
@@ -53,11 +53,11 @@ class TestDefaultLoginServiceAuth {
     @Mock
     private UserRepository                  userRepository;
 
-    public TestDefaultLoginServiceAuth() {
+    public TestTokenLoginServiceAuth() {
         super();
     }
 
-    private final DefaultLoginService getService(final UserDetails user) {
+    private final TokenLoginService getService(final UserDetails user) {
         final Predicate<Login>  valid;
         final LoginTokenEncoder loginTokenEncoder;
 
@@ -68,10 +68,10 @@ class TestDefaultLoginServiceAuth {
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
             Duration.ZERO);
 
-        return new DefaultLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
     }
 
-    private final DefaultLoginService getServiceForAccountExpired() {
+    private final TokenLoginService getServiceForAccountExpired() {
         final UserDetails user;
 
         user = new User("username", "password", true, false, true, true, Collections.emptyList());
@@ -79,7 +79,7 @@ class TestDefaultLoginServiceAuth {
         return getService(user);
     }
 
-    private final DefaultLoginService getServiceForCredentialsExpired() {
+    private final TokenLoginService getServiceForCredentialsExpired() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, false, true, Collections.emptyList());
@@ -87,7 +87,7 @@ class TestDefaultLoginServiceAuth {
         return getService(user);
     }
 
-    private final DefaultLoginService getServiceForDisabled() {
+    private final TokenLoginService getServiceForDisabled() {
         final UserDetails user;
 
         user = new User("username", "password", false, true, true, true, Collections.emptyList());
@@ -95,7 +95,7 @@ class TestDefaultLoginServiceAuth {
         return getService(user);
     }
 
-    private final DefaultLoginService getServiceForLocked() {
+    private final TokenLoginService getServiceForLocked() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, false, true, Collections.emptyList());
@@ -103,7 +103,7 @@ class TestDefaultLoginServiceAuth {
         return getService(user);
     }
 
-    private final DefaultLoginService getServiceForNotExisting() {
+    private final TokenLoginService getServiceForNotExisting() {
         final Predicate<Login>  valid;
         final LoginTokenEncoder loginTokenEncoder;
 
@@ -115,10 +115,10 @@ class TestDefaultLoginServiceAuth {
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
             Duration.ZERO);
 
-        return new DefaultLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
     }
 
-    private final DefaultLoginService getServiceForValid() {
+    private final TokenLoginService getServiceForValid() {
         final UserDetails user;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());

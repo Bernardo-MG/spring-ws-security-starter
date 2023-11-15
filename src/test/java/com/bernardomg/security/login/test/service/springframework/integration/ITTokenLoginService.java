@@ -18,7 +18,7 @@ import com.bernardomg.security.authorization.role.config.UserWithoutPermissions;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.LoginRequest;
-import com.bernardomg.security.login.service.DefaultLoginService;
+import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;
@@ -26,13 +26,13 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 
 @IntegrationTest
-@DisplayName("SpringSecurityLoginService")
-class ITSpringSecurityLoginService {
+@DisplayName("TokenLoginService")
+class ITTokenLoginService {
 
     @Autowired
-    private DefaultLoginService service;
+    private TokenLoginService service;
 
-    public ITSpringSecurityLoginService() {
+    public ITTokenLoginService() {
         super();
     }
 
