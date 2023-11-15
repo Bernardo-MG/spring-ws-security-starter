@@ -33,7 +33,7 @@ import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
-import com.bernardomg.security.user.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.token.user.test.config.constant.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultLoginService - token generation")

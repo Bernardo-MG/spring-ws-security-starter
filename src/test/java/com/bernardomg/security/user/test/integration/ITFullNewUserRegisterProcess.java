@@ -21,8 +21,8 @@ import com.bernardomg.security.authentication.user.model.query.UserRegisterReque
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.token.user.model.UserTokenStatus;
+import com.bernardomg.security.token.user.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

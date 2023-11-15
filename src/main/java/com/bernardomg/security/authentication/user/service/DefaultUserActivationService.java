@@ -40,10 +40,10 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.RegisterUserValidator;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.user.token.exception.InvalidTokenException;
-import com.bernardomg.security.user.token.model.ImmutableUserTokenStatus;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
-import com.bernardomg.security.user.token.store.UserTokenStore;
+import com.bernardomg.security.token.user.exception.InvalidTokenException;
+import com.bernardomg.security.token.user.model.ImmutableUserTokenStatus;
+import com.bernardomg.security.token.user.model.UserTokenStatus;
+import com.bernardomg.security.token.user.store.UserTokenStore;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;

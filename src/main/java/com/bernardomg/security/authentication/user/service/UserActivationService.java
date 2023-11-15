@@ -26,7 +26,7 @@ package com.bernardomg.security.authentication.user.service;
 
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.token.user.model.UserTokenStatus;
 
 /**
  * User activation service.

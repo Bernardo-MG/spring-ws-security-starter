@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.password.reset.model.request.PasswordResetChangeRequest;
 import com.bernardomg.security.password.reset.model.request.PasswordResetRequest;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
+import com.bernardomg.security.token.user.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

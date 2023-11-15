@@ -13,8 +13,8 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.token.user.model.UserTokenStatus;
+import com.bernardomg.security.token.user.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

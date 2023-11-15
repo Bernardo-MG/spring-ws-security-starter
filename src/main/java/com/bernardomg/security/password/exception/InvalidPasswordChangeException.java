@@ -28,7 +28,7 @@ import lombok.Getter;
 
 /**
  * Invalid password change exception.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */

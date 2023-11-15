@@ -35,9 +35,9 @@ import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.user.token.store.UserTokenStore;
+import com.bernardomg.security.token.user.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.token.user.store.PersistentUserTokenStore;
+import com.bernardomg.security.token.user.store.UserTokenStore;
 
 /**
  * Password handling configuration.
