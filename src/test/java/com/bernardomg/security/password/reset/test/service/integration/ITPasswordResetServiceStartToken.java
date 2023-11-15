@@ -11,11 +11,11 @@ import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authorization.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.user.persistence.model.PersistentUserToken;
-import com.bernardomg.security.token.user.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.token.user.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.token.user.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

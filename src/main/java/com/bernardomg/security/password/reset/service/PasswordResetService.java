@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.password.reset.service;
 
-import com.bernardomg.security.token.user.model.UserTokenStatus;
+import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 
 /**
  * Password recovery service. Handles the steps requires to change a password.

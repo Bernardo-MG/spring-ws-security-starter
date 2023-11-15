@@ -39,10 +39,10 @@ import com.bernardomg.security.authorization.role.service.DefaultRoleService;
 import com.bernardomg.security.authorization.role.service.DefaultUserRoleService;
 import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
+import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
+import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.token.user.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.token.user.store.PersistentUserTokenStore;
-import com.bernardomg.security.token.user.store.UserTokenStore;
 
 /**
  * Password handling configuration.

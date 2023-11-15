@@ -25,6 +25,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
@@ -33,7 +34,6 @@ import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
-import com.bernardomg.security.token.user.test.config.constant.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultLoginService - token generation")

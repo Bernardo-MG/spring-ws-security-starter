@@ -30,14 +30,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
+import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.user.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.token.user.store.PersistentUserTokenStore;
-import com.bernardomg.security.token.user.store.UserTokenStore;
 
 /**
  * Password handling configuration.

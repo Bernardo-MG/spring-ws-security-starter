@@ -24,9 +24,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.token.user.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")

@@ -10,10 +10,10 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.security.password.reset.service.PasswordResetService;
-import com.bernardomg.security.token.user.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.token.user.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.token.user.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

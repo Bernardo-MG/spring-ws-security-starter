@@ -33,11 +33,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.token.user.model.UserTokenStatus;
-import com.bernardomg.security.token.user.test.config.annotation.UserRegisteredConsumedUserToken;
-import com.bernardomg.security.token.user.test.config.annotation.UserRegisteredExpiredUserToken;
-import com.bernardomg.security.token.user.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.token.user.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.model.UserTokenStatus;
+import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredConsumedUserToken;
+import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
+import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
