@@ -25,9 +25,15 @@
 package com.bernardomg.security.authorization.permission.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+/**
+ * Immutable resource permission.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Value
 @Builder
 public final class ImmutableResourcePermission implements ResourcePermission {
 

@@ -29,7 +29,7 @@ import java.util.Objects;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.role.model.DtoUserRole;
+import com.bernardomg.security.authorization.role.model.ImmutableUserRole;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
@@ -76,7 +76,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         log.debug("Adding role {} to user {}", roleId, userId);
 
-        userRole = DtoUserRole.builder()
+        userRole = ImmutableUserRole.builder()
             .userId(userId)
             .roleId(roleId)
             .build();
@@ -109,7 +109,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         log.debug("Removing role {} from user {}", roleId, userId);
 
-        userRole = DtoUserRole.builder()
+        userRole = ImmutableUserRole.builder()
             .userId(userId)
             .roleId(roleId)
             .build();
@@ -131,7 +131,7 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     private final UserRole toDto(final UserRoleEntity role) {
-        return DtoUserRole.builder()
+        return ImmutableUserRole.builder()
             .roleId(role.getRoleId())
             .userId(role.getUserId())
             .build();

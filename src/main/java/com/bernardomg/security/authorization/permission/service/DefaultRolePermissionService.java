@@ -37,7 +37,7 @@ import com.bernardomg.security.authorization.permission.persistence.repository.R
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.validation.AddRolePermissionValidator;
 import com.bernardomg.security.authorization.permission.validation.RemoveRolePermissionValidator;
-import com.bernardomg.security.authorization.role.model.DtoRolePermission;
+import com.bernardomg.security.authorization.role.model.ImmutableRolePermission;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
@@ -80,7 +80,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         log.debug("Adding permission {} for role {}", permission, roleId);
 
-        rolePermission = DtoRolePermission.builder()
+        rolePermission = ImmutableRolePermission.builder()
             .roleId(roleId)
             .permissionId(permission)
             .build();
@@ -118,7 +118,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         log.debug("Removing permission {} for role {}", permission, roleId);
 
-        rolePermission = DtoRolePermission.builder()
+        rolePermission = ImmutableRolePermission.builder()
             .roleId(roleId)
             .permissionId(permission)
             .build();
@@ -137,7 +137,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
             result = toDto(updated);
         } else {
-            result = DtoRolePermission.builder()
+            result = ImmutableRolePermission.builder()
                 .build();
         }
 
@@ -160,7 +160,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     private final RolePermission toDto(final RolePermissionEntity entity) {
-        return DtoRolePermission.builder()
+        return ImmutableRolePermission.builder()
             .permissionId(entity.getPermissionId())
             .roleId(entity.getRoleId())
             .build();

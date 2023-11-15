@@ -25,14 +25,20 @@
 package com.bernardomg.security.authorization.role.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+/**
+ * Immutable user role.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Value
 @Builder
-public final class DtoRolePermission implements RolePermission {
-
-    private final Long permissionId;
+public final class ImmutableUserRole implements UserRole {
 
     private final Long roleId;
+
+    private final Long userId;
 
 }
