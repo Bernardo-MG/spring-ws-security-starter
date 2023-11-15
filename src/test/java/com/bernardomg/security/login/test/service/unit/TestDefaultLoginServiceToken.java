@@ -27,7 +27,7 @@ import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.DtoLoginRequest;
+import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -59,9 +59,9 @@ class TestDefaultLoginServiceToken {
     }
 
     private final DefaultLoginService getService(final Boolean match) {
-        final UserDetails             user;
-        final Predicate<LoginRequest> valid;
-        final LoginTokenEncoder       loginTokenEncoder;
+        final UserDetails       user;
+        final Predicate<Login>  valid;
+        final LoginTokenEncoder loginTokenEncoder;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 
@@ -90,14 +90,14 @@ class TestDefaultLoginServiceToken {
     @Test
     @DisplayName("Returns a token login status when the user is logged")
     void testLogin_Logged() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
+        final LoginStatus  status;
+        final LoginRequest login;
 
         loadUser();
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
 
-        login = new DtoLoginRequest();
+        login = new LoginRequest();
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 
@@ -114,12 +114,12 @@ class TestDefaultLoginServiceToken {
     @Test
     @DisplayName("Returns a default login status when the user is logged")
     void testLogin_NotLogged() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
+        final LoginStatus  status;
+        final LoginRequest login;
 
         loadUser();
 
-        login = new DtoLoginRequest();
+        login = new LoginRequest();
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 

@@ -35,7 +35,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.model.request.DtoLoginRequest;
+import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,15 +43,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultLoginService implements LoginService {
 
-    private final Pattern                 emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final Pattern           emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-    private final Predicate<LoginRequest> isValid;
+    private final Predicate<Login>  isValid;
 
-    private final LoginTokenEncoder       loginTokenEncoder;
+    private final LoginTokenEncoder loginTokenEncoder;
 
-    private final UserRepository          userRepository;
+    private final UserRepository    userRepository;
 
-    public DefaultLoginService(final Predicate<LoginRequest> valid, final UserRepository userRepo,
+    public DefaultLoginService(final Predicate<Login> valid, final UserRepository userRepo,
             final LoginTokenEncoder loginTokenEnc) {
         super();
 
@@ -61,11 +61,11 @@ public final class DefaultLoginService implements LoginService {
     }
 
     @Override
-    public final LoginStatus login(final LoginRequest login) {
-        final Boolean      valid;
-        final String       username;
-        final String       validUsername;
-        final LoginRequest loginWithName;
+    public final LoginStatus login(final Login login) {
+        final Boolean valid;
+        final String  username;
+        final String  validUsername;
+        final Login   loginWithName;
 
         username = login.getUsername()
             .toLowerCase();
@@ -102,10 +102,10 @@ public final class DefaultLoginService implements LoginService {
         return status;
     }
 
-    private final LoginRequest loadLoginName(final LoginRequest login) {
+    private final Login loadLoginName(final Login login) {
         final Matcher              emailMatcher;
         final Optional<UserEntity> readUser;
-        final LoginRequest         validLogin;
+        final Login                validLogin;
         final String               username;
 
         username = login.getUsername()
@@ -120,7 +120,7 @@ public final class DefaultLoginService implements LoginService {
             readUser = userRepository.findOneByEmail(username);
             if (readUser.isPresent()) {
                 // Get the actual username and continue
-                validLogin = DtoLoginRequest.builder()
+                validLogin = LoginRequest.builder()
                     .username(readUser.get()
                         .getUsername())
                     .password(login.getPassword())

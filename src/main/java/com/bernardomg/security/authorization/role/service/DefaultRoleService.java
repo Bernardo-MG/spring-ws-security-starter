@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default role service.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */

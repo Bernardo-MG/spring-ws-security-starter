@@ -24,31 +24,26 @@
 
 package com.bernardomg.security.login.model.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * All the data required for a login attempt.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class DtoLoginRequest implements LoginRequest {
+public interface Login {
 
     /**
-     * User password.
+     * Returns the user password.
+     *
+     * @return the user password
      */
-    private String password;
+    public String getPassword();
 
     /**
-     * User username.
+     * Returns the user username.
+     *
+     * @return the user username
      */
-    private String username;
+    public String getUsername();
 
 }

@@ -35,7 +35,7 @@ import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 
 /**
  * User service.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */

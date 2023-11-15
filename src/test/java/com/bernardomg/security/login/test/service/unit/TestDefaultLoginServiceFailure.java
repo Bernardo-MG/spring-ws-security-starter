@@ -21,7 +21,7 @@ import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.model.request.DtoLoginRequest;
+import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.DefaultLoginService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -52,8 +52,8 @@ class TestDefaultLoginServiceFailure {
     }
 
     private final DefaultLoginService getService(final UserDetails user) {
-        final Predicate<LoginRequest> valid;
-        final LoginTokenEncoder       loginTokenEncoder;
+        final Predicate<Login>  valid;
+        final LoginTokenEncoder loginTokenEncoder;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
@@ -72,10 +72,10 @@ class TestDefaultLoginServiceFailure {
     @Test
     @DisplayName("When the user details service returns a null the login fails")
     void testLogIn_NullUser() {
-        final LoginStatus     status;
-        final DtoLoginRequest login;
+        final LoginStatus  status;
+        final LoginRequest login;
 
-        login = new DtoLoginRequest();
+        login = new LoginRequest();
         login.setUsername("admin");
         login.setPassword("1234");
 

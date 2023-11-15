@@ -31,7 +31,7 @@ import com.bernardomg.security.authorization.role.model.UserRole;
 
 /**
  * User roles service.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
@@ -50,8 +50,9 @@ public interface UserRoleService {
 
     /**
      * Returns all the roles available to the user, in paginated form.
-     * 
-     * @param userId user id
+     *
+     * @param userId
+     *            user id
      * @param page
      *            pagination to apply
      * @return a page with the available roles
