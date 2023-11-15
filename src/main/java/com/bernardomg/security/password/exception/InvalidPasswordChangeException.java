@@ -36,7 +36,7 @@ import lombok.Getter;
 public final class InvalidPasswordChangeException extends RuntimeException {
 
     /**
-     *
+     * Serialization id.
      */
     private static final long serialVersionUID = -1717035586281773602L;
 
