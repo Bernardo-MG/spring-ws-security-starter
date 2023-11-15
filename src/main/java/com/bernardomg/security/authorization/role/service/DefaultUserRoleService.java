@@ -40,6 +40,12 @@ import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default user role service.
+ * 
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 

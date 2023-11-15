@@ -33,6 +33,12 @@ import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 
+/**
+ * User service.
+ * 
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface RoleService {
 
     /**
@@ -60,7 +66,7 @@ public interface RoleService {
      *            sample for filtering
      * @param pageable
      *            pagination to apply
-     * @return all the roles matching the sample
+     * @return a page for the roles matching the sample
      */
     public Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable);
 

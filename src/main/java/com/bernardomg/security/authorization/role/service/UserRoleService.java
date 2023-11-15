@@ -29,6 +29,12 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
 
+/**
+ * User roles service.
+ * 
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 public interface UserRoleService {
 
     /**
@@ -42,16 +48,24 @@ public interface UserRoleService {
      */
     public UserRole addRole(final long userId, final long roleId);
 
-    public Iterable<Role> getAvailableRoles(final long userId, final Pageable pageable);
+    /**
+     * Returns all the roles available to the user, in paginated form.
+     * 
+     * @param userId user id
+     * @param page
+     *            pagination to apply
+     * @return a page with the available roles
+     */
+    public Iterable<Role> getAvailableRoles(final long userId, final Pageable page);
 
     /**
-     * Returns all the roles for the user.
+     * Returns all the roles for the user, in paginated form.
      *
      * @param userId
      *            user id
      * @param pageable
      *            pagination to apply
-     * @return roles for the rules
+     * @return a page with the roles
      */
     public Iterable<Role> getRoles(final long userId, final Pageable pageable);
 
