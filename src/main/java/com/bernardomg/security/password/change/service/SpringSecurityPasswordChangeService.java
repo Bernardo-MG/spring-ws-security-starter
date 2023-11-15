@@ -89,6 +89,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // TODO: Avoid this second query
         userDetails = userDetailsService.loadUserByUsername(username);
 
+        // TODO: Move to validator
         validatePassword(userDetails, oldPassword);
 
         // Make sure the user can change the password

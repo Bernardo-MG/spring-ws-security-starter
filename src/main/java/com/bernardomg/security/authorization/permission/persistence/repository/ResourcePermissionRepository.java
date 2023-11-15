@@ -62,6 +62,6 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      * @return a page with the permissions
      */
     @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON rp.permissionId = p.id WHERE rp.granted = true AND rp.roleId = :roleId")
-    public Page<ResourcePermissionEntity> findForRole(@Param("roleId") final Long roleId, final Pageable pageable);
+    public Page<ResourcePermissionEntity> findForRole(@Param("roleId") final Long roleId, final Pageable page);
 
 }

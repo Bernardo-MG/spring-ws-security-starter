@@ -55,7 +55,6 @@ public interface RoleService {
      *
      * @param id
      *            id of the role to delete
-     * @return {@code true} if it managed to delete, {@code false} otherwise
      */
     public void delete(final long id);
 
