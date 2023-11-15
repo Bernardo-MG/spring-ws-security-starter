@@ -34,8 +34,8 @@ import com.bernardomg.security.authorization.token.exception.MissingTokenExcepti
 import com.bernardomg.security.authorization.token.model.ImmutableUserToken;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.UserTokenPartial;
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserDataToken;
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.authorization.token.persistence.model.UserDataTokenEntity;
+import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserDataTokenRepository;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.validation.PatchUserTokenValidator;
@@ -88,7 +88,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
     @Override
     public final void cleanUpTokens() {
-        final Collection<PersistentUserToken> tokens;
+        final Collection<UserTokenEntity> tokens;
 
         // Expiration date before now
         // Revoked
@@ -123,10 +123,10 @@ public final class SpringUserTokenService implements UserTokenService {
 
     @Override
     public final UserToken patch(final long id, final UserTokenPartial partial) {
-        final Optional<PersistentUserDataToken> read;
-        final PersistentUserDataToken           toPatch;
-        final PersistentUserToken               toSave;
-        final PersistentUserToken               saved;
+        final Optional<UserDataTokenEntity> read;
+        final UserDataTokenEntity           toPatch;
+        final UserTokenEntity               toSave;
+        final UserTokenEntity               saved;
 
         log.debug("Patching role with id {}", id);
 
@@ -153,7 +153,7 @@ public final class SpringUserTokenService implements UserTokenService {
         return toDto(saved, read.get());
     }
 
-    private final UserToken toDto(final PersistentUserDataToken entity) {
+    private final UserToken toDto(final UserDataTokenEntity entity) {
         return ImmutableUserToken.builder()
             .id(entity.getId())
             .username(entity.getUsername())
@@ -167,7 +167,7 @@ public final class SpringUserTokenService implements UserTokenService {
             .build();
     }
 
-    private final UserToken toDto(final PersistentUserToken entity, final PersistentUserDataToken data) {
+    private final UserToken toDto(final UserTokenEntity entity, final UserDataTokenEntity data) {
         return ImmutableUserToken.builder()
             .id(entity.getId())
             .username(data.getUsername())
@@ -181,10 +181,10 @@ public final class SpringUserTokenService implements UserTokenService {
             .build();
     }
 
-    private final PersistentUserToken toEntity(final PersistentUserDataToken dataToken) {
-        final PersistentUserToken token;
+    private final UserTokenEntity toEntity(final UserDataTokenEntity dataToken) {
+        final UserTokenEntity token;
 
-        token = new PersistentUserToken();
+        token = new UserTokenEntity();
         token.setId(dataToken.getId());
         token.setUserId(dataToken.getUserId());
         token.setToken(dataToken.getToken());

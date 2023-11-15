@@ -33,21 +33,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import lombok.Data;
 
 /**
- * Persistent user token.
+ * User token entity with additional data from the user. This is mapped to a view joining the user tokens with their
+ * users.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
-@Entity(name = "UserToken")
-@Table(name = "user_tokens")
-@TableGenerator(name = "seq_tokens_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
-        allocationSize = 1)
-public class PersistentUserToken implements Serializable {
+@Entity(name = "UserDataToken")
+@Table(name = "user_data_tokens")
+public class UserDataTokenEntity implements Serializable {
 
     private static final long serialVersionUID = -216369933325209746L;
 
@@ -68,6 +66,9 @@ public class PersistentUserToken implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
+    @Column(name = "name", nullable = false, unique = true, length = 300)
+    private String            name;
+
     @Column(name = "revoked", nullable = false)
     private boolean           revoked;
 
@@ -79,5 +80,8 @@ public class PersistentUserToken implements Serializable {
 
     @Column(name = "user_id", nullable = false)
     private Long              userId;
+
+    @Column(name = "username", nullable = false, unique = true, length = 300)
+    private String            username;
 
 }

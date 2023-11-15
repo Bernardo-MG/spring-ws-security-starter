@@ -31,7 +31,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 
 /**
  * Repository for user tokens.
@@ -39,7 +39,7 @@ import com.bernardomg.security.authorization.token.persistence.model.PersistentU
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserTokenRepository extends JpaRepository<PersistentUserToken, Long> {
+public interface UserTokenRepository extends JpaRepository<UserTokenEntity, Long> {
 
     /**
      * Returns all the tokens which can no longer be used. That means any of these:
@@ -53,13 +53,13 @@ public interface UserTokenRepository extends JpaRepository<PersistentUserToken, 
      * @return
      */
     @Query("SELECT t FROM UserToken t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
-    public List<PersistentUserToken> findAllFinished();
+    public List<UserTokenEntity> findAllFinished();
 
-    public List<PersistentUserToken> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
+    public List<UserTokenEntity> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
 
-    public Optional<PersistentUserToken> findOneByToken(final String token);
+    public Optional<UserTokenEntity> findOneByToken(final String token);
 
-    public Optional<PersistentUserToken> findOneByTokenAndScope(final String token, final String scope);
+    public Optional<UserTokenEntity> findOneByTokenAndScope(final String token, final String scope);
 
     /**
      * Returns the username of the user linked to the token.

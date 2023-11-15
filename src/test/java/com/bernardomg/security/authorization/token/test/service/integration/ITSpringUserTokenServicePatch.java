@@ -15,7 +15,7 @@ import com.bernardomg.security.authorization.token.exception.MissingTokenExcepti
 import com.bernardomg.security.authorization.token.model.DefaultUserTokenPartial;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.UserTokenPartial;
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
@@ -37,7 +37,7 @@ class ITSpringUserTokenServicePatch {
     @OnlyUser
     @ValidUserToken
     void testPatch_Empty_Persisted() {
-        final PersistentUserToken token;
+        final UserTokenEntity token;
         final UserTokenPartial    request;
 
         request = DefaultUserTokenPartial.builder()
@@ -69,7 +69,7 @@ class ITSpringUserTokenServicePatch {
     @OnlyUser
     @ValidUserToken
     void testPatch_ExpirationDate_Persisted() {
-        final PersistentUserToken token;
+        final UserTokenEntity token;
         final UserTokenPartial    request;
 
         request = DefaultUserTokenPartial.builder()
@@ -139,7 +139,7 @@ class ITSpringUserTokenServicePatch {
     @OnlyUser
     @ValidUserToken
     void testPatch_Revoked_Persisted() {
-        final PersistentUserToken token;
+        final UserTokenEntity token;
         final UserTokenPartial    request;
 
         request = DefaultUserTokenPartial.builder()

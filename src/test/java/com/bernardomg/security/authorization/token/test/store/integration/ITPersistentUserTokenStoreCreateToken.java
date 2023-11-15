@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
@@ -58,7 +58,7 @@ class ITPersistentUserTokenStoreCreateToken {
     @DisplayName("After generating a token said token data is persisted")
     @OnlyUser
     void testCreateToken_PersistedData() {
-        final PersistentUserToken token;
+        final UserTokenEntity token;
         final LocalDateTime       lower;
         final LocalDateTime       upper;
 

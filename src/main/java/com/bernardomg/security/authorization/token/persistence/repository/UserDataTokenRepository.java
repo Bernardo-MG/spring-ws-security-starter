@@ -26,7 +26,7 @@ package com.bernardomg.security.authorization.token.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserDataToken;
+import com.bernardomg.security.authorization.token.persistence.model.UserDataTokenEntity;
 
 /**
  * Repository for user tokens data. This allows querying a view joining user tokens with their users.
@@ -34,6 +34,6 @@ import com.bernardomg.security.authorization.token.persistence.model.PersistentU
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserDataTokenRepository extends JpaRepository<PersistentUserDataToken, Long> {
+public interface UserDataTokenRepository extends JpaRepository<UserDataTokenEntity, Long> {
 
 }

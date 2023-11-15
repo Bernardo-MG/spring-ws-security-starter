@@ -11,7 +11,7 @@ import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
@@ -50,7 +50,7 @@ class ITPasswordResetServiceStartToken {
     @DisplayName("Starting password recovery populates the created token")
     @ValidUser
     void testStartPasswordReset_TokenData() {
-        final PersistentUserToken token;
+        final UserTokenEntity token;
 
         service.startPasswordReset(Users.EMAIL);
 
@@ -90,7 +90,7 @@ class ITPasswordResetServiceStartToken {
     @ValidUser
     @PasswordResetUserToken
     void testStartPasswordReset_TokenExists_ExpiresToken() {
-        final PersistentUserToken token;
+        final UserTokenEntity token;
 
         service.startPasswordReset(Users.EMAIL);
 
@@ -113,7 +113,7 @@ class ITPasswordResetServiceStartToken {
 
         }
 
-        exists = userTokenRepository.exists(Example.of(new PersistentUserToken()));
+        exists = userTokenRepository.exists(Example.of(new UserTokenEntity()));
 
         Assertions.assertThat(exists)
             .isFalse();

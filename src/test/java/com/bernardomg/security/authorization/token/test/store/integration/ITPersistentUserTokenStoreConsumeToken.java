@@ -12,7 +12,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.exception.MissingTokenCodeException;
-import com.bernardomg.security.authorization.token.persistence.model.PersistentUserToken;
+import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
@@ -61,7 +61,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     @OnlyUser
     @ValidUserToken
     void testConsume_Consumes() {
-        final PersistentUserToken persistedToken;
+        final UserTokenEntity persistedToken;
 
         store.consumeToken(UserTokenConstants.TOKEN);
 
