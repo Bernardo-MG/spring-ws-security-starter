@@ -40,6 +40,12 @@ import com.bernardomg.security.login.model.request.LoginRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default implemention of the login service.
+ * 
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class DefaultLoginService implements LoginService {
 
