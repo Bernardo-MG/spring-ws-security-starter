@@ -33,7 +33,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authorization.token.exception.MissingTokenException;
 import com.bernardomg.security.authorization.token.model.ImmutableUserToken;
 import com.bernardomg.security.authorization.token.model.UserToken;
-import com.bernardomg.security.authorization.token.model.UserTokenPartial;
+import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.persistence.model.UserDataTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserDataTokenRepository;

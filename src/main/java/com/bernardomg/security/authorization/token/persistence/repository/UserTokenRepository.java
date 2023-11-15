@@ -34,7 +34,7 @@ import org.springframework.data.repository.query.Param;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 
 /**
- * Repository for user tokens.
+ * User token repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

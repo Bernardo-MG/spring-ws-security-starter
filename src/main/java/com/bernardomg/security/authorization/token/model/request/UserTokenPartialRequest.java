@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.model;
+package com.bernardomg.security.authorization.token.model.request;
 
 import java.time.LocalDateTime;
 
@@ -41,7 +41,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class DefaultUserTokenPartial implements UserTokenPartial {
+public final class UserTokenPartialRequest implements UserTokenPartial {
 
     private LocalDateTime expirationDate;
 

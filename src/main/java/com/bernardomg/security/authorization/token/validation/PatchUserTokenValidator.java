@@ -27,7 +27,7 @@ package com.bernardomg.security.authorization.token.validation;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import com.bernardomg.security.authorization.token.model.UserTokenPartial;
+import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 

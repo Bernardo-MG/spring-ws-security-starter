@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authorization.token.model.DefaultUserTokenPartial;
-import com.bernardomg.security.authorization.token.model.UserTokenPartial;
+import com.bernardomg.security.authorization.token.model.request.UserTokenPartialRequest;
+import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
@@ -37,7 +37,7 @@ class ITSpringUserTokenServicePatchValidation {
 
         date = LocalDateTime.now()
             .minusDays(1);
-        request = DefaultUserTokenPartial.builder()
+        request = UserTokenPartialRequest.builder()
             .expirationDate(date)
             .build();
 
@@ -57,7 +57,7 @@ class ITSpringUserTokenServicePatchValidation {
         final FieldFailure     failure;
         final UserTokenPartial request;
 
-        request = DefaultUserTokenPartial.builder()
+        request = UserTokenPartialRequest.builder()
             .revoked(false)
             .build();
 

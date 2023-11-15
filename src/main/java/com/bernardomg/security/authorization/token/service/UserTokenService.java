@@ -27,7 +27,7 @@ package com.bernardomg.security.authorization.token.service;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.token.model.UserToken;
-import com.bernardomg.security.authorization.token.model.UserTokenPartial;
+import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 
 /**
  * User token service.

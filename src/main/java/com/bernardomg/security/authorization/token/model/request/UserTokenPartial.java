@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.model;
+package com.bernardomg.security.authorization.token.model.request;
 
 import java.time.LocalDateTime;
 
