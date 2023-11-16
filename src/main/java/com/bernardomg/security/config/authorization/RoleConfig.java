@@ -22,41 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authorization;
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.token.persistence.repository.UserDataTokenRepository;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
-import com.bernardomg.security.authorization.token.service.UserTokenService;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.service.DefaultRoleService;
+import com.bernardomg.security.authorization.role.service.DefaultUserRoleService;
+import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.service.UserRoleService;
 
 /**
- * User token configuration.
+ * Password handling configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-@EnableConfigurationProperties(UserTokenProperties.class)
-public class UserTokenConfig {
+@Configuration(proxyBeanMethods = false)
+public class RoleConfig {
 
-    public UserTokenConfig() {
+    public RoleConfig() {
         super();
     }
 
-    @Bean("tokenCleanUpScheduleTask")
-    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
-        return new TokenCleanUpScheduleTask(tokenCleanUpService);
+    @Bean("roleService")
+    public RoleService getRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
+        return new DefaultRoleService(roleRepo, userRoleRepo);
     }
 
-    @Bean("userTokenService")
-    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
-            final UserDataTokenRepository userDataTokenRepo) {
-        return new SpringUserTokenService(userTokenRepo, userDataTokenRepo);
+    @Bean("userRoleService")
+    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserRoleRepository userRoleRepo) {
+        return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
     }
 
 }

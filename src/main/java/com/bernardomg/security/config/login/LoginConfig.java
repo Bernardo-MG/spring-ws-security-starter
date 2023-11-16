@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.login;
 
 import java.util.function.Predicate;
 
@@ -34,6 +34,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.config.authentication.JwtProperties;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginService;
@@ -47,7 +48,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class LoginConfig {
 
     public LoginConfig() {

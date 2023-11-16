@@ -22,34 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg;
+package com.bernardomg.security.config.authentication;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
 
 /**
- * Application runnable class. This allows Spring Boot to run the application.
+ * Authentication auto configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
-public class TestApplication {
+@AutoConfiguration
+@Import({ JwtAuthConfig.class, UserConfig.class })
+public class AuthenticationAutoConfiguration {
 
-    /**
-     * Runnable main method.
-     *
-     * @param args
-     *            execution parameters
-     */
-    public static void main(final String[] args) {
-        SpringApplication.run(TestApplication.class, args);
-    }
-
-    /**
-     * Default constructor.
-     */
-    public TestApplication() {
+    public AuthenticationAutoConfiguration() {
         super();
     }
 

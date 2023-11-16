@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authorization;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +41,7 @@ import com.bernardomg.security.authorization.role.persistence.repository.RoleRep
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class PermissionConfig {
 
     public PermissionConfig() {

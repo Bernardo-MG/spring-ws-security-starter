@@ -1,0 +1,3 @@
+com.bernardomg.security.config.authentication.AuthenticationAutoConfiguration
+com.bernardomg.security.config.authorization.AuthorizationAutoConfiguration
+com.bernardomg.security.config.login.LoginAutoConfiguration

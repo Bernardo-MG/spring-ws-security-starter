@@ -22,31 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.test.config.annotation;
+package com.bernardomg.test;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.Transactional;
+/**
+ * Application runnable class. This allows Spring Boot to run the application.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@SpringBootApplication
+public class TestApplication {
 
-import com.bernardomg.test.TestApplication;
+    /**
+     * Runnable main method.
+     *
+     * @param args
+     *            execution parameters
+     */
+    public static void main(final String[] args) {
+        SpringApplication.run(TestApplication.class, args);
+    }
 
-@SpringJUnitConfig
-@SpringBootTest(classes = TestApplication.class)
-@ActiveProfiles("test")
-@Transactional
-@Rollback
-@AllAuthoritiesMockUser
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Documented
-public @interface MvcIntegrationTest {
+    /**
+     * Default constructor.
+     */
+    public TestApplication() {
+        super();
+    }
 
 }

@@ -16,7 +16,7 @@ import com.bernardomg.security.authorization.token.store.PersistentUserTokenStor
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
-import com.bernardomg.security.config.UserTokenProperties;
+import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

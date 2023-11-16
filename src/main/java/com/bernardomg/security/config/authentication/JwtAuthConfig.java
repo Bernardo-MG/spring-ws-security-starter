@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authentication;
 
 import java.nio.charset.StandardCharsets;
 
@@ -50,7 +50,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Martínez Garrido
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(JwtProperties.class)
 @Slf4j
 public class JwtAuthConfig {

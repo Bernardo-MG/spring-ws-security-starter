@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SecurityEmailProperties.class)
 @Slf4j
 public class SecurityEmailConfig {

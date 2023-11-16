@@ -22,39 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authorization;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.access.RequireResourceAccessInterceptor;
-import com.bernardomg.security.authorization.access.ResourceAccessValidator;
-import com.bernardomg.security.authorization.access.SpringResourceAccessValidator;
+import com.bernardomg.security.authorization.token.persistence.repository.UserDataTokenRepository;
+import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.schedule.TokenCleanUpScheduleTask;
+import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
+import com.bernardomg.security.authorization.token.service.UserTokenService;
 
 /**
- * Authentication configuration.
+ * User token configuration.
  *
- * @author Bernardo Martínez Garrido
+ * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Configuration(proxyBeanMethods = false)
-public class AccessConfig {
+@EnableConfigurationProperties(UserTokenProperties.class)
+public class UserTokenConfig {
 
-    /**
-     * Default constructor.
-     */
-    public AccessConfig() {
+    public UserTokenConfig() {
         super();
     }
 
-    @Bean("requireResourceAccessAspect")
-    @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RequireResourceAccessInterceptor getRequireResourceAccessAspect() {
-        final ResourceAccessValidator validator;
+    @Bean("tokenCleanUpScheduleTask")
+    public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
+        return new TokenCleanUpScheduleTask(tokenCleanUpService);
+    }
 
-        validator = new SpringResourceAccessValidator();
-        return new RequireResourceAccessInterceptor(validator);
+    @Bean("userTokenService")
+    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
+            final UserDataTokenRepository userDataTokenRepo) {
+        return new SpringUserTokenService(userTokenRepo, userDataTokenRepo);
     }
 
 }

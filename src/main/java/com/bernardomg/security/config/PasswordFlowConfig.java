@@ -33,6 +33,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
+import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.security.password.change.service.PasswordChangeService;
 import com.bernardomg.security.password.change.service.SpringSecurityPasswordChangeService;
@@ -45,7 +46,7 @@ import com.bernardomg.security.password.reset.service.SpringSecurityPasswordRese
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class PasswordFlowConfig {
 
     public PasswordFlowConfig() {

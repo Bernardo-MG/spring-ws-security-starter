@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authentication;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,15 +33,10 @@ import com.bernardomg.security.authentication.user.service.DefaultUserActivation
 import com.bernardomg.security.authentication.user.service.DefaultUserQueryService;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.authorization.role.service.DefaultRoleService;
-import com.bernardomg.security.authorization.role.service.DefaultUserRoleService;
-import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
+import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 /**
@@ -50,16 +45,11 @@ import com.bernardomg.security.email.sender.SecurityMessageSender;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class UserConfig {
 
     public UserConfig() {
         super();
-    }
-
-    @Bean("roleService")
-    public RoleService getRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
-        return new DefaultRoleService(roleRepo, userRoleRepo);
     }
 
     @Bean("userActivationService")
@@ -77,12 +67,6 @@ public class UserConfig {
     @Bean("userQueryService")
     public UserQueryService getUserQueryService(final UserRepository userRepo) {
         return new DefaultUserQueryService(userRepo);
-    }
-
-    @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
-        return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
     }
 
 }

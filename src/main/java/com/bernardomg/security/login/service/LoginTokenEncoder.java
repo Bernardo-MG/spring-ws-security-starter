@@ -26,7 +26,7 @@ package com.bernardomg.security.login.service;
 
 /**
  * Token encoder for login.
- * 
+ *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
@@ -34,8 +34,9 @@ public interface LoginTokenEncoder {
 
     /**
      * Encodes a token for a successful login. It will use the data from the received user.
-     * 
-     * @param username user to encode a token for
+     *
+     * @param username
+     *            user to encode a token for
      * @return token encoded for user
      */
     public String encode(final String username);
