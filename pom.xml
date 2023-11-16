@@ -183,7 +183,7 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.1.0</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.version>0.1.1</bernardomg.framework.ws.version>
       <jjwt.version>0.11.5</jjwt.version>
       <lombok.version>1.18.28</lombok.version>
       <spring.boot.version>3.1.0</spring.boot.version>
