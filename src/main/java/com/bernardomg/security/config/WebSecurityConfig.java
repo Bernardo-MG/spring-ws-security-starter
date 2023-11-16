@@ -40,8 +40,8 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import com.bernardomg.security.authentication.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
-import com.bernardomg.security.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -26,4 +26,4 @@
  * JWT entry points.
  */
 
-package com.bernardomg.security.web.entrypoint;
+package com.bernardomg.security.authentication.web.entrypoint;
