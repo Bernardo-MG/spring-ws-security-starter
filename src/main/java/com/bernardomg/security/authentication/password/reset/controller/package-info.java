@@ -22,23 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
-
 /**
- * Authentication auto configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Password reset controller.
  */
-@AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordFlowConfig.class })
-public class AuthenticationAutoConfiguration {
 
-    public AuthenticationAutoConfiguration() {
-        super();
-    }
-
-}
+package com.bernardomg.security.authentication.password.reset.controller;

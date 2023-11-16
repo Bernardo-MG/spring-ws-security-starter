@@ -22,23 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.authentication.password.exception;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import lombok.Getter;
 
 /**
- * Authentication auto configuration.
+ * Invalid password change exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordFlowConfig.class })
-public class AuthenticationAutoConfiguration {
+@Getter
+public final class InvalidPasswordChangeException extends RuntimeException {
 
-    public AuthenticationAutoConfiguration() {
-        super();
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = -1717035586281773602L;
+
+    private final String      username;
+
+    public InvalidPasswordChangeException(final String message, final String user) {
+        super(message);
+
+        username = user;
     }
 
 }

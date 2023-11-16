@@ -22,23 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.authentication.password.change.model.request;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import com.bernardomg.validation.constraint.StrongPassword;
+
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
 /**
- * Authentication auto configuration.
+ * Password change request.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordFlowConfig.class })
-public class AuthenticationAutoConfiguration {
+@Data
+public final class PasswordChangeRequest {
 
-    public AuthenticationAutoConfiguration() {
-        super();
-    }
+    @NotEmpty
+    @StrongPassword
+    private String newPassword;
+
+    @NotEmpty
+    private String oldPassword;
 
 }

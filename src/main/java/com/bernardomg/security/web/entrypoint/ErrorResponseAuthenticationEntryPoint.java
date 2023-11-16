@@ -29,9 +29,8 @@ import java.io.IOException;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.web.ErrorResponse;
 
-import com.bernardomg.web.response.model.ErrorResponse;
-import com.bernardomg.web.response.model.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;

@@ -22,23 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+package com.bernardomg.security.authentication.password.change.service;
 
 /**
- * Authentication auto configuration.
+ * Password change service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordFlowConfig.class })
-public class AuthenticationAutoConfiguration {
+public interface PasswordChangeService {
 
-    public AuthenticationAutoConfiguration() {
-        super();
-    }
+    /**
+     * Changes the password for the user currently in session. It requires the current password to authenticate.
+     *
+     * @param currentPassword
+     *            current password for the user
+     * @param newPassword
+     *            new password for the user
+     */
+    public void changePasswordForUserInSession(final String currentPassword, final String newPassword);
 
 }

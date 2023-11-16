@@ -22,23 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.authentication.password.reset.model.request;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.Data;
 
 /**
- * Authentication auto configuration.
+ * Password recovery request.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordFlowConfig.class })
-public class AuthenticationAutoConfiguration {
+@Data
+public final class PasswordResetRequest {
 
-    public AuthenticationAutoConfiguration() {
-        super();
-    }
+    /**
+     * User email.
+     */
+    @NotEmpty
+    @Email
+    private String email;
 
 }

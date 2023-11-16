@@ -22,23 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.authentication.password.reset.service;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 
 /**
- * Authentication auto configuration.
+ * Password recovery service. Handles the steps requires to change a password.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordFlowConfig.class })
-public class AuthenticationAutoConfiguration {
+public interface PasswordResetService {
 
-    public AuthenticationAutoConfiguration() {
-        super();
-    }
+    public void changePassword(final String token, final String newPassword);
+
+    /**
+     * Starts the password recovery for a user, identified by the mail.
+     *
+     * @param email
+     *            email for recovering the user
+     */
+    public void startPasswordReset(final String email);
+
+    /**
+     * Validate a password recovery token.
+     *
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token is valid, {@code false} otherwise
+     */
+    public UserTokenStatus validateToken(final String token);
 
 }
