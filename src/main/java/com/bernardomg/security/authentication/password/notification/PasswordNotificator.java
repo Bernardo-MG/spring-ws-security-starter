@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.email.sender;
+package com.bernardomg.security.authentication.password.notification;
 
 /**
  * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new
@@ -31,10 +31,8 @@ package com.bernardomg.security.email.sender;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface SecurityMessageSender {
+public interface PasswordNotificator {
 
     public void sendPasswordRecoveryMessage(final String email, final String username, final String token);
-
-    public void sendUserRegisteredMessage(final String email, final String username, final String token);
 
 }

@@ -31,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.password.change.service.PasswordChangeService;
 import com.bernardomg.security.authentication.password.change.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -38,7 +39,6 @@ import com.bernardomg.security.authorization.token.persistence.repository.UserTo
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 /**
  * Password handling configuration.
@@ -61,7 +61,7 @@ public class PasswordFlowConfig {
 
     @Bean("passwordRecoveryService")
     public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
-            final UserDetailsService userDetailsService, final SecurityMessageSender mailSender,
+            final UserDetailsService userDetailsService, final PasswordNotificator notificator,
             final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
@@ -69,7 +69,7 @@ public class PasswordFlowConfig {
         tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepository, "password_reset",
             tokenProperties.getValidity());
 
-        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, mailSender, tokenStore,
+        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore,
             passwordEncoder);
     }
 

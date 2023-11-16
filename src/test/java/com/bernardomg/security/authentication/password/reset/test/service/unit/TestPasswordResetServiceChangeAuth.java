@@ -25,20 +25,17 @@ import com.bernardomg.security.authentication.user.exception.DisabledUserExcepti
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordRecoveryService - change password - authentication")
 class TestPasswordResetServiceChangeAuth {
 
     private static final String                USERNAME = "username";
-
-    @Mock
-    private SecurityMessageSender              messageSender;
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -54,6 +51,9 @@ class TestPasswordResetServiceChangeAuth {
 
     @Mock
     private UserDetailsService                 userDetailsService;
+
+    @Mock
+    private UserNotificator                    userNotificator;
 
     public TestPasswordResetServiceChangeAuth() {
         super();

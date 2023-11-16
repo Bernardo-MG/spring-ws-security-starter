@@ -24,20 +24,17 @@ import com.bernardomg.security.authentication.user.exception.EnabledUserExceptio
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
 class TestUserActivationServiceEnableUserAuth {
-
-    @Mock
-    private SecurityMessageSender        messageSender;
 
     @Mock
     private PasswordEncoder              passwordEncoder;
@@ -50,6 +47,9 @@ class TestUserActivationServiceEnableUserAuth {
 
     @Mock
     private UserTokenStore               tokenStore;
+
+    @Mock
+    private UserNotificator              userNotificator;
 
     public TestUserActivationServiceEnableUserAuth() {
         super();

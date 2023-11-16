@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authentication;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -31,14 +31,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.email.sender.DisabledSecurityMessageSender;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.email.sender.SpringMailSecurityEmailSender;
+import com.bernardomg.security.authentication.password.notification.DisabledPasswordNotificator;
+import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
+import com.bernardomg.security.authentication.password.notification.SpringMailPasswordNotificator;
+import com.bernardomg.security.authentication.user.notification.DisabledUserNotificator;
+import com.bernardomg.security.authentication.user.notification.SpringMailUserNotificator;
+import com.bernardomg.security.authentication.user.notification.UserNotificator;
+import com.bernardomg.security.config.SecurityEmailProperties;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Security configuration.
+ * Authentication notificator configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -46,25 +50,34 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SecurityEmailProperties.class)
 @Slf4j
-public class SecurityEmailConfig {
+public class NotificatorConfig {
 
-    public SecurityEmailConfig() {
+    public NotificatorConfig() {
         super();
     }
 
-    @Bean("securityEmailSender")
+    @Bean("passwordNotificator")
     // @ConditionalOnMissingBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
-    public SecurityMessageSender getDefaultSecurityEmailSender() {
+    public PasswordNotificator getDefaultPasswordNotificator() {
         // FIXME: This is not handling correctly the missing bean condition
         log.debug("Disabled security messages");
-        return new DisabledSecurityMessageSender();
+        return new DisabledPasswordNotificator();
     }
 
-    @Bean("securityEmailSender")
+    @Bean("userNotificator")
+    // @ConditionalOnMissingBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
+    public UserNotificator getDefaultUserNotificator() {
+        // FIXME: This is not handling correctly the missing bean condition
+        log.debug("Disabled security messages");
+        return new DisabledUserNotificator();
+    }
+
+    @Bean("passwordNotificator")
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public SecurityMessageSender getSecurityEmailSender(final SpringTemplateEngine templateEng,
+    public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final SecurityEmailProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.debug("Using email for security messages");
@@ -72,11 +85,24 @@ public class SecurityEmailConfig {
             .getUrl());
         log.debug("Activate user URL: {}", properties.getActivateUser()
             .getUrl());
-        return new SpringMailSecurityEmailSender(templateEng, mailSender, properties.getFrom(),
+        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.getFrom(),
             properties.getPasswordRecovery()
-                .getUrl(),
-            properties.getActivateUser()
                 .getUrl());
+    }
+
+    @Bean("userNotificator")
+    // @ConditionalOnBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
+    public UserNotificator getUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSender,
+            final SecurityEmailProperties properties) {
+        // FIXME: This is not handling correctly the bean condition
+        log.debug("Using email for security messages");
+        log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
+            .getUrl());
+        log.debug("Activate user URL: {}", properties.getActivateUser()
+            .getUrl());
+        return new SpringMailUserNotificator(templateEng, mailSender, properties.getFrom(), properties.getActivateUser()
+            .getUrl());
     }
 
 }

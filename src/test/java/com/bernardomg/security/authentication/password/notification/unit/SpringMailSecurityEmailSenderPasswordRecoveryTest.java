@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.email.sender.test.service.unit;
+package com.bernardomg.security.authentication.password.notification.unit;
 
 import static org.mockito.Mockito.verify;
 
@@ -13,12 +13,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
+import com.bernardomg.security.authentication.password.notification.SpringMailPasswordNotificator;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
-import com.bernardomg.security.email.sender.SpringMailSecurityEmailSender;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringMailSecurityEmailSender - Password recovery")
+@DisplayName("PasswordNotificator - Password recovery")
 public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
 
     @Mock
@@ -31,9 +31,9 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
         super();
     }
 
-    private final SecurityMessageSender getSender() {
-        return new SpringMailSecurityEmailSender(templateEng, javaMailSender, "sender@somewhere.com",
-            "http://somewhere.com", "http://somewhere.com");
+    private final PasswordNotificator getSender() {
+        return new SpringMailPasswordNotificator(templateEng, javaMailSender, "sender@somewhere.com",
+            "http://somewhere.com");
     }
 
     @Test

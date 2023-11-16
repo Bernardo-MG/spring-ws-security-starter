@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.email.sender;
+package com.bernardomg.security.authentication.password.notification;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class SpringMailSecurityEmailSender implements SecurityMessageSender {
+public final class SpringMailPasswordNotificator implements PasswordNotificator {
 
     private final String               fromEmail;
 
@@ -53,18 +53,13 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
 
     private final SpringTemplateEngine templateEngine;
 
-    private final String               userRegisteredSubject   = "User registered";
-
-    private final String               userRegisteredUrl;
-
-    public SpringMailSecurityEmailSender(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
-            final String frmEmail, final String passRecoveryUrl, final String userRegUrl) {
+    public SpringMailPasswordNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
+            final String frmEmail, final String passRecoveryUrl) {
         super();
 
         templateEngine = templateEng;
         mailSender = mailSendr;
         fromEmail = frmEmail;
-        userRegisteredUrl = userRegUrl;
         passwordRecoveryUrl = passRecoveryUrl;
     }
 
@@ -81,22 +76,6 @@ public final class SpringMailSecurityEmailSender implements SecurityMessageSende
         sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
         log.debug("Sent password recovery email to {} for {}", email, username);
-    }
-
-    @Override
-    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
-        final String recoveryUrl;
-        final String userRegisteredEmailText;
-
-        log.debug("Sending user registered email to {} for {}", email, username);
-
-        recoveryUrl = generateUrl(userRegisteredUrl, token);
-        userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
-
-        // TODO: Send template name and parameters
-        sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
-
-        log.debug("Sent user registered email to {} for {}", email, username);
     }
 
     private final String generateEmailContent(final String templateName, final String url, final String username) {

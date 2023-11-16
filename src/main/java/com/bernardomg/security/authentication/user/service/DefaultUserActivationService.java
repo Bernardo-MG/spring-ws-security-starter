@@ -36,6 +36,7 @@ import com.bernardomg.security.authentication.user.exception.UserNotFoundExcepti
 import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
+import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.RegisterUserValidator;
@@ -43,7 +44,6 @@ import com.bernardomg.security.authorization.token.exception.InvalidTokenExcepti
 import com.bernardomg.security.authorization.token.model.ImmutableUserTokenStatus;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +60,7 @@ public final class DefaultUserActivationService implements UserActivationService
     /**
      * Message sender. Registering new users may require emails, or other kind of messaging.
      */
-    private final SecurityMessageSender   messageSender;
+    private final UserNotificator         userNotificator;
 
     /**
      * Password encoder, for validating passwords.
@@ -82,14 +82,14 @@ public final class DefaultUserActivationService implements UserActivationService
      */
     private final Validator<UserRegister> validatorRegisterUser;
 
-    public DefaultUserActivationService(final UserRepository userRepo, final SecurityMessageSender mSender,
+    public DefaultUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
             final UserTokenStore tStore, final PasswordEncoder passEncoder) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         tokenStore = Objects.requireNonNull(tStore);
         passwordEncoder = Objects.requireNonNull(passEncoder);
-        messageSender = Objects.requireNonNull(mSender);
+        userNotificator = Objects.requireNonNull(mSender);
 
         validatorRegisterUser = new RegisterUserValidator(userRepo);
     }
@@ -170,7 +170,7 @@ public final class DefaultUserActivationService implements UserActivationService
         token = tokenStore.createToken(created.getUsername());
 
         // TODO: Handle through events
-        messageSender.sendUserRegisteredMessage(created.getEmail(), user.getUsername(), token);
+        userNotificator.sendUserRegisteredMessage(created.getEmail(), user.getUsername(), token);
 
         log.debug("Registered new user {} with email {}", user.getUsername(), user.getEmail());
 

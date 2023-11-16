@@ -22,21 +22,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordRecoveryService - Mail generation on recovery start")
 class TestSpringSecurityPasswordResetServiceStartEmail {
 
     @Mock
-    private SecurityMessageSender              messageSender;
+    private PasswordEncoder                    passwordEncoder;
 
     @Mock
-    private PasswordEncoder                    passwordEncoder;
+    private PasswordNotificator                passwordNotificator;
 
     @Mock
     private UserRepository                     repository;
@@ -83,7 +83,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         service.startPasswordReset("email@somewhere.com");
 
-        verify(messageSender).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any(),
+        verify(passwordNotificator).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any(),
             ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
@@ -99,7 +99,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         service.startPasswordReset("email@somewhere.com");
 
-        verify(messageSender).sendPasswordRecoveryMessage(ArgumentMatchers.any(), usernameCaptor.capture(),
+        verify(passwordNotificator).sendPasswordRecoveryMessage(ArgumentMatchers.any(), usernameCaptor.capture(),
             ArgumentMatchers.any());
 
         Assertions.assertThat(usernameCaptor.getValue())

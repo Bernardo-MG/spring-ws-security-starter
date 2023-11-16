@@ -22,8 +22,17 @@
  * SOFTWARE.
  */
 
-/**
- * Security email components.
- */
+package com.bernardomg.security.authentication.user.notification;
 
-package com.bernardomg.security.email.sender;
+/**
+ * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new
+ * user.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface UserNotificator {
+
+    public void sendUserRegisteredMessage(final String email, final String username, final String token);
+
+}

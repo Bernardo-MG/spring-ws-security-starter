@@ -28,6 +28,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.service.DefaultUserQueryService;
@@ -37,7 +38,6 @@ import com.bernardomg.security.authorization.token.persistence.repository.UserTo
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
-import com.bernardomg.security.email.sender.SecurityMessageSender;
 
 /**
  * Password handling configuration.
@@ -53,9 +53,9 @@ public class UserConfig {
     }
 
     @Bean("userActivationService")
-    public UserActivationService getUserActivationService(final UserRepository userRepo,
-            final SecurityMessageSender mSender, final PasswordEncoder passEncoder,
-            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
+    public UserActivationService getUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
+            final PasswordEncoder passEncoder, final UserTokenRepository userTokenRepository,
+            final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
         tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepo, "user_registered",
