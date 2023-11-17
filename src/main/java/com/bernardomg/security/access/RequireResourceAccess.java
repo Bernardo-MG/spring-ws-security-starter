@@ -49,13 +49,13 @@ public @interface RequireResourceAccess {
      *
      * @return action required
      */
-    public String action();
+    String action();
 
     /**
-     * Resource to authorize.
+     * Resource to access.
      *
-     * @return resource to authorize
+     * @return resource to access
      */
-    public String resource();
+    String resource();
 
 }

@@ -3,12 +3,12 @@ package com.bernardomg.security.permission.test.util.assertion;
 
 import org.assertj.core.api.Assertions;
 
-import com.bernardomg.security.permission.persistence.model.PersistentRoleGrantedPermission;
+import com.bernardomg.security.authorization.permission.persistence.model.RoleGrantedPermissionEntity;
 
 public final class RoleGrantedPermissionAssertions {
 
-    public static final void isEqualTo(final PersistentRoleGrantedPermission received,
-            final PersistentRoleGrantedPermission expected) {
+    public static final void isEqualTo(final RoleGrantedPermissionEntity received,
+            final RoleGrantedPermissionEntity expected) {
         Assertions.assertThat(received.getAction())
             .withFailMessage("Expected action '%s' but got '%s'", expected.getAction(), received.getAction())
             .isEqualTo(expected.getAction());

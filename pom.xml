@@ -12,22 +12,22 @@
    <parent>
       <groupId>com.bernardomg.maven</groupId>
       <artifactId>base-pom</artifactId>
-      <version>1.5.4</version>
+      <version>1.5.6</version>
    </parent>
 
    <!-- ********************************************** -->
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg</groupId>
+   <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
    <version>1.0.0-SNAPSHOT</version>
-   <packaging>war</packaging>
+   <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
    <description>Starter for Security in Spring Web Services.</description>
    <url>https://github.com/bernardo-mg/spring-ws-security-starter</url>
-   <inceptionYear>2022</inceptionYear>
+   <inceptionYear>2023</inceptionYear>
 
    <licenses>
       <license>
@@ -182,17 +182,13 @@
       <!-- ============================================== -->
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
+      <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
+      <bernardomg.framework.ws.version>0.1.1</bernardomg.framework.ws.version>
       <jjwt.version>0.11.5</jjwt.version>
       <lombok.version>1.18.28</lombok.version>
-      <passay.version>1.6.3</passay.version>
       <spring.boot.version>3.1.0</spring.boot.version>
       <spring.data.version>2023.0.0</spring.data.version>
       <spring.version>6.0.9</spring.version>
-      <!-- ============================================== -->
-      <!-- ============== PLUGINS VERSIONS ============== -->
-      <!-- ============================================== -->
-      <plugin.processor.version>4.5</plugin.processor.version>
-      <plugin.spring.boot.version>${spring.boot.version}</plugin.spring.boot.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
@@ -202,6 +198,8 @@
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
       <site.skin.version>2.3.2</site.skin.version>
+      <mavenURL>http://mvnrepository.com/artifact/com.bernardomg.framework.spring/spring-ws-security-starter</mavenURL>
+      <githubArtifactURL><![CDATA[https://github.com/Bernardo-MG?tab=packages&amp;repo_name=spring-ws-security-starter]]></githubArtifactURL>
    </properties>
 
    <!-- ********************************************** -->
@@ -238,6 +236,35 @@
    </dependencyManagement>
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+         <version>${bernardomg.framework.validation.version}</version>
+         <exclusions>
+            <exclusion>
+               <!-- SL4J API -->
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-starter</artifactId>
+         <version>${bernardomg.framework.ws.version}</version>
+         <exclusions>
+            <exclusion>
+               <!-- SL4J API -->
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
@@ -478,21 +505,25 @@
          <!-- Log4j SLF4J Bridge -->
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-slf4j-impl</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <!-- Log4j core -->
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-core</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <!-- Log4j Commons Logging Bridge -->
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-jcl</artifactId>
+         <scope>provided</scope>
       </dependency>
       <dependency>
          <!-- Log4j Web -->
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-web</artifactId>
+         <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
       <!-- ================= JACKSON ==================== -->
@@ -511,15 +542,6 @@
          <!-- Jackson annotations -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-annotations</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================= THYMELEAF ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Passay -->
-         <groupId>org.passay</groupId>
-         <artifactId>passay</artifactId>
-         <version>${passay.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- =========== VERSION ENFORCEMENT ============== -->
@@ -657,26 +679,6 @@
                   <version>${site.skin.version}</version>
                </dependency>
             </dependencies>
-         </plugin>
-         <plugin>
-            <!-- WAR -->
-            <!-- Generates the WAR package. -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <!-- Spring Boot -->
-            <!-- Takes care of running Spring Boot application -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${plugin.spring.boot.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>repackage</goal>
-                  </goals>
-               </execution>
-            </executions>
          </plugin>
          <plugin>
             <!-- Build helper -->
