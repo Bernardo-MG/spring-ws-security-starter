@@ -1,3 +1,6 @@
+com.bernardomg.security.config.access.AccessAutoConfiguration
 com.bernardomg.security.config.authentication.AuthenticationAutoConfiguration
 com.bernardomg.security.config.authorization.AuthorizationAutoConfiguration
 com.bernardomg.security.config.login.LoginAutoConfiguration
+com.bernardomg.security.config.web.WebSecurityAutoConfiguration
+com.bernardomg.security.config.SecurityAutoConfiguration

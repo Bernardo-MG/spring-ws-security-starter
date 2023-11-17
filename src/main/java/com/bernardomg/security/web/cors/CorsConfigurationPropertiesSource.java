@@ -5,7 +5,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.bernardomg.security.config.CorsProperties;
+import com.bernardomg.security.config.web.CorsProperties;
 
 import jakarta.servlet.http.HttpServletRequest;
 

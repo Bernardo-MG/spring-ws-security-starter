@@ -24,24 +24,21 @@
 
 package com.bernardomg.security.config;
 
-import java.util.List;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+/**
+ * Security auto configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@AutoConfiguration
+@Import({ SecurityConfig.class })
+public class SecurityAutoConfiguration {
 
-import lombok.Data;
-
-@Data
-@ConfigurationProperties(prefix = "cors")
-public final class CorsProperties {
-
-    private List<String> allowedHeaders = List.of("*");
-
-    private List<String> allowedMethods = List.of("*");
-
-    private List<String> allowedOrigins = List.of("*");
-
-    private List<String> exposedHeaders = List.of("*");
-
-    private String       pattern        = "/**";
+    public SecurityAutoConfiguration() {
+        super();
+    }
 
 }

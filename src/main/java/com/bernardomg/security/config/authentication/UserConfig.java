@@ -47,8 +47,7 @@ import com.bernardomg.security.config.authorization.UserTokenProperties;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.persistence.model",
-        "com.bernardomg.security.authentication.user.persistence.repository" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.persistence" })
 public class UserConfig {
 
     public UserConfig() {

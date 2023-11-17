@@ -22,39 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.web;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import com.bernardomg.security.authorization.access.RequireResourceAccessInterceptor;
-import com.bernardomg.security.authorization.access.ResourceAccessValidator;
-import com.bernardomg.security.authorization.access.SpringResourceAccessValidator;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
 
 /**
- * Authentication configuration.
+ * Access auto configuration.
  *
- * @author Bernardo Martínez Garrido
+ * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration(proxyBeanMethods = false)
-public class AccessConfig {
+@AutoConfiguration
+@Import({ WebSecurityConfig.class })
+public class WebSecurityAutoConfiguration {
 
-    /**
-     * Default constructor.
-     */
-    public AccessConfig() {
+    public WebSecurityAutoConfiguration() {
         super();
-    }
-
-    @Bean("requireResourceAccessAspect")
-    @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RequireResourceAccessInterceptor getRequireResourceAccessAspect() {
-        final ResourceAccessValidator validator;
-
-        validator = new SpringResourceAccessValidator();
-        return new RequireResourceAccessInterceptor(validator);
     }
 
 }
