@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Import;
  *
  */
 @AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordFlowConfig.class, NotificatorConfig.class })
+@Import({ JwtAuthConfig.class, UserConfig.class, PasswordConfig.class, NotificatorConfig.class })
 public class AuthenticationAutoConfiguration {
 
     public AuthenticationAutoConfiguration() {

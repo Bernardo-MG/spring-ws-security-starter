@@ -69,14 +69,14 @@ import lombok.extern.slf4j.Slf4j;
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
     /**
-     * Notificator. Recovery steps may require emails, or other kind of messaging.
-     */
-    private final PasswordNotificator passwordNotificator;
-
-    /**
      * Password encoder, for validating passwords.
      */
     private final PasswordEncoder     passwordEncoder;
+
+    /**
+     * Notificator. Recovery steps may require emails, or other kind of messaging.
+     */
+    private final PasswordNotificator passwordNotificator;
 
     /**
      * Token processor.

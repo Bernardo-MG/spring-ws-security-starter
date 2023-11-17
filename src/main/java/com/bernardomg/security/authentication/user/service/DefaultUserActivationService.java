@@ -58,11 +58,6 @@ import lombok.extern.slf4j.Slf4j;
 public final class DefaultUserActivationService implements UserActivationService {
 
     /**
-     * Message sender. Registering new users may require emails, or other kind of messaging.
-     */
-    private final UserNotificator         userNotificator;
-
-    /**
      * Password encoder, for validating passwords.
      */
     private final PasswordEncoder         passwordEncoder;
@@ -71,6 +66,11 @@ public final class DefaultUserActivationService implements UserActivationService
      * Token processor.
      */
     private final UserTokenStore          tokenStore;
+
+    /**
+     * Message sender. Registering new users may require emails, or other kind of messaging.
+     */
+    private final UserNotificator         userNotificator;
 
     /**
      * User repository.

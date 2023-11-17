@@ -33,19 +33,13 @@ import java.lang.annotation.Target;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.config.authentication.AuthenticationAutoConfiguration;
-import com.bernardomg.security.config.authorization.AuthorizationAutoConfiguration;
-import com.bernardomg.security.config.login.LoginAutoConfiguration;
 import com.bernardomg.test.TestApplication;
 
 @SpringJUnitConfig
 @SpringBootTest(classes = TestApplication.class)
-@ContextConfiguration(classes = { AuthenticationAutoConfiguration.class, AuthorizationAutoConfiguration.class,
-        LoginAutoConfiguration.class })
 @ActiveProfiles("test")
 @Transactional
 @Rollback

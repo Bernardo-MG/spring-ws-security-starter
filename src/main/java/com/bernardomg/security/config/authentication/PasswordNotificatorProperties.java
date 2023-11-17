@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authentication;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -30,21 +30,13 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "email.security")
-public final class SecurityEmailProperties {
-
-    @Data
-    public final class ActivateUserProperties {
-
-        private String url;
-    }
+public final class PasswordNotificatorProperties {
 
     @Data
     public final class PasswordRecoveryProperties {
 
         private String url;
     }
-
-    private ActivateUserProperties     activateUser     = new ActivateUserProperties();
 
     private String                     from;
 

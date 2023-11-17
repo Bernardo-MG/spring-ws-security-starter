@@ -22,23 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authorization;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
 /**
- * Security configuration.
+ * Spring user configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Configuration(proxyBeanMethods = false)
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
+public class SpringUserConfig {
 
-    public SecurityConfig() {
+    public SpringUserConfig() {
         super();
+    }
+
+    @Bean("userDetailsService")
+    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
+            final UserGrantedPermissionRepository userPermsRepository) {
+        return new PersistentUserDetailsService(userRepository, userPermsRepository);
     }
 
 }

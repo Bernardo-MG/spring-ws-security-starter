@@ -37,7 +37,6 @@ import com.bernardomg.security.authentication.password.notification.SpringMailPa
 import com.bernardomg.security.authentication.user.notification.DisabledUserNotificator;
 import com.bernardomg.security.authentication.user.notification.SpringMailUserNotificator;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
-import com.bernardomg.security.config.SecurityEmailProperties;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(SecurityEmailProperties.class)
+@EnableConfigurationProperties(UserNotificatorProperties.class)
 @Slf4j
 public class NotificatorConfig {
 
@@ -78,12 +77,10 @@ public class NotificatorConfig {
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
-            final JavaMailSender mailSender, final SecurityEmailProperties properties) {
+            final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.debug("Using email for security messages");
         log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
-            .getUrl());
-        log.debug("Activate user URL: {}", properties.getActivateUser()
             .getUrl());
         return new SpringMailPasswordNotificator(templateEng, mailSender, properties.getFrom(),
             properties.getPasswordRecovery()
@@ -94,11 +91,9 @@ public class NotificatorConfig {
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public UserNotificator getUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSender,
-            final SecurityEmailProperties properties) {
+            final UserNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.debug("Using email for security messages");
-        log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
-            .getUrl());
         log.debug("Activate user URL: {}", properties.getActivateUser()
             .getUrl());
         return new SpringMailUserNotificator(templateEng, mailSender, properties.getFrom(), properties.getActivateUser()

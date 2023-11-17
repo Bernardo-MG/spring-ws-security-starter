@@ -22,23 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config;
+package com.bernardomg.security.config.authentication;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Security configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Configuration(proxyBeanMethods = false)
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
+import lombok.Data;
 
-    public SecurityConfig() {
-        super();
+@Data
+@ConfigurationProperties(prefix = "email.security")
+public final class UserNotificatorProperties {
+
+    @Data
+    public final class ActivateUserProperties {
+
+        private String url;
     }
+
+    private ActivateUserProperties activateUser = new ActivateUserProperties();
+
+    private String                 from;
 
 }

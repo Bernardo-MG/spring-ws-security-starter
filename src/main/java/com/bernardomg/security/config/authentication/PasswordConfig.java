@@ -24,9 +24,12 @@
 
 package com.bernardomg.security.config.authentication;
 
+import java.security.SecureRandom;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.password.change.service.PasswordChangeService;
@@ -47,9 +50,9 @@ import com.bernardomg.security.config.authorization.UserTokenProperties;
  *
  */
 @Configuration(proxyBeanMethods = false)
-public class PasswordFlowConfig {
+public class PasswordConfig {
 
-    public PasswordFlowConfig() {
+    public PasswordConfig() {
         super();
     }
 
@@ -57,6 +60,11 @@ public class PasswordFlowConfig {
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
         return new SpringSecurityPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
+    }
+
+    @Bean("passwordEncoder")
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
     @Bean("passwordRecoveryService")

@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.config.authentication;
 
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +47,8 @@ import com.bernardomg.security.config.authorization.UserTokenProperties;
  *
  */
 @Configuration(proxyBeanMethods = false)
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.persistence.model",
+        "com.bernardomg.security.authentication.user.persistence.repository" })
 public class UserConfig {
 
     public UserConfig() {
