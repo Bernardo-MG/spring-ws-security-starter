@@ -34,6 +34,14 @@ import com.bernardomg.security.authorization.token.model.UserTokenStatus;
  */
 public interface PasswordResetService {
 
+    /**
+     * Change password.
+     *
+     * @param token
+     *            token for the password change
+     * @param newPassword
+     *            new password
+     */
     public void changePassword(final String token, final String newPassword);
 
     /**

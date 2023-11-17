@@ -47,6 +47,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
 
+    /**
+     * User repository.
+     */
     private final UserRepository userRepository;
 
     public UpdateUserValidator(final UserRepository userRepo) {

@@ -22,33 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.change.model.request;
-
-import com.bernardomg.validation.constraint.StrongPassword;
-
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
-
 /**
- * Password change request.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Token request model.
  */
-@Data
-public final class PasswordChangeRequest {
 
-    /**
-     * The new password.
-     */
-    @NotEmpty
-    @StrongPassword
-    private String newPassword;
-
-    /**
-     * The previous password.
-     */
-    @NotEmpty
-    private String oldPassword;
-
-}
+package com.bernardomg.security.authorization.token.model.request;

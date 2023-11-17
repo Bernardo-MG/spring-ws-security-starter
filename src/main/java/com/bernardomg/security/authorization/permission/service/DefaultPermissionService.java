@@ -47,19 +47,19 @@ public final class DefaultPermissionService implements PermissionService {
     /**
      * Permissions repository.
      */
-    private final ResourcePermissionRepository repository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
-    public DefaultPermissionService(final ResourcePermissionRepository repository) {
+    public DefaultPermissionService(final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 
-        this.repository = repository;
+        resourcePermissionRepository = resourcePermissionRepo;
     }
 
     @Override
     public final Iterable<ResourcePermission> getAll(final Pageable pageable) {
         log.debug("Reading actions with pagination {}", pageable);
 
-        return repository.findAll(pageable)
+        return resourcePermissionRepository.findAll(pageable)
             .map(this::toDto);
     }
 
@@ -68,7 +68,7 @@ public final class DefaultPermissionService implements PermissionService {
 
         log.debug("Reading action with id {}", id);
 
-        return repository.findById(id)
+        return resourcePermissionRepository.findById(id)
             .map(this::toDto);
     }
 

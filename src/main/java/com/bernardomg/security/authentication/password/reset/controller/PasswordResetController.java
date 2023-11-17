@@ -63,6 +63,8 @@ public class PasswordResetController {
     /**
      * Change password at the end of a password recovery.
      *
+     * @param token
+     *            token for password change
      * @param request
      *            password change request
      */

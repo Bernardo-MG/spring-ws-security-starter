@@ -132,6 +132,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         auth = SecurityContextHolder.getContext()
             .getAuthentication();
         if ((auth == null) || (!auth.isAuthenticated())) {
+            // TODO: Use an exception matching the actual error
             throw new InvalidPasswordChangeException("No user authenticated", "");
         }
 
