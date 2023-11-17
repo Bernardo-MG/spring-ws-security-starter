@@ -19,12 +19,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
@@ -41,7 +41,7 @@ class TestPasswordResetServiceStartAuth {
     private PasswordEncoder                    passwordEncoder;
 
     @Mock
-    private UserRepository                     repository;
+    private PasswordNotificator                passwordNotificator;
 
     @InjectMocks
     private SpringSecurityPasswordResetService service;
@@ -53,7 +53,7 @@ class TestPasswordResetServiceStartAuth {
     private UserDetailsService                 userDetailsService;
 
     @Mock
-    private UserNotificator                    userNotificator;
+    private UserRepository                     userRepository;
 
     public TestPasswordResetServiceStartAuth() {
         super();
@@ -102,7 +102,7 @@ class TestPasswordResetServiceStartAuth {
         user.setEmail("email@somewhere.com");
         user.setUsername(USERNAME);
 
-        given(repository.findOneByEmail(EMAIL)).willReturn(Optional.of(user));
+        given(userRepository.findOneByEmail(EMAIL)).willReturn(Optional.of(user));
     }
 
     @Test
