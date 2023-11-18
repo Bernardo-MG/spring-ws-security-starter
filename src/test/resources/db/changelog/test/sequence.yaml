@@ -17,3 +17,13 @@ databaseChangeLog:
                   type: integer
                   constraints:
                     nullable: false
+  - changeSet:
+      id: initial_sequences
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sequences.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

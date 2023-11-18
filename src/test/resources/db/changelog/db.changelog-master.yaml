@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: test/sequence.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: auth/initialize.yaml
+      relativeToChangelogFile: true

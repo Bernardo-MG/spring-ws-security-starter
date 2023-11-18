@@ -11,5 +11,10 @@
             First version.
          </action>
       </release>
+      <release version="0.1.1" date="2023-11-18" description="Data initialization">
+         <action dev="bmg" type="update">
+            Reduced liquibase configuration.
+         </action>
+      </release>
    </body>
 </document>
