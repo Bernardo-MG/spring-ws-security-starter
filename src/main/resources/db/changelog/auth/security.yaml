@@ -248,6 +248,16 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: false
   - changeSet:
+      id: auth_initial_data
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: auth/permissions.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
       id: security_views
       author: Bernardo
       changes:
