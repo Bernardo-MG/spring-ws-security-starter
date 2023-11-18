@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
-import com.bernardomg.security.permission.persistence.repository.RolePermissionRepository;
-import com.bernardomg.security.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
+import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
+import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.permission.test.util.assertion.RolePermissionAssertions;
-import com.bernardomg.security.user.model.RolePermission;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -38,9 +38,9 @@ class ITRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Can remove a permission")
     void testRemovePermission() {
-        final Iterable<PersistentRolePermission> result;
-        final Iterator<PersistentRolePermission> itr;
-        PersistentRolePermission                 found;
+        final Iterable<RolePermissionEntity> result;
+        final Iterator<RolePermissionEntity> itr;
+        RolePermissionEntity                 found;
 
         service.removePermission(1l, 1l);
         result = rolePermissionRepository.findAll();
@@ -52,7 +52,7 @@ class ITRolePermissionServiceRemovePermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(1L)
             .roleId(1L)
             .granted(false)
@@ -60,7 +60,7 @@ class ITRolePermissionServiceRemovePermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(2L)
             .roleId(1L)
             .granted(true)
@@ -68,7 +68,7 @@ class ITRolePermissionServiceRemovePermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(3L)
             .roleId(1L)
             .granted(true)
@@ -76,7 +76,7 @@ class ITRolePermissionServiceRemovePermission {
 
         found = itr.next();
 
-        RolePermissionAssertions.isEqualTo(found, PersistentRolePermission.builder()
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
             .permissionId(4L)
             .roleId(1L)
             .granted(true)

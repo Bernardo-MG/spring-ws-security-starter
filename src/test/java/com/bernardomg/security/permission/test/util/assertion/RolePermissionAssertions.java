@@ -3,12 +3,12 @@ package com.bernardomg.security.permission.test.util.assertion;
 
 import org.assertj.core.api.Assertions;
 
-import com.bernardomg.security.permission.model.Permission;
-import com.bernardomg.security.permission.persistence.model.PersistentRolePermission;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 
 public final class RolePermissionAssertions {
 
-    public static final void isEqualTo(final Permission received, final Permission expected) {
+    public static final void isEqualTo(final ResourcePermission received, final ResourcePermission expected) {
         Assertions.assertThat(received.getAction())
             .withFailMessage("Expected action '%s' but got '%s'", expected.getAction(), received.getAction())
             .isEqualTo(expected.getAction());
@@ -17,8 +17,7 @@ public final class RolePermissionAssertions {
             .isEqualTo(expected.getResource());
     }
 
-    public static final void isEqualTo(final PersistentRolePermission received,
-            final PersistentRolePermission expected) {
+    public static final void isEqualTo(final RolePermissionEntity received, final RolePermissionEntity expected) {
         Assertions.assertThat(received.getPermissionId())
             .withFailMessage("Expected permission id '%s' but got '%s'", expected.getPermissionId(),
                 received.getPermissionId())

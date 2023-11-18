@@ -16,13 +16,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.user.model.request.UserCreate;
-import com.bernardomg.security.user.model.request.ValidatedUserCreate;
-import com.bernardomg.security.user.persistence.model.PersistentUser;
-import com.bernardomg.security.user.persistence.repository.UserRepository;
-import com.bernardomg.security.user.service.UserService;
-import com.bernardomg.security.user.token.model.UserTokenStatus;
-import com.bernardomg.security.user.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authentication.user.model.query.UserRegister;
+import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
+import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authorization.token.model.UserTokenStatus;
+import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -30,16 +30,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITFullNewUserRegisterProcess {
 
     @Autowired
-    private PasswordEncoder     passwordEncoder;
+    private PasswordEncoder       passwordEncoder;
 
     @Autowired
-    private UserService         service;
+    private UserActivationService userActivationService;
 
     @Autowired
-    private UserRepository      userRepository;
+    private UserRepository        userRepository;
 
     @Autowired
-    private UserTokenRepository userTokenRepository;
+    private UserTokenRepository   userTokenRepository;
 
     public ITFullNewUserRegisterProcess() {
         super();
@@ -76,19 +76,19 @@ class ITFullNewUserRegisterProcess {
     void testNewUser_Valid() {
         final UserTokenStatus validTokenStatus;
         final String          token;
-        final PersistentUser  user;
-        final UserCreate      newUser;
+        final UserEntity      user;
+        final UserRegister    newUser;
 
         // TODO: Set authentication to admin
         changeToAdmin();
 
         // Register new user
-        newUser = ValidatedUserCreate.builder()
+        newUser = UserRegisterRequest.builder()
             .email("email@somewhere.com")
             .username("username")
             .name("user")
             .build();
-        service.registerNewUser(newUser);
+        userActivationService.registerNewUser(newUser);
 
         // Validate new token
         token = userTokenRepository.findAll()
@@ -97,7 +97,7 @@ class ITFullNewUserRegisterProcess {
             .get()
             .getToken();
 
-        validTokenStatus = service.validateToken(token);
+        validTokenStatus = userActivationService.validateToken(token);
 
         Assertions.assertThat(validTokenStatus.isValid())
             .isTrue();
@@ -108,7 +108,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        service.activateNewUser(token, "1234");
+        userActivationService.activateUser(token, "1234");
 
         user = userRepository.findAll()
             .stream()

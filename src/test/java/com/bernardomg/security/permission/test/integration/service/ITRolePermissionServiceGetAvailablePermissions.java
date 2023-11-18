@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.permission.model.Permission;
-import com.bernardomg.security.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -33,9 +33,9 @@ class ITRolePermissionServiceGetAvailablePermissions {
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_single_permission.sql" })
     void testGetAvailablePermissions() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
-        Boolean                    found;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
+        Boolean                            found;
 
         pageable = Pageable.unpaged();
 
@@ -75,8 +75,8 @@ class ITRolePermissionServiceGetAvailablePermissions {
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_permission.sql" })
     void testGetAvailablePermissions_AllAssigned() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
@@ -91,9 +91,9 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
     void testGetAvailablePermissions_NoPermissions() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
-        Boolean                    found;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
+        Boolean                            found;
 
         pageable = Pageable.unpaged();
 
@@ -137,8 +137,8 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @Test
     @DisplayName("Returns no permission for a not existing role")
     void testGetAvailablePermissions_NotExisting() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
@@ -154,9 +154,9 @@ class ITRolePermissionServiceGetAvailablePermissions {
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/relationship/role_permission_not_granted.sql" })
     void testGetAvailablePermissions_NotGranted() {
-        final Iterable<Permission> result;
-        final Pageable             pageable;
-        Boolean                    found;
+        final Iterable<ResourcePermission> result;
+        final Pageable                     pageable;
+        Boolean                            found;
 
         pageable = Pageable.unpaged();
 

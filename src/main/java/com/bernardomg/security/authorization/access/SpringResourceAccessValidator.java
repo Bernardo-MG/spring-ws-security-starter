@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.authentication.springframework.userdetails.ResourceActionGrantedAuthority;
+import com.bernardomg.security.authorization.springframework.ResourceActionGrantedAuthority;
 
 import lombok.extern.slf4j.Slf4j;
 
