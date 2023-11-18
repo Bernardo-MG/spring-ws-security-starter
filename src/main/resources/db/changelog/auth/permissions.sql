@@ -36,7 +36,8 @@ INSERT INTO actions (id, name) VALUES
 
 INSERT INTO resources (id, name) VALUES
    (1, 'USER'),
-   (2, 'ROLE');
+   (2, 'ROLE'),
+   (3, 'USER_TOKEN');
 
 INSERT INTO permissions (id, resource, action) VALUES
    -- Security
