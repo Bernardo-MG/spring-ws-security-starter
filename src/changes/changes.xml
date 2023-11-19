@@ -16,7 +16,10 @@
             Reduced liquibase configuration.
          </action>
       </release>
-      <release version="1.0.0" date="2023-11-18" description="">
+      <release version="0.1.2" date="2023-11-19" description="Fixed configuration">
+         <action dev="bmg" type="fix">
+            Registered email configuration properties.
+         </action>
       </release>
    </body>
 </document>
