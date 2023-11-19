@@ -42,6 +42,15 @@ import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 
     /**
+     * Checks if a role with the received name exists.
+     *
+     * @param name
+     *            role name
+     * @return {@code true} if it exists, {@code false} otherwise
+     */
+    public boolean existsByName(final String name);
+
+    /**
      * Returns all the roles available to the user, in a paginated form.
      *
      * @param userId
