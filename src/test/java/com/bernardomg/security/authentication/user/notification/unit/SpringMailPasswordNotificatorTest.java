@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.notification.unit;
+package com.bernardomg.security.authentication.user.notification.unit;
 
 import static org.mockito.Mockito.verify;
 
@@ -18,8 +18,8 @@ import com.bernardomg.security.authentication.password.notification.SpringMailPa
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordNotificator - Password recovery")
-public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
+@DisplayName("SpringMailPasswordNotificator")
+public class SpringMailPasswordNotificatorTest {
 
     @Mock
     private JavaMailSender       javaMailSender;
@@ -27,7 +27,7 @@ public class SpringMailSecurityEmailSenderPasswordRecoveryTest {
     @Mock
     private SpringTemplateEngine templateEng;
 
-    public SpringMailSecurityEmailSenderPasswordRecoveryTest() {
+    public SpringMailPasswordNotificatorTest() {
         super();
     }
 

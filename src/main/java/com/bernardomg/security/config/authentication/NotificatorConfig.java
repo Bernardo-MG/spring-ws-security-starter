@@ -47,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(UserNotificatorProperties.class)
+@EnableConfigurationProperties({ UserNotificatorProperties.class, PasswordNotificatorProperties.class })
 @Slf4j
 public class NotificatorConfig {
 
