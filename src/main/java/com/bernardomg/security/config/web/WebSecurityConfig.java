@@ -38,7 +38,9 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.bernardomg.security.authentication.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
@@ -69,25 +71,35 @@ public class WebSecurityConfig {
      *
      * @param http
      *            HTTP security component
+     * @param handlerMappingIntrospector
+     *            utility class to find routes
      * @param corsProperties
+     *            CORS properties
      * @param securityConfigurers
+     *            security configurers
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
      */
     @Bean("webSecurityFilterChain")
-    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
+    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
+            final HandlerMappingIntrospector handlerMappingIntrospector, final CorsProperties corsProperties,
             final Collection<SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers)
             throws Exception {
-        final CorsConfigurationSource corsConfigurationSource;
+        final CorsConfigurationSource   corsConfigurationSource;
+        final MvcRequestMatcher.Builder mvc;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
 
+        mvc = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
+        // TODO: The routes should be defined by the modules
+        // TODO: Add the HTTP method
         http
             // Whitelist access
-            .authorizeHttpRequests(
-                c -> c.requestMatchers("/actuator/**", "/login/**", "/password/reset/**", "/security/user/activate/**")
-                    .permitAll())
+            .authorizeHttpRequests(c -> c
+                .requestMatchers(mvc.pattern("/actuator/**"), mvc.pattern("/login/**"),
+                    mvc.pattern("/password/reset/**"), mvc.pattern("/security/user/activate/**"))
+                .permitAll())
             // Authenticate all others
             .authorizeHttpRequests(c -> c.anyRequest()
                 .authenticated())
