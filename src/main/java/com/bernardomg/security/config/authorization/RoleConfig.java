@@ -43,7 +43,8 @@ import com.bernardomg.security.authorization.role.service.UserRoleService;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.persistence" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.persistence",
+        "com.bernardomg.security.authorization.role.controller" })
 public class RoleConfig {
 
     public RoleConfig() {

@@ -43,7 +43,8 @@ import com.bernardomg.security.authorization.token.service.UserTokenService;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(UserTokenProperties.class)
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.persistence" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.persistence",
+        "com.bernardomg.security.authorization.token.controller" })
 public class UserTokenConfig {
 
     public UserTokenConfig() {

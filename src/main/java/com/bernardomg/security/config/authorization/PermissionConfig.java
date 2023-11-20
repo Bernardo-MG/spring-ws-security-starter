@@ -43,7 +43,8 @@ import com.bernardomg.security.authorization.role.persistence.repository.RoleRep
  *
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.permission.persistence" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.permission.persistence",
+        "com.bernardomg.security.authorization.permission.controller" })
 public class PermissionConfig {
 
     public PermissionConfig() {
