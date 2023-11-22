@@ -27,6 +27,7 @@ package com.bernardomg.security.config.login;
 import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,6 +50,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
  *
  */
 @Configuration(proxyBeanMethods = false)
+@ComponentScan({ "com.bernardomg.security.login.controller" })
 public class LoginConfig {
 
     public LoginConfig() {

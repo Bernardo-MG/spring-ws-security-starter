@@ -26,6 +26,7 @@ package com.bernardomg.security.config.authorization;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -43,8 +44,8 @@ import com.bernardomg.security.authorization.role.service.UserRoleService;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.persistence",
-        "com.bernardomg.security.authorization.role.controller" })
+@ComponentScan({ "com.bernardomg.security.authorization.role.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.persistence" })
 public class RoleConfig {
 
     public RoleConfig() {
