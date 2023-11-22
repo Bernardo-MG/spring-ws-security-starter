@@ -27,6 +27,7 @@ package com.bernardomg.security.config.authorization;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authorization.token.persistence.repository.UserDataTokenRepository;
@@ -43,6 +44,7 @@ import com.bernardomg.security.authorization.token.service.UserTokenService;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(UserTokenProperties.class)
+@ComponentScan({ "com.bernardomg.security.authorization.token.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.persistence" })
 public class UserTokenConfig {
 

@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.1.4</version>
+   <version>0.1.5</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -186,9 +186,9 @@
       <bernardomg.framework.ws.version>0.1.1</bernardomg.framework.ws.version>
       <jjwt.version>0.11.5</jjwt.version>
       <lombok.version>1.18.28</lombok.version>
-      <spring.boot.version>3.1.0</spring.boot.version>
+      <spring.boot.version>3.1.5</spring.boot.version>
       <spring.data.version>2023.0.0</spring.data.version>
-      <spring.version>6.0.9</spring.version>
+      <spring.version>6.0.13</spring.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->

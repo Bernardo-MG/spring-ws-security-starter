@@ -26,6 +26,7 @@ package com.bernardomg.security.config.authorization;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
@@ -43,6 +44,7 @@ import com.bernardomg.security.authorization.role.persistence.repository.RoleRep
  *
  */
 @Configuration(proxyBeanMethods = false)
+@ComponentScan({ "com.bernardomg.security.authorization.permission.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.permission.persistence" })
 public class PermissionConfig {
 
