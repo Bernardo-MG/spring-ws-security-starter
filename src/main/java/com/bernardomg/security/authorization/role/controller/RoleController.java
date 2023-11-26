@@ -130,7 +130,7 @@ public class RoleController {
     }
 
     /**
-     * Updates a user.
+     * Updates a role.
      *
      * @param id
      *            id of the role to update
