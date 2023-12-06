@@ -24,18 +24,22 @@
 
 package com.bernardomg.security.authorization.token.exception;
 
+import java.io.Serializable;
+
+import com.bernardomg.exception.MissingIdException;
+
 /**
- * Exception caused by a user token missing.
+ * Missing user token by id exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingTokenCodeException extends InvalidTokenException {
+public final class MissingUserTokenIdException extends MissingIdException {
 
-    private static final long serialVersionUID = -3466160863479056525L;
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingTokenCodeException(final String token) {
-        super(String.format("Missing token %s", token), token);
+    public MissingUserTokenIdException(final Serializable id) {
+        super("userToken", id);
     }
 
 }

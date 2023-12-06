@@ -11,7 +11,7 @@ import com.bernardomg.security.authentication.password.reset.service.PasswordRes
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.exception.ExpiredTokenException;
-import com.bernardomg.security.authorization.token.exception.MissingTokenCodeException;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
@@ -69,7 +69,7 @@ class ITPasswordResetServiceChangeTokenStatus {
 
         executable = () -> service.changePassword(UserTokenConstants.TOKEN, "admin");
 
-        exception = Assertions.catchThrowableOfType(executable, MissingTokenCodeException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
