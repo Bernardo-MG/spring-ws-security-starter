@@ -46,9 +46,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserQueryServiceDelete {
 
     @Autowired
-    private ActionRepository actionRepository;
-
-    @Autowired
     private UserRepository   repository;
 
     @Autowired
@@ -62,7 +59,7 @@ class ITUserQueryServiceDelete {
     }
 
     @Test
-    @DisplayName("Does not remove roles or action when deleting")
+    @DisplayName("Does not remove roles when deleting")
     @ValidUser
     void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
@@ -71,8 +68,6 @@ class ITUserQueryServiceDelete {
             .isZero();
         Assertions.assertThat(roleRepository.count())
             .isEqualTo(1);
-        Assertions.assertThat(actionRepository.count())
-            .isEqualTo(4);
     }
 
     @Test

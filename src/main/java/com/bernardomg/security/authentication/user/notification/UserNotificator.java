@@ -25,14 +25,22 @@
 package com.bernardomg.security.authentication.user.notification;
 
 /**
- * Email sender for security operations. Handles common email messaging usecases, such as after registering as a new
- * user.
+ * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 public interface UserNotificator {
 
+    /**
+     * Sends a user registered message to the received email. This is used to activate the new user.
+     * @param email
+     *            email to send the message to
+     * @param username
+     *            username of the new user
+     * @param token
+     *            token to activate the user
+     */
     public void sendUserRegisteredMessage(final String email, final String username, final String token);
 
 }

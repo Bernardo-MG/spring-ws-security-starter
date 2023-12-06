@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authentication.password.reset.service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -93,16 +94,16 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      */
     private final UserRepository      userRepository;
 
-    public SpringSecurityPasswordResetService(@NonNull final UserRepository repo,
-            @NonNull final UserDetailsService userDetsService, @NonNull final PasswordNotificator notif,
-            @NonNull final UserTokenStore tStore, @NonNull final PasswordEncoder passEncoder) {
+    public SpringSecurityPasswordResetService( final UserRepository repo,
+             final UserDetailsService userDetsService,  final PasswordNotificator notif,
+             final UserTokenStore tStore,  final PasswordEncoder passEncoder) {
         super();
 
-        userRepository = repo;
-        userDetailsService = userDetsService;
-        passwordNotificator = notif;
-        tokenStore = tStore;
-        passwordEncoder = passEncoder;
+        userRepository = Objects.requireNonNull(repo);
+        userDetailsService = Objects.requireNonNull(userDetsService);
+        passwordNotificator = Objects.requireNonNull(notif);
+        tokenStore = Objects.requireNonNull(tStore);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override

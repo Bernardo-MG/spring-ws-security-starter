@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Handles password recovery requests. All the logic is delegated to a {@link PasswordChangeService}.
+ * Handles changing the password for a user in session. All the logic is delegated to a {@link PasswordChangeService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

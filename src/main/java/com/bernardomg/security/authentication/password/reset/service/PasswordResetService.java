@@ -27,7 +27,7 @@ package com.bernardomg.security.authentication.password.reset.service;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 
 /**
- * Password recovery service. Handles the steps requires to change a password.
+ * Password reset service. Handles the steps requires to change a password for a user which can't start a session.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -45,10 +45,10 @@ public interface PasswordResetService {
     public void changePassword(final String token, final String newPassword);
 
     /**
-     * Starts the password recovery for a user, identified by the mail.
+     * Starts the password reset for a user, identified by the mail.
      *
      * @param email
-     *            email for recovering the user
+     *            email for resetting the user password
      */
     public void startPasswordReset(final String email);
 

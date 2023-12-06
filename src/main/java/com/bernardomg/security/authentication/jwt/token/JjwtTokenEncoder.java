@@ -60,7 +60,7 @@ public final class JjwtTokenEncoder implements TokenEncoder {
     public JjwtTokenEncoder(final SecretKey secretKey) {
         super();
 
-        key = Objects.requireNonNull(secretKey);
+        key = Objects.requireNonNull(secretKey,"The secret key must not be null");
     }
 
     @Override
@@ -79,18 +79,23 @@ public final class JjwtTokenEncoder implements TokenEncoder {
             .claim("permissions", data.getPermissions());
 
         // TODO: Use optional
+        // Issued at
         if (data.getIssuedAt() != null) {
             issuedAt = java.util.Date.from(data.getIssuedAt()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
             jwtBuilder.setIssuedAt(issuedAt);
         }
+        
+        // Expiration
         if (data.getExpiration() != null) {
             expiration = java.util.Date.from(data.getExpiration()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
             jwtBuilder.setExpiration(expiration);
         }
+        
+        // Not before
         if (data.getNotBefore() != null) {
             notBefore = java.util.Date.from(data.getNotBefore()
                 .atZone(ZoneId.systemDefault())
