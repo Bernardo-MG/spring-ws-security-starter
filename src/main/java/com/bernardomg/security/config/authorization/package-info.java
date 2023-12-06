@@ -22,28 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.model;
-
 /**
- * User token status.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Authorization configuration.
  */
-public interface UserTokenStatus {
 
-    /**
-     * Returns the username of the user linked to the token.
-     *
-     * @return the username of the user linked to the token
-     */
-    public String getUsername();
-
-    /**
-     * Indicates if the token is valid.
-     *
-     * @return {@code true} if the token is valid, {@code false} otherwise
-     */
-    public boolean isValid();
-
-}
+package com.bernardomg.security.config.authorization;

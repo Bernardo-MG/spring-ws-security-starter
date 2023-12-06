@@ -26,10 +26,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITRolePermissionServiceAddPermission {
 
     @Autowired
-    private RolePermissionRepository        rolePermissionRepository;
+    private RolePermissionRepository rolePermissionRepository;
 
     @Autowired
-    private RolePermissionService           service;
+    private RolePermissionService    service;
 
     public ITRolePermissionServiceAddPermission() {
         super();
