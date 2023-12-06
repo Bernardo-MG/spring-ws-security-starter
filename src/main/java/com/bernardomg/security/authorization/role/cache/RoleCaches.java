@@ -22,40 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.model;
-
-import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package com.bernardomg.security.authorization.role.cache;
 
 /**
- * Role permission key.
+ * Names of all the caches used for role queries.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class RolePermissionKey implements Serializable {
+public final class RoleCaches {
 
     /**
-     * Serialization ID.
+     * Single role.
      */
-    private static final long serialVersionUID = -7233957066746780621L;
+    public static final String ROLE                 = "security_role";
 
     /**
-     * Permission id.
+     * Multiple roles.
      */
-    private Long              permissionId;
+    public static final String ROLES                = "security_roles";
 
     /**
-     * Role id.
+     * Roles available to user.
      */
-    private Long              roleId;
+    public static final String USER_AVAILABLE_ROLES = "security_user_available_roles";
+
+    /**
+     * User roles.
+     */
+    public static final String USER_ROLES           = "security_user_roles";
+
+    private RoleCaches() {
+        super();
+    }
 
 }

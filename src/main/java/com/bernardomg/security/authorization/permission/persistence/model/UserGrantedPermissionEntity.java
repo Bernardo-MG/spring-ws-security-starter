@@ -41,7 +41,9 @@ import lombok.NoArgsConstructor;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @deprecated replace for queries
  */
+@Deprecated
 @Entity(name = "UserGrantedPermission")
 @Table(name = "user_granted_permissions")
 @IdClass(UserGrantedPermissionKey.class)

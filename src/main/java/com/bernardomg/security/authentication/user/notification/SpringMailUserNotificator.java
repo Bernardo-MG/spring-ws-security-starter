@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authentication.user.notification;
 
+import java.util.Objects;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -35,7 +37,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Email sender for security operations which integrates with Spring Mail.
+ * User notificator based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -57,10 +59,10 @@ public final class SpringMailUserNotificator implements UserNotificator {
             final String frmEmail, final String userRegUrl) {
         super();
 
-        templateEngine = templateEng;
-        mailSender = mailSendr;
-        fromEmail = frmEmail;
-        userRegisteredUrl = userRegUrl;
+        templateEngine = Objects.requireNonNull(templateEng);
+        mailSender = Objects.requireNonNull(mailSendr);
+        fromEmail = Objects.requireNonNull(frmEmail);
+        userRegisteredUrl = Objects.requireNonNull(userRegUrl);
     }
 
     @Override

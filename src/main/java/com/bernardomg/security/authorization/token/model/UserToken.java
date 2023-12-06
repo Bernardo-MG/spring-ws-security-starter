@@ -84,14 +84,14 @@ public interface UserToken {
     public String getUsername();
 
     /**
-     * Indicates if the token is consumed
+     * Indicates if the token is consumed.
      *
      * @return {@code true} if the token is consumed, {@code false} otherwise
      */
     public boolean isConsumed();
 
     /**
-     * Indicates if the token is revoked
+     * Indicates if the token is revoked.
      *
      * @return {@code true} if the token is revoked, {@code false} otherwise
      */

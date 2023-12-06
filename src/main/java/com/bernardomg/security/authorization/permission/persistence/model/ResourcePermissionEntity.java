@@ -56,6 +56,9 @@ public class ResourcePermissionEntity implements Serializable {
      */
     private static final long serialVersionUID = -104825862522637053L;
 
+    /**
+     * Action applied to the resource.
+     */
     @Column(name = "action", nullable = false)
     private String            action;
 
@@ -67,6 +70,9 @@ public class ResourcePermissionEntity implements Serializable {
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
+    /**
+     * Permission resource.
+     */
     @Column(name = "resource", nullable = false)
     private String            resource;
 

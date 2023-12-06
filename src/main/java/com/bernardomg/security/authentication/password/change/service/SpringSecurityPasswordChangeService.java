@@ -25,6 +25,7 @@
 package com.bernardomg.security.authentication.password.change.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
@@ -43,9 +44,14 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Password change service based on Spring security.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Slf4j
 public final class SpringSecurityPasswordChangeService implements PasswordChangeService {
 
@@ -64,13 +70,13 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
      */
     private final UserDetailsService userDetailsService;
 
-    public SpringSecurityPasswordChangeService(@NonNull final UserRepository userRepo,
-            @NonNull final UserDetailsService userDetsService, @NonNull final PasswordEncoder passEncoder) {
+    public SpringSecurityPasswordChangeService(final UserRepository userRepo, final UserDetailsService userDetsService,
+            final PasswordEncoder passEncoder) {
         super();
 
-        repository = userRepo;
-        userDetailsService = userDetsService;
-        passwordEncoder = passEncoder;
+        repository = Objects.requireNonNull(userRepo);
+        userDetailsService = Objects.requireNonNull(userDetsService);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override

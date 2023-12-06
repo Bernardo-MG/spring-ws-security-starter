@@ -22,40 +22,20 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.model;
-
-import java.io.Serializable;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package com.bernardomg.security.authorization.token.exception;
 
 /**
- * Role permission key.
+ * Exception caused by a user token code missing.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class RolePermissionKey implements Serializable {
+public final class MissingUserTokenCodeException extends InvalidTokenException {
 
-    /**
-     * Serialization ID.
-     */
-    private static final long serialVersionUID = -7233957066746780621L;
+    private static final long serialVersionUID = -3466160863479056525L;
 
-    /**
-     * Permission id.
-     */
-    private Long              permissionId;
-
-    /**
-     * Role id.
-     */
-    private Long              roleId;
+    public MissingUserTokenCodeException(final String token) {
+        super(String.format("Missing token %s", token), token);
+    }
 
 }

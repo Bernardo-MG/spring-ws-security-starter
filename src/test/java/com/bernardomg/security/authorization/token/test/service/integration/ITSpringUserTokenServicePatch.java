@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authorization.token.exception.MissingTokenException;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenIdException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartialRequest;
@@ -131,7 +131,7 @@ class ITSpringUserTokenServicePatch {
         execution = () -> service.patch(1L, request);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingTokenException.class);
+            .isInstanceOf(MissingUserTokenIdException.class);
     }
 
     @Test

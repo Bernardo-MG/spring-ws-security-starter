@@ -13,7 +13,6 @@ import org.springframework.test.context.jdbc.Sql;
 import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.repository.RoleGrantedPermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.role.model.RolePermission;
@@ -27,13 +26,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITRolePermissionServiceAddPermission {
 
     @Autowired
-    private RoleGrantedPermissionRepository roleGrantedPermissionRepository;
+    private RolePermissionRepository rolePermissionRepository;
 
     @Autowired
-    private RolePermissionRepository        rolePermissionRepository;
-
-    @Autowired
-    private RolePermissionService           service;
+    private RolePermissionService    service;
 
     public ITRolePermissionServiceAddPermission() {
         super();
@@ -75,7 +71,6 @@ class ITRolePermissionServiceAddPermission {
         pageable = Pageable.unpaged();
 
         service.addPermission(1l, 1l);
-        roleGrantedPermissionRepository.flush();
         result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(result)

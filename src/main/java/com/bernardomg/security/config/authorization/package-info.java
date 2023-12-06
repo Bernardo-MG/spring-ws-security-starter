@@ -22,20 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.security.authorization.permission.persistence.model.RoleGrantedPermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.model.RoleGrantedPermissionKey;
-
 /**
- * Action repository.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Authorization configuration.
  */
-public interface RoleGrantedPermissionRepository
-        extends JpaRepository<RoleGrantedPermissionEntity, RoleGrantedPermissionKey> {
 
-}
+package com.bernardomg.security.config.authorization;

@@ -35,7 +35,6 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authorization.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -44,9 +43,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @AllAuthoritiesMockUser
 @DisplayName("User service - delete without roles")
 class ITUserQueryServiceDelete {
-
-    @Autowired
-    private ActionRepository actionRepository;
 
     @Autowired
     private UserRepository   repository;
@@ -62,7 +58,7 @@ class ITUserQueryServiceDelete {
     }
 
     @Test
-    @DisplayName("Does not remove roles or action when deleting")
+    @DisplayName("Does not remove roles when deleting")
     @ValidUser
     void testDelete_DoesNotRemoveRelations() {
         service.delete(1L);
@@ -71,8 +67,6 @@ class ITUserQueryServiceDelete {
             .isZero();
         Assertions.assertThat(roleRepository.count())
             .isEqualTo(1);
-        Assertions.assertThat(actionRepository.count())
-            .isEqualTo(4);
     }
 
     @Test

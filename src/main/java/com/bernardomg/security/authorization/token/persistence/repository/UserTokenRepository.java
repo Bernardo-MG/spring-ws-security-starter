@@ -50,15 +50,40 @@ public interface UserTokenRepository extends JpaRepository<UserTokenEntity, Long
      * <li>Expired</li>
      * </ul>
      *
-     * @return
+     * @return all the tokens which can no longer be used
      */
     @Query("SELECT t FROM UserToken t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
     public List<UserTokenEntity> findAllFinished();
 
+    /**
+     * Returns all the tokens which are not revoked for a user and scope.
+     *
+     * @param userId
+     *            user with the tokens
+     * @param scope
+     *            token scope
+     * @return all the tokens which are not revoked
+     */
     public List<UserTokenEntity> findAllNotRevokedByUserIdAndScope(final Long userId, final String scope);
 
+    /**
+     * Returns a single token by its token code.
+     *
+     * @param token
+     *            token code to search for
+     * @return the token for the code
+     */
     public Optional<UserTokenEntity> findOneByToken(final String token);
 
+    /**
+     * Returns a single token by its token code and scope. This allows securing access to tokens, by limiting the scope.
+     *
+     * @param token
+     *            token code to search for
+     * @param scope
+     *            scope to filter by
+     * @return the token for the code and scope
+     */
     public Optional<UserTokenEntity> findOneByTokenAndScope(final String token, final String scope);
 
     /**

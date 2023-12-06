@@ -22,10 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.model.query;
+/**
+ * Login configuration.
+ */
 
-public interface PermissionCreate {
-
-    public Long getPermissionId();
-
-}
+package com.bernardomg.security.config.login;

@@ -40,7 +40,7 @@ public interface UserTokenStatus {
     public String getUsername();
 
     /**
-     * Indicates if the token is valid
+     * Indicates if the token is valid.
      *
      * @return {@code true} if the token is valid, {@code false} otherwise
      */

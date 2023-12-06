@@ -30,18 +30,36 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
 
+/**
+ * CORS configuration properties.
+ */
 @Data
 @ConfigurationProperties(prefix = "cors")
 public final class CorsProperties {
 
+    /**
+     * Allowed headers.
+     */
     private List<String> allowedHeaders = List.of("*");
 
+    /**
+     * Allowed methods.
+     */
     private List<String> allowedMethods = List.of("*");
 
+    /**
+     * Allowed origins.
+     */
     private List<String> allowedOrigins = List.of("*");
 
+    /**
+     * Exposed headers.
+     */
     private List<String> exposedHeaders = List.of("*");
 
+    /**
+     * Valid pattern.
+     */
     private String       pattern        = "/**";
 
 }

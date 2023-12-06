@@ -36,7 +36,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.exception.ExpiredTokenException;
-import com.bernardomg.security.authorization.token.exception.MissingTokenCodeException;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.exception.OutOfScopeTokenException;
 import com.bernardomg.security.authorization.token.exception.RevokedTokenException;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
@@ -96,7 +96,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
 
         if (!read.isPresent()) {
             log.error("Token missing: {}", token);
-            throw new MissingTokenCodeException(token);
+            throw new MissingUserTokenCodeException(token);
         }
 
         persistentToken = read.get();
@@ -155,7 +155,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         username = userTokenRepository.findUsernameByToken(token, tokenScope);
 
         if (username.isEmpty()) {
-            throw new MissingTokenCodeException(token);
+            throw new MissingUserTokenCodeException(token);
         }
 
         return username.get();
@@ -191,7 +191,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         read = userTokenRepository.findOneByToken(token);
         if (!read.isPresent()) {
             log.warn("Token not registered: {}", token);
-            throw new MissingTokenCodeException(token);
+            throw new MissingUserTokenCodeException(token);
         }
 
         entity = read.get();

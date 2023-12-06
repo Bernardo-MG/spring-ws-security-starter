@@ -22,55 +22,21 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.model;
+package com.bernardomg.security.authorization.permission.model.query;
 
-import java.io.Serializable;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Role granted permission entity.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Entity(name = "RoleGrantedPermission")
-@Table(name = "role_granted_permissions")
-@IdClass(RoleGrantedPermissionKey.class)
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class RoleGrantedPermissionEntity implements Serializable {
+public final class RoleAddPermissionQuery implements RoleAddPermission {
 
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 8513041662486312372L;
-
-    @Column(name = "action", nullable = false)
-    private String            action;
-
-    @Id
-    @Column(name = "permission_id", nullable = false)
-    private Long              permissionId;
-
-    @Column(name = "resource", nullable = false)
-    private String            resource;
-
-    @Column(name = "role", nullable = false)
-    private String            role;
-
-    @Id
-    @Column(name = "role_id", nullable = false)
-    private Long              roleId;
+    @NotNull
+    private Long permissionId;
 
 }

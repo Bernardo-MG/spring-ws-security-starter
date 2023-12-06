@@ -52,7 +52,10 @@ import lombok.extern.slf4j.Slf4j;
  * <h2>Header</h2>
  * <p>
  * The token should come in the Authorization header, which must follow a structure like this:
- * {@code Authorization: Bearer [token]}. This is case insensitive.
+ * <p>
+ * {@code Authorization: Bearer [token]}
+ * <p>
+ * This check is case insensitive.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
