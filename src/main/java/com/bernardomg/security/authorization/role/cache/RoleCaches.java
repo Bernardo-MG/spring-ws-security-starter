@@ -22,26 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.notification;
+package com.bernardomg.security.authorization.role.cache;
 
 /**
- * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
+ * Names of all the caches used for role queries.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserNotificator {
+public final class RoleCaches {
 
     /**
-     * Sends a user registered message to the received email. This is used to activate the new user.
-     *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username of the new user
-     * @param token
-     *            token to activate the user
+     * Single role.
      */
-    public void sendUserRegisteredMessage(final String email, final String username, final String token);
+    public static final String ROLE                 = "security_role";
+
+    /**
+     * Multiple roles.
+     */
+    public static final String ROLES                = "security_roles";
+
+    /**
+     * Roles available to user.
+     */
+    public static final String USER_AVAILABLE_ROLES = "security_user_available_roles";
+
+    /**
+     * User roles.
+     */
+    public static final String USER_ROLES           = "security_user_roles";
+
+    private RoleCaches() {
+        super();
+    }
 
 }

@@ -55,7 +55,7 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
         final Authentication                            authentication;
         final boolean                                   authorized;
         final Predicate<ResourceActionGrantedAuthority> matchesPermission;
-        
+
         Objects.requireNonNull(resource, "The resource must not be null");
         Objects.requireNonNull(action, "The action must not be null");
 

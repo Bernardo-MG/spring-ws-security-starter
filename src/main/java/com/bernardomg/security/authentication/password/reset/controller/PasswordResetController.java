@@ -44,8 +44,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Handles password reset for a user which can't start a session. It is divided into two steps: starting the password reset and the password
- * change. All the logic is delegated to a {@link PasswordResetService}.
+ * Handles password reset for a user which can't start a session. It is divided into two steps: starting the password
+ * reset and the password change. All the logic is delegated to a {@link PasswordResetService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

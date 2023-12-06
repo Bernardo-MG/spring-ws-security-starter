@@ -3,7 +3,6 @@ package com.bernardomg.security.authentication.jwt.token;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
@@ -66,7 +65,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         } else {
             issuedAt = null;
         }
-        
+
         // Expiration
         if (claims.getExpiration() != null) {
             expiration = claims.getExpiration()
@@ -76,7 +75,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         } else {
             expiration = null;
         }
-        
+
         // Not before
         if (claims.getNotBefore() != null) {
             notBefore = claims.getNotBefore()

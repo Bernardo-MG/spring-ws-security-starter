@@ -33,34 +33,14 @@ package com.bernardomg.security.authentication.user.cache;
 public final class UserCaches {
 
     /**
-     * Single role.
-     */
-    public static final String ROLE                 = "security_role";
-
-    /**
-     * Multiple roles.
-     */
-    public static final String ROLES                = "security_roles";
-
-    /**
      * Single user.
      */
-    public static final String USER                 = "security_user";
-
-    /**
-     * Roles available to user.
-     */
-    public static final String USER_AVAILABLE_ROLES = "security_user_available_roles";
-
-    /**
-     * User roles.
-     */
-    public static final String USER_ROLES           = "security_user_roles";
+    public static final String USER  = "security_user";
 
     /**
      * Multiple users.
      */
-    public static final String USERS                = "security_users";
+    public static final String USERS = "security_users";
 
     private UserCaches() {
         super();

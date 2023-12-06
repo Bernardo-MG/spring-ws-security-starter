@@ -44,7 +44,6 @@ import com.bernardomg.security.authorization.token.model.ImmutableUserTokenStatu
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -94,9 +93,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      */
     private final UserRepository      userRepository;
 
-    public SpringSecurityPasswordResetService( final UserRepository repo,
-             final UserDetailsService userDetsService,  final PasswordNotificator notif,
-             final UserTokenStore tStore,  final PasswordEncoder passEncoder) {
+    public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
+            final PasswordNotificator notif, final UserTokenStore tStore, final PasswordEncoder passEncoder) {
         super();
 
         userRepository = Objects.requireNonNull(repo);

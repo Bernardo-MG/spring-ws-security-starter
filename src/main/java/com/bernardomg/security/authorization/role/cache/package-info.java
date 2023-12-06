@@ -22,26 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.notification;
-
 /**
- * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Role cache configuration.
  */
-public interface UserNotificator {
 
-    /**
-     * Sends a user registered message to the received email. This is used to activate the new user.
-     *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username of the new user
-     * @param token
-     *            token to activate the user
-     */
-    public void sendUserRegisteredMessage(final String email, final String username, final String token);
-
-}
+package com.bernardomg.security.authorization.role.cache;
