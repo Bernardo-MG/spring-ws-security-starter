@@ -31,7 +31,10 @@
             Registered initializer auto configuration.
          </action>
       </release>
-      <release version="1.0.0" date="2023-11-19" description="">
+      <release version="0.1.5" date="2023-11-22" description="Controllers">
+         <action dev="bmg" type="fix">
+            Scans for controllers.
+         </action>
       </release>
    </body>
 </document>
