@@ -37,10 +37,19 @@ import lombok.Value;
 @Builder
 public final class ImmutableResourcePermission implements ResourcePermission {
 
+    /**
+     * Action applied to the resource.
+     */
     private final String action;
 
+    /**
+     * Permission id.
+     */
     private final Long   id;
 
+    /**
+     * Permission resource.
+     */
     private final String resource;
 
 }

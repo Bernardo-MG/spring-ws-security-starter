@@ -37,7 +37,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Role entity.
+ * Role permission entity.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -56,13 +56,22 @@ public class RolePermissionEntity implements Serializable {
      */
     private static final long serialVersionUID = 8513041662486312372L;
 
+    /**
+     * Granted flag.
+     */
     @Column(name = "granted", nullable = false)
     private Boolean           granted;
 
+    /**
+     * Permission id.
+     */
     @Id
     @Column(name = "permission_id", nullable = false)
     private Long              permissionId;
 
+    /**
+     * Role id.
+     */
     @Id
     @Column(name = "role_id", nullable = false)
     private Long              roleId;

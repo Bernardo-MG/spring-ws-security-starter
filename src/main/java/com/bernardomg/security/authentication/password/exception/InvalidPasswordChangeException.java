@@ -40,6 +40,9 @@ public final class InvalidPasswordChangeException extends RuntimeException {
      */
     private static final long serialVersionUID = -1717035586281773602L;
 
+    /**
+     * Username which caused the exception.
+     */
     private final String      username;
 
     public InvalidPasswordChangeException(final String message, final String user) {

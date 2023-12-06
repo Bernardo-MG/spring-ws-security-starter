@@ -9,18 +9,16 @@ public final class RoleGrantedPermissionAssertions {
 
     public static final void isEqualTo(final RoleGrantedPermissionEntity received,
             final RoleGrantedPermissionEntity expected) {
+        // TODO: This is not being used
         Assertions.assertThat(received.getAction())
             .withFailMessage("Expected action '%s' but got '%s'", expected.getAction(), received.getAction())
             .isEqualTo(expected.getAction());
-        Assertions.assertThat(received.getResource())
-            .withFailMessage("Expected resource '%s' but got '%s'", expected.getResource(), received.getResource())
-            .isEqualTo(expected.getResource());
         Assertions.assertThat(received.getRoleId())
             .withFailMessage("Expected role id '%s' but got '%s'", expected.getRoleId(), received.getRoleId())
             .isEqualTo(expected.getRoleId());
-        Assertions.assertThat(received.getRole())
-            .withFailMessage("Expected role '%s' but got '%s'", expected.getRole(), received.getRole())
-            .isEqualTo(expected.getRole());
+        Assertions.assertThat(received.getGranted())
+            .withFailMessage("Expected granted '%s' but got '%s'", expected.getGranted(), received.getGranted())
+            .isEqualTo(expected.getGranted());
     }
 
 }

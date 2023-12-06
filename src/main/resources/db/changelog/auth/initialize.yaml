@@ -255,10 +255,6 @@ databaseChangeLog:
             remarks: User granted permissions
             selectQuery: SELECT DISTINCT u.id AS user_id, u.username AS username, p.permission_id AS permission_id, p.resource AS resource, p.action AS action FROM (SELECT p.id AS permission_id, p.resource AS resource, p.action AS action, rp.role_id AS role_id FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN permissions p ON rp.permission_id = p.id WHERE rp.granted = true) p JOIN user_roles ur ON p.role_id = ur.role_id JOIN users u ON u.id = ur.user_id
             viewName: user_granted_permissions
-        -  createView:
-            remarks: Role granted permissions
-            selectQuery: SELECT p.id AS permission_id, rl.id AS role_id, rl.name AS role, p.resource AS resource, p.action AS action FROM roles rl LEFT JOIN role_permissions rp ON rl.id = rp.role_id LEFT JOIN permissions p ON rp.permission_id = p.id WHERE rp.granted = true
-            viewName: role_granted_permissions
   - changeSet:
       id: token_views
       author: Bernardo

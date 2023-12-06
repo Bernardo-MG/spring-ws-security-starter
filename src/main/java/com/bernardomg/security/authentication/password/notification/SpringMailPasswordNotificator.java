@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authentication.password.notification;
 
+import java.util.Objects;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -35,7 +37,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Email sender for security operations which integrates with Spring Mail.
+ * Password notificator based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -43,24 +45,41 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringMailPasswordNotificator implements PasswordNotificator {
 
+    /**
+     * Email to be set as the source.
+     */
     private final String               fromEmail;
 
+    /**
+     * Spring's mail sender.
+     */
     private final JavaMailSender       mailSender;
 
+    /**
+     * Password recovery subject.
+     * <p>
+     * TODO: Internationalize
+     */
     private final String               passwordRecoverySubject = "Password recovery";
 
+    /**
+     * Password recovery URL. This is where the user will start the password recovery.
+     */
     private final String               passwordRecoveryUrl;
 
+    /**
+     * Template engine to generate the message bodies.
+     */
     private final SpringTemplateEngine templateEngine;
 
     public SpringMailPasswordNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
             final String frmEmail, final String passRecoveryUrl) {
         super();
 
-        templateEngine = templateEng;
-        mailSender = mailSendr;
-        fromEmail = frmEmail;
-        passwordRecoveryUrl = passRecoveryUrl;
+        templateEngine = Objects.requireNonNull(templateEng);
+        mailSender = Objects.requireNonNull(mailSendr);
+        fromEmail = Objects.requireNonNull(frmEmail);
+        passwordRecoveryUrl = Objects.requireNonNull(passRecoveryUrl);
     }
 
     @Override

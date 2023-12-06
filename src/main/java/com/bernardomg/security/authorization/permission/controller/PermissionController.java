@@ -66,7 +66,7 @@ public class PermissionController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")
-    @Cacheable(cacheNames = PermissionCaches.RESOURCES)
+    @Cacheable(cacheNames = PermissionCaches.PERMISSIONS)
     public Iterable<ResourcePermission> readAll(final Pageable page) {
         return service.getAll(page);
     }
@@ -80,7 +80,7 @@ public class PermissionController {
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")
-    @Cacheable(cacheNames = PermissionCaches.RESOURCE, key = "#id")
+    @Cacheable(cacheNames = PermissionCaches.PERMISSION, key = "#id")
     public ResourcePermission readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);

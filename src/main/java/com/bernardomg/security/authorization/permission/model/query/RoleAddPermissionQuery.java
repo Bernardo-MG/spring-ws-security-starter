@@ -24,8 +24,19 @@
 
 package com.bernardomg.security.authorization.permission.model.query;
 
-public interface PermissionCreate {
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Long getPermissionId();
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class RoleAddPermissionQuery implements RoleAddPermission {
+
+    @NotNull
+    private Long permissionId;
 
 }
