@@ -86,7 +86,7 @@ public class RolePermissionController {
     /**
      * Returns all the permissions for a role in a paginated form.
      *
-     * @param id
+     * @param roleId
      *            role id
      * @param page
      *            pagination to apply
@@ -95,8 +95,8 @@ public class RolePermissionController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAll(@PathVariable("id") final long id, final Pageable page) {
-        return service.getPermissions(id, page);
+    public Iterable<ResourcePermission> readAll(@PathVariable("id") final long roleId, final Pageable page) {
+        return service.getPermissions(roleId, page);
     }
 
     /**

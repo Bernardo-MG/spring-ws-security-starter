@@ -36,7 +36,9 @@ import com.bernardomg.security.authorization.permission.persistence.model.UserGr
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @deprecated replace for queries
  */
+@Deprecated
 public interface UserGrantedPermissionRepository
         extends JpaRepository<UserGrantedPermissionEntity, UserGrantedPermissionKey> {
 

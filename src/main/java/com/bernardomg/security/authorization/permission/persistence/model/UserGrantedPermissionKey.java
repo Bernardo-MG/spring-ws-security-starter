@@ -36,7 +36,9 @@ import lombok.NoArgsConstructor;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @deprecated replace for queries
  */
+@Deprecated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -31,6 +31,7 @@ public interface RoleAddPermission {
 
     /**
      * Returns the id of the permission to add.
+     *
      * @return id of the permission to add
      */
     public Long getPermissionId();
