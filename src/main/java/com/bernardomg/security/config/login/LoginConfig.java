@@ -26,6 +26,7 @@ package com.bernardomg.security.config.login;
 
 import java.util.function.Predicate;
 
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,6 +40,7 @@ import com.bernardomg.security.authorization.permission.persistence.repository.U
 import com.bernardomg.security.config.authentication.JwtProperties;
 import com.bernardomg.security.login.event.LoginEvenRegisterListener;
 import com.bernardomg.security.login.model.request.Login;
+import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.service.DefaultLoginRegisterService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginRegisterService;
@@ -55,6 +57,7 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
  */
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.login.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.persistence" })
 public class LoginConfig {
 
     public LoginConfig() {
@@ -67,8 +70,8 @@ public class LoginConfig {
     }
 
     @Bean("loginRegisterService")
-    public LoginRegisterService getLoginRegisterService() {
-        return new DefaultLoginRegisterService();
+    public LoginRegisterService getLoginRegisterService(final LoginRegisterRepository loginRegisterRepository) {
+        return new DefaultLoginRegisterService(loginRegisterRepository);
     }
 
     @Bean("loginService")

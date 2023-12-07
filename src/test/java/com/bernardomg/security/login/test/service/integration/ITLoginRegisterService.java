@@ -62,7 +62,7 @@ class ITLoginRegisterService {
             .atStartOfDay();
         dayEnd = LocalDate.now()
             .atStartOfDay()
-            .minusDays(1);
+            .plusDays(1);
         Assertions.assertThat(entity.getDate())
             .isBetween(dayStart, dayEnd);
     }
@@ -98,7 +98,7 @@ class ITLoginRegisterService {
             .atStartOfDay();
         dayEnd = LocalDate.now()
             .atStartOfDay()
-            .minusDays(1);
+            .plusDays(1);
         Assertions.assertThat(entity.getDate())
             .isBetween(dayStart, dayEnd);
     }
