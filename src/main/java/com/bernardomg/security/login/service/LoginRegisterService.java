@@ -24,10 +24,8 @@
 
 package com.bernardomg.security.login.service;
 
-import com.bernardomg.security.login.model.LoginStatus;
-
 public interface LoginRegisterService {
 
-    public LoginStatus register(final String username, final boolean logged);
+    public void register(final String username, final boolean logged);
 
 }
