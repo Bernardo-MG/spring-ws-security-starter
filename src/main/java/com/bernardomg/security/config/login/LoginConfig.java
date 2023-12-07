@@ -26,6 +26,7 @@ package com.bernardomg.security.config.login;
 
 import java.util.function.Predicate;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -36,8 +37,11 @@ import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
+import com.bernardomg.security.login.event.LoginEvenRegisterListener;
 import com.bernardomg.security.login.model.request.Login;
+import com.bernardomg.security.login.service.DefaultLoginRegisterService;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
+import com.bernardomg.security.login.service.LoginRegisterService;
 import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -57,10 +61,21 @@ public class LoginConfig {
         super();
     }
 
+    @Bean("loginEvenRegisterListener")
+    public LoginEvenRegisterListener getLoginEvenRegisterListener(final LoginRegisterService loginRegisterService) {
+        return new LoginEvenRegisterListener(loginRegisterService);
+    }
+
+    @Bean("loginRegisterService")
+    public LoginRegisterService getLoginRegisterService() {
+        return new DefaultLoginRegisterService();
+    }
+
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final UserGrantedPermissionRepository userGrantedPermissionRepository, final JwtProperties properties) {
+            final UserGrantedPermissionRepository userGrantedPermissionRepository, final JwtProperties properties,
+            final ApplicationEventPublisher publisher) {
         final Predicate<Login>  valid;
         final LoginTokenEncoder loginTokenEncoder;
 
@@ -69,7 +84,7 @@ public class LoginConfig {
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
             properties.getValidity());
 
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder, publisher);
     }
 
 }

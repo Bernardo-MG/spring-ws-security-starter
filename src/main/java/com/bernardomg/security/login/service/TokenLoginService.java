@@ -30,8 +30,11 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.context.ApplicationEventPublisher;
+
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.login.event.LogInEvent;
 import com.bernardomg.security.login.model.ImmutableLoginStatus;
 import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
 import com.bernardomg.security.login.model.LoginStatus;
@@ -49,29 +52,34 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TokenLoginService implements LoginService {
 
-    private final Pattern           emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final Pattern                   emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-    private final Predicate<Login>  isValid;
+    private final ApplicationEventPublisher eventPublisher;
 
-    private final LoginTokenEncoder loginTokenEncoder;
+    private final Predicate<Login>          isValid;
 
-    private final UserRepository    userRepository;
+    private final LoginTokenEncoder         loginTokenEncoder;
+
+    private final UserRepository            userRepository;
 
     public TokenLoginService(final Predicate<Login> valid, final UserRepository userRepo,
-            final LoginTokenEncoder loginTokenEnc) {
+            final LoginTokenEncoder loginTokenEnc, final ApplicationEventPublisher publisher) {
         super();
 
         isValid = Objects.requireNonNull(valid);
         userRepository = Objects.requireNonNull(userRepo);
         loginTokenEncoder = Objects.requireNonNull(loginTokenEnc);
+        eventPublisher = Objects.requireNonNull(publisher);
     }
 
     @Override
     public final LoginStatus login(final Login login) {
-        final Boolean valid;
-        final String  username;
-        final String  validUsername;
-        final Login   loginWithName;
+        final Boolean     valid;
+        final String      username;
+        final String      validUsername;
+        final Login       loginWithName;
+        final LoginStatus status;
+        final LogInEvent  event;
 
         username = login.getUsername()
             .toLowerCase();
@@ -84,7 +92,12 @@ public final class TokenLoginService implements LoginService {
 
         validUsername = loginWithName.getUsername()
             .toLowerCase();
-        return buildStatus(validUsername, valid);
+        status = buildStatus(validUsername, valid);
+
+        event = new LogInEvent(this, validUsername, valid);
+        eventPublisher.publishEvent(event);
+
+        return status;
     }
 
     private final LoginStatus buildStatus(final String username, final boolean logged) {
