@@ -22,21 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.service;
-
 /**
- * Registers log in attempts.
+ * Login events and event handling.
  */
-public interface LoginRegisterService {
 
-    /**
-     * Register a log in attempt.
-     *
-     * @param username
-     *            username which attempted the login
-     * @param logged
-     *            log in success or not
-     */
-    public void register(final String username, final boolean logged);
-
-}
+package com.bernardomg.security.login.event;
