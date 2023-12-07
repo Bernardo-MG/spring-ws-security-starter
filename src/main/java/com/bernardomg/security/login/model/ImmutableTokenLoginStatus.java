@@ -47,9 +47,4 @@ public final class ImmutableTokenLoginStatus implements TokenLoginStatus {
      */
     private final String  token;
 
-    /**
-     * Username of the user who attempted login.
-     */
-    private final String  username;
-
 }

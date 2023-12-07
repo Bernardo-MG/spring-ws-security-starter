@@ -54,8 +54,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -76,8 +74,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isNotBlank();
     }
@@ -100,8 +96,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -122,8 +116,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -144,8 +136,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -166,8 +156,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo("abc");
     }
 
     @Test
@@ -188,8 +176,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -210,8 +196,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -232,8 +216,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isNotBlank();
     }
@@ -256,8 +238,6 @@ class ITTokenLoginService {
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isNotBlank();
     }

@@ -156,8 +156,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -176,8 +174,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -196,8 +192,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -216,8 +210,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -234,8 +226,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.EMAIL);
     }
 
     @Test
@@ -257,8 +247,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -275,8 +263,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -293,8 +279,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -311,8 +295,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -329,8 +311,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -347,8 +327,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -368,8 +346,6 @@ class TestTokenLoginServiceAuth {
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
 }

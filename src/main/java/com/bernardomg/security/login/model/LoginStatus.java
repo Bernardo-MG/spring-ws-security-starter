@@ -39,14 +39,4 @@ public interface LoginStatus {
      */
     public Boolean getLogged();
 
-    /**
-     * Returns the username of the user who attempted login.
-     * <p>
-     * TODO: Don't return the username
-     *
-     * @return the username
-     */
-    @Deprecated
-    public String getUsername();
-
 }

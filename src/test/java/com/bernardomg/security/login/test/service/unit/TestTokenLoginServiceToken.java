@@ -109,8 +109,6 @@ class TestTokenLoginServiceToken {
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(((TokenLoginStatus) status).getToken())
             .isEqualTo(UserTokenConstants.TOKEN);
     }
@@ -134,8 +132,6 @@ class TestTokenLoginServiceToken {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
 }

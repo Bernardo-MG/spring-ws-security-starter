@@ -87,8 +87,6 @@ class TestTokenLoginServiceFailure {
 
         Assertions.assertThat(status.getLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
     }
 
 }

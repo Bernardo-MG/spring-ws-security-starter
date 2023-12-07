@@ -42,9 +42,4 @@ public final class ImmutableLoginStatus implements LoginStatus {
      */
     private final Boolean logged;
 
-    /**
-     * Logged in user username.
-     */
-    private final String  username;
-
 }

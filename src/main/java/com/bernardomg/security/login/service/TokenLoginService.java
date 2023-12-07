@@ -107,13 +107,11 @@ public final class TokenLoginService implements LoginService {
         if (logged) {
             token = loginTokenEncoder.encode(username);
             status = ImmutableTokenLoginStatus.builder()
-                .username(username)
                 .logged(logged)
                 .token(token)
                 .build();
         } else {
             status = ImmutableLoginStatus.builder()
-                .username(username)
                 .logged(logged)
                 .build();
         }
