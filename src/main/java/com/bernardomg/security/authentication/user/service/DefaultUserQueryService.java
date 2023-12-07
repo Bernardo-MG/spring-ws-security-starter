@@ -82,10 +82,10 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     @Override
-    public final Iterable<User> getAll(final UserQuery sample, final Pageable pageable) {
+    public final Iterable<User> getAll(final UserQuery sample, final Pageable page) {
         final UserEntity entity;
 
-        log.debug("Reading users with sample {} and pagination {}", sample, pageable);
+        log.debug("Reading users with sample {} and pagination {}", sample, page);
 
         entity = toEntity(sample);
         if (entity.getUsername() != null) {
@@ -97,7 +97,7 @@ public final class DefaultUserQueryService implements UserQueryService {
                 .toLowerCase());
         }
 
-        return userRepository.findAll(Example.of(entity), pageable)
+        return userRepository.findAll(Example.of(entity), page)
             .map(this::toDto);
     }
 

@@ -22,31 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.login.service;
+
+import org.springframework.data.domain.Pageable;
+
+import com.bernardomg.security.login.model.LoginRegister;
 
 /**
- * Status after a login attempt.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Registers log in attempts.
  */
-public interface LoginStatus {
+public interface LoginRegisterService {
 
     /**
-     * Returns if the logging attempt was successful.
+     * Returns all the log in registers in a paginated form.
      *
-     * @return {@code true} if the login was successful, {@code false} otherwise
+     * @param page
+     *            pagination to apply
+     * @return a page for the log in registers
      */
-    public Boolean getLogged();
+    public Iterable<LoginRegister> getAll(final Pageable page);
 
     /**
-     * Returns the username of the user who attempted login.
-     * <p>
-     * TODO: Don't return the username
+     * Register a log in attempt.
      *
-     * @return the username
+     * @param username
+     *            username which attempted the login
+     * @param logged
+     *            log in success or not
      */
-    @Deprecated
-    public String getUsername();
+    public void register(final String username, final boolean logged);
 
 }

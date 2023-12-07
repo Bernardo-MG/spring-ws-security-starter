@@ -12,8 +12,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.User;
@@ -27,7 +30,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.event.LogInEvent;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -36,8 +39,11 @@ import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TokenLoginService - login with various user status")
-class TestTokenLoginServiceAuth {
+@DisplayName("TokenLoginService - login event handling")
+class TestTokenLoginServiceEvent {
+
+    @Captor
+    private ArgumentCaptor<LogInEvent>      emailCaptor;
 
     @Mock
     private ApplicationEventPublisher       eventPublisher;
@@ -57,7 +63,7 @@ class TestTokenLoginServiceAuth {
     @Mock
     private UserRepository                  userRepository;
 
-    public TestTokenLoginServiceAuth() {
+    public TestTokenLoginServiceEvent() {
         super();
     }
 
@@ -141,10 +147,10 @@ class TestTokenLoginServiceAuth {
     }
 
     @Test
-    @DisplayName("Doesn't log in using the email a expired user")
+    @DisplayName("With an expired account and logging with email it generates an event not logged in")
     void testLogIn_Email_AccountExpired() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         loadUser();
 
@@ -152,19 +158,25 @@ class TestTokenLoginServiceAuth {
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForAccountExpired().login(login);
+        getServiceForAccountExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the email a user with expired credentials")
+    @DisplayName("With expired credentials and logging with email it generates an event not logged in")
     void testLogIn_Email_CredentialsExpired() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         loadUser();
 
@@ -172,19 +184,25 @@ class TestTokenLoginServiceAuth {
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForCredentialsExpired().login(login);
+        getServiceForCredentialsExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the email a disabled user")
+    @DisplayName("With a disabled account and logging with email it generates an event not logged in")
     void testLogIn_Email_Disabled() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         loadUser();
 
@@ -192,19 +210,25 @@ class TestTokenLoginServiceAuth {
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForDisabled().login(login);
+        getServiceForDisabled().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the email a locked user")
+    @DisplayName("With a locked account and logging with email it generates an event not logged in")
     void testLogIn_Email_Locked() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         loadUser();
 
@@ -212,37 +236,49 @@ class TestTokenLoginServiceAuth {
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForLocked().login(login);
+        getServiceForLocked().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the email a not existing user")
+    @DisplayName("With a not existing user and logging with email it generates an event not logged in")
     void testLogIn_Email_NotExisting() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         login = new LoginRequest();
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForNotExisting().login(login);
+        getServiceForNotExisting().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.EMAIL);
     }
 
     @Test
-    @DisplayName("Logs in with a valid email")
+    @DisplayName("With a valid account and logging with email it generates an event logged in")
     void testLogIn_Email_Valid() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         loadUser();
 
@@ -253,109 +289,145 @@ class TestTokenLoginServiceAuth {
         login.setUsername(Users.EMAIL);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForValid().login(login);
+        getServiceForValid().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isTrue();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username a expired user")
+    @DisplayName("With an expired account and logging with username it generates an event not logged in")
     void testLogIn_Username_AccountExpired() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForAccountExpired().login(login);
+        getServiceForAccountExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username a user with expired credentials")
+    @DisplayName("With expired credentials and logging with username it generates an event not logged in")
     void testLogIn_Username_CredentialsExpired() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForCredentialsExpired().login(login);
+        getServiceForCredentialsExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username a disabled user")
+    @DisplayName("With a disabled account and logging with username it generates an event not logged in")
     void testLogIn_Username_Disabled() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForDisabled().login(login);
+        getServiceForDisabled().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username a locked user")
+    @DisplayName("With a locked account and logging with username it generates an event not logged in")
     void testLogIn_Username_Locked() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForLocked().login(login);
+        getServiceForLocked().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username a not existing user")
+    @DisplayName("With a not existing user and logging with email it generates an event not logged in")
     void testLogIn_Username_NotExisting() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForNotExisting().login(login);
+        getServiceForNotExisting().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 
     @Test
-    @DisplayName("Logs in with a valid username")
+    @DisplayName("With a valid account and logging with username it generates an event logged in")
     void testLogIn_Username_Valid() {
-        final LoginStatus  status;
         final LoginRequest login;
+        final LogInEvent   event;
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
@@ -364,11 +436,17 @@ class TestTokenLoginServiceAuth {
         login.setUsername(Users.USERNAME);
         login.setPassword(Users.PASSWORD);
 
-        status = getServiceForValid().login(login);
+        getServiceForValid().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Mockito.verify(eventPublisher)
+            .publishEvent(emailCaptor.capture());
+
+        event = emailCaptor.getValue();
+        Assertions.assertThat(event.isLoggedIn())
+            .as("logged in")
             .isTrue();
-        Assertions.assertThat(status.getUsername())
+        Assertions.assertThat(event.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 

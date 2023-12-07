@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,6 +39,9 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenLoginService - token generation")
 class TestTokenLoginServiceToken {
+
+    @Mock
+    private ApplicationEventPublisher       eventPublisher;
 
     @Mock
     private PasswordEncoder                 passEncoder;
@@ -74,7 +78,7 @@ class TestTokenLoginServiceToken {
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
             Duration.ZERO);
 
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
     }
 
     private final void loadUser() {

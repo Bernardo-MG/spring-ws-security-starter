@@ -248,6 +248,36 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: false
   - changeSet:
+      id: security_audit
+      author: Bernardo
+      changes:
+        - createTable:
+            tableName: login_registers
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: logged_in
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+              - column:
+                  name: date
+                  type: datetime
+                  constraints:
+                    nullable: false
+  - changeSet:
       id: security_views
       author: Bernardo
       changes:

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.springframework.integration;
+package com.bernardomg.security.login.test.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

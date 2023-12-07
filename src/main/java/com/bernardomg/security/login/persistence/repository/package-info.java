@@ -22,31 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
-
 /**
- * Status after a login attempt.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Repositories.
  */
-public interface LoginStatus {
 
-    /**
-     * Returns if the logging attempt was successful.
-     *
-     * @return {@code true} if the login was successful, {@code false} otherwise
-     */
-    public Boolean getLogged();
-
-    /**
-     * Returns the username of the user who attempted login.
-     * <p>
-     * TODO: Don't return the username
-     *
-     * @return the username
-     */
-    @Deprecated
-    public String getUsername();
-
-}
+package com.bernardomg.security.login.persistence.repository;

@@ -22,31 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.login.cache;
 
 /**
- * Status after a login attempt.
+ * Names of all the caches used for login registers.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginStatus {
+public final class Logins {
 
     /**
-     * Returns if the logging attempt was successful.
-     *
-     * @return {@code true} if the login was successful, {@code false} otherwise
+     * Multiple login registers.
      */
-    public Boolean getLogged();
+    public static final String LOGIN_REGISTERS = "security_login_registers";
 
-    /**
-     * Returns the username of the user who attempted login.
-     * <p>
-     * TODO: Don't return the username
-     *
-     * @return the username
-     */
-    @Deprecated
-    public String getUsername();
+    private Logins() {
+        super();
+    }
 
 }

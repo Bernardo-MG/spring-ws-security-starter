@@ -22,31 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.login.event;
+
+import java.util.Objects;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationListener;
+
+import com.bernardomg.security.login.cache.Logins;
+import com.bernardomg.security.login.service.LoginRegisterService;
 
 /**
- * Status after a login attempt.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Listens for log in events and registers them.
  */
-public interface LoginStatus {
+public final class LoginEvenRegisterListener implements ApplicationListener<LogInEvent> {
 
-    /**
-     * Returns if the logging attempt was successful.
-     *
-     * @return {@code true} if the login was successful, {@code false} otherwise
-     */
-    public Boolean getLogged();
+    private final LoginRegisterService loginRegisterService;
 
-    /**
-     * Returns the username of the user who attempted login.
-     * <p>
-     * TODO: Don't return the username
-     *
-     * @return the username
-     */
-    @Deprecated
-    public String getUsername();
+    public LoginEvenRegisterListener(final LoginRegisterService loginRegisterServ) {
+        super();
+
+        loginRegisterService = Objects.requireNonNull(loginRegisterServ);
+    }
+
+    @Override
+    @Caching(evict = { @CacheEvict(cacheNames = Logins.LOGIN_REGISTERS, allEntries = true) })
+    public final void onApplicationEvent(final LogInEvent event) {
+        loginRegisterService.register(event.getUsername(), event.isLoggedIn());
+    }
 
 }

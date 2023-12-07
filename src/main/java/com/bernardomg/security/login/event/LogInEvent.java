@@ -22,31 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.model;
+package com.bernardomg.security.login.event;
+
+import java.util.Objects;
+
+import org.springframework.context.ApplicationEvent;
+
+import lombok.Getter;
 
 /**
- * Status after a login attempt.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-public interface LoginStatus {
+@Getter
+public final class LogInEvent extends ApplicationEvent {
+
+    private static final long serialVersionUID = 4486597593510214141L;
 
     /**
-     * Returns if the logging attempt was successful.
-     *
-     * @return {@code true} if the login was successful, {@code false} otherwise
+     * Logged in successful or not flag.
      */
-    public Boolean getLogged();
+    private final boolean     loggedIn;
 
     /**
-     * Returns the username of the user who attempted login.
-     * <p>
-     * TODO: Don't return the username
-     *
-     * @return the username
+     * Username which attempted the log in.
      */
-    @Deprecated
-    public String getUsername();
+    private final String      username;
+
+    public LogInEvent(final Object source, final String user, final boolean logged) {
+        super(source);
+
+        username = Objects.requireNonNull(user);
+        loggedIn = logged;
+    }
 
 }
