@@ -22,16 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.service;
+package com.bernardomg.security.login.controller;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.login.model.LoginRegister;
+import com.bernardomg.security.login.service.LoginRegisterService;
+
+import lombok.AllArgsConstructor;
 
 /**
- * Registers log in attempts.
+ * Login register controller.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-public interface LoginRegisterService {
+@RestController
+@RequestMapping("/security/login/register")
+@AllArgsConstructor
+@Transactional
+public class LoginRegisterController {
+
+    /**
+     * Login register service.
+     */
+    private final LoginRegisterService service;
 
     /**
      * Returns all the log in registers in a paginated form.
@@ -40,16 +59,9 @@ public interface LoginRegisterService {
      *            pagination to apply
      * @return a page for the log in registers
      */
-    public Iterable<LoginRegister> getAll(final Pageable page);
-
-    /**
-     * Register a log in attempt.
-     *
-     * @param username
-     *            username which attempted the login
-     * @param logged
-     *            log in success or not
-     */
-    public void register(final String username, final boolean logged);
+    @GetMapping
+    public Iterable<LoginRegister> login(final Pageable page) {
+        return service.getAll(page);
+    }
 
 }

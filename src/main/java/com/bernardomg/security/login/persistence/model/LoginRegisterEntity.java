@@ -53,7 +53,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LoginRegister {
+public class LoginRegisterEntity {
 
     /**
      * Serialization id.

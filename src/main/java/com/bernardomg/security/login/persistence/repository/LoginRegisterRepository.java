@@ -26,7 +26,7 @@ package com.bernardomg.security.login.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.login.persistence.model.LoginRegister;
+import com.bernardomg.security.login.persistence.model.LoginRegisterEntity;
 
 /**
  * Login register repository.
@@ -34,6 +34,6 @@ import com.bernardomg.security.login.persistence.model.LoginRegister;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginRegisterRepository extends JpaRepository<LoginRegister, Long> {
+public interface LoginRegisterRepository extends JpaRepository<LoginRegisterEntity, Long> {
 
 }

@@ -27,7 +27,10 @@ package com.bernardomg.security.login.service;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import com.bernardomg.security.login.persistence.model.LoginRegister;
+import org.springframework.data.domain.Pageable;
+
+import com.bernardomg.security.login.model.LoginRegister;
+import com.bernardomg.security.login.persistence.model.LoginRegisterEntity;
 import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,14 +50,20 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
     }
 
     @Override
+    public final Iterable<LoginRegister> getAll(final Pageable page) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public final void register(final String username, final boolean logged) {
-        final LoginRegister entity;
-        final LocalDateTime now;
+        final LoginRegisterEntity entity;
+        final LocalDateTime       now;
 
         log.debug("Registering log in attempt for user {} and status {}", username, logged);
 
         now = LocalDateTime.now();
-        entity = LoginRegister.builder()
+        entity = LoginRegisterEntity.builder()
             .username(username)
             .loggedIn(logged)
             .date(now)

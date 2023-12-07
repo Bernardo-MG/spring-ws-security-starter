@@ -30,28 +30,10 @@ class ITUserQueryServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    @OnlyUser
-    void testGetAll_Count() {
-        final Iterable<User> result;
-        final UserQuery      sample;
-        final Pageable       pageable;
-
-        pageable = Pageable.unpaged();
-
-        sample = UsersQuery.empty();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertThat(result)
-            .hasSize(1);
-    }
-
-    @Test
     @DisplayName("Returns all data")
     @OnlyUser
     void testGetAll_Data() {
-        final Iterable<User> data;
+        final Iterable<User> users;
         final UserQuery      sample;
         final Pageable       pageable;
         final User           user;
@@ -60,9 +42,13 @@ class ITUserQueryServiceGetAll {
 
         sample = UsersQuery.empty();
 
-        data = service.getAll(sample, pageable);
+        users = service.getAll(sample, pageable);
 
-        user = data.iterator()
+        Assertions.assertThat(users)
+            .as("users")
+            .hasSize(1);
+
+        user = users.iterator()
             .next();
 
         UserAssertions.isEqualTo(user, Users.enabled());
@@ -71,7 +57,7 @@ class ITUserQueryServiceGetAll {
     @Test
     @DisplayName("With no data it returns nothing")
     void testGetAll_Empty_Count() {
-        final Iterable<User> result;
+        final Iterable<User> users;
         final UserQuery      sample;
         final Pageable       pageable;
 
@@ -79,9 +65,10 @@ class ITUserQueryServiceGetAll {
 
         sample = UsersQuery.empty();
 
-        result = service.getAll(sample, pageable);
+        users = service.getAll(sample, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(users)
+            .as("users")
             .isEmpty();
     }
 
