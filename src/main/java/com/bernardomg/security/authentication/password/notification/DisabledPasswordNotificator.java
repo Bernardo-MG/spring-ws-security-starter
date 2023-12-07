@@ -34,6 +34,8 @@ public final class DisabledPasswordNotificator implements PasswordNotificator {
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {}
+    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
+        // To avoid sending emails
+    }
 
 }

@@ -19,7 +19,7 @@ import com.bernardomg.security.authentication.user.test.util.model.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificator")
-public class SpringMailUserNotificatorTest {
+class SpringMailUserNotificatorTest {
 
     @Mock
     private JavaMailSender       javaMailSender;

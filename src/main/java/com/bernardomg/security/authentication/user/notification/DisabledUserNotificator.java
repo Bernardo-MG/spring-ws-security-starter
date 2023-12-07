@@ -34,6 +34,8 @@ public final class DisabledUserNotificator implements UserNotificator {
     }
 
     @Override
-    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {}
+    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
+        // To avoid sending emails
+    }
 
 }
