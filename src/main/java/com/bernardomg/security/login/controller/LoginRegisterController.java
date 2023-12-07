@@ -24,12 +24,15 @@
 
 package com.bernardomg.security.login.controller;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.login.cache.Logins;
 import com.bernardomg.security.login.model.LoginRegister;
 import com.bernardomg.security.login.service.LoginRegisterService;
 
@@ -59,7 +62,8 @@ public class LoginRegisterController {
      *            pagination to apply
      * @return a page for the log in registers
      */
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Cacheable(cacheNames = Logins.LOGIN_REGISTERS)
     public Iterable<LoginRegister> login(final Pageable page) {
         return service.getAll(page);
     }
