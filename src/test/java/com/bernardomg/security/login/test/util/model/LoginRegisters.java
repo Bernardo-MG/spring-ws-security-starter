@@ -8,7 +8,7 @@ import com.bernardomg.security.login.model.LoginRegister;
 
 public final class LoginRegisters {
 
-    public static final LocalDateTime DATE     = LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0);
+    public static final LocalDateTime DATE     = LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0);
 
     public static final String        USERNAME = "username";
 

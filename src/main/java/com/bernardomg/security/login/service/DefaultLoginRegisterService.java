@@ -51,8 +51,8 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
 
     @Override
     public final Iterable<LoginRegister> getAll(final Pageable page) {
-        // TODO Auto-generated method stub
-        return null;
+        return loginRegisterRepository.findAll(page)
+            .map(this::toDto);
     }
 
     @Override
@@ -70,6 +70,15 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
             .build();
 
         loginRegisterRepository.save(entity);
+    }
+
+    private final LoginRegister toDto(final LoginRegisterEntity login) {
+        return LoginRegister.builder()
+            .id(login.getId())
+            .username(login.getUsername())
+            .loggedIn(login.getLoggedIn())
+            .date(login.getDate())
+            .build();
     }
 
 }
