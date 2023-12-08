@@ -77,4 +77,14 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
     @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON rp.permissionId = p.id INNER JOIN Role r ON r.id = rp.permissionId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE rp.granted = true AND u.id = :userId")
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
 
+    /**
+     * Returns all the permissions available to a user.
+     *
+     * @param username
+     *            user username
+     * @return a page with the permissions
+     */
+    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON rp.permissionId = p.id INNER JOIN Role r ON r.id = rp.permissionId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE rp.granted = true AND u.username = :username")
+    public Collection<ResourcePermissionEntity> findAllForUser(@Param("username") final String username);
+
 }
