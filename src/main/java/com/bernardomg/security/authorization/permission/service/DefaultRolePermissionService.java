@@ -98,13 +98,13 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final Iterable<ResourcePermission> getAvailablePermissions(final long roleId, final Pageable pageable) {
-        return permissionRepository.findAvailableToRole(roleId, pageable)
+        return permissionRepository.findAllAvailableToRole(roleId, pageable)
             .map(this::toDto);
     }
 
     @Override
     public final Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable pageable) {
-        return permissionRepository.findForRole(roleId, pageable)
+        return permissionRepository.findAllForRole(roleId, pageable)
             .map(this::toDto);
     }
 

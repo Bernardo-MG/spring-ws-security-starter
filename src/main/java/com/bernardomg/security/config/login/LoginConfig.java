@@ -36,7 +36,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
 import com.bernardomg.security.login.event.LoginEvenRegisterListener;
 import com.bernardomg.security.login.model.request.Login;
@@ -77,14 +77,14 @@ public class LoginConfig {
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final UserGrantedPermissionRepository userGrantedPermissionRepository, final JwtProperties properties,
+            final ResourcePermissionRepository resourcePermissionRepository, final JwtProperties properties,
             final ApplicationEventPublisher publisher) {
         final Predicate<Login>  valid;
         final LoginTokenEncoder loginTokenEncoder;
 
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
             properties.getValidity());
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, publisher);

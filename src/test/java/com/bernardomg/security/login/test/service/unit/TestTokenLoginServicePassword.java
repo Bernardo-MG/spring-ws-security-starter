@@ -25,7 +25,7 @@ import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
@@ -39,22 +39,22 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 class TestTokenLoginServicePassword {
 
     @Mock
-    private ApplicationEventPublisher       eventPublisher;
+    private ApplicationEventPublisher    eventPublisher;
 
     @Mock
-    private PasswordEncoder                 passEncoder;
+    private PasswordEncoder              passEncoder;
 
     @Mock
-    private TokenEncoder                    tokenEncoder;
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
-    private UserDetailsService              userDetService;
+    private TokenEncoder                 tokenEncoder;
 
     @Mock
-    private UserGrantedPermissionRepository userGrantedPermissionRepository;
+    private UserDetailsService           userDetService;
 
     @Mock
-    private UserRepository                  userRepository;
+    private UserRepository               userRepository;
 
     public TestTokenLoginServicePassword() {
         super();
@@ -73,7 +73,7 @@ class TestTokenLoginServicePassword {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
             Duration.ZERO);
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
