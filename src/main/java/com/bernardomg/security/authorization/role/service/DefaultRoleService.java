@@ -31,7 +31,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
-import com.bernardomg.security.authorization.role.model.ImmutableRole;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
@@ -145,10 +144,10 @@ public final class DefaultRoleService implements RoleService {
         return toDto(created);
     }
 
-    private final ImmutableRole toDto(final RoleEntity role) {
-        return ImmutableRole.builder()
-            .id(role.getId())
-            .name(role.getName())
+    private final Role toDto(final RoleEntity role) {
+        return Role.builder()
+            .withId(role.getId())
+            .withName(role.getName())
             .build();
     }
 

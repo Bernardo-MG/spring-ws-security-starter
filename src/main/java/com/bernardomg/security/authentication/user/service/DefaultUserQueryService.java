@@ -31,7 +31,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
@@ -163,15 +162,15 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     private final User toDto(final UserEntity user) {
-        return ImmutableUser.builder()
-            .id(user.getId())
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .expired(user.getExpired())
-            .locked(user.getLocked())
-            .passwordExpired(user.getPasswordExpired())
+        return User.builder()
+            .withId(user.getId())
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withExpired(user.getExpired())
+            .withLocked(user.getLocked())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 

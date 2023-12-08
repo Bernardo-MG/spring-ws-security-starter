@@ -33,7 +33,6 @@ import com.bernardomg.security.authentication.user.exception.EnabledUserExceptio
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
@@ -41,7 +40,6 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.RegisterUserValidator;
 import com.bernardomg.security.authorization.token.exception.InvalidTokenException;
-import com.bernardomg.security.authorization.token.model.ImmutableUserTokenStatus;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.validation.Validator;
@@ -190,9 +188,9 @@ public final class DefaultUserActivationService implements UserActivationService
         }
         username = tokenStore.getUsername(token);
 
-        return ImmutableUserTokenStatus.builder()
-            .valid(valid)
-            .username(username)
+        return UserTokenStatus.builder()
+            .withValid(valid)
+            .withUsername(username)
             .build();
     }
 
@@ -211,15 +209,15 @@ public final class DefaultUserActivationService implements UserActivationService
     }
 
     private final User toDto(final UserEntity user) {
-        return ImmutableUser.builder()
-            .id(user.getId())
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .expired(user.getExpired())
-            .locked(user.getLocked())
-            .passwordExpired(user.getPasswordExpired())
+        return User.builder()
+            .withId(user.getId())
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withExpired(user.getExpired())
+            .withLocked(user.getLocked())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 

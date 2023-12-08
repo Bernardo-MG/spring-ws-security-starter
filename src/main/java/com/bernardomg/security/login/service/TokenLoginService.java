@@ -35,9 +35,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.login.event.LogInEvent;
-import com.bernardomg.security.login.model.ImmutableLoginStatus;
-import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
-import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 
@@ -73,13 +71,13 @@ public final class TokenLoginService implements LoginService {
     }
 
     @Override
-    public final LoginStatus login(final Login login) {
-        final Boolean     valid;
-        final String      username;
-        final String      validUsername;
-        final Login       loginWithName;
-        final LoginStatus status;
-        final LogInEvent  event;
+    public final TokenLoginStatus login(final Login login) {
+        final Boolean          valid;
+        final String           username;
+        final String           validUsername;
+        final Login            loginWithName;
+        final TokenLoginStatus status;
+        final LogInEvent       event;
 
         username = login.getUsername()
             .toLowerCase();
@@ -100,19 +98,19 @@ public final class TokenLoginService implements LoginService {
         return status;
     }
 
-    private final LoginStatus buildStatus(final String username, final boolean logged) {
-        final LoginStatus status;
-        final String      token;
+    private final TokenLoginStatus buildStatus(final String username, final boolean logged) {
+        final TokenLoginStatus status;
+        final String           token;
 
         if (logged) {
             token = loginTokenEncoder.encode(username);
-            status = ImmutableTokenLoginStatus.builder()
-                .logged(logged)
-                .token(token)
+            status = TokenLoginStatus.builder()
+                .withLogged(logged)
+                .withToken(token)
                 .build();
         } else {
-            status = ImmutableLoginStatus.builder()
-                .logged(logged)
+            status = TokenLoginStatus.builder()
+                .withLogged(logged)
                 .build();
         }
 

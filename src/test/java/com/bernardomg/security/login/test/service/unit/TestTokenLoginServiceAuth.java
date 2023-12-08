@@ -27,7 +27,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
-import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -143,8 +143,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the email a expired user")
     void testLogIn_Email_AccountExpired() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -161,8 +161,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the email a user with expired credentials")
     void testLogIn_Email_CredentialsExpired() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -179,8 +179,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the email a disabled user")
     void testLogIn_Email_Disabled() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -197,8 +197,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the email a locked user")
     void testLogIn_Email_Locked() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -215,8 +215,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the email a not existing user")
     void testLogIn_Email_NotExisting() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername(Users.EMAIL);
@@ -231,8 +231,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Logs in with a valid email")
     void testLogIn_Email_Valid() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -252,8 +252,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the username a expired user")
     void testLogIn_Username_AccountExpired() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
@@ -268,8 +268,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the username a user with expired credentials")
     void testLogIn_Username_CredentialsExpired() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
@@ -284,8 +284,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the username a disabled user")
     void testLogIn_Username_Disabled() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
@@ -300,8 +300,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the username a locked user")
     void testLogIn_Username_Locked() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
@@ -316,8 +316,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Doesn't log in using the username a not existing user")
     void testLogIn_Username_NotExisting() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
@@ -332,8 +332,8 @@ class TestTokenLoginServiceAuth {
     @Test
     @DisplayName("Logs in with a valid username")
     void testLogIn_Username_Valid() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");

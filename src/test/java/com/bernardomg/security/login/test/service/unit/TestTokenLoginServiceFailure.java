@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
-import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -76,8 +76,8 @@ class TestTokenLoginServiceFailure {
     @Test
     @DisplayName("When the user details service returns a null the login fails")
     void testLogIn_NullUser() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername("admin");

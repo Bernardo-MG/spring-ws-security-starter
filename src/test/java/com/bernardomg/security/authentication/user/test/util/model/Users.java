@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.authentication.user.test.util.model;
 
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 
 public final class Users {
@@ -18,16 +17,94 @@ public final class Users {
 
     public static String USERNAME          = "admin";
 
+    public static final User disabled() {
+        return User.builder()
+            .withId(1L)
+            .withName(Users.NAME)
+            .withUsername(Users.USERNAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(false)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
+
+    public static final User emailChange() {
+        return User.builder()
+            .withId(1L)
+            .withName(Users.NAME)
+            .withUsername(Users.USERNAME)
+            .withEmail(Users.ALTERNATIVE_EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
+
     public static final User enabled() {
-        return ImmutableUser.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .username(Users.USERNAME)
-            .email(Users.EMAIL)
-            .enabled(true)
-            .expired(false)
-            .passwordExpired(false)
-            .locked(false)
+        return User.builder()
+            .withId(1L)
+            .withName(Users.NAME)
+            .withUsername(Users.USERNAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
+
+    public static final User expired() {
+        return User.builder()
+            .withId(1L)
+            .withName(Users.NAME)
+            .withUsername(Users.USERNAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withExpired(true)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
+
+    public static final User locked() {
+        return User.builder()
+            .withId(1L)
+            .withName(Users.NAME)
+            .withUsername(Users.USERNAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(true)
+            .build();
+    }
+
+    public static final User newlyCreated() {
+        return User.builder()
+            .withId(1L)
+            .withName(Users.NAME)
+            .withUsername(Users.USERNAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(false)
+            .withExpired(false)
+            .withPasswordExpired(true)
+            .withLocked(false)
+            .build();
+    }
+
+    public static final User passwordExpired() {
+        return User.builder()
+            .withId(1L)
+            .withName(Users.NAME)
+            .withUsername(Users.USERNAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(true)
+            .withLocked(false)
             .build();
     }
 

@@ -27,7 +27,6 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
-import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
@@ -94,8 +93,8 @@ class TestTokenLoginServiceToken {
     @Test
     @DisplayName("Returns a token login status when the user is logged")
     void testLogin_Logged() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -109,15 +108,15 @@ class TestTokenLoginServiceToken {
 
         Assertions.assertThat(status.getLogged())
             .isTrue();
-        Assertions.assertThat(((TokenLoginStatus) status).getToken())
+        Assertions.assertThat(status.getToken())
             .isEqualTo(UserTokenConstants.TOKEN);
     }
 
     @Test
     @DisplayName("Returns a default login status when the user is logged")
     void testLogin_NotLogged() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 

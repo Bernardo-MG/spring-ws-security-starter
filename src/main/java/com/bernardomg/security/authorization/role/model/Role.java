@@ -24,10 +24,21 @@
 
 package com.bernardomg.security.authorization.role.model;
 
-public interface Role {
+import lombok.Builder;
+import lombok.Value;
 
-    public Long getId();
+/**
+ * Immutable role.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Value
+@Builder(setterPrefix = "with")
+public final class Role {
 
-    public String getName();
+    private final Long   id;
+
+    private final String name;
 
 }

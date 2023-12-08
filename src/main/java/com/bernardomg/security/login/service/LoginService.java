@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.login.service;
 
-import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 
 /**
@@ -43,6 +43,6 @@ public interface LoginService {
      *            login details
      * @return login status
      */
-    public LoginStatus login(final Login login);
+    public TokenLoginStatus login(final Login login);
 
 }

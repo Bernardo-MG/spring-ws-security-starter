@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
@@ -141,15 +140,7 @@ class ITUserActivationServiceRegisterNewUser {
 
         result = service.registerNewUser(user);
 
-        UserAssertions.isEqualTo(result, ImmutableUser.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .passwordExpired(true)
-            .enabled(false)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(result, Users.newlyCreated());
     }
 
 }

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
@@ -52,15 +51,7 @@ class ITUserQueryServiceGetOne {
         result = service.getOne(1l)
             .get();
 
-        UserAssertions.isEqualTo(result, ImmutableUser.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .passwordExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(result, Users.enabled());
     }
 
     @Test

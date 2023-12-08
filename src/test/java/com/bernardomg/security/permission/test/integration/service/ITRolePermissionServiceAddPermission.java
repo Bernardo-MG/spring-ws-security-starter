@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
@@ -79,9 +78,9 @@ class ITRolePermissionServiceAddPermission {
         found = result.iterator()
             .next();
 
-        RolePermissionAssertions.isEqualTo(found, ImmutableResourcePermission.builder()
-            .action("CREATE")
-            .resource("DATA")
+        RolePermissionAssertions.isEqualTo(found, ResourcePermission.builder()
+            .withAction("CREATE")
+            .withResource("DATA")
             .build());
     }
 

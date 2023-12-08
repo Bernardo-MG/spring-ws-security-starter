@@ -26,7 +26,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
-import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -92,8 +92,8 @@ class TestTokenLoginServicePassword {
     @Test
     @DisplayName("Doesn't log in using the email and with an invalid password")
     void testLogIn_Email_InvalidPassword() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -110,8 +110,8 @@ class TestTokenLoginServicePassword {
     @Test
     @DisplayName("Logs in using the email and with a valid password")
     void testLogIn_Email_ValidPassword() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         loadUser();
 
@@ -130,8 +130,8 @@ class TestTokenLoginServicePassword {
     @Test
     @DisplayName("Doesn't log in using the username and with an invalid password")
     void testLogIn_Username_InvalidPassword() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         login = new LoginRequest();
         login.setUsername(Users.USERNAME);
@@ -146,8 +146,8 @@ class TestTokenLoginServicePassword {
     @Test
     @DisplayName("Logs in using the username and with a valid password")
     void testLogIn_Username_ValidPassword() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
+        final LoginRequest     login;
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 

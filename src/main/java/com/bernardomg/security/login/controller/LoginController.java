@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.login.model.LoginStatus;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.LoginService;
 
@@ -61,7 +61,7 @@ public class LoginController {
      * @return the login status after the login attempt
      */
     @PostMapping
-    public LoginStatus login(@RequestBody final LoginRequest request) {
+    public TokenLoginStatus login(@RequestBody final LoginRequest request) {
         return service.login(request);
     }
 
