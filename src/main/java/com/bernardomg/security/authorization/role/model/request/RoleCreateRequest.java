@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class RoleCreateRequest implements RoleCreate {
+public final class RoleCreateRequest {
 
     @NotNull
     private String name;

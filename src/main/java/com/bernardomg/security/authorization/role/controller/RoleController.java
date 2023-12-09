@@ -81,7 +81,7 @@ public class RoleController {
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public Role create(@Valid @RequestBody final RoleCreateRequest request) {
-        return service.create(request);
+        return service.create(request.getName());
     }
 
     /**

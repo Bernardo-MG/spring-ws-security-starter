@@ -7,9 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.util.model.RolesCreate;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -33,13 +32,10 @@ class ITRoleServiceCreateValidation {
     void testCreate_NameExists() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
-        final RoleCreate       data;
 
-        data = RolesCreate.name("ADMIN");
+        executable = () -> service.create(Roles.NAME);
 
-        executable = () -> service.create(data);
-
-        failure = FieldFailure.of("name.existing", "name", "existing", "ADMIN");
+        failure = FieldFailure.of("name.existing", "name", "existing", Roles.NAME);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

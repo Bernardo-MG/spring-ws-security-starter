@@ -2,6 +2,7 @@
 package com.bernardomg.security.authorization.role.service.test.integration;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 import org.assertj.core.api.Assertions;
@@ -13,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -53,7 +55,7 @@ class ITUserRoleServiceAddRoleWithRoles {
             .toList();
 
         Assertions.assertThat(roleNames)
-            .contains("ADMIN");
+            .contains(Roles.NAME);
     }
 
     @Test
@@ -77,8 +79,7 @@ class ITUserRoleServiceAddRoleWithRoles {
             .toList();
 
         Assertions.assertThat(roleNames)
-            .contains("ADMIN")
-            .contains("ALT");
+            .containsAll(List.of(Roles.NAME, Roles.ALTERNATIVE_NAME));
     }
 
 }

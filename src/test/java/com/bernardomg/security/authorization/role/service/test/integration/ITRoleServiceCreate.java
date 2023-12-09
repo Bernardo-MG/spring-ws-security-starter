@@ -7,11 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.util.model.RolesCreate;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -33,11 +32,7 @@ class ITRoleServiceCreate {
     @Test
     @DisplayName("Adds an entity when creating")
     void testCreate_AddsEntity() {
-        final RoleCreate data;
-
-        data = RolesCreate.valid();
-
-        service.create(data);
+        service.create(Roles.NAME);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -46,12 +41,9 @@ class ITRoleServiceCreate {
     @Test
     @DisplayName("Persists the data")
     void testCreate_PersistedData() {
-        final RoleCreate data;
         final RoleEntity entity;
 
-        data = RolesCreate.valid();
-
-        service.create(data);
+        service.create(Roles.NAME);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -59,23 +51,20 @@ class ITRoleServiceCreate {
         Assertions.assertThat(entity.getId())
             .isNotNull();
         Assertions.assertThat(entity.getName())
-            .isEqualTo("Role");
+            .isEqualTo(Roles.NAME);
     }
 
     @Test
     @DisplayName("Returns the created data")
     void testCreate_ReturnedData() {
-        final RoleCreate data;
-        final Role       result;
+        final Role result;
 
-        data = RolesCreate.valid();
-
-        result = service.create(data);
+        result = service.create(Roles.NAME);
 
         Assertions.assertThat(result.getId())
             .isNotNull();
         Assertions.assertThat(result.getName())
-            .isEqualTo("Role");
+            .isEqualTo(Roles.NAME);
     }
 
 }
