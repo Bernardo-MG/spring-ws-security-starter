@@ -138,8 +138,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
         // Maps a persistent permission to an authority
         toAuthority = p -> ResourceActionGrantedAuthority.builder()
-            .resource(p.getResource())
-            .action(p.getAction())
+            .withResource(p.getResource())
+            .withAction(p.getAction())
             .build();
 
         return resourcePermissionRepository.findAllForUser(id)

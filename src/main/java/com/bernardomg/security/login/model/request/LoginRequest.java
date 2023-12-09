@@ -36,9 +36,9 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(setterPrefix = "with")
 public class LoginRequest {
 
     /**

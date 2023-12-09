@@ -31,9 +31,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(setterPrefix = "with")
 public final class UserRoleAddRequest implements UserRoleAdd {
 
     @NotNull

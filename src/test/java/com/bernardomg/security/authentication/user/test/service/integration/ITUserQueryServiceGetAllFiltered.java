@@ -39,7 +39,7 @@ class ITUserQueryServiceGetAllFiltered {
         pageable = Pageable.unpaged();
 
         sample = UserQueryRequest.builder()
-            .name(Users.NAME)
+            .withName(Users.NAME)
             .build();
 
         result = service.getAll(sample, pageable);
@@ -59,7 +59,7 @@ class ITUserQueryServiceGetAllFiltered {
         pageable = Pageable.unpaged();
 
         sample = UserQueryRequest.builder()
-            .name("abc")
+            .withName("abc")
             .build();
 
         result = service.getAll(sample, pageable);
@@ -79,7 +79,7 @@ class ITUserQueryServiceGetAllFiltered {
         pageable = Pageable.unpaged();
 
         sample = UserQueryRequest.builder()
-            .username(Users.USERNAME)
+            .withUsername(Users.USERNAME)
             .build();
 
         result = service.getAll(sample, pageable);
@@ -99,7 +99,7 @@ class ITUserQueryServiceGetAllFiltered {
         pageable = Pageable.unpaged();
 
         sample = UserQueryRequest.builder()
-            .username("abc")
+            .withUsername("abc")
             .build();
 
         result = service.getAll(sample, pageable);

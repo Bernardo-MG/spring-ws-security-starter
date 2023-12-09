@@ -7,24 +7,24 @@ public final class UserRegisterRequests {
 
     public static final UserRegisterRequest invalidEmail() {
         return UserRegisterRequest.builder()
-            .username(Users.NAME)
-            .name(Users.NAME)
-            .email("abc")
+            .withUsername(Users.NAME)
+            .withName(Users.NAME)
+            .withEmail("abc")
             .build();
     }
 
     public static final UserRegisterRequest missingEmail() {
         return UserRegisterRequest.builder()
-            .username(Users.NAME)
-            .name(Users.NAME)
+            .withUsername(Users.NAME)
+            .withName(Users.NAME)
             .build();
     }
 
     public static final UserRegisterRequest valid() {
         return UserRegisterRequest.builder()
-            .username(Users.NAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
+            .withUsername(Users.NAME)
+            .withName(Users.NAME)
+            .withEmail(Users.EMAIL)
             .build();
     }
 

@@ -7,108 +7,108 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest disabled() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .enabled(false)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(false)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest emailChange() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .email(Users.ALTERNATIVE_EMAIL)
-            .enabled(true)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEmail(Users.ALTERNATIVE_EMAIL)
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest emailChangeUpperCase() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .email(Users.ALTERNATIVE_EMAIL.toUpperCase())
-            .enabled(true)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEmail(Users.ALTERNATIVE_EMAIL.toUpperCase())
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest enabled() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .enabled(true)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest invalidEmail() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .email("abc")
-            .enabled(true)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEmail("abc")
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest nameChange() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name("Admin2")
-            .email(Users.EMAIL)
-            .enabled(true)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName("Admin2")
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest noEmail() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .enabled(true)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest noEnabled() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEmail(Users.EMAIL)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest noId() {
         return UserUpdateRequest.builder()
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .enabled(true)
-            .passwordExpired(false)
+            .withName(Users.NAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest paddedWithWhitespaces() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(" " + Users.NAME + " ")
-            .email(" " + Users.ALTERNATIVE_EMAIL + " ")
-            .enabled(true)
-            .passwordExpired(false)
+            .withId(1L)
+            .withName(" " + Users.NAME + " ")
+            .withEmail(" " + Users.ALTERNATIVE_EMAIL + " ")
+            .withEnabled(true)
+            .withPasswordExpired(false)
             .build();
     }
 
     public static final UserUpdateRequest passwordExpired() {
         return UserUpdateRequest.builder()
-            .id(1L)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .enabled(true)
-            .passwordExpired(true)
+            .withId(1L)
+            .withName(Users.NAME)
+            .withEmail(Users.EMAIL)
+            .withEnabled(true)
+            .withPasswordExpired(true)
             .build();
     }
 

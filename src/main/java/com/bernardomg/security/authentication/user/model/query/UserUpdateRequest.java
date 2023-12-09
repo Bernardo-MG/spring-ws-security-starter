@@ -38,9 +38,9 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(setterPrefix = "with")
 public final class UserUpdateRequest implements UserUpdate {
 
     /**

@@ -74,7 +74,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .expirationDate(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0))
+            .withExpirationDate(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0))
             .build();
 
         service.patch(1L, request);
@@ -106,7 +106,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         service.patch(1L, request);
@@ -126,7 +126,7 @@ class ITSpringUserTokenServicePatch {
         final ThrowingCallable execution;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         execution = () -> service.patch(1L, request);
@@ -144,7 +144,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         service.patch(1L, request);
@@ -177,7 +177,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         token = service.patch(1L, request);
