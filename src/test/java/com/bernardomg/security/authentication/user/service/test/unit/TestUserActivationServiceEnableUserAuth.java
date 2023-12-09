@@ -136,7 +136,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a user with expired credentials gives a failure")
     @Disabled
     void testActivateUser_CredentialsExpired_Exception() {
@@ -154,7 +154,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a disabled user gives a failure")
     @Disabled
     void testActivateUser_Disabled_Exception() {
@@ -172,7 +172,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating an enabled user gives a failure")
     void testActivateUser_Enabled_Exception() {
         final ThrowingCallable executable;
@@ -189,7 +189,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a expired user gives a failure")
     void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
@@ -206,7 +206,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a locked user gives a failure")
     void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
@@ -223,7 +223,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a not existing user gives a failure")
     void testActivateUser_NotExistingUser_Exception() {
         final ThrowingCallable executable;

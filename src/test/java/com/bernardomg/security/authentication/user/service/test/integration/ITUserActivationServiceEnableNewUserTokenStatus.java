@@ -45,7 +45,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User admin is enabled");
+            .isEqualTo("User username is enabled");
     }
 
     @Test

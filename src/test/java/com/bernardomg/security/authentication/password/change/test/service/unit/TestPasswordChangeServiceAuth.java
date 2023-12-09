@@ -129,7 +129,7 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with a disabled user gives a failure")
     void testChangePassword_Disabled_Exception() {
         final ThrowingCallable executable;
@@ -148,7 +148,7 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with a expired user gives a failure")
     void testChangePassword_Expired_Exception() {
         final ThrowingCallable executable;
@@ -167,7 +167,7 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with a locked user gives a failure")
     void testChangePassword_Locked_Exception() {
         final ThrowingCallable executable;
@@ -218,7 +218,7 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with a not existing user gives a failure")
     void testChangePassword_NotExistingUser_Exception() {
         final ThrowingCallable executable;

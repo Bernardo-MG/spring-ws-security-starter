@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
@@ -50,7 +51,7 @@ class ITPersistentUserTokenStoreGetUsername {
         subject = store.getUsername(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(subject)
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test

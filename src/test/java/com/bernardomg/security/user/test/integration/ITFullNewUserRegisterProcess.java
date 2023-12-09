@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -26,6 +27,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("Full new user register process")
 class ITFullNewUserRegisterProcess {
+
+    @Autowired
+    private PasswordEncoder       passwordEncoder;
 
     @Autowired
     private UserActivationService userActivationService;
@@ -48,7 +52,7 @@ class ITFullNewUserRegisterProcess {
         authority = new SimpleGrantedAuthority("USER:CREATE");
         authorities = List.of(authority);
 
-        auth = new UsernamePasswordAuthenticationToken("admin", "1234", authorities);
+        auth = new UsernamePasswordAuthenticationToken(Users.USERNAME, "1234", authorities);
         SecurityContextHolder.getContext()
             .setAuthentication(auth);
     }
@@ -112,8 +116,8 @@ class ITFullNewUserRegisterProcess {
             .isEqualTo(Users.NAME);
         Assertions.assertThat(user.getEnabled())
             .isTrue();
-        Assertions.assertThat(user.getPassword())
-            .isEqualTo(Users.ENCODED_PASSWORD);
+        Assertions.assertThat(passwordEncoder.matches(Users.PASSWORD, user.getPassword()))
+            .isTrue();
     }
 
 }

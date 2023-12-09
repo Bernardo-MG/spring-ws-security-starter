@@ -13,11 +13,11 @@ public final class Users {
 
     public static String ENCODED_PASSWORD     = "$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW";
 
-    public static String NAME                 = "Admin";
+    public static String NAME                 = "name";
 
     public static String PASSWORD             = "1234";
 
-    public static String USERNAME             = "admin";
+    public static String USERNAME             = "username";
 
     public static final User disabled() {
         return User.builder()

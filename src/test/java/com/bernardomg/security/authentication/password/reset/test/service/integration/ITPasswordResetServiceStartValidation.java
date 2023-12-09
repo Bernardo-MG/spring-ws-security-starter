@@ -50,7 +50,7 @@ class ITPasswordResetServiceStartValidation {
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user email@somewhere.com");
+            .isEqualTo("Couldn't find user mail@somewhere.com");
     }
 
 }

@@ -66,7 +66,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo("1234");
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -112,7 +112,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -158,7 +158,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isFalse();
@@ -204,7 +204,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -267,7 +267,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();

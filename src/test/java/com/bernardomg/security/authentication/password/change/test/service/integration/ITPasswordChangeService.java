@@ -32,7 +32,7 @@ class ITPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with an existing user changes the password")
     @ValidUser
     void testChangePassword_Existing_Changed() {
@@ -50,7 +50,7 @@ class ITPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with a user with expired password resets the flag")
     @ExpiredPasswordUser
     void testChangePassword_ExpiredPassword() {
@@ -68,7 +68,7 @@ class ITPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with an incorrect password gives a failure")
     @ValidUser
     void testChangePassword_IncorrectPassword_Exception() {
@@ -83,7 +83,7 @@ class ITPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with an existing user changes the password")
     @ValidUser
     void testChangePassword_Long_Changed() {

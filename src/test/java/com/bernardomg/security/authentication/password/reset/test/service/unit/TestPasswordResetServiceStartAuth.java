@@ -103,7 +103,7 @@ class TestPasswordResetServiceStartAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a new user for a disabled user throws an exception")
     void testActivateUser_Disabled_Exception() {
         final ThrowingCallable executable;
@@ -120,7 +120,7 @@ class TestPasswordResetServiceStartAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a new user for an expired user throws an exception")
     void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
@@ -137,7 +137,7 @@ class TestPasswordResetServiceStartAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a new user for a locked user throws an exception")
     void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
@@ -154,7 +154,7 @@ class TestPasswordResetServiceStartAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a new user for a not existing user throws an exception")
     void testActivateUser_NotExisting_Exception() {
         final ThrowingCallable executable;
@@ -165,7 +165,7 @@ class TestPasswordResetServiceStartAuth {
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user email@somewhere.com");
+            .isEqualTo("Couldn't find user mail@somewhere.com");
     }
 
 }

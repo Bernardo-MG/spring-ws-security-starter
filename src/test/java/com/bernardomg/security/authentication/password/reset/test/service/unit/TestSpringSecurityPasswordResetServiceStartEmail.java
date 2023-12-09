@@ -66,7 +66,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         user = UserEntities.enabled();
 
-        details = new User("admin", "password", true, true, true, true, Collections.emptyList());
+        details = new User(Users.USERNAME, "password", true, true, true, true, Collections.emptyList());
 
         given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(details);
 
@@ -102,7 +102,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
             ArgumentMatchers.any());
 
         Assertions.assertThat(usernameCaptor.getValue())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
 }

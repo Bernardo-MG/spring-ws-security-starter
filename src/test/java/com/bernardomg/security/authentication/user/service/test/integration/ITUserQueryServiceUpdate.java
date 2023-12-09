@@ -186,7 +186,7 @@ class ITUserQueryServiceUpdate {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, UserEntities.enabled());
+        UserAssertions.isEqualTo(entity, UserEntities.emailChange());
     }
 
     @Test

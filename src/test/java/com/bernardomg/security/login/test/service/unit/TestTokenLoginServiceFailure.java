@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.model.request.Login;
@@ -80,7 +81,7 @@ class TestTokenLoginServiceFailure {
         final LoginRequest     login;
 
         login = new LoginRequest();
-        login.setUsername("admin");
+        login.setUsername(Users.USERNAME);
         login.setPassword("1234");
 
         status = getServiceWithNullUser().login(login);

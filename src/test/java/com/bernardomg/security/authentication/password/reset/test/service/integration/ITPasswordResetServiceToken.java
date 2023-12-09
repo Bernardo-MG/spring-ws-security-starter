@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetExpiredUserToken;
@@ -38,7 +39,7 @@ class ITPasswordResetServiceToken {
         Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -53,7 +54,7 @@ class ITPasswordResetServiceToken {
         Assertions.assertThat(status.isValid())
             .isFalse();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
@@ -68,7 +69,7 @@ class ITPasswordResetServiceToken {
         Assertions.assertThat(status.isValid())
             .isTrue();
         Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
 }
