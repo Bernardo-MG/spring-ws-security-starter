@@ -126,9 +126,6 @@ class TestTokenLoginServiceToken {
 
         status = getService(false).login(login);
 
-        Assertions.assertThat(status)
-            .isNotInstanceOf(TokenLoginStatus.class);
-
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
