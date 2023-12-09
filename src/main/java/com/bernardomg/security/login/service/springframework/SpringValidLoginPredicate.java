@@ -2,6 +2,7 @@
 package com.bernardomg.security.login.service.springframework;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
@@ -10,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -41,12 +41,11 @@ public final class SpringValidLoginPredicate implements BiPredicate<String, Stri
      */
     private final UserDetailsService userDetailsService;
 
-    public SpringValidLoginPredicate(@NonNull final UserDetailsService userDetService,
-            @NonNull final PasswordEncoder passEncoder) {
+    public SpringValidLoginPredicate(final UserDetailsService userDetService, final PasswordEncoder passEncoder) {
         super();
 
-        userDetailsService = userDetService;
-        passwordEncoder = passEncoder;
+        userDetailsService = Objects.requireNonNull(userDetService);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
