@@ -31,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
@@ -91,14 +92,16 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     @Override
     public final Iterable<Role> getAvailableRoles(final long userId, final Pageable pageable) {
-        return roleRepository.findAvailableToUser(userId, pageable);
+        return roleRepository.findAvailableToUser(userId, pageable)
+            .map(this::toDto);
     }
 
     @Override
     public final Iterable<Role> getRoles(final long userId, final Pageable pageable) {
         log.debug("Getting roles for user {} and pagination {}", userId, pageable);
 
-        return roleRepository.findForUser(userId, pageable);
+        return roleRepository.findForUser(userId, pageable)
+            .map(this::toDto);
     }
 
     @Override
@@ -126,6 +129,13 @@ public final class DefaultUserRoleService implements UserRoleService {
         return UserRoleEntity.builder()
             .userId(user)
             .roleId(role)
+            .build();
+    }
+
+    private final Role toDto(final RoleEntity role) {
+        return Role.builder()
+            .withId(role.getId())
+            .withName(role.getName())
             .build();
     }
 

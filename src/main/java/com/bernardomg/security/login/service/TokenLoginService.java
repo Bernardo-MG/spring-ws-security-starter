@@ -111,6 +111,7 @@ public final class TokenLoginService implements LoginService {
         } else {
             status = TokenLoginStatus.builder()
                 .withLogged(logged)
+                .withToken("")
                 .build();
         }
 
