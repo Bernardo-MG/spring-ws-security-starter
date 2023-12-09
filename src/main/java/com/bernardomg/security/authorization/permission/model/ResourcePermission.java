@@ -25,6 +25,7 @@
 package com.bernardomg.security.authorization.permission.model;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -40,16 +41,18 @@ public final class ResourcePermission {
     /**
      * Action applied to the resource.
      */
+    @NonNull
     private final String action;
 
     /**
      * Permission id.
      */
-    private final Long   id;
+    private final long   id;
 
     /**
      * Permission resource.
      */
+    @NonNull
     private final String resource;
 
 }

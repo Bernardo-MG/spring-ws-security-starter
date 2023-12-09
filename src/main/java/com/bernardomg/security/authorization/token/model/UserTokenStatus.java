@@ -38,9 +38,15 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class UserTokenStatus {
 
+    /**
+     * Username.
+     */
     @NonNull
     private final String  username;
 
+    /**
+     * Token status.
+     */
     private final boolean valid;
 
 }

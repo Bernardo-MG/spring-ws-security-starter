@@ -85,7 +85,7 @@ class TestTokenLoginServiceFailure {
 
         status = getServiceWithNullUser().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 

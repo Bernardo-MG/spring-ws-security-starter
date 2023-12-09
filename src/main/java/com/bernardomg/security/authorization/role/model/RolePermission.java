@@ -37,8 +37,14 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class RolePermission {
 
-    private final Long permissionId;
+    /**
+     * Permission id.
+     */
+    private final long permissionId;
 
-    private final Long roleId;
+    /**
+     * Role id.
+     */
+    private final long roleId;
 
 }

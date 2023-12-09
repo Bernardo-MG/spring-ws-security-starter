@@ -42,31 +42,57 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class UserToken {
 
-    private boolean       consumed;
+    /**
+     * Token consumed flag.
+     */
+    private boolean             consumed;
 
+    /**
+     * Token creation date.
+     */
     @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime creationDate;
+    private final LocalDateTime creationDate;
 
+    /**
+     * Token expiration date.
+     */
     @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime expirationDate;
+    private final LocalDateTime expirationDate;
 
+    /**
+     * Token id.
+     */
+    private final long          id;
+
+    /**
+     * User name.
+     */
     @NonNull
-    private Long          id;
+    private final String        name;
 
+    /**
+     * Token revoked flag.
+     */
+    private final boolean       revoked;
+
+    /**
+     * Token scope.
+     */
     @NonNull
-    private final String  name;
+    private final String        scope;
 
-    private boolean       revoked;
-
+    /**
+     * Token code.
+     */
     @NonNull
-    private final String  scope;
+    private final String        token;
 
+    /**
+     * Token username.
+     */
     @NonNull
-    private final String  token;
-
-    @NonNull
-    private final String  username;
+    private final String        username;
 
 }

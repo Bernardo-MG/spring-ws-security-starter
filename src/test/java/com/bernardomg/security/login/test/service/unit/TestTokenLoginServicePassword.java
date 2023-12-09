@@ -103,7 +103,7 @@ class TestTokenLoginServicePassword {
 
         status = getService(false).login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -123,7 +123,7 @@ class TestTokenLoginServicePassword {
 
         status = getService(true).login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
     }
 
@@ -139,7 +139,7 @@ class TestTokenLoginServicePassword {
 
         status = getService(false).login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -157,7 +157,7 @@ class TestTokenLoginServicePassword {
 
         status = getService(true).login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
     }
 

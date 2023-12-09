@@ -51,7 +51,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -71,7 +71,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
         Assertions.assertThat(status.getToken())
             .isNotBlank();
@@ -93,7 +93,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -113,7 +113,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -133,7 +133,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -153,7 +153,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -173,7 +173,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isNotExactlyInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -193,7 +193,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isNotInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -213,7 +213,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
         Assertions.assertThat(status.getToken())
             .isNotBlank();
@@ -235,7 +235,7 @@ class ITTokenLoginService {
         Assertions.assertThat(status)
             .isInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
         Assertions.assertThat(status.getToken())
             .isNotBlank();

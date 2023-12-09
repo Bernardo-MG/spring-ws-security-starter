@@ -25,6 +25,7 @@
 package com.bernardomg.security.authorization.role.model;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -37,8 +38,15 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Role {
 
-    private final Long   id;
+    /**
+     * Role id.
+     */
+    private final long   id;
 
+    /**
+     * Role name.
+     */
+    @NonNull
     private final String name;
 
 }

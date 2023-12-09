@@ -25,6 +25,7 @@
 package com.bernardomg.security.authentication.user.model;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -40,6 +41,7 @@ public final class User {
     /**
      * User email.
      */
+    @NonNull
     private final String  email;
 
     /**
@@ -65,6 +67,7 @@ public final class User {
     /**
      * User name.
      */
+    @NonNull
     private final String  name;
 
     /**
@@ -75,6 +78,7 @@ public final class User {
     /**
      * User username.
      */
+    @NonNull
     private final String  username;
 
 }

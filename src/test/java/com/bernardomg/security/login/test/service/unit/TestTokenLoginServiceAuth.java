@@ -154,7 +154,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForAccountExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -172,7 +172,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForCredentialsExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -190,7 +190,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForDisabled().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -208,7 +208,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForLocked().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -224,7 +224,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForNotExisting().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -245,7 +245,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForValid().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
     }
 
@@ -261,7 +261,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForAccountExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -277,7 +277,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForCredentialsExpired().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -293,7 +293,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForDisabled().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -309,7 +309,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForLocked().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -325,7 +325,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForNotExisting().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 
@@ -344,7 +344,7 @@ class TestTokenLoginServiceAuth {
 
         status = getServiceForValid().login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
     }
 

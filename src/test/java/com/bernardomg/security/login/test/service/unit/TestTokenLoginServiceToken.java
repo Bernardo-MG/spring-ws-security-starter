@@ -106,7 +106,7 @@ class TestTokenLoginServiceToken {
 
         status = getService(true).login(login);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
         Assertions.assertThat(status.getToken())
             .isEqualTo(UserTokenConstants.TOKEN);
@@ -129,7 +129,7 @@ class TestTokenLoginServiceToken {
         Assertions.assertThat(status)
             .isNotInstanceOf(TokenLoginStatus.class);
 
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
     }
 

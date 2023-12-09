@@ -25,6 +25,7 @@
 package com.bernardomg.security.login.model;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -40,11 +41,12 @@ public final class TokenLoginStatus {
     /**
      * Flag telling if the login was successful.
      */
-    private final Boolean logged;
+    private final boolean logged;
 
     /**
      * Security token.
      */
+    @NonNull
     private final String  token;
 
 }
