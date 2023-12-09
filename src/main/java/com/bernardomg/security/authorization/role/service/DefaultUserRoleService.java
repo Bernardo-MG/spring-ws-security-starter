@@ -127,8 +127,8 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     private final UserRoleEntity getUserRoleSample(final long user, final long role) {
         return UserRoleEntity.builder()
-            .userId(user)
-            .roleId(role)
+            .withUserId(user)
+            .withRoleId(role)
             .build();
     }
 

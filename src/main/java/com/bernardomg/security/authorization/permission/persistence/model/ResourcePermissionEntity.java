@@ -48,7 +48,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(setterPrefix = "with")
 public class ResourcePermissionEntity implements Serializable {
 
     /**

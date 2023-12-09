@@ -124,14 +124,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         savedReadUser = userRepository.save(readUser);
 
         example = RoleEntity.builder()
-            .name("READ")
+            .withName("READ")
             .build();
         role = roleRepository.findOne(Example.of(example))
             .get();
 
         readUserRole = UserRoleEntity.builder()
-            .userId(savedReadUser.getId())
-            .roleId(role.getId())
+            .withUserId(savedReadUser.getId())
+            .withRoleId(role.getId())
             .build();
         userRoleRepository.save(readUserRole);
     }
@@ -148,14 +148,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         savedRootUser = userRepository.save(rootUser);
 
         example = RoleEntity.builder()
-            .name("ADMIN")
+            .withName("ADMIN")
             .build();
         role = roleRepository.findOne(Example.of(example))
             .get();
 
         rootUserRole = UserRoleEntity.builder()
-            .userId(savedRootUser.getId())
-            .roleId(role.getId())
+            .withUserId(savedRootUser.getId())
+            .withRoleId(role.getId())
             .build();
         userRoleRepository.save(rootUserRole);
     }

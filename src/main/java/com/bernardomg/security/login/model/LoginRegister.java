@@ -8,7 +8,7 @@ import lombok.NonNull;
 import lombok.Value;
 
 @Value
-@Builder
+@Builder(setterPrefix = "with")
 public class LoginRegister {
 
     /**

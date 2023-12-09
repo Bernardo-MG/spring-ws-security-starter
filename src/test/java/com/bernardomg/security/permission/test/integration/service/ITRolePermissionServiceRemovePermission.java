@@ -53,33 +53,33 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(1L)
-            .roleId(1L)
-            .granted(false)
+            .withPermissionId(1L)
+            .withRoleId(1L)
+            .withGranted(false)
             .build());
 
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(2L)
-            .roleId(1L)
-            .granted(true)
+            .withPermissionId(2L)
+            .withRoleId(1L)
+            .withGranted(true)
             .build());
 
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(3L)
-            .roleId(1L)
-            .granted(true)
+            .withPermissionId(3L)
+            .withRoleId(1L)
+            .withGranted(true)
             .build());
 
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(4L)
-            .roleId(1L)
-            .granted(true)
+            .withPermissionId(4L)
+            .withRoleId(1L)
+            .withGranted(true)
             .build());
     }
 

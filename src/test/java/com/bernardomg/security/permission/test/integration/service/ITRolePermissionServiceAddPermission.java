@@ -16,6 +16,7 @@ import com.bernardomg.security.authorization.permission.persistence.repository.R
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.permission.test.util.assertion.RolePermissionAssertions;
+import com.bernardomg.security.permission.test.util.model.RolePermissionEntities;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -51,11 +52,7 @@ class ITRolePermissionServiceAddPermission {
         found = result.iterator()
             .next();
 
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(1L)
-            .roleId(1L)
-            .granted(true)
-            .build());
+        RolePermissionAssertions.isEqualTo(found, RolePermissionEntities.granted());
     }
 
     @Test
@@ -105,33 +102,33 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(1L)
-            .roleId(1L)
-            .granted(true)
+            .withPermissionId(1L)
+            .withRoleId(1L)
+            .withGranted(true)
             .build());
 
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(2L)
-            .roleId(1L)
-            .granted(true)
+            .withPermissionId(2L)
+            .withRoleId(1L)
+            .withGranted(true)
             .build());
 
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(3L)
-            .roleId(1L)
-            .granted(true)
+            .withPermissionId(3L)
+            .withRoleId(1L)
+            .withGranted(true)
             .build());
 
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .permissionId(4L)
-            .roleId(1L)
-            .granted(true)
+            .withPermissionId(4L)
+            .withRoleId(1L)
+            .withGranted(true)
             .build());
     }
 

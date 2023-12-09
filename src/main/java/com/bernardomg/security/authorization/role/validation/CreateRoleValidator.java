@@ -69,7 +69,7 @@ public final class CreateRoleValidator implements Validator<RoleCreate> {
         failures = new ArrayList<>();
 
         sample = RoleEntity.builder()
-            .name(role.getName())
+            .withName(role.getName())
             .build();
 
         // The role name doesn't exist

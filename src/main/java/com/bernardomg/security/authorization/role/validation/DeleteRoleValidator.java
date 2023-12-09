@@ -81,7 +81,7 @@ public final class DeleteRoleValidator implements Validator<Long> {
         }
 
         sample = UserRoleEntity.builder()
-            .roleId(id)
+            .withRoleId(id)
             .build();
 
         // No user has the role

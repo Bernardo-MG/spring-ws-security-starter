@@ -44,8 +44,8 @@ class TestPersistentUserDetailsService {
 
     private final ResourcePermissionEntity getPersistentPermission() {
         return ResourcePermissionEntity.builder()
-            .resource("resource")
-            .action("action")
+            .withResource("resource")
+            .withAction("action")
             .build();
     }
 

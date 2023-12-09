@@ -144,8 +144,8 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final long permissionId) {
         return RolePermissionEntity.builder()
-            .roleId(roleId)
-            .permissionId(permissionId)
+            .withRoleId(roleId)
+            .withPermissionId(permissionId)
             .build();
     }
 

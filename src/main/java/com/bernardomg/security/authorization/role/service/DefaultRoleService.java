@@ -153,20 +153,20 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleEntity toEntity(final RoleCreate role) {
         return RoleEntity.builder()
-            .name(role.getName())
+            .withName(role.getName())
             .build();
     }
 
     private final RoleEntity toEntity(final RoleQuery role) {
         return RoleEntity.builder()
-            .name(role.getName())
+            .withName(role.getName())
             .build();
     }
 
     private final RoleEntity toEntity(final RoleUpdate role) {
         return RoleEntity.builder()
-            .id(role.getId())
-            .name(role.getName())
+            .withId(role.getId())
+            .withName(role.getName())
             .build();
     }
 

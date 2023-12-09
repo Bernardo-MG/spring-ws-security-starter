@@ -181,19 +181,16 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     private final UserTokenEntity toEntity(final UserDataTokenEntity dataToken) {
-        final UserTokenEntity token;
-
-        token = new UserTokenEntity();
-        token.setId(dataToken.getId());
-        token.setUserId(dataToken.getUserId());
-        token.setToken(dataToken.getToken());
-        token.setScope(dataToken.getScope());
-        token.setCreationDate(dataToken.getCreationDate());
-        token.setExpirationDate(dataToken.getExpirationDate());
-        token.setConsumed(dataToken.isConsumed());
-        token.setRevoked(dataToken.isRevoked());
-
-        return token;
+        return UserTokenEntity.builder()
+            .withId(dataToken.getId())
+            .withUserId(dataToken.getUserId())
+            .withToken(dataToken.getToken())
+            .withScope(dataToken.getScope())
+            .withCreationDate(dataToken.getCreationDate())
+            .withExpirationDate(dataToken.getExpirationDate())
+            .withConsumed(dataToken.isConsumed())
+            .withRevoked(dataToken.isRevoked())
+            .build();
     }
 
 }

@@ -132,14 +132,15 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         tokenCode = UUID.randomUUID()
             .toString();
 
-        persistentToken = new UserTokenEntity();
-        persistentToken.setUserId(user.getId());
-        persistentToken.setScope(tokenScope);
-        persistentToken.setCreationDate(creation);
-        persistentToken.setToken(tokenCode);
-        persistentToken.setConsumed(false);
-        persistentToken.setRevoked(false);
-        persistentToken.setExpirationDate(expiration);
+        persistentToken = UserTokenEntity.builder()
+            .withUserId(user.getId())
+            .withScope(tokenScope)
+            .withCreationDate(creation)
+            .withToken(tokenCode)
+            .withConsumed(false)
+            .withRevoked(false)
+            .withExpirationDate(expiration)
+            .build();
 
         userTokenRepository.save(persistentToken);
 
