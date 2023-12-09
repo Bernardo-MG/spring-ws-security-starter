@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -28,8 +28,6 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -62,8 +60,8 @@ class TestTokenLoginServiceAuth {
     }
 
     private final TokenLoginService getService(final UserDetails user) {
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
@@ -78,7 +76,7 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForAccountExpired() {
         final UserDetails user;
 
-        user = new User("username", "password", true, false, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, false, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -86,7 +84,7 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForCredentialsExpired() {
         final UserDetails user;
 
-        user = new User("username", "password", true, true, false, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, false, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -94,7 +92,7 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForDisabled() {
         final UserDetails user;
 
-        user = new User("username", "password", false, true, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, false, true, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -102,14 +100,14 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForLocked() {
         final UserDetails user;
 
-        user = new User("username", "password", true, true, false, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, false, true, Collections.emptyList());
 
         return getService(user);
     }
 
     private final TokenLoginService getServiceForNotExisting() {
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
             .willThrow(UsernameNotFoundException.class);
@@ -125,7 +123,7 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForValid() {
         final UserDetails user;
 
-        user = new User("username", "password", true, true, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -144,15 +142,10 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the email a expired user")
     void testLogIn_Email_AccountExpired() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForAccountExpired().login(login);
+        status = getServiceForAccountExpired().login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -162,15 +155,10 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the email a user with expired credentials")
     void testLogIn_Email_CredentialsExpired() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForCredentialsExpired().login(login);
+        status = getServiceForCredentialsExpired().login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -180,15 +168,10 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the email a disabled user")
     void testLogIn_Email_Disabled() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForDisabled().login(login);
+        status = getServiceForDisabled().login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -198,15 +181,10 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the email a locked user")
     void testLogIn_Email_Locked() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForLocked().login(login);
+        status = getServiceForLocked().login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -216,13 +194,8 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the email a not existing user")
     void testLogIn_Email_NotExisting() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForNotExisting().login(login);
+        status = getServiceForNotExisting().login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -232,18 +205,13 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Logs in with a valid email")
     void testLogIn_Email_Valid() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForValid().login(login);
+        status = getServiceForValid().login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -253,13 +221,8 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the username a expired user")
     void testLogIn_Username_AccountExpired() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForAccountExpired().login(login);
+        status = getServiceForAccountExpired().login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -269,13 +232,8 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the username a user with expired credentials")
     void testLogIn_Username_CredentialsExpired() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForCredentialsExpired().login(login);
+        status = getServiceForCredentialsExpired().login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -285,13 +243,8 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the username a disabled user")
     void testLogIn_Username_Disabled() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForDisabled().login(login);
+        status = getServiceForDisabled().login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -301,13 +254,8 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the username a locked user")
     void testLogIn_Username_Locked() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForLocked().login(login);
+        status = getServiceForLocked().login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -317,13 +265,8 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Doesn't log in using the username a not existing user")
     void testLogIn_Username_NotExisting() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForNotExisting().login(login);
+        status = getServiceForNotExisting().login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -333,16 +276,11 @@ class TestTokenLoginServiceAuth {
     @DisplayName("Logs in with a valid username")
     void testLogIn_Username_Valid() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getServiceForValid().login(login);
+        status = getServiceForValid().login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();

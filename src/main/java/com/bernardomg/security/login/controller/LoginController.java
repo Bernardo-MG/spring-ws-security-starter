@@ -62,7 +62,7 @@ public class LoginController {
      */
     @PostMapping
     public TokenLoginStatus login(@RequestBody final LoginRequest request) {
-        return service.login(request);
+        return service.login(request.getUsername(), request.getPassword());
     }
 
 }

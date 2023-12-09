@@ -4,7 +4,7 @@ package com.bernardomg.security.login.test.service.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.time.Duration;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -23,8 +23,6 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -57,8 +55,8 @@ class TestTokenLoginServiceFailure {
     }
 
     private final TokenLoginService getService(final UserDetails user) {
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
@@ -78,13 +76,8 @@ class TestTokenLoginServiceFailure {
     @DisplayName("When the user details service returns a null the login fails")
     void testLogIn_NullUser() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword("1234");
-
-        status = getServiceWithNullUser().login(login);
+        status = getServiceWithNullUser().login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();

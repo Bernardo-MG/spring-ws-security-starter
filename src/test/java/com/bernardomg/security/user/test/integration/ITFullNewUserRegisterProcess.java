@@ -52,7 +52,7 @@ class ITFullNewUserRegisterProcess {
         authority = new SimpleGrantedAuthority("USER:CREATE");
         authorities = List.of(authority);
 
-        auth = new UsernamePasswordAuthenticationToken(Users.USERNAME, "1234", authorities);
+        auth = new UsernamePasswordAuthenticationToken(Users.USERNAME, Users.PASSWORD, authorities);
         SecurityContextHolder.getContext()
             .setAuthentication(auth);
     }
@@ -101,7 +101,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        userActivationService.activateUser(token, "1234");
+        userActivationService.activateUser(token, Users.PASSWORD);
 
         user = userRepository.findAll()
             .stream()

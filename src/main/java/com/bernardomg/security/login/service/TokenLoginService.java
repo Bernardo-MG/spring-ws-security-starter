@@ -26,7 +26,7 @@ package com.bernardomg.security.login.service;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,8 +36,6 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.login.event.LogInEvent;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,17 +48,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TokenLoginService implements LoginService {
 
-    private final Pattern                   emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final Pattern                     emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-    private final ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher   eventPublisher;
 
-    private final Predicate<Login>          isValid;
+    private final BiPredicate<String, String> isValid;
 
-    private final LoginTokenEncoder         loginTokenEncoder;
+    private final LoginTokenEncoder           loginTokenEncoder;
 
-    private final UserRepository            userRepository;
+    private final UserRepository              userRepository;
 
-    public TokenLoginService(final Predicate<Login> valid, final UserRepository userRepo,
+    public TokenLoginService(final BiPredicate<String, String> valid, final UserRepository userRepo,
             final LoginTokenEncoder loginTokenEnc, final ApplicationEventPublisher publisher) {
         super();
 
@@ -71,25 +69,18 @@ public final class TokenLoginService implements LoginService {
     }
 
     @Override
-    public final TokenLoginStatus login(final Login login) {
+    public final TokenLoginStatus login(final String username, final String password) {
         final Boolean          valid;
-        final String           username;
         final String           validUsername;
-        final Login            loginWithName;
         final TokenLoginStatus status;
         final LogInEvent       event;
 
-        username = login.getUsername()
-            .toLowerCase();
-
         log.debug("Log in attempt for {}", username);
 
-        loginWithName = loadLoginName(login);
+        validUsername = loadLoginName(username).toLowerCase();
 
-        valid = isValid.test(loginWithName);
+        valid = isValid.test(validUsername, password);
 
-        validUsername = loginWithName.getUsername()
-            .toLowerCase();
         status = buildStatus(validUsername, valid);
 
         event = new LogInEvent(this, validUsername, valid);
@@ -118,14 +109,10 @@ public final class TokenLoginService implements LoginService {
         return status;
     }
 
-    private final Login loadLoginName(final Login login) {
+    private final String loadLoginName(final String username) {
         final Matcher              emailMatcher;
         final Optional<UserEntity> readUser;
-        final Login                validLogin;
-        final String               username;
-
-        username = login.getUsername()
-            .toLowerCase();
+        final String               validUsername;
 
         emailMatcher = emailPattern.matcher(username);
 
@@ -136,22 +123,19 @@ public final class TokenLoginService implements LoginService {
             readUser = userRepository.findOneByEmail(username);
             if (readUser.isPresent()) {
                 // Get the actual username and continue
-                validLogin = LoginRequest.builder()
-                    .username(readUser.get()
-                        .getUsername())
-                    .password(login.getPassword())
-                    .build();
+                validUsername = readUser.get()
+                    .getUsername();
             } else {
                 log.debug("No user found for email {}", username);
-                validLogin = login;
+                validUsername = username.toLowerCase();
             }
         } else {
             // Using username for login
             log.debug("Login attempt with username");
-            validLogin = login;
+            validUsername = username.toLowerCase();
         }
 
-        return validLogin;
+        return validUsername;
     }
 
 }

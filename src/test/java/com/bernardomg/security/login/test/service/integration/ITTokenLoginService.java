@@ -16,7 +16,6 @@ import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.role.config.UserWithNotGrantedPermissions;
 import com.bernardomg.security.authorization.role.config.UserWithoutPermissions;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -40,13 +39,8 @@ class ITTokenLoginService {
     @DisabledUser
     void testLogIn_Disabled() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -57,13 +51,8 @@ class ITTokenLoginService {
     @ValidUser
     void testLogIn_Email_Valid() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -76,13 +65,8 @@ class ITTokenLoginService {
     @ExpiredUser
     void testLogIn_Expired() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -93,13 +77,8 @@ class ITTokenLoginService {
     @LockedUser
     void testLogIn_Locked() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -110,13 +89,8 @@ class ITTokenLoginService {
     @UserWithoutPermissions
     void testLogIn_NoPermissions() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -127,13 +101,8 @@ class ITTokenLoginService {
     @ValidUser
     void testLogIn_NotExisting() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername("abc");
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login("abc", Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -144,13 +113,8 @@ class ITTokenLoginService {
     @UserWithNotGrantedPermissions
     void testLogIn_NotGrantedPermissions() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -161,13 +125,8 @@ class ITTokenLoginService {
     @ExpiredPasswordUser
     void testLogIn_PasswordExpired() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -178,13 +137,8 @@ class ITTokenLoginService {
     @ValidUser
     void testLogIn_Valid() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -197,13 +151,8 @@ class ITTokenLoginService {
     @ValidUser
     void testLogIn_Valid_Case() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME.toUpperCase());
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME.toUpperCase(), Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -216,15 +165,10 @@ class ITTokenLoginService {
     @ValidUser
     void testLogIn_Valid_JwtToken() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
         final JwtParser        parser;
         final Claims           claims;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = service.login(login);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         parser = Jwts.parserBuilder()
             .setSigningKey(TokenConstants.KEY)

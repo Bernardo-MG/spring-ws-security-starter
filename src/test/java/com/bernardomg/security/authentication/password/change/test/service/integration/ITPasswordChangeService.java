@@ -13,6 +13,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -38,7 +39,7 @@ class ITPasswordChangeService {
     void testChangePassword_Existing_Changed() {
         final UserEntity user;
 
-        service.changePasswordForUserInSession("1234", "abc");
+        service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
         user = userRepository.findAll()
             .stream()
@@ -56,7 +57,7 @@ class ITPasswordChangeService {
     void testChangePassword_ExpiredPassword() {
         final UserEntity user;
 
-        service.changePasswordForUserInSession("1234", "abc");
+        service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
         user = userRepository.findAll()
             .stream()
@@ -89,7 +90,7 @@ class ITPasswordChangeService {
     void testChangePassword_Long_Changed() {
         final UserEntity user;
 
-        service.changePasswordForUserInSession("1234",
+        service.changePasswordForUserInSession(Users.PASSWORD,
             "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
 
         user = userRepository.findAll()

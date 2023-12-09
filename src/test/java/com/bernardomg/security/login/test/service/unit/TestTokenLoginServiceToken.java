@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -28,8 +28,6 @@ import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -62,9 +60,9 @@ class TestTokenLoginServiceToken {
     }
 
     private final TokenLoginService getService(final Boolean match) {
-        final UserDetails       user;
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final UserDetails                 user;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 
@@ -94,17 +92,12 @@ class TestTokenLoginServiceToken {
     @DisplayName("Returns a token login status when the user is logged")
     void testLogin_Logged() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getService(true).login(login);
+        status = getService(true).login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -116,15 +109,10 @@ class TestTokenLoginServiceToken {
     @DisplayName("Returns a default login status when the user is logged")
     void testLogin_NotLogged() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getService(false).login(login);
+        status = getService(false).login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();

@@ -145,7 +145,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -163,7 +163,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
@@ -180,7 +180,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadEnabledUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
@@ -197,7 +197,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -214,7 +214,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadLockedUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
@@ -229,7 +229,7 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 

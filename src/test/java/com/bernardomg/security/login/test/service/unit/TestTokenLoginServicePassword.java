@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -27,8 +27,6 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -61,9 +59,9 @@ class TestTokenLoginServicePassword {
     }
 
     private final TokenLoginService getService(final Boolean match) {
-        final UserDetails       user;
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final UserDetails                 user;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 
@@ -93,15 +91,10 @@ class TestTokenLoginServicePassword {
     @DisplayName("Doesn't log in using the email and with an invalid password")
     void testLogIn_Email_InvalidPassword() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getService(false).login(login);
+        status = getService(false).login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -111,17 +104,12 @@ class TestTokenLoginServicePassword {
     @DisplayName("Logs in using the email and with a valid password")
     void testLogIn_Email_ValidPassword() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         loadUser();
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        status = getService(true).login(login);
+        status = getService(true).login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -131,13 +119,8 @@ class TestTokenLoginServicePassword {
     @DisplayName("Doesn't log in using the username and with an invalid password")
     void testLogIn_Username_InvalidPassword() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getService(false).login(login);
+        status = getService(false).login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -147,15 +130,10 @@ class TestTokenLoginServicePassword {
     @DisplayName("Logs in using the username and with a valid password")
     void testLogIn_Username_ValidPassword() {
         final TokenLoginStatus status;
-        final LoginRequest     login;
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        status = getService(true).login(login);
+        status = getService(true).login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();

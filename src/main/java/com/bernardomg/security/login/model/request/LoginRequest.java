@@ -39,7 +39,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest implements Login {
+public class LoginRequest {
 
     /**
      * User password.
