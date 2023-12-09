@@ -28,68 +28,57 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Builder;
+import lombok.Value;
+
 /**
- * Represents the common JWT token claims.
+ * Immutable implementation of the JWT token data.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface JwtTokenData {
+@Value
+@Builder(setterPrefix = "with")
+public class JwtTokenData {
 
     /**
-     * Returns the audience.
-     *
-     * @return the audience
+     * Audience.
      */
-    public String getAudience();
+    private final String                    audience;
 
     /**
-     * Returns the expiration date.
-     *
-     * @return the expiration date
+     * Expiration date.
      */
-    public LocalDateTime getExpiration();
+    private final LocalDateTime             expiration;
 
     /**
-     * Returns the id.
-     *
-     * @return the id
+     * Id.
      */
-    public String getId();
+    private final String                    id;
 
     /**
-     * Returns the issued at date.
-     *
-     * @return the issued at date
+     * Issued at date.
      */
-    public LocalDateTime getIssuedAt();
+    private final LocalDateTime             issuedAt;
 
     /**
-     * Returns the issuer.
-     *
-     * @return the issuer
+     * Issuer.
      */
-    public String getIssuer();
+    private final String                    issuer;
 
     /**
-     * Returns the not before date.
-     *
-     * @return the not before date
+     * Not before date.
      */
-    public LocalDateTime getNotBefore();
+    private final LocalDateTime             notBefore;
 
     /**
-     * Returns the permissions.
-     *
-     * @return the permissions
+     * Permissions.
      */
-    public Map<String, List<String>> getPermissions();
+    private final Map<String, List<String>> permissions;
 
     /**
-     * Returns the subject.
-     *
-     * @return the subject
+     * Subject.
      */
-    public String getSubject();
+    private final String                    subject;
 
 }

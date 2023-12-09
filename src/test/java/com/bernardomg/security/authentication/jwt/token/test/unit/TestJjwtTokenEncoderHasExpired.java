@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
 
@@ -36,7 +35,7 @@ class TestJjwtTokenEncoderHasExpired {
         final Boolean      expired;
         final JwtTokenData data;
 
-        data = ImmutableJwtTokenData.builder()
+        data = JwtTokenData.builder()
             .withIssuer("issuer")
             .withExpiration(LocalDateTime.now()
                 .plusSeconds(-1))
@@ -60,7 +59,7 @@ class TestJjwtTokenEncoderHasExpired {
         final Boolean      expired;
         final JwtTokenData data;
 
-        data = ImmutableJwtTokenData.builder()
+        data = JwtTokenData.builder()
             .withIssuer("issuer")
             .build();
 
@@ -78,7 +77,7 @@ class TestJjwtTokenEncoderHasExpired {
         final Boolean      expired;
         final JwtTokenData data;
 
-        data = ImmutableJwtTokenData.builder()
+        data = JwtTokenData.builder()
             .withIssuer("issuer")
             .withExpiration(LocalDateTime.now()
                 .plusMonths(1))

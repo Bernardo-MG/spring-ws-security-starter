@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 
@@ -44,11 +43,11 @@ public interface RoleService {
     /**
      * Persists the received user.
      *
-     * @param role
-     *            role to persist
+     * @param name
+     *            name of the role to persist
      * @return the persisted role
      */
-    public Role create(final RoleCreate role);
+    public Role create(final String name);
 
     /**
      * Deletes the role with the received id.

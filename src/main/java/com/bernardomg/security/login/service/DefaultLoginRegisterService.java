@@ -64,9 +64,9 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
 
         now = LocalDateTime.now();
         entity = LoginRegisterEntity.builder()
-            .username(username)
-            .loggedIn(logged)
-            .date(now)
+            .withUsername(username)
+            .withLoggedIn(logged)
+            .withDate(now)
             .build();
 
         loginRegisterRepository.save(entity);
@@ -74,10 +74,10 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
 
     private final LoginRegister toDto(final LoginRegisterEntity login) {
         return LoginRegister.builder()
-            .id(login.getId())
-            .username(login.getUsername())
-            .loggedIn(login.getLoggedIn())
-            .date(login.getDate())
+            .withId(login.getId())
+            .withUsername(login.getUsername())
+            .withLoggedIn(login.getLoggedIn())
+            .withDate(login.getDate())
             .build();
     }
 

@@ -15,6 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -64,7 +65,7 @@ class ITUserRoleServiceGetRolesPagination {
         Assertions.assertThat(result.getId())
             .isNotNull();
         Assertions.assertThat(result.getName())
-            .isEqualTo("ADMIN");
+            .isEqualTo(Roles.NAME);
     }
 
     @Test

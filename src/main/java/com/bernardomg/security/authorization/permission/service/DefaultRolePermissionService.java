@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
@@ -37,7 +36,6 @@ import com.bernardomg.security.authorization.permission.persistence.repository.R
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.validation.AddRolePermissionValidator;
 import com.bernardomg.security.authorization.permission.validation.RemoveRolePermissionValidator;
-import com.bernardomg.security.authorization.role.model.ImmutableRolePermission;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
@@ -80,9 +78,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         log.debug("Adding permission {} for role {}", permission, roleId);
 
-        rolePermission = ImmutableRolePermission.builder()
-            .roleId(roleId)
-            .permissionId(permission)
+        rolePermission = RolePermission.builder()
+            .withRoleId(roleId)
+            .withPermissionId(permission)
             .build();
         validatorAddRolePermission.validate(rolePermission);
 
@@ -118,9 +116,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         log.debug("Removing permission {} for role {}", permission, roleId);
 
-        rolePermission = ImmutableRolePermission.builder()
-            .roleId(roleId)
-            .permissionId(permission)
+        rolePermission = RolePermission.builder()
+            .withRoleId(roleId)
+            .withPermissionId(permission)
             .build();
         validatorRemoveRolePermission.validate(rolePermission);
 
@@ -137,7 +135,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
             result = toDto(updated);
         } else {
-            result = ImmutableRolePermission.builder()
+            result = RolePermission.builder()
                 .build();
         }
 
@@ -146,23 +144,23 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final long permissionId) {
         return RolePermissionEntity.builder()
-            .roleId(roleId)
-            .permissionId(permissionId)
+            .withRoleId(roleId)
+            .withPermissionId(permissionId)
             .build();
     }
 
     private final ResourcePermission toDto(final ResourcePermissionEntity entity) {
-        return ImmutableResourcePermission.builder()
-            .id(entity.getId())
-            .resource(entity.getResource())
-            .action(entity.getAction())
+        return ResourcePermission.builder()
+            .withId(entity.getId())
+            .withResource(entity.getResource())
+            .withAction(entity.getAction())
             .build();
     }
 
     private final RolePermission toDto(final RolePermissionEntity entity) {
-        return ImmutableRolePermission.builder()
-            .permissionId(entity.getPermissionId())
-            .roleId(entity.getRoleId())
+        return RolePermission.builder()
+            .withPermissionId(entity.getPermissionId())
+            .withRoleId(entity.getRoleId())
             .build();
     }
 

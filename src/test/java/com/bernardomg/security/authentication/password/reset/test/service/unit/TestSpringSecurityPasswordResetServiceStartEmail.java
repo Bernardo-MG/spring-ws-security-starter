@@ -26,6 +26,8 @@ import com.bernardomg.security.authentication.password.notification.PasswordNoti
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,12 +64,9 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
         final UserEntity  user;
         final UserDetails details;
 
-        user = UserEntity.builder()
-            .username("admin")
-            .email("email@somewhere.com")
-            .build();
+        user = UserEntities.enabled();
 
-        details = new User("admin", "password", true, true, true, true, Collections.emptyList());
+        details = new User(Users.USERNAME, "password", true, true, true, true, Collections.emptyList());
 
         given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(details);
 
@@ -81,13 +80,13 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         emailCaptor = ArgumentCaptor.forClass(String.class);
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         verify(passwordNotificator).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any(),
             ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo(Users.EMAIL);
     }
 
     @Test
@@ -97,13 +96,13 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         usernameCaptor = ArgumentCaptor.forClass(String.class);
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         verify(passwordNotificator).sendPasswordRecoveryMessage(ArgumentMatchers.any(), usernameCaptor.capture(),
             ArgumentMatchers.any());
 
         Assertions.assertThat(usernameCaptor.getValue())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
     }
 
 }

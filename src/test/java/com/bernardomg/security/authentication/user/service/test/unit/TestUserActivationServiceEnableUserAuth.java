@@ -136,7 +136,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a user with expired credentials gives a failure")
     @Disabled
     void testActivateUser_CredentialsExpired_Exception() {
@@ -145,7 +145,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -154,7 +154,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a disabled user gives a failure")
     @Disabled
     void testActivateUser_Disabled_Exception() {
@@ -163,7 +163,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
@@ -172,7 +172,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating an enabled user gives a failure")
     void testActivateUser_Enabled_Exception() {
         final ThrowingCallable executable;
@@ -180,7 +180,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadEnabledUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
@@ -189,7 +189,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a expired user gives a failure")
     void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
@@ -197,7 +197,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -206,7 +206,7 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a locked user gives a failure")
     void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
@@ -214,7 +214,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadLockedUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
@@ -223,13 +223,13 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Activating a not existing user gives a failure")
     void testActivateUser_NotExistingUser_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 

@@ -16,11 +16,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
-import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -53,7 +52,7 @@ class ITFullNewUserRegisterProcess {
         authority = new SimpleGrantedAuthority("USER:CREATE");
         authorities = List.of(authority);
 
-        auth = new UsernamePasswordAuthenticationToken("admin", "1234", authorities);
+        auth = new UsernamePasswordAuthenticationToken(Users.USERNAME, Users.PASSWORD, authorities);
         SecurityContextHolder.getContext()
             .setAuthentication(auth);
     }
@@ -77,18 +76,12 @@ class ITFullNewUserRegisterProcess {
         final UserTokenStatus validTokenStatus;
         final String          token;
         final UserEntity      user;
-        final UserRegister    newUser;
 
         // TODO: Set authentication to admin
         changeToAdmin();
 
         // Register new user
-        newUser = UserRegisterRequest.builder()
-            .email("email@somewhere.com")
-            .username("username")
-            .name("user")
-            .build();
-        userActivationService.registerNewUser(newUser);
+        userActivationService.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
 
         // Validate new token
         token = userTokenRepository.findAll()
@@ -108,7 +101,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        userActivationService.activateUser(token, "1234");
+        userActivationService.activateUser(token, Users.PASSWORD);
 
         user = userRepository.findAll()
             .stream()
@@ -116,14 +109,14 @@ class ITFullNewUserRegisterProcess {
             .get();
 
         Assertions.assertThat(user.getEmail())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo(Users.EMAIL);
         Assertions.assertThat(user.getUsername())
-            .isEqualTo("username");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(user.getName())
-            .isEqualTo("user");
+            .isEqualTo(Users.NAME);
         Assertions.assertThat(user.getEnabled())
             .isTrue();
-        Assertions.assertThat(passwordEncoder.matches("1234", user.getPassword()))
+        Assertions.assertThat(passwordEncoder.matches(Users.PASSWORD, user.getPassword()))
             .isTrue();
     }
 

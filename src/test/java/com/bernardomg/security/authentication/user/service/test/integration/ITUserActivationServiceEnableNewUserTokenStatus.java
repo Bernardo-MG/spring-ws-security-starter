@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
@@ -40,12 +41,12 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User admin is enabled");
+            .isEqualTo("User username is enabled");
     }
 
     @Test
@@ -56,7 +57,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
@@ -72,7 +73,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
@@ -87,7 +88,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, "1234");
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 

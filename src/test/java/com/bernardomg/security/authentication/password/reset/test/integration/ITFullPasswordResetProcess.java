@@ -38,7 +38,7 @@ class ITFullPasswordResetProcess {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("Can follow the password recovery from start to end")
     @ValidUser
     void testResetPassword() {

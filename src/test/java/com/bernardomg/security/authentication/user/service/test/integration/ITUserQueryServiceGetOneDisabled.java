@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
@@ -49,15 +48,7 @@ class ITUserQueryServiceGetOneDisabled {
         result = service.getOne(1l)
             .get();
 
-        UserAssertions.isEqualTo(result, ImmutableUser.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .passwordExpired(false)
-            .enabled(false)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(result, Users.disabled());
     }
 
 }

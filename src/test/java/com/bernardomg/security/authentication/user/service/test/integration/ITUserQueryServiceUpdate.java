@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
@@ -39,6 +38,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -120,16 +120,7 @@ class ITUserQueryServiceUpdate {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, UserEntity.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .password(Users.ENCODED_PASSWORD)
-            .passwordExpired(false)
-            .enabled(false)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(entity, UserEntities.disabled());
     }
 
     @Test
@@ -146,16 +137,7 @@ class ITUserQueryServiceUpdate {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, UserEntity.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .password(Users.ENCODED_PASSWORD)
-            .passwordExpired(true)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(entity, UserEntities.passwordExpired());
     }
 
     @Test
@@ -204,16 +186,7 @@ class ITUserQueryServiceUpdate {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, UserEntity.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.ALTERNATIVE_EMAIL)
-            .password(Users.ENCODED_PASSWORD)
-            .passwordExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(entity, UserEntities.emailChange());
     }
 
     @Test
@@ -227,15 +200,7 @@ class ITUserQueryServiceUpdate {
 
         result = service.update(1L, user);
 
-        UserAssertions.isEqualTo(result, ImmutableUser.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.ALTERNATIVE_EMAIL)
-            .passwordExpired(false)
-            .enabled(true)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(result, Users.emailChange());
     }
 
 }

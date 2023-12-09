@@ -31,7 +31,6 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
@@ -82,12 +81,12 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     @Override
-    public final Iterable<User> getAll(final UserQuery sample, final Pageable page) {
+    public final Iterable<User> getAll(final UserQuery query, final Pageable page) {
         final UserEntity entity;
 
-        log.debug("Reading users with sample {} and pagination {}", sample, page);
+        log.debug("Reading users with sample {} and pagination {}", query, page);
 
-        entity = toEntity(sample);
+        entity = toEntity(query);
         if (entity.getUsername() != null) {
             entity.setUsername(entity.getUsername()
                 .toLowerCase());
@@ -163,37 +162,37 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     private final User toDto(final UserEntity user) {
-        return ImmutableUser.builder()
-            .id(user.getId())
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .expired(user.getExpired())
-            .locked(user.getLocked())
-            .passwordExpired(user.getPasswordExpired())
+        return User.builder()
+            .withId(user.getId())
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withExpired(user.getExpired())
+            .withLocked(user.getLocked())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 
     private final UserEntity toEntity(final UserQuery user) {
         return UserEntity.builder()
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .expired(user.getExpired())
-            .locked(user.getLocked())
-            .passwordExpired(user.getPasswordExpired())
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withExpired(user.getExpired())
+            .withLocked(user.getLocked())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 
     private final UserEntity toEntity(final UserUpdate user) {
         return UserEntity.builder()
-            .id(user.getId())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .passwordExpired(user.getPasswordExpired())
+            .withId(user.getId())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 

@@ -55,7 +55,7 @@ class ITUserActivationServiceToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("A consumed token is not valid")
     @ValidUser
     @UserRegisteredConsumedUserToken
@@ -71,7 +71,7 @@ class ITUserActivationServiceToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("An expired token is not valid")
     @ValidUser
     @UserRegisteredExpiredUserToken
@@ -87,7 +87,7 @@ class ITUserActivationServiceToken {
     }
 
     @Test
-    @WithMockUser(username = "admin")
+    @WithMockUser(username = "username")
     @DisplayName("A valid token is valid")
     @ValidUser
     @UserRegisteredUserToken

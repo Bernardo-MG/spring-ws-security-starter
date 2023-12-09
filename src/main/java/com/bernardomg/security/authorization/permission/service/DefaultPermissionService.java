@@ -28,7 +28,6 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.model.ImmutableResourcePermission;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
@@ -73,10 +72,10 @@ public final class DefaultPermissionService implements PermissionService {
     }
 
     private final ResourcePermission toDto(final ResourcePermissionEntity entity) {
-        return ImmutableResourcePermission.builder()
-            .id(entity.getId())
-            .resource(entity.getResource())
-            .action(entity.getAction())
+        return ResourcePermission.builder()
+            .withId(entity.getId())
+            .withResource(entity.getResource())
+            .withAction(entity.getAction())
             .build();
     }
 

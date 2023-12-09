@@ -41,7 +41,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class UserRegisterRequest implements UserRegister {
+public final class UserRegisterRequest {
 
     /**
      * User email.

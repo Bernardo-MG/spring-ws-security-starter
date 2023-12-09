@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
@@ -47,7 +48,7 @@ class ITPersistentUserTokenStoreCreateToken {
     void testCreateToken_Persisted() {
         final long count;
 
-        store.createToken("admin");
+        store.createToken(Users.USERNAME);
 
         count = userTokenRepository.count();
         Assertions.assertThat(count)
@@ -64,7 +65,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         lower = LocalDateTime.now();
 
-        store.createToken("admin");
+        store.createToken(Users.USERNAME);
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -92,7 +93,7 @@ class ITPersistentUserTokenStoreCreateToken {
     void testCreateToken_Return() {
         final String token;
 
-        token = store.createToken("admin");
+        token = store.createToken(Users.USERNAME);
 
         Assertions.assertThat(token)
             .isNotNull();
@@ -104,7 +105,7 @@ class ITPersistentUserTokenStoreCreateToken {
         final ThrowingCallable executable;
 
         executable = () -> {
-            store.createToken("admin");
+            store.createToken(Users.USERNAME);
             userTokenRepository.flush();
         };
 

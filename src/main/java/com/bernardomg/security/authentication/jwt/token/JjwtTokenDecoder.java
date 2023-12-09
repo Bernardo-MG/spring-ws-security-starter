@@ -6,7 +6,6 @@ import java.time.ZoneId;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 
 import io.jsonwebtoken.Claims;
@@ -86,7 +85,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
             notBefore = null;
         }
 
-        return ImmutableJwtTokenData.builder()
+        return JwtTokenData.builder()
             .withId(claims.getId())
             .withSubject(claims.getSubject())
             .withAudience(claims.getAudience())

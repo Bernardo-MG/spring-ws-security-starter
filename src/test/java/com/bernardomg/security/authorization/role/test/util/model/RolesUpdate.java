@@ -9,7 +9,7 @@ public final class RolesUpdate {
     public static final RoleUpdate valid() {
         return RoleUpdateRequest.builder()
             .id(1L)
-            .name("Role")
+            .name(Roles.NAME)
             .build();
     }
 

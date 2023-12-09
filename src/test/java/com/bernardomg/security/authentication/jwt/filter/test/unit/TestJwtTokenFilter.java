@@ -21,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.bernardomg.security.authentication.jwt.filter.JwtTokenFilter;
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
-import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 
 import jakarta.servlet.FilterChain;
@@ -85,7 +84,7 @@ class TestJwtTokenFilter {
         userDetails = getValidUserDetails();
         given(userDetService.loadUserByUsername(USERNAME)).willReturn(userDetails);
 
-        jwtTokenData = ImmutableJwtTokenData.builder()
+        jwtTokenData = JwtTokenData.builder()
             .withSubject(USERNAME)
             .build();
         given(decoder.decode(TOKEN)).willReturn(jwtTokenData);

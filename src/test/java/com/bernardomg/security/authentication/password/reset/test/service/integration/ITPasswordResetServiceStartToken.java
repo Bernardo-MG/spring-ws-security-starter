@@ -113,7 +113,8 @@ class ITPasswordResetServiceStartToken {
 
         }
 
-        exists = userTokenRepository.exists(Example.of(new UserTokenEntity()));
+        exists = userTokenRepository.exists(Example.of(UserTokenEntity.builder()
+            .build()));
 
         Assertions.assertThat(exists)
             .isFalse();

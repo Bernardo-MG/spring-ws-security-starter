@@ -40,7 +40,6 @@ import com.bernardomg.security.authentication.user.exception.UserNotFoundExcepti
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.exception.InvalidTokenException;
-import com.bernardomg.security.authorization.token.model.ImmutableUserTokenStatus;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
@@ -175,9 +174,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             username = "";
         }
 
-        return ImmutableUserTokenStatus.builder()
-            .valid(valid)
-            .username(username)
+        return UserTokenStatus.builder()
+            .withValid(valid)
+            .withUsername(username)
             .build();
     }
 

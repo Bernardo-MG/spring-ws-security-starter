@@ -31,9 +31,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
-import com.bernardomg.security.authorization.role.model.ImmutableRole;
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
@@ -57,7 +55,7 @@ public final class DefaultRoleService implements RoleService {
 
     private final RoleRepository        roleRepository;
 
-    private final Validator<RoleCreate> validatorCreateRole;
+    private final Validator<RoleEntity> validatorCreateRole;
 
     private final Validator<Long>       validatorDeleteRole;
 
@@ -74,15 +72,17 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Role create(final RoleCreate role) {
+    public final Role create(final String name) {
         final RoleEntity entity;
         final RoleEntity created;
 
-        log.debug("Creating role {}", role);
+        log.debug("Creating role {}", name);
 
-        validatorCreateRole.validate(role);
+        entity = RoleEntity.builder()
+            .withName(name)
+            .build();
 
-        entity = toEntity(role);
+        validatorCreateRole.validate(entity);
 
         created = roleRepository.save(entity);
 
@@ -145,29 +145,23 @@ public final class DefaultRoleService implements RoleService {
         return toDto(created);
     }
 
-    private final ImmutableRole toDto(final RoleEntity role) {
-        return ImmutableRole.builder()
-            .id(role.getId())
-            .name(role.getName())
-            .build();
-    }
-
-    private final RoleEntity toEntity(final RoleCreate role) {
-        return RoleEntity.builder()
-            .name(role.getName())
+    private final Role toDto(final RoleEntity role) {
+        return Role.builder()
+            .withId(role.getId())
+            .withName(role.getName())
             .build();
     }
 
     private final RoleEntity toEntity(final RoleQuery role) {
         return RoleEntity.builder()
-            .name(role.getName())
+            .withName(role.getName())
             .build();
     }
 
     private final RoleEntity toEntity(final RoleUpdate role) {
         return RoleEntity.builder()
-            .id(role.getId())
-            .name(role.getName())
+            .withId(role.getId())
+            .withName(role.getName())
             .build();
     }
 

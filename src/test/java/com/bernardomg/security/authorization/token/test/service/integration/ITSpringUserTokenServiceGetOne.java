@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenIdException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
@@ -38,7 +39,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(1L);
 
         Assertions.assertThat(token.getName())
-            .isEqualTo("Admin");
+            .isEqualTo(Users.NAME);
     }
 
     @Test
@@ -51,7 +52,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(1L);
 
         Assertions.assertThat(token.getName())
-            .isEqualTo("Admin");
+            .isEqualTo(Users.NAME);
     }
 
     @Test
@@ -75,7 +76,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(1L);
 
         Assertions.assertThat(token.getName())
-            .isEqualTo("Admin");
+            .isEqualTo(Users.NAME);
     }
 
     @Test
@@ -88,7 +89,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(1L);
 
         Assertions.assertThat(token.getName())
-            .isEqualTo("Admin");
+            .isEqualTo(Users.NAME);
     }
 
     @Test
@@ -103,9 +104,9 @@ class ITSpringUserTokenServiceGetOne {
         Assertions.assertThat(token.getId())
             .isEqualTo(1);
         Assertions.assertThat(token.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(token.getName())
-            .isEqualTo("Admin");
+            .isEqualTo(Users.NAME);
         Assertions.assertThat(token.getScope())
             .isEqualTo(UserTokenConstants.SCOPE);
         Assertions.assertThat(token.getToken())

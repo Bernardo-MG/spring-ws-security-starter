@@ -35,6 +35,7 @@ import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.security.authorization.role.test.util.model.RolesUpdate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -84,7 +85,7 @@ class ITRoleServiceUpdate {
         Assertions.assertThat(entity.getId())
             .isNotNull();
         Assertions.assertThat(entity.getName())
-            .isEqualTo("Role");
+            .isEqualTo(Roles.NAME);
     }
 
     @Test
@@ -100,7 +101,7 @@ class ITRoleServiceUpdate {
         Assertions.assertThat(result.getId())
             .isNotNull();
         Assertions.assertThat(result.getName())
-            .isEqualTo("Role");
+            .isEqualTo(Roles.NAME);
     }
 
 }

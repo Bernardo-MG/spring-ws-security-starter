@@ -45,12 +45,12 @@ class ITPasswordResetServiceStartValidation {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.startPasswordReset("email@somewhere.com");
+        executable = () -> service.startPasswordReset(Users.EMAIL);
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user email@somewhere.com");
+            .isEqualTo("Couldn't find user mail@somewhere.com");
     }
 
 }

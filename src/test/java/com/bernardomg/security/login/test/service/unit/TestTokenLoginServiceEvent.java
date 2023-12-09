@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -31,8 +31,6 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.event.LogInEvent;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -68,8 +66,8 @@ class TestTokenLoginServiceEvent {
     }
 
     private final TokenLoginService getService(final UserDetails user) {
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
@@ -114,8 +112,8 @@ class TestTokenLoginServiceEvent {
     }
 
     private final TokenLoginService getServiceForNotExisting() {
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
             .willThrow(UsernameNotFoundException.class);
@@ -149,16 +147,11 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With an expired account and logging with email it generates an event not logged in")
     void testLogIn_Email_AccountExpired() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForAccountExpired().login(login);
+        getServiceForAccountExpired().login(Users.EMAIL, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -175,16 +168,11 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With expired credentials and logging with email it generates an event not logged in")
     void testLogIn_Email_CredentialsExpired() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForCredentialsExpired().login(login);
+        getServiceForCredentialsExpired().login(Users.EMAIL, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -201,16 +189,11 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a disabled account and logging with email it generates an event not logged in")
     void testLogIn_Email_Disabled() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForDisabled().login(login);
+        getServiceForDisabled().login(Users.EMAIL, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -227,16 +210,11 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a locked account and logging with email it generates an event not logged in")
     void testLogIn_Email_Locked() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForLocked().login(login);
+        getServiceForLocked().login(Users.EMAIL, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -253,14 +231,9 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a not existing user and logging with email it generates an event not logged in")
     void testLogIn_Email_NotExisting() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForNotExisting().login(login);
+        getServiceForNotExisting().login(Users.EMAIL, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -277,19 +250,14 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a valid account and logging with email it generates an event logged in")
     void testLogIn_Email_Valid() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
         loadUser();
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForValid().login(login);
+        getServiceForValid().login(Users.EMAIL, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -306,14 +274,9 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With an expired account and logging with username it generates an event not logged in")
     void testLogIn_Username_AccountExpired() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForAccountExpired().login(login);
+        getServiceForAccountExpired().login(Users.USERNAME, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -330,14 +293,9 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With expired credentials and logging with username it generates an event not logged in")
     void testLogIn_Username_CredentialsExpired() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForCredentialsExpired().login(login);
+        getServiceForCredentialsExpired().login(Users.USERNAME, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -354,14 +312,9 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a disabled account and logging with username it generates an event not logged in")
     void testLogIn_Username_Disabled() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForDisabled().login(login);
+        getServiceForDisabled().login(Users.USERNAME, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -378,14 +331,9 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a locked account and logging with username it generates an event not logged in")
     void testLogIn_Username_Locked() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForLocked().login(login);
+        getServiceForLocked().login(Users.USERNAME, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -402,14 +350,9 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a not existing user and logging with email it generates an event not logged in")
     void testLogIn_Username_NotExisting() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForNotExisting().login(login);
+        getServiceForNotExisting().login(Users.USERNAME, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -426,17 +369,12 @@ class TestTokenLoginServiceEvent {
     @Test
     @DisplayName("With a valid account and logging with username it generates an event logged in")
     void testLogIn_Username_Valid() {
-        final LoginRequest login;
-        final LogInEvent   event;
+        final LogInEvent event;
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
 
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
-
-        getServiceForValid().login(login);
+        getServiceForValid().login(Users.USERNAME, Users.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());

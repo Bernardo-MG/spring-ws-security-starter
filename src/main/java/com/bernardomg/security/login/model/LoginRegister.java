@@ -4,30 +4,33 @@ package com.bernardomg.security.login.model;
 import java.time.LocalDateTime;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 @Value
-@Builder
+@Builder(setterPrefix = "with")
 public class LoginRegister {
 
     /**
      * Logging attempt date.
      */
-    private LocalDateTime date;
+    @NonNull
+    private final LocalDateTime date;
 
     /**
      * Id.
      */
-    private Long          id;
+    private final long          id;
 
     /**
      * Logged in flag.
      */
-    private Boolean       loggedIn;
+    private final boolean       loggedIn;
 
     /**
      * User name.
      */
-    private String        username;
+    @NonNull
+    private final String        username;
 
 }

@@ -10,7 +10,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
@@ -72,7 +71,7 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
             .plus(validity);
 
         // Build token data for the wrapped encoder
-        data = ImmutableJwtTokenData.builder()
+        data = JwtTokenData.builder()
             .withSubject(subject)
             .withIssuedAt(issuedAt)
             .withNotBefore(issuedAt)
