@@ -26,6 +26,7 @@ import com.bernardomg.security.authentication.password.notification.PasswordNoti
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,10 +63,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
         final UserEntity  user;
         final UserDetails details;
 
-        user = UserEntity.builder()
-            .username("admin")
-            .email("email@somewhere.com")
-            .build();
+        user = UserEntities.enabled();
 
         details = new User("admin", "password", true, true, true, true, Collections.emptyList());
 

@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.PersistentUsers;
+import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
@@ -55,7 +55,7 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.disabled();
+        user = UserEntities.disabled();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -101,7 +101,7 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.enabled();
+        user = UserEntities.enabled();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -147,7 +147,7 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.expired();
+        user = UserEntities.expired();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -193,7 +193,7 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.locked();
+        user = UserEntities.locked();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
@@ -239,7 +239,7 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(PersistentUsers.enabled()));
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(UserEntities.enabled()));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of());
 
         executable = () -> service.loadUserByUsername(Users.USERNAME);
@@ -256,7 +256,7 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.passwordExpired();
+        user = UserEntities.passwordExpired();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 

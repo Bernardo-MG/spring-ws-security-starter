@@ -176,23 +176,23 @@ public final class DefaultUserQueryService implements UserQueryService {
 
     private final UserEntity toEntity(final UserQuery user) {
         return UserEntity.builder()
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .expired(user.getExpired())
-            .locked(user.getLocked())
-            .passwordExpired(user.getPasswordExpired())
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withExpired(user.getExpired())
+            .withLocked(user.getLocked())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 
     private final UserEntity toEntity(final UserUpdate user) {
         return UserEntity.builder()
-            .id(user.getId())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .passwordExpired(user.getPasswordExpired())
+            .withId(user.getId())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 

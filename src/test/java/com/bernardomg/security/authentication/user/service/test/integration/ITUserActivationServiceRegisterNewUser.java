@@ -11,6 +11,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
+import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -78,16 +79,7 @@ class ITUserActivationServiceRegisterNewUser {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, UserEntity.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .password("")
-            .passwordExpired(true)
-            .enabled(false)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(entity, UserEntities.newlyCreated());
     }
 
     @Test
@@ -104,16 +96,7 @@ class ITUserActivationServiceRegisterNewUser {
             .iterator()
             .next();
 
-        UserAssertions.isEqualTo(entity, UserEntity.builder()
-            .username(Users.USERNAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .password("")
-            .passwordExpired(true)
-            .enabled(false)
-            .expired(false)
-            .locked(false)
-            .build());
+        UserAssertions.isEqualTo(entity, UserEntities.newlyCreated());
     }
 
     @Test

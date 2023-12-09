@@ -84,14 +84,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         encodedPassword = passwordEncoder.encode("1234");
 
         return UserEntity.builder()
-            .username("read")
-            .name("read")
-            .email("email2@nowhere.com")
-            .password(encodedPassword)
-            .enabled(true)
-            .locked(false)
-            .expired(false)
-            .passwordExpired(false)
+            .withUsername("read")
+            .withName("read")
+            .withEmail("email2@nowhere.com")
+            .withPassword(encodedPassword)
+            .withEnabled(true)
+            .withLocked(false)
+            .withExpired(false)
+            .withPasswordExpired(false)
             .build();
     }
 
@@ -101,14 +101,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         encodedPassword = passwordEncoder.encode("1234");
 
         return UserEntity.builder()
-            .username("root")
-            .name("root")
-            .email("email1@nowhere.com")
-            .password(encodedPassword)
-            .enabled(true)
-            .locked(false)
-            .expired(false)
-            .passwordExpired(false)
+            .withUsername("root")
+            .withName("root")
+            .withEmail("email1@nowhere.com")
+            .withPassword(encodedPassword)
+            .withEnabled(true)
+            .withLocked(false)
+            .withExpired(false)
+            .withPasswordExpired(false)
             .build();
     }
 

@@ -131,9 +131,9 @@ public final class DefaultUserActivationService implements UserActivationService
         log.debug("Registering new user {} with email {}", username, email);
 
         userEntity = UserEntity.builder()
-            .username(username)
-            .name(name)
-            .email(email)
+            .withUsername(username)
+            .withName(name)
+            .withEmail(email)
             .build();
 
         validatorRegisterUser.validate(userEntity);
