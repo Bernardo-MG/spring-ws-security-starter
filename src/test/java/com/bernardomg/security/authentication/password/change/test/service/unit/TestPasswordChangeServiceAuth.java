@@ -117,7 +117,7 @@ class TestPasswordChangeServiceAuth {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail("email@somewhere.com");
+        user.setEmail(Users.EMAIL);
         user.setUsername(Users.USERNAME);
         user.setPassword(Users.PASSWORD);
 

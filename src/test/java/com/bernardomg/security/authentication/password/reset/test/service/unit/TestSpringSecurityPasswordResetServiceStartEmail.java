@@ -27,6 +27,7 @@ import com.bernardomg.security.authentication.password.reset.service.SpringSecur
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -79,13 +80,13 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         emailCaptor = ArgumentCaptor.forClass(String.class);
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         verify(passwordNotificator).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any(),
             ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
-            .isEqualTo("email@somewhere.com");
+            .isEqualTo(Users.EMAIL);
     }
 
     @Test
@@ -95,7 +96,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         usernameCaptor = ArgumentCaptor.forClass(String.class);
 
-        service.startPasswordReset("email@somewhere.com");
+        service.startPasswordReset(Users.EMAIL);
 
         verify(passwordNotificator).sendPasswordRecoveryMessage(ArgumentMatchers.any(), usernameCaptor.capture(),
             ArgumentMatchers.any());

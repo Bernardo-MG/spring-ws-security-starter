@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.password.reset.model.request.PasswordResetRequest;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -74,7 +75,7 @@ class TestPasswordResetRequestValidation {
         final Set<ConstraintViolation<PasswordResetRequest>> errors;
 
         passwordRecovery = new PasswordResetRequest();
-        passwordRecovery.setEmail("email@somewhere.com");
+        passwordRecovery.setEmail(Users.EMAIL);
 
         errors = validator.validate(passwordRecovery);
 
