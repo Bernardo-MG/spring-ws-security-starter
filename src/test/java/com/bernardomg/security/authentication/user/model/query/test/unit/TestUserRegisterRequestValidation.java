@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
+import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
 import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
 
 import jakarta.validation.ConstraintViolation;
@@ -23,9 +23,9 @@ class TestUserRegisterRequestValidation {
     @Test
     @DisplayName("A DTO with an invalid email is invalid")
     void validate_invalidEmail() {
-        final UserRegister                           userCreate;
-        final Set<ConstraintViolation<UserRegister>> errors;
-        final ConstraintViolation<UserRegister>      error;
+        final UserRegisterRequest                           userCreate;
+        final Set<ConstraintViolation<UserRegisterRequest>> errors;
+        final ConstraintViolation<UserRegisterRequest>      error;
 
         userCreate = UserRegisterRequests.invalidEmail();
 
@@ -46,9 +46,9 @@ class TestUserRegisterRequestValidation {
     @Test
     @DisplayName("A DTO missing the email is invalid")
     void validate_noEmail() {
-        final UserRegister                           userCreate;
-        final Set<ConstraintViolation<UserRegister>> errors;
-        final ConstraintViolation<UserRegister>      error;
+        final UserRegisterRequest                           userCreate;
+        final Set<ConstraintViolation<UserRegisterRequest>> errors;
+        final ConstraintViolation<UserRegisterRequest>      error;
 
         userCreate = UserRegisterRequests.missingEmail();
 
@@ -69,8 +69,8 @@ class TestUserRegisterRequestValidation {
     @Test
     @DisplayName("A valid DTO is valid")
     void validate_valid() {
-        final UserRegister                           userCreate;
-        final Set<ConstraintViolation<UserRegister>> errors;
+        final UserRegisterRequest                           userCreate;
+        final Set<ConstraintViolation<UserRegisterRequest>> errors;
 
         userCreate = UserRegisterRequests.valid();
 

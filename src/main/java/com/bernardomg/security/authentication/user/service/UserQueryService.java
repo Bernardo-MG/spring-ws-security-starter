@@ -52,13 +52,13 @@ public interface UserQueryService {
      * Returns all the users matching the sample in a paginated form. If the sample fields are empty, then all the users
      * are returned.
      *
-     * @param sample
+     * @param query
      *            sample for filtering
      * @param page
      *            pagination to apply
      * @return a page for the users matching the sample
      */
-    public Iterable<User> getAll(final UserQuery sample, final Pageable page);
+    public Iterable<User> getAll(final UserQuery query, final Pageable page);
 
     /**
      * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.

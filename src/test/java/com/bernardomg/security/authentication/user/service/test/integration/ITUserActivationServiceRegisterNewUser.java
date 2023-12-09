@@ -7,12 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
-import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -35,11 +33,7 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Adds an entity when creating")
     void testRegisterNewUser_AddsEntity() {
-        final UserRegister user;
-
-        user = UserRegisterRequests.valid();
-
-        service.registerNewUser(user);
+        service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -48,12 +42,9 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Persists the data, ignoring case")
     void testRegisterNewUser_Case_PersistedData() {
-        final UserRegister user;
-        final UserEntity   entity;
+        final UserEntity entity;
 
-        user = UserRegisterRequests.valid(Users.USERNAME.toUpperCase(), Users.EMAIL.toUpperCase());
-
-        service.registerNewUser(user);
+        service.registerNewUser(Users.USERNAME.toUpperCase(), Users.NAME, Users.EMAIL.toUpperCase());
         entity = repository.findAll()
             .iterator()
             .next();
@@ -67,12 +58,9 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Returns the created data, ignoring case")
     void testRegisterNewUser_Case_ReturnedData() {
-        final UserRegister user;
-        final User         result;
+        final User result;
 
-        user = UserRegisterRequests.valid(Users.USERNAME.toUpperCase(), Users.EMAIL.toUpperCase());
-
-        result = service.registerNewUser(user);
+        result = service.registerNewUser(Users.USERNAME.toUpperCase(), Users.NAME, Users.EMAIL.toUpperCase());
 
         Assertions.assertThat(result.getUsername())
             .isEqualTo(Users.USERNAME);
@@ -83,12 +71,9 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
     void testRegisterNewUser_Padded_PersistedData() {
-        final UserRegister user;
-        final UserEntity   entity;
+        final UserEntity entity;
 
-        user = UserRegisterRequests.paddedWithWhitespaces();
-
-        service.registerNewUser(user);
+        service.registerNewUser(" " + Users.USERNAME + " ", " " + Users.NAME + " ", " " + Users.EMAIL + " ");
         entity = repository.findAll()
             .iterator()
             .next();
@@ -108,12 +93,13 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Persists the data")
     void testRegisterNewUser_PersistedData() {
-        final UserRegister user;
-        final UserEntity   entity;
+        final UserEntity entity;
 
-        user = UserRegisterRequests.valid();
+        service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
 
-        service.registerNewUser(user);
+        Assertions.assertThat(repository.count())
+            .isEqualTo(1);
+
         entity = repository.findAll()
             .iterator()
             .next();
@@ -133,12 +119,9 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Returns the created data")
     void testRegisterNewUser_ReturnedData() {
-        final UserRegister user;
-        final User         result;
+        final User result;
 
-        user = UserRegisterRequests.valid();
-
-        result = service.registerNewUser(user);
+        result = service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
 
         UserAssertions.isEqualTo(result, Users.newlyCreated());
     }

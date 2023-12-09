@@ -16,11 +16,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
-import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -77,18 +76,12 @@ class ITFullNewUserRegisterProcess {
         final UserTokenStatus validTokenStatus;
         final String          token;
         final UserEntity      user;
-        final UserRegister    newUser;
 
         // TODO: Set authentication to admin
         changeToAdmin();
 
         // Register new user
-        newUser = UserRegisterRequest.builder()
-            .email("email@somewhere.com")
-            .username("username")
-            .name("user")
-            .build();
-        userActivationService.registerNewUser(newUser);
+        userActivationService.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
 
         // Validate new token
         token = userTokenRepository.findAll()

@@ -34,7 +34,6 @@ import com.bernardomg.security.authentication.user.exception.ExpiredUserExceptio
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -58,27 +57,27 @@ public final class DefaultUserActivationService implements UserActivationService
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder         passwordEncoder;
+    private final PasswordEncoder       passwordEncoder;
 
     /**
      * Token processor.
      */
-    private final UserTokenStore          tokenStore;
+    private final UserTokenStore        tokenStore;
 
     /**
      * Message sender. Registering new users may require emails, or other kind of messaging.
      */
-    private final UserNotificator         userNotificator;
+    private final UserNotificator       userNotificator;
 
     /**
      * User repository.
      */
-    private final UserRepository          userRepository;
+    private final UserRepository        userRepository;
 
     /**
      * User registration validator.
      */
-    private final Validator<UserRegister> validatorRegisterUser;
+    private final Validator<UserEntity> validatorRegisterUser;
 
     public DefaultUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
             final UserTokenStore tStore, final PasswordEncoder passEncoder) {
@@ -124,16 +123,20 @@ public final class DefaultUserActivationService implements UserActivationService
     }
 
     @Override
-    public final User registerNewUser(final UserRegister user) {
+    public final User registerNewUser(final String username, final String name, final String email) {
         final UserEntity userEntity;
         final UserEntity created;
         final String     token;
 
-        log.debug("Registering new user {} with email {}", user.getUsername(), user.getEmail());
+        log.debug("Registering new user {} with email {}", username, email);
 
-        validatorRegisterUser.validate(user);
+        userEntity = UserEntity.builder()
+            .username(username)
+            .name(name)
+            .email(email)
+            .build();
 
-        userEntity = toEntity(user);
+        validatorRegisterUser.validate(userEntity);
 
         // Trim strings
         userEntity.setName(userEntity.getName()
@@ -168,9 +171,9 @@ public final class DefaultUserActivationService implements UserActivationService
         token = tokenStore.createToken(created.getUsername());
 
         // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.getEmail(), user.getUsername(), token);
+        userNotificator.sendUserRegisteredMessage(created.getEmail(), username, token);
 
-        log.debug("Registered new user {} with email {}", user.getUsername(), user.getEmail());
+        log.debug("Registered new user {} with email {}", username, email);
 
         return toDto(created);
     }
@@ -218,14 +221,6 @@ public final class DefaultUserActivationService implements UserActivationService
             .withExpired(user.getExpired())
             .withLocked(user.getLocked())
             .withPasswordExpired(user.getPasswordExpired())
-            .build();
-    }
-
-    private final UserEntity toEntity(final UserRegister user) {
-        return UserEntity.builder()
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
             .build();
     }
 

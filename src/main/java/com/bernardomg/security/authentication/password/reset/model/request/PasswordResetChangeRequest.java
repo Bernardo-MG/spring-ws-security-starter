@@ -13,7 +13,7 @@ import lombok.Data;
  *
  */
 @Data
-public class PasswordResetChangeRequest {
+public final class PasswordResetChangeRequest {
 
     /**
      * The new password.

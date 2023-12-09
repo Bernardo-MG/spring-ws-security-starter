@@ -79,7 +79,6 @@ public class UserActivationController {
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User activate(@PathVariable("token") final String token,
             @Valid @RequestBody final UserActivationRequest request) {
-        // TODO: rename to activate
         return service.activateUser(token, request.getPassword());
     }
 

@@ -6,12 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -31,30 +29,10 @@ class ITUserActivationServiceRegisterNewUserExisting {
     }
 
     @Test
-    @DisplayName("Doesn't create over existing ids")
-    @OnlyUser
-    void testRegisterNewUser() {
-        final User         result;
-        final UserRegister user;
-
-        user = UserRegisterRequests.alternative();
-
-        result = service.registerNewUser(user);
-
-        // TODO: What is this tests for?
-        Assertions.assertThat(result.getId())
-            .isNotEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Adds an entity when creating with an existing id")
     @OnlyUser
     void testRegisterNewUser_AddsEntity() {
-        final UserRegister user;
-
-        user = UserRegisterRequests.alternative();
-
-        service.registerNewUser(user);
+        service.registerNewUser(Users.ALTERNATIVE_USERNAME, Users.NAME, Users.ALTERNATIVE_EMAIL);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);

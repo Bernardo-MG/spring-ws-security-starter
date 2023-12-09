@@ -81,12 +81,12 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     @Override
-    public final Iterable<User> getAll(final UserQuery sample, final Pageable page) {
+    public final Iterable<User> getAll(final UserQuery query, final Pageable page) {
         final UserEntity entity;
 
-        log.debug("Reading users with sample {} and pagination {}", sample, page);
+        log.debug("Reading users with sample {} and pagination {}", query, page);
 
-        entity = toEntity(sample);
+        entity = toEntity(query);
         if (entity.getUsername() != null) {
             entity.setUsername(entity.getUsername()
                 .toLowerCase());

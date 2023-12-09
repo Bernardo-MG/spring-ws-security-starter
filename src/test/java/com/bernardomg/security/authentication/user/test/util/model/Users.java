@@ -16,6 +16,7 @@ public final class Users {
     public static String PASSWORD          = "1234";
 
     public static String USERNAME          = "admin";
+    public static String ALTERNATIVE_USERNAME          = "user2";
 
     public static final User disabled() {
         return User.builder()

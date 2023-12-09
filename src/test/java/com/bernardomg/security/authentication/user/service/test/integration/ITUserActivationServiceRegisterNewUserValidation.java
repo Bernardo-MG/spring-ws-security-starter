@@ -6,10 +6,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.UserRegisterRequests;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -32,13 +30,10 @@ class ITUserActivationServiceRegisterNewUserValidation {
     @DisplayName("Throws an exception when the email already exists")
     @OnlyUser
     void testRegisterNewUser_ExistingEmail() {
-        final UserRegister     data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UserRegisterRequests.valid("abc", Users.EMAIL);
-
-        executable = () -> service.registerNewUser(data);
+        executable = () -> service.registerNewUser(Users.ALTERNATIVE_USERNAME, Users.NAME, Users.EMAIL);
 
         failure = FieldFailure.of("email.existing", "email", "existing", Users.EMAIL);
 
@@ -49,13 +44,10 @@ class ITUserActivationServiceRegisterNewUserValidation {
     @DisplayName("Throws an exception when the username already exists")
     @OnlyUser
     void testRegisterNewUser_ExistingUsername() {
-        final UserRegister     data;
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        data = UserRegisterRequests.valid(Users.USERNAME, Users.ALTERNATIVE_EMAIL);
-
-        executable = () -> service.registerNewUser(data);
+        executable = () -> service.registerNewUser(Users.USERNAME, Users.NAME, Users.ALTERNATIVE_EMAIL);
 
         failure = FieldFailure.of("username.existing", "username", "existing", Users.USERNAME);
 
