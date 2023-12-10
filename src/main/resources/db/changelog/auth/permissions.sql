@@ -28,11 +28,11 @@
 -- ****************************************
 
 INSERT INTO actions (id, name) VALUES
-   (1, 'CREATE'),
-   (2, 'READ'),
-   (3, 'UPDATE'),
-   (4, 'DELETE'),
-   (5, 'VIEW');
+   ('CREATE'),
+   ('READ'),
+   ('UPDATE'),
+   ('DELETE'),
+   ('VIEW');
 
 INSERT INTO resources (id, name) VALUES
    (1, 'USER'),
