@@ -30,7 +30,6 @@ import java.util.Collection;
 import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -53,14 +52,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DeleteRoleValidator implements Validator<Long> {
 
-    private final RoleRepository     roleRepository;
-
     private final UserRoleRepository userRoleRepository;
 
-    public DeleteRoleValidator(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
+    public DeleteRoleValidator(final UserRoleRepository userRoleRepo) {
         super();
 
-        roleRepository = roleRepo;
         userRoleRepository = userRoleRepo;
     }
 
@@ -71,14 +67,6 @@ public final class DeleteRoleValidator implements Validator<Long> {
         final UserRoleEntity           sample;
 
         failures = new ArrayList<>();
-
-        // The role exists
-        if (!roleRepository.existsById(id)) {
-            log.error("Found no role with id {}", id);
-            // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("id", "notExisting", id);
-            failures.add(failure);
-        }
 
         sample = UserRoleEntity.builder()
             .withRoleId(id)

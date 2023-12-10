@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.security.authorization.role.test.util.model.RolesQuery;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -24,7 +24,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Role service - get all - pagination")
-@Sql({ "/db/queries/security/role/single.sql" })
+@SingleRole
 class ITRoleServiceGetAllPagination {
 
     @Autowired

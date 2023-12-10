@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.util.assertion;
+package com.bernardomg.security.authorization.permission.test.util.assertion;
 
 import org.assertj.core.api.Assertions;
 
@@ -18,10 +18,10 @@ public final class RolePermissionAssertions {
     }
 
     public static final void isEqualTo(final RolePermissionEntity received, final RolePermissionEntity expected) {
-        Assertions.assertThat(received.getPermissionId())
-            .withFailMessage("Expected permission id '%s' but got '%s'", expected.getPermissionId(),
-                received.getPermissionId())
-            .isEqualTo(expected.getPermissionId());
+        Assertions.assertThat(received.getPermission())
+            .withFailMessage("Expected permission '%s' but got '%s'", expected.getPermission(),
+                received.getPermission())
+            .isEqualTo(expected.getPermission());
         Assertions.assertThat(received.getRoleId())
             .withFailMessage("Expected role id '%s' but got '%s'", expected.getRoleId(), received.getRoleId())
             .isEqualTo(expected.getRoleId());

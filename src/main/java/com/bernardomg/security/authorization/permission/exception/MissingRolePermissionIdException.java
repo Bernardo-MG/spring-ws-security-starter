@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.model.query;
+package com.bernardomg.security.authorization.permission.exception;
+
+import java.io.Serializable;
+
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Permission to add to a role.
+ * Missing role id exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-public interface RoleAddPermission {
+public final class MissingRolePermissionIdException extends MissingIdException {
 
-    /**
-     * Returns the id of the permission to add.
-     *
-     * @return id of the permission to add
-     */
-    public Long getPermissionId();
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingRolePermissionIdException(final Serializable id) {
+        super("role", id);
+    }
 
 }

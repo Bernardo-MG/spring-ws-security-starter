@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.integration.service;
+package com.bernardomg.security.authorization.permission.test.integration.service;
 
 import java.util.Iterator;
 
@@ -8,15 +8,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.util.assertion.RolePermissionAssertions;
+import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.model.RolePermission;
-import com.bernardomg.security.permission.test.util.assertion.RolePermissionAssertions;
-import com.bernardomg.security.permission.test.util.model.RolePermissionEntities;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -37,13 +39,13 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Adds a permission")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testAddPermission_AddsEntity() {
         final Iterable<RolePermissionEntity> result;
         final RolePermissionEntity           found;
 
-        service.addPermission(1l, 1l);
+        service.addPermission(1l, "DATA:CREATE");
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -57,8 +59,8 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Reading the permissions after adding a permission returns the new permission")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testAddPermission_CallBack() {
         final Iterable<ResourcePermission> result;
         final ResourcePermission           found;
@@ -66,7 +68,7 @@ class ITRolePermissionServiceAddPermission {
 
         pageable = Pageable.unpaged();
 
-        service.addPermission(1l, 1l);
+        service.addPermission(1l, "DATA:CREATE");
         result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(result)
@@ -83,15 +85,13 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("When adding an existing permission no permission is added")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+    @RoleWithPermission
     void testAddPermission_Existing() {
         final Iterable<RolePermissionEntity> result;
         final Iterator<RolePermissionEntity> itr;
         RolePermissionEntity                 found;
 
-        service.addPermission(1l, 1l);
+        service.addPermission(1l, "DATA:CREATE");
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -102,7 +102,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(1L)
+            .withPermission("DATA:CREATE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -110,7 +110,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(2L)
+            .withPermission("DATA:READ")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -118,7 +118,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(3L)
+            .withPermission("DATA:UPDATE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -126,7 +126,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(4L)
+            .withPermission("DATA:DELETE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -134,17 +134,17 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Returns the created data")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testAddRole_ReturnedData() {
         final RolePermission result;
 
-        result = service.addPermission(1l, 1l);
+        result = service.addPermission(1l, "DATA:CREATE");
 
         Assertions.assertThat(result.getRoleId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getPermissionId())
-            .isEqualTo(1);
+        Assertions.assertThat(result.getPermission())
+            .isEqualTo("DATA:CREATE");
     }
 
 }

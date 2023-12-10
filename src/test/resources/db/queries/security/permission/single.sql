@@ -1,2 +1,2 @@
-INSERT INTO permissions (id, resource, action) VALUES
-   (1, 'DATA', 'CREATE');
+INSERT INTO permissions (name, resource, action) VALUES
+   ('DATA:CREATE', 'DATA', 'CREATE');

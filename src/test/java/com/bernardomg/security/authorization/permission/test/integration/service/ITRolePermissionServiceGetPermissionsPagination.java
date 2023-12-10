@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.integration.service;
+package com.bernardomg.security.authorization.permission.test.integration.service;
 
 import java.util.Iterator;
 
@@ -10,19 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Role service - get permissions pagination")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/relationship/role_permission.sql" })
+@RoleWithPermission
 class ITRolePermissionServiceGetPermissionsPagination {
 
     @Autowired

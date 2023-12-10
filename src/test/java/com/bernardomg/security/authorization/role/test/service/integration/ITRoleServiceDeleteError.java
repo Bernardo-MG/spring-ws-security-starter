@@ -22,20 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.validation;
+package com.bernardomg.security.authorization.role.test.service.integration;
 
-import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
-import com.bernardomg.validation.Validator;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public final class UpdateRoleValidator implements Validator<RoleUpdate> {
+import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
 
-    public UpdateRoleValidator() {
+@IntegrationTest
+@AllAuthoritiesMockUser
+@DisplayName("Role service - delete - error")
+class ITRoleServiceDeleteError {
+
+    @Autowired
+    private RoleService service;
+
+    public ITRoleServiceDeleteError() {
         super();
     }
 
-    @Override
-    public final void validate(final RoleUpdate role) {
-        // TODO: Delete
+    @Test
+    @DisplayName("Throws an exception when the role doesn't exist")
+    void testDelete_NotExisting() {
+        final ThrowingCallable executable;
+
+        executable = () -> service.delete(1L);
+
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingRoleIdException.class);
     }
 
 }

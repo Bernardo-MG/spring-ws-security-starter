@@ -81,6 +81,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+        - addAutoIncrement:
+            tableName: resources
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 0
         - createTable:
             tableName: actions
             columns:
@@ -96,6 +102,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+        - addAutoIncrement:
+            tableName: actions
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 0
         - createTable:
             tableName: permissions
             columns:
@@ -104,6 +116,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    unique: true
                     nullable: false
               - column:
                   name: resource
@@ -121,6 +139,12 @@ databaseChangeLog:
                     references: actions(name)
                     nullable: false
                     deleteCascade: true
+        - addAutoIncrement:
+            tableName: permissions
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 0
   - changeSet:
       id: security_roles
       author: Bernardo
@@ -152,11 +176,11 @@ databaseChangeLog:
                     nullable: false
                     deleteCascade: true
               - column:
-                  name: permission_id
-                  type: bigint
+                  name: permission
+                  type: varchar(60)
                   constraints:
                     foreignKeyName: fk_role_permissions_permission_id
-                    references: permissions(id)
+                    references: permissions(name)
                     nullable: false
                     deleteCascade: true
               - column:
@@ -187,7 +211,7 @@ databaseChangeLog:
         - addUniqueConstraint:
             constraintName: role_permissions_unique
             tableName: role_permissions
-            columnNames: 'role_id, permission_id'
+            columnNames: 'role_id, permission'
         - addUniqueConstraint:
             constraintName: user_roles_unique
             tableName: user_roles

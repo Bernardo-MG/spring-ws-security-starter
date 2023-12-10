@@ -80,7 +80,7 @@ public class RolePermissionController {
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
     public RolePermission add(@PathVariable("id") final long roleId,
             @Valid @RequestBody final RoleAddPermissionQuery permission) {
-        return service.addPermission(roleId, permission.getPermissionId());
+        return service.addPermission(roleId, permission.getPermission());
     }
 
     /**
@@ -128,7 +128,8 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("permission") final long permission) {
+    public RolePermission remove(@PathVariable("id") final long id,
+            @PathVariable("permission") final String permission) {
         return service.removePermission(id, permission);
     }
 

@@ -6,22 +6,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
+import com.bernardomg.security.authorization.role.test.config.UserWithPermission;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - remove role")
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-        "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
-        "/db/queries/security/relationship/user_role.sql" })
+@UserWithPermission
 class ITUserRoleServiceRemoveRole {
 
     @Autowired

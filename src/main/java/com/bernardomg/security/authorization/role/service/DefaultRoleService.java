@@ -39,7 +39,6 @@ import com.bernardomg.security.authorization.role.persistence.repository.RoleRep
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.validation.CreateRoleValidator;
 import com.bernardomg.security.authorization.role.validation.DeleteRoleValidator;
-import com.bernardomg.security.authorization.role.validation.UpdateRoleValidator;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -59,16 +58,13 @@ public final class DefaultRoleService implements RoleService {
 
     private final Validator<Long>       validatorDeleteRole;
 
-    private final Validator<RoleUpdate> validatorUpdateRole;
-
     public DefaultRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
-        validatorUpdateRole = new UpdateRoleValidator();
-        validatorDeleteRole = new DeleteRoleValidator(roleRepo, userRoleRepo);
+        validatorDeleteRole = new DeleteRoleValidator(userRoleRepo);
     }
 
     @Override
@@ -91,7 +87,15 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final void delete(final long id) {
+        final Optional<RoleEntity> readRole;
+
         log.debug("Deleting role {}", id);
+
+        readRole = roleRepository.findById(id);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(id);
+        }
 
         validatorDeleteRole.validate(id);
 
@@ -134,8 +138,6 @@ public final class DefaultRoleService implements RoleService {
         if (!roleRepository.existsById(id)) {
             throw new MissingRoleIdException(id);
         }
-
-        validatorUpdateRole.validate(role);
 
         entity = toEntity(role);
         entity.setId(id);
