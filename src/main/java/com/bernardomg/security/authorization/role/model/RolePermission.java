@@ -25,6 +25,7 @@
 package com.bernardomg.security.authorization.role.model;
 
 import lombok.Builder;
+import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -40,11 +41,12 @@ public final class RolePermission {
     /**
      * Permission id.
      */
-    private final long permissionId;
+    @NonNull
+    private final String permission;
 
     /**
      * Role id.
      */
-    private final long roleId;
+    private final long   roleId;
 
 }

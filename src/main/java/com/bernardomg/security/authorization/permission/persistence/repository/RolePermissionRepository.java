@@ -37,15 +37,4 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
  */
 public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
 
-    /**
-     * Checks if the permission exists for the role.
-     *
-     * @param roleId
-     *            role id
-     * @param permissionId
-     *            permission id
-     * @return {@code true} if the permission is assigned to the role, {@code false} otherwise
-     */
-    public boolean existsByRoleIdAndPermissionId(final Long roleId, final Long permissionId);
-
 }

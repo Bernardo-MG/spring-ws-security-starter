@@ -73,7 +73,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @DisplayName("When all the permission have been assigned nothing is returned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/relationship/role_permission_granted.sql" })
     void testGetAvailablePermissions_AllAssigned() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;

@@ -34,9 +34,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class RoleAddPermissionQuery implements RoleAddPermission {
+public final class RoleAddPermissionQuery {
 
     @NotNull
-    private Long permissionId;
+    private String permission;
 
 }

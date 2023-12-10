@@ -63,11 +63,11 @@ public class RolePermissionEntity implements Serializable {
     private Boolean           granted;
 
     /**
-     * Permission id.
+     * Permission.
      */
     @Id
-    @Column(name = "permission_id", nullable = false)
-    private Long              permissionId;
+    @Column(name = "permission", nullable = false)
+    private String            permission;
 
     /**
      * Role id.

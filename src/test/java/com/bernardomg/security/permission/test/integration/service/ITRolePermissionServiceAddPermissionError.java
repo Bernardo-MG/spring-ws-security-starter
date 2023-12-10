@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -29,6 +30,23 @@ class ITRolePermissionServiceAddPermissionError {
     }
 
     @Test
+    @DisplayName("Throws an exception when adding a permission which doesn't exist")
+    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+            "/db/queries/security/role/single.sql" })
+    void testAddAction_NotExistingPermission() {
+        final Collection<Long> action;
+        final ThrowingCallable executable;
+
+        action = new ArrayList<>();
+        action.add(1L);
+
+        executable = () -> service.addPermission(1l, "DATA:CREATE");
+
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingResourcePermissionIdException.class);
+    }
+
+    @Test
     @DisplayName("Throws an exception when adding a permission for a role which doesn't exist")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql" })
@@ -39,7 +57,7 @@ class ITRolePermissionServiceAddPermissionError {
         action = new ArrayList<>();
         action.add(1L);
 
-        executable = () -> service.addPermission(1l, 1l);
+        executable = () -> service.addPermission(1l, "DATA:CREATE");
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleIdException.class);

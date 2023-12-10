@@ -31,7 +31,7 @@ class ITUserRoleServiceGetAvailableRoles {
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
             "/db/queries/security/role/alternative.sql", "/db/queries/security/user/single.sql",
-            "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/relationship/role_permission_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testGetRoles() {
         final Iterable<Role> result;
@@ -56,7 +56,7 @@ class ITUserRoleServiceGetAvailableRoles {
     @DisplayName("Returns no available roles when a user has all the roles")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
+            "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission_granted.sql",
             "/db/queries/security/relationship/user_role.sql" })
     void testGetRoles_AllAssigned() {
         final Iterable<Role> result;

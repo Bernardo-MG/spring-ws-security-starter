@@ -12,7 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_permission.sql",
+        "/db/queries/security/user/locked.sql", "/db/queries/security/relationship/role_permission_granted.sql",
         "/db/queries/security/relationship/user_role.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

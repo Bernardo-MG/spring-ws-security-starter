@@ -64,7 +64,7 @@ class ITRoleServiceDelete {
     @DisplayName("Deletes a role with permissions")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/relationship/role_permission_granted.sql" })
     void testDelete_WithPermissions() {
         service.delete(1L);
 

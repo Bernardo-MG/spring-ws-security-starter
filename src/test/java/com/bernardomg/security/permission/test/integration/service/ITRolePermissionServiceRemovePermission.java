@@ -22,7 +22,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("Role service - remove permission")
 @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/relationship/role_permission.sql" })
+        "/db/queries/security/relationship/role_permission_granted.sql" })
 class ITRolePermissionServiceRemovePermission {
 
     @Autowired
@@ -42,7 +42,7 @@ class ITRolePermissionServiceRemovePermission {
         final Iterator<RolePermissionEntity> itr;
         RolePermissionEntity                 found;
 
-        service.removePermission(1l, 1l);
+        service.removePermission(1l, "DATA:CREATE");
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -53,7 +53,7 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(1L)
+            .withPermission("DATA:CREATE")
             .withRoleId(1L)
             .withGranted(false)
             .build());
@@ -61,7 +61,7 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(2L)
+            .withPermission("DATA:READ")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -69,7 +69,7 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(3L)
+            .withPermission("DATA:UPDATE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -77,7 +77,7 @@ class ITRolePermissionServiceRemovePermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(4L)
+            .withPermission("DATA:DELETE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -88,12 +88,12 @@ class ITRolePermissionServiceRemovePermission {
     void testRemovePermission_ReturnedData() {
         final RolePermission result;
 
-        result = service.removePermission(1l, 1l);
+        result = service.removePermission(1l, "DATA:CREATE");
 
         Assertions.assertThat(result.getRoleId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getPermissionId())
-            .isEqualTo(1);
+        Assertions.assertThat(result.getPermission())
+            .isEqualTo("DATA:CREATE");
     }
 
 }
