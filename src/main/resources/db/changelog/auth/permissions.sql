@@ -50,7 +50,7 @@ INSERT INTO permissions (id, resource, action) VALUES
    (6, 'ROLE', 'READ'),
    (7, 'ROLE', 'UPDATE'),
    (8, 'ROLE', 'DELETE'),
-   (2, 'LOGIN_REGISTER', 'READ'),
+   (9, 'LOGIN_REGISTER', 'READ'),
    -- User tokens
    (14, 'USER_TOKEN', 'READ'),
    (15, 'USER_TOKEN', 'UPDATE'),
