@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.integration.service;
+package com.bernardomg.security.authorization.permission.test.integration.service;
 
 import java.util.Collection;
 import java.util.stream.StreamSupport;
@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.PermissionService;
-import com.bernardomg.security.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

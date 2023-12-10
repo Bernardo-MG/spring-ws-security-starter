@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.util.model;
+package com.bernardomg.security.authorization.permission.test.util.model;
 
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.integration.service;
+package com.bernardomg.security.authorization.permission.test.integration.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,8 +13,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
-import com.bernardomg.security.permission.test.config.CrudPermissions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

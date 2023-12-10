@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.integration.service;
+package com.bernardomg.security.authorization.permission.test.integration.service;
 
 import java.util.stream.StreamSupport;
 

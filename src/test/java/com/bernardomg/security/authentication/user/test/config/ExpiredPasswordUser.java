@@ -19,6 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+// TODO: Does this need so much data?
 public @interface ExpiredPasswordUser {
 
 }
