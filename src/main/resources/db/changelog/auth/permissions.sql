@@ -35,10 +35,10 @@ INSERT INTO actions (id, name) VALUES
    ('VIEW');
 
 INSERT INTO resources (id, name) VALUES
-   (1, 'USER'),
-   (2, 'ROLE'),
-   (3, 'USER_TOKEN'),
-   (4, 'LOGIN_REGISTER');
+   ('USER'),
+   ('ROLE'),
+   ('USER_TOKEN'),
+   ('LOGIN_REGISTER');
 
 INSERT INTO permissions (id, resource, action) VALUES
    -- Security
