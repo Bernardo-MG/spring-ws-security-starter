@@ -9,10 +9,11 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -30,8 +31,8 @@ class ITRolePermissionServiceRemovePermissionValidation {
 
     @Test
     @DisplayName("Throws an exception when the role permission doesn't exist")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testRemovePermission_NotExistingRolePermission() {
         final Collection<Long> action;
         final ThrowingCallable executable;

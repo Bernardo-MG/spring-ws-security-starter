@@ -8,12 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.role.test.config.RoleWithNotGrantedPermission;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -86,8 +88,8 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
     @Test
     @DisplayName("When the role has no permissions all the permissions are returned")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testGetAvailablePermissions_NoPermissions() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;
@@ -148,9 +150,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
     @Test
     @DisplayName("When there no permissions granted all are returned")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission_not_granted.sql" })
+    @RoleWithNotGrantedPermission
     void testGetAvailablePermissions_NotGranted() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;

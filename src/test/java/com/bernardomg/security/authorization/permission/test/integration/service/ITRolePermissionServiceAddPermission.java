@@ -8,16 +8,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.assertion.RolePermissionAssertions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -38,8 +39,8 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Adds a permission")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testAddPermission_AddsEntity() {
         final Iterable<RolePermissionEntity> result;
         final RolePermissionEntity           found;
@@ -58,8 +59,8 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Reading the permissions after adding a permission returns the new permission")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testAddPermission_CallBack() {
         final Iterable<ResourcePermission> result;
         final ResourcePermission           found;
@@ -133,8 +134,8 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Returns the created data")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql" })
+    @CrudPermissions
+    @SingleRole
     void testAddRole_ReturnedData() {
         final RolePermission result;
 
