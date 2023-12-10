@@ -9,18 +9,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.PermissionService;
+import com.bernardomg.security.permission.test.config.CrudPermissions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Permission service - get all")
-@Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/resource/single.sql",
-        "/db/queries/security/permission/crud.sql" })
+@CrudPermissions
 class ITPermissionServiceGetAll {
 
     @Autowired

@@ -12,6 +12,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -29,9 +31,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
     @Test
     @DisplayName("Returns the permissions not assigned")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission_single.sql" })
+    @RoleWithCrudPermissions
     void testGetAvailablePermissions() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;
@@ -71,9 +71,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
     @Test
     @DisplayName("When all the permission have been assigned nothing is returned")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission_granted.sql" })
+    @RoleWithPermission
     void testGetAvailablePermissions_AllAssigned() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;

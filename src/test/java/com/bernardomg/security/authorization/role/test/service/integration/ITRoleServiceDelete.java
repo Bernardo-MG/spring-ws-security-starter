@@ -28,10 +28,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -52,7 +53,7 @@ class ITRoleServiceDelete {
 
     @Test
     @DisplayName("Deletes a role with no permissions")
-    @Sql({ "/db/queries/security/role/single.sql" })
+    @SingleRole
     void testDelete_NoPermissions() {
         service.delete(1L);
 
@@ -62,9 +63,7 @@ class ITRoleServiceDelete {
 
     @Test
     @DisplayName("Deletes a role with permissions")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission_granted.sql" })
+    @RoleWithPermission
     void testDelete_WithPermissions() {
         service.delete(1L);
 

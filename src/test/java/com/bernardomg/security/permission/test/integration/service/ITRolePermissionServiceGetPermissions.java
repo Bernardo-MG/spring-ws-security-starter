@@ -12,6 +12,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -29,9 +31,7 @@ class ITRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("Returns all the data for a role's permission")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/single.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission_single.sql" })
+    @RoleWithCrudPermissions
     void testGetPermissions() {
         final ResourcePermission result;
         final Pageable           pageable;
@@ -52,9 +52,7 @@ class ITRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("Returns the permissions for a role with multiple permissions")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission_granted.sql" })
+    @RoleWithPermission
     void testGetPermissions_multiple() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;

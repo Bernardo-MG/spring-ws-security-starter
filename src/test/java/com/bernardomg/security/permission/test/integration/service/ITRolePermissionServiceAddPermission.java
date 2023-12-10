@@ -15,6 +15,7 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.role.model.RolePermission;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.permission.test.util.assertion.RolePermissionAssertions;
 import com.bernardomg.security.permission.test.util.model.RolePermissionEntities;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -83,9 +84,7 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("When adding an existing permission no permission is added")
-    @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
-            "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission_granted.sql" })
+    @RoleWithPermission
     void testAddPermission_Existing() {
         final Iterable<RolePermissionEntity> result;
         final Iterator<RolePermissionEntity> itr;
