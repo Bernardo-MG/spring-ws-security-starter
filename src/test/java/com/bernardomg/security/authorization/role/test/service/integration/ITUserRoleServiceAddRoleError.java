@@ -1,42 +1,40 @@
 
 package com.bernardomg.security.authorization.role.test.service.integration;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
-import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - add role - validation")
+@DisplayName("User service - add role - error")
 @ValidUser
-class ITUserRoleServiceAddRoleValidation {
+class ITUserRoleServiceAddRoleError {
 
     @Autowired
     private UserRoleService service;
 
-    public ITUserRoleServiceAddRoleValidation() {
+    public ITUserRoleServiceAddRoleError() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the user doesn't exist")
-    void testAddRoles_NotExistingUser() {
+    @DisplayName("Throws an exception when the role doesn't exist")
+    void testAddRoles_NotExistingRole() {
         final ThrowingCallable executable;
-        final FieldFailure     failure;
 
-        executable = () -> service.addRole(-1l, 1l);
+        executable = () -> service.addRole(1l, -1l);
 
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", -1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingRoleIdException.class);
     }
 
 }

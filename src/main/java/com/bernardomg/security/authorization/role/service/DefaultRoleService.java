@@ -68,7 +68,7 @@ public final class DefaultRoleService implements RoleService {
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
         validatorUpdateRole = new UpdateRoleValidator();
-        validatorDeleteRole = new DeleteRoleValidator(roleRepo, userRoleRepo);
+        validatorDeleteRole = new DeleteRoleValidator(userRoleRepo);
     }
 
     @Override
@@ -91,7 +91,15 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final void delete(final long id) {
+        final Optional<RoleEntity> readRole;
+
         log.debug("Deleting role {}", id);
+
+        readRole = roleRepository.findById(id);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(id);
+        }
 
         validatorDeleteRole.validate(id);
 

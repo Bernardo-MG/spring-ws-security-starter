@@ -30,7 +30,6 @@ import java.util.Objects;
 
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.model.RolePermission;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -54,13 +53,9 @@ public final class AddRolePermissionValidator implements Validator<RolePermissio
 
     private final ResourcePermissionRepository rolePermissionRepository;
 
-    private final RoleRepository               roleRepository;
-
-    public AddRolePermissionValidator(final RoleRepository roleRepo,
-            final ResourcePermissionRepository rolePermissionRepo) {
+    public AddRolePermissionValidator(final ResourcePermissionRepository rolePermissionRepo) {
         super();
 
-        roleRepository = Objects.requireNonNull(roleRepo);
         rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
     }
 
@@ -70,14 +65,6 @@ public final class AddRolePermissionValidator implements Validator<RolePermissio
         FieldFailure                   failure;
 
         failures = new ArrayList<>();
-
-        // The role exists
-        if (!roleRepository.existsById(relationship.getRoleId())) {
-            log.error("Found no role with id {}", relationship.getRoleId());
-            // TODO: Is the code not exists or is it not existing? Make sure all use the same
-            failure = FieldFailure.of("role", "notExisting", relationship.getRoleId());
-            failures.add(failure);
-        }
 
         // The permission exists
         if (!rolePermissionRepository.existsById(relationship.getPermissionId())) {

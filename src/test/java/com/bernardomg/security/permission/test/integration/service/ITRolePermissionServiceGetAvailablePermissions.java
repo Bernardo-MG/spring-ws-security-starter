@@ -31,7 +31,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @DisplayName("Returns the permissions not assigned")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_single_permission.sql" })
+            "/db/queries/security/relationship/role_permission_single.sql" })
     void testGetAvailablePermissions() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;

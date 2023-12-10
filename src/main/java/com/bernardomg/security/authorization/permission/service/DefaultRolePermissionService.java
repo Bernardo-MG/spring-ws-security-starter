@@ -29,14 +29,17 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
+import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionKey;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.validation.AddRolePermissionValidator;
-import com.bernardomg.security.authorization.permission.validation.RemoveRolePermissionValidator;
+import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.security.authorization.role.model.RolePermission;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 
@@ -55,19 +58,19 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     private final RolePermissionRepository     rolePermissionRepository;
 
-    private final Validator<RolePermission>    validatorAddRolePermission;
+    private final RoleRepository               roleRepository;
 
-    private final Validator<RolePermission>    validatorRemoveRolePermission;
+    private final Validator<RolePermission>    validatorAddRolePermission;
 
     public DefaultRolePermissionService(final RoleRepository roleRepo,
             final ResourcePermissionRepository permissionRepo, final RolePermissionRepository rolePermissionRepo) {
         super();
 
+        roleRepository = Objects.requireNonNull(roleRepo);
         permissionRepository = Objects.requireNonNull(permissionRepo);
         rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
 
-        validatorAddRolePermission = new AddRolePermissionValidator(roleRepo, permissionRepo);
-        validatorRemoveRolePermission = new RemoveRolePermissionValidator(rolePermissionRepo);
+        validatorAddRolePermission = new AddRolePermissionValidator(permissionRepo);
     }
 
     @Override
@@ -75,11 +78,20 @@ public final class DefaultRolePermissionService implements RolePermissionService
         final RolePermissionEntity rolePermissionSample;
         final RolePermission       rolePermission;
         final RolePermissionEntity created;
+        final Optional<RoleEntity> readRole;
+        final RoleEntity           role;
 
         log.debug("Adding permission {} for role {}", permission, roleId);
 
+        readRole = roleRepository.findById(roleId);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(roleId);
+        }
+
+        role = readRole.get();
         rolePermission = RolePermission.builder()
-            .withRoleId(roleId)
+            .withRoleId(role.getId())
             .withPermissionId(permission)
             .build();
         validatorAddRolePermission.validate(rolePermission);
@@ -107,39 +119,39 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final RolePermission removePermission(final long roleId, final long permission) {
-        final RolePermissionEntity               rolePermissionSample;
-        final RolePermission                     rolePermission;
-        final RolePermissionEntity               updated;
-        final Optional<ResourcePermissionEntity> read;
-        final RolePermission                     result;
+    public final RolePermission removePermission(final long roleId, final long permissionId) {
+        final RolePermissionEntity           rolePermissionSample;
+        final RolePermissionEntity           updated;
+        final Optional<RolePermissionEntity> readPermission;
+        final Optional<RoleEntity>           readRole;
+        final RolePermissionKey              rolePermissionKey;
 
-        log.debug("Removing permission {} for role {}", permission, roleId);
+        log.debug("Removing permission {} for role {}", permissionId, roleId);
 
-        rolePermission = RolePermission.builder()
-            .withRoleId(roleId)
-            .withPermissionId(permission)
-            .build();
-        validatorRemoveRolePermission.validate(rolePermission);
+        readRole = roleRepository.findById(roleId);
 
-        read = permissionRepository.findById(permission);
-
-        if (read.isPresent()) {
-            // Build relationship entities
-            rolePermissionSample = getRolePermissionSample(roleId, read.get()
-                .getId());
-            rolePermissionSample.setGranted(false);
-
-            // Delete relationship entities
-            updated = rolePermissionRepository.save(rolePermissionSample);
-
-            result = toDto(updated);
-        } else {
-            result = RolePermission.builder()
-                .build();
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(roleId);
         }
 
-        return result;
+        rolePermissionKey = RolePermissionKey.builder()
+            .withRoleId(roleId)
+            .withPermissionId(permissionId)
+            .build();
+        readPermission = rolePermissionRepository.findById(rolePermissionKey);
+
+        if (readPermission.isEmpty()) {
+            throw new MissingRolePermissionIdException(permissionId);
+        }
+
+        // Build relationship entities
+        rolePermissionSample = getRolePermissionSample(roleId, permissionId);
+        rolePermissionSample.setGranted(false);
+
+        // Delete relationship entities
+        updated = rolePermissionRepository.save(rolePermissionSample);
+
+        return toDto(updated);
     }
 
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final long permissionId) {

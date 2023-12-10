@@ -24,42 +24,38 @@
 
 package com.bernardomg.security.authorization.role.test.service.integration;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - delete validation")
-class ITRoleServiceDeleteValidation {
+@DisplayName("Role service - delete - error")
+class ITRoleServiceDeleteError {
 
     @Autowired
     private RoleService service;
 
-    public ITRoleServiceDeleteValidation() {
+    public ITRoleServiceDeleteError() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the role has an user")
-    @ValidUser
-    void testDelete_UserWithRole() {
+    @DisplayName("Throws an exception when the role doesn't exist")
+    void testDelete_NotExisting() {
         final ThrowingCallable executable;
-        final FieldFailure     failure;
 
         executable = () -> service.delete(1L);
 
-        failure = FieldFailure.of("user.existing", "user", "existing", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingRoleIdException.class);
     }
 
 }

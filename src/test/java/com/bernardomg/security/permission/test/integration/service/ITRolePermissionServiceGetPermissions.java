@@ -31,7 +31,7 @@ class ITRolePermissionServiceGetPermissions {
     @DisplayName("Returns all the data for a role's permission")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/single.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_single_permission.sql" })
+            "/db/queries/security/relationship/role_permission_single.sql" })
     void testGetPermissions() {
         final ResourcePermission result;
         final Pageable           pageable;
