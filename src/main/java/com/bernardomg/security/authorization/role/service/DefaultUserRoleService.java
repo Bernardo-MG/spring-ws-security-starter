@@ -39,8 +39,6 @@ import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.authorization.role.validation.AddUserRoleValidator;
-import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,15 +51,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 
-    private final RoleRepository      roleRepository;
+    private final RoleRepository     roleRepository;
 
-    private final UserRepository      userRepository;
+    private final UserRepository     userRepository;
 
-    private final UserRoleRepository  userRoleRepository;
-
-    private final Validator<UserRole> validatorAddUserRole;
-
-    private final Validator<UserRole> validatorRemoveUserRole;
+    private final UserRoleRepository userRoleRepository;
 
     public DefaultUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
             final UserRoleRepository userRoleRepo) {
@@ -70,31 +64,28 @@ public final class DefaultUserRoleService implements UserRoleService {
         userRepository = Objects.requireNonNull(userRepo);
         userRoleRepository = Objects.requireNonNull(userRoleRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
-
-        validatorAddUserRole = new AddUserRoleValidator(userRepo);
-        validatorRemoveUserRole = new AddUserRoleValidator(userRepo);
     }
 
     @Override
     public final UserRole addRole(final long userId, final long roleId) {
         final UserRoleEntity       userRoleSample;
-        final UserRole             userRole;
         final UserRoleEntity       created;
         final Optional<RoleEntity> readRole;
+        final Optional<UserEntity> readUser;
 
         log.debug("Adding role {} to user {}", roleId, userId);
+
+        readUser = userRepository.findById(userId);
+
+        if (readUser.isEmpty()) {
+            throw new MissingUserIdException(roleId);
+        }
 
         readRole = roleRepository.findById(roleId);
 
         if (readRole.isEmpty()) {
             throw new MissingRoleIdException(roleId);
         }
-
-        userRole = UserRole.builder()
-            .withUserId(userId)
-            .withRoleId(roleId)
-            .build();
-        validatorAddUserRole.validate(userRole);
 
         userRoleSample = getUserRoleSample(userId, roleId);
 
@@ -121,7 +112,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     @Override
     public final UserRole removeRole(final long userId, final long roleId) {
         final UserRoleEntity       userRoleSample;
-        final UserRole             userRole;
         final Optional<RoleEntity> readRole;
         final Optional<UserEntity> readUser;
 
@@ -138,12 +128,6 @@ public final class DefaultUserRoleService implements UserRoleService {
         if (readRole.isEmpty()) {
             throw new MissingRoleIdException(roleId);
         }
-
-        userRole = UserRole.builder()
-            .withUserId(userId)
-            .withRoleId(roleId)
-            .build();
-        validatorRemoveUserRole.validate(userRole);
 
         userRoleSample = getUserRoleSample(userId, roleId);
 
