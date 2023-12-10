@@ -22,19 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionKey;
-
 /**
- * Role permission repository.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Role exceptions.
  */
-public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
 
-}
+package com.bernardomg.security.authorization.permission.exception;

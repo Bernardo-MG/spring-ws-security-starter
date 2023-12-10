@@ -4,27 +4,28 @@ package com.bernardomg.security.permission.test.integration.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
-import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - add permission validation")
-class ITRolePermissionServiceAddPermissionValidation {
+@DisplayName("Role service - add permission - errors")
+class ITRolePermissionServiceAddPermissionError {
 
     @Autowired
     private RolePermissionService service;
 
-    public ITRolePermissionServiceAddPermissionValidation() {
+    public ITRolePermissionServiceAddPermissionError() {
         super();
     }
 
@@ -35,16 +36,14 @@ class ITRolePermissionServiceAddPermissionValidation {
     void testAddAction_NotExistingPermission() {
         final Collection<Long> action;
         final ThrowingCallable executable;
-        final FieldFailure     failure;
 
         action = new ArrayList<>();
         action.add(1L);
 
-        executable = () -> service.addPermission(1l, 1l);
+        executable = () -> service.addPermission(1l, "DATA:CREATE");
 
-        failure = FieldFailure.of("permission.notExisting", "permission", "notExisting", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingResourcePermissionIdException.class);
     }
 
     @Test
@@ -54,16 +53,14 @@ class ITRolePermissionServiceAddPermissionValidation {
     void testAddAction_NotExistingRole() {
         final Collection<Long> action;
         final ThrowingCallable executable;
-        final FieldFailure     failure;
 
         action = new ArrayList<>();
         action.add(1L);
 
-        executable = () -> service.addPermission(1l, 1l);
+        executable = () -> service.addPermission(1l, "DATA:CREATE");
 
-        failure = FieldFailure.of("role.notExisting", "role", "notExisting", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingRoleIdException.class);
     }
 
 }

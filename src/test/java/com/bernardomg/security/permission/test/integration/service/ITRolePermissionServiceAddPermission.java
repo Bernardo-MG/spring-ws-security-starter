@@ -43,7 +43,7 @@ class ITRolePermissionServiceAddPermission {
         final Iterable<RolePermissionEntity> result;
         final RolePermissionEntity           found;
 
-        service.addPermission(1l, 1l);
+        service.addPermission(1l, "DATA:CREATE");
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -66,7 +66,7 @@ class ITRolePermissionServiceAddPermission {
 
         pageable = Pageable.unpaged();
 
-        service.addPermission(1l, 1l);
+        service.addPermission(1l, "DATA:CREATE");
         result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(result)
@@ -85,13 +85,13 @@ class ITRolePermissionServiceAddPermission {
     @DisplayName("When adding an existing permission no permission is added")
     @Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
             "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-            "/db/queries/security/relationship/role_permission.sql" })
+            "/db/queries/security/relationship/role_permission_granted.sql" })
     void testAddPermission_Existing() {
         final Iterable<RolePermissionEntity> result;
         final Iterator<RolePermissionEntity> itr;
         RolePermissionEntity                 found;
 
-        service.addPermission(1l, 1l);
+        service.addPermission(1l, "DATA:CREATE");
         result = rolePermissionRepository.findAll();
 
         Assertions.assertThat(result)
@@ -102,7 +102,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(1L)
+            .withPermission("DATA:CREATE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -110,7 +110,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(2L)
+            .withPermission("DATA:READ")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -118,7 +118,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(3L)
+            .withPermission("DATA:UPDATE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -126,7 +126,7 @@ class ITRolePermissionServiceAddPermission {
         found = itr.next();
 
         RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermissionId(4L)
+            .withPermission("DATA:DELETE")
             .withRoleId(1L)
             .withGranted(true)
             .build());
@@ -139,12 +139,12 @@ class ITRolePermissionServiceAddPermission {
     void testAddRole_ReturnedData() {
         final RolePermission result;
 
-        result = service.addPermission(1l, 1l);
+        result = service.addPermission(1l, "DATA:CREATE");
 
         Assertions.assertThat(result.getRoleId())
             .isEqualTo(1);
-        Assertions.assertThat(result.getPermissionId())
-            .isEqualTo(1);
+        Assertions.assertThat(result.getPermission())
+            .isEqualTo("DATA:CREATE");
     }
 
 }

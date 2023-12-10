@@ -49,19 +49,6 @@ class ITRoleServiceDeleteValidation {
     }
 
     @Test
-    @DisplayName("Throws an exception when the role doesn't exist")
-    void testDelete_NotExisting() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        executable = () -> service.delete(1L);
-
-        failure = FieldFailure.of("id.notExisting", "id", "notExisting", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
     @DisplayName("Throws an exception when the role has an user")
     @ValidUser
     void testDelete_UserWithRole() {

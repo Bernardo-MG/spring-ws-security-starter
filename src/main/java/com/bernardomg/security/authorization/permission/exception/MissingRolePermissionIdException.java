@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,19 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.persistence.repository;
+package com.bernardomg.security.authorization.permission.exception;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.io.Serializable;
 
-import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionKey;
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Role permission repository.
+ * Missing role id exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
+public final class MissingRolePermissionIdException extends MissingIdException {
+
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingRolePermissionIdException(final Serializable id) {
+        super("role", id);
+    }
 
 }

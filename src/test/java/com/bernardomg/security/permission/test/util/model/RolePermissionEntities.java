@@ -7,7 +7,7 @@ public final class RolePermissionEntities {
 
     public static final RolePermissionEntity granted() {
         return RolePermissionEntity.builder()
-            .withPermissionId(1L)
+            .withPermission("DATA:CREATE")
             .withRoleId(1L)
             .withGranted(true)
             .build();

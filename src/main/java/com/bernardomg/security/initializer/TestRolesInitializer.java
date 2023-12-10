@@ -101,7 +101,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
         for (final ResourcePermissionEntity perm : permissions) {
             rolePermission = RolePermissionEntity.builder()
                 .withRoleId(savedRootRole.getId())
-                .withPermissionId(perm.getId())
+                .withPermission(perm.getName())
                 .withGranted(true)
                 .build();
             rolePermissionRepository.save(rolePermission);
@@ -141,7 +141,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
         for (final ResourcePermissionEntity permission : validPermissions) {
             rolePermission = RolePermissionEntity.builder()
                 .withRoleId(role.getId())
-                .withPermissionId(permission.getId())
+                .withPermission(permission.getName())
                 .withGranted(true)
                 .build();
             rolePermissionRepository.save(rolePermission);

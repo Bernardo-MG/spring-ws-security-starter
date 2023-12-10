@@ -22,18 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.model.query;
+package com.bernardomg.security.authorization.role.test.service.integration;
 
-/**
- * Permission to add to a role.
- */
-public interface RoleAddPermission {
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-    /**
-     * Returns the id of the permission to add.
-     *
-     * @return id of the permission to add
-     */
-    public Long getPermissionId();
+import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.IntegrationTest;
+
+@IntegrationTest
+@AllAuthoritiesMockUser
+@DisplayName("Role service - delete - error")
+class ITRoleServiceDeleteError {
+
+    @Autowired
+    private RoleService service;
+
+    public ITRoleServiceDeleteError() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the role doesn't exist")
+    void testDelete_NotExisting() {
+        final ThrowingCallable executable;
+
+        executable = () -> service.delete(1L);
+
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingRoleIdException.class);
+    }
 
 }

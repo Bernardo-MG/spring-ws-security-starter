@@ -27,35 +27,35 @@
 -- This SQL script populates the initial permissions data.
 -- ****************************************
 
-INSERT INTO actions (id, name) VALUES
-   (1, 'CREATE'),
-   (2, 'READ'),
-   (3, 'UPDATE'),
-   (4, 'DELETE'),
-   (5, 'VIEW');
+INSERT INTO actions (name) VALUES
+   ('CREATE'),
+   ('READ'),
+   ('UPDATE'),
+   ('DELETE'),
+   ('VIEW');
 
-INSERT INTO resources (id, name) VALUES
-   (1, 'USER'),
-   (2, 'ROLE'),
-   (3, 'USER_TOKEN'),
-   (4, 'LOGIN_REGISTER');
+INSERT INTO resources (name) VALUES
+   ('USER'),
+   ('ROLE'),
+   ('USER_TOKEN'),
+   ('LOGIN_REGISTER');
 
-INSERT INTO permissions (id, resource, action) VALUES
+INSERT INTO permissions (name, resource, action) VALUES
    -- Security
-   (1, 'USER', 'CREATE'),
-   (2, 'USER', 'READ'),
-   (3, 'USER', 'UPDATE'),
-   (4, 'USER', 'DELETE'),
-   (5, 'ROLE', 'CREATE'),
-   (6, 'ROLE', 'READ'),
-   (7, 'ROLE', 'UPDATE'),
-   (8, 'ROLE', 'DELETE'),
-   (2, 'LOGIN_REGISTER', 'READ'),
+   ('USER:CREATE', 'USER', 'CREATE'),
+   ('USER:READ', 'USER', 'READ'),
+   ('USER:UPDATE', 'USER', 'UPDATE'),
+   ('USER:DELETE', 'USER', 'DELETE'),
+   ('ROLE:CREATE', 'ROLE', 'CREATE'),
+   ('ROLE:READ''ROLE', 'READ'),
+   ('ROLE:UPDATE', 'ROLE', 'UPDATE'),
+   ('ROLE:DELETE', 'ROLE', 'DELETE'),
+   ('LOGIN_REGISTER:READ', 'LOGIN_REGISTER', 'READ'),
    -- User tokens
-   (14, 'USER_TOKEN', 'READ'),
-   (15, 'USER_TOKEN', 'UPDATE'),
-   (16, 'USER_TOKEN', 'DELETE'),
+   ('USER_TOKEN:READ', 'USER_TOKEN', 'READ'),
+   ('USER_TOKEN:UPDATE', 'USER_TOKEN', 'UPDATE'),
+   ('USER_TOKEN:DELETE', 'USER_TOKEN', 'DELETE'),
    -- Security views
-   (12, 'USER', 'VIEW'),
-   (13, 'ROLE', 'VIEW'),
-   (17, 'USER_TOKEN', 'VIEW');
+   ('USER:VIEW', 'USER', 'VIEW'),
+   ('ROLE:VIEW', 'ROLE', 'VIEW'),
+   ('USER_TOKEN:VIEW', 'USER_TOKEN', 'VIEW');
