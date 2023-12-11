@@ -34,19 +34,20 @@ public final class PermissionsLoader {
     }
 
     public final void load() {
+        // Load actions
         permissions.stream()
-            .forEach(this::load);
-    }
-
-    private final void load(final PermissionRegister permissionRegister) {
-        permissionRegister.getActions()
-            .stream()
+            .map(PermissionRegister::getActions)
+            .flatMap(Collection::stream)
             .forEach(this::saveAction);
-        permissionRegister.getResources()
-            .stream()
+        // Load resources
+        permissions.stream()
+            .map(PermissionRegister::getResources)
+            .flatMap(Collection::stream)
             .forEach(this::saveResource);
-        permissionRegister.getPermissions()
-            .stream()
+        // Load permissions
+        permissions.stream()
+            .map(PermissionRegister::getPermissions)
+            .flatMap(Collection::stream)
             .forEach(this::savePermission);
     }
 
