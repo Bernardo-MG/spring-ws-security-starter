@@ -1,12 +1,19 @@
+
 package com.bernardomg.security.loader;
 
+import java.util.Collection;
 
-public interface PermissionRegister {
-    
-    public Iterable<String> getActions();
-    
-    public Iterable<String> getResources();
-    
-    public Iterable<String> getPermissions();
+import lombok.Builder;
+import lombok.Value;
+
+@Value
+@Builder(setterPrefix = "with")
+public final class PermissionRegister {
+
+    private final Collection<String>                 actions;
+
+    private final Collection<ResourcePermissionPair> permissions;
+
+    private final Collection<String>                 resources;
 
 }
