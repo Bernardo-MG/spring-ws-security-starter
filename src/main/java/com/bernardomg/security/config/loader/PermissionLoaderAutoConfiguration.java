@@ -32,6 +32,7 @@ import org.springframework.context.annotation.Bean;
 import com.bernardomg.security.authorization.permission.persistence.repository.ActionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.loader.DefaultPermissionRegister;
 import com.bernardomg.security.loader.PermissionRegister;
 import com.bernardomg.security.loader.PermissionsLoader;
 
@@ -46,6 +47,11 @@ public class PermissionLoaderAutoConfiguration {
 
     public PermissionLoaderAutoConfiguration() {
         super();
+    }
+
+    @Bean("defaultPermissionRegister")
+    public PermissionRegister getDefaultPermissionRegister() {
+        return new DefaultPermissionRegister();
     }
 
     @Bean(name = "permissionsLoader", initMethod = "load")

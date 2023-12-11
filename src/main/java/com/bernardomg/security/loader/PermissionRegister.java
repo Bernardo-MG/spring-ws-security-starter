@@ -3,17 +3,12 @@ package com.bernardomg.security.loader;
 
 import java.util.Collection;
 
-import lombok.Builder;
-import lombok.Value;
+public interface PermissionRegister {
 
-@Value
-@Builder(setterPrefix = "with")
-public final class PermissionRegister {
+    public Collection<String> getActions();
 
-    private final Collection<String>                 actions;
+    public Collection<ResourcePermissionPair> getPermissions();
 
-    private final Collection<ResourcePermissionPair> permissions;
-
-    private final Collection<String>                 resources;
+    public Collection<String> getResources();
 
 }
