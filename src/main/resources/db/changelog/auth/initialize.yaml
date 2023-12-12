@@ -66,7 +66,7 @@ databaseChangeLog:
             columnName: id
             columnDataType: bigint
             incrementBy: 1
-            startWith: 0
+            startWith: 1
   - changeSet:
       id: security_permissions
       author: Bernardo
@@ -91,7 +91,7 @@ databaseChangeLog:
             columnName: id
             columnDataType: bigint
             incrementBy: 1
-            startWith: 0
+            startWith: 1
         - createTable:
             tableName: actions
             columns:
@@ -112,7 +112,7 @@ databaseChangeLog:
             columnName: id
             columnDataType: bigint
             incrementBy: 1
-            startWith: 0
+            startWith: 1
         - createTable:
             tableName: permissions
             columns:
@@ -149,7 +149,7 @@ databaseChangeLog:
             columnName: id
             columnDataType: bigint
             incrementBy: 1
-            startWith: 0
+            startWith: 1
   - changeSet:
       id: security_roles
       author: Bernardo
@@ -174,7 +174,7 @@ databaseChangeLog:
             columnName: id
             columnDataType: bigint
             incrementBy: 1
-            startWith: 0
+            startWith: 1
         - createTable:
             tableName: role_permissions
             columns:
@@ -286,7 +286,7 @@ databaseChangeLog:
             columnName: id
             columnDataType: bigint
             incrementBy: 1
-            startWith: 0
+            startWith: 1
   - changeSet:
       id: security_audit
       author: Bernardo
@@ -321,7 +321,7 @@ databaseChangeLog:
             columnName: id
             columnDataType: bigint
             incrementBy: 1
-            startWith: 0
+            startWith: 1
   - changeSet:
       id: token_views
       author: Bernardo
