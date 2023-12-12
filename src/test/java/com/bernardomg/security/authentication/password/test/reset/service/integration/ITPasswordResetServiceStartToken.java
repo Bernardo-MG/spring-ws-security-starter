@@ -4,10 +4,10 @@ package com.bernardomg.security.authentication.password.test.reset.service.integ
 import java.time.LocalDateTime;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
@@ -19,7 +19,7 @@ import com.bernardomg.security.authorization.token.test.config.constant.UserToke
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - token generation on recovery start")
+@DisplayName("PasswordRecoveryService - password reset - token status")
 class ITPasswordResetServiceStartToken {
 
     @Autowired
@@ -43,6 +43,7 @@ class ITPasswordResetServiceStartToken {
         count = userTokenRepository.count();
 
         Assertions.assertThat(count)
+            .as("tokens count")
             .isOne();
     }
 
@@ -58,16 +59,23 @@ class ITPasswordResetServiceStartToken {
             .iterator()
             .next();
 
-        Assertions.assertThat(token.getToken())
-            .isNotNull();
-        Assertions.assertThat(token.getScope())
-            .isEqualTo("password_reset");
-        Assertions.assertThat(token.getExpirationDate())
-            .isAfter(LocalDateTime.now());
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getToken())
+                .as("token")
+                .isNotNull();
+            softly.assertThat(token.getScope())
+                .as("scope")
+                .isEqualTo("password_reset");
+            softly.assertThat(token.getExpirationDate())
+                .as("expiration date")
+                .isAfter(LocalDateTime.now());
+            softly.assertThat(token.isConsumed())
+                .as("consumed")
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .as("revoked")
+                .isFalse();
+        });
     }
 
     @Test
@@ -82,6 +90,7 @@ class ITPasswordResetServiceStartToken {
         count = userTokenRepository.count();
 
         Assertions.assertThat(count)
+            .as("tokens count")
             .isEqualTo(2);
     }
 
@@ -97,27 +106,41 @@ class ITPasswordResetServiceStartToken {
         token = userTokenRepository.findOneByTokenAndScope(UserTokenConstants.TOKEN, "password_reset")
             .get();
 
-        Assertions.assertThat(token.isRevoked())
-            .isTrue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getToken())
+                .as("token")
+                .isEqualTo(UserTokenConstants.TOKEN);
+            softly.assertThat(token.getScope())
+                .as("scope")
+                .isEqualTo("password_reset");
+            softly.assertThat(token.getExpirationDate())
+                .as("expiration date")
+                .isAfter(LocalDateTime.now());
+            softly.assertThat(token.isConsumed())
+                .as("consumed")
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .as("revoked")
+                .isTrue();
+        });
     }
 
     @Test
     @DisplayName("Starting password recovery with a not existing user doesn't generate a token")
-    @ValidUser
     void testStartPasswordReset_UserNotExists_NoToken() {
-        final boolean exists;
+        final long count;
 
         try {
-            service.startPasswordReset(Users.ALTERNATIVE_EMAIL);
+            service.startPasswordReset(Users.EMAIL);
         } catch (final Exception e) {
 
         }
 
-        exists = userTokenRepository.exists(Example.of(UserTokenEntity.builder()
-            .build()));
+        count = userTokenRepository.count();
 
-        Assertions.assertThat(exists)
-            .isFalse();
+        Assertions.assertThat(count)
+            .as("tokens count")
+            .isZero();
     }
 
 }

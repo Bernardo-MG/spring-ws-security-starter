@@ -20,12 +20,12 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password - token status")
-class ITPasswordResetServiceChangeTokenStatus {
+class ITPasswordResetServiceChangeToken {
 
     @Autowired
     private PasswordResetService service;
 
-    public ITPasswordResetServiceChangeTokenStatus() {
+    public ITPasswordResetServiceChangeToken() {
         super();
     }
 
@@ -42,6 +42,7 @@ class ITPasswordResetServiceChangeTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("Consumed token " + UserTokenConstants.TOKEN);
     }
 
@@ -58,6 +59,7 @@ class ITPasswordResetServiceChangeTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("Expired token " + UserTokenConstants.TOKEN);
     }
 
@@ -73,6 +75,7 @@ class ITPasswordResetServiceChangeTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
     }
 

@@ -9,34 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - recovery start - validation")
-class ITPasswordResetServiceStartValidation {
+@DisplayName("PasswordRecoveryService - recovery start - errors")
+class ITPasswordResetServiceStartError {
 
     @Autowired
     private PasswordResetService service;
 
-    public ITPasswordResetServiceStartValidation() {
+    public ITPasswordResetServiceStartError() {
         super();
-    }
-
-    @Test
-    @DisplayName("Throws a validation exception with the correct info when the email doesn't match the user email")
-    @ValidUser
-    void testStartPasswordReset_InvalidEmail() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        executable = () -> service.startPasswordReset(Users.ALTERNATIVE_EMAIL);
-
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user " + Users.ALTERNATIVE_EMAIL);
     }
 
     @Test
@@ -50,7 +34,8 @@ class ITPasswordResetServiceStartValidation {
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user mail@somewhere.com");
+            .as("exception message")
+            .isEqualTo("Couldn't find user " + Users.EMAIL);
     }
 
 }

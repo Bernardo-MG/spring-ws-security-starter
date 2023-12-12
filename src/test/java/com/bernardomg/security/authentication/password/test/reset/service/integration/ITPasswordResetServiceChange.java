@@ -2,9 +2,11 @@
 package com.bernardomg.security.authentication.password.test.reset.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
@@ -19,6 +21,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("PasswordRecoveryService - change password")
 class ITPasswordResetServiceChange {
+
+    @Autowired
+    private PasswordEncoder      passwordEncoder;
 
     @Autowired
     private PasswordResetService service;
@@ -47,8 +52,9 @@ class ITPasswordResetServiceChange {
             .findFirst()
             .get();
 
-        Assertions.assertThat(user.getPassword())
-            .isNotEqualTo("$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW");
+        Assertions.assertThat(passwordEncoder.matches("abc", user.getPassword()))
+            .as("password change")
+            .isTrue();
     }
 
     @Test
@@ -65,6 +71,7 @@ class ITPasswordResetServiceChange {
             .isConsumed();
 
         Assertions.assertThat(consumed)
+            .as("consumed")
             .isTrue();
     }
 
@@ -72,7 +79,7 @@ class ITPasswordResetServiceChange {
     @DisplayName("Changing password with expired password resets the flag")
     @ExpiredPasswordUser
     @PasswordResetUserToken
-    void testChangePassword_ExpiredPassword() {
+    void testChangePassword_ResetsExpiredPassword() {
         final UserEntity user;
 
         service.changePassword(UserTokenConstants.TOKEN, "abc");
@@ -83,7 +90,38 @@ class ITPasswordResetServiceChange {
             .get();
 
         Assertions.assertThat(user.getPasswordExpired())
+            .as("user password expired flag")
             .isFalse();
+    }
+
+    @Test
+    @DisplayName("Changing password doesn't change the user status")
+    @ValidUser
+    @PasswordResetUserToken
+    void testChangePassword_UserStatus() {
+        final UserEntity user;
+
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
+
+        user = userRepository.findAll()
+            .stream()
+            .findFirst()
+            .get();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(user.getEnabled())
+                .as("enabled")
+                .isTrue();
+            softly.assertThat(user.getExpired())
+                .as("expired")
+                .isFalse();
+            softly.assertThat(user.getLocked())
+                .as("locked")
+                .isFalse();
+            softly.assertThat(user.getPasswordExpired())
+                .as("password expired")
+                .isFalse();
+        });
     }
 
 }

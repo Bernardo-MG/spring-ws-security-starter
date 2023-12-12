@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,12 +28,14 @@ import com.bernardomg.security.authentication.user.exception.LockedUserException
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringSecurityPasswordResetService - recovery start - authentication")
-class TestPasswordResetServiceStartAuth {
+@DisplayName("PasswordRecoveryService - change password - user status")
+class TestPasswordResetServiceChangeUserStatus {
+
+    private static final String                USERNAME = "username";
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -52,7 +55,7 @@ class TestPasswordResetServiceStartAuth {
     @Mock
     private UserRepository                     userRepository;
 
-    public TestPasswordResetServiceStartAuth() {
+    public TestPasswordResetServiceChangeUserStatus() {
         super();
     }
 
@@ -62,11 +65,11 @@ class TestPasswordResetServiceStartAuth {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
+        given(user.getUsername()).willReturn(USERNAME);
         given(user.isEnabled()).willReturn(false);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
     }
 
     private final void loadExpiredUser() {
@@ -75,9 +78,9 @@ class TestPasswordResetServiceStartAuth {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
+        given(user.getUsername()).willReturn(USERNAME);
         given(user.isAccountNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
     }
 
     private final void loadLockedUser() {
@@ -86,86 +89,91 @@ class TestPasswordResetServiceStartAuth {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
+        given(user.getUsername()).willReturn(USERNAME);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
     }
 
     private void loadPersistentUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
+        user.setEmail("mail@somewhere.com");
+        user.setUsername(USERNAME);
 
-        given(userRepository.findOneByEmail(Users.EMAIL)).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+    }
+
+    @BeforeEach
+    void initializeToken() {
+        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(USERNAME);
     }
 
     @Test
     @WithMockUser(username = "username")
-    @DisplayName("Activating a new user for a disabled user throws an exception")
-    void testActivateUser_Disabled_Exception() {
+    @DisplayName("Changing password with a disabled user throws an exception")
+    void testChangePassword_Disabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadDisabledUser();
 
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
-        Assertions.assertThat(exception.getMessage())
+        Assertions.assertThat(exception.getMessage()).as("exception message")
             .isEqualTo("User username is disabled");
     }
 
     @Test
     @WithMockUser(username = "username")
-    @DisplayName("Activating a new user for an expired user throws an exception")
-    void testActivateUser_Expired_Exception() {
+    @DisplayName("Changing password with a expired user throws an exception")
+    void testChangePassword_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadExpiredUser();
 
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
-        Assertions.assertThat(exception.getMessage())
+        Assertions.assertThat(exception.getMessage()).as("exception message")
             .isEqualTo("User username is expired");
     }
 
     @Test
     @WithMockUser(username = "username")
-    @DisplayName("Activating a new user for a locked user throws an exception")
-    void testActivateUser_Locked_Exception() {
+    @DisplayName("Changing password with a locked user throws an exception")
+    void testChangePassword_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         loadLockedUser();
 
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
-        Assertions.assertThat(exception.getMessage())
+        Assertions.assertThat(exception.getMessage()).as("exception message")
             .isEqualTo("User username is locked");
     }
 
     @Test
     @WithMockUser(username = "username")
-    @DisplayName("Activating a new user for a not existing user throws an exception")
-    void testActivateUser_NotExisting_Exception() {
+    @DisplayName("Changing password for a not existing user throws an exception")
+    void testChangePassword_NotExistingUser_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user mail@somewhere.com");
+        Assertions.assertThat(exception.getMessage()).as("exception message")
+            .isEqualTo("Couldn't find user username");
     }
 
 }

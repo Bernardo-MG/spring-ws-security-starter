@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authentication.password.test.reset.service.integration;
 
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ import com.bernardomg.security.authorization.token.test.config.constant.UserToke
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PasswordRecoveryService - Token verification")
-class ITPasswordResetServiceToken {
+@DisplayName("PasswordRecoveryService - validate token")
+class ITPasswordResetServiceValidateToken {
 
     @Autowired
     private PasswordResetService service;
 
-    public ITPasswordResetServiceToken() {
+    public ITPasswordResetServiceValidateToken() {
         super();
     }
 
@@ -36,10 +36,14 @@ class ITPasswordResetServiceToken {
 
         status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.isValid())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.isValid())
+                .as("status")
+                .isFalse();
+            softly.assertThat(status.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+        });
     }
 
     @Test
@@ -51,10 +55,14 @@ class ITPasswordResetServiceToken {
 
         status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.isValid())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.isValid())
+                .as("status")
+                .isFalse();
+            softly.assertThat(status.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+        });
     }
 
     @Test
@@ -66,10 +74,14 @@ class ITPasswordResetServiceToken {
 
         status = service.validateToken(UserTokenConstants.TOKEN);
 
-        Assertions.assertThat(status.isValid())
-            .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.isValid())
+                .as("status")
+                .isTrue();
+            softly.assertThat(status.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+        });
     }
 
 }
