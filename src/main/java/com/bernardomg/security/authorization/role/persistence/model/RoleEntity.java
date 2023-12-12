@@ -28,11 +28,8 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,8 +43,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "Role")
 @Table(name = "roles")
-@TableGenerator(name = "seq_roles_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
-        allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -63,7 +58,6 @@ public class RoleEntity implements Serializable {
      * Entity id.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_roles_id")
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 

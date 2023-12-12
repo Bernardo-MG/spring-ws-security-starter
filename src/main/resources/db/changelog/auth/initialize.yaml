@@ -62,6 +62,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueBoolean: false
+        - addAutoIncrement:
+            tableName: users
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 0
   - changeSet:
       id: security_permissions
       author: Bernardo
@@ -164,6 +170,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+        - addAutoIncrement:
+            tableName: roles
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 0
         - createTable:
             tableName: role_permissions
             columns:
@@ -271,6 +283,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueBoolean: false
+        - addAutoIncrement:
+            tableName: token_tables
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 0
   - changeSet:
       id: security_audit
       author: Bernardo
@@ -301,6 +319,12 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
+        - addAutoIncrement:
+            tableName: login_registers
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 0
   - changeSet:
       id: token_views
       author: Bernardo

@@ -123,7 +123,8 @@ class TestPasswordResetServiceChangeUserStatus {
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
-        Assertions.assertThat(exception.getMessage()).as("exception message")
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("User username is disabled");
     }
 
@@ -140,7 +141,8 @@ class TestPasswordResetServiceChangeUserStatus {
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
-        Assertions.assertThat(exception.getMessage()).as("exception message")
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("User username is expired");
     }
 
@@ -157,7 +159,8 @@ class TestPasswordResetServiceChangeUserStatus {
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
-        Assertions.assertThat(exception.getMessage()).as("exception message")
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("User username is locked");
     }
 
@@ -172,7 +175,8 @@ class TestPasswordResetServiceChangeUserStatus {
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 
-        Assertions.assertThat(exception.getMessage()).as("exception message")
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("Couldn't find user username");
     }
 

@@ -28,11 +28,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,8 +44,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "LoginRegister")
 @Table(name = "login_registers")
-@TableGenerator(name = "seq_login_register_id", table = "sequences", pkColumnName = "sequence",
-        valueColumnName = "count", allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -71,7 +66,6 @@ public class LoginRegisterEntity {
      * Entity id.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_users_id")
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
