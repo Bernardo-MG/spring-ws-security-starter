@@ -27,6 +27,7 @@ package com.bernardomg.security.config.loader;
 import java.util.Collection;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
 import com.bernardomg.security.authorization.permission.persistence.repository.ActionRepository;
@@ -43,6 +44,7 @@ import com.bernardomg.security.loader.PermissionsLoader;
  *
  */
 @AutoConfiguration
+@ConditionalOnProperty(name = "initialize.permission", havingValue = "true", matchIfMissing = true)
 public class PermissionLoaderAutoConfiguration {
 
     public PermissionLoaderAutoConfiguration() {
