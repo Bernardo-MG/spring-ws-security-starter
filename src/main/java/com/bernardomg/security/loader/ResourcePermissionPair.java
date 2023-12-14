@@ -31,7 +31,7 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class ResourcePermissionPair {
 
-    public static final ResourcePermissionPair of(final String action, final String resource) {
+    public static final ResourcePermissionPair of(final String resource, final String action) {
         return ResourcePermissionPair.builder()
             .withAction(action)
             .withResource(resource)
