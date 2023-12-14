@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.DefaultApplicationArguments;
 
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
@@ -39,10 +38,10 @@ class ITTestRolesInitializer {
 
     @Test
     @DisplayName("Sets permissions to roles")
-    void testRun_Permissions() throws Exception {
+    void testRun_Permissions() {
         final long count;
 
-        testRolesInitializer.run(new DefaultApplicationArguments());
+        testRolesInitializer.initialize();
 
         count = rolePermissionRepository.count();
         Assertions.assertThat(count)
@@ -51,10 +50,10 @@ class ITTestRolesInitializer {
 
     @Test
     @DisplayName("Creates roles")
-    void testRun_Roles() throws Exception {
+    void testRun_Roles() {
         final long count;
 
-        testRolesInitializer.run(new DefaultApplicationArguments());
+        testRolesInitializer.initialize();
 
         count = roleRepository.count();
         Assertions.assertThat(count)

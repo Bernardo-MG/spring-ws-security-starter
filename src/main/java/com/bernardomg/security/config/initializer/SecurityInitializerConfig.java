@@ -51,14 +51,15 @@ public class SecurityInitializerConfig {
         super();
     }
 
-    @Bean("testRolesInitializer")
+    @Bean(name = "testRolesInitializer", initMethod = "initialize")
+    @DependsOn("permissionsLoader")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public TestRolesInitializer getTestRolesInitializer(final ResourcePermissionRepository permissionRepo,
             final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
         return new TestRolesInitializer(permissionRepo, roleRepo, rolePermissionRepo);
     }
 
-    @Bean("testUsersInitializer")
+    @Bean(name = "testUsersInitializer", initMethod = "initialize")
     @DependsOn("testRolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public TestUsersInitializer getTestUsersInitializer(final UserRepository userRepository,

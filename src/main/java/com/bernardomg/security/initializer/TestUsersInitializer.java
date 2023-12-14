@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.initializer;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -45,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class TestUsersInitializer implements ApplicationRunner {
+public final class TestUsersInitializer {
 
     /**
      * Password encoder.
@@ -68,8 +66,7 @@ public final class TestUsersInitializer implements ApplicationRunner {
         passwordEncoder = passwordEnc;
     }
 
-    @Override
-    public final void run(final ApplicationArguments args) throws Exception {
+    public final void initialize() {
         log.debug("Initializing test users");
 
         runIfNotExists(this::initializeRootUser, "root");
