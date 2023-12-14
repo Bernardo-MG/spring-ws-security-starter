@@ -48,7 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TestRolesInitializer implements ApplicationRunner {
 
-    private final ResourcePermissionRepository permissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
     private final RolePermissionRepository     rolePermissionRepository;
 
@@ -58,7 +58,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
             final RolePermissionRepository rolePermissionRepo) {
         super();
 
-        permissionRepository = permissionRepo;
+        resourcePermissionRepository = permissionRepo;
         roleRepository = roleRepo;
         rolePermissionRepository = rolePermissionRepo;
     }
@@ -69,7 +69,7 @@ public final class TestRolesInitializer implements ApplicationRunner {
 
         log.debug("Initializing test roles");
 
-        permissions = permissionRepository.findAll();
+        permissions = resourcePermissionRepository.findAll();
 
         runIfNotExists(() -> initializeAdminRole(permissions), "ADMIN");
         runIfNotExists(() -> initializeReadRole(permissions), "READ");
