@@ -41,8 +41,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authentication.user.cache.UserCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.authorization.role.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleCreateRequest;
 import com.bernardomg.security.authorization.role.model.request.RoleQueryRequest;
@@ -78,10 +78,10 @@ public class RoleController {
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.ROLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public Role create(@Valid @RequestBody final RoleCreateRequest request) {
-        return service.create(request);
+        return service.create(request.getName());
     }
 
     /**
@@ -92,8 +92,8 @@ public class RoleController {
      */
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true),
-            @CacheEvict(cacheNames = UserCaches.ROLE, key = "#id") })
+    @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true),
+            @CacheEvict(cacheNames = RoleCaches.ROLE, key = "#id") })
     public void delete(@PathVariable("id") final long id) {
         service.delete(id);
     }
@@ -109,7 +109,7 @@ public class RoleController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.ROLES)
+    @Cacheable(cacheNames = RoleCaches.ROLES)
     public Iterable<Role> readAll(@Valid final RoleQueryRequest role, final Pageable page) {
         return service.getAll(role, page);
     }
@@ -123,14 +123,14 @@ public class RoleController {
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.ROLE, key = "#id")
+    @Cacheable(cacheNames = RoleCaches.ROLE, key = "#id")
     public Role readOne(@PathVariable("id") final long id) {
         return service.getOne(id)
             .orElse(null);
     }
 
     /**
-     * Updates a user.
+     * Updates a role.
      *
      * @param id
      *            id of the role to update
@@ -140,8 +140,8 @@ public class RoleController {
      */
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.ROLE, key = "#result.id") },
-            evict = { @CacheEvict(cacheNames = UserCaches.ROLES, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.id") },
+            evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public Role update(@PathVariable("id") final long id, @Valid @RequestBody final RoleUpdateRequest request) {
         return service.update(id, request);
     }

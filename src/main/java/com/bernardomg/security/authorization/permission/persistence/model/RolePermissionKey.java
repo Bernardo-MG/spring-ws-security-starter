@@ -32,7 +32,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Role permission granted key.
+ * Role permission key.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -40,7 +40,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(setterPrefix = "with")
 public class RolePermissionKey implements Serializable {
 
     /**
@@ -48,8 +48,14 @@ public class RolePermissionKey implements Serializable {
      */
     private static final long serialVersionUID = -7233957066746780621L;
 
-    private Long              permissionId;
+    /**
+     * Permission.
+     */
+    private String            permission;
 
+    /**
+     * Role id.
+     */
     private Long              roleId;
 
 }

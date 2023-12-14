@@ -39,8 +39,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.model.UserGrantedPermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,8 +52,8 @@ import lombok.extern.slf4j.Slf4j;
  * contain the username in lower case, to avoid repeated usernames.
  * <h2>Granted authorities</h2>
  * <p>
- * Permissions will be acquired through a {@link UserGrantedPermissionRepository}, which queries a permissions view.
- * This contains the resource and action pairs assigned to the user, and will be used to create the granted authorities.
+ * Permissions will be acquired through a {@link ResourcePermissionRepository}, which queries a permissions view. This
+ * contains the resource and action pairs assigned to the user, and will be used to create the granted authorities.
  * <h2>Exceptions</h2>
  * <p>
  * When loading users any of these cases throws a {@code UsernameNotFoundException}:
@@ -69,30 +69,30 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserDetailsService implements UserDetailsService {
 
     /**
-     * User permissions repository.
+     * Resource permissions repository.
      */
-    private final UserGrantedPermissionRepository userGrantedPermissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
     /**
      * User repository.
      */
-    private final UserRepository                  userRepository;
+    private final UserRepository               userRepository;
 
     /**
      * Constructs a user details service.
      *
      * @param userRepo
      *            users repository
-     * @param userGrantedPermissionRepo
-     *            user permissions repository
+     * @param resourcePermissionRepo
+     *            resource permissions repository
      */
     public PersistentUserDetailsService(final UserRepository userRepo,
-            final UserGrantedPermissionRepository userGrantedPermissionRepo) {
+            final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");
-        userGrantedPermissionRepository = Objects.requireNonNull(userGrantedPermissionRepo,
-            "Received a null pointer as user permission repository");
+        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo,
+            "Received a null pointer as resource permission repository");
     }
 
     @Override
@@ -134,15 +134,15 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @return all the authorities for the user
      */
     private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
-        final Function<UserGrantedPermissionEntity, ResourceActionGrantedAuthority> toAuthority;
+        final Function<ResourcePermissionEntity, ResourceActionGrantedAuthority> toAuthority;
 
         // Maps a persistent permission to an authority
         toAuthority = p -> ResourceActionGrantedAuthority.builder()
-            .resource(p.getResource())
-            .action(p.getAction())
+            .withResource(p.getResource())
+            .withAction(p.getAction())
             .build();
 
-        return userGrantedPermissionRepository.findAllByUserId(id)
+        return resourcePermissionRepository.findAllForUser(id)
             .stream()
             .map(toAuthority)
             .distinct()

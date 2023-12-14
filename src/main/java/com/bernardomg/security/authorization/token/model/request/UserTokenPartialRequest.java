@@ -38,9 +38,9 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(setterPrefix = "with")
 public final class UserTokenPartialRequest implements UserTokenPartial {
 
     private LocalDateTime expirationDate;

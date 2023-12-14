@@ -5,50 +5,26 @@ import com.bernardomg.security.authentication.user.model.query.UserRegisterReque
 
 public final class UserRegisterRequests {
 
-    public static final UserRegisterRequest alternative() {
-        return UserRegisterRequest.builder()
-            .username("user")
-            .name("User")
-            .email(Users.ALTERNATIVE_EMAIL)
-            .build();
-    }
-
     public static final UserRegisterRequest invalidEmail() {
         return UserRegisterRequest.builder()
-            .username(Users.NAME)
-            .name(Users.NAME)
-            .email("abc")
+            .withUsername(Users.NAME)
+            .withName(Users.NAME)
+            .withEmail("abc")
             .build();
     }
 
     public static final UserRegisterRequest missingEmail() {
         return UserRegisterRequest.builder()
-            .username(Users.NAME)
-            .name(Users.NAME)
-            .build();
-    }
-
-    public static final UserRegisterRequest paddedWithWhitespaces() {
-        return UserRegisterRequest.builder()
-            .username(" " + Users.NAME + " ")
-            .name(" " + Users.NAME + " ")
-            .email(" " + Users.EMAIL + " ")
+            .withUsername(Users.NAME)
+            .withName(Users.NAME)
             .build();
     }
 
     public static final UserRegisterRequest valid() {
         return UserRegisterRequest.builder()
-            .username(Users.NAME)
-            .name(Users.NAME)
-            .email(Users.EMAIL)
-            .build();
-    }
-
-    public static final UserRegisterRequest valid(final String username, final String email) {
-        return UserRegisterRequest.builder()
-            .username(username)
-            .name(Users.NAME)
-            .email(email)
+            .withUsername(Users.NAME)
+            .withName(Users.NAME)
+            .withEmail(Users.EMAIL)
             .build();
     }
 

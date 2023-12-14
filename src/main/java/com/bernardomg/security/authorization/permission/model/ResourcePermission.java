@@ -24,33 +24,35 @@
 
 package com.bernardomg.security.authorization.permission.model;
 
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
+
 /**
- * Resource permission data.
+ * Immutable resource permission.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ResourcePermission {
+@Value
+@Builder(setterPrefix = "with")
+public final class ResourcePermission {
 
     /**
-     * Returns the action applied to the resource.
-     *
-     * @return the action applied to the resource
+     * Action applied to the resource.
      */
-    public String getAction();
+    @NonNull
+    private final String action;
 
     /**
-     * Returns the permission id.
-     *
-     * @return the permission id
+     * Permission id.
      */
-    public Long getId();
+    private final long   id;
 
     /**
-     * Returns the permission resource.
-     *
-     * @return the permission resource
+     * Permission resource.
      */
-    public String getResource();
+    @NonNull
+    private final String resource;
 
 }

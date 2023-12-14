@@ -38,8 +38,8 @@ class TestSpringResourceAccessValidator {
         final ResourceActionGrantedAuthority authority;
 
         authority = ResourceActionGrantedAuthority.builder()
-            .resource("resource")
-            .action("action")
+            .withResource("resource")
+            .withAction("action")
             .build();
         return List.of(authority);
     }

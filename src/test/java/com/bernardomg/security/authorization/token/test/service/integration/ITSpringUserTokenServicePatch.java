@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authorization.token.exception.MissingTokenException;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenIdException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartialRequest;
@@ -73,7 +74,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .expirationDate(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0))
+            .withExpirationDate(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0))
             .build();
 
         service.patch(1L, request);
@@ -105,7 +106,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         service.patch(1L, request);
@@ -125,13 +126,13 @@ class ITSpringUserTokenServicePatch {
         final ThrowingCallable execution;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         execution = () -> service.patch(1L, request);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingTokenException.class);
+            .isInstanceOf(MissingUserTokenIdException.class);
     }
 
     @Test
@@ -143,7 +144,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         service.patch(1L, request);
@@ -176,7 +177,7 @@ class ITSpringUserTokenServicePatch {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(true)
+            .withRevoked(true)
             .build();
 
         token = service.patch(1L, request);
@@ -184,9 +185,9 @@ class ITSpringUserTokenServicePatch {
         Assertions.assertThat(token.getId())
             .isEqualTo(1);
         Assertions.assertThat(token.getUsername())
-            .isEqualTo("admin");
+            .isEqualTo(Users.USERNAME);
         Assertions.assertThat(token.getName())
-            .isEqualTo("Admin");
+            .isEqualTo(Users.NAME);
         Assertions.assertThat(token.getScope())
             .isEqualTo(UserTokenConstants.SCOPE);
         Assertions.assertThat(token.getToken())

@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.initializer;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -45,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class TestUsersInitializer implements ApplicationRunner {
+public final class TestUsersInitializer {
 
     /**
      * Password encoder.
@@ -68,8 +66,7 @@ public final class TestUsersInitializer implements ApplicationRunner {
         passwordEncoder = passwordEnc;
     }
 
-    @Override
-    public final void run(final ApplicationArguments args) throws Exception {
+    public final void initialize() {
         log.debug("Initializing test users");
 
         runIfNotExists(this::initializeRootUser, "root");
@@ -84,14 +81,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         encodedPassword = passwordEncoder.encode("1234");
 
         return UserEntity.builder()
-            .username("read")
-            .name("read")
-            .email("email2@nowhere.com")
-            .password(encodedPassword)
-            .enabled(true)
-            .locked(false)
-            .expired(false)
-            .passwordExpired(false)
+            .withUsername("read")
+            .withName("read")
+            .withEmail("email2@nowhere.com")
+            .withPassword(encodedPassword)
+            .withEnabled(true)
+            .withLocked(false)
+            .withExpired(false)
+            .withPasswordExpired(false)
             .build();
     }
 
@@ -101,14 +98,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         encodedPassword = passwordEncoder.encode("1234");
 
         return UserEntity.builder()
-            .username("root")
-            .name("root")
-            .email("email1@nowhere.com")
-            .password(encodedPassword)
-            .enabled(true)
-            .locked(false)
-            .expired(false)
-            .passwordExpired(false)
+            .withUsername("root")
+            .withName("root")
+            .withEmail("email1@nowhere.com")
+            .withPassword(encodedPassword)
+            .withEnabled(true)
+            .withLocked(false)
+            .withExpired(false)
+            .withPasswordExpired(false)
             .build();
     }
 
@@ -124,14 +121,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         savedReadUser = userRepository.save(readUser);
 
         example = RoleEntity.builder()
-            .name("READ")
+            .withName("READ")
             .build();
         role = roleRepository.findOne(Example.of(example))
             .get();
 
         readUserRole = UserRoleEntity.builder()
-            .userId(savedReadUser.getId())
-            .roleId(role.getId())
+            .withUserId(savedReadUser.getId())
+            .withRoleId(role.getId())
             .build();
         userRoleRepository.save(readUserRole);
     }
@@ -148,14 +145,14 @@ public final class TestUsersInitializer implements ApplicationRunner {
         savedRootUser = userRepository.save(rootUser);
 
         example = RoleEntity.builder()
-            .name("ADMIN")
+            .withName("ADMIN")
             .build();
         role = roleRepository.findOne(Example.of(example))
             .get();
 
         rootUserRole = UserRoleEntity.builder()
-            .userId(savedRootUser.getId())
-            .roleId(role.getId())
+            .withUserId(savedRootUser.getId())
+            .withRoleId(role.getId())
             .build();
         userRoleRepository.save(rootUserRole);
     }

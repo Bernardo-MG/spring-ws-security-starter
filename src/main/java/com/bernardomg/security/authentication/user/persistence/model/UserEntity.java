@@ -32,7 +32,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,12 +46,10 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "User")
 @Table(name = "users")
-@TableGenerator(name = "seq_users_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
-        allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(setterPrefix = "with")
 public class UserEntity implements Serializable {
 
     /**
@@ -83,7 +80,7 @@ public class UserEntity implements Serializable {
      * Entity id.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_users_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 

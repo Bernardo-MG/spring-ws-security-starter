@@ -48,7 +48,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(setterPrefix = "with")
 public class ResourcePermissionEntity implements Serializable {
 
     /**
@@ -56,6 +56,9 @@ public class ResourcePermissionEntity implements Serializable {
      */
     private static final long serialVersionUID = -104825862522637053L;
 
+    /**
+     * Action applied to the resource.
+     */
     @Column(name = "action", nullable = false)
     private String            action;
 
@@ -63,10 +66,19 @@ public class ResourcePermissionEntity implements Serializable {
      * Entity id.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_resources_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 
+    /**
+     * Permission name.
+     */
+    @Column(name = "name", nullable = false)
+    private String            name;
+
+    /**
+     * Permission resource.
+     */
     @Column(name = "resource", nullable = false)
     private String            resource;
 

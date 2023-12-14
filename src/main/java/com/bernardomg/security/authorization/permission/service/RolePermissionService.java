@@ -43,10 +43,10 @@ public interface RolePermissionService {
      * @param roleId
      *            role id
      * @param permission
-     *            permission id to add
+     *            permission to add
      * @return the added permission
      */
-    public RolePermission addPermission(final long roleId, final long permission);
+    public RolePermission addPermission(final long roleId, final String permission);
 
     /**
      * Returns all permissions available to a role in a paginated form.
@@ -79,6 +79,6 @@ public interface RolePermissionService {
      *            permission to remove
      * @return the removed permission
      */
-    public RolePermission removePermission(final long roleId, final long permission);
+    public RolePermission removePermission(final long roleId, final String permission);
 
 }

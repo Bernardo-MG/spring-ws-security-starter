@@ -33,15 +33,12 @@ import com.bernardomg.security.authentication.user.exception.EnabledUserExceptio
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.model.ImmutableUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserRegister;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.RegisterUserValidator;
 import com.bernardomg.security.authorization.token.exception.InvalidTokenException;
-import com.bernardomg.security.authorization.token.model.ImmutableUserTokenStatus;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.validation.Validator;
@@ -60,27 +57,27 @@ public final class DefaultUserActivationService implements UserActivationService
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder         passwordEncoder;
+    private final PasswordEncoder       passwordEncoder;
 
     /**
      * Token processor.
      */
-    private final UserTokenStore          tokenStore;
+    private final UserTokenStore        tokenStore;
 
     /**
      * Message sender. Registering new users may require emails, or other kind of messaging.
      */
-    private final UserNotificator         userNotificator;
+    private final UserNotificator       userNotificator;
 
     /**
      * User repository.
      */
-    private final UserRepository          userRepository;
+    private final UserRepository        userRepository;
 
     /**
      * User registration validator.
      */
-    private final Validator<UserRegister> validatorRegisterUser;
+    private final Validator<UserEntity> validatorRegisterUser;
 
     public DefaultUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
             final UserTokenStore tStore, final PasswordEncoder passEncoder) {
@@ -126,16 +123,20 @@ public final class DefaultUserActivationService implements UserActivationService
     }
 
     @Override
-    public final User registerNewUser(final UserRegister user) {
+    public final User registerNewUser(final String username, final String name, final String email) {
         final UserEntity userEntity;
         final UserEntity created;
         final String     token;
 
-        log.debug("Registering new user {} with email {}", user.getUsername(), user.getEmail());
+        log.debug("Registering new user {} with email {}", username, email);
 
-        validatorRegisterUser.validate(user);
+        userEntity = UserEntity.builder()
+            .withUsername(username)
+            .withName(name)
+            .withEmail(email)
+            .build();
 
-        userEntity = toEntity(user);
+        validatorRegisterUser.validate(userEntity);
 
         // Trim strings
         userEntity.setName(userEntity.getName()
@@ -170,9 +171,9 @@ public final class DefaultUserActivationService implements UserActivationService
         token = tokenStore.createToken(created.getUsername());
 
         // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.getEmail(), user.getUsername(), token);
+        userNotificator.sendUserRegisteredMessage(created.getEmail(), username, token);
 
-        log.debug("Registered new user {} with email {}", user.getUsername(), user.getEmail());
+        log.debug("Registered new user {} with email {}", username, email);
 
         return toDto(created);
     }
@@ -190,9 +191,9 @@ public final class DefaultUserActivationService implements UserActivationService
         }
         username = tokenStore.getUsername(token);
 
-        return ImmutableUserTokenStatus.builder()
-            .valid(valid)
-            .username(username)
+        return UserTokenStatus.builder()
+            .withValid(valid)
+            .withUsername(username)
             .build();
     }
 
@@ -211,23 +212,15 @@ public final class DefaultUserActivationService implements UserActivationService
     }
 
     private final User toDto(final UserEntity user) {
-        return ImmutableUser.builder()
-            .id(user.getId())
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
-            .enabled(user.getEnabled())
-            .expired(user.getExpired())
-            .locked(user.getLocked())
-            .passwordExpired(user.getPasswordExpired())
-            .build();
-    }
-
-    private final UserEntity toEntity(final UserRegister user) {
-        return UserEntity.builder()
-            .username(user.getUsername())
-            .name(user.getName())
-            .email(user.getEmail())
+        return User.builder()
+            .withId(user.getId())
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withExpired(user.getExpired())
+            .withLocked(user.getLocked())
+            .withPasswordExpired(user.getPasswordExpired())
             .build();
     }
 

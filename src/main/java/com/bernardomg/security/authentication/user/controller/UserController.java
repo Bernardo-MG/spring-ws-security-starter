@@ -90,7 +90,7 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User create(@Valid @RequestBody final UserRegisterRequest request) {
-        return userActivationService.registerNewUser(request);
+        return userActivationService.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
     }
 
     /**

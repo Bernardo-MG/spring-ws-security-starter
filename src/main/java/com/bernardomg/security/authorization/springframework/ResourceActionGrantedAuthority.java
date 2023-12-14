@@ -36,7 +36,7 @@ import lombok.Value;
  *
  */
 @Value
-@Builder
+@Builder(setterPrefix = "with")
 public final class ResourceActionGrantedAuthority implements GrantedAuthority {
 
     /**

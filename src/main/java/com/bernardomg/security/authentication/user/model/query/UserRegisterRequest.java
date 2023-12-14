@@ -38,10 +38,10 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class UserRegisterRequest implements UserRegister {
+@Builder(setterPrefix = "with")
+public final class UserRegisterRequest {
 
     /**
      * User email.

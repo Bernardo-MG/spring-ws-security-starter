@@ -24,19 +24,29 @@
 
 package com.bernardomg.security.login.model;
 
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
+
 /**
- * Status after a login attempt including a token.
+ * Immutable implementation of {@link TokenLoginStatus}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface TokenLoginStatus extends LoginStatus {
+@Value
+@Builder(setterPrefix = "with")
+public final class TokenLoginStatus {
 
     /**
-     * Returns the security token.
-     *
-     * @return the security token
+     * Flag telling if the login was successful.
      */
-    public String getToken();
+    private final boolean logged;
+
+    /**
+     * Security token.
+     */
+    @NonNull
+    private final String  token;
 
 }

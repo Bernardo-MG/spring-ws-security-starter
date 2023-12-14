@@ -33,8 +33,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * User token entity.
@@ -45,8 +47,9 @@ import lombok.Data;
 @Data
 @Entity(name = "UserToken")
 @Table(name = "user_tokens")
-@TableGenerator(name = "seq_tokens_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
-        allocationSize = 1)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
 public class UserTokenEntity implements Serializable {
 
     private static final long serialVersionUID = -216369933325209746L;
@@ -64,7 +67,7 @@ public class UserTokenEntity implements Serializable {
      * Entity id.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_tokens_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 

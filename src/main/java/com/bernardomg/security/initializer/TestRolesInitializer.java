@@ -26,9 +26,6 @@ package com.bernardomg.security.initializer;
 
 import java.util.Collection;
 
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
@@ -46,9 +43,9 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class TestRolesInitializer implements ApplicationRunner {
+public final class TestRolesInitializer {
 
-    private final ResourcePermissionRepository permissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
     private final RolePermissionRepository     rolePermissionRepository;
 
@@ -58,18 +55,17 @@ public final class TestRolesInitializer implements ApplicationRunner {
             final RolePermissionRepository rolePermissionRepo) {
         super();
 
-        permissionRepository = permissionRepo;
+        resourcePermissionRepository = permissionRepo;
         roleRepository = roleRepo;
         rolePermissionRepository = rolePermissionRepo;
     }
 
-    @Override
-    public final void run(final ApplicationArguments args) throws Exception {
+    public final void initialize() {
         final Collection<ResourcePermissionEntity> permissions;
 
         log.debug("Initializing test roles");
 
-        permissions = permissionRepository.findAll();
+        permissions = resourcePermissionRepository.findAll();
 
         runIfNotExists(() -> initializeAdminRole(permissions), "ADMIN");
         runIfNotExists(() -> initializeReadRole(permissions), "READ");
@@ -79,13 +75,13 @@ public final class TestRolesInitializer implements ApplicationRunner {
 
     private final RoleEntity getReadRole() {
         return RoleEntity.builder()
-            .name("READ")
+            .withName("READ")
             .build();
     }
 
     private final RoleEntity getRootRole() {
         return RoleEntity.builder()
-            .name("ADMIN")
+            .withName("ADMIN")
             .build();
     }
 
@@ -100,9 +96,9 @@ public final class TestRolesInitializer implements ApplicationRunner {
 
         for (final ResourcePermissionEntity perm : permissions) {
             rolePermission = RolePermissionEntity.builder()
-                .roleId(savedRootRole.getId())
-                .permissionId(perm.getId())
-                .granted(true)
+                .withRoleId(savedRootRole.getId())
+                .withPermission(perm.getName())
+                .withGranted(true)
                 .build();
             rolePermissionRepository.save(rolePermission);
         }
@@ -140,9 +136,9 @@ public final class TestRolesInitializer implements ApplicationRunner {
             .toList();
         for (final ResourcePermissionEntity permission : validPermissions) {
             rolePermission = RolePermissionEntity.builder()
-                .roleId(role.getId())
-                .permissionId(permission.getId())
-                .granted(true)
+                .withRoleId(role.getId())
+                .withPermission(permission.getName())
+                .withGranted(true)
                 .build();
             rolePermissionRepository.save(rolePermission);
         }

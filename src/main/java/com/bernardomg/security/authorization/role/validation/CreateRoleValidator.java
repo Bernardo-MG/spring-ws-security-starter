@@ -29,7 +29,6 @@ import java.util.Collection;
 
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.authorization.role.model.request.RoleCreate;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
@@ -50,7 +49,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class CreateRoleValidator implements Validator<RoleCreate> {
+public final class CreateRoleValidator implements Validator<RoleEntity> {
 
     private final RoleRepository roleRepository;
 
@@ -61,7 +60,7 @@ public final class CreateRoleValidator implements Validator<RoleCreate> {
     }
 
     @Override
-    public final void validate(final RoleCreate role) {
+    public final void validate(final RoleEntity role) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
         final RoleEntity               sample;
@@ -69,7 +68,7 @@ public final class CreateRoleValidator implements Validator<RoleCreate> {
         failures = new ArrayList<>();
 
         sample = RoleEntity.builder()
-            .name(role.getName())
+            .withName(role.getName())
             .build();
 
         // The role name doesn't exist

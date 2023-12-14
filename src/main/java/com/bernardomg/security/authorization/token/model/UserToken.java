@@ -26,75 +26,73 @@ package com.bernardomg.security.authorization.token.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
+
 /**
- * User token.
+ * Immutable implementation of the user token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserToken {
+@Value
+@Builder(setterPrefix = "with")
+public final class UserToken {
 
     /**
-     * Returns the date at which the token was created.
-     *
-     * @return the date at which the token was created
+     * Token consumed flag.
      */
-    public LocalDateTime getCreationDate();
+    private boolean             consumed;
 
     /**
-     * Returns the date at which the token will expire.
-     *
-     * @return the date at which the token will expire
+     * Token creation date.
      */
-    public LocalDateTime getExpirationDate();
+    @NonNull
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime creationDate;
 
     /**
-     * Returns the token id.
-     *
-     * @return the token id
+     * Token expiration date.
      */
-    public Long getId();
+    @NonNull
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime expirationDate;
 
     /**
-     * Returns the name of the user linked to the token.
-     *
-     * @return the name of the user linked to the token
+     * Token id.
      */
-    public String getName();
+    private final long          id;
 
     /**
-     * Returns the token scope.
-     *
-     * @return the token scope
+     * User name.
      */
-    public String getScope();
+    @NonNull
+    private final String        name;
 
     /**
-     * Returns the token code.
-     *
-     * @return the token code
+     * Token revoked flag.
      */
-    public String getToken();
+    private final boolean       revoked;
 
     /**
-     * Returns the username of the user linked to the token.
-     *
-     * @return the username of the user linked to the token
+     * Token scope.
      */
-    public String getUsername();
+    @NonNull
+    private final String        scope;
 
     /**
-     * Indicates if the token is consumed
-     *
-     * @return {@code true} if the token is consumed, {@code false} otherwise
+     * Token code.
      */
-    public boolean isConsumed();
+    @NonNull
+    private final String        token;
 
     /**
-     * Indicates if the token is revoked
-     *
-     * @return {@code true} if the token is revoked, {@code false} otherwise
+     * Token username.
      */
-    public boolean isRevoked();
+    @NonNull
+    private final String        username;
 
 }

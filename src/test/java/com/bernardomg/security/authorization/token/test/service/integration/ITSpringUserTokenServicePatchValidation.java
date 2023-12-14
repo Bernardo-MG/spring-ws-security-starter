@@ -38,7 +38,7 @@ class ITSpringUserTokenServicePatchValidation {
         date = LocalDateTime.now()
             .minusDays(1);
         request = UserTokenPartialRequest.builder()
-            .expirationDate(date)
+            .withExpirationDate(date)
             .build();
 
         execution = () -> service.patch(1L, request);
@@ -58,7 +58,7 @@ class ITSpringUserTokenServicePatchValidation {
         final UserTokenPartial request;
 
         request = UserTokenPartialRequest.builder()
-            .revoked(false)
+            .withRevoked(false)
             .build();
 
         execution = () -> service.patch(1L, request);

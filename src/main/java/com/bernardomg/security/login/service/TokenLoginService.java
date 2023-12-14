@@ -26,17 +26,16 @@ package com.bernardomg.security.login.service;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.context.ApplicationEventPublisher;
+
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.login.model.ImmutableLoginStatus;
-import com.bernardomg.security.login.model.ImmutableTokenLoginStatus;
-import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
+import com.bernardomg.security.login.event.LogInEvent;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,73 +48,71 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TokenLoginService implements LoginService {
 
-    private final Pattern           emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final Pattern                     emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-    private final Predicate<Login>  isValid;
+    private final ApplicationEventPublisher   eventPublisher;
 
-    private final LoginTokenEncoder loginTokenEncoder;
+    private final BiPredicate<String, String> isValid;
 
-    private final UserRepository    userRepository;
+    private final LoginTokenEncoder           loginTokenEncoder;
 
-    public TokenLoginService(final Predicate<Login> valid, final UserRepository userRepo,
-            final LoginTokenEncoder loginTokenEnc) {
+    private final UserRepository              userRepository;
+
+    public TokenLoginService(final BiPredicate<String, String> valid, final UserRepository userRepo,
+            final LoginTokenEncoder loginTokenEnc, final ApplicationEventPublisher publisher) {
         super();
 
         isValid = Objects.requireNonNull(valid);
         userRepository = Objects.requireNonNull(userRepo);
         loginTokenEncoder = Objects.requireNonNull(loginTokenEnc);
+        eventPublisher = Objects.requireNonNull(publisher);
     }
 
     @Override
-    public final LoginStatus login(final Login login) {
-        final Boolean valid;
-        final String  username;
-        final String  validUsername;
-        final Login   loginWithName;
-
-        username = login.getUsername()
-            .toLowerCase();
+    public final TokenLoginStatus login(final String username, final String password) {
+        final Boolean          valid;
+        final String           validUsername;
+        final TokenLoginStatus status;
+        final LogInEvent       event;
 
         log.debug("Log in attempt for {}", username);
 
-        loginWithName = loadLoginName(login);
+        validUsername = loadLoginName(username).toLowerCase();
 
-        valid = isValid.test(loginWithName);
+        valid = isValid.test(validUsername, password);
 
-        validUsername = loginWithName.getUsername()
-            .toLowerCase();
-        return buildStatus(validUsername, valid);
+        status = buildStatus(validUsername, valid);
+
+        event = new LogInEvent(this, validUsername, valid);
+        eventPublisher.publishEvent(event);
+
+        return status;
     }
 
-    private final LoginStatus buildStatus(final String username, final boolean logged) {
-        final LoginStatus status;
-        final String      token;
+    private final TokenLoginStatus buildStatus(final String username, final boolean logged) {
+        final TokenLoginStatus status;
+        final String           token;
 
         if (logged) {
             token = loginTokenEncoder.encode(username);
-            status = ImmutableTokenLoginStatus.builder()
-                .username(username)
-                .logged(logged)
-                .token(token)
+            status = TokenLoginStatus.builder()
+                .withLogged(logged)
+                .withToken(token)
                 .build();
         } else {
-            status = ImmutableLoginStatus.builder()
-                .username(username)
-                .logged(logged)
+            status = TokenLoginStatus.builder()
+                .withLogged(logged)
+                .withToken("")
                 .build();
         }
 
         return status;
     }
 
-    private final Login loadLoginName(final Login login) {
+    private final String loadLoginName(final String username) {
         final Matcher              emailMatcher;
         final Optional<UserEntity> readUser;
-        final Login                validLogin;
-        final String               username;
-
-        username = login.getUsername()
-            .toLowerCase();
+        final String               validUsername;
 
         emailMatcher = emailPattern.matcher(username);
 
@@ -126,22 +123,19 @@ public final class TokenLoginService implements LoginService {
             readUser = userRepository.findOneByEmail(username);
             if (readUser.isPresent()) {
                 // Get the actual username and continue
-                validLogin = LoginRequest.builder()
-                    .username(readUser.get()
-                        .getUsername())
-                    .password(login.getPassword())
-                    .build();
+                validUsername = readUser.get()
+                    .getUsername();
             } else {
                 log.debug("No user found for email {}", username);
-                validLogin = login;
+                validUsername = username.toLowerCase();
             }
         } else {
             // Using username for login
             log.debug("Login attempt with username");
-            validLogin = login;
+            validUsername = username.toLowerCase();
         }
 
-        return validLogin;
+        return validUsername;
     }
 
 }

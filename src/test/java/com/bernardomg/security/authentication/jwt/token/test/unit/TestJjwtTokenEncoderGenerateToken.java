@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
 
@@ -28,7 +27,7 @@ class TestJjwtTokenEncoderGenerateToken {
         final String       token;
         final JwtTokenData data;
 
-        data = ImmutableJwtTokenData.builder()
+        data = JwtTokenData.builder()
             .build();
 
         token = encoder.encode(data);

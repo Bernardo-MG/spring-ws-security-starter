@@ -1,5 +1,5 @@
-INSERT INTO resources (id, name) VALUES
-   (1, 'DATA1'),
-   (2, 'DATA2'),
-   (3, 'DATA3'),
-   (4, 'DATA4');
+INSERT INTO resources (name) VALUES
+   ('DATA1'),
+   ('DATA2'),
+   ('DATA3'),
+   ('DATA4');

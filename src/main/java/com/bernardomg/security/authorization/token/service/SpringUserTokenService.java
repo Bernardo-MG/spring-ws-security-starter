@@ -30,8 +30,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.token.exception.MissingTokenException;
-import com.bernardomg.security.authorization.token.model.ImmutableUserToken;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenIdException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.persistence.model.UserDataTokenEntity;
@@ -115,7 +114,7 @@ public final class SpringUserTokenService implements UserTokenService {
         read = userDataTokenRepository.findById(id)
             .map(this::toDto);
         if (read.isEmpty()) {
-            throw new MissingTokenException(id);
+            throw new MissingUserTokenIdException(id);
         }
 
         return read.get();
@@ -132,7 +131,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         read = userDataTokenRepository.findById(id);
         if (!read.isPresent()) {
-            throw new MissingTokenException(id);
+            throw new MissingUserTokenIdException(id);
         }
 
         validatorPatch.validate(partial);
@@ -154,47 +153,44 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     private final UserToken toDto(final UserDataTokenEntity entity) {
-        return ImmutableUserToken.builder()
-            .id(entity.getId())
-            .username(entity.getUsername())
-            .name(entity.getName())
-            .scope(entity.getScope())
-            .token(entity.getToken())
-            .creationDate(entity.getCreationDate())
-            .expirationDate(entity.getExpirationDate())
-            .consumed(entity.isConsumed())
-            .revoked(entity.isRevoked())
+        return UserToken.builder()
+            .withId(entity.getId())
+            .withUsername(entity.getUsername())
+            .withName(entity.getName())
+            .withScope(entity.getScope())
+            .withToken(entity.getToken())
+            .withCreationDate(entity.getCreationDate())
+            .withExpirationDate(entity.getExpirationDate())
+            .withConsumed(entity.isConsumed())
+            .withRevoked(entity.isRevoked())
             .build();
     }
 
     private final UserToken toDto(final UserTokenEntity entity, final UserDataTokenEntity data) {
-        return ImmutableUserToken.builder()
-            .id(entity.getId())
-            .username(data.getUsername())
-            .name(data.getName())
-            .scope(entity.getScope())
-            .token(entity.getToken())
-            .creationDate(entity.getCreationDate())
-            .expirationDate(entity.getExpirationDate())
-            .consumed(entity.isConsumed())
-            .revoked(entity.isRevoked())
+        return UserToken.builder()
+            .withId(entity.getId())
+            .withUsername(data.getUsername())
+            .withName(data.getName())
+            .withScope(entity.getScope())
+            .withToken(entity.getToken())
+            .withCreationDate(entity.getCreationDate())
+            .withExpirationDate(entity.getExpirationDate())
+            .withConsumed(entity.isConsumed())
+            .withRevoked(entity.isRevoked())
             .build();
     }
 
     private final UserTokenEntity toEntity(final UserDataTokenEntity dataToken) {
-        final UserTokenEntity token;
-
-        token = new UserTokenEntity();
-        token.setId(dataToken.getId());
-        token.setUserId(dataToken.getUserId());
-        token.setToken(dataToken.getToken());
-        token.setScope(dataToken.getScope());
-        token.setCreationDate(dataToken.getCreationDate());
-        token.setExpirationDate(dataToken.getExpirationDate());
-        token.setConsumed(dataToken.isConsumed());
-        token.setRevoked(dataToken.isRevoked());
-
-        return token;
+        return UserTokenEntity.builder()
+            .withId(dataToken.getId())
+            .withUserId(dataToken.getUserId())
+            .withToken(dataToken.getToken())
+            .withScope(dataToken.getScope())
+            .withCreationDate(dataToken.getCreationDate())
+            .withExpirationDate(dataToken.getExpirationDate())
+            .withConsumed(dataToken.isConsumed())
+            .withRevoked(dataToken.isRevoked())
+            .build();
     }
 
 }

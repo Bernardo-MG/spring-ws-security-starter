@@ -35,7 +35,8 @@ import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
 import com.bernardomg.security.authentication.jwt.token.TokenValidator;
 
 /**
- * JWT security configurer. Adds a {@link JwtTokenFilter} before the username and password authentication filter.
+ * JWT security configurer. Sets up the web security by adding a {@link JwtTokenFilter} before the username and password
+ * authentication filter.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

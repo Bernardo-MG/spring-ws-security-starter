@@ -31,10 +31,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class RoleCreateRequest implements RoleCreate {
+@Builder(setterPrefix = "with")
+public final class RoleCreateRequest {
 
     @NotNull
     private String name;

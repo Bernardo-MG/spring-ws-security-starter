@@ -2,17 +2,15 @@
 package com.bernardomg.security.login.service.springframework;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.login.model.request.Login;
-
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -31,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class SpringValidLoginPredicate implements Predicate<Login> {
+public final class SpringValidLoginPredicate implements BiPredicate<String, String> {
 
     /**
      * Password encoder, for validating passwords.
@@ -43,16 +41,15 @@ public final class SpringValidLoginPredicate implements Predicate<Login> {
      */
     private final UserDetailsService userDetailsService;
 
-    public SpringValidLoginPredicate(@NonNull final UserDetailsService userDetService,
-            @NonNull final PasswordEncoder passEncoder) {
+    public SpringValidLoginPredicate(final UserDetailsService userDetService, final PasswordEncoder passEncoder) {
         super();
 
-        userDetailsService = userDetService;
-        passwordEncoder = passEncoder;
+        userDetailsService = Objects.requireNonNull(userDetService);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
-    public final boolean test(final Login login) {
+    public final boolean test(final String username, final String password) {
         final boolean         valid;
         Optional<UserDetails> details;
 
@@ -60,43 +57,43 @@ public final class SpringValidLoginPredicate implements Predicate<Login> {
 
         // Find the user
         try {
-            details = Optional.ofNullable(userDetailsService.loadUserByUsername(login.getUsername()
-                .toLowerCase(Locale.getDefault())));
+            details = Optional
+                .ofNullable(userDetailsService.loadUserByUsername(username.toLowerCase(Locale.getDefault())));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }
 
         if (details.isEmpty()) {
             // No user found for username
-            log.debug("No user for username {}. Failed login", login.getUsername());
+            log.debug("No user for username {}. Failed login", username);
             valid = false;
         } else if (isValid(details.get())) {
             // User exists
             // Validate password
-            valid = passwordEncoder.matches(login.getPassword(), details.get()
+            valid = passwordEncoder.matches(password, details.get()
                 .getPassword());
             if (!valid) {
                 log.debug("Received a password which doesn't match the one stored for username {}. Failed login",
-                    login.getUsername());
+                    username);
             }
         } else {
             // Invalid user
-            log.debug("User {} is in an invalid state. Failed login", login.getUsername());
+            log.debug("User {} is in an invalid state. Failed login", username);
             if (!details.get()
                 .isAccountNonExpired()) {
-                log.debug("User {} account expired", login.getUsername());
+                log.debug("User {} account expired", username);
             }
             if (!details.get()
                 .isAccountNonLocked()) {
-                log.debug("User {} account is locked", login.getUsername());
+                log.debug("User {} account is locked", username);
             }
             if (!details.get()
                 .isCredentialsNonExpired()) {
-                log.debug("User {} credentials expired", login.getUsername());
+                log.debug("User {} credentials expired", username);
             }
             if (!details.get()
                 .isEnabled()) {
-                log.debug("User {} is disabled", login.getUsername());
+                log.debug("User {} is disabled", username);
             }
             valid = false;
         }

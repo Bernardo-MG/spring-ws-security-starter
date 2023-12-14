@@ -24,26 +24,29 @@
 
 package com.bernardomg.security.authorization.token.model;
 
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.Value;
+
 /**
- * User token status.
+ * Immutable implementation of the user token status.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserTokenStatus {
+@Value
+@Builder(setterPrefix = "with")
+public final class UserTokenStatus {
 
     /**
-     * Returns the username of the user linked to the token.
-     *
-     * @return the username of the user linked to the token
+     * Username.
      */
-    public String getUsername();
+    @NonNull
+    private final String  username;
 
     /**
-     * Indicates if the token is valid
-     *
-     * @return {@code true} if the token is valid, {@code false} otherwise
+     * Token status.
      */
-    public boolean isValid();
+    private final boolean valid;
 
 }

@@ -41,7 +41,7 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.model.query.PermissionCreateQuery;
+import com.bernardomg.security.authorization.permission.model.query.RoleAddPermissionQuery;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 
@@ -79,14 +79,14 @@ public class RolePermissionController {
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
     public RolePermission add(@PathVariable("id") final long roleId,
-            @Valid @RequestBody final PermissionCreateQuery permission) {
-        return service.addPermission(roleId, permission.getPermissionId());
+            @Valid @RequestBody final RoleAddPermissionQuery permission) {
+        return service.addPermission(roleId, permission.getPermission());
     }
 
     /**
      * Returns all the permissions for a role in a paginated form.
      *
-     * @param id
+     * @param roleId
      *            role id
      * @param page
      *            pagination to apply
@@ -95,8 +95,8 @@ public class RolePermissionController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAll(@PathVariable("id") final long id, final Pageable page) {
-        return service.getPermissions(id, page);
+    public Iterable<ResourcePermission> readAll(@PathVariable("id") final long roleId, final Pageable page) {
+        return service.getPermissions(roleId, page);
     }
 
     /**
@@ -128,7 +128,8 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long id, @PathVariable("permission") final long permission) {
+    public RolePermission remove(@PathVariable("id") final long id,
+            @PathVariable("permission") final String permission) {
         return service.removePermission(id, permission);
     }
 

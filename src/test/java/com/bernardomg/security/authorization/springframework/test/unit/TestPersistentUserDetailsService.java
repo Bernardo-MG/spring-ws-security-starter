@@ -19,33 +19,33 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.PersistentUsers;
+import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.permission.persistence.model.UserGrantedPermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PersistentUserDetailsService")
 class TestPersistentUserDetailsService {
 
+    @Mock
+    private ResourcePermissionRepository resourcePermissionRepository;
+
     @InjectMocks
-    private PersistentUserDetailsService    service;
+    private PersistentUserDetailsService service;
 
     @Mock
-    private UserGrantedPermissionRepository userGrantedPermissionRepository;
-
-    @Mock
-    private UserRepository                  userRepository;
+    private UserRepository               userRepository;
 
     public TestPersistentUserDetailsService() {
         super();
     }
 
-    private final UserGrantedPermissionEntity getPersistentPermission() {
-        return UserGrantedPermissionEntity.builder()
-            .resource("resource")
-            .action("action")
+    private final ResourcePermissionEntity getPersistentPermission() {
+        return ResourcePermissionEntity.builder()
+            .withResource("resource")
+            .withAction("action")
             .build();
     }
 
@@ -55,9 +55,9 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.disabled();
+        user = UserEntities.disabled();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
-        given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
@@ -66,7 +66,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo("1234");
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -101,9 +101,9 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.enabled();
+        user = UserEntities.enabled();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
-        given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
@@ -112,7 +112,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -147,9 +147,9 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.expired();
+        user = UserEntities.expired();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
-        given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
@@ -158,7 +158,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isFalse();
@@ -193,9 +193,9 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.locked();
+        user = UserEntities.locked();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
-        given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
@@ -204,7 +204,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();
@@ -239,8 +239,8 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(PersistentUsers.enabled()));
-        given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of());
+        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(UserEntities.enabled()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of());
 
         executable = () -> service.loadUserByUsername(Users.USERNAME);
 
@@ -256,9 +256,9 @@ class TestPersistentUserDetailsService {
         final UserDetails userDetails;
         final UserEntity  user;
 
-        user = PersistentUsers.passwordExpired();
+        user = UserEntities.passwordExpired();
         given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
-        given(userGrantedPermissionRepository.findAllByUserId(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
@@ -267,7 +267,7 @@ class TestPersistentUserDetailsService {
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(userDetails.getPassword())
             .as("password")
-            .isEqualTo(Users.PASSWORD);
+            .isEqualTo(Users.ENCODED_PASSWORD);
         Assertions.assertThat(userDetails.isAccountNonExpired())
             .as("non expired")
             .isTrue();

@@ -1,5 +1,5 @@
-INSERT INTO role_permissions (role_id, permission_id, granted) VALUES
-   (2, 1, true),
-   (2, 2, true),
-   (2, 3, true),
-   (2, 4, true);
+INSERT INTO role_permissions (role_id, permission, granted) VALUES
+   (2, 'DATA:CREATE', true),
+   (2, 'DATA:READ', true),
+   (2, 'DATA:UPDATE', true),
+   (2, 'DATA:DELETE', true);

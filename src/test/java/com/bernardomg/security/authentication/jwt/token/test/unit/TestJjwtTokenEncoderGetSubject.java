@@ -12,7 +12,6 @@ import com.bernardomg.security.authentication.jwt.token.JjwtTokenDecoder;
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
 
@@ -39,7 +38,7 @@ class TestJjwtTokenEncoderGetSubject {
         final String       subject;
         final JwtTokenData data;
 
-        data = ImmutableJwtTokenData.builder()
+        data = JwtTokenData.builder()
             .withSubject("subject")
             .build();
 
@@ -58,7 +57,7 @@ class TestJjwtTokenEncoderGetSubject {
         final ThrowingCallable executable;
         final JwtTokenData     data;
 
-        data = ImmutableJwtTokenData.builder()
+        data = JwtTokenData.builder()
             .withSubject("subject")
             .withExpiration(LocalDateTime.now()
                 .plusSeconds(-1))

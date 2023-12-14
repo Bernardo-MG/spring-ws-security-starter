@@ -17,7 +17,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("SpringUserTokenService - clean up")
-public class ITSpringUserTokenServiceCleanUp {
+class ITSpringUserTokenServiceCleanUp {
 
     @Autowired
     private SpringUserTokenService service;

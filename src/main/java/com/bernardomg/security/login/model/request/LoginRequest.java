@@ -36,10 +36,10 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest implements Login {
+@Builder(setterPrefix = "with")
+public class LoginRequest {
 
     /**
      * User password.

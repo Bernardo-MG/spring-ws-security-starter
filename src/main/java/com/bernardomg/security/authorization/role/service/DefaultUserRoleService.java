@@ -25,18 +25,20 @@
 package com.bernardomg.security.authorization.role.service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
+import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.role.model.ImmutableUserRole;
+import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.UserRole;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.authorization.role.validation.AddUserRoleValidator;
-import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,38 +51,41 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 
-    private final RoleRepository      roleRepository;
+    private final RoleRepository     roleRepository;
 
-    private final UserRoleRepository  userRoleRepository;
+    private final UserRepository     userRepository;
 
-    private final Validator<UserRole> validatorAddUserRole;
-
-    private final Validator<UserRole> validatorRemoveUserRole;
+    private final UserRoleRepository userRoleRepository;
 
     public DefaultUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
             final UserRoleRepository userRoleRepo) {
         super();
 
+        userRepository = Objects.requireNonNull(userRepo);
         userRoleRepository = Objects.requireNonNull(userRoleRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
-
-        validatorAddUserRole = new AddUserRoleValidator(userRepo, roleRepo);
-        validatorRemoveUserRole = new AddUserRoleValidator(userRepo, roleRepo);
     }
 
     @Override
     public final UserRole addRole(final long userId, final long roleId) {
-        final UserRoleEntity userRoleSample;
-        final UserRole       userRole;
-        final UserRoleEntity created;
+        final UserRoleEntity       userRoleSample;
+        final UserRoleEntity       created;
+        final Optional<RoleEntity> readRole;
+        final Optional<UserEntity> readUser;
 
         log.debug("Adding role {} to user {}", roleId, userId);
 
-        userRole = ImmutableUserRole.builder()
-            .userId(userId)
-            .roleId(roleId)
-            .build();
-        validatorAddUserRole.validate(userRole);
+        readUser = userRepository.findById(userId);
+
+        if (readUser.isEmpty()) {
+            throw new MissingUserIdException(roleId);
+        }
+
+        readRole = roleRepository.findById(roleId);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(roleId);
+        }
 
         userRoleSample = getUserRoleSample(userId, roleId);
 
@@ -92,28 +97,37 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     @Override
     public final Iterable<Role> getAvailableRoles(final long userId, final Pageable pageable) {
-        return roleRepository.findAvailableToUser(userId, pageable);
+        return roleRepository.findAvailableToUser(userId, pageable)
+            .map(this::toDto);
     }
 
     @Override
     public final Iterable<Role> getRoles(final long userId, final Pageable pageable) {
         log.debug("Getting roles for user {} and pagination {}", userId, pageable);
 
-        return roleRepository.findForUser(userId, pageable);
+        return roleRepository.findForUser(userId, pageable)
+            .map(this::toDto);
     }
 
     @Override
     public final UserRole removeRole(final long userId, final long roleId) {
-        final UserRoleEntity userRoleSample;
-        final UserRole       userRole;
+        final UserRoleEntity       userRoleSample;
+        final Optional<RoleEntity> readRole;
+        final Optional<UserEntity> readUser;
 
         log.debug("Removing role {} from user {}", roleId, userId);
 
-        userRole = ImmutableUserRole.builder()
-            .userId(userId)
-            .roleId(roleId)
-            .build();
-        validatorRemoveUserRole.validate(userRole);
+        readUser = userRepository.findById(userId);
+
+        if (readUser.isEmpty()) {
+            throw new MissingUserIdException(roleId);
+        }
+
+        readRole = roleRepository.findById(roleId);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(roleId);
+        }
 
         userRoleSample = getUserRoleSample(userId, roleId);
 
@@ -125,15 +139,22 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     private final UserRoleEntity getUserRoleSample(final long user, final long role) {
         return UserRoleEntity.builder()
-            .userId(user)
-            .roleId(role)
+            .withUserId(user)
+            .withRoleId(role)
+            .build();
+    }
+
+    private final Role toDto(final RoleEntity role) {
+        return Role.builder()
+            .withId(role.getId())
+            .withName(role.getName())
             .build();
     }
 
     private final UserRole toDto(final UserRoleEntity role) {
-        return ImmutableUserRole.builder()
-            .roleId(role.getRoleId())
-            .userId(role.getUserId())
+        return UserRole.builder()
+            .withRoleId(role.getRoleId())
+            .withUserId(role.getUserId())
             .build();
     }
 

@@ -4,7 +4,7 @@ package com.bernardomg.security.login.test.service.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.time.Duration;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -13,16 +13,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
-import com.bernardomg.security.login.model.LoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
+import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
+import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -33,36 +33,39 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 class TestTokenLoginServiceFailure {
 
     @Mock
-    private PasswordEncoder                 passEncoder;
+    private ApplicationEventPublisher    eventPublisher;
 
     @Mock
-    private TokenEncoder                    tokenEncoder;
+    private PasswordEncoder              passEncoder;
 
     @Mock
-    private UserDetailsService              userDetService;
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
-    private UserGrantedPermissionRepository userGrantedPermissionRepository;
+    private TokenEncoder                 tokenEncoder;
 
     @Mock
-    private UserRepository                  userRepository;
+    private UserDetailsService           userDetService;
+
+    @Mock
+    private UserRepository               userRepository;
 
     public TestTokenLoginServiceFailure() {
         super();
     }
 
     private final TokenLoginService getService(final UserDetails user) {
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
             Duration.ZERO);
 
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
     }
 
     private final TokenLoginService getServiceWithNullUser() {
@@ -72,19 +75,12 @@ class TestTokenLoginServiceFailure {
     @Test
     @DisplayName("When the user details service returns a null the login fails")
     void testLogIn_NullUser() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
 
-        login = new LoginRequest();
-        login.setUsername("admin");
-        login.setPassword("1234");
+        status = getServiceWithNullUser().login(Users.USERNAME, Users.PASSWORD);
 
-        status = getServiceWithNullUser().login(login);
-
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo("admin");
     }
 
 }

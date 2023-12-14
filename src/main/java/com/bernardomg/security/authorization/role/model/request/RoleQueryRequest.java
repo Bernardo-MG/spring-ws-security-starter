@@ -30,9 +30,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(setterPrefix = "with")
 public final class RoleQueryRequest implements RoleQuery {
 
     private String name;

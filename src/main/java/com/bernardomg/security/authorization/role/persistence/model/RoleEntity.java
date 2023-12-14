@@ -32,7 +32,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,12 +45,10 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "Role")
 @Table(name = "roles")
-@TableGenerator(name = "seq_roles_id", table = "sequences", pkColumnName = "sequence", valueColumnName = "count",
-        allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(setterPrefix = "with")
 public class RoleEntity implements Serializable {
 
     /**
@@ -63,7 +60,7 @@ public class RoleEntity implements Serializable {
      * Entity id.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seq_roles_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long              id;
 

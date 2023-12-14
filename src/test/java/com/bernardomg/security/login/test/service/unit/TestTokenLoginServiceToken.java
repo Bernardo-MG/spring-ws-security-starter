@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,12 +25,9 @@ import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.permission.persistence.repository.UserGrantedPermissionRepository;
+import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
-import com.bernardomg.security.login.model.LoginStatus;
 import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.model.request.Login;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
@@ -40,28 +38,31 @@ import com.bernardomg.security.login.service.springframework.SpringValidLoginPre
 class TestTokenLoginServiceToken {
 
     @Mock
-    private PasswordEncoder                 passEncoder;
+    private ApplicationEventPublisher    eventPublisher;
 
     @Mock
-    private TokenEncoder                    tokenEncoder;
+    private PasswordEncoder              passEncoder;
 
     @Mock
-    private UserDetailsService              userDetService;
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
-    private UserGrantedPermissionRepository userGrantedPermissionRepository;
+    private TokenEncoder                 tokenEncoder;
 
     @Mock
-    private UserRepository                  userRepository;
+    private UserDetailsService           userDetService;
+
+    @Mock
+    private UserRepository               userRepository;
 
     public TestTokenLoginServiceToken() {
         super();
     }
 
     private final TokenLoginService getService(final Boolean match) {
-        final UserDetails       user;
-        final Predicate<Login>  valid;
-        final LoginTokenEncoder loginTokenEncoder;
+        final UserDetails                 user;
+        final BiPredicate<String, String> valid;
+        final LoginTokenEncoder           loginTokenEncoder;
 
         user = new User("username", "password", true, true, true, true, Collections.emptyList());
 
@@ -71,10 +72,10 @@ class TestTokenLoginServiceToken {
 
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userGrantedPermissionRepository,
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
             Duration.ZERO);
 
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
     }
 
     private final void loadUser() {
@@ -90,48 +91,31 @@ class TestTokenLoginServiceToken {
     @Test
     @DisplayName("Returns a token login status when the user is logged")
     void testLogin_Logged() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
 
         loadUser();
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
+        status = getService(true).login(Users.EMAIL, Users.PASSWORD);
 
-        status = getService(true).login(login);
-
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(((TokenLoginStatus) status).getToken())
+        Assertions.assertThat(status.getToken())
             .isEqualTo(UserTokenConstants.TOKEN);
     }
 
     @Test
     @DisplayName("Returns a default login status when the user is logged")
     void testLogin_NotLogged() {
-        final LoginStatus  status;
-        final LoginRequest login;
+        final TokenLoginStatus status;
 
         loadUser();
 
-        login = new LoginRequest();
-        login.setUsername(Users.EMAIL);
-        login.setPassword(Users.PASSWORD);
+        status = getService(false).login(Users.EMAIL, Users.PASSWORD);
 
-        status = getService(false).login(login);
-
-        Assertions.assertThat(status)
-            .isNotInstanceOf(TokenLoginStatus.class);
-
-        Assertions.assertThat(status.getLogged())
+        Assertions.assertThat(status.isLogged())
             .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
     }
 
 }

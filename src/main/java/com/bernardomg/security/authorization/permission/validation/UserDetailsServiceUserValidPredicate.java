@@ -25,6 +25,7 @@
 package com.bernardomg.security.authorization.permission.validation;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -32,7 +33,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -55,10 +55,10 @@ public final class UserDetailsServiceUserValidPredicate implements Predicate<Str
 
     private final UserDetailsService userDetailsService;
 
-    public UserDetailsServiceUserValidPredicate(@NonNull final UserDetailsService userDetService) {
+    public UserDetailsServiceUserValidPredicate(final UserDetailsService userDetService) {
         super();
 
-        userDetailsService = userDetService;
+        userDetailsService = Objects.requireNonNull(userDetService);
     }
 
     @Override

@@ -3,11 +3,9 @@ package com.bernardomg.security.authentication.jwt.token;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.security.authentication.jwt.token.model.ImmutableJwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 
 import io.jsonwebtoken.Claims;
@@ -40,8 +38,6 @@ public final class JjwtTokenDecoder implements TokenDecoder {
     public JjwtTokenDecoder(final SecretKey secretKey) {
         super();
 
-        Objects.requireNonNull(secretKey);
-
         parser = Jwts.parserBuilder()
             .setSigningKey(secretKey)
             .build();
@@ -59,6 +55,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         claims = parser.parseClaimsJws(token)
             .getBody();
 
+        // Issued at
         if (claims.getIssuedAt() != null) {
             issuedAt = claims.getIssuedAt()
                 .toInstant()
@@ -67,6 +64,8 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         } else {
             issuedAt = null;
         }
+
+        // Expiration
         if (claims.getExpiration() != null) {
             expiration = claims.getExpiration()
                 .toInstant()
@@ -75,6 +74,8 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         } else {
             expiration = null;
         }
+
+        // Not before
         if (claims.getNotBefore() != null) {
             notBefore = claims.getNotBefore()
                 .toInstant()
@@ -84,7 +85,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
             notBefore = null;
         }
 
-        return ImmutableJwtTokenData.builder()
+        return JwtTokenData.builder()
             .withId(claims.getId())
             .withSubject(claims.getSubject())
             .withAudience(claims.getAudience())
