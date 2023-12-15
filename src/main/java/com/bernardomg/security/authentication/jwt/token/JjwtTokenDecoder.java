@@ -3,21 +3,18 @@ package com.bernardomg.security.authentication.jwt.token;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.SignatureException;
 
 /**
- * Token decoder based on the JJWT library.
+ * JWT token decoder based on the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -25,35 +22,48 @@ import io.jsonwebtoken.security.SignatureException;
 public final class JjwtTokenDecoder implements TokenDecoder {
 
     /**
-     * JWTS parser for reading tokens.
+     * JWT parser for reading tokens.
      */
     private final JwtParser parser;
 
     /**
-     * Builds a decoder with the received key.
+     * Builds a decoder with the received parser.
      *
-     * @param secretKey
-     *            secret key used for the token
+     * @param prsr
+     *            JWT parser
      */
-    public JjwtTokenDecoder(final SecretKey secretKey) {
+    public JjwtTokenDecoder(final JwtParser prsr) {
         super();
 
-        parser = Jwts.parserBuilder()
-            .setSigningKey(secretKey)
+        parser = Objects.requireNonNull(prsr);
+    }
+
+    /**
+     * Builds a decoder with the received key.
+     *
+     * @param key
+     *            secret key for the token
+     */
+    public JjwtTokenDecoder(final SecretKey key) {
+        super();
+
+        Objects.requireNonNull(key);
+
+        parser = Jwts.parser()
+            .verifyWith(key)
             .build();
     }
 
     @Override
-    public final JwtTokenData decode(final String token) throws ExpiredJwtException, UnsupportedJwtException,
-            MalformedJwtException, SignatureException, IllegalArgumentException {
+    public final JwtTokenData decode(final String token) {
         final Claims        claims;
         final LocalDateTime issuedAt;
         final LocalDateTime expiration;
         final LocalDateTime notBefore;
 
         // Acquire claims
-        claims = parser.parseClaimsJws(token)
-            .getBody();
+        claims = parser.parseSignedClaims(token)
+            .getPayload();
 
         // Issued at
         if (claims.getIssuedAt() != null) {
@@ -85,6 +95,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
             notBefore = null;
         }
 
+        // TODO: And the permissions?
         return JwtTokenData.builder()
             .withId(claims.getId())
             .withSubject(claims.getSubject())

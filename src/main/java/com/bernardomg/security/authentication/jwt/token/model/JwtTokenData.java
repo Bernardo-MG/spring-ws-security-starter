@@ -25,6 +25,7 @@
 package com.bernardomg.security.authentication.jwt.token.model;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class JwtTokenData {
     /**
      * Audience.
      */
-    private final String                    audience;
+    private final Collection<String>        audience;
 
     /**
      * Expiration date.

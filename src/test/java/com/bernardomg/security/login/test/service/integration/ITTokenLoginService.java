@@ -170,12 +170,12 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        parser = Jwts.parserBuilder()
-            .setSigningKey(TokenConstants.KEY)
+        parser = Jwts.parser()
+            .verifyWith(TokenConstants.KEY)
             .build();
 
-        claims = parser.parseClaimsJws(status.getToken())
-            .getBody();
+        claims = parser.parseSignedClaims(status.getToken())
+            .getPayload();
 
         Assertions.assertThat(claims.getSubject())
             .isEqualTo(Users.USERNAME);
