@@ -59,14 +59,14 @@ public final class WhitelistCustomizer implements
     @Override
     public void customize(
             final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry t) {
-        final MvcRequestMatcher.Builder                               mvc;
+        final MvcRequestMatcher.Builder                               requestBuilder;
         final Collection<MvcRequestMatcher>                           matchers;
         final Function<WhitelistRoute, Collection<MvcRequestMatcher>> matcherMapper;
 
         log.debug("Whitelisting routes: {}", whitelist);
 
-        mvc = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
-        matcherMapper = w -> toMatcher(mvc, w);
+        requestBuilder = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
+        matcherMapper = w -> toMatcher(requestBuilder, w);
 
         matchers = whitelist.stream()
             .map(matcherMapper)
@@ -77,17 +77,26 @@ public final class WhitelistCustomizer implements
             .permitAll();
     }
 
-    private final Collection<MvcRequestMatcher> toMatcher(final MvcRequestMatcher.Builder mvc,
-            final WhitelistRoute whitelist) {
+    /**
+     * Transforms the route into request matchers. One for each method.
+     *
+     * @param requestBuilder
+     *            request matcher builder
+     * @param route
+     *            whitelist route
+     * @return request matchers for the route
+     */
+    private final Collection<MvcRequestMatcher> toMatcher(final MvcRequestMatcher.Builder requestBuilder,
+            final WhitelistRoute route) {
         final Collection<MvcRequestMatcher> matchers;
 
-        if (whitelist.getMethods()
+        if (route.getMethods()
             .isEmpty()) {
-            matchers = List.of(mvc.pattern(whitelist.getRoute()));
+            matchers = List.of(requestBuilder.pattern(route.getRoute()));
         } else {
-            matchers = whitelist.getMethods()
+            matchers = route.getMethods()
                 .stream()
-                .map(m -> mvc.pattern(m, whitelist.getRoute()))
+                .map(m -> requestBuilder.pattern(m, route.getRoute()))
                 .toList();
         }
 
