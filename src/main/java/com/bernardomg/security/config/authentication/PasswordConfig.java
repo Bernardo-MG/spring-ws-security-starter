@@ -29,6 +29,7 @@ import java.security.SecureRandom;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,6 +44,7 @@ import com.bernardomg.security.authorization.token.persistence.repository.UserTo
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
+import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
  * Password handling configuration.
@@ -82,6 +84,11 @@ public class PasswordConfig {
 
         return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore,
             passwordEncoder);
+    }
+
+    @Bean("passwordResetWhitelist")
+    public WhitelistRoute getPasswordResetWhitelist() {
+        return WhitelistRoute.of("/password/reset/**", HttpMethod.GET, HttpMethod.POST);
     }
 
 }

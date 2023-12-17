@@ -31,6 +31,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -47,6 +48,7 @@ import com.bernardomg.security.login.service.LoginService;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
  * Login configuration.
@@ -63,8 +65,8 @@ public class LoginConfig {
         super();
     }
 
-    @Bean("loginEvenRegisterListener")
-    public LoginEvenRegisterListener getLoginEvenRegisterListener(final LoginRegisterService loginRegisterService) {
+    @Bean("loginEventRegisterListener")
+    public LoginEvenRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {
         return new LoginEvenRegisterListener(loginRegisterService);
     }
 
@@ -87,6 +89,11 @@ public class LoginConfig {
             properties.getValidity());
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, publisher);
+    }
+
+    @Bean("loginWhitelist")
+    public WhitelistRoute getLoginWhitelist() {
+        return WhitelistRoute.of("/login/**", HttpMethod.POST);
     }
 
 }

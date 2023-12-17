@@ -28,6 +28,7 @@ import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
@@ -40,6 +41,7 @@ import com.bernardomg.security.authorization.token.persistence.repository.UserTo
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
+import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
  * Password handling configuration.
@@ -71,6 +73,11 @@ public class UserConfig {
     @Bean("userQueryService")
     public UserQueryService getUserQueryService(final UserRepository userRepo) {
         return new DefaultUserQueryService(userRepo);
+    }
+
+    @Bean("userWhitelist")
+    public WhitelistRoute getUserWhitelist() {
+        return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
     }
 
 }
