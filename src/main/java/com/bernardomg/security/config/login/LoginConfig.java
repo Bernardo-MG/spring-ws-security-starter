@@ -93,7 +93,7 @@ public class LoginConfig {
 
     @Bean("loginWhitelist")
     public WhitelistRoute getLoginWhitelist() {
-        return WhitelistRoute.of("/actuator/**", HttpMethod.POST);
+        return WhitelistRoute.of("/login/**", HttpMethod.POST);
     }
 
 }

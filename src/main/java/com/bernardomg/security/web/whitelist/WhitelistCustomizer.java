@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -63,7 +64,9 @@ public final class WhitelistCustomizer implements
         final Collection<MvcRequestMatcher>                           matchers;
         final Function<WhitelistRoute, Collection<MvcRequestMatcher>> matcherMapper;
 
-        log.debug("Whitelisting routes: {}", whitelist);
+        if (log.isDebugEnabled()) {
+            whitelist.forEach(this::logRoute);
+        }
 
         requestBuilder = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
         matcherMapper = w -> toMatcher(requestBuilder, w);
@@ -75,6 +78,27 @@ public final class WhitelistCustomizer implements
 
         t.requestMatchers(matchers.toArray(new RequestMatcher[matchers.size()]))
             .permitAll();
+    }
+
+    /**
+     * Logs whitelisted route.
+     *
+     * @param route
+     *            whitelisted route to log
+     */
+    private final void logRoute(final WhitelistRoute route) {
+        final String methods;
+
+        if (route.getMethods()
+            .isEmpty()) {
+            methods = "*";
+        } else {
+            methods = route.getMethods()
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(","));
+        }
+        log.debug("Whitelisting route {} for methods {}", route.getRoute(), methods);
     }
 
     /**
