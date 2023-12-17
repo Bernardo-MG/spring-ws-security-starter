@@ -25,11 +25,11 @@
 package com.bernardomg.security.config.web;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,13 +41,13 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.bernardomg.security.authentication.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
+import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
+import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,6 +70,11 @@ public class WebSecurityConfig {
         super();
     }
 
+    @Bean("actuatorWhitelist")
+    public WhitelistRoute getLoginWhitelist() {
+        return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
+    }
+
     /**
      * Web security filter chain. Sets up all the authentication requirements for requests.
      *
@@ -81,6 +86,8 @@ public class WebSecurityConfig {
      *            CORS properties
      * @param securityConfigurers
      *            security configurers
+     * @param whitelist
+     *            routes whitelist
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
@@ -88,25 +95,14 @@ public class WebSecurityConfig {
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
             final HandlerMappingIntrospector handlerMappingIntrospector, final CorsProperties corsProperties,
-            final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers)
-            throws Exception {
+            final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
+            final Collection<WhitelistRoute> whitelist) throws Exception {
         final CorsConfigurationSource                                                                              corsConfigurationSource;
-        final MvcRequestMatcher.Builder                                                                            mvc;
-        final Collection<String>                                                                                   whitelist;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
 
-        mvc = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
-        // TODO: The routes should be defined by the modules
-        // TODO: Add the HTTP method
-        whitelist = List.of("/actuator/**", "/login/**", "/password/reset/**", "/security/user/activate/**");
-        log.debug("Whitelisting routes: {}", whitelist);
-        whitelister = c -> c.requestMatchers(whitelist.stream()
-            .map(mvc::pattern)
-            .toList()
-            .toArray(new RequestMatcher[whitelist.size()]))
-            .permitAll();
+        whitelister = new WhitelistCustomizer(whitelist, handlerMappingIntrospector);
         http
             // Whitelist access
             .authorizeHttpRequests(whitelister)
