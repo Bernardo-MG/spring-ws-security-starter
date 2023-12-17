@@ -105,7 +105,8 @@ public class WebSecurityConfig {
         whitelister = c -> c.requestMatchers(whitelist.stream()
             .map(mvc::pattern)
             .toList()
-            .toArray(new RequestMatcher[whitelist.size()]));
+            .toArray(new RequestMatcher[whitelist.size()]))
+            .permitAll();
         http
             // Whitelist access
             .authorizeHttpRequests(whitelister)
