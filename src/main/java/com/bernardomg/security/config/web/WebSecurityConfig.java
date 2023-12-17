@@ -102,9 +102,10 @@ public class WebSecurityConfig {
         // TODO: Add the HTTP method
         whitelist = List.of("/actuator/**", "/login/**", "/password/reset/**", "/security/user/activate/**");
         log.debug("Whitelisting routes: {}", whitelist);
-        whitelister = c -> c.requestMatchers((RequestMatcher[]) whitelist.stream()
+        whitelister = c -> c.requestMatchers(whitelist.stream()
             .map(mvc::pattern)
-            .toArray());
+            .toList()
+            .toArray(new RequestMatcher[whitelist.size()]));
         http
             // Whitelist access
             .authorizeHttpRequests(whitelister)
