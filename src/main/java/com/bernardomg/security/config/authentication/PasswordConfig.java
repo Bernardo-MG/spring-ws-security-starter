@@ -26,7 +26,6 @@ package com.bernardomg.security.config.authentication;
 
 import java.security.SecureRandom;
 
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -52,8 +51,8 @@ import com.bernardomg.security.config.authorization.UserTokenProperties;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authentication.password.change.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.password.reset.controller" })
+@ComponentScan({ "com.bernardomg.security.authentication.password.change.controller",
+        "com.bernardomg.security.authentication.password.reset.controller" })
 public class PasswordConfig {
 
     public PasswordConfig() {
