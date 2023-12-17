@@ -22,64 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.jwt.token.model;
+package com.bernardomg.security.web.whitelist;
 
-import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
+
+import org.springframework.http.HttpMethod;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 /**
- * Immutable implementation of the JWT token data.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Route to whitelist.
  */
 @Value
 @Builder(setterPrefix = "with")
-public class JwtTokenData {
+@EqualsAndHashCode
+public final class WhitelistRoute {
+
+    public static WhitelistRoute of(final String route) {
+        return WhitelistRoute.builder()
+            .withRoute(route)
+            .withMethods(List.of())
+            .build();
+    }
+
+    public static WhitelistRoute of(final String route, final HttpMethod... methods) {
+        for (final HttpMethod method : methods) {
+            Objects.requireNonNull(method);
+        }
+        return WhitelistRoute.builder()
+            .withRoute(route)
+            .withMethods(Arrays.asList(methods))
+            .build();
+    }
 
     /**
-     * Audience.
+     * Methods to whitelist.
      */
-    private final Collection<String>        audience;
+    private final Collection<HttpMethod> methods;
 
     /**
-     * Expiration date.
+     * Route to whitelist.
      */
-    private final LocalDateTime             expiration;
-
-    /**
-     * Id.
-     */
-    private final String                    id;
-
-    /**
-     * Issued at date.
-     */
-    private final LocalDateTime             issuedAt;
-
-    /**
-     * Issuer.
-     */
-    private final String                    issuer;
-
-    /**
-     * Not before date.
-     */
-    private final LocalDateTime             notBefore;
-
-    /**
-     * Permissions.
-     */
-    private final Map<String, List<String>> permissions;
-
-    /**
-     * Subject.
-     */
-    private final String                    subject;
+    private final String                 route;
 
 }

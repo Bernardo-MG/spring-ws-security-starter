@@ -34,11 +34,10 @@ import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Token encoder based on the JJWT library.
+ * JWT token encoder based on the JJWT library.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -72,11 +71,13 @@ public final class JjwtTokenEncoder implements TokenEncoder {
         final JwtBuilder jwtBuilder;
 
         jwtBuilder = Jwts.builder()
-            .setId(data.getId())
-            .setIssuer(data.getIssuer())
-            .setSubject(data.getSubject())
-            .setAudience(data.getAudience())
+            .id(data.getId())
+            .issuer(data.getIssuer())
+            .subject(data.getSubject())
             .claim("permissions", data.getPermissions());
+
+        jwtBuilder.audience()
+            .add(data.getAudience());
 
         // TODO: Use optional
         // Issued at
@@ -84,7 +85,7 @@ public final class JjwtTokenEncoder implements TokenEncoder {
             issuedAt = java.util.Date.from(data.getIssuedAt()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
-            jwtBuilder.setIssuedAt(issuedAt);
+            jwtBuilder.issuedAt(issuedAt);
         }
 
         // Expiration
@@ -92,7 +93,7 @@ public final class JjwtTokenEncoder implements TokenEncoder {
             expiration = java.util.Date.from(data.getExpiration()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
-            jwtBuilder.setExpiration(expiration);
+            jwtBuilder.expiration(expiration);
         }
 
         // Not before
@@ -100,10 +101,10 @@ public final class JjwtTokenEncoder implements TokenEncoder {
             notBefore = java.util.Date.from(data.getNotBefore()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
-            jwtBuilder.setNotBefore(notBefore);
+            jwtBuilder.notBefore(notBefore);
         }
 
-        token = jwtBuilder.signWith(key, SignatureAlgorithm.HS512)
+        token = jwtBuilder.signWith(key, Jwts.SIG.HS512)
             .compact();
 
         log.debug("Created token from {}", data);

@@ -80,6 +80,7 @@ public class NotificatorConfig {
             final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.debug("Using email for security messages");
+        log.debug("From mail: {}", properties.getFrom());
         log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
             .getUrl());
         return new SpringMailPasswordNotificator(templateEng, mailSender, properties.getFrom(),
@@ -94,6 +95,7 @@ public class NotificatorConfig {
             final UserNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.debug("Using email for security messages");
+        log.debug("From mail: {}", properties.getFrom());
         log.debug("Activate user URL: {}", properties.getActivateUser()
             .getUrl());
         return new SpringMailUserNotificator(templateEng, mailSender, properties.getFrom(), properties.getActivateUser()

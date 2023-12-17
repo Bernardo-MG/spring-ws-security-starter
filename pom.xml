@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.1.6</version>
+   <version>0.1.7</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -183,12 +183,13 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.1.1</bernardomg.framework.ws.version>
-      <jjwt.version>0.11.5</jjwt.version>
-      <lombok.version>1.18.28</lombok.version>
-      <spring.boot.version>3.1.5</spring.boot.version>
-      <spring.data.version>2023.0.0</spring.data.version>
-      <spring.version>6.0.13</spring.version>
+      <bernardomg.framework.ws.version>0.1.2</bernardomg.framework.ws.version>
+      <jjwt.version>0.12.3</jjwt.version>
+      <lombok.version>1.18.30</lombok.version>
+      <micrometer.version>1.12.1</micrometer.version>
+      <spring.boot.version>3.2.0</spring.boot.version>
+      <spring.data.version>2023.1.0</spring.data.version>
+      <spring.version>6.1.2</spring.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
@@ -547,9 +548,16 @@
       <!-- =========== VERSION ENFORCEMENT ============== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Byte Buddy -->
-         <groupId>net.bytebuddy</groupId>
-         <artifactId>byte-buddy</artifactId>
+         <!-- Micrometer Observation -->
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-observation</artifactId>
+         <version>${micrometer.version}</version>
+      </dependency>
+      <dependency>
+         <!-- Micrometer Commons -->
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-commons</artifactId>
+         <version>${micrometer.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
