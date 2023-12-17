@@ -25,13 +25,16 @@
 package com.bernardomg.security.config.web;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
@@ -39,6 +42,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
@@ -86,20 +90,24 @@ public class WebSecurityConfig {
             final HandlerMappingIntrospector handlerMappingIntrospector, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers)
             throws Exception {
-        final CorsConfigurationSource   corsConfigurationSource;
-        final MvcRequestMatcher.Builder mvc;
+        final CorsConfigurationSource                                                                              corsConfigurationSource;
+        final MvcRequestMatcher.Builder                                                                            mvc;
+        final Collection<String>                                                                                   whitelist;
+        final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
 
         mvc = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
         // TODO: The routes should be defined by the modules
         // TODO: Add the HTTP method
+        whitelist = List.of("/actuator/**", "/login/**", "/password/reset/**", "/security/user/activate/**");
+        log.debug("Whitelisting routes: {}", whitelist);
+        whitelister = c -> c.requestMatchers((RequestMatcher[]) whitelist.stream()
+            .map(mvc::pattern)
+            .toArray());
         http
             // Whitelist access
-            .authorizeHttpRequests(c -> c
-                .requestMatchers(mvc.pattern("/actuator/**"), mvc.pattern("/login/**"),
-                    mvc.pattern("/password/reset/**"), mvc.pattern("/security/user/activate/**"))
-                .permitAll())
+            .authorizeHttpRequests(whitelister)
             // Authenticate all others
             .authorizeHttpRequests(c -> c.anyRequest()
                 .authenticated())
