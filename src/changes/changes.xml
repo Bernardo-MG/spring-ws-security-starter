@@ -36,7 +36,7 @@
             Scans for controllers.
          </action>
       </release>
-      <release version="0.1.6" date="2023-12-13" description="">
+      <release version="0.1.6" date="2023-12-13" description="Fixed user handling">
          <action dev="bmg" type="add">
             Registers logins.
          </action>
@@ -49,6 +49,8 @@
          <action dev="remove" type="fix">
             Removed permissions view.
          </action>
+      </release>
+      <release version="1.0.0" date="2023-12-13" description="">
       </release>
    </body>
 </document>
