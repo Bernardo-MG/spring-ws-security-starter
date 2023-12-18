@@ -46,7 +46,7 @@
          <action dev="bmg" type="fix">
             Login no longer returns username.
          </action>
-         <action dev="remove" type="fix">
+         <action dev="bmg" type="remove">
             Removed permissions view.
          </action>
       </release>
@@ -54,11 +54,14 @@
          <action dev="bmg" type="add">
             Route whitelisting.
          </action>
-         <action dev="remove" type="fix">
+         <action dev="bmg" type="fix">
             Fixed configuration problems.
          </action>
       </release>
-      <release version="1.0.0" date="2023-12-13" description="">
+      <release version="0.1.8" date="2023-12-18" description="Fixed caches">
+         <action dev="remove" type="fix">
+            Fixed cache index.
+         </action>
       </release>
    </body>
 </document>
