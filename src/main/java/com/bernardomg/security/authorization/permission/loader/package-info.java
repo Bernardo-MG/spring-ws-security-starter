@@ -22,24 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.loader;
+/**
+ * Permission loader.
+ */
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder(setterPrefix = "with")
-public final class ResourcePermissionPair {
-
-    public static final ResourcePermissionPair of(final String resource, final String action) {
-        return ResourcePermissionPair.builder()
-            .withAction(action)
-            .withResource(resource)
-            .build();
-    }
-
-    private final String action;
-
-    private final String resource;
-
-}
+package com.bernardomg.security.authorization.permission.loader;
