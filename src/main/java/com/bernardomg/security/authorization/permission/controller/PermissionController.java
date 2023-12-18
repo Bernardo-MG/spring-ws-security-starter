@@ -80,7 +80,7 @@ public class PermissionController {
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")
-    @Cacheable(cacheNames = PermissionCaches.PERMISSION, key = "#permissionId")
+    @Cacheable(cacheNames = PermissionCaches.PERMISSION, key = "#p0")
     public ResourcePermission readOne(@PathVariable("id") final long permissionId) {
         return service.getOne(permissionId)
             .orElse(null);

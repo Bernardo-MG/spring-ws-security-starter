@@ -93,7 +93,7 @@ public class RoleController {
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true),
-            @CacheEvict(cacheNames = RoleCaches.ROLE, key = "#roleId") })
+            @CacheEvict(cacheNames = RoleCaches.ROLE, key = "#p0") })
     public void delete(@PathVariable("id") final long roleId) {
         service.delete(roleId);
     }
@@ -123,7 +123,7 @@ public class RoleController {
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = RoleCaches.ROLE, key = "#roleId")
+    @Cacheable(cacheNames = RoleCaches.ROLE, key = "#p0")
     public Role readOne(@PathVariable("id") final long roleId) {
         return service.getOne(roleId)
             .orElse(null);
