@@ -50,10 +50,10 @@ public interface PermissionService {
     /**
      * Reads a single permission by its id.
      *
-     * @param id
+     * @param permissionId
      *            id of the permission to read
      * @return the permission for the id, or {@code null} if it doesn't exist
      */
-    public Optional<ResourcePermission> getOne(final long id);
+    public Optional<ResourcePermission> getOne(final long permissionId);
 
 }

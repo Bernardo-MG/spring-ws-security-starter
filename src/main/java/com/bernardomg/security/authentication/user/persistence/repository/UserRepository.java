@@ -50,13 +50,13 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     /**
      * Returns whether an user with the given email exists, ignoring a specific user.
      *
-     * @param id
+     * @param userId
      *            id of the user to ignore
      * @param email
      *            email to search for
      * @return {@code true} if a user exists, {@code false} otherwise
      */
-    public boolean existsByIdNotAndEmail(final Long id, final String email);
+    public boolean existsByIdNotAndEmail(final Long userId, final String email);
 
     /**
      * Returns whether an user with the given username exists.

@@ -118,7 +118,7 @@ public class RolePermissionController {
     /**
      * Removes a permission from a role.
      *
-     * @param id
+     * @param permissionId
      *            role id
      * @param permission
      *            permission to remove
@@ -128,9 +128,9 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long id,
+    public RolePermission remove(@PathVariable("id") final long permissionId,
             @PathVariable("permission") final String permission) {
-        return service.removePermission(id, permission);
+        return service.removePermission(permissionId, permission);
     }
 
 }

@@ -63,7 +63,7 @@ public class UserTokenController {
     /**
      * Applies a partial change into a user token.
      *
-     * @param id
+     * @param tokenId
      *            id for the user token to patch
      * @param request
      *            partial change to apply
@@ -71,8 +71,8 @@ public class UserTokenController {
      */
     @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
-    public UserToken patch(@PathVariable("id") final long id, @RequestBody final UserTokenPartialRequest request) {
-        return service.patch(id, request);
+    public UserToken patch(@PathVariable("id") final long tokenId, @RequestBody final UserTokenPartialRequest request) {
+        return service.patch(tokenId, request);
     }
 
     /**
@@ -92,15 +92,15 @@ public class UserTokenController {
     /**
      * Reads a single user token. Otherwise {@code null} is returned.
      *
-     * @param id
+     * @param tokenId
      *            id for the user token to read
      * @return the user token for the id, if it exists, or {@code null} otherwise
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
-    public UserToken readOne(@PathVariable("id") final long id) {
+    public UserToken readOne(@PathVariable("id") final long tokenId) {
         // TODO: Apply cache
-        return service.getOne(id);
+        return service.getOne(tokenId);
     }
 
 }

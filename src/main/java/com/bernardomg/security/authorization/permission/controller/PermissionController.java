@@ -74,15 +74,15 @@ public class PermissionController {
     /**
      * Reads a single permission by its id.
      *
-     * @param id
+     * @param permissionId
      *            id of the permission to read
      * @return the permission for the id, or {@code null} if it doesn't exist
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "RESOURCE", action = "READ")
-    @Cacheable(cacheNames = PermissionCaches.PERMISSION, key = "#id")
-    public ResourcePermission readOne(@PathVariable("id") final long id) {
-        return service.getOne(id)
+    @Cacheable(cacheNames = PermissionCaches.PERMISSION, key = "#permissionId")
+    public ResourcePermission readOne(@PathVariable("id") final long permissionId) {
+        return service.getOne(permissionId)
             .orElse(null);
     }
 
