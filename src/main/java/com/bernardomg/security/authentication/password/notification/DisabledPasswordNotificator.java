@@ -24,9 +24,12 @@
 
 package com.bernardomg.security.authentication.password.notification;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Disabled password notificator. For disabling emailing.
  */
+@Slf4j
 public final class DisabledPasswordNotificator implements PasswordNotificator {
 
     public DisabledPasswordNotificator() {
@@ -36,6 +39,7 @@ public final class DisabledPasswordNotificator implements PasswordNotificator {
     @Override
     public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
         // To avoid sending emails
+        log.warn("Disabled email messages");
     }
 
 }
