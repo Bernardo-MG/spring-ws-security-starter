@@ -36,11 +36,14 @@ import com.bernardomg.security.authorization.permission.persistence.repository.A
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourceRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionRegister}.
  * <p>
  * The {@link #load()} method takes care of persisting all the data.
  */
+@Slf4j
 public final class PermissionsLoader {
 
     private final ActionRepository               actionRepository;
@@ -91,6 +94,7 @@ public final class PermissionsLoader {
             .build();
         example = Example.of(actionEntity);
         if (!actionRepository.exists(example)) {
+            log.debug("Saving action {}", action);
             actionRepository.save(actionEntity);
         }
     }
@@ -106,6 +110,7 @@ public final class PermissionsLoader {
             .build();
         example = Example.of(resourcePermissionEntity);
         if (!resourcePermissionRepository.exists(example)) {
+            log.debug("Saving permission {}:{}", pair.getResource(), pair.getAction());
             resourcePermissionRepository.save(resourcePermissionEntity);
         }
     }
@@ -119,6 +124,7 @@ public final class PermissionsLoader {
             .build();
         example = Example.of(resourceEntity);
         if (!resourceRepository.exists(example)) {
+            log.debug("Saving resource {}", resource);
             resourceRepository.save(resourceEntity);
         }
     }
