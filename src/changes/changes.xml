@@ -50,9 +50,6 @@
             Removed permissions view.
          </action>
       </release>
-<<<<<<< HEAD
-      <release version="1.0.0" date="2023-12-13" description="">
-=======
       <release version="0.1.7" date="2023-12-17" description="Route whitelist">
          <action dev="bmg" type="add">
             Route whitelisting.
@@ -60,7 +57,8 @@
          <action dev="remove" type="fix">
             Fixed configuration problems.
          </action>
->>>>>>> refs/remotes/origin/master
+      </release>
+      <release version="1.0.0" date="2023-12-13" description="">
       </release>
    </body>
 </document>
