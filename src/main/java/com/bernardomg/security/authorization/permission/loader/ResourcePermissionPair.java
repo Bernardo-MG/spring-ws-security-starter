@@ -22,35 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.loader;
+package com.bernardomg.security.authorization.permission.loader;
 
-import java.util.Collection;
+import lombok.Builder;
+import lombok.Value;
 
-/**
- * Permission register. Contains permission info to persist. The actions and resources are expected to be new. The
- * permissions are expected to be for existing actions and resources.
- */
-public interface PermissionRegister {
+@Value
+@Builder(setterPrefix = "with")
+public final class ResourcePermissionPair {
 
-    /**
-     * Returns the actions to register.
-     *
-     * @return the actions to register
-     */
-    public Collection<String> getActions();
+    public static final ResourcePermissionPair of(final String resource, final String action) {
+        return ResourcePermissionPair.builder()
+            .withAction(action)
+            .withResource(resource)
+            .build();
+    }
 
-    /**
-     * Returns the permissions to register.
-     *
-     * @return the permissions to register
-     */
-    public Collection<ResourcePermissionPair> getPermissions();
+    private final String action;
 
-    /**
-     * Returns the resources to register.
-     *
-     * @return the resources to register
-     */
-    public Collection<String> getResources();
+    private final String resource;
 
 }

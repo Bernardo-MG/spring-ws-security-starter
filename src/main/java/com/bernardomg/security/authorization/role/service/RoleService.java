@@ -52,10 +52,10 @@ public interface RoleService {
     /**
      * Deletes the role with the received id.
      *
-     * @param id
+     * @param roleId
      *            id of the role to delete
      */
-    public void delete(final long id);
+    public void delete(final long roleId);
 
     /**
      * Returns all the roles matching the sample. If the sample fields are empty, then all the roles are returned.
@@ -71,21 +71,21 @@ public interface RoleService {
     /**
      * Returns the role for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param id
+     * @param roleId
      *            id of the role to acquire
      * @return an {@code Optional} with the role, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Role> getOne(final long id);
+    public Optional<Role> getOne(final long roleId);
 
     /**
      * Updates the role for the received id with the received data.
      *
-     * @param id
+     * @param roleId
      *            id of the role to update
      * @param role
      *            new data for the role
      * @return the updated role
      */
-    public Role update(final long id, final RoleUpdate role);
+    public Role update(final long roleId, final RoleUpdate role);
 
 }

@@ -96,7 +96,7 @@ public final class WhitelistCustomizer implements
             methods = route.getMethods()
                 .stream()
                 .map(Object::toString)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(", "));
         }
         log.debug("Whitelisting route {} for methods {}", route.getRoute(), methods);
     }

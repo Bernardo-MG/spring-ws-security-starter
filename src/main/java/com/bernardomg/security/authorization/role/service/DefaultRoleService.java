@@ -86,20 +86,20 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final void delete(final long id) {
+    public final void delete(final long roleId) {
         final Optional<RoleEntity> readRole;
 
-        log.debug("Deleting role {}", id);
+        log.debug("Deleting role {}", roleId);
 
-        readRole = roleRepository.findById(id);
+        readRole = roleRepository.findById(roleId);
 
         if (readRole.isEmpty()) {
-            throw new MissingRoleIdException(id);
+            throw new MissingRoleIdException(roleId);
         }
 
-        validatorDeleteRole.validate(id);
+        validatorDeleteRole.validate(roleId);
 
-        roleRepository.deleteById(id);
+        roleRepository.deleteById(roleId);
     }
 
     @Override
@@ -115,16 +115,16 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Optional<Role> getOne(final long id) {
+    public final Optional<Role> getOne(final long roleId) {
 
-        log.debug("Reading role with id {}", id);
+        log.debug("Reading role with id {}", roleId);
 
         // TODO: Use the read optional
-        if (!roleRepository.existsById(id)) {
-            throw new MissingRoleIdException(id);
+        if (!roleRepository.existsById(roleId)) {
+            throw new MissingRoleIdException(roleId);
         }
 
-        return roleRepository.findById(id)
+        return roleRepository.findById(roleId)
             .map(this::toDto);
     }
 

@@ -24,9 +24,12 @@
 
 package com.bernardomg.security.authentication.user.notification;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Disabled user notificator. For disabling emailing.
  */
+@Slf4j
 public final class DisabledUserNotificator implements UserNotificator {
 
     public DisabledUserNotificator() {
@@ -36,6 +39,7 @@ public final class DisabledUserNotificator implements UserNotificator {
     @Override
     public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
         // To avoid sending emails
+        log.warn("Disabled email messages");
     }
 
 }

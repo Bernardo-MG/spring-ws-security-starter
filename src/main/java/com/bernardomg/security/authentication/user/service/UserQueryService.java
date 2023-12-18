@@ -63,21 +63,21 @@ public interface UserQueryService {
     /**
      * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param id
+     * @param userId
      *            id of the user to acquire
      * @return an {@code Optional} with the user, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<User> getOne(final long id);
+    public Optional<User> getOne(final long userId);
 
     /**
      * Updates the user for the received id with the received data.
      *
-     * @param id
+     * @param userId
      *            id of the user to update
      * @param user
      *            new data for the user
      * @return the updated user
      */
-    public User update(final long id, final UserUpdate user);
+    public User update(final long userId, final UserUpdate user);
 
 }

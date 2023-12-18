@@ -96,15 +96,15 @@ public class UserController {
     /**
      * Deletes a user by its id.
      *
-     * @param id
+     * @param userId
      *            id of the user to delete
      */
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true),
-            @CacheEvict(cacheNames = UserCaches.USER, key = "#id") })
-    public void delete(@PathVariable("id") final long id) {
-        userQueryService.delete(id);
+            @CacheEvict(cacheNames = UserCaches.USER, key = "#p0") })
+    public void delete(@PathVariable("id") final long userId) {
+        userQueryService.delete(userId);
     }
 
     /**
@@ -126,23 +126,23 @@ public class UserController {
     /**
      * Reads a single user by its id.
      *
-     * @param id
+     * @param userId
      *            id of the user to read
      * @return the user for the id, or {@code null} if it doesn't exist
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.USER, key = "#id")
-    public User readOne(@PathVariable("id") final long id) {
+    @Cacheable(cacheNames = UserCaches.USER, key = "#p0")
+    public User readOne(@PathVariable("id") final long userId) {
         // TODO: maybe optionals must be unwrapped automatically
-        return userQueryService.getOne(id)
+        return userQueryService.getOne(userId)
             .orElse(null);
     }
 
     /**
      * Updates a user.
      *
-     * @param id
+     * @param userId
      *            id of the user to update
      * @param request
      *            updated user data
@@ -152,8 +152,8 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User update(@PathVariable("id") final long id, @Valid @RequestBody final UserUpdateRequest request) {
-        return userQueryService.update(id, request);
+    public User update(@PathVariable("id") final long userId, @Valid @RequestBody final UserUpdateRequest request) {
+        return userQueryService.update(userId, request);
     }
 
 }

@@ -129,11 +129,11 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     /**
      * Returns all the authorities for the user.
      *
-     * @param id
+     * @param userId
      *            id of the user
      * @return all the authorities for the user
      */
-    private final List<? extends GrantedAuthority> getAuthorities(final Long id) {
+    private final List<? extends GrantedAuthority> getAuthorities(final Long userId) {
         final Function<ResourcePermissionEntity, ResourceActionGrantedAuthority> toAuthority;
 
         // Maps a persistent permission to an authority
@@ -142,7 +142,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
             .withAction(p.getAction())
             .build();
 
-        return resourcePermissionRepository.findAllForUser(id)
+        return resourcePermissionRepository.findAllForUser(userId)
             .stream()
             .map(toAuthority)
             .distinct()

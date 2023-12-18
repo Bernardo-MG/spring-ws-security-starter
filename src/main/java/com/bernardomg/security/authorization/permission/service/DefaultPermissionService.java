@@ -56,18 +56,18 @@ public final class DefaultPermissionService implements PermissionService {
 
     @Override
     public final Iterable<ResourcePermission> getAll(final Pageable pageable) {
-        log.debug("Reading actions with pagination {}", pageable);
+        log.debug("Reading resources with pagination {}", pageable);
 
         return resourcePermissionRepository.findAll(pageable)
             .map(this::toDto);
     }
 
     @Override
-    public final Optional<ResourcePermission> getOne(final long id) {
+    public final Optional<ResourcePermission> getOne(final long permissionId) {
 
-        log.debug("Reading action with id {}", id);
+        log.debug("Reading resource with id {}", permissionId);
 
-        return resourcePermissionRepository.findById(id)
+        return resourcePermissionRepository.findById(permissionId)
             .map(this::toDto);
     }
 
