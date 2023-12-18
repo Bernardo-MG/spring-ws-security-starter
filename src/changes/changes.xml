@@ -62,6 +62,9 @@
          <action dev="remove" type="fix">
             Fixed cache index.
          </action>
+         <action dev="remove" type="fix">
+            Fixed component scanning.
+         </action>
       </release>
    </body>
 </document>
