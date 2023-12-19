@@ -74,6 +74,7 @@ public final class DefaultPermissionService implements PermissionService {
     private final ResourcePermission toDto(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
             .withId(entity.getId())
+            .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())
             .build();

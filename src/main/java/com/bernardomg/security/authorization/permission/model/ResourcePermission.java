@@ -50,6 +50,12 @@ public final class ResourcePermission {
     private final long   id;
 
     /**
+     * Permission name.
+     */
+    @NonNull
+    private final String name;
+
+    /**
      * Permission resource.
      */
     @NonNull
