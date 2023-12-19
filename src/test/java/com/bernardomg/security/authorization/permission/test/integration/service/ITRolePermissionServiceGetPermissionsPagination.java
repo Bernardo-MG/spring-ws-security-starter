@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.authorization.permission.test.integration.service;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,14 +11,15 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
+import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("Role service - get permissions pagination")
-@RoleWithPermission
+@RoleWithCrudPermissions
 class ITRolePermissionServiceGetPermissionsPagination {
 
     @Autowired
@@ -47,39 +46,29 @@ class ITRolePermissionServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns all the data for the first page")
     void testGetPermissions_Page1_Data() {
-        final Iterator<ResourcePermission> data;
-        final ResourcePermission           result;
+        final Iterable<ResourcePermission> result;
         final Pageable                     pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        data = service.getPermissions(1l, pageable)
-            .iterator();
+        result = service.getPermissions(1l, pageable);
 
-        result = data.next();
-        Assertions.assertThat(result.getResource())
-            .isEqualTo("DATA");
-        Assertions.assertThat(result.getAction())
-            .isEqualTo("CREATE");
+        Assertions.assertThat(result)
+            .containsOnly(ResourcePermissions.create());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
     void testGetPermissions_Page2_Data() {
-        final Iterator<ResourcePermission> data;
-        final ResourcePermission           result;
+        final Iterable<ResourcePermission> result;
         final Pageable                     pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        data = service.getPermissions(1l, pageable)
-            .iterator();
+        result = service.getPermissions(1l, pageable);
 
-        result = data.next();
-        Assertions.assertThat(result.getResource())
-            .isEqualTo("DATA");
-        Assertions.assertThat(result.getAction())
-            .isEqualTo("READ");
+        Assertions.assertThat(result)
+            .containsOnly(ResourcePermissions.read());
     }
 
     @Test
