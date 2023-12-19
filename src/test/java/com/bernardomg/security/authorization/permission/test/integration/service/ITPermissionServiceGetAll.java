@@ -1,9 +1,6 @@
 
 package com.bernardomg.security.authorization.permission.test.integration.service;
 
-import java.util.Collection;
-import java.util.stream.StreamSupport;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.PermissionService;
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -48,23 +46,16 @@ class ITPermissionServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     void testGetAll_Data() {
-        final Iterable<ResourcePermission> data;
+        final Iterable<ResourcePermission> result;
         final Pageable                     pageable;
-        final Collection<String>           names;
 
         pageable = Pageable.unpaged();
 
-        data = service.getAll(pageable);
+        result = service.getAll(pageable);
 
-        names = StreamSupport.stream(data.spliterator(), false)
-            .map(p -> p.getResource() + ":" + p.getAction())
-            .toList();
-
-        Assertions.assertThat(names)
-            .contains("DATA:CREATE")
-            .contains("DATA:READ")
-            .contains("DATA:UPDATE")
-            .contains("DATA:DELETE");
+        Assertions.assertThat(result)
+            .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
+                ResourcePermissions.delete());
     }
 
 }
