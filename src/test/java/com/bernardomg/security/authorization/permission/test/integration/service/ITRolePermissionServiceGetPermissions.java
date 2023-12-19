@@ -20,7 +20,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - get permissions")
+@DisplayName("Role permission service - get permissions")
 class ITRolePermissionServiceGetPermissions {
 
     @Autowired

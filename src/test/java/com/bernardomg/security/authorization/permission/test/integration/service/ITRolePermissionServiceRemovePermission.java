@@ -18,7 +18,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - remove permission")
+@DisplayName("Role permission service - remove permission")
 @RoleWithCrudPermissions
 class ITRolePermissionServiceRemovePermission {
 

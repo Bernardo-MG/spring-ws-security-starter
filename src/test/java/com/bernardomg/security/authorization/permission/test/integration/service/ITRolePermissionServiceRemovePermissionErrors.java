@@ -19,13 +19,13 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role service - remove permission validation")
-class ITRolePermissionServiceRemovePermissionValidation {
+@DisplayName("Role permission service - remove permission - errors")
+class ITRolePermissionServiceRemovePermissionErrors {
 
     @Autowired
     private RolePermissionService service;
 
-    public ITRolePermissionServiceRemovePermissionValidation() {
+    public ITRolePermissionServiceRemovePermissionErrors() {
         super();
     }
 
