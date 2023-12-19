@@ -68,21 +68,33 @@ public final class PermissionsLoader {
      * Persists the permissions.
      */
     public final void load() {
+        log.debug("Begins loading permissions");
+
         // Load actions
+        log.debug("Saving actions");
         permissions.stream()
             .map(PermissionRegister::getActions)
             .flatMap(Collection::stream)
             .forEach(this::saveAction);
+        log.debug("Saved actions");
+
         // Load resources
+        log.debug("Saving resources");
         permissions.stream()
             .map(PermissionRegister::getResources)
             .flatMap(Collection::stream)
             .forEach(this::saveResource);
+        log.debug("Saved resources");
+
         // Load permissions
+        log.debug("Saving permissions");
         permissions.stream()
             .map(PermissionRegister::getPermissions)
             .flatMap(Collection::stream)
             .forEach(this::savePermission);
+        log.debug("Saved permissions");
+
+        log.debug("Finished loading permissions");
     }
 
     private void saveAction(final String action) {
