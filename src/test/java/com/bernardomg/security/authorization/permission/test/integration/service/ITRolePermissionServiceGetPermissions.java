@@ -79,6 +79,7 @@ class ITRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("Returns no permission for a not existing role")
+    @CrudPermissions
     void testGetPermissions_NoRole() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;
