@@ -79,13 +79,13 @@ class ITRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("Returns no permission for a not existing role")
-    void testGetPermissions_NotExisting() {
+    void testGetPermissions_NoRole() {
         final Iterable<ResourcePermission> result;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(-1l, pageable);
+        result = service.getPermissions(1l, pageable);
 
         Assertions.assertThat(result)
             .isEmpty();

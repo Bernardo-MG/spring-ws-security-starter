@@ -18,7 +18,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("Role permission service - get permissions pagination")
+@DisplayName("Role permission service - get permissions - pagination")
 @RoleWithCrudPermissions
 class ITRolePermissionServiceGetPermissionsPagination {
 
