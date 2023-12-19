@@ -30,20 +30,6 @@ class ITPermissionServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    void testGetAll_Count() {
-        final Iterable<ResourcePermission> result;
-        final Pageable                     pageable;
-
-        pageable = Pageable.unpaged();
-
-        result = service.getAll(pageable);
-
-        Assertions.assertThat(result)
-            .hasSize(4);
-    }
-
-    @Test
     @DisplayName("Returns all data")
     void testGetAll_Data() {
         final Iterable<ResourcePermission> result;
