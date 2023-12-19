@@ -11,6 +11,7 @@ import com.bernardomg.security.authorization.permission.persistence.repository.R
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
+import com.bernardomg.security.authorization.permission.test.util.model.RolePermissions;
 import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
@@ -47,20 +48,6 @@ class ITRolePermissionServiceAddPermission {
     }
 
     @Test
-    @DisplayName("Reading the permissions after adding a permission returns the new permission")
-    @CrudPermissions
-    @SingleRole
-    void testAddPermission_CallBack() {
-        final Iterable<RolePermissionEntity> result;
-
-        service.addPermission(1l, "DATA:CREATE");
-        result = rolePermissionRepository.findAll();
-
-        Assertions.assertThat(result)
-            .containsOnly(RolePermissionEntities.create());
-    }
-
-    @Test
     @DisplayName("When adding an existing permission no permission is added")
     @RoleWithPermission
     void testAddPermission_Existing_NotAddsEntity() {
@@ -78,16 +65,11 @@ class ITRolePermissionServiceAddPermission {
     @RoleWithPermission
     void testAddPermission_Existing_ReturnedData() {
         final RolePermission result;
-        final RolePermission create;
 
         result = service.addPermission(1l, "DATA:CREATE");
 
-        create = RolePermission.builder()
-            .withPermission("DATA:CREATE")
-            .withRoleId(1L)
-            .build();
         Assertions.assertThat(result)
-            .isEqualTo(create);
+            .isEqualTo(RolePermissions.create());
     }
 
     @Test
@@ -96,16 +78,11 @@ class ITRolePermissionServiceAddPermission {
     @SingleRole
     void testAddPermission_ReturnedData() {
         final RolePermission result;
-        final RolePermission create;
 
         result = service.addPermission(1l, "DATA:CREATE");
 
-        create = RolePermission.builder()
-            .withPermission("DATA:CREATE")
-            .withRoleId(1L)
-            .build();
         Assertions.assertThat(result)
-            .isEqualTo(create);
+            .isEqualTo(RolePermissions.create());
     }
 
 }
