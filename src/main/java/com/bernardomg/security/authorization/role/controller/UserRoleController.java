@@ -42,7 +42,6 @@ import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.UserRole;
 import com.bernardomg.security.authorization.role.model.request.UserRoleAddRequest;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
 
@@ -80,7 +79,7 @@ public class UserRoleController {
     @CacheEvict(
             cacheNames = { PermissionCaches.PERMISSION_SET, RoleCaches.USER_ROLES, RoleCaches.USER_AVAILABLE_ROLES },
             allEntries = true)
-    public UserRole add(@PathVariable("id") final long userId, @Valid @RequestBody final UserRoleAddRequest request) {
+    public Role add(@PathVariable("id") final long userId, @Valid @RequestBody final UserRoleAddRequest request) {
         return service.addRole(userId, request.getId());
     }
 
@@ -130,7 +129,7 @@ public class UserRoleController {
     @CacheEvict(
             cacheNames = { PermissionCaches.PERMISSION_SET, RoleCaches.USER_ROLES, RoleCaches.USER_AVAILABLE_ROLES },
             allEntries = true)
-    public UserRole remove(@PathVariable("id") final long userId, @PathVariable("role") final Long roleId) {
+    public Role remove(@PathVariable("id") final long userId, @PathVariable("role") final Long roleId) {
         return service.removeRole(userId, roleId);
     }
 }

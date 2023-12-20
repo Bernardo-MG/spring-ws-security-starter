@@ -34,7 +34,6 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.UserRole;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
@@ -67,9 +66,8 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    public final UserRole addRole(final long userId, final long roleId) {
+    public final Role addRole(final long userId, final long roleId) {
         final UserRoleEntity       userRoleSample;
-        final UserRoleEntity       created;
         final Optional<RoleEntity> readRole;
         final Optional<UserEntity> readUser;
 
@@ -90,9 +88,9 @@ public final class DefaultUserRoleService implements UserRoleService {
         userRoleSample = getUserRoleSample(userId, roleId);
 
         // Persist relationship
-        created = userRoleRepository.save(userRoleSample);
+        userRoleRepository.save(userRoleSample);
 
-        return toDto(created);
+        return toDto(readRole.get());
     }
 
     @Override
@@ -110,7 +108,7 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    public final UserRole removeRole(final long userId, final long roleId) {
+    public final Role removeRole(final long userId, final long roleId) {
         final UserRoleEntity       userRoleSample;
         final Optional<RoleEntity> readRole;
         final Optional<UserEntity> readUser;
@@ -134,7 +132,7 @@ public final class DefaultUserRoleService implements UserRoleService {
         // Persist relationship
         userRoleRepository.delete(userRoleSample);
 
-        return toDto(userRoleSample);
+        return toDto(readRole.get());
     }
 
     private final UserRoleEntity getUserRoleSample(final long user, final long role) {
@@ -147,13 +145,6 @@ public final class DefaultUserRoleService implements UserRoleService {
     private final Role toDto(final RoleEntity role) {
         return Role.builder()
             .withName(role.getName())
-            .build();
-    }
-
-    private final UserRole toDto(final UserRoleEntity role) {
-        return UserRole.builder()
-            .withRoleId(role.getRoleId())
-            .withUserId(role.getUserId())
             .build();
     }
 

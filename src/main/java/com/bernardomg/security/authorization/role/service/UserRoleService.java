@@ -27,7 +27,6 @@ package com.bernardomg.security.authorization.role.service;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.UserRole;
 
 /**
  * User roles service.
@@ -46,7 +45,7 @@ public interface UserRoleService {
      *            role id to add
      * @return the added role
      */
-    public UserRole addRole(final long userId, final long roleId);
+    public Role addRole(final long userId, final long roleId);
 
     /**
      * Returns all the roles available to the user, in paginated form.
@@ -79,6 +78,6 @@ public interface UserRoleService {
      *            role id to remove
      * @return the removed role
      */
-    public UserRole removeRole(final long userId, final long roleId);
+    public Role removeRole(final long userId, final long roleId);
 
 }
