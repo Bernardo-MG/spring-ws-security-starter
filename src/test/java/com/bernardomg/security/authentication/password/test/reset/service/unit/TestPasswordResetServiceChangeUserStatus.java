@@ -29,7 +29,7 @@ import com.bernardomg.security.authentication.user.exception.UserNotFoundExcepti
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordRecoveryService - change password - user status")
@@ -107,7 +107,7 @@ class TestPasswordResetServiceChangeUserStatus {
 
     @BeforeEach
     void initializeToken() {
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(USERNAME);
+        given(tokenStore.getUsername(UserTokens.TOKEN)).willReturn(USERNAME);
     }
 
     @Test
@@ -119,7 +119,7 @@ class TestPasswordResetServiceChangeUserStatus {
 
         loadDisabledUser();
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
@@ -137,7 +137,7 @@ class TestPasswordResetServiceChangeUserStatus {
 
         loadExpiredUser();
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -155,7 +155,7 @@ class TestPasswordResetServiceChangeUserStatus {
 
         loadLockedUser();
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
@@ -171,7 +171,7 @@ class TestPasswordResetServiceChangeUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
         exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
 

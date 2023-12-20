@@ -15,7 +15,7 @@ import com.bernardomg.security.authorization.token.exception.ExpiredTokenExcepti
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetExpiredUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -37,13 +37,13 @@ class ITPasswordResetServiceChangeToken {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, Users.USERNAME);
+        executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Consumed token " + UserTokenConstants.TOKEN);
+            .isEqualTo("Consumed token " + UserTokens.TOKEN);
     }
 
     @Test
@@ -54,13 +54,13 @@ class ITPasswordResetServiceChangeToken {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, Users.USERNAME);
+        executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Expired token " + UserTokenConstants.TOKEN);
+            .isEqualTo("Expired token " + UserTokens.TOKEN);
     }
 
     @Test
@@ -70,13 +70,13 @@ class ITPasswordResetServiceChangeToken {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, Users.USERNAME);
+        executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
+            .isEqualTo("Missing token " + UserTokens.TOKEN);
     }
 
 }

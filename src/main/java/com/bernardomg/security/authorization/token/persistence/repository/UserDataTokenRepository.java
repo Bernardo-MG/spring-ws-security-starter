@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.token.persistence.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.security.authorization.token.persistence.model.UserDataTokenEntity;
@@ -35,5 +37,7 @@ import com.bernardomg.security.authorization.token.persistence.model.UserDataTok
  *
  */
 public interface UserDataTokenRepository extends JpaRepository<UserDataTokenEntity, Long> {
+
+    public Optional<UserDataTokenEntity> findByToken(final String token);
 
 }

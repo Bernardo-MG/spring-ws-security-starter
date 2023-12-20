@@ -17,7 +17,7 @@ import com.bernardomg.security.authorization.token.exception.MissingUserTokenCod
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -41,7 +41,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
@@ -57,12 +57,12 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Consumed token " + UserTokenConstants.TOKEN);
+            .isEqualTo("Consumed token " + UserTokens.TOKEN);
     }
 
     @Test
@@ -73,12 +73,12 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Expired token " + UserTokenConstants.TOKEN);
+            .isEqualTo("Expired token " + UserTokens.TOKEN);
     }
 
     @Test
@@ -88,12 +88,12 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
+            .isEqualTo("Missing token " + UserTokens.TOKEN);
     }
 
 }
