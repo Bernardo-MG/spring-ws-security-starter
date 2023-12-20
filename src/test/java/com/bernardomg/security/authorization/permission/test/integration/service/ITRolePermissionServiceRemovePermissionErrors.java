@@ -17,11 +17,9 @@ import com.bernardomg.security.authorization.permission.test.config.SinglePermis
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role permission service - remove permission - errors")
 class ITRolePermissionServiceRemovePermissionErrors {
 

@@ -13,11 +13,9 @@ import com.bernardomg.security.authorization.permission.model.ResourcePermission
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role permission service - get permissions - pagination")
 @RoleWithCrudPermissions
 class ITRolePermissionServiceGetPermissionsPagination {

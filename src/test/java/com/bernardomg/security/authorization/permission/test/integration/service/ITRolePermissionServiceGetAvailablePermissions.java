@@ -15,11 +15,9 @@ import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermis
 import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role permission service - get available permissions")
 class ITRolePermissionServiceGetAvailablePermissions {
 

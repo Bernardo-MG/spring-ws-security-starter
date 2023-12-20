@@ -13,11 +13,9 @@ import com.bernardomg.security.authorization.permission.service.RolePermissionSe
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role permission service - remove permission")
 @RoleWithCrudPermissions
 class ITRolePermissionServiceRemovePermission {
