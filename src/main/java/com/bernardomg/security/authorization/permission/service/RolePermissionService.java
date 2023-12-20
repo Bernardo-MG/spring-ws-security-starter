@@ -64,11 +64,11 @@ public interface RolePermissionService {
      *
      * @param roleId
      *            role id
-     * @param pageable
+     * @param page
      *            pagination to apply
      * @return role permissions
      */
-    public Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable pageable);
+    public Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable page);
 
     /**
      * Removes a permission from a role.

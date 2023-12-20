@@ -102,13 +102,29 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final Iterable<ResourcePermission> getAvailablePermissions(final long roleId, final Pageable pageable) {
+        final Optional<RoleEntity> readRole;
+
+        readRole = roleRepository.findById(roleId);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(roleId);
+        }
+
         return permissionRepository.findAllAvailableToRole(roleId, pageable)
             .map(this::toDto);
     }
 
     @Override
-    public final Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable pageable) {
-        return permissionRepository.findAllForRole(roleId, pageable)
+    public final Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable page) {
+        final Optional<RoleEntity> readRole;
+
+        readRole = roleRepository.findById(roleId);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleIdException(roleId);
+        }
+
+        return permissionRepository.findAllForRole(roleId, page)
             .map(this::toDto);
     }
 

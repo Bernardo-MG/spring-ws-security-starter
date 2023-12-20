@@ -32,70 +32,75 @@ class ITRolePermissionServiceGetPermissionsPagination {
     @Test
     @DisplayName("Returns the page entities")
     void testGetPermissions_Page_Container() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .isInstanceOf(Page.class);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
     void testGetPermissions_Page1_Data() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .containsOnly(ResourcePermissions.create());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
     void testGetPermissions_Page2_Data() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = PageRequest.of(1, 1);
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .containsOnly(ResourcePermissions.read());
     }
 
     @Test
     @DisplayName("Returns a page")
     void testGetPermissions_Paged_Count() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = PageRequest.of(0, 1);
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .hasSize(1);
     }
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
     void testGetPermissions_Unpaged_Container() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .isInstanceOf(Page.class);
     }
 

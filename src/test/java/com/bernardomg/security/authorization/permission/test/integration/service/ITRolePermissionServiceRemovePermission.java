@@ -35,12 +35,13 @@ class ITRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Can remove a permission")
     void testRemovePermission() {
-        final Iterable<RolePermissionEntity> result;
+        final Iterable<RolePermissionEntity> permissions;
 
         service.removePermission(1l, "DATA:CREATE");
-        result = rolePermissionRepository.findAll();
+        permissions = rolePermissionRepository.findAll();
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .containsOnly(RolePermissionEntities.createNotGranted(), RolePermissionEntities.read(),
                 RolePermissionEntities.update(), RolePermissionEntities.delete());
     }
@@ -48,11 +49,12 @@ class ITRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Returns the removed data")
     void testRemovePermission_ReturnedData() {
-        final RolePermission result;
+        final RolePermission permissions;
 
-        result = service.removePermission(1l, "DATA:CREATE");
+        permissions = service.removePermission(1l, "DATA:CREATE");
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .isEqualTo(RolePermissions.create());
     }
 

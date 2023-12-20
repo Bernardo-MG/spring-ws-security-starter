@@ -34,14 +34,15 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @DisplayName("Returns the permissions not assigned")
     @RoleWithPermission
     void testGetAvailablePermissions() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .containsOnly(ResourcePermissions.read(), ResourcePermissions.update(), ResourcePermissions.delete());
     }
 
@@ -49,14 +50,15 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @DisplayName("When all the permission have been assigned nothing is returned")
     @RoleWithCrudPermissions
     void testGetAvailablePermissions_AllAssigned() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .isEmpty();
     }
 
@@ -65,45 +67,32 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @CrudPermissions
     @SingleRole
     void testGetAvailablePermissions_NoPermissions() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
                 ResourcePermissions.delete());
     }
 
     @Test
-    @DisplayName("Returns no permission for a not existing role")
-    @CrudPermissions
-    void testGetAvailablePermissions_NoRole() {
-        final Iterable<ResourcePermission> result;
-        final Pageable                     pageable;
-
-        pageable = Pageable.unpaged();
-
-        result = service.getAvailablePermissions(1l, pageable);
-
-        Assertions.assertThat(result)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When there no permissions granted all are returned")
+    @DisplayName("When there are no permissions granted all are returned")
     @RoleWithNotGrantedPermission
     void testGetAvailablePermissions_NotGranted() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
                 ResourcePermissions.delete());
     }
