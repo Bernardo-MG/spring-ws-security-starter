@@ -62,11 +62,6 @@ public final class UserToken {
     private final LocalDateTime expirationDate;
 
     /**
-     * Token id.
-     */
-    private final long          id;
-
-    /**
      * User name.
      */
     @NonNull

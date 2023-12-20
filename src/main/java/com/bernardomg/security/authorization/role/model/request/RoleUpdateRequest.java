@@ -37,9 +37,6 @@ import lombok.NoArgsConstructor;
 public class RoleUpdateRequest implements RoleUpdate {
 
     @NotNull
-    private Long   id;
-
-    @NotNull
     private String name;
 
 }

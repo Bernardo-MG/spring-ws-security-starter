@@ -18,7 +18,7 @@ import com.bernardomg.security.authorization.token.test.config.annotation.Consum
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -121,8 +121,6 @@ class ITSpringUserTokenServiceGetAll {
             .iterator()
             .next();
 
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
         Assertions.assertThat(token.getUsername())
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(token.getName())

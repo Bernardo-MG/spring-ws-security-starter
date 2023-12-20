@@ -14,7 +14,7 @@ import com.bernardomg.security.authorization.token.model.request.UserTokenPartia
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;

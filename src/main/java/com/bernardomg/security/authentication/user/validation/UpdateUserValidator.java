@@ -63,7 +63,7 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
         FieldFailure failure;
 
         // Verify the email is not registered
-        if (userRepository.existsByIdNotAndEmail(user.getId(), user.getEmail())) {
+        if (userRepository.existsByUsernameNotAndEmail(user.getUsername(), user.getEmail())) {
             log.error("A user already exists with the email {}", user.getEmail());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());

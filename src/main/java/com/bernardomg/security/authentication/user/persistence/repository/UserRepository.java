@@ -56,17 +56,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     public boolean existsByEmail(final String email);
 
     /**
-     * Returns whether an user with the given email exists, ignoring a specific user.
-     *
-     * @param userId
-     *            id of the user to ignore
-     * @param email
-     *            email to search for
-     * @return {@code true} if a user exists, {@code false} otherwise
-     */
-    public boolean existsByIdNotAndEmail(final Long userId, final String email);
-
-    /**
      * Returns whether an user with the given username exists.
      *
      * @param username
@@ -74,6 +63,17 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
      * @return {@code true} if a user exists, {@code false} otherwise
      */
     public boolean existsByUsername(final String username);
+
+    /**
+     * Returns whether an user with the given email exists, ignoring a specific user.
+     *
+     * @param username
+     *            username of the user to ignore
+     * @param email
+     *            email to search for
+     * @return {@code true} if a user exists, {@code false} otherwise
+     */
+    public boolean existsByUsernameNotAndEmail(final String username, final String email);
 
     /**
      * Returns the user for the received email.

@@ -147,8 +147,7 @@ public final class DefaultRoleService implements RoleService {
             throw new MissingRoleNameException(role);
         }
 
-        entity = toEntity(data);
-        entity.setId(readRole.get()
+        entity = toEntity(data, readRole.get()
             .getId());
 
         created = roleRepository.save(entity);
@@ -168,9 +167,9 @@ public final class DefaultRoleService implements RoleService {
             .build();
     }
 
-    private final RoleEntity toEntity(final RoleUpdate role) {
+    private final RoleEntity toEntity(final RoleUpdate role, final Long id) {
         return RoleEntity.builder()
-            .withId(role.getId())
+            .withId(id)
             .withName(role.getName())
             .build();
     }

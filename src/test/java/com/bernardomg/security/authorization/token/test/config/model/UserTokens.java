@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.token.test.config.constant;
+package com.bernardomg.security.authorization.token.test.config.model;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -15,7 +15,6 @@ public final class UserTokens {
 
     public static final UserToken consumed() {
         return UserToken.builder()
-            .withId(1L)
             .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withScope(SCOPE)
@@ -29,7 +28,6 @@ public final class UserTokens {
 
     public static final UserToken expired() {
         return UserToken.builder()
-            .withId(1L)
             .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withScope(SCOPE)
@@ -43,7 +41,6 @@ public final class UserTokens {
 
     public static final UserToken revoked() {
         return UserToken.builder()
-            .withId(1L)
             .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withScope(SCOPE)
@@ -57,7 +54,6 @@ public final class UserTokens {
 
     public static final UserToken valid() {
         return UserToken.builder()
-            .withId(1L)
             .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withScope(SCOPE)

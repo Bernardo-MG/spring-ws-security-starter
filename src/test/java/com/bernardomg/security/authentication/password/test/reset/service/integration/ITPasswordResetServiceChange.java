@@ -15,7 +15,7 @@ import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUs
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

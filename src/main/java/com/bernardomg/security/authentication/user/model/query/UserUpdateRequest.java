@@ -57,12 +57,6 @@ public final class UserUpdateRequest implements UserUpdate {
     private Boolean enabled;
 
     /**
-     * User id.
-     */
-    @NotNull
-    private Long    id;
-
-    /**
      * User name.
      */
     @NotNull
@@ -73,5 +67,11 @@ public final class UserUpdateRequest implements UserUpdate {
      */
     @NotNull
     private Boolean passwordExpired;
+
+    /**
+     * User username.
+     */
+    @NotNull
+    private String  username;
 
 }

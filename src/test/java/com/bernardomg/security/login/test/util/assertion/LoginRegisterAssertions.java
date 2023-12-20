@@ -9,9 +9,6 @@ public final class LoginRegisterAssertions {
 
     public static final void isEqualTo(final LoginRegister received, final LoginRegister expected) {
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(received.getId())
-                .withFailMessage("Expected id to not be null")
-                .isNotNull();
             softly.assertThat(received.getUsername())
                 .withFailMessage("Expected logged in '%s' but got '%s'", expected.getUsername(), received.getUsername())
                 .isEqualTo(expected.getUsername());

@@ -90,13 +90,13 @@ class TestUserUpdateRequestValidation {
     }
 
     @Test
-    @DisplayName("A DTO with no id is invalid")
+    @DisplayName("A DTO with no username is invalid")
     void validate_noId() {
         final UserUpdate                           userUpdate;
         final Set<ConstraintViolation<UserUpdate>> errors;
         final ConstraintViolation<UserUpdate>      error;
 
-        userUpdate = UserUpdateRequests.noId();
+        userUpdate = UserUpdateRequests.noUsername();
 
         errors = validator.validate(userUpdate);
 
@@ -107,7 +107,7 @@ class TestUserUpdateRequestValidation {
             .next();
 
         Assertions.assertThat(error.getPropertyPath())
-            .hasToString("id");
+            .hasToString("username");
         Assertions.assertThat(error.getInvalidValue())
             .isNull();
     }

@@ -14,7 +14,6 @@ public final class LoginRegisters {
 
     public static final LoginRegister loggedIn() {
         return LoginRegister.builder()
-            .withId(1L)
             .withUsername(USERNAME)
             .withLoggedIn(true)
             .withDate(DATE)

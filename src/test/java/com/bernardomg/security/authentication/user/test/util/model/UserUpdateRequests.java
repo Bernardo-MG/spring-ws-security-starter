@@ -7,7 +7,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest disabled() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEmail(Users.EMAIL)
             .withEnabled(false)
@@ -17,7 +17,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest emailChange() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEmail(Users.ALTERNATIVE_EMAIL)
             .withEnabled(true)
@@ -27,7 +27,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest emailChangeUpperCase() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEmail(Users.ALTERNATIVE_EMAIL.toUpperCase())
             .withEnabled(true)
@@ -37,7 +37,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest enabled() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEmail(Users.EMAIL)
             .withEnabled(true)
@@ -47,7 +47,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest invalidEmail() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEmail("abc")
             .withEnabled(true)
@@ -57,7 +57,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest nameChange() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName("Admin2")
             .withEmail(Users.EMAIL)
             .withEnabled(true)
@@ -67,7 +67,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest noEmail() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEnabled(true)
             .withPasswordExpired(false)
@@ -76,14 +76,14 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest noEnabled() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEmail(Users.EMAIL)
             .withPasswordExpired(false)
             .build();
     }
 
-    public static final UserUpdateRequest noId() {
+    public static final UserUpdateRequest noUsername() {
         return UserUpdateRequest.builder()
             .withName(Users.NAME)
             .withEmail(Users.EMAIL)
@@ -94,7 +94,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest paddedWithWhitespaces() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(" " + Users.NAME + " ")
             .withEmail(" " + Users.ALTERNATIVE_EMAIL + " ")
             .withEnabled(true)
@@ -104,7 +104,7 @@ public final class UserUpdateRequests {
 
     public static final UserUpdateRequest passwordExpired() {
         return UserUpdateRequest.builder()
-            .withId(1L)
+            .withUsername(Users.USERNAME)
             .withName(Users.NAME)
             .withEmail(Users.EMAIL)
             .withEnabled(true)

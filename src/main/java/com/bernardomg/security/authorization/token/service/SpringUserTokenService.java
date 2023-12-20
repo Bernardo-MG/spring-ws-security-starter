@@ -153,7 +153,6 @@ public final class SpringUserTokenService implements UserTokenService {
 
     private final UserToken toDto(final UserDataTokenEntity entity) {
         return UserToken.builder()
-            .withId(entity.getId())
             .withUsername(entity.getUsername())
             .withName(entity.getName())
             .withScope(entity.getScope())
@@ -167,7 +166,6 @@ public final class SpringUserTokenService implements UserTokenService {
 
     private final UserToken toDto(final UserTokenEntity entity, final UserDataTokenEntity data) {
         return UserToken.builder()
-            .withId(entity.getId())
             .withUsername(data.getUsername())
             .withName(data.getName())
             .withScope(entity.getScope())

@@ -14,7 +14,7 @@ import com.bernardomg.security.authentication.user.test.config.NewlyCreated;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

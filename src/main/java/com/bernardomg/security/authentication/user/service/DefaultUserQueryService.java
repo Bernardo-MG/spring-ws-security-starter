@@ -120,16 +120,20 @@ public final class DefaultUserQueryService implements UserQueryService {
         final UserEntity           created;
         final Optional<UserEntity> oldRead;
         final UserEntity           old;
+        final Optional<UserEntity> readUser;
 
         log.debug("Updating user {} using data {}", username, user);
 
-        if (!userRepository.existsByUsername(username)) {
+        readUser = userRepository.findOneByUsername(username);
+
+        if (readUser.isEmpty()) {
             throw new MissingUserUsernameException(username);
         }
 
         validatorUpdateUser.validate(user);
 
-        userEntity = toEntity(user);
+        userEntity = toEntity(user, readUser.get()
+            .getId());
 
         // Trim strings
         userEntity.setName(userEntity.getName()
@@ -185,9 +189,9 @@ public final class DefaultUserQueryService implements UserQueryService {
             .build();
     }
 
-    private final UserEntity toEntity(final UserUpdate user) {
+    private final UserEntity toEntity(final UserUpdate user, final long id) {
         return UserEntity.builder()
-            .withId(user.getId())
+            .withId(id)
             .withName(user.getName())
             .withEmail(user.getEmail())
             .withEnabled(user.getEnabled())

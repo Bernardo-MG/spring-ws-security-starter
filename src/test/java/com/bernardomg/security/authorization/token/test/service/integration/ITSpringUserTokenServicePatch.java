@@ -20,7 +20,7 @@ import com.bernardomg.security.authorization.token.persistence.model.UserTokenEn
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -182,8 +182,6 @@ class ITSpringUserTokenServicePatch {
 
         token = service.patch(UserTokens.TOKEN, request);
 
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
         Assertions.assertThat(token.getUsername())
             .isEqualTo(Users.USERNAME);
         Assertions.assertThat(token.getName())
