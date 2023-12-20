@@ -80,12 +80,12 @@ class ITRolePermissionServiceAddPermission {
     @CrudPermissions
     @SingleRole
     void testAddPermission_ReturnedData() {
-        final RolePermission permissions;
+        final RolePermission permission;
 
-        permissions = service.addPermission(1l, "DATA:CREATE");
+        permission = service.addPermission(1l, "DATA:CREATE");
 
-        Assertions.assertThat(permissions)
-            .as("permissions")
+        Assertions.assertThat(permission)
+            .as("permission")
             .isEqualTo(RolePermissions.create());
     }
 

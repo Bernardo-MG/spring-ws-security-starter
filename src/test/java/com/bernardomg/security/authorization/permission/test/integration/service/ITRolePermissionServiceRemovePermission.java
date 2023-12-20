@@ -49,12 +49,12 @@ class ITRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Returns the removed data")
     void testRemovePermission_ReturnedData() {
-        final RolePermission permissions;
+        final RolePermission permission;
 
-        permissions = service.removePermission(1l, "DATA:CREATE");
+        permission = service.removePermission(1l, "DATA:CREATE");
 
-        Assertions.assertThat(permissions)
-            .as("permissions")
+        Assertions.assertThat(permission)
+            .as("permission")
             .isEqualTo(RolePermissions.create());
     }
 
