@@ -1,30 +1,25 @@
 
 package com.bernardomg.security.authorization.permission.test.integration.service;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
-import com.bernardomg.security.authorization.permission.test.util.assertion.RolePermissionAssertions;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithPermissionNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.SinglePermission;
+import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
-import com.bernardomg.security.authorization.role.model.RolePermission;
-import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
-@DisplayName("Role service - add permission")
+@DisplayName("Role permission service - add permission")
 class ITRolePermissionServiceAddPermission {
 
     @Autowired
@@ -39,112 +34,85 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Adds a permission")
-    @CrudPermissions
+    @SinglePermission
     @SingleRole
     void testAddPermission_AddsEntity() {
-        final Iterable<RolePermissionEntity> result;
-        final RolePermissionEntity           found;
+        final Iterable<RolePermissionEntity> permissions;
 
         service.addPermission(1l, "DATA:CREATE");
-        result = rolePermissionRepository.findAll();
+        permissions = rolePermissionRepository.findAll();
 
-        Assertions.assertThat(result)
-            .hasSize(1);
-
-        found = result.iterator()
-            .next();
-
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntities.granted());
-    }
-
-    @Test
-    @DisplayName("Reading the permissions after adding a permission returns the new permission")
-    @CrudPermissions
-    @SingleRole
-    void testAddPermission_CallBack() {
-        final Iterable<ResourcePermission> result;
-        final ResourcePermission           found;
-        final Pageable                     pageable;
-
-        pageable = Pageable.unpaged();
-
-        service.addPermission(1l, "DATA:CREATE");
-        result = service.getPermissions(1l, pageable);
-
-        Assertions.assertThat(result)
-            .hasSize(1);
-
-        found = result.iterator()
-            .next();
-
-        RolePermissionAssertions.isEqualTo(found, ResourcePermission.builder()
-            .withAction("CREATE")
-            .withResource("DATA")
-            .build());
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(RolePermissionEntities.create());
     }
 
     @Test
     @DisplayName("When adding an existing permission no permission is added")
     @RoleWithPermission
-    void testAddPermission_Existing() {
-        final Iterable<RolePermissionEntity> result;
-        final Iterator<RolePermissionEntity> itr;
-        RolePermissionEntity                 found;
+    void testAddPermission_Existing_NotAddsEntity() {
+        final Iterable<RolePermissionEntity> permissions;
 
         service.addPermission(1l, "DATA:CREATE");
-        result = rolePermissionRepository.findAll();
+        permissions = rolePermissionRepository.findAll();
 
-        Assertions.assertThat(result)
-            .hasSize(4);
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(RolePermissionEntities.create());
+    }
 
-        itr = result.iterator();
+    @Test
+    @DisplayName("When adding an existing permission the permission is returned")
+    @RoleWithPermission
+    void testAddPermission_Existing_ReturnedData() {
+        final ResourcePermission permissions;
 
-        found = itr.next();
+        permissions = service.addPermission(1l, "DATA:CREATE");
 
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:CREATE")
-            .withRoleId(1L)
-            .withGranted(true)
-            .build());
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .isEqualTo(ResourcePermissions.create());
+    }
 
-        found = itr.next();
+    @Test
+    @DisplayName("When adding an existing not granted permission the permission is set to granted")
+    @RoleWithPermissionNotGranted
+    void testAddPermission_NotGranted_NotAddsEntity() {
+        final Iterable<RolePermissionEntity> permissions;
 
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:READ")
-            .withRoleId(1L)
-            .withGranted(true)
-            .build());
+        service.addPermission(1l, "DATA:CREATE");
+        permissions = rolePermissionRepository.findAll();
 
-        found = itr.next();
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(RolePermissionEntities.create());
+    }
 
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:UPDATE")
-            .withRoleId(1L)
-            .withGranted(true)
-            .build());
+    @Test
+    @DisplayName("When adding an existing not granted permission the permission is returned")
+    @RoleWithPermissionNotGranted
+    void testAddPermission_NotGranted_ReturnedData() {
+        final ResourcePermission permissions;
 
-        found = itr.next();
+        permissions = service.addPermission(1l, "DATA:CREATE");
 
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:DELETE")
-            .withRoleId(1L)
-            .withGranted(true)
-            .build());
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .isEqualTo(ResourcePermissions.create());
     }
 
     @Test
     @DisplayName("Returns the created data")
-    @CrudPermissions
+    @SinglePermission
     @SingleRole
-    void testAddRole_ReturnedData() {
-        final RolePermission result;
+    void testAddPermission_ReturnedData() {
+        final ResourcePermission permission;
 
-        result = service.addPermission(1l, "DATA:CREATE");
+        permission = service.addPermission(1l, "DATA:CREATE");
 
-        Assertions.assertThat(result.getRoleId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getPermission())
-            .isEqualTo("DATA:CREATE");
+        Assertions.assertThat(permission)
+            .as("permission")
+            .isEqualTo(ResourcePermissions.create());
     }
 
 }

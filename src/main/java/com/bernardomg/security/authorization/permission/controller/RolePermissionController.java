@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,11 +40,8 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.model.query.RoleAddPermissionQuery;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.role.model.RolePermission;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -74,13 +70,13 @@ public class RolePermissionController {
      *            permission to add
      * @return added permission
      */
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{permission}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission add(@PathVariable("id") final long roleId,
-            @Valid @RequestBody final RoleAddPermissionQuery permission) {
-        return service.addPermission(roleId, permission.getPermission());
+    public ResourcePermission add(@PathVariable("id") final long roleId,
+            @PathVariable("permission") final String permission) {
+        return service.addPermission(roleId, permission);
     }
 
     /**
@@ -128,7 +124,7 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long permissionId,
+    public ResourcePermission remove(@PathVariable("id") final long permissionId,
             @PathVariable("permission") final String permission) {
         return service.removePermission(permissionId, permission);
     }

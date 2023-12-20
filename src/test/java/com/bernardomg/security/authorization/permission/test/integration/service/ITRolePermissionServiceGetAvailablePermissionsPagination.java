@@ -11,19 +11,21 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
+import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role permission service - get permissions - pagination")
-@RoleWithCrudPermissions
-class ITRolePermissionServiceGetPermissionsPagination {
+@DisplayName("Role permission service - get available permissions - pagination")
+@CrudPermissions
+@SingleRole
+class ITRolePermissionServiceGetAvailablePermissionsPagination {
 
     @Autowired
     private RolePermissionService service;
 
-    public ITRolePermissionServiceGetPermissionsPagination() {
+    public ITRolePermissionServiceGetAvailablePermissionsPagination() {
         super();
     }
 
@@ -35,7 +37,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -50,7 +52,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -65,7 +67,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -80,7 +82,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -95,7 +97,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = Pageable.unpaged();
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(1l, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")

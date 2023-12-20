@@ -13,8 +13,8 @@ import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.LockedUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.role.test.config.UserWithNotGrantedPermissions;
-import com.bernardomg.security.authorization.role.test.config.UserWithoutPermissions;
+import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.UserWithoutPermissions;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -110,7 +110,7 @@ class ITTokenLoginService {
 
     @Test
     @DisplayName("Doesn't log in a user with no granted permissions")
-    @UserWithNotGrantedPermissions
+    @UserWithCrudPermissionsNotGranted
     void testLogIn_NotGrantedPermissions() {
         final TokenLoginStatus status;
 

@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.authorization.permission.test.integration.service;
 
-import java.util.stream.StreamSupport;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,16 +10,15 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
-import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
-import com.bernardomg.security.authorization.role.test.config.RoleWithNotGrantedPermission;
-import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
-@DisplayName("Role service - get permissions")
+@DisplayName("Role permission service - get permissions")
 class ITRolePermissionServiceGetPermissions {
 
     @Autowired
@@ -33,70 +30,35 @@ class ITRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("Returns all the data for a role's permission")
-    @RoleWithCrudPermissions
+    @RoleWithPermission
     void testGetPermissions() {
-        final ResourcePermission result;
-        final Pageable           pageable;
+        final Iterable<ResourcePermission> permissions;
+        final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(1l, pageable)
-            .iterator()
-            .next();
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result.getResource())
-            .isEqualTo("DATA");
-        Assertions.assertThat(result.getAction())
-            .isEqualTo("CREATE");
-        Assertions.assertThat(result.getId())
-            .isNotNull();
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(ResourcePermissions.create());
     }
 
     @Test
     @DisplayName("Returns the permissions for a role with multiple permissions")
-    @RoleWithPermission
+    @RoleWithCrudPermissions
     void testGetPermissions_multiple() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
-        Boolean                            found;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
-            .hasSize(4);
-
-        // DATA:CREATE
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "CREATE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertThat(found)
-            .isTrue();
-        // DATA:READ
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "READ".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertThat(found)
-            .isTrue();
-
-        // DATA:UPDATE
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "UPDATE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertThat(found)
-            .isTrue();
-
-        // DATA:DELETE
-        found = StreamSupport.stream(result.spliterator(), false)
-            .filter(p -> "DATA".equals(p.getResource()) && "DELETE".equals(p.getAction()))
-            .findAny()
-            .isPresent();
-        Assertions.assertThat(found)
-            .isTrue();
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
+                ResourcePermissions.delete());
     }
 
     @Test
@@ -104,43 +66,31 @@ class ITRolePermissionServiceGetPermissions {
     @CrudPermissions
     @SingleRole
     void testGetPermissions_NoPermissions() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .isEmpty();
     }
 
     @Test
-    @DisplayName("Returns no permission for a not existing role")
-    void testGetPermissions_NotExisting() {
-        final Iterable<ResourcePermission> result;
-        final Pageable                     pageable;
-
-        pageable = Pageable.unpaged();
-
-        result = service.getPermissions(-1l, pageable);
-
-        Assertions.assertThat(result)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When there no permissions are granted nothing is returned")
-    @RoleWithNotGrantedPermission
+    @DisplayName("When there are no permissions are granted nothing is returned")
+    @RoleWithCrudPermissionsNotGranted
     void testGetPermissions_NotGranted() {
-        final Iterable<ResourcePermission> result;
+        final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(1l, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(permissions)
+            .as("permissions")
             .isEmpty();
     }
 

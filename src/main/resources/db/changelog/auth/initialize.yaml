@@ -16,8 +16,8 @@ databaseChangeLog:
                   name: username
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
               - column:
                   name: password
                   type: varchar(60)
@@ -34,8 +34,8 @@ databaseChangeLog:
                   name: email
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
                   defaultValue: ''
               - column:
                   name: password_expired
@@ -84,8 +84,8 @@ databaseChangeLog:
                   name: name
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
         - addAutoIncrement:
             tableName: resources
             columnName: id
@@ -105,8 +105,8 @@ databaseChangeLog:
                   name: name
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
         - addAutoIncrement:
             tableName: actions
             columnName: id
@@ -144,6 +144,10 @@ databaseChangeLog:
                     references: actions(name)
                     nullable: false
                     deleteCascade: true
+        - addUniqueConstraint:
+            constraintName: permissions_unique
+            tableName: permissions
+            columnNames: 'resource, action'
         - addAutoIncrement:
             tableName: permissions
             columnName: id
@@ -167,8 +171,8 @@ databaseChangeLog:
                   name: name
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
         - addAutoIncrement:
             tableName: roles
             columnName: id
@@ -200,6 +204,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueBoolean: false
+        - addPrimaryKey:
+            constraintName: role_permissions_key
+            tableName: role_permissions
+            columnNames: 'role_id, permission'
         - createTable:
             tableName: user_roles
             columns:
@@ -257,8 +265,8 @@ databaseChangeLog:
                   name: token
                   type: varchar(50)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
               - column:
                   name: creation_date
                   type: datetime
