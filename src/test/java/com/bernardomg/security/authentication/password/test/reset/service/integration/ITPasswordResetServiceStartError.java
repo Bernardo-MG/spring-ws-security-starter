@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -31,7 +31,7 @@ class ITPasswordResetServiceStartError {
 
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

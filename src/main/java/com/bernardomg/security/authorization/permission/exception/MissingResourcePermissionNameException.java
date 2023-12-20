@@ -24,31 +24,20 @@
 
 package com.bernardomg.security.authorization.permission.exception;
 
+import com.bernardomg.exception.MissingIdException;
+
 /**
  * Missing role by name exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingResourcePermissionNameException extends RuntimeException {
+public final class MissingResourcePermissionNameException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    private final String      permission;
-
-    public MissingResourcePermissionNameException(final String perm) {
-        super(String.format("Missing role permission name %s", perm));
-
-        permission = perm;
-    }
-
-    /**
-     * Returns the permission which caused the exception.
-     *
-     * @return the permission which caused the exception
-     */
-    public final String getPermission() {
-        return permission;
+    public MissingResourcePermissionNameException(final String name) {
+        super("permission", name);
     }
 
 }

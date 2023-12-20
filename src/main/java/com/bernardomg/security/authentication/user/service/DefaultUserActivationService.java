@@ -32,7 +32,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.user.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
@@ -205,7 +205,7 @@ public final class DefaultUserActivationService implements UserActivationService
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't activate new user {}, as it doesn't exist", username);
-            throw new UserNotFoundException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         return user.get();

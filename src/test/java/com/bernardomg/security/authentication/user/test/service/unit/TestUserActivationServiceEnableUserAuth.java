@@ -23,7 +23,7 @@ import com.bernardomg.security.authentication.user.exception.DisabledUserExcepti
 import com.bernardomg.security.authentication.user.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
@@ -231,7 +231,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Couldn't find user " + Users.USERNAME);

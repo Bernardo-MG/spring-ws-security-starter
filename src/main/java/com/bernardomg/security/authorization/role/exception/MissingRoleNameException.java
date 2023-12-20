@@ -24,31 +24,20 @@
 
 package com.bernardomg.security.authorization.role.exception;
 
+import com.bernardomg.exception.MissingIdException;
+
 /**
  * Missing role by name exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingRoleNameException extends RuntimeException {
+public final class MissingRoleNameException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    private final String      role;
-
     public MissingRoleNameException(final String name) {
-        super(String.format("Missing role name %s", name));
-
-        role = name;
-    }
-
-    /**
-     * Returns the role which caused the exception.
-     *
-     * @return the role which caused the exception
-     */
-    public final String getRole() {
-        return role;
+        super("role", name);
     }
 
 }

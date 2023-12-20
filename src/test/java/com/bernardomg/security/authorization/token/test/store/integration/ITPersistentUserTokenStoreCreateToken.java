@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
@@ -111,7 +111,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         // TODO: Does this make sense? Throw a custom exception
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(UserNotFoundException.class);
+            .isInstanceOf(MissingUserUsernameException.class);
     }
 
 }

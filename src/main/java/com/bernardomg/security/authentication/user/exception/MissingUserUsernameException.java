@@ -24,31 +24,20 @@
 
 package com.bernardomg.security.authentication.user.exception;
 
+import com.bernardomg.exception.MissingIdException;
+
 /**
  * Missing user by username exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingUserUsernameException extends RuntimeException {
+public final class MissingUserUsernameException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    private final String      username;
-
-    public MissingUserUsernameException(final String user) {
-        super(String.format("Missing username %s", user));
-
-        username = user;
-    }
-
-    /**
-     * Returns the username which caused the exception.
-     *
-     * @return the username which caused the exception
-     */
-    public final String getUsername() {
-        return username;
+    public MissingUserUsernameException(final String username) {
+        super("user", username);
     }
 
 }
