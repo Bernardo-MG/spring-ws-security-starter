@@ -6,13 +6,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
-import com.bernardomg.security.authorization.permission.test.util.model.RolePermissions;
-import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -66,13 +66,13 @@ class ITRolePermissionServiceAddPermission {
     @DisplayName("When adding an existing permission the permission is returned")
     @RoleWithPermission
     void testAddPermission_Existing_ReturnedData() {
-        final RolePermission permissions;
+        final ResourcePermission permissions;
 
         permissions = service.addPermission(1l, "DATA:CREATE");
 
         Assertions.assertThat(permissions)
             .as("permissions")
-            .isEqualTo(RolePermissions.create());
+            .isEqualTo(ResourcePermissions.create());
     }
 
     @Test
@@ -80,13 +80,13 @@ class ITRolePermissionServiceAddPermission {
     @CrudPermissions
     @SingleRole
     void testAddPermission_ReturnedData() {
-        final RolePermission permission;
+        final ResourcePermission permission;
 
         permission = service.addPermission(1l, "DATA:CREATE");
 
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(RolePermissions.create());
+            .isEqualTo(ResourcePermissions.create());
     }
 
 }

@@ -6,12 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
-import com.bernardomg.security.authorization.permission.test.util.model.RolePermissions;
-import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -49,13 +49,13 @@ class ITRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Returns the removed data")
     void testRemovePermission_ReturnedData() {
-        final RolePermission permission;
+        final ResourcePermission permission;
 
         permission = service.removePermission(1l, "DATA:CREATE");
 
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(RolePermissions.create());
+            .isEqualTo(ResourcePermissions.create());
     }
 
 }

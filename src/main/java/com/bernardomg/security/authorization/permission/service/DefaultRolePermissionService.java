@@ -38,7 +38,6 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
-import com.bernardomg.security.authorization.role.model.RolePermission;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 
@@ -69,7 +68,8 @@ public final class DefaultRolePermissionService implements RolePermissionService
     private final RoleRepository               roleRepository;
 
     public DefaultRolePermissionService(final RoleRepository roleRepo,
-            final ResourcePermissionRepository resourcePermissionRepo, final RolePermissionRepository rolePermissionRepo) {
+            final ResourcePermissionRepository resourcePermissionRepo,
+            final RolePermissionRepository rolePermissionRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
@@ -78,9 +78,8 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final RolePermission addPermission(final long roleId, final String permission) {
+    public final ResourcePermission addPermission(final long roleId, final String permission) {
         final RolePermissionEntity               rolePermission;
-        final RolePermissionEntity               created;
         final Optional<RoleEntity>               readRole;
         final Optional<ResourcePermissionEntity> readPermission;
 
@@ -104,9 +103,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
         rolePermission.setGranted(true);
 
         // Persist relationship entities
-        created = rolePermissionRepository.save(rolePermission);
+        rolePermissionRepository.save(rolePermission);
 
-        return toDto(created);
+        return toDto(readPermission.get());
     }
 
     @Override
@@ -138,9 +137,8 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final RolePermission removePermission(final long roleId, final String permission) {
+    public final ResourcePermission removePermission(final long roleId, final String permission) {
         final RolePermissionEntity               rolePermissionSample;
-        final RolePermissionEntity               updated;
         final Optional<RolePermissionEntity>     readRolePermission;
         final Optional<ResourcePermissionEntity> readPermission;
         final Optional<RoleEntity>               readRole;
@@ -177,9 +175,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
         rolePermissionSample.setGranted(false);
 
         // Delete relationship entities
-        updated = rolePermissionRepository.save(rolePermissionSample);
+        rolePermissionRepository.save(rolePermissionSample);
 
-        return toDto(updated);
+        return toDto(readPermission.get());
     }
 
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final String permission) {
@@ -194,13 +192,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())
-            .build();
-    }
-
-    private final RolePermission toDto(final RolePermissionEntity entity) {
-        return RolePermission.builder()
-            .withPermission(entity.getPermission())
-            .withRoleId(entity.getRoleId())
             .build();
     }
 

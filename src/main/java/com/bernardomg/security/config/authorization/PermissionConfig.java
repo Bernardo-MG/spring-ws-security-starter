@@ -52,7 +52,8 @@ public class PermissionConfig {
 
     @Bean("rolePermissionService")
     public RolePermissionService getRolePermissionService(final RoleRepository roleRepository,
-            final ResourcePermissionRepository resourcePermissionRepository, final RolePermissionRepository rolePermissionRepository) {
+            final ResourcePermissionRepository resourcePermissionRepository,
+            final RolePermissionRepository rolePermissionRepository) {
         return new DefaultRolePermissionService(roleRepository, resourcePermissionRepository, rolePermissionRepository);
     }
 

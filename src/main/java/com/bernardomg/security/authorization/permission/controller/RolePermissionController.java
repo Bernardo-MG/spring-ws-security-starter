@@ -41,7 +41,6 @@ import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.role.model.RolePermission;
 
 import lombok.AllArgsConstructor;
 
@@ -75,7 +74,7 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission add(@PathVariable("id") final long roleId,
+    public ResourcePermission add(@PathVariable("id") final long roleId,
             @PathVariable("permission") final String permission) {
         return service.addPermission(roleId, permission);
     }
@@ -125,7 +124,7 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long permissionId,
+    public ResourcePermission remove(@PathVariable("id") final long permissionId,
             @PathVariable("permission") final String permission) {
         return service.removePermission(permissionId, permission);
     }
