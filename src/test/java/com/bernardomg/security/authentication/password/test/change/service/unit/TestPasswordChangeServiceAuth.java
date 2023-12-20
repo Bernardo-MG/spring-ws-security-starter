@@ -231,7 +231,7 @@ class TestPasswordChangeServiceAuth {
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user " + Users.USERNAME);
+            .isEqualTo("Missing id username for user");
     }
 
 }

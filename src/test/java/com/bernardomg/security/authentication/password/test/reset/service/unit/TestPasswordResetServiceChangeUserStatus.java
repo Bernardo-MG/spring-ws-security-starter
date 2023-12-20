@@ -177,7 +177,7 @@ class TestPasswordResetServiceChangeUserStatus {
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Couldn't find user username");
+            .isEqualTo("Missing id username for user");
     }
 
 }

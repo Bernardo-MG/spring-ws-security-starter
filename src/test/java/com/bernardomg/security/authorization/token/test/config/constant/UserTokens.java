@@ -22,8 +22,8 @@ public final class UserTokens {
             .withToken(TOKEN)
             .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
             .withExpirationDate(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0))
-            .withConsumed(false)
-            .withRevoked(true)
+            .withConsumed(true)
+            .withRevoked(false)
             .build();
     }
 

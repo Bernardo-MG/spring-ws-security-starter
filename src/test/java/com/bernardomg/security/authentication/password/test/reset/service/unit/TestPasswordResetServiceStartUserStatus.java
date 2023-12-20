@@ -169,7 +169,7 @@ class TestPasswordResetServiceStartUserStatus {
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Couldn't find user mail@somewhere.com");
+            .isEqualTo("Missing id mail@somewhere.com for user");
     }
 
 }

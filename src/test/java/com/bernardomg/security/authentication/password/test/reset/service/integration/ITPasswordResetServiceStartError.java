@@ -35,7 +35,7 @@ class ITPasswordResetServiceStartError {
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Couldn't find user " + Users.EMAIL);
+            .isEqualTo("Missing id mail@somewhere.com for user");
     }
 
 }
