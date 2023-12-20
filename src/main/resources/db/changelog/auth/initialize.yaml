@@ -204,6 +204,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueBoolean: false
+        - addPrimaryKey:
+            constraintName: role_permissions_key
+            tableName: role_permissions
+            columnNames: 'role_id, permission'
         - createTable:
             tableName: user_roles
             columns:
