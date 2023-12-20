@@ -37,7 +37,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(UserTokens.TOKEN);
 
         Assertions.assertThat(token)
-            .contains(UserTokens.valid());
+            .contains(UserTokens.consumed());
     }
 
     @Test
