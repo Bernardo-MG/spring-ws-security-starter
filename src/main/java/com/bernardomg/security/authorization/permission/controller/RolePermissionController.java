@@ -64,8 +64,8 @@ public class RolePermissionController {
     /**
      * Adds a permission to a role.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param permission
      *            permission to add
      * @return added permission
@@ -82,8 +82,8 @@ public class RolePermissionController {
     /**
      * Returns all the permissions for a role in a paginated form.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param page
      *            pagination to apply
      * @return a page with the permissions for the role
@@ -98,8 +98,8 @@ public class RolePermissionController {
     /**
      * Returns all the permissions available to a role. That is, those which haven't been assigned to the role.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param page
      *            pagination to apply
      * @return a page with the available permissions

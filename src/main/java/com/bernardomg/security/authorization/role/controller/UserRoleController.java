@@ -83,8 +83,8 @@ public class UserRoleController {
     /**
      * Returns all the user roles in a paginated form.
      *
-     * @param userId
-     *            user id
+     * @param username
+     *            user username
      * @param page
      *            pagination to apply
      * @return a page with the user roles

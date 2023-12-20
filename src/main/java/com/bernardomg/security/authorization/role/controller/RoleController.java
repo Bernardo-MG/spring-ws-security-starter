@@ -87,8 +87,8 @@ public class RoleController {
     /**
      * Deletes a role by its id.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      */
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
@@ -115,10 +115,10 @@ public class RoleController {
     }
 
     /**
-     * Reads a single role by its id.
+     * Reads a single role by its name.
      *
-     * @param roleId
-     *            id of the role to read
+     * @param role
+     *            role name
      * @return the role for the id, or {@code null} if it doesn't exist
      */
     @GetMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -132,8 +132,8 @@ public class RoleController {
     /**
      * Updates a role.
      *
-     * @param roleId
-     *            id of the role to update
+     * @param role
+     *            role name
      * @param request
      *            updated role data
      * @return the updated role

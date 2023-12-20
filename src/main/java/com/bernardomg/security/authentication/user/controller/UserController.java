@@ -126,8 +126,8 @@ public class UserController {
     /**
      * Reads a single user by its id.
      *
-     * @param userId
-     *            id of the user to read
+     * @param username
+     *            username of the user to read
      * @return the user for the id, or {@code null} if it doesn't exist
      */
     @GetMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -63,8 +63,8 @@ public class UserTokenController {
     /**
      * Applies a partial change into a user token.
      *
-     * @param tokenId
-     *            id for the user token to patch
+     * @param token
+     *            token for the user token to patch
      * @param request
      *            partial change to apply
      * @return the updated user token
@@ -93,8 +93,8 @@ public class UserTokenController {
     /**
      * Reads a single user token. Otherwise {@code null} is returned.
      *
-     * @param tokenId
-     *            id for the user token to read
+     * @param token
+     *            token for the user token to read
      * @return the user token for the id, if it exists, or {@code null} otherwise
      */
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
