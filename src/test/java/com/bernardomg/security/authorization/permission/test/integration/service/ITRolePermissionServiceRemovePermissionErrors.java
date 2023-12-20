@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
 import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.SinglePermission;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
-import com.bernardomg.security.authorization.role.test.config.RoleWithNotGrantedPermission;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -50,7 +50,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    @CrudPermissions
+    @SinglePermission
     void testRemovePermission_NotExistingRole() {
         final Collection<Long> action;
         final ThrowingCallable executable;
@@ -66,7 +66,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
 
     @Test
     @DisplayName("Throws an exception when the role permission doesn't exist")
-    @CrudPermissions
+    @SinglePermission
     @SingleRole
     void testRemovePermission_NotExistingRolePermission() {
         final Collection<Long> action;
@@ -83,7 +83,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
 
     @Test
     @DisplayName("Throws an exception when the role permission isn't granted")
-    @RoleWithNotGrantedPermission
+    @RoleWithPermissionNotGranted
     void testRemovePermission_NotGrantedRolePermission() {
         final Collection<Long> action;
         final ThrowingCallable executable;

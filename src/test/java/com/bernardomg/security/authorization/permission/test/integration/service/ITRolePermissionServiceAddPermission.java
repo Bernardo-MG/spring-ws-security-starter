@@ -10,11 +10,11 @@ import com.bernardomg.security.authorization.permission.model.ResourcePermission
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.SinglePermission;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
-import com.bernardomg.security.authorization.role.test.config.RoleWithNotGrantedPermission;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.role.test.config.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -36,7 +36,7 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Adds a permission")
-    @CrudPermissions
+    @SinglePermission
     @SingleRole
     void testAddPermission_AddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
@@ -78,7 +78,7 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("When adding an existing not granted permission the permission is set to granted")
-    @RoleWithNotGrantedPermission
+    @RoleWithPermissionNotGranted
     void testAddPermission_NotGranted_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
@@ -92,7 +92,7 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("When adding an existing not granted permission the permission is returned")
-    @RoleWithNotGrantedPermission
+    @RoleWithPermissionNotGranted
     void testAddPermission_NotGranted_ReturnedData() {
         final ResourcePermission permissions;
 
@@ -105,7 +105,7 @@ class ITRolePermissionServiceAddPermission {
 
     @Test
     @DisplayName("Returns the created data")
-    @CrudPermissions
+    @SinglePermission
     @SingleRole
     void testAddPermission_ReturnedData() {
         final ResourcePermission permission;

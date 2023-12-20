@@ -12,7 +12,7 @@ import com.bernardomg.security.authorization.permission.service.RolePermissionSe
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
-import com.bernardomg.security.authorization.role.test.config.RoleWithNotGrantedPermission;
+import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -81,8 +81,8 @@ class ITRolePermissionServiceGetPermissions {
     }
 
     @Test
-    @DisplayName("When there no permissions are granted nothing is returned")
-    @RoleWithNotGrantedPermission
+    @DisplayName("When there are no permissions are granted nothing is returned")
+    @RoleWithCrudPermissionsNotGranted
     void testGetPermissions_NotGranted() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
