@@ -33,6 +33,7 @@ import com.bernardomg.security.authorization.permission.test.config.RoleWithPerm
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -55,7 +56,7 @@ class ITRoleServiceDelete {
     @DisplayName("Deletes a role with no permissions")
     @SingleRole
     void testDelete_NoPermissions() {
-        service.delete(1L);
+        service.delete(Roles.NAME);
 
         Assertions.assertThat(repository.count())
             .isZero();
@@ -65,7 +66,7 @@ class ITRoleServiceDelete {
     @DisplayName("Deletes a role with permissions")
     @RoleWithPermission
     void testDelete_WithPermissions() {
-        service.delete(1L);
+        service.delete(Roles.NAME);
 
         Assertions.assertThat(repository.count())
             .isZero();

@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.token.service;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.token.model.UserToken;
@@ -55,21 +57,21 @@ public interface UserTokenService {
      * Returns the user token for the received id, if it exists. Otherwise it is expected to throw an
      * {@code InvalidIdException}.
      *
-     * @param tokenId
-     *            id of the role to acquire
+     * @param token
+     *            token of the user token to acquire
      * @return the user token
      */
-    public UserToken getOne(final long tokenId);
+    public Optional<UserToken> getOne(final String token);
 
     /**
      * Applies a partial change to a user token.
      *
-     * @param tokenId
-     *            id for the user token to read
+     * @param token
+     *            token of the user token to patch
      * @param partial
      *            partial change to apply
      * @return the updated user token
      */
-    public UserToken patch(final long tokenId, final UserTokenPartial partial);
+    public UserToken patch(final String token, final UserTokenPartial partial);
 
 }

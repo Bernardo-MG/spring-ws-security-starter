@@ -31,7 +31,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
@@ -121,7 +121,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
 
         readUser = userRepository.findOneByUsername(username);
         if (!readUser.isPresent()) {
-            throw new UserNotFoundException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         user = readUser.get();
@@ -170,7 +170,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
 
         readUser = userRepository.findOneByUsername(username);
         if (!readUser.isPresent()) {
-            throw new UserNotFoundException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         user = readUser.get();

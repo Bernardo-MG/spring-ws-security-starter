@@ -23,14 +23,14 @@ import com.bernardomg.security.authentication.user.exception.DisabledUserExcepti
 import com.bernardomg.security.authentication.user.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
@@ -145,7 +145,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -163,7 +163,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
@@ -180,7 +180,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadEnabledUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
@@ -197,7 +197,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -214,7 +214,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadLockedUser();
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
@@ -229,12 +229,12 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user " + Users.USERNAME);
+            .isEqualTo("Missing id username for user");
     }
 
 }

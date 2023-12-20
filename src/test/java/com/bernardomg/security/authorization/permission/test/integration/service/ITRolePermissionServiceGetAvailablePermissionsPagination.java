@@ -14,6 +14,7 @@ import com.bernardomg.security.authorization.permission.service.RolePermissionSe
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -37,7 +38,7 @@ class ITRolePermissionServiceGetAvailablePermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -52,7 +53,7 @@ class ITRolePermissionServiceGetAvailablePermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -67,7 +68,7 @@ class ITRolePermissionServiceGetAvailablePermissionsPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -82,7 +83,7 @@ class ITRolePermissionServiceGetAvailablePermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -97,7 +98,7 @@ class ITRolePermissionServiceGetAvailablePermissionsPagination {
 
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")

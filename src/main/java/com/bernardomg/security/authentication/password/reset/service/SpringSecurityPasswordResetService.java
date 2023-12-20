@@ -36,7 +36,7 @@ import com.bernardomg.security.authentication.password.notification.PasswordNoti
 import com.bernardomg.security.authentication.user.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.exception.InvalidTokenException;
@@ -215,7 +215,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for email {}, as no user exists for it", email);
-            throw new UserNotFoundException(email);
+            throw new MissingUserUsernameException(email);
         }
 
         return user.get();
@@ -229,7 +229,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new UserNotFoundException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         return user.get();

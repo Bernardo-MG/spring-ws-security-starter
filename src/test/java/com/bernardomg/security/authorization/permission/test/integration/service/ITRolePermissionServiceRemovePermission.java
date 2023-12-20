@@ -13,6 +13,7 @@ import com.bernardomg.security.authorization.permission.service.RolePermissionSe
 import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -35,7 +36,7 @@ class ITRolePermissionServiceRemovePermission {
     void testRemovePermission() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.removePermission(1l, "DATA:CREATE");
+        service.removePermission(Roles.NAME, "DATA:CREATE");
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
@@ -49,7 +50,7 @@ class ITRolePermissionServiceRemovePermission {
     void testRemovePermission_ReturnedData() {
         final ResourcePermission permission;
 
-        permission = service.removePermission(1l, "DATA:CREATE");
+        permission = service.removePermission(Roles.NAME, "DATA:CREATE");
 
         Assertions.assertThat(permission)
             .as("permission")

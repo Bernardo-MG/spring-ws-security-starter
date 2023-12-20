@@ -34,7 +34,7 @@ class ITUserQueryServiceGetOneDisabled {
     void testGetOne_Existing() {
         final Optional<User> result;
 
-        result = service.getOne(1l);
+        result = service.getOne(Users.USERNAME);
 
         Assertions.assertThat(result)
             .isPresent();
@@ -45,7 +45,7 @@ class ITUserQueryServiceGetOneDisabled {
     void testGetOne_Existing_Data() {
         final User result;
 
-        result = service.getOne(1l)
+        result = service.getOne(Users.USERNAME)
             .get();
 
         UserAssertions.isEqualTo(result, Users.disabled());

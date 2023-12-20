@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
@@ -36,7 +36,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Existing() {
         final Optional<User> result;
 
-        result = service.getOne(1l);
+        result = service.getOne(Users.USERNAME);
 
         Assertions.assertThat(result)
             .isPresent();
@@ -48,21 +48,21 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Existing_Data() {
         final User result;
 
-        result = service.getOne(1l)
+        result = service.getOne(Users.USERNAME)
             .get();
 
         UserAssertions.isEqualTo(result, Users.enabled());
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
+    @DisplayName("With a not existing user, an exception is thrown")
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.getOne(1L);
+        execution = () -> service.getOne(Users.USERNAME);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserIdException.class);
+            .isInstanceOf(MissingUserUsernameException.class);
     }
 
 }

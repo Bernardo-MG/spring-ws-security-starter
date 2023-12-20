@@ -13,7 +13,7 @@ import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -34,7 +34,7 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        status = service.validateToken(UserTokens.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
@@ -53,7 +53,7 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        status = service.validateToken(UserTokens.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
@@ -72,7 +72,7 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        status = service.validateToken(UserTokens.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())

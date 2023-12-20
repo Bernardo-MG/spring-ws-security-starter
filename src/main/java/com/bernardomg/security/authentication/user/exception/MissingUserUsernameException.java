@@ -22,23 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.model;
+package com.bernardomg.security.authentication.user.exception;
 
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Immutable user role.
+ * Missing user by username exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class UserRole {
+public final class MissingUserUsernameException extends MissingIdException {
 
-    private final Long roleId;
+    private static final long serialVersionUID = 2786821546505029631L;
 
-    private final Long userId;
+    public MissingUserUsernameException(final String username) {
+        super("user", username);
+    }
 
 }

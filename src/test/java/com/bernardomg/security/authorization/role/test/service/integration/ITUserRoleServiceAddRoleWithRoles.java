@@ -1,33 +1,34 @@
 
 package com.bernardomg.security.authorization.role.test.service.integration;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
-import com.bernardomg.security.authorization.role.model.Role;
+import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
+import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.security.authorization.role.test.config.AlternativeRole;
 import com.bernardomg.security.authorization.role.test.util.model.Roles;
+import com.bernardomg.security.authorization.role.test.util.model.UserRoleEntities;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("User service - add role - with role")
-@UserWithPermission
-@AlternativeRole
 class ITUserRoleServiceAddRoleWithRoles {
 
     @Autowired
-    private UserRoleService service;
+    private UserRoleService    service;
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     public ITUserRoleServiceAddRoleWithRoles() {
         super();
@@ -35,50 +36,31 @@ class ITUserRoleServiceAddRoleWithRoles {
 
     @Test
     @DisplayName("Adding a role which the user already has adds nothing")
+    @UserWithPermission
     void testAddRoles_AddExisting_CallBack() {
-        final Iterable<Role>     result;
-        final Collection<String> roleNames;
-        final Pageable           pageable;
+        final List<UserRoleEntity> userRoles;
 
-        pageable = Pageable.unpaged();
+        service.addRole(Users.USERNAME, Roles.NAME);
 
-        service.addRole(1l, 2l);
-        result = service.getRoles(1l, pageable);
+        userRoles = userRoleRepository.findAll();
 
-        // FIXME: Should be a single role
-        Assertions.assertThat(result)
-            .hasSize(2);
-
-        roleNames = StreamSupport.stream(result.spliterator(), false)
-            .map(Role::getName)
-            .toList();
-
-        Assertions.assertThat(roleNames)
-            .contains(Roles.NAME);
+        Assertions.assertThat(userRoles)
+            .containsExactly(UserRoleEntities.valid());
     }
 
     @Test
-    @DisplayName("Reading the roles after adding a new role returns them")
+    @DisplayName("Adding a new role persists it")
+    @UserWithPermission
+    @AlternativeRole
     void testAddRoles_AddNew_CallBack() {
-        final Iterable<Role>     result;
-        final Collection<String> roleNames;
-        final Pageable           pageable;
+        final List<UserRoleEntity> userRoles;
 
-        pageable = Pageable.unpaged();
+        service.addRole(Users.USERNAME, Roles.ALTERNATIVE_NAME);
 
-        service.addRole(1l, 2l);
-        result = service.getRoles(1l, pageable);
+        userRoles = userRoleRepository.findAll();
 
-        // FIXME: Should be a single role
-        Assertions.assertThat(result)
-            .hasSize(2);
-
-        roleNames = StreamSupport.stream(result.spliterator(), false)
-            .map(Role::getName)
-            .toList();
-
-        Assertions.assertThat(roleNames)
-            .containsAll(List.of(Roles.NAME, Roles.ALTERNATIVE_NAME));
+        Assertions.assertThat(userRoles)
+            .containsExactly(UserRoleEntities.valid(), UserRoleEntities.alternative());
     }
 
 }

@@ -30,8 +30,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -52,10 +53,10 @@ class ITRoleServiceDeleteError {
     void testDelete_NotExisting() {
         final ThrowingCallable executable;
 
-        executable = () -> service.delete(1L);
+        executable = () -> service.delete(Roles.NAME);
 
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingRoleIdException.class);
+            .isInstanceOf(MissingRoleNameException.class);
     }
 
 }

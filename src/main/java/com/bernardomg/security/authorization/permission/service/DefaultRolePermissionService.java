@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
+import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
@@ -37,7 +37,8 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionKey;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,27 +85,28 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final ResourcePermission addPermission(final long roleId, final String permission) {
+    public final ResourcePermission addPermission(final String role, final String permission) {
         final RolePermissionEntity               rolePermission;
-        final boolean                            roleExists;
+        final Optional<RoleEntity>               readRole;
         final Optional<ResourcePermissionEntity> readPermission;
 
-        log.debug("Adding permission {} for role {}", permission, roleId);
+        log.debug("Adding permission {} for role {}", permission, role);
 
-        roleExists = roleRepository.existsById(roleId);
+        readRole = roleRepository.findOneByName(role);
 
-        if (!roleExists) {
-            throw new MissingRoleIdException(roleId);
+        if (readRole.isEmpty()) {
+            throw new MissingRoleNameException(role);
         }
 
         readPermission = resourcePermissionRepository.findByName(permission);
 
         if (readPermission.isEmpty()) {
-            throw new MissingResourcePermissionIdException(permission);
+            throw new MissingResourcePermissionNameException(permission);
         }
 
         // Granted permission
-        rolePermission = getRolePermissionSample(roleId, permission);
+        rolePermission = getRolePermissionSample(readRole.get()
+            .getId(), permission);
         rolePermission.setGranted(true);
 
         // Persist relationship entities
@@ -114,67 +116,76 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final Iterable<ResourcePermission> getAvailablePermissions(final long roleId, final Pageable pageable) {
-        final boolean roleExists;
+    public final Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable pageable) {
+        final Optional<RoleEntity> readRole;
 
-        roleExists = roleRepository.existsById(roleId);
+        log.debug("Reading available permissions for {}", role);
 
-        if (!roleExists) {
-            throw new MissingRoleIdException(roleId);
+        readRole = roleRepository.findOneByName(role);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleNameException(role);
         }
 
-        return resourcePermissionRepository.findAllAvailableToRole(roleId, pageable)
+        return resourcePermissionRepository.findAllAvailableToRole(readRole.get()
+            .getId(), pageable)
             .map(this::toDto);
     }
 
     @Override
-    public final Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable page) {
-        final boolean roleExists;
+    public final Iterable<ResourcePermission> getPermissions(final String role, final Pageable page) {
+        final Optional<RoleEntity> readRole;
 
-        roleExists = roleRepository.existsById(roleId);
+        log.debug("Reading permissions for {}", role);
 
-        if (!roleExists) {
-            throw new MissingRoleIdException(roleId);
+        readRole = roleRepository.findOneByName(role);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleNameException(role);
         }
 
-        return resourcePermissionRepository.findAllForRole(roleId, page)
+        return resourcePermissionRepository.findAllForRole(readRole.get()
+            .getId(), page)
             .map(this::toDto);
     }
 
     @Override
-    public final ResourcePermission removePermission(final long roleId, final String permission) {
+    public final ResourcePermission removePermission(final String role, final String permission) {
         final RolePermissionEntity               rolePermissionSample;
         final boolean                            rolePermissionExists;
         final Optional<ResourcePermissionEntity> readPermission;
-        final boolean                            roleExists;
+        final Optional<RoleEntity>               readRole;
         final RolePermissionKey                  rolePermissionKey;
 
-        log.debug("Removing permission {} for role {}", permission, roleId);
+        log.debug("Removing permission {} for role {}", permission, role);
 
-        roleExists = roleRepository.existsById(roleId);
+        readRole = roleRepository.findOneByName(role);
 
-        if (!roleExists) {
-            throw new MissingRoleIdException(roleId);
+        if (readRole.isEmpty()) {
+            throw new MissingRoleNameException(role);
         }
 
         readPermission = resourcePermissionRepository.findByName(permission);
 
         if (readPermission.isEmpty()) {
-            throw new MissingResourcePermissionIdException(permission);
+            throw new MissingResourcePermissionNameException(permission);
         }
 
-        rolePermissionExists = rolePermissionRepository.existsByRoleIdAndPermissionAndGranted(roleId, permission, true);
+        rolePermissionExists = rolePermissionRepository.existsByRoleIdAndPermissionAndGranted(readRole.get()
+            .getId(), permission, true);
 
         if (!rolePermissionExists) {
             rolePermissionKey = RolePermissionKey.builder()
-                .withRoleId(roleId)
+                .withRoleId(readRole.get()
+                    .getId())
                 .withPermission(permission)
                 .build();
             throw new MissingRolePermissionIdException(rolePermissionKey);
         }
 
         // Not granted permission
-        rolePermissionSample = getRolePermissionSample(roleId, permission);
+        rolePermissionSample = getRolePermissionSample(readRole.get()
+            .getId(), permission);
         rolePermissionSample.setGranted(false);
 
         // Delete relationship entities

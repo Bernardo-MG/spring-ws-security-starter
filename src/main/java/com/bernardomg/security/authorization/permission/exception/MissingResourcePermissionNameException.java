@@ -22,24 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.exception;
-
-import java.io.Serializable;
+package com.bernardomg.security.authorization.permission.exception;
 
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing user token by id exception.
+ * Missing role by name exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingUserTokenIdException extends MissingIdException {
+public final class MissingResourcePermissionNameException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingUserTokenIdException(final Serializable id) {
-        super("userToken", id);
+    public MissingResourcePermissionNameException(final String name) {
+        super("permission", name);
     }
 
 }

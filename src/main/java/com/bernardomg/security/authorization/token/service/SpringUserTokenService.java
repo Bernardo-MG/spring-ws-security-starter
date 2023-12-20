@@ -30,7 +30,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.token.exception.MissingUserTokenIdException;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.persistence.model.UserDataTokenEntity;
@@ -106,37 +106,36 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final UserToken getOne(final long id) {
-        final Optional<UserToken> read;
+    public final Optional<UserToken> getOne(final String token) {
+        final Optional<UserDataTokenEntity> readtoken;
 
-        log.debug("Reading role with id {}", id);
+        log.debug("Reading token {}", token);
 
-        read = userDataTokenRepository.findById(id)
-            .map(this::toDto);
-        if (read.isEmpty()) {
-            throw new MissingUserTokenIdException(id);
+        readtoken = userDataTokenRepository.findByToken(token);
+        if (!readtoken.isPresent()) {
+            throw new MissingUserTokenCodeException(token);
         }
 
-        return read.get();
+        return readtoken.map(this::toDto);
     }
 
     @Override
-    public final UserToken patch(final long id, final UserTokenPartial partial) {
-        final Optional<UserDataTokenEntity> read;
+    public final UserToken patch(final String token, final UserTokenPartial partial) {
+        final Optional<UserDataTokenEntity> readtoken;
         final UserDataTokenEntity           toPatch;
         final UserTokenEntity               toSave;
         final UserTokenEntity               saved;
 
-        log.debug("Patching role with id {}", id);
+        log.debug("Patching token {}", token);
 
-        read = userDataTokenRepository.findById(id);
-        if (!read.isPresent()) {
-            throw new MissingUserTokenIdException(id);
+        readtoken = userDataTokenRepository.findByToken(token);
+        if (!readtoken.isPresent()) {
+            throw new MissingUserTokenCodeException(token);
         }
 
         validatorPatch.validate(partial);
 
-        toPatch = read.get();
+        toPatch = readtoken.get();
 
         toSave = toEntity(toPatch);
 
@@ -149,7 +148,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         saved = userTokenRepository.save(toSave);
 
-        return toDto(saved, read.get());
+        return toDto(saved, readtoken.get());
     }
 
     private final UserToken toDto(final UserDataTokenEntity entity) {

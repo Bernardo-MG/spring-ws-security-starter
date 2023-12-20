@@ -15,6 +15,7 @@ import com.bernardomg.security.authorization.permission.test.config.RoleWithCrud
 import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -37,7 +38,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -53,7 +54,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -70,7 +71,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -87,7 +88,7 @@ class ITRolePermissionServiceGetAvailablePermissions {
 
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(1l, pageable);
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")

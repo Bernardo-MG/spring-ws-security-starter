@@ -26,7 +26,7 @@ import com.bernardomg.security.authentication.password.exception.InvalidPassword
 import com.bernardomg.security.authentication.user.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
@@ -228,10 +228,10 @@ class TestPasswordChangeServiceAuth {
 
         executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Couldn't find user " + Users.USERNAME);
+            .isEqualTo("Missing id username for user");
     }
 
 }

@@ -14,7 +14,7 @@ import com.bernardomg.security.authentication.user.test.config.NewlyCreated;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -46,7 +46,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         consumed = userTokenRepository.findById(1L)
             .get()
@@ -63,7 +63,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_Enabled() {
         final UserEntity user;
 
-        service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();
@@ -79,7 +79,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_Password() {
         final UserEntity user;
 
-        service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();
@@ -95,7 +95,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_PasswordReset() {
         final UserEntity user;
 
-        service.activateUser(UserTokenConstants.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();

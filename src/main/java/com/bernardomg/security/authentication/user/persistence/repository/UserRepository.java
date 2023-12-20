@@ -39,6 +39,14 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     /**
+     * Deletes the user with the received username.
+     *
+     * @param username
+     *            username to delete
+     */
+    public void deleteByUsername(final String username);
+
+    /**
      * Returns whether an user with the given email exists.
      *
      * @param email
@@ -72,7 +80,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
      *
      * @param email
      *            email to search for
-     * @return the user details for the received email
+     * @return the user for the received email
      */
     public Optional<UserEntity> findOneByEmail(final String email);
 
@@ -81,7 +89,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
      *
      * @param username
      *            username to search for
-     * @return the user details for the received username
+     * @return the user for the received username
      */
     public Optional<UserEntity> findOneByUsername(final String username);
 

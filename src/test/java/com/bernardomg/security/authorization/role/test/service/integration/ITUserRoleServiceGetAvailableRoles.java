@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
@@ -32,50 +33,43 @@ class ITUserRoleServiceGetAvailableRoles {
     @UserWithPermission
     @AlternativeRole
     void testGetRoles() {
-        final Iterable<Role> result;
-        final Role           role;
+        final Iterable<Role> roles;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getAvailableRoles(1L, pageable);
+        roles = service.getAvailableRoles(Users.USERNAME, pageable);
 
-        Assertions.assertThat(result)
-            .hasSize(1);
-
-        role = result.iterator()
-            .next();
-
-        Assertions.assertThat(role.getName())
-            .isEqualTo(Roles.ALTERNATIVE_NAME);
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.alternative());
     }
 
     @Test
     @DisplayName("Returns no available roles when a user has all the roles")
     @UserWithPermission
     void testGetRoles_AllAssigned() {
-        final Iterable<Role> result;
+        final Iterable<Role> roles;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getAvailableRoles(1L, pageable);
+        roles = service.getAvailableRoles(Users.USERNAME, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(roles)
             .isEmpty();
     }
 
     @Test
     @DisplayName("Returns no available roles for a not existing user")
     void testGetRoles_NotExisting() {
-        final Iterable<Role> result;
+        final Iterable<Role> roles;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getAvailableRoles(-1L, pageable);
+        roles = service.getAvailableRoles(Users.USERNAME, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(roles)
             .isEmpty();
     }
 

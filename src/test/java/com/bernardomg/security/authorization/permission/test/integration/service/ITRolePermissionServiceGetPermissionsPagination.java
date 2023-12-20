@@ -13,6 +13,7 @@ import com.bernardomg.security.authorization.permission.model.ResourcePermission
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -35,7 +36,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -50,7 +51,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -65,7 +66,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -80,7 +81,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -95,7 +96,7 @@ class ITRolePermissionServiceGetPermissionsPagination {
 
         pageable = Pageable.unpaged();
 
-        permissions = service.getPermissions(1l, pageable);
+        permissions = service.getPermissions(Roles.NAME, pageable);
 
         Assertions.assertThat(permissions)
             .as("permissions")

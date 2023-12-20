@@ -29,12 +29,11 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.UserRole;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
@@ -67,74 +66,79 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    public final UserRole addRole(final long userId, final long roleId) {
+    public final Role addRole(final String username, final String role) {
         final UserRoleEntity       userRoleSample;
-        final UserRoleEntity       created;
         final Optional<RoleEntity> readRole;
         final Optional<UserEntity> readUser;
 
-        log.debug("Adding role {} to user {}", roleId, userId);
+        log.debug("Adding role {} to user {}", role, username);
 
-        readUser = userRepository.findById(userId);
+        readUser = userRepository.findOneByUsername(username);
 
         if (readUser.isEmpty()) {
-            throw new MissingUserIdException(roleId);
+            throw new MissingUserUsernameException(username);
         }
 
-        readRole = roleRepository.findById(roleId);
+        readRole = roleRepository.findOneByName(role);
 
         if (readRole.isEmpty()) {
-            throw new MissingRoleIdException(roleId);
+            throw new MissingRoleNameException(role);
         }
 
-        userRoleSample = getUserRoleSample(userId, roleId);
+        userRoleSample = getUserRoleSample(readUser.get()
+            .getId(),
+            readRole.get()
+                .getId());
 
         // Persist relationship
-        created = userRoleRepository.save(userRoleSample);
+        userRoleRepository.save(userRoleSample);
 
-        return toDto(created);
+        return toDto(readRole.get());
     }
 
     @Override
-    public final Iterable<Role> getAvailableRoles(final long userId, final Pageable pageable) {
-        return roleRepository.findAvailableToUser(userId, pageable)
+    public final Iterable<Role> getAvailableRoles(final String username, final Pageable pageable) {
+        return roleRepository.findAvailableToUser(username, pageable)
             .map(this::toDto);
     }
 
     @Override
-    public final Iterable<Role> getRoles(final long userId, final Pageable pageable) {
-        log.debug("Getting roles for user {} and pagination {}", userId, pageable);
+    public final Iterable<Role> getRoles(final String username, final Pageable pageable) {
+        log.debug("Getting roles for user {} and pagination {}", username, pageable);
 
-        return roleRepository.findForUser(userId, pageable)
+        return roleRepository.findForUser(username, pageable)
             .map(this::toDto);
     }
 
     @Override
-    public final UserRole removeRole(final long userId, final long roleId) {
+    public final Role removeRole(final String username, final String role) {
         final UserRoleEntity       userRoleSample;
         final Optional<RoleEntity> readRole;
         final Optional<UserEntity> readUser;
 
-        log.debug("Removing role {} from user {}", roleId, userId);
+        log.debug("Removing role {} from user {}", username, role);
 
-        readUser = userRepository.findById(userId);
+        readUser = userRepository.findOneByUsername(username);
 
         if (readUser.isEmpty()) {
-            throw new MissingUserIdException(roleId);
+            throw new MissingUserUsernameException(username);
         }
 
-        readRole = roleRepository.findById(roleId);
+        readRole = roleRepository.findOneByName(role);
 
         if (readRole.isEmpty()) {
-            throw new MissingRoleIdException(roleId);
+            throw new MissingRoleNameException(role);
         }
 
-        userRoleSample = getUserRoleSample(userId, roleId);
+        userRoleSample = getUserRoleSample(readUser.get()
+            .getId(),
+            readRole.get()
+                .getId());
 
         // Persist relationship
         userRoleRepository.delete(userRoleSample);
 
-        return toDto(userRoleSample);
+        return toDto(readRole.get());
     }
 
     private final UserRoleEntity getUserRoleSample(final long user, final long role) {
@@ -146,15 +150,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     private final Role toDto(final RoleEntity role) {
         return Role.builder()
-            .withId(role.getId())
             .withName(role.getName())
-            .build();
-    }
-
-    private final UserRole toDto(final UserRoleEntity role) {
-        return UserRole.builder()
-            .withRoleId(role.getRoleId())
-            .withUserId(role.getUserId())
             .build();
     }
 

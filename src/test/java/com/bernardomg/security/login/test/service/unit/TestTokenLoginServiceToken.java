@@ -26,7 +26,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.constant.UserTokens;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.service.LoginTokenEncoder;
@@ -95,14 +95,14 @@ class TestTokenLoginServiceToken {
 
         loadUser();
 
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokens.TOKEN);
 
         status = getService(true).login(Users.EMAIL, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
         Assertions.assertThat(status.getToken())
-            .isEqualTo(UserTokenConstants.TOKEN);
+            .isEqualTo(UserTokens.TOKEN);
     }
 
     @Test

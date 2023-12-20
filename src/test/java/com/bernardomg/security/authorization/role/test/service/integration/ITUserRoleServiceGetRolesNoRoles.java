@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
@@ -29,14 +30,14 @@ class ITUserRoleServiceGetRolesNoRoles {
     @Test
     @DisplayName("Returns no roles for a user")
     void testGetRoles() {
-        final Iterable<Role> result;
+        final Iterable<Role> roles;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getRoles(1L, pageable);
+        roles = service.getRoles(Users.USERNAME, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(roles)
             .isEmpty();
     }
 

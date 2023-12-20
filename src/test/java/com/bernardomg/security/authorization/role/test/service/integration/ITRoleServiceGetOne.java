@@ -29,28 +29,14 @@ class ITRoleServiceGetOne {
     }
 
     @Test
-    @DisplayName("Returns a single entity by id")
-    void testGetOne_Existing() {
-        final Optional<Role> result;
-
-        result = service.getOne(1l);
-
-        Assertions.assertThat(result)
-            .isPresent();
-    }
-
-    @Test
     @DisplayName("Returns the correct data when reading a single entity")
     void testGetOne_Existing_Data() {
-        final Role result;
+        final Optional<Role> role;
 
-        result = service.getOne(1l)
-            .get();
+        role = service.getOne(Roles.NAME);
 
-        Assertions.assertThat(result.getId())
-            .isNotNull();
-        Assertions.assertThat(result.getName())
-            .isEqualTo(Roles.NAME);
+        Assertions.assertThat(role)
+            .contains(Roles.valid());
     }
 
 }

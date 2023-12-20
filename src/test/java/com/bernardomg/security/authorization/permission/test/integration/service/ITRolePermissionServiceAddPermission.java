@@ -16,6 +16,7 @@ import com.bernardomg.security.authorization.permission.test.config.SinglePermis
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -39,7 +40,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_AddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(1l, "DATA:CREATE");
+        service.addPermission(Roles.NAME, "DATA:CREATE");
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
@@ -53,7 +54,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_Existing_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(1l, "DATA:CREATE");
+        service.addPermission(Roles.NAME, "DATA:CREATE");
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
@@ -67,7 +68,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_Existing_ReturnedData() {
         final ResourcePermission permissions;
 
-        permissions = service.addPermission(1l, "DATA:CREATE");
+        permissions = service.addPermission(Roles.NAME, "DATA:CREATE");
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -80,7 +81,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_NotGranted_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(1l, "DATA:CREATE");
+        service.addPermission(Roles.NAME, "DATA:CREATE");
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
@@ -94,7 +95,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_NotGranted_ReturnedData() {
         final ResourcePermission permissions;
 
-        permissions = service.addPermission(1l, "DATA:CREATE");
+        permissions = service.addPermission(Roles.NAME, "DATA:CREATE");
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -108,7 +109,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_ReturnedData() {
         final ResourcePermission permission;
 
-        permission = service.addPermission(1l, "DATA:CREATE");
+        permission = service.addPermission(Roles.NAME, "DATA:CREATE");
 
         Assertions.assertThat(permission)
             .as("permission")

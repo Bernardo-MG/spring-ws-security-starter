@@ -22,21 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.model.request;
+package com.bernardomg.security.authorization.role.exception;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.bernardomg.exception.MissingIdException;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class UserRoleAddRequest implements UserRoleAdd {
+/**
+ * Missing role by name exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class MissingRoleNameException extends MissingIdException {
 
-    @NotNull
-    private Long id;
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingRoleNameException(final String name) {
+        super("role", name);
+    }
 
 }
