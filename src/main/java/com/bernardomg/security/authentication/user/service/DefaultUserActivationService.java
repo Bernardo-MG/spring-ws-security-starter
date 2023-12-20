@@ -213,7 +213,6 @@ public final class DefaultUserActivationService implements UserActivationService
 
     private final User toDto(final UserEntity user) {
         return User.builder()
-            .withId(user.getId())
             .withUsername(user.getUsername())
             .withName(user.getName())
             .withEmail(user.getEmail())

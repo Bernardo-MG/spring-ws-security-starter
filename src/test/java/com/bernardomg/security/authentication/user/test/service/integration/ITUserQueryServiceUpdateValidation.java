@@ -40,7 +40,7 @@ class ITUserQueryServiceUpdateValidation {
 
         data = UserUpdateRequests.emailChange();
 
-        executable = () -> service.update(1L, data);
+        executable = () -> service.update(Users.USERNAME, data);
 
         failure = FieldFailure.of("email.existing", "email", "existing", Users.ALTERNATIVE_EMAIL);
 

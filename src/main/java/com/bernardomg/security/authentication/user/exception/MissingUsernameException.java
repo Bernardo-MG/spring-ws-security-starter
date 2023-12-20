@@ -22,58 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.model;
-
-import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+package com.bernardomg.security.authentication.user.exception;
 
 /**
- * Immutable user data.
+ * Missing user by username exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class User {
+public final class MissingUsernameException extends RuntimeException {
+
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    private final String      username;
+
+    public MissingUsernameException(final String user) {
+        super(String.format("Missing username %s", user));
+
+        username = user;
+    }
 
     /**
-     * User email.
+     * Returns the username which caused the exception.
+     *
+     * @return the username which caused the exception
      */
-    @NonNull
-    private final String  email;
-
-    /**
-     * User enabled flag.
-     */
-    private final boolean enabled;
-
-    /**
-     * User expired flag.
-     */
-    private final boolean expired;
-
-    /**
-     * User locked flag.
-     */
-    private final boolean locked;
-
-    /**
-     * User name.
-     */
-    @NonNull
-    private final String  name;
-
-    /**
-     * Password expired flag.
-     */
-    private final boolean passwordExpired;
-
-    /**
-     * User username.
-     */
-    @NonNull
-    private final String  username;
+    public final String getUsername() {
+        return username;
+    }
 
 }

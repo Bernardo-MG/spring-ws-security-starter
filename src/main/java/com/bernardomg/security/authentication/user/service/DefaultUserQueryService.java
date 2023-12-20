@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
+import com.bernardomg.security.authentication.user.exception.MissingUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
@@ -69,15 +69,15 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     @Override
-    public final void delete(final long userId) {
+    public final void delete(final String username) {
 
-        log.debug("Deleting user {}", userId);
+        log.debug("Deleting user {}", username);
 
-        if (!userRepository.existsById(userId)) {
-            throw new MissingUserIdException(userId);
+        if (!userRepository.existsByUsername(username)) {
+            throw new MissingUsernameException(username);
         }
 
-        userRepository.deleteById(userId);
+        userRepository.deleteByUsername(username);
     }
 
     @Override
@@ -101,30 +101,30 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     @Override
-    public final Optional<User> getOne(final long id) {
+    public final Optional<User> getOne(final String username) {
 
-        log.debug("Reading member with id {}", id);
+        log.debug("Reading user {}", username);
 
         // TODO: Use the read optional
-        if (!userRepository.existsById(id)) {
-            throw new MissingUserIdException(id);
+        if (!userRepository.existsByUsername(username)) {
+            throw new MissingUsernameException(username);
         }
 
-        return userRepository.findById(id)
+        return userRepository.findOneByUsername(username)
             .map(this::toDto);
     }
 
     @Override
-    public final User update(final long id, final UserUpdate user) {
+    public final User update(final String username, final UserUpdate user) {
         final UserEntity           userEntity;
         final UserEntity           created;
         final Optional<UserEntity> oldRead;
         final UserEntity           old;
 
-        log.debug("Updating user with id {} using data {}", id, user);
+        log.debug("Updating user {} using data {}", username, user);
 
-        if (!userRepository.existsById(id)) {
-            throw new MissingUserIdException(id);
+        if (!userRepository.existsByUsername(username)) {
+            throw new MissingUsernameException(username);
         }
 
         validatorUpdateUser.validate(user);
@@ -141,7 +141,7 @@ public final class DefaultUserQueryService implements UserQueryService {
         userEntity.setEmail(userEntity.getEmail()
             .toLowerCase());
 
-        oldRead = userRepository.findById(user.getId());
+        oldRead = userRepository.findOneByUsername(username);
         if (oldRead.isPresent()) {
             old = oldRead.get();
 
@@ -163,7 +163,6 @@ public final class DefaultUserQueryService implements UserQueryService {
 
     private final User toDto(final UserEntity user) {
         return User.builder()
-            .withId(user.getId())
             .withUsername(user.getUsername())
             .withName(user.getName())
             .withEmail(user.getEmail())

@@ -30,7 +30,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
+import com.bernardomg.security.authentication.user.exception.MissingUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
@@ -67,7 +67,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.emailChange();
 
-        service.update(1L, user);
+        service.update(Users.USERNAME, user);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -82,7 +82,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.emailChangeUpperCase();
 
-        service.update(1L, user);
+        service.update(Users.USERNAME, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -100,7 +100,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.emailChangeUpperCase();
 
-        result = service.update(1L, user);
+        result = service.update(Users.USERNAME, user);
 
         Assertions.assertThat(result.getEmail())
             .isEqualTo(Users.ALTERNATIVE_EMAIL);
@@ -115,7 +115,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.disabled();
 
-        service.update(1L, user);
+        service.update(Users.USERNAME, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -132,7 +132,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.passwordExpired();
 
-        service.update(1L, user);
+        service.update(Users.USERNAME, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -141,17 +141,17 @@ class ITUserQueryServiceUpdate {
     }
 
     @Test
-    @DisplayName("With a not existing entity, an exception is thrown")
+    @DisplayName("With a not existing user, an exception is thrown")
     void testUpdate_NotExisting_Exception() {
         final UserUpdate       user;
         final ThrowingCallable execution;
 
         user = UserUpdateRequests.emailChange();
 
-        execution = () -> service.update(1L, user);
+        execution = () -> service.update(Users.USERNAME, user);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserIdException.class);
+            .isInstanceOf(MissingUsernameException.class);
     }
 
     @Test
@@ -163,7 +163,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.paddedWithWhitespaces();
 
-        service.update(1L, user);
+        service.update(Users.USERNAME, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -181,7 +181,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.emailChange();
 
-        service.update(1L, user);
+        service.update(Users.USERNAME, user);
         entity = repository.findAll()
             .iterator()
             .next();
@@ -198,7 +198,7 @@ class ITUserQueryServiceUpdate {
 
         user = UserUpdateRequests.emailChange();
 
-        result = service.update(1L, user);
+        result = service.update(Users.USERNAME, user);
 
         UserAssertions.isEqualTo(result, Users.emailChange());
     }

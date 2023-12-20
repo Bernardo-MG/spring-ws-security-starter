@@ -21,7 +21,6 @@ public final class Users {
 
     public static final User disabled() {
         return User.builder()
-            .withId(1L)
             .withName(Users.NAME)
             .withUsername(Users.USERNAME)
             .withEmail(Users.EMAIL)
@@ -34,7 +33,6 @@ public final class Users {
 
     public static final User emailChange() {
         return User.builder()
-            .withId(1L)
             .withName(Users.NAME)
             .withUsername(Users.USERNAME)
             .withEmail(Users.ALTERNATIVE_EMAIL)
@@ -47,7 +45,6 @@ public final class Users {
 
     public static final User enabled() {
         return User.builder()
-            .withId(1L)
             .withName(Users.NAME)
             .withUsername(Users.USERNAME)
             .withEmail(Users.EMAIL)
@@ -60,7 +57,6 @@ public final class Users {
 
     public static final User expired() {
         return User.builder()
-            .withId(1L)
             .withName(Users.NAME)
             .withUsername(Users.USERNAME)
             .withEmail(Users.EMAIL)
@@ -73,7 +69,6 @@ public final class Users {
 
     public static final User locked() {
         return User.builder()
-            .withId(1L)
             .withName(Users.NAME)
             .withUsername(Users.USERNAME)
             .withEmail(Users.EMAIL)
@@ -86,7 +81,6 @@ public final class Users {
 
     public static final User newlyCreated() {
         return User.builder()
-            .withId(1L)
             .withName(Users.NAME)
             .withUsername(Users.USERNAME)
             .withEmail(Users.EMAIL)
@@ -99,7 +93,6 @@ public final class Users {
 
     public static final User passwordExpired() {
         return User.builder()
-            .withId(1L)
             .withName(Users.NAME)
             .withUsername(Users.USERNAME)
             .withEmail(Users.EMAIL)

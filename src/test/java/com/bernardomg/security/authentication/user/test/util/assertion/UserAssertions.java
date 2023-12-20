@@ -10,9 +10,6 @@ public final class UserAssertions {
 
     public static final void isEqualTo(final User received, final User expected) {
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(received.getId())
-                .withFailMessage("Expected id to not be null")
-                .isNotNull();
             softly.assertThat(received.getUsername())
                 .withFailMessage("Expected username '%s' but got '%s'", expected.getUsername(), received.getUsername())
                 .isEqualTo(expected.getUsername());
