@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
@@ -86,20 +86,22 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final void delete(final long roleId) {
+    public final void delete(final String role) {
         final Optional<RoleEntity> readRole;
 
-        log.debug("Deleting role {}", roleId);
+        log.debug("Deleting role {}", role);
 
-        readRole = roleRepository.findById(roleId);
+        readRole = roleRepository.findOneByName(role);
 
         if (readRole.isEmpty()) {
-            throw new MissingRoleIdException(roleId);
+            throw new MissingRoleNameException(role);
         }
 
-        validatorDeleteRole.validate(roleId);
+        validatorDeleteRole.validate(readRole.get()
+            .getId());
 
-        roleRepository.deleteById(roleId);
+        roleRepository.deleteById(readRole.get()
+            .getId());
     }
 
     @Override
@@ -115,32 +117,39 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Optional<Role> getOne(final long roleId) {
+    public final Optional<Role> getOne(final String role) {
+        final Optional<RoleEntity> readRole;
 
-        log.debug("Reading role with id {}", roleId);
+        log.debug("Reading role {}", role);
 
-        // TODO: Use the read optional
-        if (!roleRepository.existsById(roleId)) {
-            throw new MissingRoleIdException(roleId);
+        readRole = roleRepository.findOneByName(role);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleNameException(role);
         }
 
-        return roleRepository.findById(roleId)
+        return roleRepository.findById(readRole.get()
+            .getId())
             .map(this::toDto);
     }
 
     @Override
-    public final Role update(final long id, final RoleUpdate role) {
-        final RoleEntity entity;
-        final RoleEntity created;
+    public final Role update(final String role, final RoleUpdate data) {
+        final RoleEntity           entity;
+        final RoleEntity           created;
+        final Optional<RoleEntity> readRole;
 
-        log.debug("Updating role with id {} using data {}", id, role);
+        log.debug("Updating role {} using data {}", role, data);
 
-        if (!roleRepository.existsById(id)) {
-            throw new MissingRoleIdException(id);
+        readRole = roleRepository.findOneByName(role);
+
+        if (readRole.isEmpty()) {
+            throw new MissingRoleNameException(role);
         }
 
-        entity = toEntity(role);
-        entity.setId(id);
+        entity = toEntity(data);
+        entity.setId(readRole.get()
+            .getId());
 
         created = roleRepository.save(entity);
 
@@ -149,7 +158,6 @@ public final class DefaultRoleService implements RoleService {
 
     private final Role toDto(final RoleEntity role) {
         return Role.builder()
-            .withId(role.getId())
             .withName(role.getName())
             .build();
     }

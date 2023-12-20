@@ -30,9 +30,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
-import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
+import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.security.authorization.role.test.util.model.RolesUpdate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -53,14 +53,11 @@ class ITRoleServiceUpdateValidation {
     @DisplayName("Throws an exception when the role doesn't exist")
     void testUpdate_NotExistingRole() {
         final ThrowingCallable execution;
-        final RoleUpdate       data;
 
-        data = RolesUpdate.valid();
-
-        execution = () -> service.update(1L, data);
+        execution = () -> service.update(Roles.NAME, RolesUpdate.valid());
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingRoleIdException.class);
+            .isInstanceOf(MissingRoleNameException.class);
     }
 
 }

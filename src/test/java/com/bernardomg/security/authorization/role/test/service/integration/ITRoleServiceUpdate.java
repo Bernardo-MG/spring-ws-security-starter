@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.role.test.service.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,7 @@ import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
+import com.bernardomg.security.authorization.role.test.util.model.RoleEntities;
 import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.security.authorization.role.test.util.model.RolesUpdate;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -57,51 +60,32 @@ class ITRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
-    void testUpdate_AddsNoEntity() {
-        final RoleUpdate data;
-
-        data = RolesUpdate.valid();
-
-        service.update(1L, data);
-
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Updates persisted data")
     void testUpdate_PersistedData() {
-        final RoleUpdate data;
-        final RoleEntity entity;
+        final RoleUpdate       data;
+        final List<RoleEntity> roles;
 
         data = RolesUpdate.valid();
 
-        service.update(1L, data);
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        service.update(Roles.NAME, data);
+        roles = repository.findAll();
 
-        Assertions.assertThat(entity.getId())
-            .isNotNull();
-        Assertions.assertThat(entity.getName())
-            .isEqualTo(Roles.NAME);
+        Assertions.assertThat(roles)
+            .containsExactly(RoleEntities.valid());
     }
 
     @Test
     @DisplayName("Returns the updated data")
     void testUpdate_ReturnedData() {
         final RoleUpdate data;
-        final Role       result;
+        final Role       role;
 
         data = RolesUpdate.valid();
 
-        result = service.update(1L, data);
+        role = service.update(Roles.NAME, data);
 
-        Assertions.assertThat(result.getId())
-            .isNotNull();
-        Assertions.assertThat(result.getName())
-            .isEqualTo(Roles.NAME);
+        Assertions.assertThat(role)
+            .isEqualTo(Roles.valid());
     }
 
 }

@@ -90,12 +90,12 @@ public class RoleController {
      * @param roleId
      *            role id
      */
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true),
             @CacheEvict(cacheNames = RoleCaches.ROLE, key = "#p0") })
-    public void delete(@PathVariable("id") final long roleId) {
-        service.delete(roleId);
+    public void delete(@PathVariable("role") final String role) {
+        service.delete(role);
     }
 
     /**
@@ -121,11 +121,11 @@ public class RoleController {
      *            id of the role to read
      * @return the role for the id, or {@code null} if it doesn't exist
      */
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLE, key = "#p0")
-    public Role readOne(@PathVariable("id") final long roleId) {
-        return service.getOne(roleId)
+    public Role readOne(@PathVariable("role") final String role) {
+        return service.getOne(role)
             .orElse(null);
     }
 
@@ -138,12 +138,12 @@ public class RoleController {
      *            updated role data
      * @return the updated role
      */
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
-    public Role update(@PathVariable("id") final long roleId, @Valid @RequestBody final RoleUpdateRequest request) {
-        return service.update(roleId, request);
+    public Role update(@PathVariable("role") final String role, @Valid @RequestBody final RoleUpdateRequest request) {
+        return service.update(role, request);
     }
 
 }

@@ -146,7 +146,6 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     private final Role toDto(final RoleEntity role) {
         return Role.builder()
-            .withId(role.getId())
             .withName(role.getName())
             .build();
     }

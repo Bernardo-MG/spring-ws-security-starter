@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.exception;
+package com.bernardomg.security.authorization.role.exception;
 
 /**
- * Missing user by username exception.
+ * Missing role by name exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

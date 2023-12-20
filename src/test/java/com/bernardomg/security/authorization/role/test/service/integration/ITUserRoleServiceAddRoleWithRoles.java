@@ -36,20 +36,20 @@ class ITUserRoleServiceAddRoleWithRoles {
     @Test
     @DisplayName("Adding a role which the user already has adds nothing")
     void testAddRoles_AddExisting_CallBack() {
-        final Iterable<Role>     result;
+        final Iterable<Role>     roles;
         final Collection<String> roleNames;
         final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
         service.addRole(1l, 2l);
-        result = service.getRoles(1l, pageable);
+        roles = service.getRoles(1l, pageable);
 
         // FIXME: Should be a single role
-        Assertions.assertThat(result)
+        Assertions.assertThat(roles)
             .hasSize(2);
 
-        roleNames = StreamSupport.stream(result.spliterator(), false)
+        roleNames = StreamSupport.stream(roles.spliterator(), false)
             .map(Role::getName)
             .toList();
 
@@ -60,20 +60,20 @@ class ITUserRoleServiceAddRoleWithRoles {
     @Test
     @DisplayName("Reading the roles after adding a new role returns them")
     void testAddRoles_AddNew_CallBack() {
-        final Iterable<Role>     result;
+        final Iterable<Role>     roles;
         final Collection<String> roleNames;
         final Pageable           pageable;
 
         pageable = Pageable.unpaged();
 
         service.addRole(1l, 2l);
-        result = service.getRoles(1l, pageable);
+        roles = service.getRoles(1l, pageable);
 
         // FIXME: Should be a single role
-        Assertions.assertThat(result)
+        Assertions.assertThat(roles)
             .hasSize(2);
 
-        roleNames = StreamSupport.stream(result.spliterator(), false)
+        roleNames = StreamSupport.stream(roles.spliterator(), false)
             .map(Role::getName)
             .toList();
 

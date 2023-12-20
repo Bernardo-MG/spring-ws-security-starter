@@ -30,35 +30,28 @@ class ITUserRoleServiceGetRoles {
     @Test
     @DisplayName("Returns the roles for a user")
     void testGetRoles() {
-        final Iterable<Role> result;
-        final Role           role;
+        final Iterable<Role> roles;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getRoles(1L, pageable);
+        roles = service.getRoles(1L, pageable);
 
-        Assertions.assertThat(result)
-            .hasSize(1);
-
-        role = result.iterator()
-            .next();
-
-        Assertions.assertThat(role.getName())
-            .isEqualTo(Roles.NAME);
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.valid());
     }
 
     @Test
     @DisplayName("Returns no roles for a not existing user")
     void testGetRoles_NotExisting() {
-        final Iterable<Role> result;
+        final Iterable<Role> roles;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getRoles(-1L, pageable);
+        roles = service.getRoles(-1L, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(roles)
             .isEmpty();
     }
 

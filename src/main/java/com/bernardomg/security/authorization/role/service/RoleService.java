@@ -52,10 +52,10 @@ public interface RoleService {
     /**
      * Deletes the role with the received id.
      *
-     * @param roleId
-     *            id of the role to delete
+     * @param role
+     *            name of the role to delete
      */
-    public void delete(final long roleId);
+    public void delete(final String role);
 
     /**
      * Returns all the roles matching the sample. If the sample fields are empty, then all the roles are returned.
@@ -69,23 +69,23 @@ public interface RoleService {
     public Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable);
 
     /**
-     * Returns the role for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     * Returns the role for the received name, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param roleId
-     *            id of the role to acquire
+     * @param role
+     *            name of the role to acquire
      * @return an {@code Optional} with the role, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<Role> getOne(final long roleId);
+    public Optional<Role> getOne(final String role);
 
     /**
-     * Updates the role for the received id with the received data.
+     * Updates the role for the received name with the received data.
      *
-     * @param roleId
-     *            id of the role to update
      * @param role
+     *            name of the role to update
+     * @param data
      *            new data for the role
      * @return the updated role
      */
-    public Role update(final long roleId, final RoleUpdate role);
+    public Role update(final String role, final RoleUpdate data);
 
 }

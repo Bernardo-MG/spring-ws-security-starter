@@ -30,7 +30,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
-import com.bernardomg.security.authorization.permission.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
@@ -38,6 +37,7 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionKey;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
+import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 

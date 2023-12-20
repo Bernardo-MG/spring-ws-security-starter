@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.authorization.role.test.service.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,27 +32,22 @@ class ITRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Adds an entity when creating")
-    void testCreate_AddsEntity() {
-        service.create(Roles.NAME);
-
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Persists the data")
     void testCreate_PersistedData() {
-        final RoleEntity entity;
+        final List<RoleEntity> roles;
+        final RoleEntity       role;
 
         service.create(Roles.NAME);
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        roles = repository.findAll();
 
-        Assertions.assertThat(entity.getId())
+        Assertions.assertThat(roles)
+            .hasSize(1);
+
+        role = roles.iterator()
+            .next();
+        Assertions.assertThat(role.getId())
             .isNotNull();
-        Assertions.assertThat(entity.getName())
+        Assertions.assertThat(role.getName())
             .isEqualTo(Roles.NAME);
     }
 
@@ -61,10 +58,8 @@ class ITRoleServiceCreate {
 
         result = service.create(Roles.NAME);
 
-        Assertions.assertThat(result.getId())
-            .isNotNull();
-        Assertions.assertThat(result.getName())
-            .isEqualTo(Roles.NAME);
+        Assertions.assertThat(result)
+            .isEqualTo(Roles.valid());
     }
 
 }

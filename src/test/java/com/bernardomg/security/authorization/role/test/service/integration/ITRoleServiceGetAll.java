@@ -30,43 +30,20 @@ class ITRoleServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all the entities")
-    void testGetAll_Count() {
-        final Iterable<Role> result;
-        final RoleQuery      sample;
-        final Pageable       pageable;
-
-        pageable = Pageable.unpaged();
-
-        sample = RolesQuery.empty();
-
-        result = service.getAll(sample, pageable);
-
-        Assertions.assertThat(result)
-            .hasSize(1);
-    }
-
-    @Test
     @DisplayName("Returns all data")
     void testGetAll_Data() {
-        final Iterable<Role> data;
+        final Iterable<Role> roles;
         final RoleQuery      sample;
         final Pageable       pageable;
-        final Role           role;
 
         pageable = Pageable.unpaged();
 
         sample = RolesQuery.empty();
 
-        data = service.getAll(sample, pageable);
+        roles = service.getAll(sample, pageable);
 
-        role = data.iterator()
-            .next();
-
-        Assertions.assertThat(role.getId())
-            .isNotNull();
-        Assertions.assertThat(role.getName())
-            .isEqualTo(Roles.NAME);
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.valid());
     }
 
 }

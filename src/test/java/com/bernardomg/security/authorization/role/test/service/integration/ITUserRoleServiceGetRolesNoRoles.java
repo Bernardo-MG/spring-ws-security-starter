@@ -29,14 +29,14 @@ class ITUserRoleServiceGetRolesNoRoles {
     @Test
     @DisplayName("Returns no roles for a user")
     void testGetRoles() {
-        final Iterable<Role> result;
+        final Iterable<Role> roles;
         final Pageable       pageable;
 
         pageable = Pageable.unpaged();
 
-        result = service.getRoles(1L, pageable);
+        roles = service.getRoles(1L, pageable);
 
-        Assertions.assertThat(result)
+        Assertions.assertThat(roles)
             .isEmpty();
     }
 
