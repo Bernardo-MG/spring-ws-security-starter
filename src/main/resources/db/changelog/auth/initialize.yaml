@@ -16,8 +16,8 @@ databaseChangeLog:
                   name: username
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
               - column:
                   name: password
                   type: varchar(60)
@@ -34,8 +34,8 @@ databaseChangeLog:
                   name: email
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
                   defaultValue: ''
               - column:
                   name: password_expired
@@ -84,8 +84,8 @@ databaseChangeLog:
                   name: name
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
         - addAutoIncrement:
             tableName: resources
             columnName: id
@@ -105,8 +105,8 @@ databaseChangeLog:
                   name: name
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
         - addAutoIncrement:
             tableName: actions
             columnName: id
@@ -167,8 +167,8 @@ databaseChangeLog:
                   name: name
                   type: varchar(60)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
         - addAutoIncrement:
             tableName: roles
             columnName: id
@@ -257,8 +257,8 @@ databaseChangeLog:
                   name: token
                   type: varchar(50)
                   constraints:
-                    nullable: false
                     unique: true
+                    nullable: false
               - column:
                   name: creation_date
                   type: datetime
