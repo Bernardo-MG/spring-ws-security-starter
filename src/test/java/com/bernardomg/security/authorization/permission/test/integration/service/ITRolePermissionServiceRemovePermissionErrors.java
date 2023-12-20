@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
+import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithPermissionNotGranted;
@@ -37,7 +37,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
         executable = () -> service.removePermission(Roles.NAME, "DATA:CREATE");
 
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingResourcePermissionIdException.class);
+            .isInstanceOf(MissingResourcePermissionNameException.class);
     }
 
     @Test

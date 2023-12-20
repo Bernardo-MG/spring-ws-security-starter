@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionIdException;
+import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
@@ -101,7 +101,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
         readPermission = resourcePermissionRepository.findByName(permission);
 
         if (readPermission.isEmpty()) {
-            throw new MissingResourcePermissionIdException(permission);
+            throw new MissingResourcePermissionNameException(permission);
         }
 
         // Granted permission
@@ -168,7 +168,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
         readPermission = resourcePermissionRepository.findByName(permission);
 
         if (readPermission.isEmpty()) {
-            throw new MissingResourcePermissionIdException(permission);
+            throw new MissingResourcePermissionNameException(permission);
         }
 
         rolePermissionExists = rolePermissionRepository.existsByRoleIdAndPermissionAndGranted(readRole.get()
