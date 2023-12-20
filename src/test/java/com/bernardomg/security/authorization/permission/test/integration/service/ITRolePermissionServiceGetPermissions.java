@@ -10,10 +10,10 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
-import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
-import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissionsNotGranted;
-import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

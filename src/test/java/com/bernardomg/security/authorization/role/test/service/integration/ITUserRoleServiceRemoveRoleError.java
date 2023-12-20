@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserIdException;
+import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
-import com.bernardomg.security.authorization.role.test.config.UserWithPermission;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

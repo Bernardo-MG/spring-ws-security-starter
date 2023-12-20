@@ -10,9 +10,9 @@ import com.bernardomg.security.authorization.permission.model.ResourcePermission
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
-import com.bernardomg.security.authorization.role.test.config.RoleWithCrudPermissions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
