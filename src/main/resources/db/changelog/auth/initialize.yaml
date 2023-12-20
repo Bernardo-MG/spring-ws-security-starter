@@ -144,6 +144,10 @@ databaseChangeLog:
                     references: actions(name)
                     nullable: false
                     deleteCascade: true
+        - addUniqueConstraint:
+            constraintName: permissions_unique
+            tableName: permissions
+            columnNames: 'resource, action'
         - addAutoIncrement:
             tableName: permissions
             columnName: id
