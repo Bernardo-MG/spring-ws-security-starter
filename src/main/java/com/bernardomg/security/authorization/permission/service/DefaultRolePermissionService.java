@@ -53,18 +53,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultRolePermissionService implements RolePermissionService {
 
-    private final ResourcePermissionRepository permissionRepository;
+    /**
+     * Resource permissions repository.
+     */
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
+    /**
+     * Role permissions repository.
+     */
     private final RolePermissionRepository     rolePermissionRepository;
 
+    /**
+     * Role repository.
+     */
     private final RoleRepository               roleRepository;
 
     public DefaultRolePermissionService(final RoleRepository roleRepo,
-            final ResourcePermissionRepository permissionRepo, final RolePermissionRepository rolePermissionRepo) {
+            final ResourcePermissionRepository resourcePermissionRepo, final RolePermissionRepository rolePermissionRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
-        permissionRepository = Objects.requireNonNull(permissionRepo);
+        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
         rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
     }
 
@@ -83,7 +92,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleIdException(roleId);
         }
 
-        readPermission = permissionRepository.findByName(permission);
+        readPermission = resourcePermissionRepository.findByName(permission);
 
         if (readPermission.isEmpty()) {
             throw new MissingResourcePermissionIdException(permission);
@@ -110,7 +119,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleIdException(roleId);
         }
 
-        return permissionRepository.findAllAvailableToRole(roleId, pageable)
+        return resourcePermissionRepository.findAllAvailableToRole(roleId, pageable)
             .map(this::toDto);
     }
 
@@ -124,7 +133,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleIdException(roleId);
         }
 
-        return permissionRepository.findAllForRole(roleId, page)
+        return resourcePermissionRepository.findAllForRole(roleId, page)
             .map(this::toDto);
     }
 
@@ -145,7 +154,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleIdException(roleId);
         }
 
-        readPermission = permissionRepository.findByName(permission);
+        readPermission = resourcePermissionRepository.findByName(permission);
 
         if (readPermission.isEmpty()) {
             throw new MissingResourcePermissionIdException(permission);
