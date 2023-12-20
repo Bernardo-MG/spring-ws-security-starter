@@ -37,4 +37,6 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
  */
 public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
 
+    boolean existsByRoleIdAndPermissionAndGranted(final long roleId, final String permission, final boolean granted);
+
 }

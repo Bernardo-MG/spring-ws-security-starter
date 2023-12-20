@@ -163,13 +163,13 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingResourcePermissionIdException(permission);
         }
 
-        rolePermissionKey = RolePermissionKey.builder()
-            .withRoleId(roleId)
-            .withPermission(permission)
-            .build();
-        rolePermissionExists = rolePermissionRepository.existsById(rolePermissionKey);
+        rolePermissionExists = rolePermissionRepository.existsByRoleIdAndPermissionAndGranted(roleId, permission, true);
 
         if (!rolePermissionExists) {
+            rolePermissionKey = RolePermissionKey.builder()
+                .withRoleId(roleId)
+                .withPermission(permission)
+                .build();
             throw new MissingRolePermissionIdException(rolePermissionKey);
         }
 

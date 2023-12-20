@@ -15,6 +15,7 @@ import com.bernardomg.security.authorization.permission.exception.MissingRolePer
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.test.config.RoleWithNotGrantedPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -68,6 +69,22 @@ class ITRolePermissionServiceRemovePermissionErrors {
     @CrudPermissions
     @SingleRole
     void testRemovePermission_NotExistingRolePermission() {
+        final Collection<Long> action;
+        final ThrowingCallable executable;
+
+        action = new ArrayList<>();
+        action.add(1L);
+
+        executable = () -> service.removePermission(1l, "DATA:CREATE");
+
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(MissingRolePermissionIdException.class);
+    }
+
+    @Test
+    @DisplayName("Throws an exception when the role permission isn't granted")
+    @RoleWithNotGrantedPermission
+    void testRemovePermission_NotGrantedRolePermission() {
         final Collection<Long> action;
         final ThrowingCallable executable;
 

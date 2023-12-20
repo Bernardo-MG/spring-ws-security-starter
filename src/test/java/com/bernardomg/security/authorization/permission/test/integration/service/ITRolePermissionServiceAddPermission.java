@@ -13,6 +13,7 @@ import com.bernardomg.security.authorization.permission.service.RolePermissionSe
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
+import com.bernardomg.security.authorization.role.test.config.RoleWithNotGrantedPermission;
 import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
@@ -66,6 +67,33 @@ class ITRolePermissionServiceAddPermission {
     @DisplayName("When adding an existing permission the permission is returned")
     @RoleWithPermission
     void testAddPermission_Existing_ReturnedData() {
+        final ResourcePermission permissions;
+
+        permissions = service.addPermission(1l, "DATA:CREATE");
+
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .isEqualTo(ResourcePermissions.create());
+    }
+
+    @Test
+    @DisplayName("When adding an existing not granted permission the permission is set to granted")
+    @RoleWithNotGrantedPermission
+    void testAddPermission_NotGranted_NotAddsEntity() {
+        final Iterable<RolePermissionEntity> permissions;
+
+        service.addPermission(1l, "DATA:CREATE");
+        permissions = rolePermissionRepository.findAll();
+
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(RolePermissionEntities.create());
+    }
+
+    @Test
+    @DisplayName("When adding an existing not granted permission the permission is returned")
+    @RoleWithNotGrantedPermission
+    void testAddPermission_NotGranted_ReturnedData() {
         final ResourcePermission permissions;
 
         permissions = service.addPermission(1l, "DATA:CREATE");
