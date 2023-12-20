@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,10 +41,8 @@ import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.UserRoleAddRequest;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -55,7 +52,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user/{id}/role")
+@RequestMapping("/security/user/{username}/role")
 @AllArgsConstructor
 @Transactional
 public class UserRoleController {
@@ -68,19 +65,19 @@ public class UserRoleController {
     /**
      * Adds a role to a user.
      *
-     * @param userId
-     *            user id
-     * @param request
+     * @param username
+     *            user username
+     * @param role
      *            role to add
      * @return the added role
      */
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @CacheEvict(
             cacheNames = { PermissionCaches.PERMISSION_SET, RoleCaches.USER_ROLES, RoleCaches.USER_AVAILABLE_ROLES },
             allEntries = true)
-    public Role add(@PathVariable("id") final long userId, @Valid @RequestBody final UserRoleAddRequest request) {
-        return service.addRole(userId, request.getId());
+    public Role add(@PathVariable("username") final String username, @PathVariable("role") final String role) {
+        return service.addRole(username, role);
     }
 
     /**
@@ -95,15 +92,15 @@ public class UserRoleController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.USER_ROLES)
-    public Iterable<Role> readAll(@PathVariable("id") final long userId, final Pageable page) {
-        return service.getRoles(userId, page);
+    public Iterable<Role> readAll(@PathVariable("username") final String username, final Pageable page) {
+        return service.getRoles(username, page);
     }
 
     /**
      * Returns all the roles available to a user. That is, those which haven't been assigned to the role.
      *
-     * @param userId
-     *            user id
+     * @param username
+     *            user username
      * @param page
      *            pagination to apply
      * @return a page with the available roles
@@ -111,17 +108,17 @@ public class UserRoleController {
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.USER_AVAILABLE_ROLES)
-    public Iterable<Role> readAvailable(@PathVariable("id") final long userId, final Pageable page) {
-        return service.getAvailableRoles(userId, page);
+    public Iterable<Role> readAvailable(@PathVariable("username") final String username, final Pageable page) {
+        return service.getAvailableRoles(username, page);
     }
 
     /**
      * Removes a role from a user.
      *
-     * @param userId
-     *            user id
-     * @param roleId
-     *            role id
+     * @param username
+     *            user username
+     * @param role
+     *            role to add
      * @return removed role
      */
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -129,7 +126,7 @@ public class UserRoleController {
     @CacheEvict(
             cacheNames = { PermissionCaches.PERMISSION_SET, RoleCaches.USER_ROLES, RoleCaches.USER_AVAILABLE_ROLES },
             allEntries = true)
-    public Role remove(@PathVariable("id") final long userId, @PathVariable("role") final Long roleId) {
-        return service.removeRole(userId, roleId);
+    public Role remove(@PathVariable("username") final String username, @PathVariable("role") final String role) {
+        return service.removeRole(username, role);
     }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
@@ -37,7 +38,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(1L, pageable);
+        roles = service.getAvailableRoles(Users.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .containsExactly(Roles.alternative());
@@ -52,7 +53,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(1L, pageable);
+        roles = service.getAvailableRoles(Users.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .isEmpty();
@@ -66,7 +67,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(-1L, pageable);
+        roles = service.getAvailableRoles(Users.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .isEmpty();

@@ -39,45 +39,45 @@ public interface UserRoleService {
     /**
      * Adds a role to a user.
      *
-     * @param userId
-     *            user id
-     * @param roleId
-     *            role id to add
+     * @param username
+     *            user username
+     * @param role
+     *            role to add
      * @return the added role
      */
-    public Role addRole(final long userId, final long roleId);
+    public Role addRole(final String username, final String role);
 
     /**
      * Returns all the roles available to the user, in paginated form.
      *
-     * @param userId
-     *            user id
+     * @param username
+     *            user username
      * @param page
      *            pagination to apply
      * @return a page with the available roles
      */
-    public Iterable<Role> getAvailableRoles(final long userId, final Pageable page);
+    public Iterable<Role> getAvailableRoles(final String username, final Pageable page);
 
     /**
      * Returns all the roles for the user, in paginated form.
      *
-     * @param userId
-     *            user id
+     * @param username
+     *            user username
      * @param pageable
      *            pagination to apply
      * @return a page with the roles
      */
-    public Iterable<Role> getRoles(final long userId, final Pageable pageable);
+    public Iterable<Role> getRoles(final String username, final Pageable pageable);
 
     /**
      * Removes a role from a user.
      *
-     * @param userId
-     *            user id
-     * @param roleId
-     *            role id to remove
+     * @param username
+     *            user username
+     * @param role
+     *            role to add
      * @return the removed role
      */
-    public Role removeRole(final long userId, final long roleId);
+    public Role removeRole(final String username, final String role);
 
 }
