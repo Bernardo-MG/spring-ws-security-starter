@@ -38,13 +38,19 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
-import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default role permissions service.
+ * <p>
+ * <h2>Validations</h2> All relationships are validated, this means verifying that:
+ * <ul>
+ * <li>Permission exists</li>
+ * <li>Role exists</li>
+ * <li>Role permission exists, only when removing</li>
+ * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -53,17 +59,17 @@ import lombok.extern.slf4j.Slf4j;
 public final class DefaultRolePermissionService implements RolePermissionService {
 
     /**
-     * Resource permissions repository.
+     * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
      */
     private final ResourcePermissionRepository resourcePermissionRepository;
 
     /**
-     * Role permissions repository.
+     * Role permissions repository. Used to modify permissions for the roles.
      */
     private final RolePermissionRepository     rolePermissionRepository;
 
     /**
-     * Role repository.
+     * Role repository. Used to validate the role exists.
      */
     private final RoleRepository               roleRepository;
 
@@ -80,14 +86,14 @@ public final class DefaultRolePermissionService implements RolePermissionService
     @Override
     public final ResourcePermission addPermission(final long roleId, final String permission) {
         final RolePermissionEntity               rolePermission;
-        final Optional<RoleEntity>               readRole;
+        final boolean                            roleExists;
         final Optional<ResourcePermissionEntity> readPermission;
 
         log.debug("Adding permission {} for role {}", permission, roleId);
 
-        readRole = roleRepository.findById(roleId);
+        roleExists = roleRepository.existsById(roleId);
 
-        if (readRole.isEmpty()) {
+        if (!roleExists) {
             throw new MissingRoleIdException(roleId);
         }
 
@@ -97,9 +103,8 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingResourcePermissionIdException(permission);
         }
 
-        // Build relationship entities
-        rolePermission = getRolePermissionSample(roleId, readPermission.get()
-            .getName());
+        // Granted permission
+        rolePermission = getRolePermissionSample(roleId, permission);
         rolePermission.setGranted(true);
 
         // Persist relationship entities
@@ -110,11 +115,11 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final Iterable<ResourcePermission> getAvailablePermissions(final long roleId, final Pageable pageable) {
-        final Optional<RoleEntity> readRole;
+        final boolean roleExists;
 
-        readRole = roleRepository.findById(roleId);
+        roleExists = roleRepository.existsById(roleId);
 
-        if (readRole.isEmpty()) {
+        if (!roleExists) {
             throw new MissingRoleIdException(roleId);
         }
 
@@ -124,11 +129,11 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable page) {
-        final Optional<RoleEntity> readRole;
+        final boolean roleExists;
 
-        readRole = roleRepository.findById(roleId);
+        roleExists = roleRepository.existsById(roleId);
 
-        if (readRole.isEmpty()) {
+        if (!roleExists) {
             throw new MissingRoleIdException(roleId);
         }
 
@@ -139,16 +144,16 @@ public final class DefaultRolePermissionService implements RolePermissionService
     @Override
     public final ResourcePermission removePermission(final long roleId, final String permission) {
         final RolePermissionEntity               rolePermissionSample;
-        final Optional<RolePermissionEntity>     readRolePermission;
+        final boolean                            rolePermissionExists;
         final Optional<ResourcePermissionEntity> readPermission;
-        final Optional<RoleEntity>               readRole;
+        final boolean                            roleExists;
         final RolePermissionKey                  rolePermissionKey;
 
         log.debug("Removing permission {} for role {}", permission, roleId);
 
-        readRole = roleRepository.findById(roleId);
+        roleExists = roleRepository.existsById(roleId);
 
-        if (readRole.isEmpty()) {
+        if (!roleExists) {
             throw new MissingRoleIdException(roleId);
         }
 
@@ -160,18 +165,16 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         rolePermissionKey = RolePermissionKey.builder()
             .withRoleId(roleId)
-            .withPermission(readPermission.get()
-                .getName())
+            .withPermission(permission)
             .build();
-        readRolePermission = rolePermissionRepository.findById(rolePermissionKey);
+        rolePermissionExists = rolePermissionRepository.existsById(rolePermissionKey);
 
-        if (readRolePermission.isEmpty()) {
+        if (!rolePermissionExists) {
             throw new MissingRolePermissionIdException(rolePermissionKey);
         }
 
-        // Build relationship entities
-        rolePermissionSample = getRolePermissionSample(roleId, readPermission.get()
-            .getName());
+        // Not granted permission
+        rolePermissionSample = getRolePermissionSample(roleId, permission);
         rolePermissionSample.setGranted(false);
 
         // Delete relationship entities
