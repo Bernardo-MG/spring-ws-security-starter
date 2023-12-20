@@ -45,11 +45,6 @@ public final class ResourcePermission {
     private final String action;
 
     /**
-     * Permission id.
-     */
-    private final long   id;
-
-    /**
      * Permission name.
      */
     @NonNull

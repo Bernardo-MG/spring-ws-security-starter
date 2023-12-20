@@ -8,7 +8,6 @@ public final class ResourcePermissions {
     public static final ResourcePermission create() {
         return ResourcePermission.builder()
             .withName("DATA:CREATE")
-            .withId(1L)
             .withResource("DATA")
             .withAction("CREATE")
             .build();
@@ -17,7 +16,6 @@ public final class ResourcePermissions {
     public static final ResourcePermission delete() {
         return ResourcePermission.builder()
             .withName("DATA:DELETE")
-            .withId(4L)
             .withResource("DATA")
             .withAction("DELETE")
             .build();
@@ -26,7 +24,6 @@ public final class ResourcePermissions {
     public static final ResourcePermission read() {
         return ResourcePermission.builder()
             .withName("DATA:READ")
-            .withId(2L)
             .withResource("DATA")
             .withAction("READ")
             .build();
@@ -35,7 +32,6 @@ public final class ResourcePermissions {
     public static final ResourcePermission update() {
         return ResourcePermission.builder()
             .withName("DATA:UPDATE")
-            .withId(3L)
             .withResource("DATA")
             .withAction("UPDATE")
             .build();

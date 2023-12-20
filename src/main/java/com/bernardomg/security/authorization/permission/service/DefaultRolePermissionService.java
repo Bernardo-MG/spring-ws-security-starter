@@ -182,7 +182,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     private final ResourcePermission toDto(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
-            .withId(entity.getId())
             .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())
