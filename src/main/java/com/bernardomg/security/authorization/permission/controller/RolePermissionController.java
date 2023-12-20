@@ -51,7 +51,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/role/{id}/permission")
+@RequestMapping("/security/role/{role}/permission")
 @AllArgsConstructor
 @Transactional
 public class RolePermissionController {
@@ -74,9 +74,9 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public ResourcePermission add(@PathVariable("id") final long roleId,
+    public ResourcePermission add(@PathVariable("role") final String role,
             @PathVariable("permission") final String permission) {
-        return service.addPermission(roleId, permission);
+        return service.addPermission(role, permission);
     }
 
     /**
@@ -91,8 +91,8 @@ public class RolePermissionController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAll(@PathVariable("id") final long roleId, final Pageable page) {
-        return service.getPermissions(roleId, page);
+    public Iterable<ResourcePermission> readAll(@PathVariable("role") final String role, final Pageable page) {
+        return service.getPermissions(role, page);
     }
 
     /**
@@ -107,15 +107,15 @@ public class RolePermissionController {
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_AVAILABLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAvailable(@PathVariable("id") final long roleId, final Pageable page) {
-        return service.getAvailablePermissions(roleId, page);
+    public Iterable<ResourcePermission> readAvailable(@PathVariable("role") final String role, final Pageable page) {
+        return service.getAvailablePermissions(role, page);
     }
 
     /**
      * Removes a permission from a role.
      *
-     * @param permissionId
-     *            role id
+     * @param role
+     *            role name
      * @param permission
      *            permission to remove
      * @return the removed permission
@@ -124,9 +124,9 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public ResourcePermission remove(@PathVariable("id") final long permissionId,
+    public ResourcePermission remove(@PathVariable("role") final String role,
             @PathVariable("permission") final String permission) {
-        return service.removePermission(permissionId, permission);
+        return service.removePermission(role, permission);
     }
 
 }

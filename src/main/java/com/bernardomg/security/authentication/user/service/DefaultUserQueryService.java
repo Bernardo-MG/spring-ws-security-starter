@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.exception.MissingUsernameException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserUpdate;
@@ -74,7 +74,7 @@ public final class DefaultUserQueryService implements UserQueryService {
         log.debug("Deleting user {}", username);
 
         if (!userRepository.existsByUsername(username)) {
-            throw new MissingUsernameException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         userRepository.deleteByUsername(username);
@@ -107,7 +107,7 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         // TODO: Use the read optional
         if (!userRepository.existsByUsername(username)) {
-            throw new MissingUsernameException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         return userRepository.findOneByUsername(username)
@@ -124,7 +124,7 @@ public final class DefaultUserQueryService implements UserQueryService {
         log.debug("Updating user {} using data {}", username, user);
 
         if (!userRepository.existsByUsername(username)) {
-            throw new MissingUsernameException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         validatorUpdateUser.validate(user);

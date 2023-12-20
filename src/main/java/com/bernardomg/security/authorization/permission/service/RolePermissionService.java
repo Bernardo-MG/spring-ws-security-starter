@@ -37,47 +37,47 @@ import com.bernardomg.security.authorization.permission.model.ResourcePermission
 public interface RolePermissionService {
 
     /**
-     * Adds a action to a role.
+     * Adds a permission to a role.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param permission
      *            permission to add
      * @return the added permission
      */
-    public ResourcePermission addPermission(final long roleId, final String permission);
+    public ResourcePermission addPermission(final String role, final String permission);
 
     /**
      * Returns all permissions available to a role in a paginated form.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param page
      *            pagination to apply
      * @return permissions the role doesn't have
      */
-    public Iterable<ResourcePermission> getAvailablePermissions(final long roleId, final Pageable page);
+    public Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable page);
 
     /**
      * Returns all permissions assigned to a role.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param page
      *            pagination to apply
      * @return role permissions
      */
-    public Iterable<ResourcePermission> getPermissions(final long roleId, final Pageable page);
+    public Iterable<ResourcePermission> getPermissions(final String role, final Pageable page);
 
     /**
      * Removes a permission from a role.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param permission
      *            permission to remove
      * @return the removed permission
      */
-    public ResourcePermission removePermission(final long roleId, final String permission);
+    public ResourcePermission removePermission(final String role, final String permission);
 
 }

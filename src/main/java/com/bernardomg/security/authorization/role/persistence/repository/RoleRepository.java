@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.role.persistence.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -71,5 +73,14 @@ public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
      */
     @Query("SELECT r FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
     public Page<RoleEntity> findForUser(@Param("id") final Long userId, final Pageable page);
+
+    /**
+     * Returns the role for the received name.
+     *
+     * @param name
+     *            name to search for
+     * @return the role for the received name
+     */
+    public Optional<RoleEntity> findOneByName(final String name);
 
 }

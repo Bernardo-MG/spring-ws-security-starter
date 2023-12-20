@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.exception;
+package com.bernardomg.security.authorization.permission.exception;
 
 /**
  * Missing user by username exception.
@@ -30,25 +30,25 @@ package com.bernardomg.security.authentication.user.exception;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingUsernameException extends RuntimeException {
+public final class MissingRoleNameException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    private final String      username;
+    private final String      role;
 
-    public MissingUsernameException(final String user) {
-        super(String.format("Missing username %s", user));
+    public MissingRoleNameException(final String name) {
+        super(String.format("Missing role name %s", name));
 
-        username = user;
+        role = name;
     }
 
     /**
-     * Returns the username which caused the exception.
+     * Returns the role which caused the exception.
      *
-     * @return the username which caused the exception
+     * @return the role which caused the exception
      */
-    public final String getUsername() {
-        return username;
+    public final String getRole() {
+        return role;
     }
 
 }
