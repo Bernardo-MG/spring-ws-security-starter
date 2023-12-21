@@ -3,6 +3,7 @@ package com.bernardomg.security.authentication.user.test.notification.unit;
 
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +25,8 @@ class SpringMailPasswordNotificatorTest {
     @Mock
     private JavaMailSender       javaMailSender;
 
+    private PasswordNotificator  passwordNotificator;
+
     @Mock
     private SpringTemplateEngine templateEng;
 
@@ -31,16 +34,19 @@ class SpringMailPasswordNotificatorTest {
         super();
     }
 
-    private final PasswordNotificator getSender() {
-        return new SpringMailPasswordNotificator(templateEng, javaMailSender, "sender@somewhere.com",
+    @BeforeEach
+    private final void initializeSender() {
+        passwordNotificator = new SpringMailPasswordNotificator(templateEng, javaMailSender, "sender@somewhere.com",
             "http://somewhere.com");
     }
 
     @Test
     @DisplayName("The message content is sent to the target email")
     void testSendEmail_Content() throws Exception {
-        getSender().sendPasswordRecoveryMessage(Users.EMAIL, Users.USERNAME, "token");
+        // WHEN
+        passwordNotificator.sendPasswordRecoveryMessage(Users.EMAIL, Users.USERNAME, "token");
 
+        // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));
     }
 

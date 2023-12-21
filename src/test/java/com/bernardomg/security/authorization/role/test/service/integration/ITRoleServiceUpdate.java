@@ -40,11 +40,9 @@ import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.security.authorization.role.test.util.model.RoleEntities;
 import com.bernardomg.security.authorization.role.test.util.model.Roles;
 import com.bernardomg.security.authorization.role.test.util.model.RolesUpdate;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - update")
 @SingleRole
 class ITRoleServiceUpdate {

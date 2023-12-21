@@ -14,11 +14,9 @@ import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.security.authentication.user.test.util.model.UsersQuery;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - get all")
 class ITUserQueryServiceGetAll {
 

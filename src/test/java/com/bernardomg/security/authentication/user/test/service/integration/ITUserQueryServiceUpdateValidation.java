@@ -13,12 +13,10 @@ import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
 import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - add roles validation")
 class ITUserQueryServiceUpdateValidation {
 

@@ -14,11 +14,9 @@ import com.bernardomg.security.authorization.role.exception.MissingRoleNameExcep
 import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.security.authorization.role.test.util.model.Roles;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - add role - error")
 class ITUserRoleServiceAddRoleError {
 
