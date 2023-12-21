@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.authorization.role.test.service.integration;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -77,8 +76,8 @@ class ITRoleServiceGetAllPagination {
 
         roles = service.getAll(sample, pageable);
 
-        Assertions.assertThat(IterableUtils.isEmpty(roles))
-            .isTrue();
+        Assertions.assertThat(roles)
+            .isEmpty();
     }
 
     @Test

@@ -4,6 +4,7 @@ package com.bernardomg.security.authorization.token.test.store.integration;
 import java.time.LocalDateTime;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -74,17 +75,19 @@ class ITPersistentUserTokenStoreCreateToken {
         upper = LocalDateTime.now()
             .plusSeconds(1);
 
-        Assertions.assertThat(token.getToken())
-            .isNotNull();
-        Assertions.assertThat(token.getScope())
-            .isEqualTo("scope");
-        Assertions.assertThat(token.getExpirationDate())
-            .isAfter(lower)
-            .isBefore(upper);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getToken())
+                .isNotNull();
+            softly.assertThat(token.getScope())
+                .isEqualTo("scope");
+            softly.assertThat(token.getExpirationDate())
+                .isAfter(lower)
+                .isBefore(upper);
+            softly.assertThat(token.isConsumed())
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .isFalse();
+        });
     }
 
     @Test

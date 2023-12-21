@@ -4,6 +4,7 @@ package com.bernardomg.security.authorization.role.test.service.integration;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +44,13 @@ class ITRoleServiceCreate {
 
         role = roles.iterator()
             .next();
-        Assertions.assertThat(role.getId())
-            .isNotNull();
-        Assertions.assertThat(role.getName())
-            .isEqualTo(Roles.NAME);
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(role.getId())
+                .isNotNull();
+            softly.assertThat(role.getName())
+                .isEqualTo(Roles.NAME);
+        });
     }
 
     @Test

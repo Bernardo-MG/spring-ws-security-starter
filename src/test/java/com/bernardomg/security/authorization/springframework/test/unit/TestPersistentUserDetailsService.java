@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,38 +62,40 @@ class TestPersistentUserDetailsService {
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
-        Assertions.assertThat(userDetails.getUsername())
-            .as("username")
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(userDetails.getPassword())
-            .as("password")
-            .isEqualTo(Users.ENCODED_PASSWORD);
-        Assertions.assertThat(userDetails.isAccountNonExpired())
-            .as("non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isAccountNonLocked())
-            .as("non locked")
-            .isTrue();
-        Assertions.assertThat(userDetails.isCredentialsNonExpired())
-            .as("credentials non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isEnabled())
-            .as("enabled")
-            .isFalse();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(userDetails.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(userDetails.getPassword())
+                .as("password")
+                .isEqualTo(Users.ENCODED_PASSWORD);
+            softly.assertThat(userDetails.isAccountNonExpired())
+                .as("non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isAccountNonLocked())
+                .as("non locked")
+                .isTrue();
+            softly.assertThat(userDetails.isCredentialsNonExpired())
+                .as("credentials non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isEnabled())
+                .as("enabled")
+                .isFalse();
 
-        Assertions.assertThat(userDetails.getAuthorities())
-            .as("authorities size")
-            .hasSize(1);
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("resource")
-            .first()
-            .as("authority resource")
-            .isEqualTo("resource");
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("action")
-            .first()
-            .as("authority action")
-            .isEqualTo("action");
+            softly.assertThat(userDetails.getAuthorities())
+                .as("authorities size")
+                .hasSize(1);
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("resource")
+                .first()
+                .as("authority resource")
+                .isEqualTo("resource");
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("action")
+                .first()
+                .as("authority action")
+                .isEqualTo("action");
+        });
     }
 
     @Test
@@ -107,38 +110,40 @@ class TestPersistentUserDetailsService {
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
-        Assertions.assertThat(userDetails.getUsername())
-            .as("username")
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(userDetails.getPassword())
-            .as("password")
-            .isEqualTo(Users.ENCODED_PASSWORD);
-        Assertions.assertThat(userDetails.isAccountNonExpired())
-            .as("non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isAccountNonLocked())
-            .as("non locked")
-            .isTrue();
-        Assertions.assertThat(userDetails.isCredentialsNonExpired())
-            .as("credentials non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isEnabled())
-            .as("enabled")
-            .isTrue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(userDetails.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(userDetails.getPassword())
+                .as("password")
+                .isEqualTo(Users.ENCODED_PASSWORD);
+            softly.assertThat(userDetails.isAccountNonExpired())
+                .as("non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isAccountNonLocked())
+                .as("non locked")
+                .isTrue();
+            softly.assertThat(userDetails.isCredentialsNonExpired())
+                .as("credentials non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isEnabled())
+                .as("enabled")
+                .isTrue();
 
-        Assertions.assertThat(userDetails.getAuthorities())
-            .as("authorities size")
-            .hasSize(1);
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("resource")
-            .first()
-            .as("authority resource")
-            .isEqualTo("resource");
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("action")
-            .first()
-            .as("authority action")
-            .isEqualTo("action");
+            softly.assertThat(userDetails.getAuthorities())
+                .as("authorities size")
+                .hasSize(1);
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("resource")
+                .first()
+                .as("authority resource")
+                .isEqualTo("resource");
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("action")
+                .first()
+                .as("authority action")
+                .isEqualTo("action");
+        });
     }
 
     @Test
@@ -153,38 +158,40 @@ class TestPersistentUserDetailsService {
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
-        Assertions.assertThat(userDetails.getUsername())
-            .as("username")
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(userDetails.getPassword())
-            .as("password")
-            .isEqualTo(Users.ENCODED_PASSWORD);
-        Assertions.assertThat(userDetails.isAccountNonExpired())
-            .as("non expired")
-            .isFalse();
-        Assertions.assertThat(userDetails.isAccountNonLocked())
-            .as("non locked")
-            .isTrue();
-        Assertions.assertThat(userDetails.isCredentialsNonExpired())
-            .as("credentials non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isEnabled())
-            .as("enabled")
-            .isTrue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(userDetails.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(userDetails.getPassword())
+                .as("password")
+                .isEqualTo(Users.ENCODED_PASSWORD);
+            softly.assertThat(userDetails.isAccountNonExpired())
+                .as("non expired")
+                .isFalse();
+            softly.assertThat(userDetails.isAccountNonLocked())
+                .as("non locked")
+                .isTrue();
+            softly.assertThat(userDetails.isCredentialsNonExpired())
+                .as("credentials non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isEnabled())
+                .as("enabled")
+                .isTrue();
 
-        Assertions.assertThat(userDetails.getAuthorities())
-            .as("authorities size")
-            .hasSize(1);
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("resource")
-            .first()
-            .as("authority resource")
-            .isEqualTo("resource");
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("action")
-            .first()
-            .as("authority action")
-            .isEqualTo("action");
+            softly.assertThat(userDetails.getAuthorities())
+                .as("authorities size")
+                .hasSize(1);
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("resource")
+                .first()
+                .as("authority resource")
+                .isEqualTo("resource");
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("action")
+                .first()
+                .as("authority action")
+                .isEqualTo("action");
+        });
     }
 
     @Test
@@ -199,38 +206,40 @@ class TestPersistentUserDetailsService {
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
-        Assertions.assertThat(userDetails.getUsername())
-            .as("username")
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(userDetails.getPassword())
-            .as("password")
-            .isEqualTo(Users.ENCODED_PASSWORD);
-        Assertions.assertThat(userDetails.isAccountNonExpired())
-            .as("non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isAccountNonLocked())
-            .as("non locked")
-            .isFalse();
-        Assertions.assertThat(userDetails.isCredentialsNonExpired())
-            .as("credentials non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isEnabled())
-            .as("enabled")
-            .isTrue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(userDetails.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(userDetails.getPassword())
+                .as("password")
+                .isEqualTo(Users.ENCODED_PASSWORD);
+            softly.assertThat(userDetails.isAccountNonExpired())
+                .as("non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isAccountNonLocked())
+                .as("non locked")
+                .isFalse();
+            softly.assertThat(userDetails.isCredentialsNonExpired())
+                .as("credentials non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isEnabled())
+                .as("enabled")
+                .isTrue();
 
-        Assertions.assertThat(userDetails.getAuthorities())
-            .as("authorities size")
-            .hasSize(1);
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("resource")
-            .first()
-            .as("authority resource")
-            .isEqualTo("resource");
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("action")
-            .first()
-            .as("authority action")
-            .isEqualTo("action");
+            softly.assertThat(userDetails.getAuthorities())
+                .as("authorities size")
+                .hasSize(1);
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("resource")
+                .first()
+                .as("authority resource")
+                .isEqualTo("resource");
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("action")
+                .first()
+                .as("authority action")
+                .isEqualTo("action");
+        });
     }
 
     @Test
@@ -262,38 +271,40 @@ class TestPersistentUserDetailsService {
 
         userDetails = service.loadUserByUsername(Users.USERNAME);
 
-        Assertions.assertThat(userDetails.getUsername())
-            .as("username")
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(userDetails.getPassword())
-            .as("password")
-            .isEqualTo(Users.ENCODED_PASSWORD);
-        Assertions.assertThat(userDetails.isAccountNonExpired())
-            .as("non expired")
-            .isTrue();
-        Assertions.assertThat(userDetails.isAccountNonLocked())
-            .as("non locked")
-            .isTrue();
-        Assertions.assertThat(userDetails.isCredentialsNonExpired())
-            .as("credentials non expired")
-            .isFalse();
-        Assertions.assertThat(userDetails.isEnabled())
-            .as("enabled")
-            .isTrue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(userDetails.getUsername())
+                .as("username")
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(userDetails.getPassword())
+                .as("password")
+                .isEqualTo(Users.ENCODED_PASSWORD);
+            softly.assertThat(userDetails.isAccountNonExpired())
+                .as("non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isAccountNonLocked())
+                .as("non locked")
+                .isTrue();
+            softly.assertThat(userDetails.isCredentialsNonExpired())
+                .as("credentials non expired")
+                .isFalse();
+            softly.assertThat(userDetails.isEnabled())
+                .as("enabled")
+                .isTrue();
 
-        Assertions.assertThat(userDetails.getAuthorities())
-            .as("authorities size")
-            .hasSize(1);
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("resource")
-            .first()
-            .as("authority resource")
-            .isEqualTo("resource");
-        Assertions.assertThat(userDetails.getAuthorities())
-            .extracting("action")
-            .first()
-            .as("authority action")
-            .isEqualTo("action");
+            softly.assertThat(userDetails.getAuthorities())
+                .as("authorities size")
+                .hasSize(1);
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("resource")
+                .first()
+                .as("authority resource")
+                .isEqualTo("resource");
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("action")
+                .first()
+                .as("authority action")
+                .isEqualTo("action");
+        });
     }
 
     @Test

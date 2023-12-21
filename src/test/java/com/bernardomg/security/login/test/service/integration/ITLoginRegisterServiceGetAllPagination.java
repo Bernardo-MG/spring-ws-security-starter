@@ -3,7 +3,6 @@ package com.bernardomg.security.login.test.service.integration;
 
 import java.util.Iterator;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -73,8 +72,8 @@ class ITLoginRegisterServiceGetAllPagination {
 
         data = service.getAll(pageable);
 
-        Assertions.assertThat(IterableUtils.isEmpty(data))
-            .isTrue();
+        Assertions.assertThat(data)
+            .isEmpty();
     }
 
     @Test
