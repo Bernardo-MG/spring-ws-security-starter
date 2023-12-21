@@ -41,11 +41,9 @@ import com.bernardomg.security.authentication.user.test.util.assertion.UserAsser
 import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - update")
 class ITUserQueryServiceUpdate {
 

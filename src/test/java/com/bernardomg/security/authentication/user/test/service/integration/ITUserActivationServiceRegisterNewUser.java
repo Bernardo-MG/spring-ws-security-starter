@@ -1,7 +1,10 @@
 
 package com.bernardomg.security.authentication.user.test.service.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +13,10 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
-import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - register new user")
 class ITUserActivationServiceRegisterNewUser {
 
@@ -43,17 +42,22 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Persists the data, ignoring case")
     void testRegisterNewUser_Case_PersistedData() {
-        final UserEntity entity;
+        final List<UserEntity> entities;
 
         service.registerNewUser(Users.USERNAME.toUpperCase(), Users.NAME, Users.EMAIL.toUpperCase());
-        entity = repository.findAll()
-            .iterator()
-            .next();
 
-        Assertions.assertThat(entity.getUsername())
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(entity.getEmail())
-            .isEqualTo(Users.EMAIL);
+        entities = repository.findAll();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(entities)
+                .first()
+                .extracting(UserEntity::getUsername)
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(entities)
+                .first()
+                .extracting(UserEntity::getEmail)
+                .isEqualTo(Users.EMAIL);
+        });
     }
 
     @Test
@@ -63,40 +67,50 @@ class ITUserActivationServiceRegisterNewUser {
 
         result = service.registerNewUser(Users.USERNAME.toUpperCase(), Users.NAME, Users.EMAIL.toUpperCase());
 
-        Assertions.assertThat(result.getUsername())
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(result.getEmail())
-            .isEqualTo(Users.EMAIL);
+        Assertions.assertThat(result)
+            .isEqualTo(Users.newlyCreated());
     }
 
     @Test
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
     void testRegisterNewUser_Padded_PersistedData() {
-        final UserEntity entity;
+        final List<UserEntity> entities;
 
         service.registerNewUser(" " + Users.USERNAME + " ", " " + Users.NAME + " ", " " + Users.EMAIL + " ");
-        entity = repository.findAll()
-            .iterator()
-            .next();
 
-        UserAssertions.isEqualTo(entity, UserEntities.newlyCreated());
+        entities = repository.findAll();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(entities)
+                .first()
+                .extracting(UserEntity::getUsername)
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(entities)
+                .first()
+                .extracting(UserEntity::getEmail)
+                .isEqualTo(Users.EMAIL);
+        });
     }
 
     @Test
     @DisplayName("Persists the data")
     void testRegisterNewUser_PersistedData() {
-        final UserEntity entity;
+        final List<UserEntity> entities;
 
         service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
 
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
+        entities = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
-            .next();
-
-        UserAssertions.isEqualTo(entity, UserEntities.newlyCreated());
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(entities)
+                .first()
+                .extracting(UserEntity::getUsername)
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(entities)
+                .first()
+                .extracting(UserEntity::getEmail)
+                .isEqualTo(Users.EMAIL);
+        });
     }
 
     @Test
@@ -106,7 +120,8 @@ class ITUserActivationServiceRegisterNewUser {
 
         result = service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
 
-        UserAssertions.isEqualTo(result, Users.newlyCreated());
+        Assertions.assertThat(result)
+            .isEqualTo(Users.newlyCreated());
     }
 
 }

@@ -34,11 +34,9 @@ import com.bernardomg.security.authorization.role.persistence.repository.RoleRep
 import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
 import com.bernardomg.security.authorization.role.test.util.model.Roles;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - delete with permissions")
 class ITRoleServiceDelete {
 
