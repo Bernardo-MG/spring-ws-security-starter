@@ -109,10 +109,13 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadDisabledUser();
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -127,10 +130,13 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadExpiredUser();
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -145,10 +151,13 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadLockedUser();
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -163,8 +172,10 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())

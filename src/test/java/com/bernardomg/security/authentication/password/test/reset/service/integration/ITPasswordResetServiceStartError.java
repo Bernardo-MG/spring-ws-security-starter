@@ -29,8 +29,10 @@ class ITPasswordResetServiceStartError {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())

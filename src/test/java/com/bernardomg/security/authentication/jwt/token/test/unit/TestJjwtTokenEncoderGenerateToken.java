@@ -8,18 +8,12 @@ import org.junit.jupiter.api.Test;
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 
 @DisplayName("JjwtTokenEncoder - generate token")
 class TestJjwtTokenEncoderGenerateToken {
 
-    private final TokenEncoder encoder;
-
-    public TestJjwtTokenEncoderGenerateToken() {
-        super();
-
-        encoder = new JjwtTokenEncoder(TokenConstants.KEY);
-    }
+    private final TokenEncoder encoder = new JjwtTokenEncoder(Tokens.KEY);
 
     @Test
     @DisplayName("Encodes a token")
@@ -27,12 +21,16 @@ class TestJjwtTokenEncoderGenerateToken {
         final String       token;
         final JwtTokenData data;
 
+        // GIVEN
         data = JwtTokenData.builder()
             .build();
 
+        // WHEN
         token = encoder.encode(data);
 
+        // THEN
         Assertions.assertThat(token)
+            .as("token")
             .isNotEmpty();
     }
 

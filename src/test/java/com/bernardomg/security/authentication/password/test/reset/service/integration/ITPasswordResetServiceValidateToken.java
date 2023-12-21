@@ -34,8 +34,10 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
+        // WHEN
         status = service.validateToken(UserTokens.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .as("status")
@@ -53,8 +55,10 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
+        // WHEN
         status = service.validateToken(UserTokens.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .as("status")
@@ -72,8 +76,10 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
+        // WHEN
         status = service.validateToken(UserTokens.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .as("status")

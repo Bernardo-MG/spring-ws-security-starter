@@ -7,13 +7,15 @@ import javax.crypto.SecretKey;
 
 import io.jsonwebtoken.security.Keys;
 
-public final class TokenConstants {
+public final class Tokens {
 
-    public static final SecretKey KEY = Keys.hmacShaKeyFor(
+    public static final SecretKey KEY   = Keys.hmacShaKeyFor(
         "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
             .getBytes(Charset.forName("UTF-8")));
 
-    private TokenConstants() {
+    public static final String    TOKEN = "token";
+
+    private Tokens() {
         super();
     }
 

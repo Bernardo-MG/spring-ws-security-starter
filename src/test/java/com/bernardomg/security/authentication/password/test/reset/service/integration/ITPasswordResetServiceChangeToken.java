@@ -37,8 +37,10 @@ class ITPasswordResetServiceChangeToken {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -54,8 +56,10 @@ class ITPasswordResetServiceChangeToken {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -70,8 +74,10 @@ class ITPasswordResetServiceChangeToken {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.DisabledUser;
 import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
@@ -171,7 +171,7 @@ class ITTokenLoginService {
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
         parser = Jwts.parser()
-            .verifyWith(TokenConstants.KEY)
+            .verifyWith(Tokens.KEY)
             .build();
 
         claims = parser.parseSignedClaims(status.getToken())

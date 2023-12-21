@@ -4,6 +4,7 @@ package com.bernardomg.security.authentication.password.test.reset.model.unit;
 import java.util.Set;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 
-@DisplayName("DtoPasswordRecovery validation")
+@DisplayName("PasswordResetRequest validation")
 class TestPasswordResetRequestValidation {
 
     private final Validator validator = Validation.buildDefaultValidatorFactory()
@@ -25,23 +26,31 @@ class TestPasswordResetRequestValidation {
     void validate_invalidEmail() {
         final PasswordResetRequest                           passwordRecovery;
         final Set<ConstraintViolation<PasswordResetRequest>> errors;
-        final ConstraintViolation<PasswordResetRequest>      error;
 
+        // GIVEN
         passwordRecovery = new PasswordResetRequest();
         passwordRecovery.setEmail("abc");
 
+        // WHEN
         errors = validator.validate(passwordRecovery);
 
+        // THEN
         Assertions.assertThat(errors)
+            .as("errors")
             .hasSize(1);
 
-        error = errors.iterator()
-            .next();
-
-        Assertions.assertThat(error.getPropertyPath())
-            .hasToString("email");
-        Assertions.assertThat(error.getInvalidValue())
-            .isEqualTo("abc");
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(errors)
+                .first()
+                .extracting(ConstraintViolation::getPropertyPath)
+                .as("property")
+                .hasToString("email");
+            softly.assertThat(errors)
+                .first()
+                .extracting(ConstraintViolation::getInvalidValue)
+                .as("value")
+                .hasToString("abc");
+        });
     }
 
     @Test
@@ -49,23 +58,30 @@ class TestPasswordResetRequestValidation {
     void validate_noEmail() {
         final PasswordResetRequest                           passwordRecovery;
         final Set<ConstraintViolation<PasswordResetRequest>> errors;
-        final ConstraintViolation<PasswordResetRequest>      error;
 
+        // GIVEN
         passwordRecovery = new PasswordResetRequest();
         passwordRecovery.setEmail(null);
 
+        // WHEN
         errors = validator.validate(passwordRecovery);
 
+        // THEN
         Assertions.assertThat(errors)
             .hasSize(1);
 
-        error = errors.iterator()
-            .next();
-
-        Assertions.assertThat(error.getPropertyPath())
-            .hasToString("email");
-        Assertions.assertThat(error.getInvalidValue())
-            .isNull();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(errors)
+                .first()
+                .extracting(ConstraintViolation::getPropertyPath)
+                .as("property")
+                .hasToString("email");
+            softly.assertThat(errors)
+                .first()
+                .extracting(ConstraintViolation::getInvalidValue)
+                .as("value")
+                .isNull();
+        });
     }
 
     @Test
@@ -74,11 +90,14 @@ class TestPasswordResetRequestValidation {
         final PasswordResetRequest                           passwordRecovery;
         final Set<ConstraintViolation<PasswordResetRequest>> errors;
 
+        // GIVEN
         passwordRecovery = new PasswordResetRequest();
         passwordRecovery.setEmail(Users.EMAIL);
 
+        // WHEN
         errors = validator.validate(passwordRecovery);
 
+        // THEN
         Assertions.assertThat(errors)
             .isEmpty();
     }
