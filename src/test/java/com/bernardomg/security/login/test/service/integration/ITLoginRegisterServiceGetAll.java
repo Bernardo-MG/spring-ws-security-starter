@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.login.model.LoginRegister;
 import com.bernardomg.security.login.service.LoginRegisterService;
 import com.bernardomg.security.login.test.config.LoggedInLoginRegister;
-import com.bernardomg.security.login.test.util.assertion.LoginRegisterAssertions;
 import com.bernardomg.security.login.test.util.model.LoginRegisters;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -31,20 +30,14 @@ class ITLoginRegisterServiceGetAll {
     void testGetAll_Data() {
         final Iterable<LoginRegister> logins;
         final Pageable                pageable;
-        final LoginRegister           login;
 
         pageable = Pageable.unpaged();
 
         logins = service.getAll(pageable);
 
         Assertions.assertThat(logins)
-            .as("users")
-            .hasSize(1);
-
-        login = logins.iterator()
-            .next();
-
-        LoginRegisterAssertions.isEqualTo(login, LoginRegisters.loggedIn());
+            .as("logins")
+            .containsExactly(LoginRegisters.loggedIn());
     }
 
     @Test

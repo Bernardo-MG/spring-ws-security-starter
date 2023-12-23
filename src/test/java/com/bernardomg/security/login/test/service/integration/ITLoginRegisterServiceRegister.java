@@ -3,6 +3,7 @@ package com.bernardomg.security.login.test.service.integration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.login.model.request.LoginRequest;
 import com.bernardomg.security.login.persistence.model.LoginRegisterEntity;
 import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.service.LoginRegisterService;
@@ -19,6 +19,13 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("LoginRegisterService - register log in")
 class ITLoginRegisterServiceRegister {
+
+    private final LocalDateTime     dayEnd   = LocalDate.now()
+        .atStartOfDay()
+        .plusDays(1);
+
+    private final LocalDateTime     dayStart = LocalDate.now()
+        .atStartOfDay();
 
     @Autowired
     private LoginRegisterRepository repository;
@@ -32,71 +39,59 @@ class ITLoginRegisterServiceRegister {
 
     @Test
     @DisplayName("Persists a succesful log in attempt")
-    void testLogIn_Register_Logged_Persisted() {
-        final LoginRequest        login;
-        final LoginRegisterEntity entity;
-        final LocalDateTime       dayStart;
-        final LocalDateTime       dayEnd;
-
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
+    void testRegister_Logged_Persisted() {
+        final List<LoginRegisterEntity> registers;
+        final LoginRegisterEntity       register;
 
         service.register(Users.USERNAME, true);
 
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
+        registers = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
+        Assertions.assertThat(registers)
+            .as("registers")
+            .hasSize(1);
+
+        register = registers.iterator()
             .next();
 
-        Assertions.assertThat(entity.getLoggedIn())
+        Assertions.assertThat(register.getLoggedIn())
+            .as("logged in")
             .isTrue();
-        Assertions.assertThat(entity.getUsername())
+        Assertions.assertThat(register.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
 
-        dayStart = LocalDate.now()
-            .atStartOfDay();
-        dayEnd = LocalDate.now()
-            .atStartOfDay()
-            .plusDays(1);
-        Assertions.assertThat(entity.getDate())
+        Assertions.assertThat(register.getDate())
+            .as("date")
             .isBetween(dayStart, dayEnd);
     }
 
     @Test
     @DisplayName("Persists a failed log in attempt")
-    void testLogIn_Register_NotLogged_Persisted() {
-        final LoginRequest        login;
-        final LoginRegisterEntity entity;
-        final LocalDateTime       dayStart;
-        final LocalDateTime       dayEnd;
-
-        login = new LoginRequest();
-        login.setUsername(Users.USERNAME);
-        login.setPassword(Users.PASSWORD);
+    void testRegister_NotLogged_Persisted() {
+        final List<LoginRegisterEntity> registers;
+        final LoginRegisterEntity       register;
 
         service.register(Users.USERNAME, false);
 
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
+        registers = repository.findAll();
 
-        entity = repository.findAll()
-            .iterator()
+        Assertions.assertThat(registers)
+            .as("registers")
+            .hasSize(1);
+
+        register = registers.iterator()
             .next();
 
-        Assertions.assertThat(entity.getLoggedIn())
+        Assertions.assertThat(register.getLoggedIn())
+            .as("logged in")
             .isFalse();
-        Assertions.assertThat(entity.getUsername())
+        Assertions.assertThat(register.getUsername())
+            .as("username")
             .isEqualTo(Users.USERNAME);
 
-        dayStart = LocalDate.now()
-            .atStartOfDay();
-        dayEnd = LocalDate.now()
-            .atStartOfDay()
-            .plusDays(1);
-        Assertions.assertThat(entity.getDate())
+        Assertions.assertThat(register.getDate())
+            .as("date")
             .isBetween(dayStart, dayEnd);
     }
 

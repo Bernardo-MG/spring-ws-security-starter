@@ -47,26 +47,24 @@ class ITTokenLoginService {
     }
 
     @Test
-    @DisplayName("Logs in with a valid email")
-    @ValidUser
-    void testLogIn_Email_Valid() {
-        final TokenLoginStatus status;
-
-        status = service.login(Users.USERNAME, Users.PASSWORD);
-
-        Assertions.assertThat(status.isLogged())
-            .isTrue();
-        Assertions.assertThat(status.getToken())
-            .isNotBlank();
-    }
-
-    @Test
     @DisplayName("Doesn't log in an expired user")
     @ExpiredUser
     void testLogIn_Expired() {
         final TokenLoginStatus status;
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
+
+        Assertions.assertThat(status.isLogged())
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("Doesn't log in with an invalid password")
+    @ValidUser
+    void testLogIn_InvalidPassword() {
+        final TokenLoginStatus status;
+
+        status = service.login(Users.USERNAME, "abc");
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -98,11 +96,10 @@ class ITTokenLoginService {
 
     @Test
     @DisplayName("Doesn't log in a not existing user")
-    @ValidUser
     void testLogIn_NotExisting() {
         final TokenLoginStatus status;
 
-        status = service.login("abc", Users.PASSWORD);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
@@ -147,12 +144,12 @@ class ITTokenLoginService {
     }
 
     @Test
-    @DisplayName("Logs in with a valid user, ignoring username case")
+    @DisplayName("Logs in with a valid email")
     @ValidUser
-    void testLogIn_Valid_Case() {
+    void testLogIn_Valid_EmailLogin() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME.toUpperCase(), Users.PASSWORD);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -179,6 +176,20 @@ class ITTokenLoginService {
 
         Assertions.assertThat(claims.getSubject())
             .isEqualTo(Users.USERNAME);
+    }
+
+    @Test
+    @DisplayName("Logs in with a valid user, ignoring username case")
+    @ValidUser
+    void testLogIn_Valid_UsernameCase() {
+        final TokenLoginStatus status;
+
+        status = service.login(Users.USERNAME.toUpperCase(), Users.PASSWORD);
+
+        Assertions.assertThat(status.isLogged())
+            .isTrue();
+        Assertions.assertThat(status.getToken())
+            .isNotBlank();
     }
 
 }
