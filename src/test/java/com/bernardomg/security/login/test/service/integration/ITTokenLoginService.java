@@ -17,6 +17,7 @@ import com.bernardomg.security.authorization.permission.test.config.UserWithCrud
 import com.bernardomg.security.authorization.permission.test.config.UserWithoutPermissions;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
+import com.bernardomg.security.login.test.util.model.TokenLoginStatuses;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;
@@ -42,8 +43,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -54,8 +55,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -66,8 +67,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, "abc");
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -78,8 +79,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -90,8 +91,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -101,8 +102,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -113,8 +114,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -125,8 +126,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
