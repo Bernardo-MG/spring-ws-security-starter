@@ -1,2 +1,2 @@
-INSERT INTO resources (name) VALUES
+INSERT INTO security.resources (name) VALUES
    ('DATA');

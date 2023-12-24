@@ -1,9 +1,20 @@
 databaseChangeLog:
   - changeSet:
+      id: security_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
       id: security_tables
       author: Bernardo
       changes:
         - createTable:
+            schemaName: security
             tableName: users
             columns:
               - column:
@@ -62,6 +73,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: false
         - addAutoIncrement:
+            schemaName: security
             tableName: users
             columnName: id
             columnDataType: bigint
@@ -72,6 +84,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
+            schemaName: security
             tableName: resources
             columns:
               - column:
@@ -87,12 +100,14 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - addAutoIncrement:
+            schemaName: security
             tableName: resources
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
+            schemaName: security
             tableName: actions
             columns:
               - column:
@@ -108,12 +123,14 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - addAutoIncrement:
+            schemaName: security
             tableName: actions
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
+            schemaName: security
             tableName: permissions
             columns:
               - column:
@@ -133,7 +150,7 @@ databaseChangeLog:
                   type: varchar(60)
                   constraints:
                     foreignKeyName: fk_role_permissions_resource_id
-                    references: resources(name)
+                    references: security.resources(name)
                     nullable: false
                     deleteCascade: true
               - column:
@@ -141,14 +158,16 @@ databaseChangeLog:
                   type: varchar(60)
                   constraints:
                     foreignKeyName: fk_role_permissions_action_id
-                    references: actions(name)
+                    references: security.actions(name)
                     nullable: false
                     deleteCascade: true
         - addUniqueConstraint:
             constraintName: permissions_unique
+            schemaName: security
             tableName: permissions
             columnNames: 'resource, action'
         - addAutoIncrement:
+            schemaName: security
             tableName: permissions
             columnName: id
             columnDataType: bigint
@@ -159,6 +178,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
+            schemaName: security
             tableName: roles
             columns:
               - column:
@@ -174,12 +194,14 @@ databaseChangeLog:
                     unique: true
                     nullable: false
         - addAutoIncrement:
+            schemaName: security
             tableName: roles
             columnName: id
             columnDataType: bigint
             incrementBy: 1
             startWith: 1
         - createTable:
+            schemaName: security
             tableName: role_permissions
             columns:
               - column:
@@ -187,7 +209,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     foreignKeyName: fk_role_permissions_role_id
-                    references: roles(id)
+                    references: security.roles(id)
                     nullable: false
                     deleteCascade: true
               - column:
@@ -195,7 +217,7 @@ databaseChangeLog:
                   type: varchar(60)
                   constraints:
                     foreignKeyName: fk_role_permissions_permission_id
-                    references: permissions(name)
+                    references: security.permissions(name)
                     nullable: false
                     deleteCascade: true
               - column:
@@ -206,9 +228,11 @@ databaseChangeLog:
                   defaultValueBoolean: false
         - addPrimaryKey:
             constraintName: role_permissions_key
+            schemaName: security
             tableName: role_permissions
             columnNames: 'role_id, permission'
         - createTable:
+            schemaName: security
             tableName: user_roles
             columns:
               - column:
@@ -216,7 +240,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     foreignKeyName: fk_user_roles_user_id
-                    references: users(id)
+                    references: security.users(id)
                     nullable: false
                     deleteCascade: true
               - column:
@@ -224,15 +248,17 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     foreignKeyName: fk_user_roles_role_id
-                    references: roles(id)
+                    references: security.roles(id)
                     nullable: false
                     deleteCascade: true
         - addUniqueConstraint:
             constraintName: role_permissions_unique
+            schemaName: security
             tableName: role_permissions
             columnNames: 'role_id, permission'
         - addUniqueConstraint:
             constraintName: user_roles_unique
+            schemaName: security
             tableName: user_roles
             columnNames: 'user_id, role_id'
   - changeSet:
@@ -240,6 +266,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
+            schemaName: security
             tableName: user_tokens
             columns:
               - column:
@@ -253,7 +280,7 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     foreignKeyName: fk_token_tables_user_id
-                    references: users(id)
+                    references: security.users(id)
                     nullable: false
                     deleteCascade: true
               - column:
@@ -290,6 +317,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: false
         - addAutoIncrement:
+            schemaName: security
             tableName: user_tokens
             columnName: id
             columnDataType: bigint
@@ -300,6 +328,7 @@ databaseChangeLog:
       author: Bernardo
       changes:
         - createTable:
+            schemaName: security
             tableName: login_registers
             columns:
               - column:
@@ -325,6 +354,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - addAutoIncrement:
+            schemaName: security
             tableName: login_registers
             columnName: id
             columnDataType: bigint
@@ -334,7 +364,8 @@ databaseChangeLog:
       id: token_views
       author: Bernardo
       changes:
-        -  createView:
+        - createView:
             remarks: User tokens with user data
-            selectQuery: SELECT t.id AS id, t.user_id AS user_id, u.name AS name, u.username AS username, t.scope AS scope, t.token AS token, t.creation_date AS creation_date, t.expiration_date AS expiration_date, t.consumed AS consumed, t.revoked AS revoked FROM user_tokens t JOIN users u ON t.user_id = u.id
+            schemaName: security
             viewName: user_data_tokens
+            selectQuery: SELECT t.id AS id, t.user_id AS user_id, u.name AS name, u.username AS username, t.scope AS scope, t.token AS token, t.creation_date AS creation_date, t.expiration_date AS expiration_date, t.consumed AS consumed, t.revoked AS revoked FROM security.user_tokens t JOIN security.users u ON t.user_id = u.id
