@@ -40,6 +40,8 @@ public final class UserTokenStatus {
 
     /**
      * Username.
+     * <p>
+     * TODO: avoid returning the username
      */
     @NonNull
     private final String  username;

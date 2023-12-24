@@ -24,10 +24,10 @@ import com.bernardomg.security.authentication.password.reset.service.SpringSecur
 import com.bernardomg.security.authentication.user.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -109,10 +109,13 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadDisabledUser();
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -127,10 +130,13 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadExpiredUser();
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -145,10 +151,13 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadLockedUser();
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -163,13 +172,15 @@ class TestPasswordResetServiceStartUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Couldn't find user mail@somewhere.com");
+            .isEqualTo("Missing id mail@somewhere.com for user");
     }
 
 }

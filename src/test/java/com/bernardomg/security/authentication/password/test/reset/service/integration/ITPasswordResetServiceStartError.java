@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -29,13 +29,15 @@ class ITPasswordResetServiceStartError {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.startPasswordReset(Users.EMAIL);
 
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Couldn't find user " + Users.EMAIL);
+            .isEqualTo("Missing id mail@somewhere.com for user");
     }
 
 }

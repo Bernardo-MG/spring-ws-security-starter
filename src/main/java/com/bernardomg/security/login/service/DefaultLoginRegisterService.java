@@ -74,7 +74,6 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
 
     private final LoginRegister toDto(final LoginRegisterEntity login) {
         return LoginRegister.builder()
-            .withId(login.getId())
             .withUsername(login.getUsername())
             .withLoggedIn(login.getLoggedIn())
             .withDate(login.getDate())

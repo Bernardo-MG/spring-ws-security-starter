@@ -22,9 +22,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -63,7 +64,7 @@ class TestTokenLoginServicePassword {
         final BiPredicate<String, String> valid;
         final LoginTokenEncoder           loginTokenEncoder;
 
-        user = new User("username", "password", true, true, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, true, true, Collections.emptyList());
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
@@ -107,7 +108,7 @@ class TestTokenLoginServicePassword {
 
         loadUser();
 
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
         status = getService(true).login(Users.EMAIL, Users.PASSWORD);
 
@@ -131,7 +132,7 @@ class TestTokenLoginServicePassword {
     void testLogIn_Username_ValidPassword() {
         final TokenLoginStatus status;
 
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
         status = getService(true).login(Users.USERNAME, Users.PASSWORD);
 

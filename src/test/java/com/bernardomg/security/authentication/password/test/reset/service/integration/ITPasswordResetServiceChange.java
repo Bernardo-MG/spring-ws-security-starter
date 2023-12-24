@@ -15,7 +15,7 @@ import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUs
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -45,8 +45,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_Changed() {
         final UserEntity user;
 
-        service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         user = userRepository.findAll()
             .stream()
             .findFirst()
@@ -64,8 +66,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_ConsumesToken() {
         final Boolean consumed;
 
-        service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         consumed = userTokenRepository.findById(1L)
             .get()
             .isConsumed();
@@ -82,8 +86,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_ResetsExpiredPassword() {
         final UserEntity user;
 
-        service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         user = userRepository.findAll()
             .stream()
             .findFirst()
@@ -101,8 +107,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_UserStatus() {
         final UserEntity user;
 
-        service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         user = userRepository.findAll()
             .stream()
             .findFirst()

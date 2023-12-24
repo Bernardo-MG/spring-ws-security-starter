@@ -25,11 +25,11 @@ import com.bernardomg.security.authentication.password.reset.service.SpringSecur
 import com.bernardomg.security.authentication.user.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordRecoveryService - change password - user status")
@@ -107,7 +107,7 @@ class TestPasswordResetServiceChangeUserStatus {
 
     @BeforeEach
     void initializeToken() {
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(USERNAME);
+        given(tokenStore.getUsername(UserTokens.TOKEN)).willReturn(USERNAME);
     }
 
     @Test
@@ -117,10 +117,13 @@ class TestPasswordResetServiceChangeUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadDisabledUser();
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -135,10 +138,13 @@ class TestPasswordResetServiceChangeUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadExpiredUser();
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -153,10 +159,13 @@ class TestPasswordResetServiceChangeUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadLockedUser();
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -171,13 +180,15 @@ class TestPasswordResetServiceChangeUserStatus {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        // WHEN
+        executable = () -> service.changePassword(UserTokens.TOKEN, "abc");
 
-        exception = Assertions.catchThrowableOfType(executable, UserNotFoundException.class);
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Couldn't find user username");
+            .isEqualTo("Missing id username for user");
     }
 
 }

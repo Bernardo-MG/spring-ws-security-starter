@@ -1,2 +1,2 @@
-INSERT INTO roles (id, name) VALUES
+INSERT INTO security.roles (id, name) VALUES
    (2, 'role2');

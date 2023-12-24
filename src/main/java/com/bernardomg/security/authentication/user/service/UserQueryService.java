@@ -43,10 +43,10 @@ public interface UserQueryService {
     /**
      * Deletes the user with the received id.
      *
-     * @param userId
-     *            id of the user to delete
+     * @param username
+     *            username of the user to delete
      */
-    public void delete(final long userId);
+    public void delete(final String username);
 
     /**
      * Returns all the users matching the sample in a paginated form. If the sample fields are empty, then all the users
@@ -61,23 +61,23 @@ public interface UserQueryService {
     public Iterable<User> getAll(final UserQuery query, final Pageable page);
 
     /**
-     * Returns the user for the received id, if it exists. Otherwise an empty {@code Optional} is returned.
+     * Returns the user for the received username, if it exists. Otherwise an empty {@code Optional} is returned.
      *
-     * @param userId
-     *            id of the user to acquire
+     * @param username
+     *            username of the user to acquire
      * @return an {@code Optional} with the user, if it exists, of an empty {@code Optional} otherwise
      */
-    public Optional<User> getOne(final long userId);
+    public Optional<User> getOne(final String username);
 
     /**
      * Updates the user for the received id with the received data.
      *
-     * @param userId
-     *            id of the user to update
+     * @param username
+     *            username of the user to update
      * @param user
      *            new data for the user
      * @return the updated user
      */
-    public User update(final long userId, final UserUpdate user);
+    public User update(final String username, final UserUpdate user);
 
 }

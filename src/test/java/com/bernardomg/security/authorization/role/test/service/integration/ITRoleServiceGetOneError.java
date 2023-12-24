@@ -7,13 +7,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.role.exception.MissingRoleIdException;
+import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - get one - errors")
 class ITRoleServiceGetOneError {
 
@@ -29,10 +28,10 @@ class ITRoleServiceGetOneError {
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.getOne(1L);
+        execution = () -> service.getOne(Roles.NAME);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingRoleIdException.class);
+            .isInstanceOf(MissingRoleNameException.class);
     }
 
 }

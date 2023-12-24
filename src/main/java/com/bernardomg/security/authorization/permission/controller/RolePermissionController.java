@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,11 +40,8 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.model.query.RoleAddPermissionQuery;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.role.model.RolePermission;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -55,7 +51,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/role/{id}/permission")
+@RequestMapping("/security/role/{role}/permission")
 @AllArgsConstructor
 @Transactional
 public class RolePermissionController {
@@ -68,26 +64,26 @@ public class RolePermissionController {
     /**
      * Adds a permission to a role.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param permission
      *            permission to add
      * @return added permission
      */
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{permission}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission add(@PathVariable("id") final long roleId,
-            @Valid @RequestBody final RoleAddPermissionQuery permission) {
-        return service.addPermission(roleId, permission.getPermission());
+    public ResourcePermission add(@PathVariable("role") final String role,
+            @PathVariable("permission") final String permission) {
+        return service.addPermission(role, permission);
     }
 
     /**
      * Returns all the permissions for a role in a paginated form.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param page
      *            pagination to apply
      * @return a page with the permissions for the role
@@ -95,15 +91,15 @@ public class RolePermissionController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAll(@PathVariable("id") final long roleId, final Pageable page) {
-        return service.getPermissions(roleId, page);
+    public Iterable<ResourcePermission> readAll(@PathVariable("role") final String role, final Pageable page) {
+        return service.getPermissions(role, page);
     }
 
     /**
      * Returns all the permissions available to a role. That is, those which haven't been assigned to the role.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      * @param page
      *            pagination to apply
      * @return a page with the available permissions
@@ -111,15 +107,15 @@ public class RolePermissionController {
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = PermissionCaches.ROLE_AVAILABLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAvailable(@PathVariable("id") final long roleId, final Pageable page) {
-        return service.getAvailablePermissions(roleId, page);
+    public Iterable<ResourcePermission> readAvailable(@PathVariable("role") final String role, final Pageable page) {
+        return service.getAvailablePermissions(role, page);
     }
 
     /**
      * Removes a permission from a role.
      *
-     * @param permissionId
-     *            role id
+     * @param role
+     *            role name
      * @param permission
      *            permission to remove
      * @return the removed permission
@@ -128,9 +124,9 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public RolePermission remove(@PathVariable("id") final long permissionId,
+    public ResourcePermission remove(@PathVariable("role") final String role,
             @PathVariable("permission") final String permission) {
-        return service.removePermission(permissionId, permission);
+        return service.removePermission(role, permission);
     }
 
 }

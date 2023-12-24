@@ -47,13 +47,6 @@ public interface UserUpdate {
     public Boolean getEnabled();
 
     /**
-     * Returns the user id.
-     *
-     * @return the user id
-     */
-    public Long getId();
-
-    /**
      * Returns the user name.
      *
      * @return the user name
@@ -66,5 +59,12 @@ public interface UserUpdate {
      * @return the password expired flag
      */
     public Boolean getPasswordExpired();
+
+    /**
+     * Returns the user name.
+     *
+     * @return the user name
+     */
+    public String getUsername();
 
 }

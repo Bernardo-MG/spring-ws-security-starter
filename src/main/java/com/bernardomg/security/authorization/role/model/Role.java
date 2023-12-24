@@ -39,11 +39,6 @@ import lombok.Value;
 public final class Role {
 
     /**
-     * Role id.
-     */
-    private final long   id;
-
-    /**
      * Role name.
      */
     @NonNull

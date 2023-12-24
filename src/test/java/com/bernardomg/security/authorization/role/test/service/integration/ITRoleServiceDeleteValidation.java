@@ -31,13 +31,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - delete validation")
 class ITRoleServiceDeleteValidation {
 
@@ -55,7 +54,7 @@ class ITRoleServiceDeleteValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        executable = () -> service.delete(1L);
+        executable = () -> service.delete(Roles.NAME);
 
         failure = FieldFailure.of("user.existing", "user", "existing", 1L);
 

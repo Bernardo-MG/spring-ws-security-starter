@@ -44,7 +44,7 @@ import lombok.NoArgsConstructor;
  *
  */
 @Entity(name = "Resource")
-@Table(name = "resources")
+@Table(schema = "security", name = "resources")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

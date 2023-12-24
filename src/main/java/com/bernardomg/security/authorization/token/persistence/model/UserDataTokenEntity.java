@@ -47,7 +47,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Entity(name = "UserDataToken")
-@Table(name = "user_data_tokens")
+@Table(schema = "security", name = "user_data_tokens")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")

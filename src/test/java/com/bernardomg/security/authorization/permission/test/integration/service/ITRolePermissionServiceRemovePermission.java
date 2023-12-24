@@ -1,26 +1,24 @@
 
 package com.bernardomg.security.authorization.permission.test.integration.service;
 
-import java.util.Iterator;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.util.assertion.RolePermissionAssertions;
-import com.bernardomg.security.authorization.role.model.RolePermission;
-import com.bernardomg.security.authorization.role.test.config.RoleWithPermission;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
-@DisplayName("Role service - remove permission")
-@RoleWithPermission
+@DisplayName("Role permission service - remove permission")
+@RoleWithCrudPermissions
 class ITRolePermissionServiceRemovePermission {
 
     @Autowired
@@ -36,62 +34,27 @@ class ITRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Can remove a permission")
     void testRemovePermission() {
-        final Iterable<RolePermissionEntity> result;
-        final Iterator<RolePermissionEntity> itr;
-        RolePermissionEntity                 found;
+        final Iterable<RolePermissionEntity> permissions;
 
-        service.removePermission(1l, "DATA:CREATE");
-        result = rolePermissionRepository.findAll();
+        service.removePermission(Roles.NAME, "DATA:CREATE");
+        permissions = rolePermissionRepository.findAll();
 
-        Assertions.assertThat(result)
-            .hasSize(4);
-
-        itr = result.iterator();
-
-        found = itr.next();
-
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:CREATE")
-            .withRoleId(1L)
-            .withGranted(false)
-            .build());
-
-        found = itr.next();
-
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:READ")
-            .withRoleId(1L)
-            .withGranted(true)
-            .build());
-
-        found = itr.next();
-
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:UPDATE")
-            .withRoleId(1L)
-            .withGranted(true)
-            .build());
-
-        found = itr.next();
-
-        RolePermissionAssertions.isEqualTo(found, RolePermissionEntity.builder()
-            .withPermission("DATA:DELETE")
-            .withRoleId(1L)
-            .withGranted(true)
-            .build());
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(RolePermissionEntities.createNotGranted(), RolePermissionEntities.read(),
+                RolePermissionEntities.update(), RolePermissionEntities.delete());
     }
 
     @Test
     @DisplayName("Returns the removed data")
     void testRemovePermission_ReturnedData() {
-        final RolePermission result;
+        final ResourcePermission permission;
 
-        result = service.removePermission(1l, "DATA:CREATE");
+        permission = service.removePermission(Roles.NAME, "DATA:CREATE");
 
-        Assertions.assertThat(result.getRoleId())
-            .isEqualTo(1);
-        Assertions.assertThat(result.getPermission())
-            .isEqualTo("DATA:CREATE");
+        Assertions.assertThat(permission)
+            .as("permission")
+            .isEqualTo(ResourcePermissions.create());
     }
 
 }

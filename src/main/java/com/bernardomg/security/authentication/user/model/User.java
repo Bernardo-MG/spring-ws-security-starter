@@ -55,11 +55,6 @@ public final class User {
     private final boolean expired;
 
     /**
-     * User id.
-     */
-    private final long    id;
-
-    /**
      * User locked flag.
      */
     private final boolean locked;

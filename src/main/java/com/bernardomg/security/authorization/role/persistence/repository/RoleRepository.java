@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.role.persistence.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,6 +42,9 @@ import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
  */
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 
+    @Query("SELECT COUNT(r) FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.username = :username")
+    public int countForUser(@Param("username") final String username);
+
     /**
      * Checks if a role with the received name exists.
      *
@@ -52,24 +57,34 @@ public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
     /**
      * Returns all the roles available to the user, in a paginated form.
      *
-     * @param userId
-     *            user id
+     * @param username
+     *            user username
      * @param page
      *            pagination to apply
      * @return a page with the roles
      */
-    @Query("SELECT r FROM Role r WHERE r.id NOT IN (SELECT r.id FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id)")
-    public Page<RoleEntity> findAvailableToUser(@Param("id") final Long userId, final Pageable page);
+    @Query("SELECT r2 FROM Role r2 WHERE r2.id NOT IN (SELECT r.id FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.username = :username)")
+    public Page<RoleEntity> findAvailableToUser(@Param("username") final String username, final Pageable page);
 
     /**
      * Returns all the roles assigned to the user, in a paginated form.
      *
-     * @param userId
+     * @param username
+     *            user username
      * @param page
      *            pagination to apply
      * @return a page with the roles
      */
-    @Query("SELECT r FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.id = :id")
-    public Page<RoleEntity> findForUser(@Param("id") final Long userId, final Pageable page);
+    @Query("SELECT r FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.username = :username")
+    public Page<RoleEntity> findForUser(@Param("username") final String username, final Pageable page);
+
+    /**
+     * Returns the role for the received name.
+     *
+     * @param name
+     *            name to search for
+     * @return the role for the received name
+     */
+    public Optional<RoleEntity> findOneByName(final String name);
 
 }

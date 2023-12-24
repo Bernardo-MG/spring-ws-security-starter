@@ -87,15 +87,15 @@ public class RoleController {
     /**
      * Deletes a role by its id.
      *
-     * @param roleId
-     *            role id
+     * @param role
+     *            role name
      */
-    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true),
             @CacheEvict(cacheNames = RoleCaches.ROLE, key = "#p0") })
-    public void delete(@PathVariable("id") final long roleId) {
-        service.delete(roleId);
+    public void delete(@PathVariable("role") final String role) {
+        service.delete(role);
     }
 
     /**
@@ -115,35 +115,35 @@ public class RoleController {
     }
 
     /**
-     * Reads a single role by its id.
+     * Reads a single role by its name.
      *
-     * @param roleId
-     *            id of the role to read
+     * @param role
+     *            role name
      * @return the role for the id, or {@code null} if it doesn't exist
      */
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLE, key = "#p0")
-    public Role readOne(@PathVariable("id") final long roleId) {
-        return service.getOne(roleId)
+    public Role readOne(@PathVariable("role") final String role) {
+        return service.getOne(role)
             .orElse(null);
     }
 
     /**
      * Updates a role.
      *
-     * @param roleId
-     *            id of the role to update
+     * @param role
+     *            role name
      * @param request
      *            updated role data
      * @return the updated role
      */
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.id") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
-    public Role update(@PathVariable("id") final long roleId, @Valid @RequestBody final RoleUpdateRequest request) {
-        return service.update(roleId, request);
+    public Role update(@PathVariable("role") final String role, @Valid @RequestBody final RoleUpdateRequest request) {
+        return service.update(role, request);
     }
 
 }

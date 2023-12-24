@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.authorization.token.test.service.integration;
 
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -11,15 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.token.exception.MissingUserTokenIdException;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -34,12 +32,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ConsumedUserToken
     void testGetOne_Consumed() {
-        final UserToken token;
+        final Optional<UserToken> token;
 
-        token = service.getOne(1L);
+        token = service.getOne(UserTokens.TOKEN);
 
-        Assertions.assertThat(token.getName())
-            .isEqualTo(Users.NAME);
+        Assertions.assertThat(token)
+            .contains(UserTokens.consumed());
     }
 
     @Test
@@ -47,12 +45,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ExpiredUserToken
     void testGetOne_Expired() {
-        final UserToken token;
+        final Optional<UserToken> token;
 
-        token = service.getOne(1L);
+        token = service.getOne(UserTokens.TOKEN);
 
-        Assertions.assertThat(token.getName())
-            .isEqualTo(Users.NAME);
+        Assertions.assertThat(token)
+            .contains(UserTokens.expired());
     }
 
     @Test
@@ -60,10 +58,10 @@ class ITSpringUserTokenServiceGetOne {
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.getOne(1L);
+        execution = () -> service.getOne(UserTokens.TOKEN);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserTokenIdException.class);
+            .isInstanceOf(MissingUserTokenCodeException.class);
     }
 
     @Test
@@ -71,12 +69,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @RevokedUserToken
     void testGetOne_Revoked() {
-        final UserToken token;
+        final Optional<UserToken> token;
 
-        token = service.getOne(1L);
+        token = service.getOne(UserTokens.TOKEN);
 
-        Assertions.assertThat(token.getName())
-            .isEqualTo(Users.NAME);
+        Assertions.assertThat(token)
+            .contains(UserTokens.revoked());
     }
 
     @Test
@@ -84,12 +82,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ValidUserToken
     void testGetOne_Valid() {
-        final UserToken token;
+        final Optional<UserToken> token;
 
-        token = service.getOne(1L);
+        token = service.getOne(UserTokens.TOKEN);
 
-        Assertions.assertThat(token.getName())
-            .isEqualTo(Users.NAME);
+        Assertions.assertThat(token)
+            .contains(UserTokens.valid());
     }
 
     @Test
@@ -97,28 +95,12 @@ class ITSpringUserTokenServiceGetOne {
     @OnlyUser
     @ValidUserToken
     void testGetOne_Valid_data() {
-        final UserToken token;
+        final Optional<UserToken> token;
 
-        token = service.getOne(1L);
+        token = service.getOne(UserTokens.TOKEN);
 
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
-        Assertions.assertThat(token.getUsername())
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(token.getName())
-            .isEqualTo(Users.NAME);
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(UserTokenConstants.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(UserTokenConstants.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        Assertions.assertThat(token)
+            .contains(UserTokens.valid());
     }
 
 }

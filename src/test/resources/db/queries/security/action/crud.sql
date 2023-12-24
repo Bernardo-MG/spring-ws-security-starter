@@ -1,4 +1,4 @@
-INSERT INTO actions (name) VALUES
+INSERT INTO security.actions (name) VALUES
    ('CREATE'),
    ('READ'),
    ('UPDATE'),

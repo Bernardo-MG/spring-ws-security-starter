@@ -18,11 +18,6 @@ public class LoginRegister {
     private final LocalDateTime date;
 
     /**
-     * Id.
-     */
-    private final long          id;
-
-    /**
      * Logged in flag.
      */
     private final boolean       loggedIn;

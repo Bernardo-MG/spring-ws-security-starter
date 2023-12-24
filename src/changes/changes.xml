@@ -59,11 +59,22 @@
          </action>
       </release>
       <release version="0.1.8" date="2023-12-18" description="Fixed caches">
-         <action dev="remove" type="fix">
+         <action dev="bmg" type="remove">
             Fixed cache index.
          </action>
-         <action dev="remove" type="fix">
+         <action dev="bmg" type="remove">
             Fixed component scanning.
+         </action>
+      </release>
+      <release version="0.1.9" date="2023-12-24" description="No longer returns ids">
+         <action dev="bmg" type="update">
+            Controllers no longer work with internal ids.
+         </action>
+         <action dev="bmg" type="update">
+            Tables are created into a security schema.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed queries.
          </action>
       </release>
    </body>

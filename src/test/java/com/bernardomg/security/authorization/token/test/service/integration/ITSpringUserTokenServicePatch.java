@@ -5,14 +5,15 @@ import java.time.LocalDateTime;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authorization.token.exception.MissingUserTokenIdException;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartialRequest;
@@ -20,7 +21,7 @@ import com.bernardomg.security.authorization.token.persistence.model.UserTokenEn
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,25 +45,27 @@ class ITSpringUserTokenServicePatch {
         request = UserTokenPartialRequest.builder()
             .build();
 
-        service.patch(1L, request);
+        service.patch(UserTokens.TOKEN, request);
 
-        token = userTokenRepository.findById(1l)
+        token = userTokenRepository.findOneByToken(UserTokens.TOKEN)
             .get();
 
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(UserTokenConstants.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(UserTokenConstants.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getId())
+                .isEqualTo(1);
+            softly.assertThat(token.getScope())
+                .isEqualTo(UserTokens.SCOPE);
+            softly.assertThat(token.getToken())
+                .isEqualTo(UserTokens.TOKEN);
+            softly.assertThat(token.isConsumed())
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .isFalse();
+            softly.assertThat(token.getCreationDate())
+                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+            softly.assertThat(token.getExpirationDate())
+                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        });
     }
 
     @Test
@@ -77,25 +80,27 @@ class ITSpringUserTokenServicePatch {
             .withExpirationDate(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0))
             .build();
 
-        service.patch(1L, request);
+        service.patch(UserTokens.TOKEN, request);
 
-        token = userTokenRepository.findById(1l)
+        token = userTokenRepository.findOneByToken(UserTokens.TOKEN)
             .get();
 
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(UserTokenConstants.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(UserTokenConstants.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getId())
+                .isEqualTo(1);
+            softly.assertThat(token.getScope())
+                .isEqualTo(UserTokens.SCOPE);
+            softly.assertThat(token.getToken())
+                .isEqualTo(UserTokens.TOKEN);
+            softly.assertThat(token.isConsumed())
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .isFalse();
+            softly.assertThat(token.getCreationDate())
+                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+            softly.assertThat(token.getExpirationDate())
+                .isEqualTo(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0));
+        });
     }
 
     @Test
@@ -109,9 +114,9 @@ class ITSpringUserTokenServicePatch {
             .withRevoked(true)
             .build();
 
-        service.patch(1L, request);
+        service.patch(UserTokens.TOKEN, request);
 
-        userTokenRepository.findById(1l)
+        userTokenRepository.findOneByToken(UserTokens.TOKEN)
             .get();
 
         Assertions.assertThat(userTokenRepository.count())
@@ -129,10 +134,10 @@ class ITSpringUserTokenServicePatch {
             .withRevoked(true)
             .build();
 
-        execution = () -> service.patch(1L, request);
+        execution = () -> service.patch(UserTokens.TOKEN, request);
 
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserTokenIdException.class);
+            .isInstanceOf(MissingUserTokenCodeException.class);
     }
 
     @Test
@@ -147,25 +152,27 @@ class ITSpringUserTokenServicePatch {
             .withRevoked(true)
             .build();
 
-        service.patch(1L, request);
+        service.patch(UserTokens.TOKEN, request);
 
-        token = userTokenRepository.findById(1l)
+        token = userTokenRepository.findOneByToken(UserTokens.TOKEN)
             .get();
 
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(UserTokenConstants.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(UserTokenConstants.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isTrue();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getId())
+                .isEqualTo(1);
+            softly.assertThat(token.getScope())
+                .isEqualTo(UserTokens.SCOPE);
+            softly.assertThat(token.getToken())
+                .isEqualTo(UserTokens.TOKEN);
+            softly.assertThat(token.isConsumed())
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .isTrue();
+            softly.assertThat(token.getCreationDate())
+                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+            softly.assertThat(token.getExpirationDate())
+                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        });
     }
 
     @Test
@@ -180,26 +187,26 @@ class ITSpringUserTokenServicePatch {
             .withRevoked(true)
             .build();
 
-        token = service.patch(1L, request);
+        token = service.patch(UserTokens.TOKEN, request);
 
-        Assertions.assertThat(token.getId())
-            .isEqualTo(1);
-        Assertions.assertThat(token.getUsername())
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(token.getName())
-            .isEqualTo(Users.NAME);
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(UserTokenConstants.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(UserTokenConstants.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isTrue();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getUsername())
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(token.getName())
+                .isEqualTo(Users.NAME);
+            softly.assertThat(token.getScope())
+                .isEqualTo(UserTokens.SCOPE);
+            softly.assertThat(token.getToken())
+                .isEqualTo(UserTokens.TOKEN);
+            softly.assertThat(token.isConsumed())
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .isTrue();
+            softly.assertThat(token.getCreationDate())
+                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+            softly.assertThat(token.getExpirationDate())
+                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        });
     }
 
 }

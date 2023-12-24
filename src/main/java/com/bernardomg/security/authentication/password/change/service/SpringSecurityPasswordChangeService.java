@@ -38,7 +38,7 @@ import com.bernardomg.security.authentication.password.exception.InvalidPassword
 import com.bernardomg.security.authentication.user.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.UserNotFoundException;
+import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -153,7 +153,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new UserNotFoundException(username);
+            throw new MissingUserUsernameException(username);
         }
 
         return user.get();

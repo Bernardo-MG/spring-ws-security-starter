@@ -10,15 +10,13 @@ import com.bernardomg.security.authentication.user.model.query.UserUpdate;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.AlternativeUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserUpdateRequests;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - add roles validation")
 class ITUserQueryServiceUpdateValidation {
 
@@ -40,7 +38,7 @@ class ITUserQueryServiceUpdateValidation {
 
         data = UserUpdateRequests.emailChange();
 
-        executable = () -> service.update(1L, data);
+        executable = () -> service.update(Users.USERNAME, data);
 
         failure = FieldFailure.of("email.existing", "email", "existing", Users.ALTERNATIVE_EMAIL);
 

@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.authorization.token.test.config.constant.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -34,8 +34,10 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        // WHEN
+        status = service.validateToken(UserTokens.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .as("status")
@@ -53,8 +55,10 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        // WHEN
+        status = service.validateToken(UserTokens.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .as("status")
@@ -72,8 +76,10 @@ class ITPasswordResetServiceValidateToken {
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        // WHEN
+        status = service.validateToken(UserTokens.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .as("status")

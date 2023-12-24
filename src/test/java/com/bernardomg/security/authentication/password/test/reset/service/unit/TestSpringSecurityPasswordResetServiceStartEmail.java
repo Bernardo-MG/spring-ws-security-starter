@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,12 +23,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,6 +73,8 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
         given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(details);
 
         given(repository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(user));
+
+        // given(tokenStore.createToken(ArgumentMatchers.anyString())).willReturn(Tokens.TOKEN);
     }
 
     @Test
@@ -80,13 +84,36 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         emailCaptor = ArgumentCaptor.forClass(String.class);
 
+        // WHEN
         service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         verify(passwordNotificator).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any(),
             ArgumentMatchers.any());
 
         Assertions.assertThat(emailCaptor.getValue())
+            .as("email")
             .isEqualTo(Users.EMAIL);
+    }
+
+    @Test
+    @DisplayName("When recovering the password the token is sent to the user email")
+    @Disabled("The stubbing is failing")
+    void testStartPasswordRecovery_Token() {
+        final ArgumentCaptor<String> tokenCaptor;
+
+        tokenCaptor = ArgumentCaptor.forClass(String.class);
+
+        // WHEN
+        service.startPasswordReset(Users.EMAIL);
+
+        // THEN
+        verify(passwordNotificator).sendPasswordRecoveryMessage(ArgumentMatchers.any(), ArgumentMatchers.any(),
+            tokenCaptor.capture());
+
+        Assertions.assertThat(tokenCaptor.getValue())
+            .as("token")
+            .isEqualTo(Tokens.TOKEN);
     }
 
     @Test
@@ -96,12 +123,15 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         usernameCaptor = ArgumentCaptor.forClass(String.class);
 
+        // WHEN
         service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         verify(passwordNotificator).sendPasswordRecoveryMessage(ArgumentMatchers.any(), usernameCaptor.capture(),
             ArgumentMatchers.any());
 
         Assertions.assertThat(usernameCaptor.getValue())
+            .as("username")
             .isEqualTo(Users.USERNAME);
     }
 

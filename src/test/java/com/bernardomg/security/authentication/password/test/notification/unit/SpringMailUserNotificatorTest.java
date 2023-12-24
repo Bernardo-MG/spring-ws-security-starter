@@ -3,6 +3,7 @@ package com.bernardomg.security.authentication.password.test.notification.unit;
 
 import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.authentication.user.notification.SpringMailUserNotificator;
 import com.bernardomg.security.authentication.user.notification.UserNotificator;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificator")
@@ -27,20 +28,25 @@ class SpringMailUserNotificatorTest {
     @Mock
     private SpringTemplateEngine templateEng;
 
+    private UserNotificator      userNotificator;
+
     public SpringMailUserNotificatorTest() {
         super();
     }
 
-    private final UserNotificator getSender() {
-        return new SpringMailUserNotificator(templateEng, javaMailSender, "sender@somewhere.com",
+    @BeforeEach
+    private final void initializeSender() {
+        userNotificator = new SpringMailUserNotificator(templateEng, javaMailSender, "sender@somewhere.com",
             "http://somewhere.com");
     }
 
     @Test
-    @DisplayName("The message content is sent to the target email")
-    void testSendEmail_Content() throws Exception {
-        getSender().sendUserRegisteredMessage(Users.EMAIL, Users.USERNAME, "token");
+    @DisplayName("The message is sent")
+    void testSendEmail_MessageSent() throws Exception {
+        // WHEN
+        userNotificator.sendUserRegisteredMessage(Users.EMAIL, Users.USERNAME, "token");
 
+        // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));
     }
 

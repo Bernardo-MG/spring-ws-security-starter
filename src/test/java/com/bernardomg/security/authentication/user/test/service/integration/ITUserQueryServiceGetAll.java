@@ -11,14 +11,11 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authentication.user.test.util.model.UsersQuery;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UsersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - get all")
 class ITUserQueryServiceGetAll {
 
@@ -36,7 +33,6 @@ class ITUserQueryServiceGetAll {
         final Iterable<User> users;
         final UserQuery      sample;
         final Pageable       pageable;
-        final User           user;
 
         pageable = Pageable.unpaged();
 
@@ -46,12 +42,7 @@ class ITUserQueryServiceGetAll {
 
         Assertions.assertThat(users)
             .as("users")
-            .hasSize(1);
-
-        user = users.iterator()
-            .next();
-
-        UserAssertions.isEqualTo(user, Users.enabled());
+            .containsExactly(Users.enabled());
     }
 
     @Test
