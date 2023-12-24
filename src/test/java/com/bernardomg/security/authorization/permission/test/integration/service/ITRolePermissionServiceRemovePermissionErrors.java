@@ -14,7 +14,7 @@ import com.bernardomg.security.authorization.permission.test.config.RoleWithPerm
 import com.bernardomg.security.authorization.permission.test.config.SinglePermission;
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.security.authorization.role.test.util.model.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

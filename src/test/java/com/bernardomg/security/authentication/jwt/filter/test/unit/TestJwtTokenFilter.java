@@ -23,7 +23,7 @@ import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

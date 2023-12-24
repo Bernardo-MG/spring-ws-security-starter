@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.role.test.util.model;
+package com.bernardomg.security.authorization.role.test.config.factory;
 
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.model.request.RoleQueryRequest;

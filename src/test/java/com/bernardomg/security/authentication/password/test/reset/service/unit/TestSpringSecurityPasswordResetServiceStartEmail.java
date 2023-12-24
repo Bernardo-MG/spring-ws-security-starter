@@ -28,8 +28,8 @@ import com.bernardomg.security.authentication.password.notification.PasswordNoti
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)

@@ -11,8 +11,8 @@ import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.security.authorization.role.test.util.model.Roles;
-import com.bernardomg.security.authorization.role.test.util.model.RolesQuery;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

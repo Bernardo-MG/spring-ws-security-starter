@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.login.persistence.model.LoginRegisterEntity;
 import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.service.LoginRegisterService;

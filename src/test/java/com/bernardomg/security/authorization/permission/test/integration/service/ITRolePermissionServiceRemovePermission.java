@@ -11,9 +11,9 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
-import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
-import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
-import com.bernardomg.security.authorization.role.test.util.model.Roles;
+import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

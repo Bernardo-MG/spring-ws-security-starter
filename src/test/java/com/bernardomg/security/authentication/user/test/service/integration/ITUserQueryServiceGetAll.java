@@ -11,8 +11,8 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.security.authentication.user.test.util.model.UsersQuery;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UsersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

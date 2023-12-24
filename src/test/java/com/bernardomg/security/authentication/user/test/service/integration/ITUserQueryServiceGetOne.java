@@ -17,7 +17,7 @@ import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUs
 import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.LockedUser;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

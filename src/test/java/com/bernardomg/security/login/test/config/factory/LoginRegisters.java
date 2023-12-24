@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.util.model;
+package com.bernardomg.security.login.test.config.factory;
 
 import java.time.LocalDateTime;
 import java.time.Month;

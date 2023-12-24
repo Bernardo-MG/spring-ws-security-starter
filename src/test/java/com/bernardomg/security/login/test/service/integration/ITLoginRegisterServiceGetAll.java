@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.login.model.LoginRegister;
 import com.bernardomg.security.login.service.LoginRegisterService;
 import com.bernardomg.security.login.test.config.LoggedInLoginRegister;
-import com.bernardomg.security.login.test.util.model.LoginRegisters;
+import com.bernardomg.security.login.test.config.factory.LoginRegisters;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -4,7 +4,7 @@ package com.bernardomg.security.authorization.token.test.config.model;
 import java.time.LocalDateTime;
 import java.time.Month;
 
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.model.UserToken;
 
 public final class UserTokens {

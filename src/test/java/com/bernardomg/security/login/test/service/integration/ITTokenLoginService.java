@@ -12,12 +12,12 @@ import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUs
 import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.LockedUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.UserWithoutPermissions;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
-import com.bernardomg.security.login.test.util.model.TokenLoginStatuses;
+import com.bernardomg.security.login.test.config.factory.TokenLoginStatuses;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;
