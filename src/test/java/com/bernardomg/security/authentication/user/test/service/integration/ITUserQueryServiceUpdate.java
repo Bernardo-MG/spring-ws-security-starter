@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authentication.user.test.service.integration;
 
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +39,6 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
 import com.bernardomg.security.authentication.user.test.util.model.UserEntities;
 import com.bernardomg.security.authentication.user.test.util.model.UserUpdateRequests;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
@@ -58,35 +59,19 @@ class ITUserQueryServiceUpdate {
     }
 
     @Test
-    @DisplayName("Adds no entity when updating")
-    @ValidUser
-    void testUpdate_AddsNoEntity() {
-        final UserUpdate user;
-
-        user = UserUpdateRequests.emailChange();
-
-        service.update(Users.USERNAME, user);
-
-        Assertions.assertThat(repository.count())
-            .isEqualTo(1);
-    }
-
-    @Test
     @DisplayName("Updates persisted data, ignoring case")
     @ValidUser
     void testUpdate_Case_PersistedData() {
-        final UserUpdate user;
-        final UserEntity entity;
+        final UserUpdate       user;
+        final List<UserEntity> entities;
 
         user = UserUpdateRequests.emailChangeUpperCase();
 
         service.update(Users.USERNAME, user);
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        Assertions.assertThat(entity.getEmail())
-            .isEqualTo(Users.ALTERNATIVE_EMAIL);
+        Assertions.assertThat(entities)
+            .containsExactly(UserEntities.emailChange());
     }
 
     @Test
@@ -100,42 +85,40 @@ class ITUserQueryServiceUpdate {
 
         result = service.update(Users.USERNAME, user);
 
-        Assertions.assertThat(result.getEmail())
-            .isEqualTo(Users.ALTERNATIVE_EMAIL);
+        Assertions.assertThat(result)
+            .isEqualTo(Users.emailChange());
     }
 
     @Test
     @DisplayName("Can disable a user when updating")
     @ValidUser
     void testUpdate_Disable_PersistedData() {
-        final UserUpdate user;
-        final UserEntity entity;
+        final UserUpdate       user;
+        final List<UserEntity> entities;
 
         user = UserUpdateRequests.disabled();
 
         service.update(Users.USERNAME, user);
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        UserAssertions.isEqualTo(entity, UserEntities.disabled());
+        Assertions.assertThat(entities)
+            .containsExactly(UserEntities.disabled());
     }
 
     @Test
     @DisplayName("Can expire a user's password when updating")
     @ValidUser
     void testUpdate_ExpiredPassword_PersistedData() {
-        final UserUpdate user;
-        final UserEntity entity;
+        final UserUpdate       user;
+        final List<UserEntity> entities;
 
         user = UserUpdateRequests.passwordExpired();
 
         service.update(Users.USERNAME, user);
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        UserAssertions.isEqualTo(entity, UserEntities.passwordExpired());
+        Assertions.assertThat(entities)
+            .containsExactly(UserEntities.passwordExpired());
     }
 
     @Test
@@ -156,35 +139,32 @@ class ITUserQueryServiceUpdate {
     @DisplayName("With a user having padding whitespaces in username, name and email, these whitespaces are removed")
     @ValidUser
     void testUpdate_Padded_PersistedData() {
-        final UserUpdate user;
-        final UserEntity entity;
+        final UserUpdate       user;
+        final List<UserEntity> entities;
 
         user = UserUpdateRequests.paddedWithWhitespaces();
 
         service.update(Users.USERNAME, user);
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        Assertions.assertThat(entity.getEmail())
-            .isEqualTo(Users.ALTERNATIVE_EMAIL);
+        Assertions.assertThat(entities)
+            .containsExactly(UserEntities.emailChange());
     }
 
     @Test
     @DisplayName("Updates persisted data")
     @ValidUser
     void testUpdate_PersistedData() {
-        final UserUpdate user;
-        final UserEntity entity;
+        final UserUpdate       user;
+        final List<UserEntity> entities;
 
         user = UserUpdateRequests.emailChange();
 
         service.update(Users.USERNAME, user);
-        entity = repository.findAll()
-            .iterator()
-            .next();
+        entities = repository.findAll();
 
-        UserAssertions.isEqualTo(entity, UserEntities.emailChange());
+        Assertions.assertThat(entities)
+            .containsExactly(UserEntities.emailChange());
     }
 
     @Test
@@ -198,7 +178,8 @@ class ITUserQueryServiceUpdate {
 
         result = service.update(Users.USERNAME, user);
 
-        UserAssertions.isEqualTo(result, Users.emailChange());
+        Assertions.assertThat(result)
+            .isEqualTo(Users.emailChange());
     }
 
 }
