@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.permission.test.config.AlternativeUserWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
+import com.bernardomg.security.authorization.permission.test.config.UserWithoutRole;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
@@ -26,8 +28,8 @@ class ITUserRoleServiceGetRoles {
     }
 
     @Test
-    @DisplayName("Returns the roles for a user")
-    @ValidUser
+    @DisplayName("When the user has roles, these are returned")
+    @UserWithPermission
     void testGetRoles() {
         final Iterable<Role> roles;
         final Pageable       pageable;
@@ -41,7 +43,38 @@ class ITUserRoleServiceGetRoles {
     }
 
     @Test
-    @DisplayName("Returns no roles for a not existing user")
+    @DisplayName("When the user has no roles, no role is returned")
+    @UserWithoutRole
+    void testGetRoles_NoRoles() {
+        final Iterable<Role> roles;
+        final Pageable       pageable;
+
+        pageable = Pageable.unpaged();
+
+        roles = service.getRoles(Users.USERNAME, pageable);
+
+        Assertions.assertThat(roles)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user has no roles, and there is another with roles, no role is returned")
+    @UserWithoutRole
+    @AlternativeUserWithCrudPermissions
+    void testGetRoles_NoRoles_Alternative() {
+        final Iterable<Role> roles;
+        final Pageable       pageable;
+
+        pageable = Pageable.unpaged();
+
+        roles = service.getRoles(Users.USERNAME, pageable);
+
+        Assertions.assertThat(roles)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exist, no role is returned")
     void testGetRoles_NotExisting() {
         final Iterable<Role> roles;
         final Pageable       pageable;
