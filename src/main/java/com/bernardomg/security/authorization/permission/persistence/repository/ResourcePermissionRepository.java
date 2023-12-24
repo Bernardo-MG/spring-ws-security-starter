@@ -52,7 +52,7 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      *            pagination to apply
      * @return a page with the permissions
      */
-    @Query("SELECT p FROM ResourcePermission p LEFT JOIN RolePermission rp ON p.name = rp.permission WHERE rp.permission IS NULL OR rp.granted = false AND rp.roleId = :roleId")
+    @Query("SELECT p FROM ResourcePermission p LEFT JOIN RolePermission rp ON p.name = rp.permission WHERE rp.roleId = :roleId AND (rp.permission IS NULL OR rp.granted = false)")
     public Page<ResourcePermissionEntity> findAllAvailableToRole(@Param("roleId") final Long roleId,
             final Pageable page);
 
@@ -65,7 +65,7 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      *            pagination to apply
      * @return a page with the permissions
      */
-    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission WHERE rp.granted = true AND rp.roleId = :roleId")
+    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission WHERE rp.roleId = :roleId AND rp.granted = true")
     public Page<ResourcePermissionEntity> findAllForRole(@Param("roleId") final Long roleId, final Pageable page);
 
     /**
@@ -75,7 +75,7 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      *            user id
      * @return a page with the permissions
      */
-    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission INNER JOIN Role r ON r.id = rp.roleId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE rp.granted = true AND u.id = :userId")
+    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission INNER JOIN Role r ON r.id = rp.roleId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE u.id = :userId AND rp.granted = true")
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
 
     /**
@@ -85,7 +85,7 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      *            user username
      * @return a page with the permissions
      */
-    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission INNER JOIN Role r ON r.id = rp.roleId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE rp.granted = true AND u.username = :username")
+    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission INNER JOIN Role r ON r.id = rp.roleId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE u.username = :username AND rp.granted = true")
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("username") final String username);
 
     public Optional<ResourcePermissionEntity> findByName(final String name);

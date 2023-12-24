@@ -100,6 +100,7 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
         actionMapper = actionMapper.andThen(String::toLowerCase);
 
         // Transform into a map, with the resource as key, and the list of actions as value
+        // TODO: query by id
         return resourcePermissionRepository.findAllForUser(username)
             .stream()
             .collect(Collectors.groupingBy(resourceMapper, Collectors.mapping(actionMapper, Collectors.toList())));
