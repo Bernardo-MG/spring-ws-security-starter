@@ -26,6 +26,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.util.model.Users;
@@ -82,7 +83,7 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForAccountExpired() {
         final UserDetails user;
 
-        user = new User("username", "password", true, false, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, false, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -90,7 +91,7 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForCredentialsExpired() {
         final UserDetails user;
 
-        user = new User("username", "password", true, true, false, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, false, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -98,7 +99,7 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForDisabled() {
         final UserDetails user;
 
-        user = new User("username", "password", false, true, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, false, true, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -106,7 +107,7 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForLocked() {
         final UserDetails user;
 
-        user = new User("username", "password", true, true, false, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, false, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -129,7 +130,7 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForValid() {
         final UserDetails user;
 
-        user = new User("username", "password", true, true, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -255,7 +256,7 @@ class TestTokenLoginServiceEvent {
         loadUser();
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
         getServiceForValid().login(Users.EMAIL, Users.PASSWORD);
 
@@ -372,7 +373,7 @@ class TestTokenLoginServiceEvent {
         final LogInEvent event;
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn("token");
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
         getServiceForValid().login(Users.USERNAME, Users.PASSWORD);
 

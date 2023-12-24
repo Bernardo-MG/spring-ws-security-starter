@@ -64,7 +64,7 @@ class TestTokenLoginServiceToken {
         final BiPredicate<String, String> valid;
         final LoginTokenEncoder           loginTokenEncoder;
 
-        user = new User("username", "password", true, true, true, true, Collections.emptyList());
+        user = new User(Users.USERNAME, Users.PASSWORD, true, true, true, true, Collections.emptyList());
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
