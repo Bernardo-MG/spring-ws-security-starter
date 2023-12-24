@@ -52,7 +52,7 @@ public interface ResourcePermissionRepository extends JpaRepository<ResourcePerm
      *            pagination to apply
      * @return a page with the permissions
      */
-    @Query("SELECT p FROM ResourcePermission p LEFT JOIN RolePermission rp ON p.name = rp.permission WHERE rp.permission IS NULL OR rp.granted = false")
+    @Query("SELECT p FROM ResourcePermission p LEFT JOIN RolePermission rp ON p.name = rp.permission WHERE rp.permission IS NULL OR rp.granted = false AND rp.roleId = :roleId")
     public Page<ResourcePermissionEntity> findAllAvailableToRole(@Param("roleId") final Long roleId,
             final Pageable page);
 
