@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.AlternativeRoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissionsNotGranted;
@@ -66,6 +67,25 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @CrudPermissions
     @SingleRole
     void testGetAvailablePermissions_NoPermissions() {
+        final Iterable<ResourcePermission> permissions;
+        final Pageable                     pageable;
+
+        pageable = Pageable.unpaged();
+
+        permissions = service.getAvailablePermissions(Roles.NAME, pageable);
+
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
+                ResourcePermissions.delete());
+    }
+
+    @Test
+    @DisplayName("When the role has no permissions, and there is another role with all permissions, all the permissions are returned")
+    @CrudPermissions
+    @SingleRole
+    @AlternativeRoleWithCrudPermissions
+    void testGetAvailablePermissions_NoPermissions_AlternativeRole() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
