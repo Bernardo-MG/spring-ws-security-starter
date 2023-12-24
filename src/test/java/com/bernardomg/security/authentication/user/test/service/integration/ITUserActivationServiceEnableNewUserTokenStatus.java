@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
@@ -18,11 +18,9 @@ import com.bernardomg.security.authorization.token.test.config.annotation.UserRe
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - enable new user - token status")
 class ITUserActivationServiceEnableNewUserTokenStatus {
 
@@ -46,6 +44,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("User username is enabled");
     }
 
@@ -62,6 +61,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("Consumed token " + UserTokens.TOKEN);
     }
 
@@ -78,6 +78,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
 
         Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("Expired token " + UserTokens.TOKEN);
     }
 
@@ -93,6 +94,7 @@ class ITUserActivationServiceEnableNewUserTokenStatus {
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
+            .as("exception message")
             .isEqualTo("Missing token " + UserTokens.TOKEN);
     }
 

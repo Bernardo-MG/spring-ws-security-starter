@@ -22,6 +22,8 @@ import com.bernardomg.security.authentication.jwt.filter.JwtTokenFilter;
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -34,10 +36,6 @@ class TestJwtTokenFilter {
 
     private static final String HEADER_BEARER = "Bearer token";
 
-    private static final String TOKEN         = "token";
-
-    private static final String USERNAME      = "username";
-
     @Mock
     private TokenDecoder        decoder;
 
@@ -45,7 +43,16 @@ class TestJwtTokenFilter {
     private JwtTokenFilter      filter;
 
     @Mock
-    private UserDetailsService  userDetService;
+    private FilterChain         filterChain;
+
+    @Mock
+    private HttpServletRequest  request;
+
+    @Mock
+    private HttpServletResponse response;
+
+    @Mock
+    private UserDetailsService  userDetailsService;
 
     @Mock
     private JjwtTokenValidator  validator;
@@ -59,7 +66,7 @@ class TestJwtTokenFilter {
 
         userDetails = Mockito.mock(UserDetails.class);
 
-        given(userDetails.getUsername()).willReturn(USERNAME);
+        given(userDetails.getUsername()).willReturn(Users.USERNAME);
         given(userDetails.isAccountNonExpired()).willReturn(true);
         given(userDetails.isAccountNonLocked()).willReturn(true);
         given(userDetails.isCredentialsNonExpired()).willReturn(true);
@@ -71,29 +78,25 @@ class TestJwtTokenFilter {
     @Test
     @DisplayName("With a valid token the user is stored")
     void testDoFilter() throws ServletException, IOException {
-        final HttpServletRequest  request;
-        final HttpServletResponse response;
-        final FilterChain         filterChain;
-        final JwtTokenData        jwtTokenData;
-        final UserDetails         userDetails;
-        final Authentication      authentication;
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
 
         // GIVEN
-        given(validator.hasExpired(TOKEN)).willReturn(false);
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
+
+        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
 
         userDetails = getValidUserDetails();
-        given(userDetService.loadUserByUsername(USERNAME)).willReturn(userDetails);
+        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenData.builder()
-            .withSubject(USERNAME)
+            .withSubject(Users.USERNAME)
             .build();
-        given(decoder.decode(TOKEN)).willReturn(jwtTokenData);
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        request = Mockito.mock(HttpServletRequest.class);
         given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
-
-        response = Mockito.mock(HttpServletResponse.class);
-        filterChain = Mockito.mock(FilterChain.class);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -102,45 +105,49 @@ class TestJwtTokenFilter {
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
         Assertions.assertThat(authentication.getName())
-            .isEqualTo(USERNAME);
+            .isEqualTo(Users.USERNAME);
     }
 
     @Test
     @DisplayName("With a expired token no user is stored")
     void testDoFilter_ExpiredToken() throws ServletException, IOException {
-        final HttpServletRequest  request;
-        final HttpServletResponse response;
-        final FilterChain         filterChain;
+        final Authentication authentication;
 
-        given(validator.hasExpired(TOKEN)).willReturn(true);
+        // GIVEN
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
 
-        request = Mockito.mock(HttpServletRequest.class);
-        given(request.getHeader("Authorization")).willReturn("Bearer " + TOKEN);
+        given(validator.hasExpired(Tokens.TOKEN)).willReturn(true);
 
-        response = Mockito.mock(HttpServletResponse.class);
-        filterChain = Mockito.mock(FilterChain.class);
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
 
+        // WHEN
         filter.doFilter(request, response, filterChain);
 
-        Mockito.verify(userDetService, Mockito.never())
-            .loadUserByUsername(USERNAME);
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isNull();
     }
 
     @Test
     @DisplayName("With no authorization header no user is stored")
     void testDoFilter_NoHeader() throws ServletException, IOException {
-        final HttpServletRequest  request;
-        final HttpServletResponse response;
-        final FilterChain         filterChain;
+        final Authentication authentication;
 
-        request = Mockito.mock(HttpServletRequest.class);
-        response = Mockito.mock(HttpServletResponse.class);
-        filterChain = Mockito.mock(FilterChain.class);
+        // GIVEN
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
 
+        // WHEN
         filter.doFilter(request, response, filterChain);
 
-        Mockito.verify(userDetService, Mockito.never())
-            .loadUserByUsername(USERNAME);
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isNull();
     }
 
 }

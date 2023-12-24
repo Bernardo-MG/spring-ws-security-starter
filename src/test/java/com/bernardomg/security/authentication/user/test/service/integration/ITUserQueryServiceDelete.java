@@ -25,6 +25,7 @@
 package com.bernardomg.security.authentication.user.test.service.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,13 +36,11 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - delete without roles")
 class ITUserQueryServiceDelete {
 
@@ -64,10 +63,12 @@ class ITUserQueryServiceDelete {
     void testDelete_DoesNotRemoveRelations() {
         service.delete(Users.USERNAME);
 
-        Assertions.assertThat(repository.count())
-            .isZero();
-        Assertions.assertThat(roleRepository.count())
-            .isEqualTo(1);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(repository.count())
+                .isZero();
+            softly.assertThat(roleRepository.count())
+                .isEqualTo(1);
+        });
     }
 
     @Test

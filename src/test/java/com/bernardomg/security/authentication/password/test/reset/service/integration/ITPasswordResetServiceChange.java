@@ -45,8 +45,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_Changed() {
         final UserEntity user;
 
+        // WHEN
         service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         user = userRepository.findAll()
             .stream()
             .findFirst()
@@ -64,8 +66,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_ConsumesToken() {
         final Boolean consumed;
 
+        // WHEN
         service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         consumed = userTokenRepository.findById(1L)
             .get()
             .isConsumed();
@@ -82,8 +86,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_ResetsExpiredPassword() {
         final UserEntity user;
 
+        // WHEN
         service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         user = userRepository.findAll()
             .stream()
             .findFirst()
@@ -101,8 +107,10 @@ class ITPasswordResetServiceChange {
     void testChangePassword_UserStatus() {
         final UserEntity user;
 
+        // WHEN
         service.changePassword(UserTokens.TOKEN, "abc");
 
+        // THEN
         user = userRepository.findAll()
             .stream()
             .findFirst()

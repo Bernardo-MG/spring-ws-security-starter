@@ -13,9 +13,9 @@ import com.bernardomg.security.authorization.permission.test.config.CrudPermissi
 import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
-import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
+import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.security.authorization.role.test.util.model.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

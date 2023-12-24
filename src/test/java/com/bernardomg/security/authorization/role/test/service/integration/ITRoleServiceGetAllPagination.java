@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.authorization.role.test.service.integration;
 
-import org.apache.commons.collections4.IterableUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +13,11 @@ import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.security.authorization.role.test.util.model.Roles;
-import com.bernardomg.security.authorization.role.test.util.model.RolesQuery;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - get all - pagination")
 @SingleRole
 class ITRoleServiceGetAllPagination {
@@ -79,8 +76,8 @@ class ITRoleServiceGetAllPagination {
 
         roles = service.getAll(sample, pageable);
 
-        Assertions.assertThat(IterableUtils.isEmpty(roles))
-            .isTrue();
+        Assertions.assertThat(roles)
+            .isEmpty();
     }
 
     @Test

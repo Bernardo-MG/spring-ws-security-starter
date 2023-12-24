@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.authentication.user.test.service.integration;
 
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +32,15 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - token validation")
 class ITUserActivationServiceToken {
 
@@ -64,10 +62,12 @@ class ITUserActivationServiceToken {
 
         status = service.validateToken(UserTokens.TOKEN);
 
-        Assertions.assertThat(status.isValid())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.isValid())
+                .isFalse();
+            softly.assertThat(status.getUsername())
+                .isEqualTo(Users.USERNAME);
+        });
     }
 
     @Test
@@ -80,10 +80,12 @@ class ITUserActivationServiceToken {
 
         status = service.validateToken(UserTokens.TOKEN);
 
-        Assertions.assertThat(status.isValid())
-            .isFalse();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.isValid())
+                .isFalse();
+            softly.assertThat(status.getUsername())
+                .isEqualTo(Users.USERNAME);
+        });
     }
 
     @Test
@@ -96,10 +98,12 @@ class ITUserActivationServiceToken {
 
         status = service.validateToken(UserTokens.TOKEN);
 
-        Assertions.assertThat(status.isValid())
-            .isTrue();
-        Assertions.assertThat(status.getUsername())
-            .isEqualTo(Users.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.isValid())
+                .isTrue();
+            softly.assertThat(status.getUsername())
+                .isEqualTo(Users.USERNAME);
+        });
     }
 
 }

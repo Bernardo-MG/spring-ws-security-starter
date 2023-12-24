@@ -4,6 +4,7 @@ package com.bernardomg.security.authorization.token.test.store.integration;
 import java.time.LocalDateTime;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
@@ -74,17 +75,19 @@ class ITPersistentUserTokenStoreCreateToken {
         upper = LocalDateTime.now()
             .plusSeconds(1);
 
-        Assertions.assertThat(token.getToken())
-            .isNotNull();
-        Assertions.assertThat(token.getScope())
-            .isEqualTo("scope");
-        Assertions.assertThat(token.getExpirationDate())
-            .isAfter(lower)
-            .isBefore(upper);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getToken())
+                .isNotNull();
+            softly.assertThat(token.getScope())
+                .isEqualTo("scope");
+            softly.assertThat(token.getExpirationDate())
+                .isAfter(lower)
+                .isBefore(upper);
+            softly.assertThat(token.isConsumed())
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .isFalse();
+        });
     }
 
     @Test

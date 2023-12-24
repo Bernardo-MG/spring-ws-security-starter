@@ -13,23 +13,16 @@ import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
-@DisplayName("JjwtTokenEncoder - get subject")
-class TestJjwtTokenEncoderGetSubject {
+@DisplayName("JjwtTokenDecoder - get subject")
+class TestJjwtTokenDecoderGetSubject {
 
-    private final TokenDecoder decoder;
+    private final TokenDecoder decoder = new JjwtTokenDecoder(Tokens.KEY);
 
-    private final TokenEncoder encoder;
-
-    public TestJjwtTokenEncoderGetSubject() {
-        super();
-
-        encoder = new JjwtTokenEncoder(TokenConstants.KEY);
-        decoder = new JjwtTokenDecoder(TokenConstants.KEY);
-    }
+    private final TokenEncoder encoder = new JjwtTokenEncoder(Tokens.KEY);
 
     @Test
     @DisplayName("Recovers the subject from a token")
@@ -38,34 +31,41 @@ class TestJjwtTokenEncoderGetSubject {
         final String       subject;
         final JwtTokenData data;
 
+        // GIVEN
         data = JwtTokenData.builder()
             .withSubject("subject")
             .build();
 
         token = encoder.encode(data);
+
+        // WHEN
         subject = decoder.decode(token)
             .getSubject();
 
+        // THEN
         Assertions.assertThat(subject)
+            .as("subject")
             .isEqualTo("subject");
     }
 
     @Test
     @DisplayName("Recovering the subject from an expired token generates an exception")
-    void testGetSubject_fromGeneratedToken_expired() throws InterruptedException {
+    void testGetSubject_fromGeneratedToken_expired() {
         final String           token;
         final ThrowingCallable executable;
         final JwtTokenData     data;
 
+        // GIVEN
         data = JwtTokenData.builder()
             .withSubject("subject")
             .withExpiration(LocalDateTime.now()
                 .plusSeconds(-1))
             .build();
 
+        // WHEN
         token = encoder.encode(data);
 
-        // TODO: This is a test for the decoder, test it
+        // THEN
         executable = () -> decoder.decode(token);
 
         Assertions.assertThatThrownBy(executable)

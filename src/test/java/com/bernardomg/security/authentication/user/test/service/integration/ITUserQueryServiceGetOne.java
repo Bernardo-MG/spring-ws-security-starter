@@ -12,14 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.authentication.user.test.config.DisabledUser;
+import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
+import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
+import com.bernardomg.security.authentication.user.test.config.LockedUser;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.assertion.UserAssertions;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - get one")
 class ITUserQueryServiceGetOne {
 
@@ -31,27 +32,63 @@ class ITUserQueryServiceGetOne {
     }
 
     @Test
-    @DisplayName("Returns a single entity by id")
-    @OnlyUser
-    void testGetOne_Existing() {
+    @DisplayName("Returns the correct data when reading a disabled user")
+    @DisabledUser
+    void testGetOne_Disabled() {
         final Optional<User> result;
 
         result = service.getOne(Users.USERNAME);
 
         Assertions.assertThat(result)
-            .isPresent();
+            .contains(Users.disabled());
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a single entity")
+    @DisplayName("Returns the correct data when reading an enabled user")
     @OnlyUser
-    void testGetOne_Existing_Data() {
-        final User result;
+    void testGetOne_Enabled() {
+        final Optional<User> result;
 
-        result = service.getOne(Users.USERNAME)
-            .get();
+        result = service.getOne(Users.USERNAME);
 
-        UserAssertions.isEqualTo(result, Users.enabled());
+        Assertions.assertThat(result)
+            .contains(Users.enabled());
+    }
+
+    @Test
+    @DisplayName("Returns the correct data when reading an expired user")
+    @ExpiredUser
+    void testGetOne_Expired() {
+        final Optional<User> result;
+
+        result = service.getOne(Users.USERNAME);
+
+        Assertions.assertThat(result)
+            .contains(Users.expired());
+    }
+
+    @Test
+    @DisplayName("Returns the correct data when reading a user with expired password")
+    @ExpiredPasswordUser
+    void testGetOne_ExpiredPassword() {
+        final Optional<User> result;
+
+        result = service.getOne(Users.USERNAME);
+
+        Assertions.assertThat(result)
+            .contains(Users.passwordExpired());
+    }
+
+    @Test
+    @DisplayName("Returns the correct data when reading a locked user")
+    @LockedUser
+    void testGetOne_Locked() {
+        final Optional<User> result;
+
+        result = service.getOne(Users.USERNAME);
+
+        Assertions.assertThat(result)
+            .contains(Users.locked());
     }
 
     @Test

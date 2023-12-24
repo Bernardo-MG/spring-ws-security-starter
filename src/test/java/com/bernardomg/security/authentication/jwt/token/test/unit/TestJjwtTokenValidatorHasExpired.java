@@ -12,21 +12,14 @@ import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 
-@DisplayName("JjwtTokenEncoder - has expired")
-class TestJjwtTokenEncoderHasExpired {
+@DisplayName("JjwtTokenValidator - has expired")
+class TestJjwtTokenValidatorHasExpired {
 
-    private final TokenEncoder       encoder;
+    private final TokenEncoder       encoder   = new JjwtTokenEncoder(Tokens.KEY);
 
-    private final JjwtTokenValidator validator;
-
-    public TestJjwtTokenEncoderHasExpired() {
-        super();
-
-        encoder = new JjwtTokenEncoder(TokenConstants.KEY);
-        validator = new JjwtTokenValidator(TokenConstants.KEY);
-    }
+    private final JjwtTokenValidator validator = new JjwtTokenValidator(Tokens.KEY);
 
     @Test
     @DisplayName("An expired token is identified as such")
@@ -35,6 +28,7 @@ class TestJjwtTokenEncoderHasExpired {
         final Boolean      expired;
         final JwtTokenData data;
 
+        // GIVEN
         data = JwtTokenData.builder()
             .withIssuer("issuer")
             .withExpiration(LocalDateTime.now()
@@ -46,9 +40,12 @@ class TestJjwtTokenEncoderHasExpired {
         TimeUnit.SECONDS.sleep(Double.valueOf(6)
             .longValue());
 
+        // WHEN
         expired = validator.hasExpired(token);
 
+        // THEN
         Assertions.assertThat(expired)
+            .as("expired")
             .isTrue();
     }
 
@@ -59,14 +56,19 @@ class TestJjwtTokenEncoderHasExpired {
         final Boolean      expired;
         final JwtTokenData data;
 
+        // GIVEN
         data = JwtTokenData.builder()
             .withIssuer("issuer")
             .build();
 
         token = encoder.encode(data);
+
+        // WHEN
         expired = validator.hasExpired(token);
 
+        // THEN
         Assertions.assertThat(expired)
+            .as("expired")
             .isFalse();
     }
 
@@ -77,6 +79,7 @@ class TestJjwtTokenEncoderHasExpired {
         final Boolean      expired;
         final JwtTokenData data;
 
+        // GIVEN
         data = JwtTokenData.builder()
             .withIssuer("issuer")
             .withExpiration(LocalDateTime.now()
@@ -84,9 +87,13 @@ class TestJjwtTokenEncoderHasExpired {
             .build();
 
         token = encoder.encode(data);
+
+        // WHEN
         expired = validator.hasExpired(token);
 
+        // THEN
         Assertions.assertThat(expired)
+            .as("expired")
             .isFalse();
     }
 

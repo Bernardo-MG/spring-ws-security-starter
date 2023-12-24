@@ -29,10 +29,10 @@ import com.bernardomg.security.authentication.user.exception.LockedUserException
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordChangeService - change password")
+@DisplayName("PasswordChangeService - change password - authentication")
 class TestPasswordChangeServiceAuth {
 
     @Mock
@@ -135,12 +135,15 @@ class TestPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         initializeValidation();
         initializeAuthentication();
         loadDisabledUser();
 
+        // WHEN
         executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -154,12 +157,15 @@ class TestPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         initializeValidation();
         initializeAuthentication();
         loadExpiredUser();
 
+        // WHEN
         executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -173,12 +179,15 @@ class TestPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         initializeValidation();
         initializeAuthentication();
         loadLockedUser();
 
+        // WHEN
         executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -191,10 +200,13 @@ class TestPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         initializeEmptyAuthentication();
 
+        // WHEN
         executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -207,10 +219,13 @@ class TestPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         initializeNotAuthenticated();
 
+        // WHEN
         executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -224,10 +239,13 @@ class TestPasswordChangeServiceAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         initializeAuthentication();
 
+        // WHEN
         executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())

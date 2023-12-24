@@ -11,15 +11,13 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.NewlyCreated;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("User service - activate new user - token status")
 class ITUserActivationServiceEnableNewUser {
 
@@ -53,6 +51,7 @@ class ITUserActivationServiceEnableNewUser {
             .isConsumed();
 
         Assertions.assertThat(consumed)
+            .as("consumed")
             .isTrue();
     }
 
@@ -69,6 +68,7 @@ class ITUserActivationServiceEnableNewUser {
             .get();
 
         Assertions.assertThat(user.getEnabled())
+            .as("enabled")
             .isTrue();
     }
 
@@ -85,6 +85,7 @@ class ITUserActivationServiceEnableNewUser {
             .get();
 
         Assertions.assertThat(passwordEncoder.matches(Users.PASSWORD, user.getPassword()))
+            .as("encoded password")
             .isTrue();
     }
 
@@ -101,6 +102,7 @@ class ITUserActivationServiceEnableNewUser {
             .get();
 
         Assertions.assertThat(user.getPasswordExpired())
+            .as("expired")
             .isFalse();
     }
 

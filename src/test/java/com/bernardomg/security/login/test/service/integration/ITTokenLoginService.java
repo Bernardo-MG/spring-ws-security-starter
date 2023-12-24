@@ -6,17 +6,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.jwt.token.test.config.TokenConstants;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.DisabledUser;
 import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.LockedUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.UserWithoutPermissions;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
+import com.bernardomg.security.login.test.config.factory.TokenLoginStatuses;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;
@@ -42,22 +43,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("Logs in with a valid email")
-    @ValidUser
-    void testLogIn_Email_Valid() {
-        final TokenLoginStatus status;
-
-        status = service.login(Users.USERNAME, Users.PASSWORD);
-
-        Assertions.assertThat(status.isLogged())
-            .isTrue();
-        Assertions.assertThat(status.getToken())
-            .isNotBlank();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -68,8 +55,20 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
+    }
+
+    @Test
+    @DisplayName("Doesn't log in with an invalid password")
+    @ValidUser
+    void testLogIn_InvalidPassword() {
+        final TokenLoginStatus status;
+
+        status = service.login(Users.USERNAME, "abc");
+
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -80,8 +79,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -92,20 +91,19 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
     @DisplayName("Doesn't log in a not existing user")
-    @ValidUser
     void testLogIn_NotExisting() {
         final TokenLoginStatus status;
 
-        status = service.login("abc", Users.PASSWORD);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -116,8 +114,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -128,8 +126,8 @@ class ITTokenLoginService {
 
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -147,12 +145,12 @@ class ITTokenLoginService {
     }
 
     @Test
-    @DisplayName("Logs in with a valid user, ignoring username case")
+    @DisplayName("Logs in with a valid email")
     @ValidUser
-    void testLogIn_Valid_Case() {
+    void testLogIn_Valid_EmailLogin() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME.toUpperCase(), Users.PASSWORD);
+        status = service.login(Users.USERNAME, Users.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -171,7 +169,7 @@ class ITTokenLoginService {
         status = service.login(Users.USERNAME, Users.PASSWORD);
 
         parser = Jwts.parser()
-            .verifyWith(TokenConstants.KEY)
+            .verifyWith(Tokens.KEY)
             .build();
 
         claims = parser.parseSignedClaims(status.getToken())
@@ -179,6 +177,20 @@ class ITTokenLoginService {
 
         Assertions.assertThat(claims.getSubject())
             .isEqualTo(Users.USERNAME);
+    }
+
+    @Test
+    @DisplayName("Logs in with a valid user, ignoring username case")
+    @ValidUser
+    void testLogIn_Valid_UsernameCase() {
+        final TokenLoginStatus status;
+
+        status = service.login(Users.USERNAME.toUpperCase(), Users.PASSWORD);
+
+        Assertions.assertThat(status.isLogged())
+            .isTrue();
+        Assertions.assertThat(status.getToken())
+            .isNotBlank();
     }
 
 }

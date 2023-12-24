@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
@@ -38,8 +38,10 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_CreatedToken() {
         final long count;
 
+        // WHEN
         service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         count = userTokenRepository.count();
 
         Assertions.assertThat(count)
@@ -53,8 +55,10 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_TokenData() {
         final UserTokenEntity token;
 
+        // WHEN
         service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         token = userTokenRepository.findAll()
             .iterator()
             .next();
@@ -85,8 +89,10 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_TokenExists_CreatedToken() {
         final long count;
 
+        // WHEN
         service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         count = userTokenRepository.count();
 
         Assertions.assertThat(count)
@@ -101,8 +107,10 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_TokenExists_ExpiresToken() {
         final UserTokenEntity token;
 
+        // WHEN
         service.startPasswordReset(Users.EMAIL);
 
+        // THEN
         token = userTokenRepository.findOneByTokenAndScope(UserTokens.TOKEN, "password_reset")
             .get();
 
@@ -130,12 +138,14 @@ class ITPasswordResetServiceStartToken {
     void testStartPasswordReset_UserNotExists_NoToken() {
         final long count;
 
+        // WHEN
         try {
             service.startPasswordReset(Users.EMAIL);
         } catch (final Exception e) {
 
         }
 
+        // THEN
         count = userTokenRepository.count();
 
         Assertions.assertThat(count)

@@ -13,10 +13,10 @@ import com.bernardomg.security.authorization.permission.service.RolePermissionSe
 import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.SinglePermission;
-import com.bernardomg.security.authorization.permission.test.util.model.ResourcePermissions;
-import com.bernardomg.security.authorization.permission.test.util.model.RolePermissionEntities;
+import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.security.authorization.role.test.util.model.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

@@ -1,23 +1,23 @@
 
-package com.bernardomg.security.authentication.user.test.util.model;
+package com.bernardomg.security.authentication.user.test.config.factory;
 
 import com.bernardomg.security.authentication.user.model.User;
 
 public final class Users {
 
-    public static String ALTERNATIVE_EMAIL    = "mail2@somewhere.com";
+    public static final String ALTERNATIVE_EMAIL    = "mail2@somewhere.com";
 
-    public static String ALTERNATIVE_USERNAME = "user2";
+    public static final String ALTERNATIVE_USERNAME = "user2";
 
-    public static String EMAIL                = "mail@somewhere.com";
+    public static final String EMAIL                = "mail@somewhere.com";
 
-    public static String ENCODED_PASSWORD     = "$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW";
+    public static final String ENCODED_PASSWORD     = "$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW";
 
-    public static String NAME                 = "name";
+    public static final String NAME                 = "name";
 
-    public static String PASSWORD             = "1234";
+    public static final String PASSWORD             = "1234";
 
-    public static String USERNAME             = "username";
+    public static final String USERNAME             = "username";
 
     public static final User disabled() {
         return User.builder()

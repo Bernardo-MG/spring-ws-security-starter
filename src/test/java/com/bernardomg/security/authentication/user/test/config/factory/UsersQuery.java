@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.util.model;
+package com.bernardomg.security.authentication.user.test.config.factory;
 
 import com.bernardomg.security.authentication.user.model.query.UserQuery;
 import com.bernardomg.security.authentication.user.model.query.UserQueryRequest;

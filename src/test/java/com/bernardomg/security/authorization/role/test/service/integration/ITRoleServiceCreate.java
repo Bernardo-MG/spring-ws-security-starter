@@ -4,6 +4,7 @@ package com.bernardomg.security.authorization.role.test.service.integration;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,10 @@ import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.util.model.Roles;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@AllAuthoritiesMockUser
 @DisplayName("Role service - create")
 class ITRoleServiceCreate {
 
@@ -45,10 +44,13 @@ class ITRoleServiceCreate {
 
         role = roles.iterator()
             .next();
-        Assertions.assertThat(role.getId())
-            .isNotNull();
-        Assertions.assertThat(role.getName())
-            .isEqualTo(Roles.NAME);
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(role.getId())
+                .isNotNull();
+            softly.assertThat(role.getName())
+                .isEqualTo(Roles.NAME);
+        });
     }
 
     @Test

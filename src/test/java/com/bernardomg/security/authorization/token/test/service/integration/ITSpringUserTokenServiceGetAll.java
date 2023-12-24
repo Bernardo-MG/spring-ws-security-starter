@@ -5,13 +5,14 @@ import java.time.LocalDateTime;
 import java.time.Month;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.util.model.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
@@ -121,22 +122,24 @@ class ITSpringUserTokenServiceGetAll {
             .iterator()
             .next();
 
-        Assertions.assertThat(token.getUsername())
-            .isEqualTo(Users.USERNAME);
-        Assertions.assertThat(token.getName())
-            .isEqualTo(Users.NAME);
-        Assertions.assertThat(token.getScope())
-            .isEqualTo(UserTokens.SCOPE);
-        Assertions.assertThat(token.getToken())
-            .isEqualTo(UserTokens.TOKEN);
-        Assertions.assertThat(token.isConsumed())
-            .isFalse();
-        Assertions.assertThat(token.isRevoked())
-            .isFalse();
-        Assertions.assertThat(token.getCreationDate())
-            .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-        Assertions.assertThat(token.getExpirationDate())
-            .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(token.getUsername())
+                .isEqualTo(Users.USERNAME);
+            softly.assertThat(token.getName())
+                .isEqualTo(Users.NAME);
+            softly.assertThat(token.getScope())
+                .isEqualTo(UserTokens.SCOPE);
+            softly.assertThat(token.getToken())
+                .isEqualTo(UserTokens.TOKEN);
+            softly.assertThat(token.isConsumed())
+                .isFalse();
+            softly.assertThat(token.isRevoked())
+                .isFalse();
+            softly.assertThat(token.getCreationDate())
+                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+            softly.assertThat(token.getExpirationDate())
+                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+        });
     }
 
 }
