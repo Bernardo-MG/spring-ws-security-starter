@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
  *
  */
 @Entity(name = "RolePermission")
-@Table(name = "role_permissions")
+@Table(schema = "security", name = "role_permissions")
 @IdClass(RolePermissionKey.class)
 @Data
 @NoArgsConstructor
