@@ -65,6 +65,7 @@ public class PasswordChangeController {
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@Valid @RequestBody final PasswordChangeRequest request) {
+        // TODO: return if it was successful
         service.changePasswordForUserInSession(request.getOldPassword(), request.getNewPassword());
     }
 
