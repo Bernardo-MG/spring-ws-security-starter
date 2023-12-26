@@ -103,7 +103,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
         user = userRepository.findOneByUsername(username.toLowerCase(Locale.getDefault()));
 
-        if (!user.isPresent()) {
+        if (user.isEmpty()){
             log.error("Username {} not found in database", username);
             throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
         }

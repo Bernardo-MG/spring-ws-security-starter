@@ -75,10 +75,11 @@ public class UserActivationController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User activate(@PathVariable("token") final String token,
             @Valid @RequestBody final UserActivationRequest request) {
+        // TODO: return only the necessary data
         return service.activateUser(token, request.getPassword());
     }
 
