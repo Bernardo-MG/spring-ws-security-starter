@@ -87,7 +87,7 @@ public class UserController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User create(@Valid @RequestBody final UserRegisterRequest request) {
         return userActivationService.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
@@ -148,9 +148,9 @@ public class UserController {
      *            updated user data
      * @return the updated user
      */
-    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User update(@PathVariable("username") final String username,
             @Valid @RequestBody final UserUpdateRequest request) {

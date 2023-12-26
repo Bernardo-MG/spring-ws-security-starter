@@ -97,7 +97,7 @@ public class UserTokenController {
      *            token for the user token to read
      * @return the user token for the id, if it exists, or {@code null} otherwise
      */
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
     public UserToken readOne(@PathVariable("token") final String token) {
         // TODO: Apply cache

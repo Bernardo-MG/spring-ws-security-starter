@@ -78,7 +78,7 @@ public class RoleController {
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public Role create(@Valid @RequestBody final RoleCreateRequest request) {
         return service.create(request.getName());
@@ -140,7 +140,7 @@ public class RoleController {
      */
     @PutMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.id") },
+    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public Role update(@PathVariable("role") final String role, @Valid @RequestBody final RoleUpdateRequest request) {
         return service.update(role, request);
