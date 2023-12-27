@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.authentication.user.cache.UserCaches;
+import com.bernardomg.security.authentication.user.controller.model.UserActivation;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.UserActivation;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 

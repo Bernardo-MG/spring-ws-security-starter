@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
-import com.bernardomg.security.authentication.user.model.NewUser;
+import com.bernardomg.security.authentication.user.controller.model.NewUser;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.UserChange;
 import com.bernardomg.security.authentication.user.model.UserQuery;
