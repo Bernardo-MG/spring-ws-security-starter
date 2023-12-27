@@ -11,8 +11,8 @@ import com.bernardomg.security.authorization.token.model.request.UserTokenPartia
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenPartials;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -35,10 +35,10 @@ class ITSpringUserTokenServicePatchValidation {
 
         request = UserTokenPartials.expirationDateYesterday();
 
-        execution = () -> service.patch(UserTokens.TOKEN, request);
+        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
 
         failure = FieldFailure.of("expirationDate.beforeToday", "expirationDate", "beforeToday",
-            UserTokenPartials.DATE_YESTERDAY);
+            UserTokenConstants.DATE_YESTERDAY);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -54,7 +54,7 @@ class ITSpringUserTokenServicePatchValidation {
 
         request = UserTokenPartials.notRevoked();
 
-        execution = () -> service.patch(UserTokens.TOKEN, request);
+        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
 
         failure = FieldFailure.of("revoked.invalidValue", "revoked", "invalidValue", false);
 

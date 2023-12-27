@@ -13,7 +13,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -33,7 +33,7 @@ class ITUserRoleServiceAddRoleError {
     void testAddRoles_NotExistingRole() {
         final ThrowingCallable executable;
 
-        executable = () -> service.addRole(UserConstants.USERNAME, Roles.NAME);
+        executable = () -> service.addRole(UserConstants.USERNAME, RoleConstants.NAME);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleNameException.class);
@@ -45,7 +45,7 @@ class ITUserRoleServiceAddRoleError {
     void testAddRoles_NotExistingUser() {
         final ThrowingCallable executable;
 
-        executable = () -> service.addRole(UserConstants.USERNAME, Roles.NAME);
+        executable = () -> service.addRole(UserConstants.USERNAME, RoleConstants.NAME);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserUsernameException.class);

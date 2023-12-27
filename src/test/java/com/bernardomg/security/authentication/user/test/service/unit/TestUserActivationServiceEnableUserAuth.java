@@ -30,7 +30,7 @@ import com.bernardomg.security.authentication.user.persistence.repository.UserRe
 import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
@@ -145,7 +145,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -163,7 +163,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
@@ -180,7 +180,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadEnabledUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
@@ -197,7 +197,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -214,7 +214,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadLockedUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
@@ -229,7 +229,7 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 

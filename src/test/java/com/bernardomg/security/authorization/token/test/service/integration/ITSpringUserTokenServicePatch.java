@@ -1,9 +1,6 @@
 
 package com.bernardomg.security.authorization.token.test.service.integration;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -20,8 +17,8 @@ import com.bernardomg.security.authorization.token.persistence.model.UserTokenEn
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenPartials;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,26 +41,26 @@ class ITSpringUserTokenServicePatch {
 
         request = UserTokenPartials.empty();
 
-        service.patch(UserTokens.TOKEN, request);
+        service.patch(UserTokenConstants.TOKEN, request);
 
-        token = userTokenRepository.findOneByToken(UserTokens.TOKEN)
+        token = userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokens.SCOPE);
+                .isEqualTo(UserTokenConstants.SCOPE);
             softly.assertThat(token.getToken())
-                .isEqualTo(UserTokens.TOKEN);
+                .isEqualTo(UserTokenConstants.TOKEN);
             softly.assertThat(token.isConsumed())
                 .isFalse();
             softly.assertThat(token.isRevoked())
                 .isFalse();
             softly.assertThat(token.getCreationDate())
-                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE);
             softly.assertThat(token.getExpirationDate())
-                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE_FUTURE);
         });
     }
 
@@ -77,26 +74,26 @@ class ITSpringUserTokenServicePatch {
 
         request = UserTokenPartials.expirationDate();
 
-        service.patch(UserTokens.TOKEN, request);
+        service.patch(UserTokenConstants.TOKEN, request);
 
-        token = userTokenRepository.findOneByToken(UserTokens.TOKEN)
+        token = userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokens.SCOPE);
+                .isEqualTo(UserTokenConstants.SCOPE);
             softly.assertThat(token.getToken())
-                .isEqualTo(UserTokens.TOKEN);
+                .isEqualTo(UserTokenConstants.TOKEN);
             softly.assertThat(token.isConsumed())
                 .isFalse();
             softly.assertThat(token.isRevoked())
                 .isFalse();
             softly.assertThat(token.getCreationDate())
-                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE);
             softly.assertThat(token.getExpirationDate())
-                .isEqualTo(LocalDateTime.of(2030, Month.NOVEMBER, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE_FUTURE);
         });
     }
 
@@ -109,9 +106,9 @@ class ITSpringUserTokenServicePatch {
 
         request = UserTokenPartials.revoked();
 
-        service.patch(UserTokens.TOKEN, request);
+        service.patch(UserTokenConstants.TOKEN, request);
 
-        userTokenRepository.findOneByToken(UserTokens.TOKEN)
+        userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
         Assertions.assertThat(userTokenRepository.count())
@@ -127,7 +124,7 @@ class ITSpringUserTokenServicePatch {
 
         request = UserTokenPartials.revoked();
 
-        execution = () -> service.patch(UserTokens.TOKEN, request);
+        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingUserTokenCodeException.class);
@@ -143,26 +140,26 @@ class ITSpringUserTokenServicePatch {
 
         request = UserTokenPartials.revoked();
 
-        service.patch(UserTokens.TOKEN, request);
+        service.patch(UserTokenConstants.TOKEN, request);
 
-        token = userTokenRepository.findOneByToken(UserTokens.TOKEN)
+        token = userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokens.SCOPE);
+                .isEqualTo(UserTokenConstants.SCOPE);
             softly.assertThat(token.getToken())
-                .isEqualTo(UserTokens.TOKEN);
+                .isEqualTo(UserTokenConstants.TOKEN);
             softly.assertThat(token.isConsumed())
                 .isFalse();
             softly.assertThat(token.isRevoked())
                 .isTrue();
             softly.assertThat(token.getCreationDate())
-                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE);
             softly.assertThat(token.getExpirationDate())
-                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE_FUTURE);
         });
     }
 
@@ -176,7 +173,7 @@ class ITSpringUserTokenServicePatch {
 
         request = UserTokenPartials.revoked();
 
-        token = service.patch(UserTokens.TOKEN, request);
+        token = service.patch(UserTokenConstants.TOKEN, request);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getUsername())
@@ -184,17 +181,17 @@ class ITSpringUserTokenServicePatch {
             softly.assertThat(token.getName())
                 .isEqualTo(UserConstants.NAME);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokens.SCOPE);
+                .isEqualTo(UserTokenConstants.SCOPE);
             softly.assertThat(token.getToken())
-                .isEqualTo(UserTokens.TOKEN);
+                .isEqualTo(UserTokenConstants.TOKEN);
             softly.assertThat(token.isConsumed())
                 .isFalse();
             softly.assertThat(token.isRevoked())
                 .isTrue();
             softly.assertThat(token.getCreationDate())
-                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE);
             softly.assertThat(token.getExpirationDate())
-                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
+                .isEqualTo(UserTokenConstants.DATE_FUTURE);
         });
     }
 

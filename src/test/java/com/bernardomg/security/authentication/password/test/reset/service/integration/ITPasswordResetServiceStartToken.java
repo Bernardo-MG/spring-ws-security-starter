@@ -15,7 +15,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -111,13 +111,13 @@ class ITPasswordResetServiceStartToken {
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        token = userTokenRepository.findOneByTokenAndScope(UserTokens.TOKEN, "password_reset")
+        token = userTokenRepository.findOneByTokenAndScope(UserTokenConstants.TOKEN, "password_reset")
             .get();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getToken())
                 .as("token")
-                .isEqualTo(UserTokens.TOKEN);
+                .isEqualTo(UserTokenConstants.TOKEN);
             softly.assertThat(token.getScope())
                 .as("scope")
                 .isEqualTo("password_reset");

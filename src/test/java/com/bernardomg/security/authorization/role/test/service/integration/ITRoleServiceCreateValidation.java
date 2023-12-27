@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -31,9 +31,9 @@ class ITRoleServiceCreateValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        executable = () -> service.create(Roles.NAME);
+        executable = () -> service.create(RoleConstants.NAME);
 
-        failure = FieldFailure.of("name.existing", "name", "existing", Roles.NAME);
+        failure = FieldFailure.of("name.existing", "name", "existing", RoleConstants.NAME);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

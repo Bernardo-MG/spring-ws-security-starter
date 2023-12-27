@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -32,7 +33,7 @@ class ITRolePermissionServiceAddPermissionError {
     void testAddAction_NotExistingPermission() {
         final ThrowingCallable executable;
 
-        executable = () -> service.addPermission(Roles.NAME, "DATA:CREATE");
+        executable = () -> service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingResourcePermissionNameException.class);
@@ -44,7 +45,7 @@ class ITRolePermissionServiceAddPermissionError {
     void testAddAction_NotExistingRole() {
         final ThrowingCallable executable;
 
-        executable = () -> service.addPermission(Roles.NAME, "DATA:CREATE");
+        executable = () -> service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleNameException.class);

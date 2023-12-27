@@ -37,7 +37,7 @@ import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -60,7 +60,7 @@ class ITUserActivationServiceToken {
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokens.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
@@ -78,7 +78,7 @@ class ITUserActivationServiceToken {
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokens.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
@@ -96,7 +96,7 @@ class ITUserActivationServiceToken {
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokens.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())

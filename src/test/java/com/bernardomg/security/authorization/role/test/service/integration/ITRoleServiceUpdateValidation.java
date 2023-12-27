@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesUpdate;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -52,7 +52,7 @@ class ITRoleServiceUpdateValidation {
     void testUpdate_NotExistingRole() {
         final ThrowingCallable execution;
 
-        execution = () -> service.update(Roles.NAME, RolesUpdate.valid());
+        execution = () -> service.update(RoleConstants.NAME, RolesUpdate.valid());
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingRoleNameException.class);

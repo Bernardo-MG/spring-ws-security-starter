@@ -18,7 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.authorization.access.ResourceAccessValidator;
 import com.bernardomg.security.authorization.access.SpringResourceAccessValidator;
-import com.bernardomg.security.authorization.access.test.config.factory.ResourceActionGrantedAuthorities;
+import com.bernardomg.security.authorization.access.test.config.factory.GrantedAuthorities;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.springframework.ResourceActionGrantedAuthority;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +39,7 @@ class TestSpringResourceAccessValidator {
     private final Collection getAuthorities() {
         final ResourceActionGrantedAuthority authority;
 
-        authority = ResourceActionGrantedAuthorities.valid();
+        authority = GrantedAuthorities.resource();
         return List.of(authority);
     }
 
@@ -46,7 +47,7 @@ class TestSpringResourceAccessValidator {
     private final Collection getSimpleAuthorities() {
         final SimpleGrantedAuthority authority;
 
-        authority = new SimpleGrantedAuthority("resource:action");
+        authority = GrantedAuthorities.simple();
         return List.of(authority);
     }
 
@@ -94,7 +95,7 @@ class TestSpringResourceAccessValidator {
 
         initializeAuthenticated();
 
-        authorized = validator.isAuthorized("resource", "action");
+        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
 
         Assertions.assertThat(authorized)
             .isTrue();
@@ -107,7 +108,7 @@ class TestSpringResourceAccessValidator {
 
         initializeEmptyAuthentication();
 
-        authorized = validator.isAuthorized("resource", "action");
+        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
 
         Assertions.assertThat(authorized)
             .isFalse();
@@ -120,7 +121,7 @@ class TestSpringResourceAccessValidator {
 
         initializeNoAuthorities();
 
-        authorized = validator.isAuthorized("resource", "action");
+        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
 
         Assertions.assertThat(authorized)
             .isFalse();
@@ -133,7 +134,7 @@ class TestSpringResourceAccessValidator {
 
         initializeNotAuthenticated();
 
-        authorized = validator.isAuthorized("resource", "action");
+        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
 
         Assertions.assertThat(authorized)
             .isFalse();
@@ -146,7 +147,7 @@ class TestSpringResourceAccessValidator {
 
         initializeSimpleAuthenticated();
 
-        authorized = validator.isAuthorized("resource", "action");
+        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
 
         Assertions.assertThat(authorized)
             .isFalse();

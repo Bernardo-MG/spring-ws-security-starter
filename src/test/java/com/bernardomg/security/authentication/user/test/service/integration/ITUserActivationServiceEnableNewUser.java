@@ -14,7 +14,7 @@ import com.bernardomg.security.authentication.user.test.config.annotation.NewlyC
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,7 +44,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         consumed = userTokenRepository.findById(1L)
             .get()
@@ -62,7 +62,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_Enabled() {
         final UserEntity user;
 
-        service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();
@@ -79,7 +79,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_Password() {
         final UserEntity user;
 
-        service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();
@@ -96,7 +96,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_PasswordReset() {
         final UserEntity user;
 
-        service.activateUser(UserTokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();

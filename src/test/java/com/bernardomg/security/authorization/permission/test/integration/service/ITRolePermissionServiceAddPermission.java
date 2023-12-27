@@ -13,10 +13,11 @@ import com.bernardomg.security.authorization.permission.service.RolePermissionSe
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -40,7 +41,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_AddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(Roles.NAME, "DATA:CREATE");
+        service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
@@ -54,7 +55,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_Existing_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(Roles.NAME, "DATA:CREATE");
+        service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
@@ -68,7 +69,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_Existing_ReturnedData() {
         final ResourcePermission permissions;
 
-        permissions = service.addPermission(Roles.NAME, "DATA:CREATE");
+        permissions = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -81,7 +82,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_NotGranted_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(Roles.NAME, "DATA:CREATE");
+        service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
@@ -95,7 +96,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_NotGranted_ReturnedData() {
         final ResourcePermission permissions;
 
-        permissions = service.addPermission(Roles.NAME, "DATA:CREATE");
+        permissions = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -109,7 +110,7 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_ReturnedData() {
         final ResourcePermission permission;
 
-        permission = service.addPermission(Roles.NAME, "DATA:CREATE");
+        permission = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThat(permission)
             .as("permission")

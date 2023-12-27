@@ -7,7 +7,7 @@ public final class RolesUpdate {
 
     public static final RoleChange valid() {
         return RoleChange.builder()
-            .withName(Roles.NAME)
+            .withName(RoleConstants.NAME)
             .build();
     }
 

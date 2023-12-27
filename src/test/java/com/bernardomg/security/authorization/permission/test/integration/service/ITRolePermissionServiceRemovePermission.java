@@ -11,9 +11,10 @@ import com.bernardomg.security.authorization.permission.persistence.model.RolePe
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -36,12 +37,12 @@ class ITRolePermissionServiceRemovePermission {
     void testRemovePermission() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.removePermission(Roles.NAME, "DATA:CREATE");
+        service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
         permissions = rolePermissionRepository.findAll();
 
         Assertions.assertThat(permissions)
             .as("permissions")
-            .containsOnly(RolePermissionEntities.createNotGranted(), RolePermissionEntities.read(),
+            .containsOnly(RolePermissionEntities.notGranted(), RolePermissionEntities.read(),
                 RolePermissionEntities.update(), RolePermissionEntities.delete());
     }
 
@@ -50,7 +51,7 @@ class ITRolePermissionServiceRemovePermission {
     void testRemovePermission_ReturnedData() {
         final ResourcePermission permission;
 
-        permission = service.removePermission(Roles.NAME, "DATA:CREATE");
+        permission = service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThat(permission)
             .as("permission")

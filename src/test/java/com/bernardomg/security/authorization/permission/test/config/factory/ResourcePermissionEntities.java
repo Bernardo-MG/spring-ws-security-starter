@@ -7,8 +7,8 @@ public final class ResourcePermissionEntities {
 
     public static final ResourcePermissionEntity valid() {
         return ResourcePermissionEntity.builder()
-            .withResource("resource")
-            .withAction("action")
+            .withResource(PermissionConstants.RESOURCE)
+            .withAction(PermissionConstants.ACTION)
             .build();
     }
 

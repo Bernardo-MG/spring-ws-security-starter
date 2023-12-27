@@ -1,26 +1,19 @@
 
 package com.bernardomg.security.authorization.token.test.config.factory;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.model.UserToken;
 
 public final class UserTokens {
 
-    public static final String SCOPE = "scope";
-
-    public static final String TOKEN = "bd656aaf-0c18-4178-bcdf-71ccb7f320fa";
-
     public static final UserToken consumed() {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
-            .withScope(SCOPE)
-            .withToken(TOKEN)
-            .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
-            .withExpirationDate(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0))
+            .withScope(UserTokenConstants.SCOPE)
+            .withToken(UserTokenConstants.TOKEN)
+            .withCreationDate(UserTokenConstants.DATE)
+            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
             .withConsumed(true)
             .withRevoked(false)
             .build();
@@ -30,10 +23,10 @@ public final class UserTokens {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
-            .withScope(SCOPE)
-            .withToken(TOKEN)
-            .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
-            .withExpirationDate(LocalDateTime.of(2000, Month.FEBRUARY, 1, 0, 0))
+            .withScope(UserTokenConstants.SCOPE)
+            .withToken(UserTokenConstants.TOKEN)
+            .withCreationDate(UserTokenConstants.DATE)
+            .withExpirationDate(UserTokenConstants.DATE_PAST)
             .withConsumed(false)
             .withRevoked(false)
             .build();
@@ -43,10 +36,10 @@ public final class UserTokens {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
-            .withScope(SCOPE)
-            .withToken(TOKEN)
-            .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
-            .withExpirationDate(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0))
+            .withScope(UserTokenConstants.SCOPE)
+            .withToken(UserTokenConstants.TOKEN)
+            .withCreationDate(UserTokenConstants.DATE)
+            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
             .withConsumed(false)
             .withRevoked(true)
             .build();
@@ -56,10 +49,10 @@ public final class UserTokens {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
-            .withScope(SCOPE)
-            .withToken(TOKEN)
-            .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
-            .withExpirationDate(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0))
+            .withScope(UserTokenConstants.SCOPE)
+            .withToken(UserTokenConstants.TOKEN)
+            .withCreationDate(UserTokenConstants.DATE)
+            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
             .withConsumed(false)
             .withRevoked(false)
             .build();

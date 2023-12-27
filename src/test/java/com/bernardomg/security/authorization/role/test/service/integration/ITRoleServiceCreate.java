@@ -13,6 +13,7 @@ import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -36,7 +37,7 @@ class ITRoleServiceCreate {
         final List<RoleEntity> roles;
         final RoleEntity       role;
 
-        service.create(Roles.NAME);
+        service.create(RoleConstants.NAME);
         roles = repository.findAll();
 
         Assertions.assertThat(roles)
@@ -49,7 +50,7 @@ class ITRoleServiceCreate {
             softly.assertThat(role.getId())
                 .isNotNull();
             softly.assertThat(role.getName())
-                .isEqualTo(Roles.NAME);
+                .isEqualTo(RoleConstants.NAME);
         });
     }
 
@@ -58,7 +59,7 @@ class ITRoleServiceCreate {
     void testCreate_ReturnedData() {
         final Role result;
 
-        result = service.create(Roles.NAME);
+        result = service.create(RoleConstants.NAME);
 
         Assertions.assertThat(result)
             .isEqualTo(Roles.valid());
