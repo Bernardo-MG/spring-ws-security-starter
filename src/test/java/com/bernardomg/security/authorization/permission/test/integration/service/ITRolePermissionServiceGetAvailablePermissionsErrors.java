@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -32,7 +32,7 @@ class ITRolePermissionServiceGetAvailablePermissionsErrors {
 
         pageable = Pageable.unpaged();
 
-        executable = () -> service.getAvailablePermissions(Roles.NAME, pageable);
+        executable = () -> service.getAvailablePermissions(RoleConstants.NAME, pageable);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleNameException.class);

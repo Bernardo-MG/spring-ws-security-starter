@@ -24,8 +24,17 @@
 
 package com.bernardomg.security.authorization.role.model.request;
 
-public interface RoleQuery {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public String getName();
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class RoleQuery {
+
+    private String name;
 
 }

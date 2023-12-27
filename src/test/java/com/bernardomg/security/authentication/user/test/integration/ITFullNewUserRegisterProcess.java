@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -52,7 +52,7 @@ class ITFullNewUserRegisterProcess {
         authority = new SimpleGrantedAuthority("USER:CREATE");
         authorities = List.of(authority);
 
-        auth = new UsernamePasswordAuthenticationToken(Users.USERNAME, Users.PASSWORD, authorities);
+        auth = new UsernamePasswordAuthenticationToken(UserConstants.USERNAME, UserConstants.PASSWORD, authorities);
         SecurityContextHolder.getContext()
             .setAuthentication(auth);
     }
@@ -81,7 +81,7 @@ class ITFullNewUserRegisterProcess {
         changeToAdmin();
 
         // Register new user
-        userActivationService.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
+        userActivationService.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // Validate new token
         token = userTokenRepository.findAll()
@@ -101,7 +101,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        userActivationService.activateUser(token, Users.PASSWORD);
+        userActivationService.activateUser(token, UserConstants.PASSWORD);
 
         user = userRepository.findAll()
             .stream()
@@ -109,14 +109,14 @@ class ITFullNewUserRegisterProcess {
             .get();
 
         Assertions.assertThat(user.getEmail())
-            .isEqualTo(Users.EMAIL);
+            .isEqualTo(UserConstants.EMAIL);
         Assertions.assertThat(user.getUsername())
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
         Assertions.assertThat(user.getName())
-            .isEqualTo(Users.NAME);
+            .isEqualTo(UserConstants.NAME);
         Assertions.assertThat(user.getEnabled())
             .isTrue();
-        Assertions.assertThat(passwordEncoder.matches(Users.PASSWORD, user.getPassword()))
+        Assertions.assertThat(passwordEncoder.matches(UserConstants.PASSWORD, user.getPassword()))
             .isTrue();
     }
 

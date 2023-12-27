@@ -29,11 +29,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,7 +54,7 @@ class ITRoleServiceDelete {
     @DisplayName("Deletes a role with no permissions")
     @SingleRole
     void testDelete_NoPermissions() {
-        service.delete(Roles.NAME);
+        service.delete(RoleConstants.NAME);
 
         Assertions.assertThat(repository.count())
             .isZero();
@@ -64,7 +64,7 @@ class ITRoleServiceDelete {
     @DisplayName("Deletes a role with permissions")
     @RoleWithPermission
     void testDelete_WithPermissions() {
-        service.delete(Roles.NAME);
+        service.delete(RoleConstants.NAME);
 
         Assertions.assertThat(repository.count())
             .isZero();

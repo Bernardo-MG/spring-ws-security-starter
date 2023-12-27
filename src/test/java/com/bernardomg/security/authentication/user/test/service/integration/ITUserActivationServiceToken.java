@@ -31,13 +31,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -60,13 +60,13 @@ class ITUserActivationServiceToken {
     void testValidateToken_Consumed() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokens.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .isFalse();
             softly.assertThat(status.getUsername())
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
         });
     }
 
@@ -78,13 +78,13 @@ class ITUserActivationServiceToken {
     void testValidateToken_Expired() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokens.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .isFalse();
             softly.assertThat(status.getUsername())
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
         });
     }
 
@@ -96,13 +96,13 @@ class ITUserActivationServiceToken {
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
-        status = service.validateToken(UserTokens.TOKEN);
+        status = service.validateToken(UserTokenConstants.TOKEN);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .isTrue();
             softly.assertThat(status.getUsername())
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
         });
     }
 

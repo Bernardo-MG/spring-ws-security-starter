@@ -1,20 +1,18 @@
 
 package com.bernardomg.security.authorization.token.test.service.integration;
 
-import java.time.LocalDateTime;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
-import com.bernardomg.security.authorization.token.model.request.UserTokenPartialRequest;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenPartials;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -34,17 +32,13 @@ class ITSpringUserTokenServicePatchValidation {
         final ThrowingCallable execution;
         final FieldFailure     failure;
         final UserTokenPartial request;
-        final LocalDateTime    date;
 
-        date = LocalDateTime.now()
-            .minusDays(1);
-        request = UserTokenPartialRequest.builder()
-            .withExpirationDate(date)
-            .build();
+        request = UserTokenPartials.expirationDateYesterday();
 
-        execution = () -> service.patch(UserTokens.TOKEN, request);
+        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
 
-        failure = FieldFailure.of("expirationDate.beforeToday", "expirationDate", "beforeToday", date);
+        failure = FieldFailure.of("expirationDate.beforeToday", "expirationDate", "beforeToday",
+            UserTokenConstants.DATE_YESTERDAY);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -58,11 +52,9 @@ class ITSpringUserTokenServicePatchValidation {
         final FieldFailure     failure;
         final UserTokenPartial request;
 
-        request = UserTokenPartialRequest.builder()
-            .withRevoked(false)
-            .build();
+        request = UserTokenPartials.notRevoked();
 
-        execution = () -> service.patch(UserTokens.TOKEN, request);
+        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
 
         failure = FieldFailure.of("revoked.invalidValue", "revoked", "invalidValue", false);
 

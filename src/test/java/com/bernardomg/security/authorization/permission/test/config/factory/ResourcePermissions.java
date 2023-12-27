@@ -7,33 +7,33 @@ public final class ResourcePermissions {
 
     public static final ResourcePermission create() {
         return ResourcePermission.builder()
-            .withName("DATA:CREATE")
-            .withResource("DATA")
-            .withAction("CREATE")
+            .withName(PermissionConstants.DATA_CREATE)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.CREATE)
             .build();
     }
 
     public static final ResourcePermission delete() {
         return ResourcePermission.builder()
-            .withName("DATA:DELETE")
-            .withResource("DATA")
-            .withAction("DELETE")
+            .withName(PermissionConstants.DATA_DELETE)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.DELETE)
             .build();
     }
 
     public static final ResourcePermission read() {
         return ResourcePermission.builder()
-            .withName("DATA:READ")
-            .withResource("DATA")
-            .withAction("READ")
+            .withName(PermissionConstants.DATA_READ)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.READ)
             .build();
     }
 
     public static final ResourcePermission update() {
         return ResourcePermission.builder()
-            .withName("DATA:UPDATE")
-            .withResource("DATA")
-            .withAction("UPDATE")
+            .withName(PermissionConstants.DATA_UPDATE)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.UPDATE)
             .build();
     }
 

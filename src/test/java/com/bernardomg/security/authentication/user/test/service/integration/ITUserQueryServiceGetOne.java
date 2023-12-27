@@ -12,11 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authentication.user.test.config.DisabledUser;
-import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
-import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
-import com.bernardomg.security.authentication.user.test.config.LockedUser;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.LockedUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -37,7 +38,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Disabled() {
         final Optional<User> result;
 
-        result = service.getOne(Users.USERNAME);
+        result = service.getOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.disabled());
@@ -49,7 +50,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Enabled() {
         final Optional<User> result;
 
-        result = service.getOne(Users.USERNAME);
+        result = service.getOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.enabled());
@@ -61,7 +62,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Expired() {
         final Optional<User> result;
 
-        result = service.getOne(Users.USERNAME);
+        result = service.getOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.expired());
@@ -73,7 +74,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_ExpiredPassword() {
         final Optional<User> result;
 
-        result = service.getOne(Users.USERNAME);
+        result = service.getOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.passwordExpired());
@@ -85,7 +86,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Locked() {
         final Optional<User> result;
 
-        result = service.getOne(Users.USERNAME);
+        result = service.getOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.locked());
@@ -96,7 +97,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.getOne(Users.USERNAME);
+        execution = () -> service.getOne(UserConstants.USERNAME);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingUserUsernameException.class);

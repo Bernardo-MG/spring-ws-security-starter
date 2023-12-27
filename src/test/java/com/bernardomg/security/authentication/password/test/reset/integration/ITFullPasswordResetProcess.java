@@ -11,8 +11,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -47,7 +47,7 @@ class ITFullPasswordResetProcess {
         final UserEntity      user;
 
         // Start password reset
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // Validate new token
         token = userTokenRepository.findAll()
@@ -61,7 +61,7 @@ class ITFullPasswordResetProcess {
         Assertions.assertThat(validTokenStatus.isValid())
             .isTrue();
         Assertions.assertThat(validTokenStatus.getUsername())
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
 
         // Change password
         service.changePassword(token, "abc");

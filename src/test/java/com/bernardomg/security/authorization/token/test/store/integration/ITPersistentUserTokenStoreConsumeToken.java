@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
@@ -18,7 +18,7 @@ import com.bernardomg.security.authorization.token.store.PersistentUserTokenStor
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -39,7 +39,7 @@ class ITPersistentUserTokenStoreConsumeToken {
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokens.SCOPE,
+        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
             tokenProperties.getValidity());
     }
 
@@ -50,7 +50,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_AlreadyConsumed_Exception() {
         final ThrowingCallable executable;
 
-        executable = () -> store.consumeToken(UserTokens.TOKEN);
+        executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(ConsumedTokenException.class);
@@ -63,7 +63,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_Consumes() {
         final UserTokenEntity persistedToken;
 
-        store.consumeToken(UserTokens.TOKEN);
+        store.consumeToken(UserTokenConstants.TOKEN);
 
         persistedToken = userTokenRepository.findAll()
             .iterator()
@@ -80,7 +80,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_NotCreate() {
         final long count;
 
-        store.consumeToken(UserTokens.TOKEN);
+        store.consumeToken(UserTokenConstants.TOKEN);
 
         count = userTokenRepository.count();
         Assertions.assertThat(count)
@@ -93,7 +93,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_NotExisting_Exception() {
         final ThrowingCallable executable;
 
-        executable = () -> store.consumeToken(UserTokens.TOKEN);
+        executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserTokenCodeException.class);
@@ -106,7 +106,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_OutOfScope() {
         final ThrowingCallable executable;
 
-        executable = () -> store.consumeToken(UserTokens.TOKEN);
+        executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserTokenCodeException.class);

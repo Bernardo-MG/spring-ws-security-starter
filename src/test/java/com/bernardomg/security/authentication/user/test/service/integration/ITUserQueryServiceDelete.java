@@ -34,9 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -61,7 +61,7 @@ class ITUserQueryServiceDelete {
     @DisplayName("Does not remove roles when deleting")
     @ValidUser
     void testDelete_DoesNotRemoveRelations() {
-        service.delete(Users.USERNAME);
+        service.delete(UserConstants.USERNAME);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(repository.count())
@@ -76,7 +76,7 @@ class ITUserQueryServiceDelete {
     void testDelete_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.delete(Users.USERNAME);
+        execution = () -> service.delete(UserConstants.USERNAME);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingUserUsernameException.class);
@@ -86,7 +86,7 @@ class ITUserQueryServiceDelete {
     @DisplayName("Removes an entity when deleting")
     @OnlyUser
     void testDelete_RemovesEntity() {
-        service.delete(Users.USERNAME);
+        service.delete(UserConstants.USERNAME);
 
         Assertions.assertThat(repository.count())
             .isZero();

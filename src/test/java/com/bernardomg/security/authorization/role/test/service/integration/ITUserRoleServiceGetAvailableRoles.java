@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.permission.test.config.AlternativeUserWithCrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
-import com.bernardomg.security.authorization.permission.test.config.UserWithoutRole;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeUserWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithPermission;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
-import com.bernardomg.security.authorization.role.test.config.AlternativeRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.AlternativeRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -37,7 +37,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(Users.USERNAME, pageable);
+        roles = service.getAvailableRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .containsExactly(Roles.valid());
@@ -52,7 +52,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(Users.USERNAME, pageable);
+        roles = service.getAvailableRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .isEmpty();
@@ -68,7 +68,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(Users.USERNAME, pageable);
+        roles = service.getAvailableRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .containsExactly(Roles.valid());
@@ -84,7 +84,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(Users.USERNAME, pageable);
+        roles = service.getAvailableRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .containsExactly(Roles.alternative());
@@ -98,7 +98,7 @@ class ITUserRoleServiceGetAvailableRoles {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getAvailableRoles(Users.USERNAME, pageable);
+        roles = service.getAvailableRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .isEmpty();

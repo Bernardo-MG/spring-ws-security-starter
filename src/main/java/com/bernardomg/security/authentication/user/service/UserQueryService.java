@@ -29,8 +29,8 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserQuery;
-import com.bernardomg.security.authentication.user.model.query.UserUpdate;
+import com.bernardomg.security.authentication.user.model.UserChange;
+import com.bernardomg.security.authentication.user.model.UserQuery;
 
 /**
  * User query service.
@@ -78,6 +78,6 @@ public interface UserQueryService {
      *            new data for the user
      * @return the updated user
      */
-    public User update(final String username, final UserUpdate user);
+    public User update(final String username, final UserChange user);
 
 }

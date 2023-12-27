@@ -27,7 +27,7 @@ import com.bernardomg.security.authentication.user.exception.LockedUserException
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,11 +62,11 @@ class TestPasswordResetServiceStartUserStatus {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
         given(user.isEnabled()).willReturn(false);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private final void loadExpiredUser() {
@@ -75,9 +75,9 @@ class TestPasswordResetServiceStartUserStatus {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
         given(user.isAccountNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private final void loadLockedUser() {
@@ -86,20 +86,20 @@ class TestPasswordResetServiceStartUserStatus {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private void loadPersistentUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
+        user.setEmail(UserConstants.EMAIL);
+        user.setUsername(UserConstants.USERNAME);
 
-        given(userRepository.findOneByEmail(Users.EMAIL)).willReturn(Optional.of(user));
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(user));
     }
 
     @Test
@@ -113,7 +113,7 @@ class TestPasswordResetServiceStartUserStatus {
         loadDisabledUser();
 
         // WHEN
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
@@ -134,7 +134,7 @@ class TestPasswordResetServiceStartUserStatus {
         loadExpiredUser();
 
         // WHEN
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
@@ -155,7 +155,7 @@ class TestPasswordResetServiceStartUserStatus {
         loadLockedUser();
 
         // WHEN
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
@@ -173,7 +173,7 @@ class TestPasswordResetServiceStartUserStatus {
         final Exception        exception;
 
         // WHEN
-        executable = () -> service.startPasswordReset(Users.EMAIL);
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);

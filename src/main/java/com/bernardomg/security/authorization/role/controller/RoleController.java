@@ -43,10 +43,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.cache.RoleCaches;
+import com.bernardomg.security.authorization.role.controller.model.RoleCreate;
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleCreateRequest;
-import com.bernardomg.security.authorization.role.model.request.RoleQueryRequest;
-import com.bernardomg.security.authorization.role.model.request.RoleUpdateRequest;
+import com.bernardomg.security.authorization.role.model.request.RoleChange;
+import com.bernardomg.security.authorization.role.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.service.RoleService;
 
 import jakarta.validation.Valid;
@@ -80,7 +80,7 @@ public class RoleController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
-    public Role create(@Valid @RequestBody final RoleCreateRequest request) {
+    public Role create(@Valid @RequestBody final RoleCreate request) {
         return service.create(request.getName());
     }
 
@@ -110,7 +110,7 @@ public class RoleController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
-    public Iterable<Role> readAll(@Valid final RoleQueryRequest role, final Pageable page) {
+    public Iterable<Role> readAll(@Valid final RoleQuery role, final Pageable page) {
         return service.getAll(role, page);
     }
 
@@ -142,7 +142,7 @@ public class RoleController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
-    public Role update(@PathVariable("role") final String role, @Valid @RequestBody final RoleUpdateRequest request) {
+    public Role update(@PathVariable("role") final String role, @Valid @RequestBody final RoleChange request) {
         return service.update(role, request);
     }
 

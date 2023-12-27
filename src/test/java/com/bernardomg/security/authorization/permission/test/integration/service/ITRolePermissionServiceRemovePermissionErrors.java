@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.config.RoleWithPermissionNotGranted;
-import com.bernardomg.security.authorization.permission.test.config.SinglePermission;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermissionNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
-import com.bernardomg.security.authorization.role.test.config.SingleRole;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -34,7 +35,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
     void testRemovePermission_NotExistingPermission() {
         final ThrowingCallable executable;
 
-        executable = () -> service.removePermission(Roles.NAME, "DATA:CREATE");
+        executable = () -> service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingResourcePermissionNameException.class);
@@ -46,7 +47,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
     void testRemovePermission_NotExistingRole() {
         final ThrowingCallable executable;
 
-        executable = () -> service.removePermission(Roles.NAME, "DATA:CREATE");
+        executable = () -> service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleNameException.class);
@@ -59,7 +60,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
     void testRemovePermission_NotExistingRolePermission() {
         final ThrowingCallable executable;
 
-        executable = () -> service.removePermission(Roles.NAME, "DATA:CREATE");
+        executable = () -> service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRolePermissionIdException.class);
@@ -71,7 +72,7 @@ class ITRolePermissionServiceRemovePermissionErrors {
     void testRemovePermission_NotGrantedRolePermission() {
         final ThrowingCallable executable;
 
-        executable = () -> service.removePermission(Roles.NAME, "DATA:CREATE");
+        executable = () -> service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRolePermissionIdException.class);

@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -38,7 +38,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokens.SCOPE,
+        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
             tokenProperties.getValidity());
     }
 
@@ -49,7 +49,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_AlreadyRevoked() {
         final UserTokenEntity token;
 
-        store.revokeExistingTokens(Users.USERNAME);
+        store.revokeExistingTokens(UserConstants.USERNAME);
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -63,7 +63,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_NotExistingUser() {
         final ThrowingCallable executable;
 
-        executable = () -> store.revokeExistingTokens(Users.USERNAME);
+        executable = () -> store.revokeExistingTokens(UserConstants.USERNAME);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserUsernameException.class);
@@ -76,7 +76,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_OutOfScope_NotRevoked() {
         final UserTokenEntity token;
 
-        store.revokeExistingTokens(Users.USERNAME);
+        store.revokeExistingTokens(UserConstants.USERNAME);
 
         token = userTokenRepository.findAll()
             .iterator()
@@ -92,7 +92,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_Valid() {
         final UserTokenEntity token;
 
-        store.revokeExistingTokens(Users.USERNAME);
+        store.revokeExistingTokens(UserConstants.USERNAME);
 
         token = userTokenRepository.findAll()
             .iterator()

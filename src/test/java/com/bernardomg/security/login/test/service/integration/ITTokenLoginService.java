@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.user.test.config.DisabledUser;
-import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
-import com.bernardomg.security.authentication.user.test.config.ExpiredUser;
-import com.bernardomg.security.authentication.user.test.config.LockedUser;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissionsNotGranted;
-import com.bernardomg.security.authorization.permission.test.config.UserWithoutPermissions;
+import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.LockedUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutPermissions;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.TokenLoginService;
 import com.bernardomg.security.login.test.config.factory.TokenLoginStatuses;
@@ -41,7 +41,7 @@ class ITTokenLoginService {
     void testLogIn_Disabled() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -53,7 +53,7 @@ class ITTokenLoginService {
     void testLogIn_Expired() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -65,7 +65,7 @@ class ITTokenLoginService {
     void testLogIn_InvalidPassword() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, "abc");
+        status = service.login(UserConstants.USERNAME, "abc");
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -77,7 +77,7 @@ class ITTokenLoginService {
     void testLogIn_Locked() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -89,7 +89,7 @@ class ITTokenLoginService {
     void testLogIn_NoPermissions() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -100,7 +100,7 @@ class ITTokenLoginService {
     void testLogIn_NotExisting() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -112,7 +112,7 @@ class ITTokenLoginService {
     void testLogIn_NotGrantedPermissions() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -124,7 +124,7 @@ class ITTokenLoginService {
     void testLogIn_PasswordExpired() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status)
             .isEqualTo(TokenLoginStatuses.notLogged());
@@ -136,7 +136,7 @@ class ITTokenLoginService {
     void testLogIn_Valid() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -150,7 +150,7 @@ class ITTokenLoginService {
     void testLogIn_Valid_EmailLogin() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -166,7 +166,7 @@ class ITTokenLoginService {
         final JwtParser        parser;
         final Claims           claims;
 
-        status = service.login(Users.USERNAME, Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         parser = Jwts.parser()
             .verifyWith(Tokens.KEY)
@@ -176,7 +176,7 @@ class ITTokenLoginService {
             .getPayload();
 
         Assertions.assertThat(claims.getSubject())
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -185,7 +185,7 @@ class ITTokenLoginService {
     void testLogIn_Valid_UsernameCase() {
         final TokenLoginStatus status;
 
-        status = service.login(Users.USERNAME.toUpperCase(), Users.PASSWORD);
+        status = service.login(UserConstants.USERNAME.toUpperCase(), UserConstants.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();

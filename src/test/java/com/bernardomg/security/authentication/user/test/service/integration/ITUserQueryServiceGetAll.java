@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserQuery;
+import com.bernardomg.security.authentication.user.model.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.test.config.factory.UsersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -36,7 +36,7 @@ class ITUserQueryServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        sample = UsersQuery.empty();
+        sample = UserQueries.empty();
 
         users = service.getAll(sample, pageable);
 
@@ -54,7 +54,7 @@ class ITUserQueryServiceGetAll {
 
         pageable = Pageable.unpaged();
 
-        sample = UsersQuery.empty();
+        sample = UserQueries.empty();
 
         users = service.getAll(sample, pageable);
 
