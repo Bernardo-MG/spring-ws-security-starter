@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.config;
+package com.bernardomg.security.login.test.config.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/user/alternative.sql" })
+@Sql({ "/db/queries/security/login_register/logged_in.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface AlternativeUser {
+public @interface LoggedInLoginRegister {
 
 }

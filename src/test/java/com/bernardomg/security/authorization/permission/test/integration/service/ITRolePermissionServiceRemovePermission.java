@@ -10,7 +10,7 @@ import com.bernardomg.security.authorization.permission.model.ResourcePermission
 import com.bernardomg.security.authorization.permission.persistence.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;

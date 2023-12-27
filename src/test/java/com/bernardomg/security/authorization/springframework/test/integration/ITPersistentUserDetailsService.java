@@ -11,10 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.permission.test.config.AlternativeUserWithCrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissionsNotGranted;
-import com.bernardomg.security.authorization.permission.test.config.UserWithoutPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeUserWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutPermissions;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

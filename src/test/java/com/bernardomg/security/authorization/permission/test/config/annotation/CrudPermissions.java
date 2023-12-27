@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.config;
+package com.bernardomg.security.authorization.permission.test.config.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

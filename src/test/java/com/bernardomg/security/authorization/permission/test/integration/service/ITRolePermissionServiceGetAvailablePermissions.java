@@ -9,14 +9,14 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.permission.test.config.AlternativeRoleWithCrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.AlternativeRoleWithCrudPermissionsNotGranted;
-import com.bernardomg.security.authorization.permission.test.config.CrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.RoleWithCrudPermissionsNotGranted;
-import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
+import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeRoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeRoleWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.authorization.role.test.config.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

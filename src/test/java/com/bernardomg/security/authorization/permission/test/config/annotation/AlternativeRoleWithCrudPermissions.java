@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.config;
+package com.bernardomg.security.authorization.permission.test.config.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,11 +10,12 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/user/single.sql" })
+@Sql({ "/db/queries/security/role/alternative.sql",
+        "/db/queries/security/relationship/role_alternative_permission_crud_granted.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface OnlyUser {
+public @interface AlternativeRoleWithCrudPermissions {
 
 }
