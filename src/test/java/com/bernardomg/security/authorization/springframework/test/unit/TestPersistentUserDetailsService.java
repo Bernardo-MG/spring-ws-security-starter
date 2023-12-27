@@ -22,8 +22,8 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
-import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissionEntities;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,13 +43,6 @@ class TestPersistentUserDetailsService {
         super();
     }
 
-    private final ResourcePermissionEntity getPersistentPermission() {
-        return ResourcePermissionEntity.builder()
-            .withResource("resource")
-            .withAction("action")
-            .build();
-    }
-
     @Test
     @DisplayName("When the user is disabled it is returned")
     void testLoadByUsername_Disabled() {
@@ -58,7 +51,7 @@ class TestPersistentUserDetailsService {
 
         user = UserEntities.disabled();
         given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -106,7 +99,7 @@ class TestPersistentUserDetailsService {
 
         user = UserEntities.enabled();
         given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -154,7 +147,7 @@ class TestPersistentUserDetailsService {
 
         user = UserEntities.expired();
         given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -202,7 +195,7 @@ class TestPersistentUserDetailsService {
 
         user = UserEntities.locked();
         given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -267,7 +260,7 @@ class TestPersistentUserDetailsService {
 
         user = UserEntities.passwordExpired();
         given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
+        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 

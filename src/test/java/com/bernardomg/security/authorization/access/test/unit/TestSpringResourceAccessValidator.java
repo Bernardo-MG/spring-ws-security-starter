@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.authorization.access.ResourceAccessValidator;
 import com.bernardomg.security.authorization.access.SpringResourceAccessValidator;
+import com.bernardomg.security.authorization.access.test.config.factory.ResourceActionGrantedAuthorities;
 import com.bernardomg.security.authorization.springframework.ResourceActionGrantedAuthority;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,10 +38,7 @@ class TestSpringResourceAccessValidator {
     private final Collection getAuthorities() {
         final ResourceActionGrantedAuthority authority;
 
-        authority = ResourceActionGrantedAuthority.builder()
-            .withResource("resource")
-            .withAction("action")
-            .build();
+        authority = ResourceActionGrantedAuthorities.valid();
         return List.of(authority);
     }
 

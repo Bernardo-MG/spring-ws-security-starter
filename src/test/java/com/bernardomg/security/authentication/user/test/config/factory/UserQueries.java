@@ -10,4 +10,28 @@ public final class UserQueries {
             .build();
     }
 
+    public static final UserQuery invalidName() {
+        return UserQuery.builder()
+            .withName("abc")
+            .build();
+    }
+
+    public static final UserQuery invalidUsername() {
+        return UserQuery.builder()
+            .withName("abc")
+            .build();
+    }
+
+    public static final UserQuery name() {
+        return UserQuery.builder()
+            .withUsername(UserConstants.USERNAME)
+            .build();
+    }
+
+    public static final UserQuery username() {
+        return UserQuery.builder()
+            .withName(UserConstants.NAME)
+            .build();
+    }
+
 }

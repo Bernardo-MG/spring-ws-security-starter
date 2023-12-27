@@ -11,7 +11,7 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.model.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -35,9 +35,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQuery.builder()
-            .withName(UserConstants.NAME)
-            .build();
+        sample = UserQueries.name();
 
         result = service.getAll(sample, pageable);
 
@@ -55,9 +53,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQuery.builder()
-            .withName("abc")
-            .build();
+        sample = UserQueries.invalidName();
 
         result = service.getAll(sample, pageable);
 
@@ -75,9 +71,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQuery.builder()
-            .withUsername(UserConstants.USERNAME)
-            .build();
+        sample = UserQueries.username();
 
         result = service.getAll(sample, pageable);
 
@@ -95,9 +89,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQuery.builder()
-            .withUsername("abc")
-            .build();
+        sample = UserQueries.invalidUsername();
 
         result = service.getAll(sample, pageable);
 
