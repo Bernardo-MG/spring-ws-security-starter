@@ -23,7 +23,7 @@
  */
 
 /**
- * Login query model.
+ * Login controller model.
  */
 
-package com.bernardomg.security.login.model.request;
+package com.bernardomg.security.login.controller.model;
