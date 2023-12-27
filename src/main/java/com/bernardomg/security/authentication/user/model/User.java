@@ -29,7 +29,7 @@ import lombok.NonNull;
 import lombok.Value;
 
 /**
- * Immutable user data.
+ * Representation of a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

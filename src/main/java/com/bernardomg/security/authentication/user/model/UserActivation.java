@@ -30,7 +30,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 /**
- * User activation.
+ * Data required for activating a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

@@ -32,7 +32,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Data to change in a user.
+ * Data which can be changed for a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

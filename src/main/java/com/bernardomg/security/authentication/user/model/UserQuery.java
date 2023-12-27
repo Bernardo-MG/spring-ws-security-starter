@@ -30,7 +30,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * User query request.
+ * Data for querying users.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

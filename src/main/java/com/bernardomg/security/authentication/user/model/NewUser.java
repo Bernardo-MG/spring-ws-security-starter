@@ -32,7 +32,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Data for creating a new user.
+ * Data required for creating a new user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
