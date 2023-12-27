@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.model.request;
+package com.bernardomg.security.authorization.role.controller.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,11 +30,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data required for creating a role.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class RoleCreateRequest {
+public final class RoleCreate {
 
     @NotNull
     private String name;

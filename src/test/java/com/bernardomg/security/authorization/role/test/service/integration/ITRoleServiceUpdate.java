@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
+import com.bernardomg.security.authorization.role.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
@@ -60,7 +60,7 @@ class ITRoleServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     void testUpdate_PersistedData() {
-        final RoleUpdate       data;
+        final RoleChange       data;
         final List<RoleEntity> roles;
 
         data = RolesUpdate.valid();
@@ -75,7 +75,7 @@ class ITRoleServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     void testUpdate_ReturnedData() {
-        final RoleUpdate data;
+        final RoleChange data;
         final Role       role;
 
         data = RolesUpdate.valid();

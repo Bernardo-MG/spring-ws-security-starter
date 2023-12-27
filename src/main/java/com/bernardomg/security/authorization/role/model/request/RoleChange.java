@@ -24,17 +24,25 @@
 
 package com.bernardomg.security.authorization.role.model.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data which can be changed for a role.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class RoleQueryRequest implements RoleQuery {
+public class RoleChange {
 
+    @NotNull
     private String name;
 
 }
