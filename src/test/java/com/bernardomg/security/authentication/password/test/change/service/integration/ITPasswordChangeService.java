@@ -15,7 +15,7 @@ import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -42,7 +42,7 @@ class ITPasswordChangeService {
         final List<UserEntity> users;
 
         // WHEN
-        service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         users = userRepository.findAll();
@@ -51,7 +51,7 @@ class ITPasswordChangeService {
             .first()
             .extracting(UserEntity::getPassword)
             .as("password")
-            .isNotEqualTo(Users.ENCODED_PASSWORD);
+            .isNotEqualTo(UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -62,7 +62,7 @@ class ITPasswordChangeService {
         final List<UserEntity> users;
 
         // WHEN
-        service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         users = userRepository.findAll();
@@ -99,7 +99,7 @@ class ITPasswordChangeService {
         final List<UserEntity> users;
 
         // WHEN
-        service.changePasswordForUserInSession(Users.PASSWORD,
+        service.changePasswordForUserInSession(UserConstants.PASSWORD,
             "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
 
         // THEN
@@ -109,7 +109,7 @@ class ITPasswordChangeService {
             .first()
             .extracting(UserEntity::getPassword)
             .as("password")
-            .isNotEqualTo(Users.ENCODED_PASSWORD);
+            .isNotEqualTo(UserConstants.ENCODED_PASSWORD);
     }
 
 }

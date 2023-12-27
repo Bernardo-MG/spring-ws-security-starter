@@ -22,44 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.model.query;
+package com.bernardomg.security.authentication.user.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.bernardomg.validation.constraint.StrongPassword;
+
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
- * User registration request.
+ * User activation.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class UserRegisterRequest {
+public class UserActivation {
 
     /**
-     * User email.
+     * The password for the newly activated user.
      */
-    @NotNull
-    @Email
-    private String email;
-
-    /**
-     * User name.
-     */
-    @NotNull
-    private String name;
-
-    /**
-     * User username.
-     */
-    @NotNull
-    private String username;
+    @NotEmpty
+    @StrongPassword
+    private String password;
 
 }

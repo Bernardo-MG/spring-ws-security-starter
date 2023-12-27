@@ -28,8 +28,8 @@ import com.bernardomg.security.authentication.password.notification.PasswordNoti
 import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -68,7 +68,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         user = UserEntities.enabled();
 
-        details = new User(Users.USERNAME, "password", true, true, true, true, Collections.emptyList());
+        details = new User(UserConstants.USERNAME, "password", true, true, true, true, Collections.emptyList());
 
         given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(details);
 
@@ -85,7 +85,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
         emailCaptor = ArgumentCaptor.forClass(String.class);
 
         // WHEN
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         verify(passwordNotificator).sendPasswordRecoveryMessage(emailCaptor.capture(), ArgumentMatchers.any(),
@@ -93,7 +93,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         Assertions.assertThat(emailCaptor.getValue())
             .as("email")
-            .isEqualTo(Users.EMAIL);
+            .isEqualTo(UserConstants.EMAIL);
     }
 
     @Test
@@ -105,7 +105,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
         tokenCaptor = ArgumentCaptor.forClass(String.class);
 
         // WHEN
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         verify(passwordNotificator).sendPasswordRecoveryMessage(ArgumentMatchers.any(), ArgumentMatchers.any(),
@@ -124,7 +124,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
         usernameCaptor = ArgumentCaptor.forClass(String.class);
 
         // WHEN
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         verify(passwordNotificator).sendPasswordRecoveryMessage(ArgumentMatchers.any(), usernameCaptor.capture(),
@@ -132,7 +132,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
         Assertions.assertThat(usernameCaptor.getValue())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
 }

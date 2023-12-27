@@ -32,8 +32,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserQuery;
-import com.bernardomg.security.authentication.user.model.query.UserUpdate;
+import com.bernardomg.security.authentication.user.model.UserChange;
+import com.bernardomg.security.authentication.user.model.UserQuery;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.validation.UpdateUserValidator;
@@ -58,7 +58,7 @@ public final class DefaultUserQueryService implements UserQueryService {
     /**
      * Update user validator.
      */
-    private final Validator<UserUpdate> validatorUpdateUser;
+    private final Validator<UserChange> validatorUpdateUser;
 
     public DefaultUserQueryService(final UserRepository userRepo) {
         super();
@@ -115,7 +115,7 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     @Override
-    public final User update(final String username, final UserUpdate user) {
+    public final User update(final String username, final UserChange user) {
         final UserEntity           userEntity;
         final UserEntity           created;
         final Optional<UserEntity> oldRead;
@@ -177,6 +177,16 @@ public final class DefaultUserQueryService implements UserQueryService {
             .build();
     }
 
+    private final UserEntity toEntity(final UserChange user, final long id) {
+        return UserEntity.builder()
+            .withId(id)
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.getEnabled())
+            .withPasswordExpired(user.getPasswordExpired())
+            .build();
+    }
+
     private final UserEntity toEntity(final UserQuery user) {
         return UserEntity.builder()
             .withUsername(user.getUsername())
@@ -185,16 +195,6 @@ public final class DefaultUserQueryService implements UserQueryService {
             .withEnabled(user.getEnabled())
             .withExpired(user.getExpired())
             .withLocked(user.getLocked())
-            .withPasswordExpired(user.getPasswordExpired())
-            .build();
-    }
-
-    private final UserEntity toEntity(final UserUpdate user, final long id) {
-        return UserEntity.builder()
-            .withId(id)
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
             .withPasswordExpired(user.getPasswordExpired())
             .build();
     }

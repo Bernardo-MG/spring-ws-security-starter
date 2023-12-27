@@ -22,8 +22,58 @@
  * SOFTWARE.
  */
 
-/**
- * User query model.
- */
+package com.bernardomg.security.authentication.user.model;
 
-package com.bernardomg.security.authentication.user.model.query;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * User query request.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class UserQuery {
+
+    /**
+     * User email.
+     */
+    private String  email;
+
+    /**
+     * User enabled flag.
+     */
+    private Boolean enabled;
+
+    /**
+     * User expired flag.
+     */
+    private Boolean expired;
+
+    /**
+     * User locked flag.
+     */
+    private Boolean locked;
+
+    /**
+     * User name.
+     */
+    private String  name;
+
+    /**
+     * Password expired flag.
+     */
+    private Boolean passwordExpired;
+
+    /**
+     * User username.
+     */
+    private String  username;
+
+}

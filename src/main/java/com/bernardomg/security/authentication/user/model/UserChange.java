@@ -22,49 +22,56 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.model.query;
+package com.bernardomg.security.authentication.user.model;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * User update.
+ * Data to change in a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserUpdate {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class UserChange {
 
     /**
-     * Returns the user email.
-     *
-     * @return the user email
+     * User email.
      */
-    public String getEmail();
+    @NotNull
+    @Email
+    private String  email;
 
     /**
-     * Returns the user enabled flag.
-     *
-     * @return the user enabled flag
+     * User enabled flag.
      */
-    public Boolean getEnabled();
+    @NotNull
+    private Boolean enabled;
 
     /**
-     * Returns the user name.
-     *
-     * @return the user name
+     * User name.
      */
-    public String getName();
+    @NotNull
+    private String  name;
 
     /**
-     * Returns the password expired flag.
-     *
-     * @return the password expired flag
+     * Password expired flag.
      */
-    public Boolean getPasswordExpired();
+    @NotNull
+    private Boolean passwordExpired;
 
     /**
-     * Returns the user name.
-     *
-     * @return the user name
+     * User username.
      */
-    public String getUsername();
+    @NotNull
+    private String  username;
 
 }

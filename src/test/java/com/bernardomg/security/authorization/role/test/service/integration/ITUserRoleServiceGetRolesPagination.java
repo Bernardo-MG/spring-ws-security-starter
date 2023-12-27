@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
@@ -36,7 +36,7 @@ class ITUserRoleServiceGetRolesPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        roles = service.getRoles(Users.USERNAME, pageable);
+        roles = service.getRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .isInstanceOf(Page.class);
@@ -50,7 +50,7 @@ class ITUserRoleServiceGetRolesPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        roles = service.getRoles(Users.USERNAME, pageable);
+        roles = service.getRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .containsExactly(Roles.valid());
@@ -64,7 +64,7 @@ class ITUserRoleServiceGetRolesPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        roles = service.getRoles(Users.USERNAME, pageable);
+        roles = service.getRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .isEmpty();
@@ -78,7 +78,7 @@ class ITUserRoleServiceGetRolesPagination {
 
         pageable = Pageable.unpaged();
 
-        roles = service.getRoles(Users.USERNAME, pageable);
+        roles = service.getRoles(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
             .isInstanceOf(Page.class);

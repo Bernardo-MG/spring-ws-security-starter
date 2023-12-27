@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.AlternativeUserWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.UserWithCrudPermissionsNotGranted;
@@ -35,15 +35,15 @@ class ITPersistentUserDetailsService {
     void testLoadByUsername_Enabled() {
         final UserDetails userDetails;
 
-        userDetails = service.loadUserByUsername(Users.USERNAME);
+        userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(Users.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.ENCODED_PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -70,12 +70,12 @@ class ITPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.loadUserByUsername(Users.USERNAME);
+        executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username " + Users.USERNAME + " has no authorities");
+            .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");
     }
 
     @Test
@@ -86,12 +86,12 @@ class ITPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.loadUserByUsername(Users.USERNAME);
+        executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username " + Users.USERNAME + " has no authorities");
+            .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");
     }
 
     @Test
@@ -101,12 +101,12 @@ class ITPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.loadUserByUsername(Users.USERNAME);
+        executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username " + Users.USERNAME + " has no authorities");
+            .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");
     }
 
 }

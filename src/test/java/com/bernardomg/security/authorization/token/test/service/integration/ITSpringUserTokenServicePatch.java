@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
@@ -191,9 +191,9 @@ class ITSpringUserTokenServicePatch {
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getUsername())
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(token.getName())
-                .isEqualTo(Users.NAME);
+                .isEqualTo(UserConstants.NAME);
             softly.assertThat(token.getScope())
                 .isEqualTo(UserTokens.SCOPE);
             softly.assertThat(token.getToken())

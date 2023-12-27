@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
@@ -41,7 +41,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_AddsEntity() {
         final List<UserRoleEntity> userRoles;
 
-        service.addRole(Users.USERNAME, Roles.NAME);
+        service.addRole(UserConstants.USERNAME, Roles.NAME);
 
         userRoles = userRoleRepository.findAll();
 
@@ -55,7 +55,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_Existing() {
         final List<UserRoleEntity> userRoles;
 
-        service.addRole(Users.USERNAME, Roles.NAME);
+        service.addRole(UserConstants.USERNAME, Roles.NAME);
 
         userRoles = userRoleRepository.findAll();
 
@@ -69,7 +69,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_Persists() {
         final List<UserRoleEntity> userRoles;
 
-        service.addRole(Users.USERNAME, Roles.NAME);
+        service.addRole(UserConstants.USERNAME, Roles.NAME);
 
         userRoles = userRoleRepository.findAll();
 
@@ -83,7 +83,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_ReturnedData() {
         final Role userRole;
 
-        userRole = service.addRole(Users.USERNAME, Roles.NAME);
+        userRole = service.addRole(UserConstants.USERNAME, Roles.NAME);
 
         Assertions.assertThat(userRole)
             .isEqualTo(Roles.valid());

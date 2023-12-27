@@ -29,7 +29,7 @@ import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.event.LogInEvent;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -83,7 +83,8 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForAccountExpired() {
         final UserDetails user;
 
-        user = new User(Users.USERNAME, Users.PASSWORD, true, false, true, true, Collections.emptyList());
+        user = new User(UserConstants.USERNAME, UserConstants.PASSWORD, true, false, true, true,
+            Collections.emptyList());
 
         return getService(user);
     }
@@ -91,7 +92,8 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForCredentialsExpired() {
         final UserDetails user;
 
-        user = new User(Users.USERNAME, Users.PASSWORD, true, true, false, true, Collections.emptyList());
+        user = new User(UserConstants.USERNAME, UserConstants.PASSWORD, true, true, false, true,
+            Collections.emptyList());
 
         return getService(user);
     }
@@ -99,7 +101,8 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForDisabled() {
         final UserDetails user;
 
-        user = new User(Users.USERNAME, Users.PASSWORD, false, true, true, true, Collections.emptyList());
+        user = new User(UserConstants.USERNAME, UserConstants.PASSWORD, false, true, true, true,
+            Collections.emptyList());
 
         return getService(user);
     }
@@ -107,7 +110,8 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForLocked() {
         final UserDetails user;
 
-        user = new User(Users.USERNAME, Users.PASSWORD, true, true, false, true, Collections.emptyList());
+        user = new User(UserConstants.USERNAME, UserConstants.PASSWORD, true, true, false, true,
+            Collections.emptyList());
 
         return getService(user);
     }
@@ -130,7 +134,8 @@ class TestTokenLoginServiceEvent {
     private final TokenLoginService getServiceForValid() {
         final UserDetails user;
 
-        user = new User(Users.USERNAME, Users.PASSWORD, true, true, true, true, Collections.emptyList());
+        user = new User(UserConstants.USERNAME, UserConstants.PASSWORD, true, true, true, true,
+            Collections.emptyList());
 
         return getService(user);
     }
@@ -140,8 +145,8 @@ class TestTokenLoginServiceEvent {
 
         persistentUser = new UserEntity();
         persistentUser.setId(1l);
-        persistentUser.setUsername(Users.USERNAME);
-        persistentUser.setPassword(Users.EMAIL);
+        persistentUser.setUsername(UserConstants.USERNAME);
+        persistentUser.setPassword(UserConstants.EMAIL);
         given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(persistentUser));
     }
 
@@ -152,7 +157,7 @@ class TestTokenLoginServiceEvent {
 
         loadUser();
 
-        getServiceForAccountExpired().login(Users.EMAIL, Users.PASSWORD);
+        getServiceForAccountExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -163,7 +168,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -173,7 +178,7 @@ class TestTokenLoginServiceEvent {
 
         loadUser();
 
-        getServiceForCredentialsExpired().login(Users.EMAIL, Users.PASSWORD);
+        getServiceForCredentialsExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -184,7 +189,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -194,7 +199,7 @@ class TestTokenLoginServiceEvent {
 
         loadUser();
 
-        getServiceForDisabled().login(Users.EMAIL, Users.PASSWORD);
+        getServiceForDisabled().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -205,7 +210,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -215,7 +220,7 @@ class TestTokenLoginServiceEvent {
 
         loadUser();
 
-        getServiceForLocked().login(Users.EMAIL, Users.PASSWORD);
+        getServiceForLocked().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -226,7 +231,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -234,7 +239,7 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_NotExisting() {
         final LogInEvent event;
 
-        getServiceForNotExisting().login(Users.EMAIL, Users.PASSWORD);
+        getServiceForNotExisting().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -245,7 +250,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.EMAIL);
+            .isEqualTo(UserConstants.EMAIL);
     }
 
     @Test
@@ -258,7 +263,7 @@ class TestTokenLoginServiceEvent {
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
-        getServiceForValid().login(Users.EMAIL, Users.PASSWORD);
+        getServiceForValid().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -269,7 +274,7 @@ class TestTokenLoginServiceEvent {
             .isTrue();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -277,7 +282,7 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_AccountExpired() {
         final LogInEvent event;
 
-        getServiceForAccountExpired().login(Users.USERNAME, Users.PASSWORD);
+        getServiceForAccountExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -288,7 +293,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -296,7 +301,7 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_CredentialsExpired() {
         final LogInEvent event;
 
-        getServiceForCredentialsExpired().login(Users.USERNAME, Users.PASSWORD);
+        getServiceForCredentialsExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -307,7 +312,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -315,7 +320,7 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_Disabled() {
         final LogInEvent event;
 
-        getServiceForDisabled().login(Users.USERNAME, Users.PASSWORD);
+        getServiceForDisabled().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -326,7 +331,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -334,7 +339,7 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_Locked() {
         final LogInEvent event;
 
-        getServiceForLocked().login(Users.USERNAME, Users.PASSWORD);
+        getServiceForLocked().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -345,7 +350,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -353,7 +358,7 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_NotExisting() {
         final LogInEvent event;
 
-        getServiceForNotExisting().login(Users.USERNAME, Users.PASSWORD);
+        getServiceForNotExisting().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -364,7 +369,7 @@ class TestTokenLoginServiceEvent {
             .isFalse();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -375,7 +380,7 @@ class TestTokenLoginServiceEvent {
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
-        getServiceForValid().login(Users.USERNAME, Users.PASSWORD);
+        getServiceForValid().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
@@ -386,7 +391,7 @@ class TestTokenLoginServiceEvent {
             .isTrue();
         Assertions.assertThat(event.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
 }

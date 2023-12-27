@@ -22,65 +22,44 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.model.query;
+package com.bernardomg.security.authentication.user.model;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * User query.
+ * Data for creating a new user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserQuery {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class NewUser {
 
     /**
-     * Returns the user email.
-     *
-     * @return the user email
+     * User email.
      */
-    public String getEmail();
+    @NotNull
+    @Email
+    private String email;
 
     /**
-     * Returns the user enabled flag.
-     *
-     * @return the user enabled flag
+     * User name.
      */
-    public Boolean getEnabled();
+    @NotNull
+    private String name;
 
     /**
-     * Returns the user expired flag.
-     * <p>
-     * This means the user is no longer valid.
-     *
-     * @return the user expired flag
+     * User username.
      */
-    public Boolean getExpired();
-
-    /**
-     * Returns the user locked flag.
-     *
-     * @return the user locked flag
-     */
-    public Boolean getLocked();
-
-    /**
-     * Returns the user name.
-     *
-     * @return the user name
-     */
-    public String getName();
-
-    /**
-     * Returns the password expired flag.
-     *
-     * @return the credentials expired flag
-     */
-    public Boolean getPasswordExpired();
-
-    /**
-     * Returns the user username.
-     *
-     * @return the user username
-     */
-    public String getUsername();
+    @NotNull
+    private String username;
 
 }

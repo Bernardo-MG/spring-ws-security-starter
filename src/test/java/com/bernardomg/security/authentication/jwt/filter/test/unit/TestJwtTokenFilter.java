@@ -23,7 +23,7 @@ import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
 import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -66,7 +66,7 @@ class TestJwtTokenFilter {
 
         userDetails = Mockito.mock(UserDetails.class);
 
-        given(userDetails.getUsername()).willReturn(Users.USERNAME);
+        given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
         given(userDetails.isAccountNonExpired()).willReturn(true);
         given(userDetails.isAccountNonLocked()).willReturn(true);
         given(userDetails.isCredentialsNonExpired()).willReturn(true);
@@ -89,10 +89,10 @@ class TestJwtTokenFilter {
         given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
 
         userDetails = getValidUserDetails();
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(userDetails);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenData.builder()
-            .withSubject(Users.USERNAME)
+            .withSubject(UserConstants.USERNAME)
             .build();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
@@ -105,7 +105,7 @@ class TestJwtTokenFilter {
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
         Assertions.assertThat(authentication.getName())
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test

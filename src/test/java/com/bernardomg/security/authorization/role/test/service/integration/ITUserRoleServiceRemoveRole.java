@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.UserWithPermission;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
@@ -32,7 +32,7 @@ class ITUserRoleServiceRemoveRole {
     @Test
     @DisplayName("Removes the entity when removing a role")
     void testRemoveRole_RemovesEntity() {
-        service.removeRole(Users.USERNAME, Roles.NAME);
+        service.removeRole(UserConstants.USERNAME, Roles.NAME);
 
         Assertions.assertThat(userRoleRepository.count())
             .isZero();
@@ -43,7 +43,7 @@ class ITUserRoleServiceRemoveRole {
     void testRemoveRole_ReturnedData() {
         final Role role;
 
-        role = service.removeRole(Users.USERNAME, Roles.NAME);
+        role = service.removeRole(UserConstants.USERNAME, Roles.NAME);
 
         Assertions.assertThat(role)
             .isEqualTo(Roles.valid());

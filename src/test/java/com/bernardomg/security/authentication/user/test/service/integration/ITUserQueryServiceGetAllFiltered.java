@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserQuery;
-import com.bernardomg.security.authentication.user.model.query.UserQueryRequest;
+import com.bernardomg.security.authentication.user.model.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -36,8 +35,8 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
-            .withName(Users.NAME)
+        sample = UserQuery.builder()
+            .withName(UserConstants.NAME)
             .build();
 
         result = service.getAll(sample, pageable);
@@ -56,7 +55,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
+        sample = UserQuery.builder()
             .withName("abc")
             .build();
 
@@ -76,8 +75,8 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
-            .withUsername(Users.USERNAME)
+        sample = UserQuery.builder()
+            .withUsername(UserConstants.USERNAME)
             .build();
 
         result = service.getAll(sample, pageable);
@@ -96,7 +95,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
+        sample = UserQuery.builder()
             .withUsername("abc")
             .build();
 

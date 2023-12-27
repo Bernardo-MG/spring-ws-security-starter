@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
@@ -38,7 +38,7 @@ class ITPasswordResetServiceChangeToken {
         final Exception        exception;
 
         // WHEN
-        executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
+        executable = () -> service.changePassword(UserTokens.TOKEN, UserConstants.USERNAME);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, ConsumedTokenException.class);
@@ -57,7 +57,7 @@ class ITPasswordResetServiceChangeToken {
         final Exception        exception;
 
         // WHEN
-        executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
+        executable = () -> service.changePassword(UserTokens.TOKEN, UserConstants.USERNAME);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredTokenException.class);
@@ -75,7 +75,7 @@ class ITPasswordResetServiceChangeToken {
         final Exception        exception;
 
         // WHEN
-        executable = () -> service.changePassword(UserTokens.TOKEN, Users.USERNAME);
+        executable = () -> service.changePassword(UserTokens.TOKEN, UserConstants.USERNAME);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);

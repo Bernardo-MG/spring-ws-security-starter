@@ -4,7 +4,7 @@ package com.bernardomg.security.authorization.token.test.config.model;
 import java.time.LocalDateTime;
 import java.time.Month;
 
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.model.UserToken;
 
 public final class UserTokens {
@@ -15,8 +15,8 @@ public final class UserTokens {
 
     public static final UserToken consumed() {
         return UserToken.builder()
-            .withUsername(Users.USERNAME)
-            .withName(Users.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
             .withScope(SCOPE)
             .withToken(TOKEN)
             .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
@@ -28,8 +28,8 @@ public final class UserTokens {
 
     public static final UserToken expired() {
         return UserToken.builder()
-            .withUsername(Users.USERNAME)
-            .withName(Users.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
             .withScope(SCOPE)
             .withToken(TOKEN)
             .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
@@ -41,8 +41,8 @@ public final class UserTokens {
 
     public static final UserToken revoked() {
         return UserToken.builder()
-            .withUsername(Users.USERNAME)
-            .withName(Users.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
             .withScope(SCOPE)
             .withToken(TOKEN)
             .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))
@@ -54,8 +54,8 @@ public final class UserTokens {
 
     public static final UserToken valid() {
         return UserToken.builder()
-            .withUsername(Users.USERNAME)
-            .withName(Users.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
             .withScope(SCOPE)
             .withToken(TOKEN)
             .withCreationDate(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0))

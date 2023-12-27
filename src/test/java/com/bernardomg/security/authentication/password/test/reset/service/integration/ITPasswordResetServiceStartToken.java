@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
@@ -39,7 +39,7 @@ class ITPasswordResetServiceStartToken {
         final long count;
 
         // WHEN
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         count = userTokenRepository.count();
@@ -56,7 +56,7 @@ class ITPasswordResetServiceStartToken {
         final UserTokenEntity token;
 
         // WHEN
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         token = userTokenRepository.findAll()
@@ -90,7 +90,7 @@ class ITPasswordResetServiceStartToken {
         final long count;
 
         // WHEN
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         count = userTokenRepository.count();
@@ -108,7 +108,7 @@ class ITPasswordResetServiceStartToken {
         final UserTokenEntity token;
 
         // WHEN
-        service.startPasswordReset(Users.EMAIL);
+        service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         token = userTokenRepository.findOneByTokenAndScope(UserTokens.TOKEN, "password_reset")
@@ -140,7 +140,7 @@ class ITPasswordResetServiceStartToken {
 
         // WHEN
         try {
-            service.startPasswordReset(Users.EMAIL);
+            service.startPasswordReset(UserConstants.EMAIL);
         } catch (final Exception e) {
 
         }

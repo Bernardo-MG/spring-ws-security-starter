@@ -10,11 +10,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserQuery;
+import com.bernardomg.security.authentication.user.model.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.test.config.factory.UsersQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -38,7 +38,7 @@ class ITUserQueryServiceGetAllPagination {
 
         pageable = Pageable.ofSize(10);
 
-        sample = UsersQuery.empty();
+        sample = UserQueries.empty();
 
         users = service.getAll(sample, pageable);
 
@@ -55,7 +55,7 @@ class ITUserQueryServiceGetAllPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        sample = UsersQuery.empty();
+        sample = UserQueries.empty();
 
         users = service.getAll(sample, pageable);
 
@@ -73,7 +73,7 @@ class ITUserQueryServiceGetAllPagination {
 
         pageable = PageRequest.of(1, 1);
 
-        sample = UsersQuery.empty();
+        sample = UserQueries.empty();
 
         users = service.getAll(sample, pageable);
 
@@ -90,7 +90,7 @@ class ITUserQueryServiceGetAllPagination {
 
         pageable = PageRequest.of(0, 1);
 
-        sample = UsersQuery.empty();
+        sample = UserQueries.empty();
 
         users = service.getAll(sample, pageable);
 
@@ -107,7 +107,7 @@ class ITUserQueryServiceGetAllPagination {
 
         pageable = Pageable.unpaged();
 
-        sample = UsersQuery.empty();
+        sample = UserQueries.empty();
 
         users = service.getAll(sample, pageable);
 

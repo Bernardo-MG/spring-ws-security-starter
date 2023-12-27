@@ -24,7 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
 import com.bernardomg.security.login.model.TokenLoginStatus;
@@ -64,7 +64,8 @@ class TestTokenLoginServiceToken {
         final BiPredicate<String, String> valid;
         final LoginTokenEncoder           loginTokenEncoder;
 
-        user = new User(Users.USERNAME, Users.PASSWORD, true, true, true, true, Collections.emptyList());
+        user = new User(UserConstants.USERNAME, UserConstants.PASSWORD, true, true, true, true,
+            Collections.emptyList());
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
@@ -83,8 +84,8 @@ class TestTokenLoginServiceToken {
 
         persistentUser = new UserEntity();
         persistentUser.setId(1l);
-        persistentUser.setUsername(Users.USERNAME);
-        persistentUser.setPassword(Users.EMAIL);
+        persistentUser.setUsername(UserConstants.USERNAME);
+        persistentUser.setPassword(UserConstants.EMAIL);
         given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(persistentUser));
     }
 
@@ -97,7 +98,7 @@ class TestTokenLoginServiceToken {
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokens.TOKEN);
 
-        status = getService(true).login(Users.EMAIL, Users.PASSWORD);
+        status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isTrue();
@@ -112,7 +113,7 @@ class TestTokenLoginServiceToken {
 
         loadUser();
 
-        status = getService(false).login(Users.EMAIL, Users.PASSWORD);
+        status = getService(false).login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -31,9 +31,10 @@ class ITUserActivationServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        executable = () -> service.registerNewUser(Users.ALTERNATIVE_USERNAME, Users.NAME, Users.EMAIL);
+        executable = () -> service.registerNewUser(UserConstants.ALTERNATIVE_USERNAME, UserConstants.NAME,
+            UserConstants.EMAIL);
 
-        failure = FieldFailure.of("email.existing", "email", "existing", Users.EMAIL);
+        failure = FieldFailure.of("email.existing", "email", "existing", UserConstants.EMAIL);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
@@ -45,9 +46,10 @@ class ITUserActivationServiceRegisterNewUserValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        executable = () -> service.registerNewUser(Users.USERNAME, Users.NAME, Users.ALTERNATIVE_EMAIL);
+        executable = () -> service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME,
+            UserConstants.ALTERNATIVE_EMAIL);
 
-        failure = FieldFailure.of("username.existing", "username", "existing", Users.USERNAME);
+        failure = FieldFailure.of("username.existing", "username", "existing", UserConstants.USERNAME);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

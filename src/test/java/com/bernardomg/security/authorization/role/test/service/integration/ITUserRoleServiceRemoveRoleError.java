@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
 import com.bernardomg.security.authorization.role.test.config.SingleRole;
@@ -33,7 +33,7 @@ class ITUserRoleServiceRemoveRoleError {
     void testAddRoles_NotExistingRole() {
         final ThrowingCallable executable;
 
-        executable = () -> service.removeRole(Users.USERNAME, Roles.NAME);
+        executable = () -> service.removeRole(UserConstants.USERNAME, Roles.NAME);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleNameException.class);
@@ -45,7 +45,7 @@ class ITUserRoleServiceRemoveRoleError {
     void testAddRoles_NotExistingUser() {
         final ThrowingCallable executable;
 
-        executable = () -> service.removeRole(Users.USERNAME, Roles.NAME);
+        executable = () -> service.removeRole(UserConstants.USERNAME, Roles.NAME);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserUsernameException.class);

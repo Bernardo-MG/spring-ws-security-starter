@@ -13,6 +13,7 @@ import com.bernardomg.security.authentication.user.model.User;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -33,7 +34,7 @@ class ITUserActivationServiceRegisterNewUser {
     @Test
     @DisplayName("Adds an entity when creating")
     void testRegisterNewUser_AddsEntity() {
-        service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
+        service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(1);
@@ -44,7 +45,8 @@ class ITUserActivationServiceRegisterNewUser {
     void testRegisterNewUser_Case_PersistedData() {
         final List<UserEntity> entities;
 
-        service.registerNewUser(Users.USERNAME.toUpperCase(), Users.NAME, Users.EMAIL.toUpperCase());
+        service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
+            UserConstants.EMAIL.toUpperCase());
 
         entities = repository.findAll();
 
@@ -52,11 +54,11 @@ class ITUserActivationServiceRegisterNewUser {
             softly.assertThat(entities)
                 .first()
                 .extracting(UserEntity::getUsername)
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(entities)
                 .first()
                 .extracting(UserEntity::getEmail)
-                .isEqualTo(Users.EMAIL);
+                .isEqualTo(UserConstants.EMAIL);
         });
     }
 
@@ -65,7 +67,8 @@ class ITUserActivationServiceRegisterNewUser {
     void testRegisterNewUser_Case_ReturnedData() {
         final User result;
 
-        result = service.registerNewUser(Users.USERNAME.toUpperCase(), Users.NAME, Users.EMAIL.toUpperCase());
+        result = service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
+            UserConstants.EMAIL.toUpperCase());
 
         Assertions.assertThat(result)
             .isEqualTo(Users.newlyCreated());
@@ -76,7 +79,8 @@ class ITUserActivationServiceRegisterNewUser {
     void testRegisterNewUser_Padded_PersistedData() {
         final List<UserEntity> entities;
 
-        service.registerNewUser(" " + Users.USERNAME + " ", " " + Users.NAME + " ", " " + Users.EMAIL + " ");
+        service.registerNewUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
+            " " + UserConstants.EMAIL + " ");
 
         entities = repository.findAll();
 
@@ -84,11 +88,11 @@ class ITUserActivationServiceRegisterNewUser {
             softly.assertThat(entities)
                 .first()
                 .extracting(UserEntity::getUsername)
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(entities)
                 .first()
                 .extracting(UserEntity::getEmail)
-                .isEqualTo(Users.EMAIL);
+                .isEqualTo(UserConstants.EMAIL);
         });
     }
 
@@ -97,7 +101,7 @@ class ITUserActivationServiceRegisterNewUser {
     void testRegisterNewUser_PersistedData() {
         final List<UserEntity> entities;
 
-        service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
+        service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         entities = repository.findAll();
 
@@ -105,11 +109,11 @@ class ITUserActivationServiceRegisterNewUser {
             softly.assertThat(entities)
                 .first()
                 .extracting(UserEntity::getUsername)
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(entities)
                 .first()
                 .extracting(UserEntity::getEmail)
-                .isEqualTo(Users.EMAIL);
+                .isEqualTo(UserConstants.EMAIL);
         });
     }
 
@@ -118,7 +122,7 @@ class ITUserActivationServiceRegisterNewUser {
     void testRegisterNewUser_ReturnedData() {
         final User result;
 
-        result = service.registerNewUser(Users.USERNAME, Users.NAME, Users.EMAIL);
+        result = service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         Assertions.assertThat(result)
             .isEqualTo(Users.newlyCreated());

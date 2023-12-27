@@ -20,8 +20,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
@@ -57,18 +57,18 @@ class TestPersistentUserDetailsService {
         final UserEntity  user;
 
         user = UserEntities.disabled();
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername(Users.USERNAME);
+        userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(Users.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.ENCODED_PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -105,18 +105,18 @@ class TestPersistentUserDetailsService {
         final UserEntity  user;
 
         user = UserEntities.enabled();
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername(Users.USERNAME);
+        userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(Users.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.ENCODED_PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -153,18 +153,18 @@ class TestPersistentUserDetailsService {
         final UserEntity  user;
 
         user = UserEntities.expired();
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername(Users.USERNAME);
+        userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(Users.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.ENCODED_PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isFalse();
@@ -201,18 +201,18 @@ class TestPersistentUserDetailsService {
         final UserEntity  user;
 
         user = UserEntities.locked();
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername(Users.USERNAME);
+        userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(Users.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.ENCODED_PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -248,15 +248,15 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(UserEntities.enabled()));
+        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserEntities.enabled()));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of());
 
-        executable = () -> service.loadUserByUsername(Users.USERNAME);
+        executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username " + Users.USERNAME + " has no authorities");
+            .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");
     }
 
     @Test
@@ -266,18 +266,18 @@ class TestPersistentUserDetailsService {
         final UserEntity  user;
 
         user = UserEntities.passwordExpired();
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
         given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(getPersistentPermission()));
 
-        userDetails = service.loadUserByUsername(Users.USERNAME);
+        userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
-                .isEqualTo(Users.USERNAME);
+                .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(Users.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.ENCODED_PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -313,14 +313,14 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername(Users.USERNAME)).willReturn(Optional.empty());
+        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
 
-        executable = () -> service.loadUserByUsername(Users.USERNAME);
+        executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username " + Users.USERNAME + " not found in database");
+            .isEqualTo("Username " + UserConstants.USERNAME + " not found in database");
     }
 
 }
