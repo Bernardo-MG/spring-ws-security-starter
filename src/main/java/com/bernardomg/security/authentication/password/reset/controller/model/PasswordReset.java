@@ -22,33 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.change.model.request;
+package com.bernardomg.security.authentication.password.reset.controller.model;
 
-import com.bernardomg.validation.constraint.StrongPassword;
-
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Password change request.
+ * Data required for starting the password reset.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
-public final class PasswordChangeRequest {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class PasswordReset {
 
     /**
-     * The new password.
+     * User email.
      */
     @NotEmpty
-    @StrongPassword
-    private String newPassword;
-
-    /**
-     * The previous password.
-     */
-    @NotEmpty
-    private String oldPassword;
+    @Email
+    private String email;
 
 }

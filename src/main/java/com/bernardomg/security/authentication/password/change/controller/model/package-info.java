@@ -23,7 +23,7 @@
  */
 
 /**
- * Password request model.
+ * Password change controller model.
  */
 
-package com.bernardomg.security.authentication.password.change.model.request;
+package com.bernardomg.security.authentication.password.change.controller.model;

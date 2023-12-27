@@ -22,26 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.reset.model.request;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
-
 /**
- * Password recovery request.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Password reset controller model.
  */
-@Data
-public final class PasswordResetRequest {
 
-    /**
-     * User email.
-     */
-    @NotEmpty
-    @Email
-    private String email;
-
-}
+package com.bernardomg.security.authentication.password.reset.controller.model;
