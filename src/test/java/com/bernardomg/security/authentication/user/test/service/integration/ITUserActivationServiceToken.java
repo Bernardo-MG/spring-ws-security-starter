@@ -37,7 +37,7 @@ import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

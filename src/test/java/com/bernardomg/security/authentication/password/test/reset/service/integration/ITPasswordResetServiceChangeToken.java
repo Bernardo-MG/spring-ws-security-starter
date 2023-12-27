@@ -15,7 +15,7 @@ import com.bernardomg.security.authorization.token.exception.ExpiredTokenExcepti
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetExpiredUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

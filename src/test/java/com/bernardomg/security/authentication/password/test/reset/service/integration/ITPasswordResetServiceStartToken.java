@@ -15,7 +15,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

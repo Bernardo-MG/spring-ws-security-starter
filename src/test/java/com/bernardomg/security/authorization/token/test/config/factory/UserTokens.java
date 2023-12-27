@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.token.test.config.model;
+package com.bernardomg.security.authorization.token.test.config.factory;
 
 import java.time.LocalDateTime;
 import java.time.Month;

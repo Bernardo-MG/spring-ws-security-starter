@@ -17,7 +17,7 @@ import com.bernardomg.security.authorization.token.test.config.annotation.Consum
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -37,6 +37,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(UserTokens.TOKEN);
 
         Assertions.assertThat(token)
+            .as("token")
             .contains(UserTokens.consumed());
     }
 
@@ -50,6 +51,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(UserTokens.TOKEN);
 
         Assertions.assertThat(token)
+            .as("token")
             .contains(UserTokens.expired());
     }
 
@@ -74,6 +76,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(UserTokens.TOKEN);
 
         Assertions.assertThat(token)
+            .as("token")
             .contains(UserTokens.revoked());
     }
 
@@ -87,6 +90,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(UserTokens.TOKEN);
 
         Assertions.assertThat(token)
+            .as("token")
             .contains(UserTokens.valid());
     }
 
@@ -100,6 +104,7 @@ class ITSpringUserTokenServiceGetOne {
         token = service.getOne(UserTokens.TOKEN);
 
         Assertions.assertThat(token)
+            .as("token")
             .contains(UserTokens.valid());
     }
 
