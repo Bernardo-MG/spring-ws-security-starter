@@ -8,7 +8,7 @@ public final class RoleEntities {
     public static final RoleEntity valid() {
         return RoleEntity.builder()
             .withId(1L)
-            .withName(Roles.NAME)
+            .withName(RoleConstants.NAME)
             .build();
     }
 

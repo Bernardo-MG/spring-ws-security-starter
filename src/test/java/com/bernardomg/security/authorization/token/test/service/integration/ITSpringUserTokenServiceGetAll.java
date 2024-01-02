@@ -1,25 +1,20 @@
 
 package com.bernardomg.security.authorization.token.test.service.integration;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.model.UserToken;
 import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -42,6 +37,7 @@ class ITSpringUserTokenServiceGetAll {
         tokens = service.getAll(pageable);
 
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -58,6 +54,7 @@ class ITSpringUserTokenServiceGetAll {
         tokens = service.getAll(pageable);
 
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -73,6 +70,7 @@ class ITSpringUserTokenServiceGetAll {
         tokens = service.getAll(pageable);
 
         Assertions.assertThat(tokens)
+            .as("tokens")
             .isEmpty();
     }
 
@@ -89,6 +87,7 @@ class ITSpringUserTokenServiceGetAll {
         tokens = service.getAll(pageable);
 
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -105,6 +104,7 @@ class ITSpringUserTokenServiceGetAll {
         tokens = service.getAll(pageable);
 
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -113,33 +113,16 @@ class ITSpringUserTokenServiceGetAll {
     @OnlyUser
     @ValidUserToken
     void testGetAll_Valid_data() {
-        final Pageable  pageable;
-        final UserToken token;
+        final Pageable            pageable;
+        final Iterable<UserToken> tokens;
 
         pageable = Pageable.unpaged();
 
-        token = service.getAll(pageable)
-            .iterator()
-            .next();
+        tokens = service.getAll(pageable);
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(token.getUsername())
-                .isEqualTo(Users.USERNAME);
-            softly.assertThat(token.getName())
-                .isEqualTo(Users.NAME);
-            softly.assertThat(token.getScope())
-                .isEqualTo(UserTokens.SCOPE);
-            softly.assertThat(token.getToken())
-                .isEqualTo(UserTokens.TOKEN);
-            softly.assertThat(token.isConsumed())
-                .isFalse();
-            softly.assertThat(token.isRevoked())
-                .isFalse();
-            softly.assertThat(token.getCreationDate())
-                .isEqualTo(LocalDateTime.of(2020, Month.FEBRUARY, 1, 0, 0));
-            softly.assertThat(token.getExpirationDate())
-                .isEqualTo(LocalDateTime.of(2030, Month.FEBRUARY, 1, 0, 0));
-        });
+        Assertions.assertThat(tokens)
+            .as("tokens")
+            .containsExactly(UserTokens.valid());
     }
 
 }

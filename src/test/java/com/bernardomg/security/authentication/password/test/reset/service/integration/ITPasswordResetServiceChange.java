@@ -11,11 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.ExpiredPasswordUser;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -46,7 +46,7 @@ class ITPasswordResetServiceChange {
         final UserEntity user;
 
         // WHEN
-        service.changePassword(UserTokens.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         // THEN
         user = userRepository.findAll()
@@ -67,7 +67,7 @@ class ITPasswordResetServiceChange {
         final Boolean consumed;
 
         // WHEN
-        service.changePassword(UserTokens.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         // THEN
         consumed = userTokenRepository.findById(1L)
@@ -87,7 +87,7 @@ class ITPasswordResetServiceChange {
         final UserEntity user;
 
         // WHEN
-        service.changePassword(UserTokens.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         // THEN
         user = userRepository.findAll()
@@ -108,7 +108,7 @@ class ITPasswordResetServiceChange {
         final UserEntity user;
 
         // WHEN
-        service.changePassword(UserTokens.TOKEN, "abc");
+        service.changePassword(UserTokenConstants.TOKEN, "abc");
 
         // THEN
         user = userRepository.findAll()

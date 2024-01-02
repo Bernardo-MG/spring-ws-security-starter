@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
@@ -77,7 +77,7 @@ class TestTokenLoginServiceFailure {
     void testLogIn_NullUser() {
         final TokenLoginStatus status;
 
-        status = getServiceWithNullUser().login(Users.USERNAME, Users.PASSWORD);
+        status = getServiceWithNullUser().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         Assertions.assertThat(status.isLogged())
             .isFalse();

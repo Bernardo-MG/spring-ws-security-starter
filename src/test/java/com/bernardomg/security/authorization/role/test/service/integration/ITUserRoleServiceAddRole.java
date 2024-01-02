@@ -8,14 +8,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.permission.test.config.RoleWithPermission;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.role.model.Role;
 import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.service.UserRoleService;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.UserRoleEntities;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -41,7 +42,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_AddsEntity() {
         final List<UserRoleEntity> userRoles;
 
-        service.addRole(Users.USERNAME, Roles.NAME);
+        service.addRole(UserConstants.USERNAME, RoleConstants.NAME);
 
         userRoles = userRoleRepository.findAll();
 
@@ -55,7 +56,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_Existing() {
         final List<UserRoleEntity> userRoles;
 
-        service.addRole(Users.USERNAME, Roles.NAME);
+        service.addRole(UserConstants.USERNAME, RoleConstants.NAME);
 
         userRoles = userRoleRepository.findAll();
 
@@ -69,7 +70,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_Persists() {
         final List<UserRoleEntity> userRoles;
 
-        service.addRole(Users.USERNAME, Roles.NAME);
+        service.addRole(UserConstants.USERNAME, RoleConstants.NAME);
 
         userRoles = userRoleRepository.findAll();
 
@@ -83,7 +84,7 @@ class ITUserRoleServiceAddRole {
     void testAddRole_ReturnedData() {
         final Role userRole;
 
-        userRole = service.addRole(Users.USERNAME, Roles.NAME);
+        userRole = service.addRole(UserConstants.USERNAME, RoleConstants.NAME);
 
         Assertions.assertThat(userRole)
             .isEqualTo(Roles.valid());

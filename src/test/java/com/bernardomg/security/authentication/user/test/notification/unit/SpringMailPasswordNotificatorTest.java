@@ -16,7 +16,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.password.notification.SpringMailPasswordNotificator;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailPasswordNotificator")
@@ -44,7 +44,7 @@ class SpringMailPasswordNotificatorTest {
     @DisplayName("The message content is sent to the target email")
     void testSendEmail_Content() throws Exception {
         // WHEN
-        passwordNotificator.sendPasswordRecoveryMessage(Users.EMAIL, Users.USERNAME, "token");
+        passwordNotificator.sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME, "token");
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -37,7 +37,7 @@ class ITPersistentUserTokenStoreGetUsername {
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokens.SCOPE,
+        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
             tokenProperties.getValidity());
     }
 
@@ -48,10 +48,10 @@ class ITPersistentUserTokenStoreGetUsername {
     void testGetUsername() {
         final String subject;
 
-        subject = store.getUsername(UserTokens.TOKEN);
+        subject = store.getUsername(UserTokenConstants.TOKEN);
 
         Assertions.assertThat(subject)
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
     }
 
     @Test
@@ -61,12 +61,12 @@ class ITPersistentUserTokenStoreGetUsername {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> store.getUsername(UserTokens.TOKEN);
+        executable = () -> store.getUsername(UserTokenConstants.TOKEN);
 
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing token " + UserTokens.TOKEN);
+            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
     }
 
     @Test
@@ -77,12 +77,12 @@ class ITPersistentUserTokenStoreGetUsername {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> store.getUsername(UserTokens.TOKEN);
+        executable = () -> store.getUsername(UserTokenConstants.TOKEN);
 
         exception = Assertions.catchThrowableOfType(executable, MissingUserTokenCodeException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing token " + UserTokens.TOKEN);
+            .isEqualTo("Missing token " + UserTokenConstants.TOKEN);
     }
 
 }

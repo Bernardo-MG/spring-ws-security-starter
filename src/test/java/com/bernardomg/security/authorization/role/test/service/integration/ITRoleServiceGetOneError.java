@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -28,7 +28,7 @@ class ITRoleServiceGetOneError {
     void testGetOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.getOne(Roles.NAME);
+        execution = () -> service.getOne(RoleConstants.NAME);
 
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingRoleNameException.class);

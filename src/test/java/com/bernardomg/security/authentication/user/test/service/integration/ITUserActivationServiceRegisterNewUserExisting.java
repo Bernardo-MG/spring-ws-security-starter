@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -30,7 +30,8 @@ class ITUserActivationServiceRegisterNewUserExisting {
     @DisplayName("Adds an entity when creating with an existing id")
     @OnlyUser
     void testRegisterNewUser_AddsEntity() {
-        service.registerNewUser(Users.ALTERNATIVE_USERNAME, Users.NAME, Users.ALTERNATIVE_EMAIL);
+        service.registerNewUser(UserConstants.ALTERNATIVE_USERNAME, UserConstants.NAME,
+            UserConstants.ALTERNATIVE_EMAIL);
 
         Assertions.assertThat(repository.count())
             .isEqualTo(2);

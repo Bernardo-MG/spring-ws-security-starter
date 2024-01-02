@@ -29,9 +29,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -54,7 +54,7 @@ class ITRoleServiceDeleteValidation {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
-        executable = () -> service.delete(Roles.NAME);
+        executable = () -> service.delete(RoleConstants.NAME);
 
         failure = FieldFailure.of("user.existing", "user", "existing", 1L);
 

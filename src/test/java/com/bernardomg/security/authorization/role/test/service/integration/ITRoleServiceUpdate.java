@@ -32,11 +32,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
+import com.bernardomg.security.authorization.role.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.test.config.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesUpdate;
@@ -60,12 +61,12 @@ class ITRoleServiceUpdate {
     @Test
     @DisplayName("Updates persisted data")
     void testUpdate_PersistedData() {
-        final RoleUpdate       data;
+        final RoleChange       data;
         final List<RoleEntity> roles;
 
         data = RolesUpdate.valid();
 
-        service.update(Roles.NAME, data);
+        service.update(RoleConstants.NAME, data);
         roles = repository.findAll();
 
         Assertions.assertThat(roles)
@@ -75,12 +76,12 @@ class ITRoleServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     void testUpdate_ReturnedData() {
-        final RoleUpdate data;
+        final RoleChange data;
         final Role       role;
 
         data = RolesUpdate.valid();
 
-        role = service.update(Roles.NAME, data);
+        role = service.update(RoleConstants.NAME, data);
 
         Assertions.assertThat(role)
             .isEqualTo(Roles.valid());

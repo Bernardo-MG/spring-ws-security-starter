@@ -32,8 +32,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.model.Role;
+import com.bernardomg.security.authorization.role.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.model.request.RoleQuery;
-import com.bernardomg.security.authorization.role.model.request.RoleUpdate;
 import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
 import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
@@ -134,7 +134,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Role update(final String role, final RoleUpdate data) {
+    public final Role update(final String role, final RoleChange data) {
         final RoleEntity           entity;
         final RoleEntity           created;
         final Optional<RoleEntity> readRole;
@@ -161,15 +161,15 @@ public final class DefaultRoleService implements RoleService {
             .build();
     }
 
-    private final RoleEntity toEntity(final RoleQuery role) {
+    private final RoleEntity toEntity(final RoleChange role, final Long id) {
         return RoleEntity.builder()
+            .withId(id)
             .withName(role.getName())
             .build();
     }
 
-    private final RoleEntity toEntity(final RoleUpdate role, final Long id) {
+    private final RoleEntity toEntity(final RoleQuery role) {
         return RoleEntity.builder()
-            .withId(id)
             .withName(role.getName())
             .build();
     }

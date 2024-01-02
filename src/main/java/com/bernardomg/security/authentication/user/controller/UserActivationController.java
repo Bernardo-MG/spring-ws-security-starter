@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.authentication.user.cache.UserCaches;
+import com.bernardomg.security.authentication.user.controller.model.UserActivation;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserActivationRequest;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 
@@ -77,8 +77,7 @@ public class UserActivationController {
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User activate(@PathVariable("token") final String token,
-            @Valid @RequestBody final UserActivationRequest request) {
+    public User activate(@PathVariable("token") final String token, @Valid @RequestBody final UserActivation request) {
         // TODO: return only the necessary data
         return service.activateUser(token, request.getPassword());
     }

@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserQuery;
-import com.bernardomg.security.authentication.user.model.query.UserQueryRequest;
+import com.bernardomg.security.authentication.user.model.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authentication.user.test.config.OnlyUser;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -36,9 +35,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
-            .withName(Users.NAME)
-            .build();
+        sample = UserQueries.name();
 
         result = service.getAll(sample, pageable);
 
@@ -56,9 +53,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
-            .withName("abc")
-            .build();
+        sample = UserQueries.invalidName();
 
         result = service.getAll(sample, pageable);
 
@@ -76,9 +71,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
-            .withUsername(Users.USERNAME)
-            .build();
+        sample = UserQueries.username();
 
         result = service.getAll(sample, pageable);
 
@@ -96,9 +89,7 @@ class ITUserQueryServiceGetAllFiltered {
 
         pageable = Pageable.unpaged();
 
-        sample = UserQueryRequest.builder()
-            .withUsername("abc")
-            .build();
+        sample = UserQueries.invalidUsername();
 
         result = service.getAll(sample, pageable);
 

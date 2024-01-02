@@ -44,10 +44,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.cache.UserCaches;
+import com.bernardomg.security.authentication.user.controller.model.NewUser;
 import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.query.UserQueryRequest;
-import com.bernardomg.security.authentication.user.model.query.UserRegisterRequest;
-import com.bernardomg.security.authentication.user.model.query.UserUpdateRequest;
+import com.bernardomg.security.authentication.user.model.UserChange;
+import com.bernardomg.security.authentication.user.model.UserQuery;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
@@ -78,22 +78,6 @@ public class UserController {
     private final UserQueryService      userQueryService;
 
     /**
-     * Creates a user.
-     *
-     * @param request
-     *            user to add
-     * @return the new user
-     */
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
-            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User create(@Valid @RequestBody final UserRegisterRequest request) {
-        return userActivationService.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
-    }
-
-    /**
      * Deletes a user by its id.
      *
      * @param username
@@ -119,7 +103,7 @@ public class UserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public Iterable<User> readAll(@Valid final UserQueryRequest user, final Pageable page) {
+    public Iterable<User> readAll(@Valid final UserQuery user, final Pageable page) {
         return userQueryService.getAll(user, page);
     }
 
@@ -140,6 +124,22 @@ public class UserController {
     }
 
     /**
+     * Creates a user.
+     *
+     * @param request
+     *            user to add
+     * @return the new user
+     */
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
+            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
+    public User registerNewUser(@Valid @RequestBody final NewUser request) {
+        return userActivationService.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
+    }
+
+    /**
      * Updates a user.
      *
      * @param username
@@ -152,8 +152,7 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User update(@PathVariable("username") final String username,
-            @Valid @RequestBody final UserUpdateRequest request) {
+    public User update(@PathVariable("username") final String username, @Valid @RequestBody final UserChange request) {
         return userQueryService.update(username, request);
     }
 

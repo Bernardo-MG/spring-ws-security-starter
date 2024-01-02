@@ -10,11 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.authentication.user.test.config.NewlyCreated;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.NewlyCreated;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -44,7 +44,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_ConsumesToken() {
         final Boolean consumed;
 
-        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         consumed = userTokenRepository.findById(1L)
             .get()
@@ -62,7 +62,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_Enabled() {
         final UserEntity user;
 
-        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();
@@ -79,12 +79,12 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_Password() {
         final UserEntity user;
 
-        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();
 
-        Assertions.assertThat(passwordEncoder.matches(Users.PASSWORD, user.getPassword()))
+        Assertions.assertThat(passwordEncoder.matches(UserConstants.PASSWORD, user.getPassword()))
             .as("encoded password")
             .isTrue();
     }
@@ -96,7 +96,7 @@ class ITUserActivationServiceEnableNewUser {
     void testActivateUser_PasswordReset() {
         final UserEntity user;
 
-        service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         user = userRepository.findById(1L)
             .get();

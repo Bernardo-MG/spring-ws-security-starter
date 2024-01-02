@@ -6,12 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.query.UserUpdate;
+import com.bernardomg.security.authentication.user.model.UserChange;
 import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authentication.user.test.config.AlternativeUser;
-import com.bernardomg.security.authentication.user.test.config.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.UserUpdateRequests;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.annotation.AlternativeUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserChanges;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -34,13 +34,13 @@ class ITUserQueryServiceUpdateValidation {
     void testUpdate_ExistingMail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
-        final UserUpdate       data;
+        final UserChange       data;
 
-        data = UserUpdateRequests.emailChange();
+        data = UserChanges.emailChange();
 
-        executable = () -> service.update(Users.USERNAME, data);
+        executable = () -> service.update(UserConstants.USERNAME, data);
 
-        failure = FieldFailure.of("email.existing", "email", "existing", Users.ALTERNATIVE_EMAIL);
+        failure = FieldFailure.of("email.existing", "email", "existing", UserConstants.ALTERNATIVE_EMAIL);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

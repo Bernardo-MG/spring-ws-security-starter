@@ -26,7 +26,7 @@ package com.bernardomg.security.authentication.user.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.security.authentication.user.model.query.UserUpdate;
+import com.bernardomg.security.authentication.user.model.UserChange;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -45,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
+public final class UpdateUserValidator extends AbstractValidator<UserChange> {
 
     /**
      * User repository.
@@ -59,7 +59,7 @@ public final class UpdateUserValidator extends AbstractValidator<UserUpdate> {
     }
 
     @Override
-    protected final void checkRules(final UserUpdate user, final Collection<FieldFailure> failures) {
+    protected final void checkRules(final UserChange user, final Collection<FieldFailure> failures) {
         FieldFailure failure;
 
         // Verify the email is not registered

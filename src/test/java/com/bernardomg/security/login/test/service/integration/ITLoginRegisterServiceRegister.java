@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.login.persistence.model.LoginRegisterEntity;
 import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.service.LoginRegisterService;
@@ -43,7 +43,7 @@ class ITLoginRegisterServiceRegister {
         final List<LoginRegisterEntity> registers;
         final LoginRegisterEntity       register;
 
-        service.register(Users.USERNAME, true);
+        service.register(UserConstants.USERNAME, true);
 
         registers = repository.findAll();
 
@@ -59,7 +59,7 @@ class ITLoginRegisterServiceRegister {
             .isTrue();
         Assertions.assertThat(register.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
 
         Assertions.assertThat(register.getDate())
             .as("date")
@@ -72,7 +72,7 @@ class ITLoginRegisterServiceRegister {
         final List<LoginRegisterEntity> registers;
         final LoginRegisterEntity       register;
 
-        service.register(Users.USERNAME, false);
+        service.register(UserConstants.USERNAME, false);
 
         registers = repository.findAll();
 
@@ -88,7 +88,7 @@ class ITLoginRegisterServiceRegister {
             .isFalse();
         Assertions.assertThat(register.getUsername())
             .as("username")
-            .isEqualTo(Users.USERNAME);
+            .isEqualTo(UserConstants.USERNAME);
 
         Assertions.assertThat(register.getDate())
             .as("date")

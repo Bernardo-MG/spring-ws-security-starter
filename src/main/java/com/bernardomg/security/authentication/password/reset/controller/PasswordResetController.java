@@ -35,8 +35,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.authentication.password.reset.model.request.PasswordResetChangeRequest;
-import com.bernardomg.security.authentication.password.reset.model.request.PasswordResetRequest;
+import com.bernardomg.security.authentication.password.reset.controller.model.PasswordReset;
+import com.bernardomg.security.authentication.password.reset.controller.model.PasswordResetChange;
 import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
 import com.bernardomg.security.authorization.token.model.UserTokenStatus;
 
@@ -72,7 +72,7 @@ public class PasswordResetController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void changePassword(@PathVariable("token") final String token,
-            @Valid @RequestBody final PasswordResetChangeRequest request) {
+            @Valid @RequestBody final PasswordResetChange request) {
         // TODO: return if it was successful
         service.changePassword(token, request.getPassword());
     }
@@ -85,7 +85,7 @@ public class PasswordResetController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public void startPasswordReset(@Valid @RequestBody final PasswordResetRequest request) {
+    public void startPasswordReset(@Valid @RequestBody final PasswordReset request) {
         // TODO: Hide exceptions for invalid user
         // TODO: return if it was successful
         service.startPasswordReset(request.getEmail());

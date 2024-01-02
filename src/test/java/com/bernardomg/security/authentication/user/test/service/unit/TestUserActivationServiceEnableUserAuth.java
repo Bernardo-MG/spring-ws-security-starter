@@ -28,9 +28,9 @@ import com.bernardomg.security.authentication.user.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
 import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
-import com.bernardomg.security.authorization.token.test.config.model.UserTokens;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
@@ -57,82 +57,82 @@ class TestUserActivationServiceEnableUserAuth {
 
     @BeforeEach
     public void initializeToken() {
-        given(tokenStore.getUsername(ArgumentMatchers.anyString())).willReturn(Users.USERNAME);
+        given(tokenStore.getUsername(ArgumentMatchers.anyString())).willReturn(UserConstants.USERNAME);
     }
 
     private final void loadCredentialsExpiredUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
-        user.setPassword(Users.PASSWORD);
+        user.setEmail(UserConstants.EMAIL);
+        user.setUsername(UserConstants.USERNAME);
+        user.setPassword(UserConstants.PASSWORD);
         user.setPasswordExpired(true);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadDisabledUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
-        user.setPassword(Users.PASSWORD);
+        user.setEmail(UserConstants.EMAIL);
+        user.setUsername(UserConstants.USERNAME);
+        user.setPassword(UserConstants.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(false);
         user.setExpired(false);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadEnabledUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
-        user.setPassword(Users.PASSWORD);
+        user.setEmail(UserConstants.EMAIL);
+        user.setUsername(UserConstants.USERNAME);
+        user.setPassword(UserConstants.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadExpiredUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
-        user.setPassword(Users.PASSWORD);
+        user.setEmail(UserConstants.EMAIL);
+        user.setUsername(UserConstants.USERNAME);
+        user.setPassword(UserConstants.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(true);
         user.setLocked(false);
 
-        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadLockedUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
-        user.setPassword(Users.PASSWORD);
+        user.setEmail(UserConstants.EMAIL);
+        user.setUsername(UserConstants.USERNAME);
+        user.setPassword(UserConstants.PASSWORD);
         user.setPasswordExpired(false);
         user.setEnabled(true);
         user.setExpired(false);
         user.setLocked(true);
 
-        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     @Test
@@ -145,7 +145,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadCredentialsExpiredUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
@@ -163,7 +163,7 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadDisabledUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
@@ -180,12 +180,12 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadEnabledUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User " + Users.USERNAME + " is enabled");
+            .isEqualTo("User " + UserConstants.USERNAME + " is enabled");
     }
 
     @Test
@@ -197,12 +197,12 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadExpiredUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User " + Users.USERNAME + " is expired");
+            .isEqualTo("User " + UserConstants.USERNAME + " is expired");
     }
 
     @Test
@@ -214,12 +214,12 @@ class TestUserActivationServiceEnableUserAuth {
 
         loadLockedUser();
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User " + Users.USERNAME + " is locked");
+            .isEqualTo("User " + UserConstants.USERNAME + " is locked");
     }
 
     @Test
@@ -229,7 +229,7 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        executable = () -> service.activateUser(UserTokens.TOKEN, Users.PASSWORD);
+        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 

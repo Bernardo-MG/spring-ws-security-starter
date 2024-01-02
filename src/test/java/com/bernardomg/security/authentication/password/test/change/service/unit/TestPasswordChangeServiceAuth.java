@@ -29,7 +29,7 @@ import com.bernardomg.security.authentication.user.exception.LockedUserException
 import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
 import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password - authentication")
@@ -56,7 +56,7 @@ class TestPasswordChangeServiceAuth {
 
     private final void initializeAuthentication() {
         given(authentication.isAuthenticated()).willReturn(true);
-        given(authentication.getName()).willReturn(Users.USERNAME);
+        given(authentication.getName()).willReturn(UserConstants.USERNAME);
 
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
@@ -80,12 +80,12 @@ class TestPasswordChangeServiceAuth {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
-        given(user.getPassword()).willReturn(Users.PASSWORD);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
+        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
         given(user.isEnabled()).willReturn(false);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private final void loadExpiredUser() {
@@ -94,10 +94,10 @@ class TestPasswordChangeServiceAuth {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
-        given(user.getPassword()).willReturn(Users.PASSWORD);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
+        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
         given(user.isAccountNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private final void loadLockedUser() {
@@ -106,26 +106,26 @@ class TestPasswordChangeServiceAuth {
         loadPersistentUser();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(Users.USERNAME);
-        given(user.getPassword()).willReturn(Users.PASSWORD);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
+        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(Users.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private final void loadPersistentUser() {
         final UserEntity user;
 
         user = new UserEntity();
-        user.setEmail(Users.EMAIL);
-        user.setUsername(Users.USERNAME);
-        user.setPassword(Users.PASSWORD);
+        user.setEmail(UserConstants.EMAIL);
+        user.setUsername(UserConstants.USERNAME);
+        user.setPassword(UserConstants.PASSWORD);
 
-        given(repository.findOneByUsername(Users.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     void initializeValidation() {
-        given(passwordEncoder.matches(Users.PASSWORD, Users.PASSWORD)).willReturn(true);
+        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
     }
 
     @Test
@@ -141,13 +141,13 @@ class TestPasswordChangeServiceAuth {
         loadDisabledUser();
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User " + Users.USERNAME + " is disabled");
+            .isEqualTo("User " + UserConstants.USERNAME + " is disabled");
     }
 
     @Test
@@ -163,13 +163,13 @@ class TestPasswordChangeServiceAuth {
         loadExpiredUser();
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User " + Users.USERNAME + " is expired");
+            .isEqualTo("User " + UserConstants.USERNAME + " is expired");
     }
 
     @Test
@@ -185,13 +185,13 @@ class TestPasswordChangeServiceAuth {
         loadLockedUser();
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User " + Users.USERNAME + " is locked");
+            .isEqualTo("User " + UserConstants.USERNAME + " is locked");
     }
 
     @Test
@@ -204,7 +204,7 @@ class TestPasswordChangeServiceAuth {
         initializeEmptyAuthentication();
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
@@ -223,7 +223,7 @@ class TestPasswordChangeServiceAuth {
         initializeNotAuthenticated();
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
@@ -243,7 +243,7 @@ class TestPasswordChangeServiceAuth {
         initializeAuthentication();
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(Users.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
