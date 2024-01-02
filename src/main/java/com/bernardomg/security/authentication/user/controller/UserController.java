@@ -102,7 +102,7 @@ public class UserController {
     @DeleteMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true),
-            @CacheEvict(cacheNames = UserCaches.USER, key = "#p0") })
+            @CacheEvict(cacheNames = UserCaches.USER) })
     public void delete(@PathVariable("username") final String username) {
         userQueryService.delete(username);
     }
@@ -132,7 +132,7 @@ public class UserController {
      */
     @GetMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.USER, key = "#p0")
+    @Cacheable(cacheNames = UserCaches.USER)
     public User readOne(@PathVariable("username") final String username) {
         // TODO: maybe optionals must be unwrapped automatically
         return userQueryService.getOne(username)
