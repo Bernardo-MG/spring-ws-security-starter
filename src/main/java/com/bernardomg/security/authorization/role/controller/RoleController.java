@@ -92,8 +92,8 @@ public class RoleController {
      */
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true),
-            @CacheEvict(cacheNames = RoleCaches.ROLE) })
+    @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLE),
+            @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public void delete(@PathVariable("role") final String role) {
         service.delete(role);
     }

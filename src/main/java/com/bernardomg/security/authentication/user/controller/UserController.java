@@ -85,8 +85,8 @@ public class UserController {
      */
     @DeleteMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true),
-            @CacheEvict(cacheNames = UserCaches.USER) })
+    @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USER),
+            @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public void delete(@PathVariable("username") final String username) {
         userQueryService.delete(username);
     }
