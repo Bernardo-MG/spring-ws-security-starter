@@ -26,8 +26,8 @@ package com.bernardomg.security.authentication.user.usecase.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -46,25 +46,25 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class RegisterUserValidator extends AbstractValidator<UserEntity> {
+public final class RegisterUserValidator extends AbstractValidator<User> {
 
     /**
      * User repository.
      */
-    private final UserSpringRepository userRepository;
+    private final UserRepository userRepository;
 
-    public RegisterUserValidator(final UserSpringRepository userRepo) {
+    public RegisterUserValidator(final UserRepository userRepo) {
         super();
 
         userRepository = userRepo;
     }
 
     @Override
-    protected final void checkRules(final UserEntity user, final Collection<FieldFailure> failures) {
+    protected final void checkRules(final User user, final Collection<FieldFailure> failures) {
         FieldFailure failure;
 
         // The username is not registered
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (userRepository.exists(user.getUsername())) {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("username", "existing", user.getUsername());
@@ -73,7 +73,7 @@ public final class RegisterUserValidator extends AbstractValidator<UserEntity> {
 
         // TODO: Don't give hints about existing emails
         // The email is not registered
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsEmail(user.getEmail())) {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());

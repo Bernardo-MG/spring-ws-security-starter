@@ -27,15 +27,12 @@ package com.bernardomg.security.authentication.user.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.validation.RegisterUserValidator;
 import com.bernardomg.security.authorization.token.domain.exception.InvalidTokenException;
@@ -55,37 +52,31 @@ import lombok.extern.slf4j.Slf4j;
 public final class DefaultUserActivationService implements UserActivationService {
 
     /**
-     * Password encoder, for validating passwords.
-     */
-    private final PasswordEncoder       passwordEncoder;
-
-    /**
      * Token processor.
      */
-    private final UserTokenStore        tokenStore;
+    private final UserTokenStore  tokenStore;
 
     /**
      * Message sender. Registering new users may require emails, or other kind of messaging.
      */
-    private final UserNotificator       userNotificator;
+    private final UserNotificator userNotificator;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository  userRepository;
+    private final UserRepository  userRepository;
 
     /**
      * User registration validator.
      */
-    private final Validator<UserEntity> validatorRegisterUser;
+    private final Validator<User> validatorRegisterUser;
 
-    public DefaultUserActivationService(final UserSpringRepository userRepo, final UserNotificator mSender,
-            final UserTokenStore tStore, final PasswordEncoder passEncoder) {
+    public DefaultUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
+            final UserTokenStore tStore) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         tokenStore = Objects.requireNonNull(tStore);
-        passwordEncoder = Objects.requireNonNull(passEncoder);
         userNotificator = Objects.requireNonNull(mSender);
 
         validatorRegisterUser = new RegisterUserValidator(userRepo);
@@ -93,9 +84,9 @@ public final class DefaultUserActivationService implements UserActivationService
 
     @Override
     public final User activateUser(final String token, final String password) {
-        final String     username;
-        final UserEntity user;
-        final String     encodedPassword;
+        final String username;
+        final User   user;
+        final User   saved;
 
         // Validate token
         tokenStore.validate(token);
@@ -111,58 +102,54 @@ public final class DefaultUserActivationService implements UserActivationService
 
         user.setEnabled(true);
         user.setPasswordExpired(false);
-        encodedPassword = passwordEncoder.encode(password);
-        user.setPassword(encodedPassword);
 
-        userRepository.save(user);
+        saved = userRepository.save(user, password);
         tokenStore.consumeToken(token);
 
         log.debug("Activated new user {}", username);
 
-        return toDto(user);
+        return saved;
     }
 
     @Override
     public final User registerNewUser(final String username, final String name, final String email) {
-        final UserEntity userEntity;
-        final UserEntity created;
-        final String     token;
+        final User   user;
+        final User   created;
+        final String token;
 
         log.debug("Registering new user {} with email {}", username, email);
 
-        userEntity = UserEntity.builder()
+        user = User.builder()
             .withUsername(username)
             .withName(name)
             .withEmail(email)
             .build();
 
-        validatorRegisterUser.validate(userEntity);
+        validatorRegisterUser.validate(user);
 
+        // TODO: Should be handled by the model
         // Trim strings
-        userEntity.setName(userEntity.getName()
+        user.setName(user.getName()
             .trim());
-        userEntity.setUsername(userEntity.getUsername()
+        user.setUsername(user.getUsername()
             .trim());
-        userEntity.setEmail(userEntity.getEmail()
+        user.setEmail(user.getEmail()
             .trim());
 
+        // TODO: Should be handled by the model
         // Remove case
-        userEntity.setUsername(userEntity.getUsername()
+        user.setUsername(user.getUsername()
             .toLowerCase());
-        userEntity.setEmail(userEntity.getEmail()
+        user.setEmail(user.getEmail()
             .toLowerCase());
-
-        // TODO: Handle this better, disable until it has a password
-        // TODO: Should be the DB default value
-        userEntity.setPassword("");
 
         // Disabled by default
-        userEntity.setEnabled(false);
-        userEntity.setExpired(false);
-        userEntity.setLocked(false);
-        userEntity.setPasswordExpired(true);
+        user.setEnabled(false);
+        user.setExpired(false);
+        user.setLocked(false);
+        user.setPasswordExpired(true);
 
-        created = userRepository.save(userEntity);
+        created = userRepository.save(user, "");
 
         // Revoke previous tokens
         tokenStore.revokeExistingTokens(created.getUsername());
@@ -175,7 +162,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         log.debug("Registered new user {} with email {}", username, email);
 
-        return toDto(created);
+        return created;
     }
 
     @Override
@@ -197,10 +184,10 @@ public final class DefaultUserActivationService implements UserActivationService
             .build();
     }
 
-    private final UserEntity getUserByUsername(final String username) {
-        final Optional<UserEntity> user;
+    private final User getUserByUsername(final String username) {
+        final Optional<User> user;
 
-        user = userRepository.findOneByUsername(username);
+        user = userRepository.findOne(username);
 
         // Validate the user exists
         if (!user.isPresent()) {
@@ -211,34 +198,22 @@ public final class DefaultUserActivationService implements UserActivationService
         return user.get();
     }
 
-    private final User toDto(final UserEntity user) {
-        return User.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
-            .withExpired(user.getExpired())
-            .withLocked(user.getLocked())
-            .withPasswordExpired(user.getPasswordExpired())
-            .build();
-    }
-
     /**
      * Checks whether the user can be activated. If the user can't be activated, then an exception is thrown.
      *
      * @param user
      *            user to activate
      */
-    private final void validateActivation(final UserEntity user) {
-        if (Boolean.TRUE.equals(user.getExpired())) {
+    private final void validateActivation(final User user) {
+        if (user.isExpired()) {
             log.error("Can't activate new user. User {} is expired", user.getUsername());
             throw new ExpiredUserException(user.getUsername());
         }
-        if (Boolean.TRUE.equals(user.getLocked())) {
+        if (user.isLocked()) {
             log.error("Can't activate new user. User {} is locked", user.getUsername());
             throw new LockedUserException(user.getUsername());
         }
-        if (Boolean.TRUE.equals(user.getEnabled())) {
+        if (user.isEnabled()) {
             log.error("Can't activate new user. User {} is already enabled", user.getUsername());
             throw new EnabledUserException(user.getUsername());
         }

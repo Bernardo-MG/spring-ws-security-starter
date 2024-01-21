@@ -28,6 +28,8 @@ public interface UserRepository {
      */
     public boolean exists(final String username);
 
+    public boolean existsEmail(final String email);
+
     public boolean existsEmailForAnotherUser(final String username, final String email);
 
     public Iterable<User> findAll(final UserQuery query, final Pageable page);
@@ -42,5 +44,7 @@ public interface UserRepository {
     public Optional<User> findOne(final String username);
 
     public User save(final String username, final UserChange user);
+
+    public User save(final User user, final String password);
 
 }

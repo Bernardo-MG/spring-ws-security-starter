@@ -25,8 +25,8 @@
 package com.bernardomg.security.authentication.user.domain.model;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.NonNull;
-import lombok.Value;
 
 /**
  * Representation of a user.
@@ -34,7 +34,7 @@ import lombok.Value;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
+@Data
 @Builder(setterPrefix = "with")
 public final class User {
 
@@ -42,38 +42,38 @@ public final class User {
      * User email.
      */
     @NonNull
-    private final String  email;
+    private String  email;
 
     /**
      * User enabled flag.
      */
-    private final boolean enabled;
+    private boolean enabled;
 
     /**
      * User expired flag.
      */
-    private final boolean expired;
+    private boolean expired;
 
     /**
      * User locked flag.
      */
-    private final boolean locked;
+    private boolean locked;
 
     /**
      * User name.
      */
     @NonNull
-    private final String  name;
+    private String  name;
 
     /**
      * Password expired flag.
      */
-    private final boolean passwordExpired;
+    private boolean passwordExpired;
 
     /**
      * User username.
      */
     @NonNull
-    private final String  username;
+    private String  username;
 
 }

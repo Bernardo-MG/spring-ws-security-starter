@@ -1,10 +1,12 @@
 
 package com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.domain.model.User;
@@ -15,14 +17,20 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 public final class JpaUserRepository implements UserRepository {
 
     /**
+     * Password encoder, for validating passwords.
+     */
+    private final PasswordEncoder      passwordEncoder;
+
+    /**
      * User repository.
      */
     private final UserSpringRepository userRepository;
 
-    public JpaUserRepository(final UserSpringRepository userRepo) {
+    public JpaUserRepository(final UserSpringRepository userRepo, final PasswordEncoder passEncoder) {
         super();
 
         userRepository = userRepo;
+        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
@@ -33,6 +41,11 @@ public final class JpaUserRepository implements UserRepository {
     @Override
     public final boolean exists(final String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public final boolean existsEmail(final String email) {
+        return userRepository.existsByEmail(email);
     }
 
     @Override
@@ -106,6 +119,29 @@ public final class JpaUserRepository implements UserRepository {
         return toDomain(userRepository.save(entity));
     }
 
+    @Override
+    public final User save(final User user, final String password) {
+        final Optional<UserEntity> existing;
+        final String               encodedPassword;
+        final UserEntity           entity;
+        final UserEntity           saved;
+
+        entity = toEntity(user);
+
+        existing = userRepository.findOneByUsername(user.getUsername());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        encodedPassword = passwordEncoder.encode(password);
+        entity.setPassword(encodedPassword);
+
+        saved = userRepository.save(entity);
+
+        return toDomain(saved);
+    }
+
     private final User toDomain(final UserEntity user) {
         return User.builder()
             .withUsername(user.getUsername())
@@ -115,6 +151,18 @@ public final class JpaUserRepository implements UserRepository {
             .withExpired(user.getExpired())
             .withLocked(user.getLocked())
             .withPasswordExpired(user.getPasswordExpired())
+            .build();
+    }
+
+    private final UserEntity toEntity(final User user) {
+        return UserEntity.builder()
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.isEnabled())
+            .withExpired(user.isExpired())
+            .withLocked(user.isLocked())
+            .withPasswordExpired(user.isPasswordExpired())
             .build();
     }
 

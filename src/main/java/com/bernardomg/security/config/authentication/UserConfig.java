@@ -61,15 +61,15 @@ public class UserConfig {
     }
 
     @Bean("userActivationService")
-    public UserActivationService getUserActivationService(final UserSpringRepository userRepo,
-            final UserNotificator mSender, final PasswordEncoder passEncoder,
-            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
+    public UserActivationService getUserActivationService(final UserSpringRepository userSpringRepo,
+            final UserRepository userRepo, final UserNotificator mSender, final UserTokenRepository userTokenRepository,
+            final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
-        tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepo, "user_registered",
+        tokenStore = new PersistentUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
             tokenProperties.getValidity());
 
-        return new DefaultUserActivationService(userRepo, mSender, tokenStore, passEncoder);
+        return new DefaultUserActivationService(userRepo, mSender, tokenStore);
     }
 
     @Bean("userQueryService")
@@ -78,8 +78,8 @@ public class UserConfig {
     }
 
     @Bean("UuserRepository")
-    public UserRepository getUserRepository(final UserSpringRepository userRepo) {
-        return new JpaUserRepository(userRepo);
+    public UserRepository getUserRepository(final UserSpringRepository userRepo, final PasswordEncoder passEncoder) {
+        return new JpaUserRepository(userRepo, passEncoder);
     }
 
     @Bean("userWhitelist")

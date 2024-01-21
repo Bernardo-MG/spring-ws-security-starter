@@ -19,13 +19,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
@@ -40,7 +40,7 @@ class TestUserActivationServiceEnableUserAuth {
     private PasswordEncoder              passwordEncoder;
 
     @Mock
-    private UserSpringRepository         repository;
+    private UserRepository               repository;
 
     @InjectMocks
     private DefaultUserActivationService service;
@@ -61,78 +61,83 @@ class TestUserActivationServiceEnableUserAuth {
     }
 
     private final void loadCredentialsExpiredUser() {
-        final UserEntity user;
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail(UserConstants.EMAIL);
-        user.setUsername(UserConstants.USERNAME);
-        user.setPassword(UserConstants.PASSWORD);
-        user.setPasswordExpired(true);
-        user.setEnabled(false);
-        user.setExpired(false);
-        user.setLocked(false);
+        user = User.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPasswordExpired(true)
+            .withEnabled(false)
+            .withExpired(false)
+            .withLocked(false)
+            .build();
 
-        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadDisabledUser() {
-        final UserEntity user;
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail(UserConstants.EMAIL);
-        user.setUsername(UserConstants.USERNAME);
-        user.setPassword(UserConstants.PASSWORD);
-        user.setPasswordExpired(false);
-        user.setEnabled(false);
-        user.setExpired(false);
-        user.setLocked(false);
+        user = User.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPasswordExpired(false)
+            .withEnabled(false)
+            .withExpired(false)
+            .withLocked(false)
+            .build();
 
-        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadEnabledUser() {
-        final UserEntity user;
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail(UserConstants.EMAIL);
-        user.setUsername(UserConstants.USERNAME);
-        user.setPassword(UserConstants.PASSWORD);
-        user.setPasswordExpired(false);
-        user.setEnabled(true);
-        user.setExpired(false);
-        user.setLocked(false);
+        user = User.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPasswordExpired(false)
+            .withEnabled(true)
+            .withExpired(false)
+            .withLocked(false)
+            .build();
 
-        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadExpiredUser() {
-        final UserEntity user;
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail(UserConstants.EMAIL);
-        user.setUsername(UserConstants.USERNAME);
-        user.setPassword(UserConstants.PASSWORD);
-        user.setPasswordExpired(false);
-        user.setEnabled(true);
-        user.setExpired(true);
-        user.setLocked(false);
+        user = User.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPasswordExpired(false)
+            .withEnabled(true)
+            .withExpired(true)
+            .withLocked(false)
+            .build();
 
-        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadLockedUser() {
-        final UserEntity user;
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail(UserConstants.EMAIL);
-        user.setUsername(UserConstants.USERNAME);
-        user.setPassword(UserConstants.PASSWORD);
-        user.setPasswordExpired(false);
-        user.setEnabled(true);
-        user.setExpired(false);
-        user.setLocked(true);
+        user = User.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPasswordExpired(false)
+            .withEnabled(true)
+            .withExpired(false)
+            .withLocked(true)
+            .build();
 
-        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     @Test
