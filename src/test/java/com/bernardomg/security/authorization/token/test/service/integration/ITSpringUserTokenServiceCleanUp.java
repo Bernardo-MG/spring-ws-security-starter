@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
+import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

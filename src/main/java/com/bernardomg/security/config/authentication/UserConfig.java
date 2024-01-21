@@ -31,13 +31,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.notification.UserNotificator;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
-import com.bernardomg.security.authentication.user.service.DefaultUserQueryService;
-import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.usecase.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
+import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
@@ -59,9 +59,9 @@ public class UserConfig {
     }
 
     @Bean("userActivationService")
-    public UserActivationService getUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
-            final PasswordEncoder passEncoder, final UserTokenRepository userTokenRepository,
-            final UserTokenProperties tokenProperties) {
+    public UserActivationService getUserActivationService(final UserSpringRepository userRepo,
+            final UserNotificator mSender, final PasswordEncoder passEncoder,
+            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
         tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepo, "user_registered",
@@ -71,7 +71,7 @@ public class UserConfig {
     }
 
     @Bean("userQueryService")
-    public UserQueryService getUserQueryService(final UserRepository userRepo) {
+    public UserQueryService getUserQueryService(final UserSpringRepository userRepo) {
         return new DefaultUserQueryService(userRepo);
     }
 

@@ -18,11 +18,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissionEntities;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
@@ -37,7 +37,7 @@ class TestPersistentUserDetailsService {
     private PersistentUserDetailsService service;
 
     @Mock
-    private UserRepository               userRepository;
+    private UserSpringRepository         userRepository;
 
     public TestPersistentUserDetailsService() {
         super();

@@ -24,10 +24,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
@@ -43,7 +43,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     private PasswordNotificator                passwordNotificator;
 
     @Mock
-    private UserRepository                     repository;
+    private UserSpringRepository               repository;
 
     @InjectMocks
     private SpringSecurityPasswordResetService service;

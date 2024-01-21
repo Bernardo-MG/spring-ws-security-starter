@@ -6,9 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.role.service.RoleService;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
+import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;

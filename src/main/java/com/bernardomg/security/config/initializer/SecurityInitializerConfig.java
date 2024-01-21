@@ -30,11 +30,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
 import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.security.initializer.TestUsersInitializer;
 
@@ -62,7 +62,7 @@ public class SecurityInitializerConfig {
     @Bean(name = "testUsersInitializer", initMethod = "initialize")
     @DependsOn("testRolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public TestUsersInitializer getTestUsersInitializer(final UserRepository userRepository,
+    public TestUsersInitializer getTestUsersInitializer(final UserSpringRepository userRepository,
             final UserRoleRepository userRoleRepository, final RoleRepository roleRepository,
             final PasswordEncoder passwordEncoder) {
         return new TestUsersInitializer(userRepository, userRoleRepository, roleRepository, passwordEncoder);

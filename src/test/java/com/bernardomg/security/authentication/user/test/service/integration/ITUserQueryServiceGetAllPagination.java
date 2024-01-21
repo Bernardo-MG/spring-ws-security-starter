@@ -9,12 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.UserQuery;
-import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

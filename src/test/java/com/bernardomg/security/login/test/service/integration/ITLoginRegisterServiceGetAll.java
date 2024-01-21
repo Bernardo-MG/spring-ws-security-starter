@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.login.model.LoginRegister;
-import com.bernardomg.security.login.service.LoginRegisterService;
+import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.test.config.annotation.LoggedInLoginRegister;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
+import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

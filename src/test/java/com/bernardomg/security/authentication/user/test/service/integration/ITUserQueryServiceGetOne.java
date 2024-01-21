@@ -9,9 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
@@ -19,6 +18,7 @@ import com.bernardomg.security.authentication.user.test.config.annotation.Locked
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

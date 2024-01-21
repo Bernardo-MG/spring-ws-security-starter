@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authentication.user.test.config.factory;
 
-import com.bernardomg.security.authentication.user.model.UserChange;
+import com.bernardomg.security.authentication.user.domain.model.UserChange;
 
 public final class UserChanges {
 

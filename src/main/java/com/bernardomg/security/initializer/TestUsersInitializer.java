@@ -27,12 +27,12 @@ package com.bernardomg.security.initializer;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
-import com.bernardomg.security.authorization.role.persistence.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,15 +48,15 @@ public final class TestUsersInitializer {
     /**
      * Password encoder.
      */
-    private final PasswordEncoder    passwordEncoder;
+    private final PasswordEncoder      passwordEncoder;
 
-    private final RoleRepository     roleRepository;
+    private final RoleRepository       roleRepository;
 
-    private final UserRepository     userRepository;
+    private final UserSpringRepository userRepository;
 
-    private final UserRoleRepository userRoleRepository;
+    private final UserRoleRepository   userRoleRepository;
 
-    public TestUsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
+    public TestUsersInitializer(final UserSpringRepository userRepo, final UserRoleRepository userRoleRepo,
             final RoleRepository roleRepo, final PasswordEncoder passwordEnc) {
         super();
 

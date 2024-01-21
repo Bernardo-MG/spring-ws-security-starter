@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authorization.token.test.config.factory;
 
-import com.bernardomg.security.authorization.token.model.request.UserTokenPartial;
+import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 
 public final class UserTokenPartials {
 

@@ -29,7 +29,7 @@ import java.util.Objects;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.bernardomg.security.authorization.token.service.UserTokenService;
+import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
 
 import lombok.extern.slf4j.Slf4j;
 

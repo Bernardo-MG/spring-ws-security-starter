@@ -7,11 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.permission.exception.MissingResourcePermissionNameException;
-import com.bernardomg.security.authorization.permission.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
-import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;

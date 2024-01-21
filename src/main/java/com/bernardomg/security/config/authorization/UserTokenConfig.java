@@ -30,11 +30,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.token.persistence.repository.UserDataTokenRepository;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
-import com.bernardomg.security.authorization.token.service.UserTokenService;
+import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
 
 /**
  * User token configuration.

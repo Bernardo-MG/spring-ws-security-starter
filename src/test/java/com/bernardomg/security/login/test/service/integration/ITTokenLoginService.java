@@ -15,9 +15,9 @@ import com.bernardomg.security.authentication.user.test.config.annotation.ValidU
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutPermissions;
-import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.service.TokenLoginService;
+import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.test.config.factory.TokenLoginStatuses;
+import com.bernardomg.security.login.usecase.service.TokenLoginService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 import io.jsonwebtoken.Claims;

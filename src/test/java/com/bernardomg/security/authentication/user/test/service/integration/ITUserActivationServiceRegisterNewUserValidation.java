@@ -6,9 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.service.UserActivationService;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;

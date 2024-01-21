@@ -8,12 +8,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
@@ -31,7 +31,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
     private UserTokenProperties      tokenProperties;
 
     @Autowired
-    private UserRepository           userRepository;
+    private UserSpringRepository     userRepository;
 
     @Autowired
     private UserTokenRepository      userTokenRepository;

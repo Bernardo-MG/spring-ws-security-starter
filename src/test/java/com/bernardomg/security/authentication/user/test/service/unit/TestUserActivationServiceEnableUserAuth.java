@@ -19,16 +19,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.user.exception.DisabledUserException;
-import com.bernardomg.security.authentication.user.exception.EnabledUserException;
-import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
-import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.notification.UserNotificator;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
+import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
+import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.usecase.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 
@@ -40,7 +40,7 @@ class TestUserActivationServiceEnableUserAuth {
     private PasswordEncoder              passwordEncoder;
 
     @Mock
-    private UserRepository               repository;
+    private UserSpringRepository         repository;
 
     @InjectMocks
     private DefaultUserActivationService service;

@@ -31,16 +31,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleChange;
-import com.bernardomg.security.authorization.role.persistence.model.RoleEntity;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesUpdate;
+import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

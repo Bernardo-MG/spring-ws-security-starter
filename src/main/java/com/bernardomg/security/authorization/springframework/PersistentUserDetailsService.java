@@ -37,10 +37,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,7 +76,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     /**
      * User repository.
      */
-    private final UserRepository               userRepository;
+    private final UserSpringRepository         userRepository;
 
     /**
      * Constructs a user details service.
@@ -86,7 +86,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @param resourcePermissionRepo
      *            resource permissions repository
      */
-    public PersistentUserDetailsService(final UserRepository userRepo,
+    public PersistentUserDetailsService(final UserSpringRepository userRepo,
             final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 

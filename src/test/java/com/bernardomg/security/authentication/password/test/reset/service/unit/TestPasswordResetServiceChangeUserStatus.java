@@ -20,14 +20,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.authentication.user.exception.DisabledUserException;
-import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
-import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
+import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 
@@ -53,7 +53,7 @@ class TestPasswordResetServiceChangeUserStatus {
     private UserDetailsService                 userDetailsService;
 
     @Mock
-    private UserRepository                     userRepository;
+    private UserSpringRepository               userRepository;
 
     public TestPasswordResetServiceChangeUserStatus() {
         super();

@@ -14,9 +14,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.authentication.user.notification.SpringMailUserNotificator;
-import com.bernardomg.security.authentication.user.notification.UserNotificator;
+import com.bernardomg.security.authentication.user.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.usecase.UserNotificator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificator")

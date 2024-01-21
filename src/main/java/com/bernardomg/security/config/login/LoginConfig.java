@@ -36,18 +36,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
-import com.bernardomg.security.login.event.LoginEvenRegisterListener;
-import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.service.DefaultLoginRegisterService;
-import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
-import com.bernardomg.security.login.service.LoginRegisterService;
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.LoginTokenEncoder;
-import com.bernardomg.security.login.service.TokenLoginService;
-import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.domain.event.LoginEvenRegisterListener;
+import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
+import com.bernardomg.security.login.usecase.service.JwtPermissionLoginTokenEncoder;
+import com.bernardomg.security.login.usecase.service.LoginRegisterService;
+import com.bernardomg.security.login.usecase.service.LoginService;
+import com.bernardomg.security.login.usecase.service.LoginTokenEncoder;
+import com.bernardomg.security.login.usecase.service.TokenLoginService;
+import com.bernardomg.security.login.usecase.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
@@ -77,9 +77,9 @@ public class LoginConfig {
 
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final ResourcePermissionRepository resourcePermissionRepository, final JwtProperties properties,
-            final ApplicationEventPublisher publisher) {
+            final UserSpringRepository userRepository, final PasswordEncoder passwordEncoder,
+            final TokenEncoder tokenEncoder, final ResourcePermissionRepository resourcePermissionRepository,
+            final JwtProperties properties, final ApplicationEventPublisher publisher) {
         final BiPredicate<String, String> valid;
         final LoginTokenEncoder           loginTokenEncoder;
 

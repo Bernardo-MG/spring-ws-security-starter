@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.authorization.token.store;
 
-import com.bernardomg.security.authorization.token.exception.InvalidTokenException;
+import com.bernardomg.security.authorization.token.domain.exception.InvalidTokenException;
 
 /**
  * Store for tokens linked to users.

@@ -9,11 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
+import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;

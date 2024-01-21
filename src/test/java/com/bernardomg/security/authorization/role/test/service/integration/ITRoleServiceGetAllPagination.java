@@ -9,12 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.role.model.Role;
-import com.bernardomg.security.authorization.role.model.request.RoleQuery;
-import com.bernardomg.security.authorization.role.service.RoleService;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
+import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

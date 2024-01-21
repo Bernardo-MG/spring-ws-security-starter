@@ -6,10 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -17,7 +17,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserActivationServiceRegisterNewUserExisting {
 
     @Autowired
-    private UserRepository        repository;
+    private UserSpringRepository  repository;
 
     @Autowired
     private UserActivationService service;

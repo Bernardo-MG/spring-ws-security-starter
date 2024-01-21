@@ -8,14 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
-import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
-import com.bernardomg.security.authorization.token.exception.ExpiredTokenException;
-import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
-import com.bernardomg.security.authorization.token.exception.OutOfScopeTokenException;
-import com.bernardomg.security.authorization.token.exception.RevokedTokenException;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.exception.OutOfScopeTokenException;
+import com.bernardomg.security.authorization.token.domain.exception.RevokedTokenException;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
@@ -36,7 +36,7 @@ class ITPersistentUserTokenStoreValidate {
     private UserTokenProperties      tokenProperties;
 
     @Autowired
-    private UserRepository           userRepository;
+    private UserSpringRepository     userRepository;
 
     @Autowired
     private UserTokenRepository      userTokenRepository;

@@ -32,17 +32,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.model.User;
-import com.bernardomg.security.authentication.user.model.UserChange;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserChanges;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -50,10 +50,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserQueryServiceUpdate {
 
     @Autowired
-    private UserRepository   repository;
+    private UserSpringRepository repository;
 
     @Autowired
-    private UserQueryService service;
+    private UserQueryService     service;
 
     public ITUserQueryServiceUpdate() {
         super();

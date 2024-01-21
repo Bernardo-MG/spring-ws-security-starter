@@ -21,14 +21,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.password.change.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.authentication.password.exception.InvalidPasswordChangeException;
-import com.bernardomg.security.authentication.user.exception.DisabledUserException;
-import com.bernardomg.security.authentication.user.exception.ExpiredUserException;
-import com.bernardomg.security.authentication.user.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.password.change.usecase.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.authentication.password.domain.exception.InvalidPasswordChangeException;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
+import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +42,7 @@ class TestPasswordChangeServiceAuth {
     private PasswordEncoder                     passwordEncoder;
 
     @Mock
-    private UserRepository                      repository;
+    private UserSpringRepository                repository;
 
     @InjectMocks
     private SpringSecurityPasswordChangeService service;

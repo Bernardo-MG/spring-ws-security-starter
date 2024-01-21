@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.service.RolePermissionService;
-import com.bernardomg.security.authorization.role.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -29,12 +29,12 @@ import java.util.Objects;
 
 import org.springframework.data.domain.Example;
 
-import com.bernardomg.security.authorization.permission.persistence.model.ActionEntity;
-import com.bernardomg.security.authorization.permission.persistence.model.ResourceEntity;
-import com.bernardomg.security.authorization.permission.persistence.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.persistence.repository.ActionRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourceRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourceEntity;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.login.test.config.factory;
 
-import com.bernardomg.security.login.model.TokenLoginStatus;
+import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 
 public final class TokenLoginStatuses {
 

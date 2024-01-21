@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authorization.role.test.config.factory;
 
-import com.bernardomg.security.authorization.role.model.request.RoleChange;
+import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 
 public final class RolesUpdate {
 

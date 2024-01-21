@@ -10,15 +10,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
-import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
-import com.bernardomg.security.authorization.token.model.UserToken;
-import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
+import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

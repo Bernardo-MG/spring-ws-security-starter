@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.password.change.service.PasswordChangeService;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.password.change.usecase.service.PasswordChangeService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
@@ -28,7 +28,7 @@ class ITPasswordChangeService {
     private PasswordChangeService service;
 
     @Autowired
-    private UserRepository        userRepository;
+    private UserSpringRepository  userRepository;
 
     public ITPasswordChangeService() {
         super();

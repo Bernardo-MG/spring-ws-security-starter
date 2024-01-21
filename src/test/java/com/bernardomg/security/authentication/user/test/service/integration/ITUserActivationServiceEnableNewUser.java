@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserActivationService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.NewlyCreated;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -28,7 +28,7 @@ class ITUserActivationServiceEnableNewUser {
     private UserActivationService service;
 
     @Autowired
-    private UserRepository        userRepository;
+    private UserSpringRepository  userRepository;
 
     @Autowired
     private UserTokenRepository   userTokenRepository;

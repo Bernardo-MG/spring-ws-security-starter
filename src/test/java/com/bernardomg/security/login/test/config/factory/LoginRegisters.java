@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.login.test.config.factory;
 
-import com.bernardomg.security.login.model.LoginRegister;
+import com.bernardomg.security.login.domain.model.LoginRegister;
 
 public final class LoginRegisters {
 

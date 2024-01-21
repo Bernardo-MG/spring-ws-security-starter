@@ -31,13 +31,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
+import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -45,13 +45,13 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserQueryServiceDelete {
 
     @Autowired
-    private UserRepository   repository;
+    private UserSpringRepository repository;
 
     @Autowired
-    private RoleRepository   roleRepository;
+    private RoleRepository       roleRepository;
 
     @Autowired
-    private UserQueryService service;
+    private UserQueryService     service;
 
     public ITUserQueryServiceDelete() {
         super();

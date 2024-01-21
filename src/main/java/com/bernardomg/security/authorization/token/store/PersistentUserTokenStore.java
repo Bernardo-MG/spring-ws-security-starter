@@ -31,16 +31,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.bernardomg.security.authentication.user.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.token.exception.ConsumedTokenException;
-import com.bernardomg.security.authorization.token.exception.ExpiredTokenException;
-import com.bernardomg.security.authorization.token.exception.MissingUserTokenCodeException;
-import com.bernardomg.security.authorization.token.exception.OutOfScopeTokenException;
-import com.bernardomg.security.authorization.token.exception.RevokedTokenException;
-import com.bernardomg.security.authorization.token.persistence.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.exception.OutOfScopeTokenException;
+import com.bernardomg.security.authorization.token.domain.exception.RevokedTokenException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,24 +60,24 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     /**
      * Token scope.
      */
-    private final String              tokenScope;
+    private final String               tokenScope;
 
     /**
      * User repository.
      */
-    private final UserRepository      userRepository;
+    private final UserSpringRepository userRepository;
 
     /**
      * User tokens repository.
      */
-    private final UserTokenRepository userTokenRepository;
+    private final UserTokenRepository  userTokenRepository;
 
     /**
      * Token validity duration. This is how long the token is valid, starting on the time it is created.
      */
-    private final Duration            validity;
+    private final Duration             validity;
 
-    public PersistentUserTokenStore(final UserTokenRepository tRepository, final UserRepository uRepository,
+    public PersistentUserTokenStore(final UserTokenRepository tRepository, final UserSpringRepository uRepository,
             final String scope, final Duration duration) {
         super();
 

@@ -6,12 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.model.UserChange;
-import com.bernardomg.security.authentication.user.service.UserQueryService;
+import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.test.config.annotation.AlternativeUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserChanges;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.validation.failure.FieldFailure;

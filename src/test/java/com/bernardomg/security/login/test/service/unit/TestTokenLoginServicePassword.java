@@ -23,15 +23,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
-import com.bernardomg.security.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
-import com.bernardomg.security.login.service.LoginTokenEncoder;
-import com.bernardomg.security.login.service.TokenLoginService;
-import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.login.domain.model.TokenLoginStatus;
+import com.bernardomg.security.login.usecase.service.JwtPermissionLoginTokenEncoder;
+import com.bernardomg.security.login.usecase.service.LoginTokenEncoder;
+import com.bernardomg.security.login.usecase.service.TokenLoginService;
+import com.bernardomg.security.login.usecase.service.springframework.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenLoginService - password validation")
@@ -53,7 +53,7 @@ class TestTokenLoginServicePassword {
     private UserDetailsService           userDetService;
 
     @Mock
-    private UserRepository               userRepository;
+    private UserSpringRepository         userRepository;
 
     public TestTokenLoginServicePassword() {
         super();

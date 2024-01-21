@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authentication.user.test.config.factory;
 
-import com.bernardomg.security.authentication.user.persistence.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 
 public final class UserEntities {
 

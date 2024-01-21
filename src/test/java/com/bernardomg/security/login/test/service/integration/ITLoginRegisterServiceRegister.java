@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.login.persistence.model.LoginRegisterEntity;
-import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.service.LoginRegisterService;
+import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
+import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

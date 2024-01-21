@@ -29,13 +29,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.authorization.role.service.DefaultRoleService;
-import com.bernardomg.security.authorization.role.service.DefaultUserRoleService;
-import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.service.UserRoleService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
+import com.bernardomg.security.authorization.role.usecase.service.DefaultUserRoleService;
+import com.bernardomg.security.authorization.role.usecase.service.RoleService;
+import com.bernardomg.security.authorization.role.usecase.service.UserRoleService;
 
 /**
  * Password handling configuration.
@@ -58,7 +58,7 @@ public class RoleConfig {
     }
 
     @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
+    public UserRoleService getUserRoleService(final UserSpringRepository userRepo, final RoleRepository roleRepo,
             final UserRoleRepository userRoleRepo) {
         return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
     }

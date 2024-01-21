@@ -34,13 +34,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.password.change.service.PasswordChangeService;
-import com.bernardomg.security.authentication.password.change.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.password.reset.service.PasswordResetService;
-import com.bernardomg.security.authentication.password.reset.service.SpringSecurityPasswordResetService;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
+import com.bernardomg.security.authentication.password.change.usecase.service.PasswordChangeService;
+import com.bernardomg.security.authentication.password.change.usecase.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
@@ -62,7 +62,7 @@ public class PasswordConfig {
     }
 
     @Bean("passwordChangeService")
-    public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
+    public PasswordChangeService getPasswordChangeService(final UserSpringRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
         return new SpringSecurityPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
     }
@@ -73,7 +73,7 @@ public class PasswordConfig {
     }
 
     @Bean("passwordRecoveryService")
-    public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
+    public PasswordResetService getPasswordRecoveryService(final UserSpringRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordNotificator notificator,
             final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
             final UserTokenProperties tokenProperties) {
