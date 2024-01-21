@@ -44,8 +44,8 @@ import com.bernardomg.security.authorization.token.usecase.service.UserTokenServ
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(UserTokenProperties.class)
-@ComponentScan({ "com.bernardomg.security.authorization.token.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.persistence" })
+@ComponentScan({ "com.bernardomg.security.authorization.token.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.adapter.inbound.jpa" })
 public class UserTokenConfig {
 
     public UserTokenConfig() {

@@ -44,8 +44,8 @@ import com.bernardomg.security.authorization.role.usecase.service.UserRoleServic
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authorization.role.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.persistence" })
+@ComponentScan({ "com.bernardomg.security.authorization.role.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.adapter.inbound.jpa" })
 public class RoleConfig {
 
     public RoleConfig() {

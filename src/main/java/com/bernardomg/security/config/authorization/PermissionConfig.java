@@ -42,8 +42,8 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authorization.permission.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.permission.persistence" })
+@ComponentScan({ "com.bernardomg.security.authorization.permission.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.permission.adapter.inbound.jpa" })
 public class PermissionConfig {
 
     public PermissionConfig() {

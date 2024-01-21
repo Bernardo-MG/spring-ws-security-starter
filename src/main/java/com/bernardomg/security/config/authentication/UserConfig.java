@@ -52,8 +52,8 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authentication.user.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.persistence" })
+@ComponentScan({ "com.bernardomg.security.authentication.user.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.adapter.inbound.jpa" })
 public class UserConfig {
 
     public UserConfig() {

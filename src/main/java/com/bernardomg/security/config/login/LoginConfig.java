@@ -57,8 +57,8 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.login.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.persistence" })
+@ComponentScan({ "com.bernardomg.security.login.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa" })
 public class LoginConfig {
 
     public LoginConfig() {
