@@ -27,15 +27,13 @@ package com.bernardomg.security.authentication.user.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.validation.UpdateUserValidator;
 import com.bernardomg.validation.Validator;
 
@@ -53,14 +51,14 @@ public final class DefaultUserQueryService implements UserQueryService {
     /**
      * User repository.
      */
-    private final UserSpringRepository  userRepository;
+    private final UserRepository        userRepository;
 
     /**
      * Update user validator.
      */
     private final Validator<UserChange> validatorUpdateUser;
 
-    public DefaultUserQueryService(final UserSpringRepository userRepo) {
+    public DefaultUserQueryService(final UserRepository userRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
@@ -73,31 +71,18 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         log.debug("Deleting user {}", username);
 
-        if (!userRepository.existsByUsername(username)) {
+        if (!userRepository.exists(username)) {
             throw new MissingUserUsernameException(username);
         }
 
-        userRepository.deleteByUsername(username);
+        userRepository.delete(username);
     }
 
     @Override
     public final Iterable<User> getAll(final UserQuery query, final Pageable page) {
-        final UserEntity entity;
-
         log.debug("Reading users with sample {} and pagination {}", query, page);
 
-        entity = toEntity(query);
-        if (entity.getUsername() != null) {
-            entity.setUsername(entity.getUsername()
-                .toLowerCase());
-        }
-        if (entity.getEmail() != null) {
-            entity.setEmail(entity.getEmail()
-                .toLowerCase());
-        }
-
-        return userRepository.findAll(Example.of(entity), page)
-            .map(this::toDto);
+        return userRepository.findAll(query, page);
     }
 
     @Override
@@ -105,98 +90,27 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         log.debug("Reading user {}", username);
 
-        // TODO: Use the read optional
-        if (!userRepository.existsByUsername(username)) {
+        if (!userRepository.exists(username)) {
             throw new MissingUserUsernameException(username);
         }
 
-        return userRepository.findOneByUsername(username)
-            .map(this::toDto);
+        return userRepository.findOne(username);
     }
 
     @Override
     public final User update(final String username, final UserChange user) {
-        final UserEntity           userEntity;
-        final UserEntity           created;
-        final Optional<UserEntity> oldRead;
-        final UserEntity           old;
-        final Optional<UserEntity> readUser;
+        final boolean exists;
 
         log.debug("Updating user {} using data {}", username, user);
 
-        readUser = userRepository.findOneByUsername(username);
-
-        if (readUser.isEmpty()) {
+        exists = userRepository.exists(username);
+        if (!exists) {
             throw new MissingUserUsernameException(username);
         }
 
         validatorUpdateUser.validate(user);
 
-        userEntity = toEntity(user, readUser.get()
-            .getId());
-
-        // Trim strings
-        userEntity.setName(userEntity.getName()
-            .trim());
-        userEntity.setEmail(userEntity.getEmail()
-            .trim());
-
-        // Remove case
-        userEntity.setEmail(userEntity.getEmail()
-            .toLowerCase());
-
-        oldRead = userRepository.findOneByUsername(username);
-        if (oldRead.isPresent()) {
-            old = oldRead.get();
-
-            // Can't change username by updating
-            userEntity.setUsername(old.getUsername());
-
-            // Can't change password by updating
-            userEntity.setPassword(old.getPassword());
-
-            // Can't change status by updating
-            userEntity.setExpired(old.getExpired());
-            userEntity.setLocked(old.getLocked());
-        }
-
-        created = userRepository.save(userEntity);
-
-        return toDto(created);
-    }
-
-    private final User toDto(final UserEntity user) {
-        return User.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
-            .withExpired(user.getExpired())
-            .withLocked(user.getLocked())
-            .withPasswordExpired(user.getPasswordExpired())
-            .build();
-    }
-
-    private final UserEntity toEntity(final UserChange user, final long id) {
-        return UserEntity.builder()
-            .withId(id)
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
-            .withPasswordExpired(user.getPasswordExpired())
-            .build();
-    }
-
-    private final UserEntity toEntity(final UserQuery user) {
-        return UserEntity.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
-            .withExpired(user.getExpired())
-            .withLocked(user.getLocked())
-            .withPasswordExpired(user.getPasswordExpired())
-            .build();
+        return userRepository.save(username, user);
     }
 
 }

@@ -26,8 +26,8 @@ package com.bernardomg.security.authentication.user.usecase.validation;
 
 import java.util.Collection;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.model.UserChange;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -50,9 +50,9 @@ public final class UpdateUserValidator extends AbstractValidator<UserChange> {
     /**
      * User repository.
      */
-    private final UserSpringRepository userRepository;
+    private final UserRepository userRepository;
 
-    public UpdateUserValidator(final UserSpringRepository userRepo) {
+    public UpdateUserValidator(final UserRepository userRepo) {
         super();
 
         userRepository = userRepo;
@@ -63,7 +63,7 @@ public final class UpdateUserValidator extends AbstractValidator<UserChange> {
         FieldFailure failure;
 
         // Verify the email is not registered
-        if (userRepository.existsByUsernameNotAndEmail(user.getUsername(), user.getEmail())) {
+        if (userRepository.existsEmailForAnotherUser(user.getUsername(), user.getEmail())) {
             log.error("A user already exists with the email {}", user.getEmail());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());

@@ -31,7 +31,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
@@ -71,8 +73,13 @@ public class UserConfig {
     }
 
     @Bean("userQueryService")
-    public UserQueryService getUserQueryService(final UserSpringRepository userRepo) {
+    public UserQueryService getUserQueryService(final UserRepository userRepo) {
         return new DefaultUserQueryService(userRepo);
+    }
+
+    @Bean("UuserRepository")
+    public UserRepository getUserRepository(final UserSpringRepository userRepo) {
+        return new JpaUserRepository(userRepo);
     }
 
     @Bean("userWhitelist")
