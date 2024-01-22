@@ -40,7 +40,7 @@ import com.bernardomg.security.authentication.password.reset.usecase.service.Pas
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
@@ -75,7 +75,7 @@ public class PasswordConfig {
     @Bean("passwordRecoveryService")
     public PasswordResetService getPasswordRecoveryService(final UserSpringRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordNotificator notificator,
-            final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
+            final PasswordEncoder passwordEncoder, final UserTokenSpringRepository userTokenRepository,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 

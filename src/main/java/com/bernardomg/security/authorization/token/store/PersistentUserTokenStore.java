@@ -35,7 +35,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
@@ -60,24 +60,24 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     /**
      * Token scope.
      */
-    private final String               tokenScope;
+    private final String                    tokenScope;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository userRepository;
+    private final UserSpringRepository      userRepository;
 
     /**
      * User tokens repository.
      */
-    private final UserTokenRepository  userTokenRepository;
+    private final UserTokenSpringRepository userTokenRepository;
 
     /**
      * Token validity duration. This is how long the token is valid, starting on the time it is created.
      */
-    private final Duration             validity;
+    private final Duration                  validity;
 
-    public PersistentUserTokenStore(final UserTokenRepository tRepository, final UserSpringRepository uRepository,
+    public PersistentUserTokenStore(final UserTokenSpringRepository tRepository, final UserSpringRepository uRepository,
             final String scope, final Duration duration) {
         super();
 

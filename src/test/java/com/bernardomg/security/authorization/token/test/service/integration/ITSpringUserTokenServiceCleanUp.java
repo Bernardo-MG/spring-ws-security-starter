@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
@@ -20,10 +20,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITSpringUserTokenServiceCleanUp {
 
     @Autowired
-    private SpringUserTokenService service;
+    private SpringUserTokenService    service;
 
     @Autowired
-    private UserTokenRepository    userTokenRepository;
+    private UserTokenSpringRepository userTokenRepository;
 
     @Test
     @DisplayName("Removes consumed tokens")

@@ -13,7 +13,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -23,16 +23,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITPasswordResetServiceChange {
 
     @Autowired
-    private PasswordEncoder      passwordEncoder;
+    private PasswordEncoder           passwordEncoder;
 
     @Autowired
-    private PasswordResetService service;
+    private PasswordResetService      service;
 
     @Autowired
-    private UserSpringRepository userRepository;
+    private UserSpringRepository      userRepository;
 
     @Autowired
-    private UserTokenRepository  userTokenRepository;
+    private UserTokenSpringRepository userTokenRepository;
 
     public ITPasswordResetServiceChange() {
         super();

@@ -30,8 +30,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.schedule.TokenCleanUpScheduleTask;
 import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
@@ -57,10 +59,15 @@ public class UserTokenConfig {
         return new TokenCleanUpScheduleTask(tokenCleanUpService);
     }
 
+    @Bean("userTokenRepository")
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepo,
+            final UserDataTokenSpringRepository userDataTokenRepo) {
+        return new JpaUserTokenRepository(userTokenRepo, userDataTokenRepo);
+    }
+
     @Bean("userTokenService")
-    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
-            final UserDataTokenRepository userDataTokenRepo) {
-        return new SpringUserTokenService(userTokenRepo, userDataTokenRepo);
+    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo) {
+        return new SpringUserTokenService(userTokenRepo);
     }
 
 }

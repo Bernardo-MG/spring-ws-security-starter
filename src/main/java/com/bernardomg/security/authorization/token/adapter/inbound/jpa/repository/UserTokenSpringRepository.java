@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,11 @@ import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.Use
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserTokenRepository extends JpaRepository<UserTokenEntity, Long> {
+public interface UserTokenSpringRepository extends JpaRepository<UserTokenEntity, Long> {
+
+    public void deleteAllByToken(final Collection<String> names);
+
+    public boolean existsByToken(final String token);
 
     /**
      * Returns all the tokens which can no longer be used. That means any of these:

@@ -24,9 +24,11 @@
 
 package com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserDataTokenEntity;
 
@@ -36,8 +38,31 @@ import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.Use
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserDataTokenRepository extends JpaRepository<UserDataTokenEntity, Long> {
+public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTokenEntity, Long> {
+
+    /**
+     * Returns all the tokens which can no longer be used. That means any of these:
+     * <p>
+     * <ul>
+     * <li>Consumed</li>
+     * <li>Revoked</li>
+     * <li>Expired</li>
+     * </ul>
+     *
+     * @return all the tokens which can no longer be used
+     */
+    @Query("SELECT t FROM UserDataToken t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
+    public List<UserDataTokenEntity> findAllFinished();
 
     public Optional<UserDataTokenEntity> findByToken(final String token);
+
+    /**
+     * Returns a single token by its token code.
+     *
+     * @param token
+     *            token code to search for
+     * @return the token for the code
+     */
+    public Optional<UserDataTokenEntity> findOneByToken(final String token);
 
 }

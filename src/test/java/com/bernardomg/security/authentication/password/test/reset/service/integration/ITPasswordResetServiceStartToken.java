@@ -13,7 +13,7 @@ import com.bernardomg.security.authentication.password.reset.usecase.service.Pas
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.PasswordResetUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -23,10 +23,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITPasswordResetServiceStartToken {
 
     @Autowired
-    private PasswordResetService service;
+    private PasswordResetService      service;
 
     @Autowired
-    private UserTokenRepository  userTokenRepository;
+    private UserTokenSpringRepository userTokenRepository;
 
     public ITPasswordResetServiceStartToken() {
         super();

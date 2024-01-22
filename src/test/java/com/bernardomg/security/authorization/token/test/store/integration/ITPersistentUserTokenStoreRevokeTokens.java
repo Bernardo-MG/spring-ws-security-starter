@@ -13,7 +13,7 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserU
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
@@ -25,16 +25,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentUserTokenStore - revoke existing tokens")
 class ITPersistentUserTokenStoreRevokeTokens {
 
-    private PersistentUserTokenStore store;
+    private PersistentUserTokenStore  store;
 
     @Autowired
-    private UserTokenProperties      tokenProperties;
+    private UserTokenProperties       tokenProperties;
 
     @Autowired
-    private UserSpringRepository     userRepository;
+    private UserSpringRepository      userRepository;
 
     @Autowired
-    private UserTokenRepository      userTokenRepository;
+    private UserTokenSpringRepository userTokenRepository;
 
     @BeforeEach
     public void initialize() {

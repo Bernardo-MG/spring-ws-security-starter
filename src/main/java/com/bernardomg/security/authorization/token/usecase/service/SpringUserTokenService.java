@@ -30,13 +30,10 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserDataTokenEntity;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.validation.PatchUserTokenValidator;
 import com.bernardomg.validation.Validator;
 
@@ -61,11 +58,6 @@ import lombok.extern.slf4j.Slf4j;
 public final class SpringUserTokenService implements UserTokenService {
 
     /**
-     * User data token repository. This queries a view joining user tokens with their users.
-     */
-    private final UserDataTokenRepository     userDataTokenRepository;
-
-    /**
      * User token repository.
      */
     private final UserTokenRepository         userTokenRepository;
@@ -75,19 +67,17 @@ public final class SpringUserTokenService implements UserTokenService {
      */
     private final Validator<UserTokenPartial> validatorPatch;
 
-    public SpringUserTokenService(final UserTokenRepository userTokenRepo,
-            final UserDataTokenRepository userDataTokenRepo) {
+    public SpringUserTokenService(final UserTokenRepository userTokenRepo) {
         super();
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
-        userDataTokenRepository = Objects.requireNonNull(userDataTokenRepo);
 
         validatorPatch = new PatchUserTokenValidator();
     }
 
     @Override
     public final void cleanUpTokens() {
-        final Collection<UserTokenEntity> tokens;
+        final Collection<UserToken> tokens;
 
         // Expiration date before now
         // Revoked
@@ -101,93 +91,37 @@ public final class SpringUserTokenService implements UserTokenService {
 
     @Override
     public final Iterable<UserToken> getAll(final Pageable pagination) {
-        return userDataTokenRepository.findAll(pagination)
-            .map(this::toDto);
+        return userTokenRepository.findAll(pagination);
     }
 
     @Override
     public final Optional<UserToken> getOne(final String token) {
-        final Optional<UserDataTokenEntity> readtoken;
+        final boolean exists;
 
         log.debug("Reading token {}", token);
 
-        readtoken = userDataTokenRepository.findByToken(token);
-        if (!readtoken.isPresent()) {
+        exists = userTokenRepository.exists(token);
+        if (!exists) {
             throw new MissingUserTokenCodeException(token);
         }
 
-        return readtoken.map(this::toDto);
+        return userTokenRepository.findOne(token);
     }
 
     @Override
     public final UserToken patch(final String token, final UserTokenPartial partial) {
-        final Optional<UserDataTokenEntity> readtoken;
-        final UserDataTokenEntity           toPatch;
-        final UserTokenEntity               toSave;
-        final UserTokenEntity               saved;
+        final boolean exists;
 
         log.debug("Patching token {}", token);
 
-        readtoken = userDataTokenRepository.findByToken(token);
-        if (!readtoken.isPresent()) {
+        exists = userTokenRepository.exists(token);
+        if (!exists) {
             throw new MissingUserTokenCodeException(token);
         }
 
         validatorPatch.validate(partial);
 
-        toPatch = readtoken.get();
-
-        toSave = toEntity(toPatch);
-
-        if (partial.getExpirationDate() != null) {
-            toSave.setExpirationDate(partial.getExpirationDate());
-        }
-        if (partial.getRevoked() != null) {
-            toSave.setRevoked(partial.getRevoked());
-        }
-
-        saved = userTokenRepository.save(toSave);
-
-        return toDto(saved, readtoken.get());
-    }
-
-    private final UserToken toDto(final UserDataTokenEntity entity) {
-        return UserToken.builder()
-            .withUsername(entity.getUsername())
-            .withName(entity.getName())
-            .withScope(entity.getScope())
-            .withToken(entity.getToken())
-            .withCreationDate(entity.getCreationDate())
-            .withExpirationDate(entity.getExpirationDate())
-            .withConsumed(entity.isConsumed())
-            .withRevoked(entity.isRevoked())
-            .build();
-    }
-
-    private final UserToken toDto(final UserTokenEntity entity, final UserDataTokenEntity data) {
-        return UserToken.builder()
-            .withUsername(data.getUsername())
-            .withName(data.getName())
-            .withScope(entity.getScope())
-            .withToken(entity.getToken())
-            .withCreationDate(entity.getCreationDate())
-            .withExpirationDate(entity.getExpirationDate())
-            .withConsumed(entity.isConsumed())
-            .withRevoked(entity.isRevoked())
-            .build();
-    }
-
-    private final UserTokenEntity toEntity(final UserDataTokenEntity dataToken) {
-        return UserTokenEntity.builder()
-            .withId(dataToken.getId())
-            .withUserId(dataToken.getUserId())
-            .withToken(dataToken.getToken())
-            .withScope(dataToken.getScope())
-            .withCreationDate(dataToken.getCreationDate())
-            .withExpirationDate(dataToken.getExpirationDate())
-            .withConsumed(dataToken.isConsumed())
-            .withRevoked(dataToken.isRevoked())
-            .build();
+        return userTokenRepository.save(token, partial);
     }
 
 }

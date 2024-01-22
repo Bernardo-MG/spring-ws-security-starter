@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
@@ -26,10 +26,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITSpringUserTokenServicePatch {
 
     @Autowired
-    private SpringUserTokenService service;
+    private SpringUserTokenService    service;
 
     @Autowired
-    private UserTokenRepository    userTokenRepository;
+    private UserTokenSpringRepository userTokenRepository;
 
     @Test
     @DisplayName("Patching with no data changes nothing")

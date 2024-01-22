@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
@@ -30,16 +30,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentUserTokenStore - validate")
 class ITPersistentUserTokenStoreValidate {
 
-    private PersistentUserTokenStore store;
+    private PersistentUserTokenStore  store;
 
     @Autowired
-    private UserTokenProperties      tokenProperties;
+    private UserTokenProperties       tokenProperties;
 
     @Autowired
-    private UserSpringRepository     userRepository;
+    private UserSpringRepository      userRepository;
 
     @Autowired
-    private UserTokenRepository      userTokenRepository;
+    private UserTokenSpringRepository userTokenRepository;
 
     @BeforeEach
     public void initialize() {

@@ -12,7 +12,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authentication.user.test.config.annotation.NewlyCreated;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -22,16 +22,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserActivationServiceEnableNewUser {
 
     @Autowired
-    private PasswordEncoder       passwordEncoder;
+    private PasswordEncoder           passwordEncoder;
 
     @Autowired
-    private UserActivationService service;
+    private UserActivationService     service;
 
     @Autowired
-    private UserSpringRepository  userRepository;
+    private UserSpringRepository      userRepository;
 
     @Autowired
-    private UserTokenRepository   userTokenRepository;
+    private UserTokenSpringRepository userTokenRepository;
 
     public ITUserActivationServiceEnableNewUser() {
         super();
