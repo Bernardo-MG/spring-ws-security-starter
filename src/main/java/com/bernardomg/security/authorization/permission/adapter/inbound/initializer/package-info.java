@@ -26,4 +26,4 @@
  * Permission loader.
  */
 
-package com.bernardomg.security.authorization.permission.loader;
+package com.bernardomg.security.authorization.permission.adapter.inbound.initializer;

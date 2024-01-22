@@ -30,12 +30,12 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.DefaultPermissionRegister;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionsLoader;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
-import com.bernardomg.security.authorization.permission.loader.DefaultPermissionRegister;
-import com.bernardomg.security.authorization.permission.loader.PermissionRegister;
-import com.bernardomg.security.authorization.permission.loader.PermissionsLoader;
 
 /**
  * Permission loader auto configuration.
