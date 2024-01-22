@@ -40,10 +40,12 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.Role
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
+public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
 
     @Query("SELECT COUNT(r) FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.username = :username")
     public int countForUser(@Param("username") final String username);
+
+    public void deleteByName(final String name);
 
     /**
      * Checks if a role with the received name exists.

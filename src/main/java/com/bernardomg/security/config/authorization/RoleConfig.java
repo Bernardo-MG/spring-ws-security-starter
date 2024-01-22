@@ -30,8 +30,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaUserRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultUserRoleService;
 import com.bernardomg.security.authorization.role.usecase.service.RoleService;
@@ -52,14 +56,25 @@ public class RoleConfig {
         super();
     }
 
+    @Bean("RoleRepository")
+    public RoleRepository getRoleRepository(final RoleSpringRepository roleRepo) {
+        return new JpaRoleRepository(roleRepo);
+    }
+
     @Bean("roleService")
     public RoleService getRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
         return new DefaultRoleService(roleRepo, userRoleRepo);
     }
 
+    @Bean("UserRoleRepository")
+    public UserRoleRepository getUserRoleRepository(final RoleSpringRepository roleRepo,
+            final UserRoleSpringRepository userRoleRepo) {
+        return new JpaUserRoleRepository(roleRepo, userRoleRepo);
+    }
+
     @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserSpringRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
+    public UserRoleService getUserRoleService(final UserSpringRepository userRepo, final RoleSpringRepository roleRepo,
+            final UserRoleSpringRepository userRoleRepo) {
         return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
     }
 

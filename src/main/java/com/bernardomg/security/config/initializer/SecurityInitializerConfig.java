@@ -33,8 +33,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.security.initializer.TestUsersInitializer;
 
@@ -55,7 +55,7 @@ public class SecurityInitializerConfig {
     @DependsOn("permissionsLoader")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public TestRolesInitializer getTestRolesInitializer(final ResourcePermissionRepository permissionRepo,
-            final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
+            final RoleSpringRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
         return new TestRolesInitializer(permissionRepo, roleRepo, rolePermissionRepo);
     }
 
@@ -63,7 +63,7 @@ public class SecurityInitializerConfig {
     @DependsOn("testRolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public TestUsersInitializer getTestUsersInitializer(final UserSpringRepository userRepository,
-            final UserRoleRepository userRoleRepository, final RoleRepository roleRepository,
+            final UserRoleSpringRepository userRoleRepository, final RoleSpringRepository roleRepository,
             final PasswordEncoder passwordEncoder) {
         return new TestUsersInitializer(userRepository, userRoleRepository, roleRepository, passwordEncoder);
     }

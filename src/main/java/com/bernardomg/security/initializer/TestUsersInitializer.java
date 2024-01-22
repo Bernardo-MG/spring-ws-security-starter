@@ -31,8 +31,8 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,16 +48,16 @@ public final class TestUsersInitializer {
     /**
      * Password encoder.
      */
-    private final PasswordEncoder      passwordEncoder;
+    private final PasswordEncoder          passwordEncoder;
 
-    private final RoleRepository       roleRepository;
+    private final RoleSpringRepository     roleRepository;
 
-    private final UserSpringRepository userRepository;
+    private final UserSpringRepository     userRepository;
 
-    private final UserRoleRepository   userRoleRepository;
+    private final UserRoleSpringRepository userRoleRepository;
 
-    public TestUsersInitializer(final UserSpringRepository userRepo, final UserRoleRepository userRoleRepo,
-            final RoleRepository roleRepo, final PasswordEncoder passwordEnc) {
+    public TestUsersInitializer(final UserSpringRepository userRepo, final UserRoleSpringRepository userRoleRepo,
+            final RoleSpringRepository roleRepo, final PasswordEncoder passwordEnc) {
         super();
 
         userRepository = userRepo;

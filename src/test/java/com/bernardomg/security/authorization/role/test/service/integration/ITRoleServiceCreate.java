@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
@@ -22,7 +22,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITRoleServiceCreate {
 
     @Autowired
-    private RoleRepository repository;
+    private RoleSpringRepository repository;
 
     @Autowired
     private RoleService    service;

@@ -33,7 +33,7 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repo
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.usecase.service.DefaultRolePermissionService;
 import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 
 /**
  * Security configuration.
@@ -51,7 +51,7 @@ public class PermissionConfig {
     }
 
     @Bean("rolePermissionService")
-    public RolePermissionService getRolePermissionService(final RoleRepository roleRepository,
+    public RolePermissionService getRolePermissionService(final RoleSpringRepository roleRepository,
             final ResourcePermissionRepository resourcePermissionRepository,
             final RolePermissionRepository rolePermissionRepository) {
         return new DefaultRolePermissionService(roleRepository, resourcePermissionRepository, rolePermissionRepository);

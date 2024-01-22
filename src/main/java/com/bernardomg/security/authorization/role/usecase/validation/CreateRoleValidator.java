@@ -27,10 +27,8 @@ package com.bernardomg.security.authorization.role.usecase.validation;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.data.domain.Example;
-
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -49,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class CreateRoleValidator implements Validator<RoleEntity> {
+public final class CreateRoleValidator implements Validator<Role> {
 
     private final RoleRepository roleRepository;
 
@@ -60,19 +58,14 @@ public final class CreateRoleValidator implements Validator<RoleEntity> {
     }
 
     @Override
-    public final void validate(final RoleEntity role) {
+    public final void validate(final Role role) {
         final Collection<FieldFailure> failures;
         final FieldFailure             failure;
-        final RoleEntity               sample;
 
         failures = new ArrayList<>();
 
-        sample = RoleEntity.builder()
-            .withName(role.getName())
-            .build();
-
         // The role name doesn't exist
-        if (roleRepository.exists(Example.of(sample))) {
+        if (roleRepository.exists(role.getName())) {
             log.error("A role already exists with the name {}", role.getName());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("name", "existing", role.getName());

@@ -27,10 +27,7 @@ package com.bernardomg.security.authorization.role.usecase.validation;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.data.domain.Example;
-
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -50,7 +47,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class DeleteRoleValidator implements Validator<Long> {
+public final class DeleteRoleValidator implements Validator<String> {
 
     private final UserRoleRepository userRoleRepository;
 
@@ -61,22 +58,17 @@ public final class DeleteRoleValidator implements Validator<Long> {
     }
 
     @Override
-    public final void validate(final Long id) {
+    public final void validate(final String role) {
         final Collection<FieldFailure> failures;
         FieldFailure                   failure;
-        final UserRoleEntity           sample;
 
         failures = new ArrayList<>();
 
-        sample = UserRoleEntity.builder()
-            .withRoleId(id)
-            .build();
-
         // No user has the role
-        if (userRoleRepository.exists(Example.of(sample))) {
-            log.error("Role with id {} has a relationship with a user", id);
+        if (userRoleRepository.existsForRole(role)) {
+            log.error("Role with id {} has a relationship with a user", role);
             // TODO: Is the code exists or is it existing? Make sure all use the same
-            failure = FieldFailure.of("user", "existing", id);
+            failure = FieldFailure.of("user", "existing", role);
             failures.add(failure);
         }
 

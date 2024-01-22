@@ -37,7 +37,7 @@ import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUs
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -48,7 +48,7 @@ class ITUserQueryServiceDelete {
     private UserSpringRepository repository;
 
     @Autowired
-    private RoleRepository       roleRepository;
+    private RoleSpringRepository       roleRepository;
 
     @Autowired
     private UserQueryService     service;

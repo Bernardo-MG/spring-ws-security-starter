@@ -32,7 +32,7 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repo
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,9 +49,9 @@ public final class TestRolesInitializer {
 
     private final RolePermissionRepository     rolePermissionRepository;
 
-    private final RoleRepository               roleRepository;
+    private final RoleSpringRepository         roleRepository;
 
-    public TestRolesInitializer(final ResourcePermissionRepository permissionRepo, final RoleRepository roleRepo,
+    public TestRolesInitializer(final ResourcePermissionRepository permissionRepo, final RoleSpringRepository roleRepo,
             final RolePermissionRepository rolePermissionRepo) {
         super();
 

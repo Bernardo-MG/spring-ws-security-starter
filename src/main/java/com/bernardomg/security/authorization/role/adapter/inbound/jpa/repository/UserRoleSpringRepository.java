@@ -35,6 +35,6 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.User
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserRoleRepository extends JpaRepository<UserRoleEntity, UserRoleKey> {
+public interface UserRoleSpringRepository extends JpaRepository<UserRoleEntity, UserRoleKey> {
 
 }

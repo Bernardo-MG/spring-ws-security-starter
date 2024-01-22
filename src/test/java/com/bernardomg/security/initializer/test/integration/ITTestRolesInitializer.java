@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -26,7 +26,7 @@ class ITTestRolesInitializer {
     private RolePermissionRepository     rolePermissionRepository;
 
     @Autowired
-    private RoleRepository               roleRepository;
+    private RoleSpringRepository               roleRepository;
 
     private TestRolesInitializer         testRolesInitializer;
 

@@ -38,7 +38,7 @@ import com.bernardomg.security.authorization.permission.domain.exception.Missing
 import com.bernardomg.security.authorization.permission.domain.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -72,9 +72,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
     /**
      * Role repository. Used to validate the role exists.
      */
-    private final RoleRepository               roleRepository;
+    private final RoleSpringRepository         roleRepository;
 
-    public DefaultRolePermissionService(final RoleRepository roleRepo,
+    public DefaultRolePermissionService(final RoleSpringRepository roleRepo,
             final ResourcePermissionRepository resourcePermissionRepo,
             final RolePermissionRepository rolePermissionRepo) {
         super();

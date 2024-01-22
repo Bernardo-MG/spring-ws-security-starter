@@ -27,16 +27,14 @@ package com.bernardomg.security.authorization.role.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.usecase.validation.CreateRoleValidator;
 import com.bernardomg.security.authorization.role.usecase.validation.DeleteRoleValidator;
 import com.bernardomg.validation.Validator;
@@ -52,11 +50,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultRoleService implements RoleService {
 
-    private final RoleRepository        roleRepository;
+    private final RoleRepository    roleRepository;
 
-    private final Validator<RoleEntity> validatorCreateRole;
+    private final Validator<Role>   validatorCreateRole;
 
-    private final Validator<Long>       validatorDeleteRole;
+    private final Validator<String> validatorDeleteRole;
 
     public DefaultRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
         super();
@@ -69,109 +67,73 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role create(final String name) {
-        final RoleEntity entity;
-        final RoleEntity created;
+        final Role entity;
 
         log.debug("Creating role {}", name);
 
-        entity = RoleEntity.builder()
+        entity = Role.builder()
             .withName(name)
             .build();
 
         validatorCreateRole.validate(entity);
 
-        created = roleRepository.save(entity);
-
-        return toDto(created);
+        return roleRepository.save(entity);
     }
 
     @Override
     public final void delete(final String role) {
-        final Optional<RoleEntity> readRole;
+        final boolean exists;
 
         log.debug("Deleting role {}", role);
 
-        readRole = roleRepository.findOneByName(role);
-
-        if (readRole.isEmpty()) {
+        exists = roleRepository.exists(role);
+        if (!exists) {
             throw new MissingRoleNameException(role);
         }
 
-        validatorDeleteRole.validate(readRole.get()
-            .getId());
+        validatorDeleteRole.validate(role);
 
-        roleRepository.deleteById(readRole.get()
-            .getId());
+        roleRepository.delete(role);
     }
 
     @Override
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
-        final RoleEntity entitySample;
-
         log.debug("Reading roles with sample {} and pagination {}", sample, pageable);
 
-        entitySample = toEntity(sample);
-
-        return roleRepository.findAll(Example.of(entitySample), pageable)
-            .map(this::toDto);
+        return roleRepository.findAll(sample, pageable);
     }
 
     @Override
     public final Optional<Role> getOne(final String role) {
-        final Optional<RoleEntity> readRole;
+        final boolean exists;
 
         log.debug("Reading role {}", role);
 
-        readRole = roleRepository.findOneByName(role);
-
-        if (readRole.isEmpty()) {
+        exists = roleRepository.exists(role);
+        if (!exists) {
             throw new MissingRoleNameException(role);
         }
 
-        return roleRepository.findById(readRole.get()
-            .getId())
-            .map(this::toDto);
+        return roleRepository.findOne(role);
     }
 
     @Override
     public final Role update(final String role, final RoleChange data) {
-        final RoleEntity           entity;
-        final RoleEntity           created;
-        final Optional<RoleEntity> readRole;
+        final Role    roleData;
+        final boolean exists;
 
         log.debug("Updating role {} using data {}", role, data);
 
-        readRole = roleRepository.findOneByName(role);
-
-        if (readRole.isEmpty()) {
+        exists = roleRepository.exists(role);
+        if (!exists) {
             throw new MissingRoleNameException(role);
         }
 
-        entity = toEntity(data, readRole.get()
-            .getId());
-
-        created = roleRepository.save(entity);
-
-        return toDto(created);
-    }
-
-    private final Role toDto(final RoleEntity role) {
-        return Role.builder()
-            .withName(role.getName())
+        roleData = Role.builder()
+            .withName(data.getName())
             .build();
-    }
 
-    private final RoleEntity toEntity(final RoleChange role, final Long id) {
-        return RoleEntity.builder()
-            .withId(id)
-            .withName(role.getName())
-            .build();
-    }
-
-    private final RoleEntity toEntity(final RoleQuery role) {
-        return RoleEntity.builder()
-            .withName(role.getName())
-            .build();
+        return roleRepository.save(roleData);
     }
 
 }

@@ -34,8 +34,8 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
@@ -50,14 +50,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 
-    private final RoleRepository       roleRepository;
+    private final RoleSpringRepository     roleRepository;
 
-    private final UserSpringRepository userRepository;
+    private final UserSpringRepository     userRepository;
 
-    private final UserRoleRepository   userRoleRepository;
+    private final UserRoleSpringRepository userRoleRepository;
 
-    public DefaultUserRoleService(final UserSpringRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
+    public DefaultUserRoleService(final UserSpringRepository userRepo, final RoleSpringRepository roleRepo,
+            final UserRoleSpringRepository userRoleRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);

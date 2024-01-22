@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithPermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.AlternativeRole;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.UserRoleEntities;
@@ -26,7 +26,7 @@ class ITUserRoleServiceAddRoleWithRoles {
     private UserRoleService    service;
 
     @Autowired
-    private UserRoleRepository userRoleRepository;
+    private UserRoleSpringRepository userRoleRepository;
 
     public ITUserRoleServiceAddRoleWithRoles() {
         super();
