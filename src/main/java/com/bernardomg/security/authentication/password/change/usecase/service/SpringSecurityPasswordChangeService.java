@@ -35,12 +35,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.password.domain.exception.InvalidPasswordChangeException;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
 
@@ -58,20 +58,20 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder      passwordEncoder;
+    private final PasswordEncoder    passwordEncoder;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository repository;
+    private final UserRepository     repository;
 
     /**
      * User details service, to find and validate users.
      */
-    private final UserDetailsService   userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    public SpringSecurityPasswordChangeService(final UserSpringRepository userRepo,
-            final UserDetailsService userDetsService, final PasswordEncoder passEncoder) {
+    public SpringSecurityPasswordChangeService(final UserRepository userRepo, final UserDetailsService userDetsService,
+            final PasswordEncoder passEncoder) {
         super();
 
         repository = Objects.requireNonNull(userRepo);
@@ -81,16 +81,24 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
-        final UserEntity  user;
-        final String      encodedPassword;
-        final String      username;
-        final UserDetails userDetails;
+        final Optional<User> readUser;
+        final User           user;
+        final String         username;
+        final UserDetails    userDetails;
 
         username = getCurrentUsername();
 
         log.debug("Changing password for user {}", username);
 
-        user = getUser(username);
+        readUser = repository.findOne(username);
+
+        // Validate the user exists
+        if (!readUser.isPresent()) {
+            log.error("Couldn't change password for user {}, as it doesn't exist", username);
+            throw new MissingUserUsernameException(username);
+        }
+
+        user = readUser.get();
 
         // TODO: Avoid this second query
         userDetails = userDetailsService.loadUserByUsername(username);
@@ -101,11 +109,9 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Make sure the user can change the password
         authorizePasswordChange(userDetails);
 
-        encodedPassword = passwordEncoder.encode(newPassword);
-        user.setPassword(encodedPassword);
         user.setPasswordExpired(false);
 
-        repository.save(user);
+        repository.save(user, newPassword);
 
         log.debug("Changed password for user {}", username);
     }
@@ -143,20 +149,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         }
 
         return auth.getName();
-    }
-
-    private final UserEntity getUser(final String username) {
-        final Optional<UserEntity> user;
-
-        user = repository.findOneByUsername(username);
-
-        // Validate the user exists
-        if (!user.isPresent()) {
-            log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new MissingUserUsernameException(username);
-        }
-
-        return user.get();
     }
 
     private final void validatePassword(final UserDetails userDetails, final String oldPassword) {

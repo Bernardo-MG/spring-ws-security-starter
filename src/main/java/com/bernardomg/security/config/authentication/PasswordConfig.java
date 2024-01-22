@@ -40,6 +40,7 @@ import com.bernardomg.security.authentication.password.reset.usecase.service.Pas
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
@@ -62,7 +63,7 @@ public class PasswordConfig {
     }
 
     @Bean("passwordChangeService")
-    public PasswordChangeService getPasswordChangeService(final UserSpringRepository userRepository,
+    public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
         return new SpringSecurityPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
     }
