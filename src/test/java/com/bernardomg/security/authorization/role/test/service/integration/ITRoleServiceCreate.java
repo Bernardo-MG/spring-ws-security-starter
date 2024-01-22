@@ -25,7 +25,7 @@ class ITRoleServiceCreate {
     private RoleSpringRepository repository;
 
     @Autowired
-    private RoleService    service;
+    private RoleService          service;
 
     public ITRoleServiceCreate() {
         super();

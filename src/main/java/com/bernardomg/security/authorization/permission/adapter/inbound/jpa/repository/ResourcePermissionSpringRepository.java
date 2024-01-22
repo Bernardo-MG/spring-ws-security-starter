@@ -41,7 +41,9 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ResourcePermissionRepository extends JpaRepository<ResourcePermissionEntity, Long> {
+public interface ResourcePermissionSpringRepository extends JpaRepository<ResourcePermissionEntity, Long> {
+
+    public boolean existsByName(final String name);
 
     /**
      * Returns all the permissions available to a role, in a paginated form.

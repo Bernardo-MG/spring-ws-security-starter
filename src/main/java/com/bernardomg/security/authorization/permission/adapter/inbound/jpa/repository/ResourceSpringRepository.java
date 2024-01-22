@@ -26,14 +26,14 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourceEntity;
 
 /**
- * Action repository.
+ * Resource repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ActionRepository extends JpaRepository<ActionEntity, Long> {
+public interface ResourceSpringRepository extends JpaRepository<ResourceEntity, Long> {
 
 }

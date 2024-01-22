@@ -48,7 +48,7 @@ class ITUserQueryServiceDelete {
     private UserSpringRepository repository;
 
     @Autowired
-    private RoleSpringRepository       roleRepository;
+    private RoleSpringRepository roleRepository;
 
     @Autowired
     private UserQueryService     service;

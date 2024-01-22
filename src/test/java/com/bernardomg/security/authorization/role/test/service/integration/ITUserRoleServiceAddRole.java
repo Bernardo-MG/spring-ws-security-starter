@@ -26,7 +26,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserRoleServiceAddRole {
 
     @Autowired
-    private UserRoleService    service;
+    private UserRoleService          service;
 
     @Autowired
     private UserRoleSpringRepository userRoleRepository;

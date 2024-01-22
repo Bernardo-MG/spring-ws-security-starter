@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,20 +28,20 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     /**
      * Resource permissions repository.
      */
-    private final ResourcePermissionRepository resourcePermissionRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
     /**
      * Token encoder for creating authentication tokens.
      */
-    private final TokenEncoder                 tokenEncoder;
+    private final TokenEncoder                       tokenEncoder;
 
     /**
      * Token validity time in seconds.
      */
-    private final Duration                     validity;
+    private final Duration                           validity;
 
     public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder,
-            final ResourcePermissionRepository resourcePermissionRepo, final Duration vldt) {
+            final ResourcePermissionSpringRepository resourcePermissionRepo, final Duration vldt) {
         super();
 
         tokenEncoder = Objects.requireNonNull(tknEncoder);

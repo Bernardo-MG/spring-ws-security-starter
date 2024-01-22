@@ -26,17 +26,14 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionKey;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
 
 /**
- * Role permission repository.
+ * Action repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RolePermissionRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
-
-    boolean existsByRoleIdAndPermissionAndGranted(final long roleId, final String permission, final boolean granted);
+public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long> {
 
 }

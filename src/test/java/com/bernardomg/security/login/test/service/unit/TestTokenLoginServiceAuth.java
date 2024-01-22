@@ -27,7 +27,7 @@ import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.LoginTokenEncoder;
@@ -39,22 +39,22 @@ import com.bernardomg.security.login.usecase.service.springframework.SpringValid
 class TestTokenLoginServiceAuth {
 
     @Mock
-    private ApplicationEventPublisher    eventPublisher;
+    private ApplicationEventPublisher          eventPublisher;
 
     @Mock
-    private PasswordEncoder              passEncoder;
+    private PasswordEncoder                    passEncoder;
 
     @Mock
-    private ResourcePermissionRepository resourcePermissionRepository;
+    private ResourcePermissionSpringRepository resourcePermissionRepository;
 
     @Mock
-    private TokenEncoder                 tokenEncoder;
+    private TokenEncoder                       tokenEncoder;
 
     @Mock
-    private UserDetailsService           userDetService;
+    private UserDetailsService                 userDetService;
 
     @Mock
-    private UserSpringRepository         userRepository;
+    private UserSpringRepository               userRepository;
 
     public TestTokenLoginServiceAuth() {
         super();

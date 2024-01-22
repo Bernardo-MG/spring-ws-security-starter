@@ -30,9 +30,9 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
 import com.bernardomg.security.authorization.permission.loader.DefaultPermissionRegister;
 import com.bernardomg.security.authorization.permission.loader.PermissionRegister;
 import com.bernardomg.security.authorization.permission.loader.PermissionsLoader;
@@ -57,8 +57,9 @@ public class PermissionLoaderAutoConfiguration {
     }
 
     @Bean(name = "permissionsLoader", initMethod = "load")
-    public PermissionsLoader getPermissionsLoader(final ActionRepository actionRepo,
-            final ResourceRepository resourceRepo, final ResourcePermissionRepository resourcePermissionRepo,
+    public PermissionsLoader getPermissionsLoader(final ActionSpringRepository actionRepo,
+            final ResourceSpringRepository resourceRepo,
+            final ResourcePermissionSpringRepository resourcePermissionRepo,
             final Collection<PermissionRegister> perms) {
         return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, perms);
     }

@@ -52,7 +52,7 @@ class ITRoleServiceUpdate {
     private RoleSpringRepository repository;
 
     @Autowired
-    private RoleService    service;
+    private RoleService          service;
 
     public ITRoleServiceUpdate() {
         super();

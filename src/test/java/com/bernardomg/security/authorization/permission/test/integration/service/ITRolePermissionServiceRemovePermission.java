@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
@@ -23,10 +23,10 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITRolePermissionServiceRemovePermission {
 
     @Autowired
-    private RolePermissionRepository rolePermissionRepository;
+    private RolePermissionSpringRepository rolePermissionRepository;
 
     @Autowired
-    private RolePermissionService    service;
+    private RolePermissionService          service;
 
     public ITRolePermissionServiceRemovePermission() {
         super();

@@ -44,7 +44,7 @@ class ITRoleServiceDelete {
     private RoleSpringRepository repository;
 
     @Autowired
-    private RoleService    service;
+    private RoleService          service;
 
     public ITRoleServiceDelete() {
         super();

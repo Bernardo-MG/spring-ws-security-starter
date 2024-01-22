@@ -40,7 +40,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,8 +52,8 @@ import lombok.extern.slf4j.Slf4j;
  * contain the username in lower case, to avoid repeated usernames.
  * <h2>Granted authorities</h2>
  * <p>
- * Permissions will be acquired through a {@link ResourcePermissionRepository}, which queries a permissions view. This
- * contains the resource and action pairs assigned to the user, and will be used to create the granted authorities.
+ * Permissions will be acquired through a {@link ResourcePermissionSpringRepository}, which queries a permissions view.
+ * This contains the resource and action pairs assigned to the user, and will be used to create the granted authorities.
  * <h2>Exceptions</h2>
  * <p>
  * When loading users any of these cases throws a {@code UsernameNotFoundException}:
@@ -71,12 +71,12 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     /**
      * Resource permissions repository.
      */
-    private final ResourcePermissionRepository resourcePermissionRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository         userRepository;
+    private final UserSpringRepository               userRepository;
 
     /**
      * Constructs a user details service.
@@ -87,7 +87,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            resource permissions repository
      */
     public PersistentUserDetailsService(final UserSpringRepository userRepo,
-            final ResourcePermissionRepository resourcePermissionRepo) {
+            final ResourcePermissionSpringRepository resourcePermissionRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");

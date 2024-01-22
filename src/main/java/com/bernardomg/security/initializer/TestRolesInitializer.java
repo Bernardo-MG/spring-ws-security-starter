@@ -28,8 +28,8 @@ import java.util.Collection;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
@@ -45,14 +45,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TestRolesInitializer {
 
-    private final ResourcePermissionRepository resourcePermissionRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
-    private final RolePermissionRepository     rolePermissionRepository;
+    private final RolePermissionSpringRepository     rolePermissionRepository;
 
-    private final RoleSpringRepository         roleRepository;
+    private final RoleSpringRepository               roleRepository;
 
-    public TestRolesInitializer(final ResourcePermissionRepository permissionRepo, final RoleSpringRepository roleRepo,
-            final RolePermissionRepository rolePermissionRepo) {
+    public TestRolesInitializer(final ResourcePermissionSpringRepository permissionRepo,
+            final RoleSpringRepository roleRepo, final RolePermissionSpringRepository rolePermissionRepo) {
         super();
 
         resourcePermissionRepository = permissionRepo;

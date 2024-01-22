@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
 /**
@@ -47,7 +47,7 @@ public class SpringUserConfig {
 
     @Bean("userDetailsService")
     public UserDetailsService getUserDetailsService(final UserSpringRepository userRepository,
-            final ResourcePermissionRepository resourcePermissionRepository) {
+            final ResourcePermissionSpringRepository resourcePermissionRepository) {
         return new PersistentUserDetailsService(userRepository, resourcePermissionRepository);
     }
 

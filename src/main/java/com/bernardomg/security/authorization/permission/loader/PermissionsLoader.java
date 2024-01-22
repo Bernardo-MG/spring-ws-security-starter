@@ -32,9 +32,9 @@ import org.springframework.data.domain.Example;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourceEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,16 +46,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PermissionsLoader {
 
-    private final ActionRepository               actionRepository;
+    private final ActionSpringRepository             actionRepository;
 
-    private final Collection<PermissionRegister> permissions;
+    private final Collection<PermissionRegister>     permissions;
 
-    private final ResourcePermissionRepository   resourcePermissionRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
-    private final ResourceRepository             resourceRepository;
+    private final ResourceSpringRepository           resourceRepository;
 
-    public PermissionsLoader(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
-            final ResourcePermissionRepository resourcePermissionRepo, final Collection<PermissionRegister> perms) {
+    public PermissionsLoader(final ActionSpringRepository actionRepo, final ResourceSpringRepository resourceRepo,
+            final ResourcePermissionSpringRepository resourcePermissionRepo,
+            final Collection<PermissionRegister> perms) {
         super();
 
         actionRepository = Objects.requireNonNull(actionRepo);

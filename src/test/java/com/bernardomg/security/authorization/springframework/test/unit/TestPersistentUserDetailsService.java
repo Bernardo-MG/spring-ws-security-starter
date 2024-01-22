@@ -22,7 +22,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissionEntities;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
@@ -31,13 +31,13 @@ import com.bernardomg.security.authorization.springframework.PersistentUserDetai
 class TestPersistentUserDetailsService {
 
     @Mock
-    private ResourcePermissionRepository resourcePermissionRepository;
+    private ResourcePermissionSpringRepository resourcePermissionRepository;
 
     @InjectMocks
-    private PersistentUserDetailsService service;
+    private PersistentUserDetailsService       service;
 
     @Mock
-    private UserSpringRepository         userRepository;
+    private UserSpringRepository               userRepository;
 
     public TestPersistentUserDetailsService() {
         super();

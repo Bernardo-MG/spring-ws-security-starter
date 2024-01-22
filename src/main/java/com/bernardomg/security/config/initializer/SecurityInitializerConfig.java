@@ -31,8 +31,8 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.initializer.TestRolesInitializer;
@@ -54,8 +54,8 @@ public class SecurityInitializerConfig {
     @Bean(name = "testRolesInitializer", initMethod = "initialize")
     @DependsOn("permissionsLoader")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public TestRolesInitializer getTestRolesInitializer(final ResourcePermissionRepository permissionRepo,
-            final RoleSpringRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
+    public TestRolesInitializer getTestRolesInitializer(final ResourcePermissionSpringRepository permissionRepo,
+            final RoleSpringRepository roleRepo, final RolePermissionSpringRepository rolePermissionRepo) {
         return new TestRolesInitializer(permissionRepo, roleRepo, rolePermissionRepo);
     }
 
