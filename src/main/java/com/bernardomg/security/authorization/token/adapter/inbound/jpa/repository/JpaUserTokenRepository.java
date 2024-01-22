@@ -40,9 +40,9 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Collection<String> names;
 
         names = tokens.stream()
-            .map(UserToken::getName)
+            .map(UserToken::getToken)
             .toList();
-        userTokenRepository.deleteAllByToken(names);
+        userTokenRepository.deleteByTokenIn(names);
     }
 
     @Override

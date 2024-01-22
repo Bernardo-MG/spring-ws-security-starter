@@ -37,6 +37,6 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
  */
 public interface RolePermissionSpringRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
 
-    boolean existsByNameAndPermissionAndGranted(final String name, final String permission, final boolean granted);
+    boolean existsByRoleIdAndPermissionAndGranted(final long name, final String permission, final boolean granted);
 
 }

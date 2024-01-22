@@ -42,7 +42,7 @@ import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.Use
  */
 public interface UserTokenSpringRepository extends JpaRepository<UserTokenEntity, Long> {
 
-    public void deleteAllByToken(final Collection<String> names);
+    public void deleteByTokenIn(final Collection<String> names);
 
     public boolean existsByToken(final String token);
 
