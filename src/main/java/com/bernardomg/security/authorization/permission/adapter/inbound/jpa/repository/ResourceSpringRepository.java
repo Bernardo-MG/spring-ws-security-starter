@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourceEntity;
@@ -35,5 +37,9 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
  *
  */
 public interface ResourceSpringRepository extends JpaRepository<ResourceEntity, Long> {
+
+    public boolean existsByName(final String name);
+
+    public Optional<ResourceEntity> findByName(final String name);
 
 }

@@ -22,24 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
+package com.bernardomg.security.authorization.permission.domain.model;
 
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Action repository.
+ * Action.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long> {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class Action {
 
-    public boolean existsByName(final String name);
-
-    public Optional<ActionEntity> findByName(final String name);
+    /**
+     * Action name.
+     */
+    private String name;
 
 }

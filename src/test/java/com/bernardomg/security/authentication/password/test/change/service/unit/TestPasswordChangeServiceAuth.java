@@ -23,13 +23,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.password.change.usecase.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.authentication.password.domain.exception.InvalidPasswordChangeException;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password - authentication")
@@ -42,7 +43,7 @@ class TestPasswordChangeServiceAuth {
     private PasswordEncoder                     passwordEncoder;
 
     @Mock
-    private UserSpringRepository                repository;
+    private UserRepository                      repository;
 
     @InjectMocks
     private SpringSecurityPasswordChangeService service;
@@ -114,14 +115,11 @@ class TestPasswordChangeServiceAuth {
     }
 
     private final void loadPersistentUser() {
-        final UserEntity user;
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail(UserConstants.EMAIL);
-        user.setUsername(UserConstants.USERNAME);
-        user.setPassword(UserConstants.PASSWORD);
+        user = Users.enabled();
 
-        given(repository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     void initializeValidation() {

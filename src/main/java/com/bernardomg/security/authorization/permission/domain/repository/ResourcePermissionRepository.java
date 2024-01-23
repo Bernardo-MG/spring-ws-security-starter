@@ -17,4 +17,6 @@ public interface ResourcePermissionRepository {
 
     public ResourcePermission removePermission(final String role, final String permission);
 
+    public ResourcePermission save(final ResourcePermission permission);
+
 }

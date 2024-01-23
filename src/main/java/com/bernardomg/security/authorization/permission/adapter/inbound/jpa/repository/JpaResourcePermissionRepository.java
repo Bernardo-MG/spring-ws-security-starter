@@ -119,6 +119,27 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         return toDomain(readPermission.get());
     }
 
+    @Override
+    public final ResourcePermission save(final ResourcePermission permission) {
+        final Optional<ResourcePermissionEntity> existing;
+        final ResourcePermissionEntity           entity;
+        final ResourcePermissionEntity           created;
+
+        log.debug("Saving permission {}", permission);
+
+        entity = toEntity(permission);
+
+        existing = resourcePermissionRepository.findByName(permission.getName());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        created = resourcePermissionRepository.save(entity);
+
+        return toDomain(created);
+    }
+
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final String permission) {
         return RolePermissionEntity.builder()
             .withRoleId(roleId)
@@ -128,6 +149,14 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
+            .withName(entity.getName())
+            .withResource(entity.getResource())
+            .withAction(entity.getAction())
+            .build();
+    }
+
+    private final ResourcePermissionEntity toEntity(final ResourcePermission entity) {
+        return ResourcePermissionEntity.builder()
             .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())

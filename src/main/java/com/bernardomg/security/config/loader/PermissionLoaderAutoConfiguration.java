@@ -33,9 +33,9 @@ import org.springframework.context.annotation.Bean;
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.DefaultPermissionRegister;
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionsLoader;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ActionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourceRepository;
 
 /**
  * Permission loader auto configuration.
@@ -57,9 +57,8 @@ public class PermissionLoaderAutoConfiguration {
     }
 
     @Bean(name = "permissionsLoader", initMethod = "load")
-    public PermissionsLoader getPermissionsLoader(final ActionSpringRepository actionRepo,
-            final ResourceSpringRepository resourceRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo,
+    public PermissionsLoader getPermissionsLoader(final ActionRepository actionRepo,
+            final ResourceRepository resourceRepo, final ResourcePermissionRepository resourcePermissionRepo,
             final Collection<PermissionRegister> perms) {
         return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, perms);
     }

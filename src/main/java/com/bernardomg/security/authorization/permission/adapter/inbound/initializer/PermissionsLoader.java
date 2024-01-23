@@ -27,14 +27,12 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.initial
 import java.util.Collection;
 import java.util.Objects;
 
-import org.springframework.data.domain.Example;
-
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourceEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.model.Action;
+import com.bernardomg.security.authorization.permission.domain.model.Resource;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ActionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourceRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,17 +44,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PermissionsLoader {
 
-    private final ActionSpringRepository             actionRepository;
+    private final ActionRepository               actionRepository;
 
-    private final Collection<PermissionRegister>     permissions;
+    private final Collection<PermissionRegister> permissions;
 
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final ResourcePermissionRepository   resourcePermissionRepository;
 
-    private final ResourceSpringRepository           resourceRepository;
+    private final ResourceRepository             resourceRepository;
 
-    public PermissionsLoader(final ActionSpringRepository actionRepo, final ResourceSpringRepository resourceRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo,
-            final Collection<PermissionRegister> perms) {
+    public PermissionsLoader(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
+            final ResourcePermissionRepository resourcePermissionRepo, final Collection<PermissionRegister> perms) {
         super();
 
         actionRepository = Objects.requireNonNull(actionRepo);
@@ -98,47 +95,44 @@ public final class PermissionsLoader {
         log.debug("Finished loading permissions");
     }
 
-    private void saveAction(final String action) {
-        final Example<ActionEntity> example;
-        final ActionEntity          actionEntity;
+    private final void saveAction(final String name) {
+        final Action action;
 
-        actionEntity = ActionEntity.builder()
-            .withName(action)
+        action = Action.builder()
+            .withName(name)
             .build();
-        example = Example.of(actionEntity);
-        if (!actionRepository.exists(example)) {
-            log.debug("Saving action {}", action);
-            actionRepository.save(actionEntity);
+        if (!actionRepository.exists(name)) {
+            log.debug("Saving action {}", name);
+            actionRepository.save(action);
         }
     }
 
-    private void savePermission(final ResourcePermissionPair pair) {
-        final Example<ResourcePermissionEntity> example;
-        final ResourcePermissionEntity          resourcePermissionEntity;
+    private final void savePermission(final ResourcePermissionPair pair) {
+        final ResourcePermission resourcePermission;
+        final String             name;
 
-        resourcePermissionEntity = ResourcePermissionEntity.builder()
+        resourcePermission = ResourcePermission.builder()
             .withName(pair.getAction() + ":" + pair.getResource())
             .withAction(pair.getAction())
             .withResource(pair.getResource())
             .build();
-        example = Example.of(resourcePermissionEntity);
-        if (!resourcePermissionRepository.exists(example)) {
+        // TODO: generate the name automatically
+        name = pair.getAction() + ":" + pair.getResource();
+        if (!resourcePermissionRepository.exists(name)) {
             log.debug("Saving permission {}:{}", pair.getResource(), pair.getAction());
-            resourcePermissionRepository.save(resourcePermissionEntity);
+            resourcePermissionRepository.save(resourcePermission);
         }
     }
 
-    private void saveResource(final String resource) {
-        final Example<ResourceEntity> example;
-        final ResourceEntity          resourceEntity;
+    private final void saveResource(final String resource) {
+        final Resource resourceData;
 
-        resourceEntity = ResourceEntity.builder()
+        resourceData = Resource.builder()
             .withName(resource)
             .build();
-        example = Example.of(resourceEntity);
-        if (!resourceRepository.exists(example)) {
+        if (!resourceRepository.exists(resource)) {
             log.debug("Saving resource {}", resource);
-            resourceRepository.save(resourceEntity);
+            resourceRepository.save(resourceData);
         }
     }
 

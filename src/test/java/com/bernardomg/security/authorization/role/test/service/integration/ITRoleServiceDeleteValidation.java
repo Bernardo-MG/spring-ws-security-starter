@@ -56,7 +56,7 @@ class ITRoleServiceDeleteValidation {
 
         executable = () -> service.delete(RoleConstants.NAME);
 
-        failure = FieldFailure.of("user.existing", "user", "existing", 1L);
+        failure = FieldFailure.of("user.existing", "user", "existing", "role");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
