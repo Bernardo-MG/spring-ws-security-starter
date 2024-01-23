@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
@@ -61,8 +62,8 @@ public class UserTokenConfig {
 
     @Bean("userTokenRepository")
     public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepo,
-            final UserDataTokenSpringRepository userDataTokenRepo) {
-        return new JpaUserTokenRepository(userTokenRepo, userDataTokenRepo);
+            final UserDataTokenSpringRepository userDataTokenRepo, final UserSpringRepository userRepo) {
+        return new JpaUserTokenRepository(userTokenRepo, userDataTokenRepo, userRepo);
     }
 
     @Bean("userTokenService")

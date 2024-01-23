@@ -29,8 +29,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
-import lombok.NonNull;
-import lombok.Value;
+import lombok.Data;
 
 /**
  * Immutable implementation of the user token.
@@ -38,56 +37,50 @@ import lombok.Value;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
+@Data
 @Builder(setterPrefix = "with")
 public final class UserToken {
 
     /**
      * Token consumed flag.
      */
-    private boolean             consumed;
+    private boolean       consumed;
 
     /**
      * Token creation date.
      */
-    @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime creationDate;
+    private LocalDateTime creationDate;
 
     /**
      * Token expiration date.
      */
-    @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime expirationDate;
+    private LocalDateTime expirationDate;
 
     /**
      * User name.
      */
-    @NonNull
-    private final String        name;
+    private String        name;
 
     /**
      * Token revoked flag.
      */
-    private final boolean       revoked;
+    private boolean       revoked;
 
     /**
      * Token scope.
      */
-    @NonNull
-    private final String        scope;
+    private String        scope;
 
     /**
      * Token code.
      */
-    @NonNull
-    private final String        token;
+    private String        token;
 
     /**
      * Token username.
      */
-    @NonNull
-    private final String        username;
+    private String        username;
 
 }

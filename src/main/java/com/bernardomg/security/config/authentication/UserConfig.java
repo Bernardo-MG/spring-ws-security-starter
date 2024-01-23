@@ -39,7 +39,7 @@ import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAc
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
@@ -61,9 +61,9 @@ public class UserConfig {
     }
 
     @Bean("userActivationService")
-    public UserActivationService getUserActivationService(final UserSpringRepository userSpringRepo,
-            final UserRepository userRepo, final UserNotificator mSender,
-            final UserTokenSpringRepository userTokenRepository, final UserTokenProperties tokenProperties) {
+    public UserActivationService getUserActivationService(final UserRepository userSpringRepo,
+            final UserRepository userRepo, final UserNotificator mSender, final UserTokenRepository userTokenRepository,
+            final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
         tokenStore = new PersistentUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",

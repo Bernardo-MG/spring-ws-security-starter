@@ -11,12 +11,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
@@ -32,10 +33,13 @@ class ITPersistentUserTokenStoreCreateToken {
     private UserTokenProperties       tokenProperties;
 
     @Autowired
-    private UserSpringRepository      userRepository;
+    private UserRepository            userRepository;
 
     @Autowired
-    private UserTokenSpringRepository userTokenRepository;
+    private UserTokenRepository       userTokenRepository;
+
+    @Autowired
+    private UserTokenSpringRepository userTokenSpringRepository;
 
     @BeforeEach
     public void initialize() {
@@ -51,7 +55,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         store.createToken(UserConstants.USERNAME);
 
-        count = userTokenRepository.count();
+        count = userTokenSpringRepository.count();
         Assertions.assertThat(count)
             .isOne();
     }
@@ -68,7 +72,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         store.createToken(UserConstants.USERNAME);
 
-        token = userTokenRepository.findAll()
+        token = userTokenSpringRepository.findAll()
             .iterator()
             .next();
 
@@ -109,7 +113,7 @@ class ITPersistentUserTokenStoreCreateToken {
 
         executable = () -> {
             store.createToken(UserConstants.USERNAME);
-            userTokenRepository.flush();
+            userTokenSpringRepository.flush();
         };
 
         // TODO: Does this make sense? Throw a custom exception

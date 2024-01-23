@@ -31,16 +31,17 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.exception.OutOfScopeTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.RevokedTokenException;
+import com.bernardomg.security.authorization.token.domain.model.UserToken;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,71 +61,68 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     /**
      * Token scope.
      */
-    private final String                    tokenScope;
+    private final String              tokenScope;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository      userRepository;
+    private final UserRepository      userRepository;
 
     /**
      * User tokens repository.
      */
-    private final UserTokenSpringRepository userTokenRepository;
+    private final UserTokenRepository userTokenRepository;
 
     /**
      * Token validity duration. This is how long the token is valid, starting on the time it is created.
      */
-    private final Duration                  validity;
+    private final Duration            validity;
 
-    public PersistentUserTokenStore(final UserTokenSpringRepository tRepository, final UserSpringRepository uRepository,
+    public PersistentUserTokenStore(final UserTokenRepository tokenRepo, final UserRepository userRepo,
             final String scope, final Duration duration) {
         super();
 
-        userTokenRepository = Objects.requireNonNull(tRepository);
-        userRepository = Objects.requireNonNull(uRepository);
+        userTokenRepository = Objects.requireNonNull(tokenRepo);
+        userRepository = Objects.requireNonNull(userRepo);
         tokenScope = Objects.requireNonNull(scope);
         validity = Objects.requireNonNull(duration);
     }
 
     @Override
     public final void consumeToken(final String token) {
-        final Optional<UserTokenEntity> read;
-        final UserTokenEntity           persistentToken;
+        final Optional<UserToken> read;
+        final UserToken           tokenData;
 
-        read = userTokenRepository.findOneByTokenAndScope(token, tokenScope);
+        read = userTokenRepository.findOneByScope(token, tokenScope);
 
         if (!read.isPresent()) {
             log.error("Token missing: {}", token);
             throw new MissingUserTokenCodeException(token);
         }
 
-        persistentToken = read.get();
-        if (persistentToken.isConsumed()) {
+        tokenData = read.get();
+        if (tokenData.isConsumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
 
-        persistentToken.setConsumed(true);
-        userTokenRepository.save(persistentToken);
+        tokenData.setConsumed(true);
+        userTokenRepository.save(tokenData);
         log.debug("Consumed token {}", token);
     }
 
     @Override
     public final String createToken(final String username) {
-        final UserTokenEntity      persistentToken;
-        final LocalDateTime        creation;
-        final LocalDateTime        expiration;
-        final String               tokenCode;
-        final Optional<UserEntity> readUser;
-        final UserEntity           user;
+        final UserToken     token;
+        final LocalDateTime creation;
+        final LocalDateTime expiration;
+        final String        tokenCode;
+        final boolean       exists;
 
-        readUser = userRepository.findOneByUsername(username);
-        if (!readUser.isPresent()) {
+        exists = userRepository.exists(username);
+        if (!exists) {
             throw new MissingUserUsernameException(username);
         }
-
-        user = readUser.get();
 
         creation = LocalDateTime.now();
         expiration = creation.plus(validity);
@@ -132,8 +130,8 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         tokenCode = UUID.randomUUID()
             .toString();
 
-        persistentToken = UserTokenEntity.builder()
-            .withUserId(user.getId())
+        token = UserToken.builder()
+            .withUsername(username)
             .withScope(tokenScope)
             .withCreationDate(creation)
             .withToken(tokenCode)
@@ -142,7 +140,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
             .withExpirationDate(expiration)
             .build();
 
-        userTokenRepository.save(persistentToken);
+        userTokenRepository.save(token);
 
         log.debug("Created token for {} with scope {}", username, tokenScope);
 
@@ -153,7 +151,7 @@ public final class PersistentUserTokenStore implements UserTokenStore {
     public final String getUsername(final String token) {
         final Optional<String> username;
 
-        username = userTokenRepository.findUsernameByToken(token, tokenScope);
+        username = userTokenRepository.findUsername(token, tokenScope);
 
         if (username.isEmpty()) {
             throw new MissingUserTokenCodeException(token);
@@ -164,11 +162,11 @@ public final class PersistentUserTokenStore implements UserTokenStore {
 
     @Override
     public final void revokeExistingTokens(final String username) {
-        final Collection<UserTokenEntity> notRevoked;
-        final Optional<UserEntity>        readUser;
-        final UserEntity                  user;
+        final Collection<UserToken> notRevoked;
+        final Optional<User>        readUser;
+        final User                  user;
 
-        readUser = userRepository.findOneByUsername(username);
+        readUser = userRepository.findOne(username);
         if (!readUser.isPresent()) {
             throw new MissingUserUsernameException(username);
         }
@@ -176,20 +174,20 @@ public final class PersistentUserTokenStore implements UserTokenStore {
         user = readUser.get();
 
         // Find all tokens not revoked, and mark them as revoked
-        notRevoked = userTokenRepository.findAllNotRevokedByUserIdAndScope(user.getId(), tokenScope);
+        notRevoked = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
         notRevoked.forEach(t -> t.setRevoked(true));
 
         userTokenRepository.saveAll(notRevoked);
 
-        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.getId());
+        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.getUsername());
     }
 
     @Override
     public final void validate(final String token) {
-        final Optional<UserTokenEntity> read;
-        final UserTokenEntity           entity;
+        final Optional<UserToken> read;
+        final UserToken           entity;
 
-        read = userTokenRepository.findOneByToken(token);
+        read = userTokenRepository.findOne(token);
         if (!read.isPresent()) {
             log.warn("Token not registered: {}", token);
             throw new MissingUserTokenCodeException(token);

@@ -2,10 +2,15 @@
 package com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserDataTokenEntity;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
@@ -22,17 +27,20 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
      */
     private final UserDataTokenSpringRepository userDataTokenRepository;
 
+    private final UserSpringRepository          userRepository;
+
     /**
      * User token repository.
      */
     private final UserTokenSpringRepository     userTokenRepository;
 
     public JpaUserTokenRepository(final UserTokenSpringRepository userTokenRepo,
-            final UserDataTokenSpringRepository userDataTokenRepo) {
+            final UserDataTokenSpringRepository userDataTokenRepo, final UserSpringRepository userRepo) {
         super();
 
         userTokenRepository = userTokenRepo;
         userDataTokenRepository = userDataTokenRepo;
+        userRepository = userRepo;
     }
 
     @Override
@@ -65,9 +73,28 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     @Override
+    public final Collection<UserToken> findAllNotRevoked(final String username, final String scope) {
+        return userDataTokenRepository.findAllNotRevokedByUsernameAndScope(username, scope)
+            .stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    @Override
     public final Optional<UserToken> findOne(final String token) {
         return userDataTokenRepository.findOneByToken(token)
             .map(this::toDomain);
+    }
+
+    @Override
+    public final Optional<UserToken> findOneByScope(final String token, final String scope) {
+        return userDataTokenRepository.findOneByTokenAndScope(token, scope)
+            .map(this::toDomain);
+    }
+
+    @Override
+    public final Optional<String> findUsername(final String token, final String scope) {
+        return userTokenRepository.findUsernameByToken(token, scope);
     }
 
     @Override
@@ -95,6 +122,78 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         saved = userTokenRepository.save(toSave);
 
         return toDomain(saved, readtoken.get());
+    }
+
+    @Override
+    public final UserToken save(final UserToken token) {
+        final Optional<UserDataTokenEntity> existing;
+        final Optional<UserEntity>          existingUser;
+        final UserTokenEntity               entity;
+        final UserTokenEntity               created;
+        final UserDataTokenEntity           data;
+
+        log.debug("Saving token {}", token);
+
+        entity = toSimpleEntity(token);
+
+        existing = userDataTokenRepository.findByToken(token.getToken());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+        existingUser = userRepository.findOneByUsername(token.getUsername());
+        if (existingUser.isPresent()) {
+            entity.setUserId(existingUser.get()
+                .getId());
+        }
+
+        created = userTokenRepository.save(entity);
+        data = userDataTokenRepository.findById(created.getId())
+            .get();
+
+        return toDomain(data);
+    }
+
+    @Override
+    public final Collection<UserToken> saveAll(final Collection<UserToken> tokens) {
+        final Collection<String>           tokenCodes;
+        final Optional<UserTokenEntity>    existing;
+        final Map<String, UserTokenEntity> existingByToken;
+        final Collection<UserTokenEntity>  toSave;
+        final Collection<UserTokenEntity>  saved;
+        final Collection<Long>             savedIds;
+
+        toSave = tokens.stream()
+            .map(this::toSimpleEntityLoadUsername)
+            .toList();
+
+        // Load id
+        tokenCodes = tokens.stream()
+            .map(UserToken::getToken)
+            .distinct()
+            .toList();
+        existing = userTokenRepository.findAllByTokenIn(tokenCodes);
+        existingByToken = existing.stream()
+            .collect(Collectors.toMap(UserTokenEntity::getToken, Function.identity()));
+
+        toSave.stream()
+            .filter(t -> existingByToken.containsKey(t.getToken()))
+            .forEach(t -> {
+                final UserTokenEntity found;
+
+                found = existingByToken.get(t.getToken());
+                t.setId(found.getId());
+            });
+
+        saved = userTokenRepository.saveAll(toSave);
+        savedIds = saved.stream()
+            .map(UserTokenEntity::getId)
+            .toList();
+
+        return userDataTokenRepository.findAllById(savedIds)
+            .stream()
+            .map(this::toDomain)
+            .toList();
     }
 
     private final UserToken toDomain(final UserDataTokenEntity data) {
@@ -127,6 +226,35 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         return UserTokenEntity.builder()
             .withId(dataToken.getId())
             .withUserId(dataToken.getUserId())
+            .withToken(dataToken.getToken())
+            .withScope(dataToken.getScope())
+            .withCreationDate(dataToken.getCreationDate())
+            .withExpirationDate(dataToken.getExpirationDate())
+            .withConsumed(dataToken.isConsumed())
+            .withRevoked(dataToken.isRevoked())
+            .build();
+    }
+
+    private final UserTokenEntity toSimpleEntity(final UserToken dataToken) {
+        return UserTokenEntity.builder()
+            .withToken(dataToken.getToken())
+            .withScope(dataToken.getScope())
+            .withCreationDate(dataToken.getCreationDate())
+            .withExpirationDate(dataToken.getExpirationDate())
+            .withConsumed(dataToken.isConsumed())
+            .withRevoked(dataToken.isRevoked())
+            .build();
+    }
+
+    private final UserTokenEntity toSimpleEntityLoadUsername(final UserToken dataToken) {
+        final Optional<UserEntity> user;
+        final Long                 userId;
+
+        user = userRepository.findOneByUsername(dataToken.getUsername());
+        userId = user.map(UserEntity::getId)
+            .orElse(null);
+        return UserTokenEntity.builder()
+            .withUserId(userId)
             .withToken(dataToken.getToken())
             .withScope(dataToken.getScope())
             .withCreationDate(dataToken.getCreationDate())

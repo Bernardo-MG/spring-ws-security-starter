@@ -8,11 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
@@ -24,16 +24,16 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("PersistentUserTokenStore - get username")
 class ITPersistentUserTokenStoreGetUsername {
 
-    private PersistentUserTokenStore  store;
+    private PersistentUserTokenStore store;
 
     @Autowired
-    private UserTokenProperties       tokenProperties;
+    private UserTokenProperties      tokenProperties;
 
     @Autowired
-    private UserSpringRepository      userRepository;
+    private UserRepository           userRepository;
 
     @Autowired
-    private UserTokenSpringRepository userTokenRepository;
+    private UserTokenRepository      userTokenRepository;
 
     @BeforeEach
     public void initialize() {

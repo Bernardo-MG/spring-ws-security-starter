@@ -46,6 +46,8 @@ public interface UserTokenSpringRepository extends JpaRepository<UserTokenEntity
 
     public boolean existsByToken(final String token);
 
+    public Optional<UserTokenEntity> findAllByTokenIn(final Collection<String> tokens);
+
     /**
      * Returns all the tokens which can no longer be used. That means any of these:
      * <p>

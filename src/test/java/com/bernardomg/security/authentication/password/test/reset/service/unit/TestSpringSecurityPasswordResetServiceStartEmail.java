@@ -18,7 +18,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,10 +25,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +42,7 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
     private PasswordNotificator                passwordNotificator;
 
     @Mock
-    private UserSpringRepository               repository;
+    private UserRepository                     repository;
 
     @InjectMocks
     private SpringSecurityPasswordResetService service;
@@ -63,12 +62,13 @@ class TestSpringSecurityPasswordResetServiceStartEmail {
 
     @BeforeEach
     void initializeUser() {
-        final UserEntity  user;
+        final User        user;
         final UserDetails details;
 
-        user = UserEntities.enabled();
+        user = Users.enabled();
 
-        details = new User(UserConstants.USERNAME, "password", true, true, true, true, Collections.emptyList());
+        details = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, "password", true, true,
+            true, true, Collections.emptyList());
 
         given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(details);
 

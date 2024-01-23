@@ -39,9 +39,8 @@ import com.bernardomg.security.authentication.password.change.usecase.service.Sp
 import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
@@ -74,17 +73,16 @@ public class PasswordConfig {
     }
 
     @Bean("passwordRecoveryService")
-    public PasswordResetService getPasswordRecoveryService(final UserSpringRepository userRepository,
+    public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordNotificator notificator,
-            final PasswordEncoder passwordEncoder, final UserTokenSpringRepository userTokenRepository,
+            final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
         tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepository, "password_reset",
             tokenProperties.getValidity());
 
-        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore,
-            passwordEncoder);
+        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore);
     }
 
     @Bean("passwordResetWhitelist")

@@ -78,7 +78,7 @@ class TestPasswordChangeServiceAuth {
     private final void loadDisabledUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(UserConstants.USERNAME);
@@ -92,7 +92,7 @@ class TestPasswordChangeServiceAuth {
     private final void loadExpiredUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(UserConstants.USERNAME);
@@ -104,7 +104,7 @@ class TestPasswordChangeServiceAuth {
     private final void loadLockedUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(UserConstants.USERNAME);
@@ -114,7 +114,7 @@ class TestPasswordChangeServiceAuth {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
-    private final void loadPersistentUser() {
+    private final void loadUserRepository() {
         final User user;
 
         user = Users.enabled();

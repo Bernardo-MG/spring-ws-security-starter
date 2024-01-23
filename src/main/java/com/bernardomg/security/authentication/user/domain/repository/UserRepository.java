@@ -43,6 +43,8 @@ public interface UserRepository {
      */
     public Optional<User> findOne(final String username);
 
+    public Optional<User> findOneByEmail(final String email);
+
     public User save(final String username, final UserChange user);
 
     public User save(final User user, final String password);

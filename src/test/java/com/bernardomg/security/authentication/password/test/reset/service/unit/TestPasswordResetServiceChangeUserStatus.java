@@ -22,20 +22,20 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordRecoveryService - change password - user status")
 class TestPasswordResetServiceChangeUserStatus {
-
-    private static final String                USERNAME = "username";
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -53,7 +53,7 @@ class TestPasswordResetServiceChangeUserStatus {
     private UserDetailsService                 userDetailsService;
 
     @Mock
-    private UserSpringRepository               userRepository;
+    private UserRepository                     userRepository;
 
     public TestPasswordResetServiceChangeUserStatus() {
         super();
@@ -62,52 +62,50 @@ class TestPasswordResetServiceChangeUserStatus {
     private final void loadDisabledUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(USERNAME);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
         given(user.isEnabled()).willReturn(false);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private final void loadExpiredUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(USERNAME);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
         given(user.isAccountNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
     private final void loadLockedUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(USERNAME);
+        given(user.getUsername()).willReturn(UserConstants.USERNAME);
         given(user.isAccountNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
-    private void loadPersistentUser() {
-        final UserEntity user;
+    private void loadUserRepository() {
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail("mail@somewhere.com");
-        user.setUsername(USERNAME);
+        user = Users.enabled();
 
-        given(userRepository.findOneByUsername(USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     @BeforeEach
     void initializeToken() {
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(USERNAME);
+        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
     }
 
     @Test

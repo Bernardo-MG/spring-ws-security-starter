@@ -21,13 +21,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,7 +51,7 @@ class TestPasswordResetServiceStartUserStatus {
     private UserDetailsService                 userDetailsService;
 
     @Mock
-    private UserSpringRepository               userRepository;
+    private UserRepository                     userRepository;
 
     public TestPasswordResetServiceStartUserStatus() {
         super();
@@ -59,7 +60,7 @@ class TestPasswordResetServiceStartUserStatus {
     private final void loadDisabledUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(UserConstants.USERNAME);
@@ -72,7 +73,7 @@ class TestPasswordResetServiceStartUserStatus {
     private final void loadExpiredUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(UserConstants.USERNAME);
@@ -83,7 +84,7 @@ class TestPasswordResetServiceStartUserStatus {
     private final void loadLockedUser() {
         final UserDetails user;
 
-        loadPersistentUser();
+        loadUserRepository();
 
         user = Mockito.mock(UserDetails.class);
         given(user.getUsername()).willReturn(UserConstants.USERNAME);
@@ -92,12 +93,10 @@ class TestPasswordResetServiceStartUserStatus {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
     }
 
-    private void loadPersistentUser() {
-        final UserEntity user;
+    private void loadUserRepository() {
+        final User user;
 
-        user = new UserEntity();
-        user.setEmail(UserConstants.EMAIL);
-        user.setUsername(UserConstants.USERNAME);
+        user = Users.enabled();
 
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(user));
     }

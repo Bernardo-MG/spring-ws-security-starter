@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -40,6 +40,8 @@ import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.Use
  */
 public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTokenEntity, Long> {
 
+    public Optional<UserDataTokenEntity> findAllByTokenIn(final Collection<String> tokens);
+
     /**
      * Returns all the tokens which can no longer be used. That means any of these:
      * <p>
@@ -52,7 +54,19 @@ public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTok
      * @return all the tokens which can no longer be used
      */
     @Query("SELECT t FROM UserDataToken t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
-    public List<UserDataTokenEntity> findAllFinished();
+    public Collection<UserDataTokenEntity> findAllFinished();
+
+    /**
+     * Returns all the tokens which are not revoked for a user and scope.
+     *
+     * @param username
+     *            user with the tokens
+     * @param scope
+     *            token scope
+     * @return all the tokens which are not revoked
+     */
+    public Collection<UserDataTokenEntity> findAllNotRevokedByUsernameAndScope(final String username,
+            final String scope);
 
     public Optional<UserDataTokenEntity> findByToken(final String token);
 
@@ -64,5 +78,16 @@ public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTok
      * @return the token for the code
      */
     public Optional<UserDataTokenEntity> findOneByToken(final String token);
+
+    /**
+     * Returns a single token by its token code and scope. This allows securing access to tokens, by limiting the scope.
+     *
+     * @param token
+     *            token code to search for
+     * @param scope
+     *            scope to filter by
+     * @return the token for the code and scope
+     */
+    public Optional<UserDataTokenEntity> findOneByTokenAndScope(final String token, final String scope);
 
 }

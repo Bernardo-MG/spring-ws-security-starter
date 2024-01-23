@@ -19,8 +19,18 @@ public interface UserTokenRepository {
 
     public Collection<UserToken> findAllFinished();
 
+    public Collection<UserToken> findAllNotRevoked(final String username, final String scope);
+
     public Optional<UserToken> findOne(final String token);
 
+    public Optional<UserToken> findOneByScope(final String token, final String scope);
+
+    public Optional<String> findUsername(final String token, final String scope);
+
     public UserToken save(final String token, final UserTokenPartial partial);
+
+    public UserToken save(final UserToken token);
+
+    public Collection<UserToken> saveAll(final Collection<UserToken> tokens);
 
 }

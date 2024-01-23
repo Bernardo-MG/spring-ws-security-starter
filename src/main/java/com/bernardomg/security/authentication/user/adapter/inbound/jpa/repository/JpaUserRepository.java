@@ -78,6 +78,12 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final Optional<User> findOneByEmail(final String email) {
+        return userRepository.findOneByEmail(email)
+            .map(this::toDomain);
+    }
+
+    @Override
     public final User save(final String username, final UserChange user) {
         final UserEntity           entity;
         final Optional<UserEntity> readUser;

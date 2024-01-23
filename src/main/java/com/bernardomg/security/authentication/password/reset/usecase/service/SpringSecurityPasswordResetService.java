@@ -29,16 +29,15 @@ import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.store.UserTokenStore;
@@ -68,47 +67,40 @@ import lombok.extern.slf4j.Slf4j;
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
     /**
-     * Password encoder, for validating passwords.
-     */
-    private final PasswordEncoder      passwordEncoder;
-
-    /**
      * Notificator. Recovery steps may require emails, or other kind of messaging.
      */
-    private final PasswordNotificator  passwordNotificator;
+    private final PasswordNotificator passwordNotificator;
 
     /**
      * Token processor.
      */
-    private final UserTokenStore       tokenStore;
+    private final UserTokenStore      tokenStore;
 
     /**
      * User details service, to find and validate users.
      */
-    private final UserDetailsService   userDetailsService;
+    private final UserDetailsService  userDetailsService;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository userRepository;
+    private final UserRepository      userRepository;
 
-    public SpringSecurityPasswordResetService(final UserSpringRepository repo, final UserDetailsService userDetsService,
-            final PasswordNotificator notif, final UserTokenStore tStore, final PasswordEncoder passEncoder) {
+    public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
+            final PasswordNotificator notif, final UserTokenStore tStore) {
         super();
 
         userRepository = Objects.requireNonNull(repo);
         userDetailsService = Objects.requireNonNull(userDetsService);
         passwordNotificator = Objects.requireNonNull(notif);
         tokenStore = Objects.requireNonNull(tStore);
-        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
     @Transactional
     public final void changePassword(final String token, final String password) {
-        final String     username;
-        final UserEntity user;
-        final String     encodedPassword;
+        final String username;
+        final User   user;
 
         tokenStore.validate(token);
 
@@ -120,11 +112,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         authorizePasswordChange(user.getUsername());
 
-        encodedPassword = passwordEncoder.encode(password);
-        user.setPassword(encodedPassword);
         user.setPasswordExpired(false);
 
-        userRepository.save(user);
+        userRepository.save(user, password);
         tokenStore.consumeToken(token);
 
         log.debug("Finished password change for {}", username);
@@ -132,8 +122,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final void startPasswordReset(final String email) {
-        final UserEntity user;
-        final String     token;
+        final User   user;
+        final String token;
 
         log.debug("Requested password recovery for {}", email);
 
@@ -207,8 +197,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         }
     }
 
-    private final UserEntity getUserByEmail(final String email) {
-        final Optional<UserEntity> user;
+    private final User getUserByEmail(final String email) {
+        final Optional<User> user;
 
         user = userRepository.findOneByEmail(email);
 
@@ -221,10 +211,10 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         return user.get();
     }
 
-    private final UserEntity getUserByUsername(final String username) {
-        final Optional<UserEntity> user;
+    private final User getUserByUsername(final String username) {
+        final Optional<User> user;
 
-        user = userRepository.findOneByUsername(username);
+        user = userRepository.findOne(username);
 
         // Validate the user exists
         if (!user.isPresent()) {
