@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.schedule;
+package com.bernardomg.security.authorization.token.adapter.inbound.schedule;
 
 import java.util.Objects;
 

@@ -34,8 +34,8 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.schedule.TokenCleanUpScheduleTask;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.schedule.TokenCleanUpScheduleTask;
 import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
 

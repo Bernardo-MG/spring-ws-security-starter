@@ -26,4 +26,4 @@
  * Scheduling components.
  */
 
-package com.bernardomg.security.authorization.token.schedule;
+package com.bernardomg.security.authorization.token.adapter.inbound.schedule;
