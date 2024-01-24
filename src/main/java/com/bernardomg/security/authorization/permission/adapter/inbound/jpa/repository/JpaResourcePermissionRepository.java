@@ -78,6 +78,15 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
+    public final Collection<ResourcePermission> findAll() {
+        return resourcePermissionRepository.findAll()
+            .stream()
+            .map(this::toDomain)
+            .distinct()
+            .toList();
+    }
+
+    @Override
     public final Collection<ResourcePermission> findAllForUser(final String username) {
         final Optional<UserEntity> user;
 

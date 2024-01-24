@@ -26,13 +26,13 @@ package com.bernardomg.security.initializer;
 
 import java.util.Collection;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,14 +45,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TestRolesInitializer {
 
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
-    private final RolePermissionSpringRepository     rolePermissionRepository;
+    private final RolePermissionRepository     rolePermissionRepository;
 
-    private final RoleSpringRepository               roleRepository;
+    private final RoleRepository               roleRepository;
 
-    public TestRolesInitializer(final ResourcePermissionSpringRepository permissionRepo,
-            final RoleSpringRepository roleRepo, final RolePermissionSpringRepository rolePermissionRepo) {
+    public TestRolesInitializer(final ResourcePermissionRepository permissionRepo, final RoleRepository roleRepo,
+            final RolePermissionRepository rolePermissionRepo) {
         super();
 
         resourcePermissionRepository = permissionRepo;
@@ -61,7 +61,7 @@ public final class TestRolesInitializer {
     }
 
     public final void initialize() {
-        final Collection<ResourcePermissionEntity> permissions;
+        final Collection<ResourcePermission> permissions;
 
         log.debug("Initializing test roles");
 
@@ -73,40 +73,39 @@ public final class TestRolesInitializer {
         log.debug("Initialized test roles");
     }
 
-    private final RoleEntity getReadRole() {
-        return RoleEntity.builder()
+    private final Role getReadRole() {
+        return Role.builder()
             .withName("READ")
             .build();
     }
 
-    private final RoleEntity getRootRole() {
-        return RoleEntity.builder()
+    private final Role getRootRole() {
+        return Role.builder()
             .withName("ADMIN")
             .build();
     }
 
-    private final void initializeAdminRole(final Collection<ResourcePermissionEntity> permissions) {
-        final RoleEntity     rootRole;
-        final RoleEntity     savedRootRole;
-        RolePermissionEntity rolePermission;
+    private final void initializeAdminRole(final Collection<ResourcePermission> permissions) {
+        final Role     rootRole;
+        final Role     savedRootRole;
+        RolePermission rolePermission;
 
         // Add read user
         rootRole = getRootRole();
         savedRootRole = roleRepository.save(rootRole);
 
-        for (final ResourcePermissionEntity perm : permissions) {
-            rolePermission = RolePermissionEntity.builder()
-                .withRoleId(savedRootRole.getId())
-                .withPermission(perm.getName())
-                .withGranted(true)
+        for (final ResourcePermission permission : permissions) {
+            rolePermission = RolePermission.builder()
+                .withRole(savedRootRole.getName())
+                .withPermission(permission.getName())
                 .build();
             rolePermissionRepository.save(rolePermission);
         }
     }
 
-    private final void initializeReadRole(final Collection<ResourcePermissionEntity> permissions) {
-        final RoleEntity readRole;
-        final RoleEntity savedReadRole;
+    private final void initializeReadRole(final Collection<ResourcePermission> permissions) {
+        final Role readRole;
+        final Role savedReadRole;
 
         // Add read user
         readRole = getReadRole();
@@ -117,7 +116,7 @@ public final class TestRolesInitializer {
     }
 
     private final void runIfNotExists(final Runnable runnable, final String name) {
-        if (!roleRepository.existsByName(name)) {
+        if (!roleRepository.exists(name)) {
             runnable.run();
             log.debug("Initialized {} role", name);
         } else {
@@ -125,20 +124,19 @@ public final class TestRolesInitializer {
         }
     }
 
-    private final void setPermissions(final RoleEntity role, final Collection<ResourcePermissionEntity> permissions,
+    private final void setPermissions(final Role role, final Collection<ResourcePermission> permissions,
             final String actionName) {
-        RolePermissionEntity                       rolePermission;
-        final Collection<ResourcePermissionEntity> validPermissions;
+        final Collection<ResourcePermission> validPermissions;
+        RolePermission                       rolePermission;
 
         validPermissions = permissions.stream()
             .filter(p -> p.getAction()
                 .equals(actionName))
             .toList();
-        for (final ResourcePermissionEntity permission : validPermissions) {
-            rolePermission = RolePermissionEntity.builder()
-                .withRoleId(role.getId())
+        for (final ResourcePermission permission : validPermissions) {
+            rolePermission = RolePermission.builder()
+                .withRole(role.getName())
                 .withPermission(permission.getName())
-                .withGranted(true)
                 .build();
             rolePermissionRepository.save(rolePermission);
         }

@@ -13,6 +13,8 @@ public interface ResourcePermissionRepository {
 
     public boolean exists(final String name);
 
+    public Collection<ResourcePermission> findAll();
+
     public Collection<ResourcePermission> findAllForUser(final String username);
 
     public Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable);

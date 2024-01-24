@@ -7,10 +7,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -20,15 +22,21 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITTestRolesInitializer {
 
     @Autowired
-    private ResourcePermissionSpringRepository resourcePermissionRepository;
+    private ResourcePermissionRepository   resourcePermissionRepository;
 
     @Autowired
-    private RolePermissionSpringRepository     rolePermissionRepository;
+    private RolePermissionRepository       rolePermissionRepository;
 
     @Autowired
-    private RoleSpringRepository               roleRepository;
+    private RolePermissionSpringRepository rolePermissionSpringRepository;
 
-    private TestRolesInitializer               testRolesInitializer;
+    @Autowired
+    private RoleRepository                 roleRepository;
+
+    @Autowired
+    private RoleSpringRepository           roleSpringRepository;
+
+    private TestRolesInitializer           testRolesInitializer;
 
     @BeforeEach
     public void initialize() {
@@ -43,7 +51,7 @@ class ITTestRolesInitializer {
 
         testRolesInitializer.initialize();
 
-        count = rolePermissionRepository.count();
+        count = rolePermissionSpringRepository.count();
         Assertions.assertThat(count)
             .isNotZero();
     }
@@ -55,7 +63,7 @@ class ITTestRolesInitializer {
 
         testRolesInitializer.initialize();
 
-        count = roleRepository.count();
+        count = roleSpringRepository.count();
         Assertions.assertThat(count)
             .isEqualTo(2);
     }
