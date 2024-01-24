@@ -28,14 +28,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.initializer.TestRolesInitializer;
 import com.bernardomg.security.initializer.TestUsersInitializer;
 
@@ -63,10 +61,9 @@ public class SecurityInitializerConfig {
     @Bean(name = "testUsersInitializer", initMethod = "initialize")
     @DependsOn("testRolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public TestUsersInitializer getTestUsersInitializer(final UserSpringRepository userRepository,
-            final UserRoleSpringRepository userRoleRepository, final RoleSpringRepository roleRepository,
-            final PasswordEncoder passwordEncoder) {
-        return new TestUsersInitializer(userRepository, userRoleRepository, roleRepository, passwordEncoder);
+    public TestUsersInitializer getTestUsersInitializer(final UserRepository userRepository,
+            final UserRoleRepository userRoleRepository, final RoleRepository roleRepository) {
+        return new TestUsersInitializer(userRepository, userRoleRepository, roleRepository);
     }
 
 }

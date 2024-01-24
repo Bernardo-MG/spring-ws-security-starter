@@ -24,15 +24,11 @@
 
 package com.bernardomg.security.initializer;
 
-import org.springframework.data.domain.Example;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,25 +41,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class TestUsersInitializer {
 
-    /**
-     * Password encoder.
-     */
-    private final PasswordEncoder          passwordEncoder;
+    private final RoleRepository     roleRepository;
 
-    private final RoleSpringRepository     roleRepository;
+    private final UserRepository     userRepository;
 
-    private final UserSpringRepository     userRepository;
+    private final UserRoleRepository userRoleRepository;
 
-    private final UserRoleSpringRepository userRoleRepository;
-
-    public TestUsersInitializer(final UserSpringRepository userRepo, final UserRoleSpringRepository userRoleRepo,
-            final RoleSpringRepository roleRepo, final PasswordEncoder passwordEnc) {
+    public TestUsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
+            final RoleRepository roleRepo) {
         super();
 
         userRepository = userRepo;
         userRoleRepository = userRoleRepo;
         roleRepository = roleRepo;
-        passwordEncoder = passwordEnc;
     }
 
     public final void initialize() {
@@ -75,16 +65,11 @@ public final class TestUsersInitializer {
         log.debug("Initialized test users");
     }
 
-    private final UserEntity getReadUser() {
-        final String encodedPassword;
-
-        encodedPassword = passwordEncoder.encode("1234");
-
-        return UserEntity.builder()
+    private final User getReadUser() {
+        return User.builder()
             .withUsername("read")
             .withName("read")
             .withEmail("email2@nowhere.com")
-            .withPassword(encodedPassword)
             .withEnabled(true)
             .withLocked(false)
             .withExpired(false)
@@ -92,16 +77,11 @@ public final class TestUsersInitializer {
             .build();
     }
 
-    private final UserEntity getRootUser() {
-        final String encodedPassword;
-
-        encodedPassword = passwordEncoder.encode("1234");
-
-        return UserEntity.builder()
+    private final User getRootUser() {
+        return User.builder()
             .withUsername("root")
             .withName("root")
             .withEmail("email1@nowhere.com")
-            .withPassword(encodedPassword)
             .withEnabled(true)
             .withLocked(false)
             .withExpired(false)
@@ -110,55 +90,37 @@ public final class TestUsersInitializer {
     }
 
     private final void initializeReadUser() {
-        final UserEntity     readUser;
-        final UserEntity     savedReadUser;
-        final UserRoleEntity readUserRole;
-        final RoleEntity     example;
-        final RoleEntity     role;
+        final User readUser;
+        final User savedReadUser;
+        final Role role;
 
         // Add read user
         readUser = getReadUser();
-        savedReadUser = userRepository.save(readUser);
+        savedReadUser = userRepository.save(readUser, "1234");
 
-        example = RoleEntity.builder()
-            .withName("READ")
-            .build();
-        role = roleRepository.findOne(Example.of(example))
+        role = roleRepository.findOne("READ")
             .get();
 
-        readUserRole = UserRoleEntity.builder()
-            .withUserId(savedReadUser.getId())
-            .withRoleId(role.getId())
-            .build();
-        userRoleRepository.save(readUserRole);
+        userRoleRepository.save(savedReadUser.getUsername(), role.getName());
     }
 
     private final void initializeRootUser() {
-        final UserEntity     rootUser;
-        final UserEntity     savedRootUser;
-        final UserRoleEntity rootUserRole;
-        final RoleEntity     example;
-        final RoleEntity     role;
+        final User rootUser;
+        final User savedRootUser;
+        final Role role;
 
         // Add root user
         rootUser = getRootUser();
-        savedRootUser = userRepository.save(rootUser);
+        savedRootUser = userRepository.save(rootUser, "1234");
 
-        example = RoleEntity.builder()
-            .withName("ADMIN")
-            .build();
-        role = roleRepository.findOne(Example.of(example))
+        role = roleRepository.findOne("ADMIN")
             .get();
 
-        rootUserRole = UserRoleEntity.builder()
-            .withUserId(savedRootUser.getId())
-            .withRoleId(role.getId())
-            .build();
-        userRoleRepository.save(rootUserRole);
+        userRoleRepository.save(savedRootUser.getUsername(), role.getName());
     }
 
     private final void runIfNotExists(final Runnable runnable, final String name) {
-        if (!userRepository.existsByUsername(name)) {
+        if (!userRepository.exists(name)) {
             runnable.run();
             log.debug("Initialized {} user", name);
         } else {
