@@ -29,15 +29,13 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,14 +48,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 
-    private final RoleSpringRepository     roleRepository;
+    private final RoleRepository     roleRepository;
 
-    private final UserSpringRepository     userRepository;
+    private final UserRepository     userRepository;
 
-    private final UserRoleSpringRepository userRoleRepository;
+    private final UserRoleRepository userRoleRepository;
 
-    public DefaultUserRoleService(final UserSpringRepository userRepo, final RoleSpringRepository roleRepo,
-            final UserRoleSpringRepository userRoleRepo) {
+    public DefaultUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserRoleRepository userRoleRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
@@ -67,49 +65,37 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     @Override
     public final Role addRole(final String username, final String role) {
-        final UserRoleEntity       userRoleSample;
-        final Optional<RoleEntity> readRole;
-        final Optional<UserEntity> readUser;
+        final Optional<Role> readRole;
+        final boolean        userExists;
 
         log.debug("Adding role {} to user {}", role, username);
 
-        readUser = userRepository.findOneByUsername(username);
-
-        if (readUser.isEmpty()) {
+        userExists = userRepository.exists(username);
+        if (!userExists) {
             throw new MissingUserUsernameException(username);
         }
 
-        readRole = roleRepository.findOneByName(role);
-
+        readRole = roleRepository.findOne(role);
         if (readRole.isEmpty()) {
             throw new MissingRoleNameException(role);
         }
 
-        userRoleSample = getUserRoleSample(readUser.get()
-            .getId(),
-            readRole.get()
-                .getId());
-
         // Persist relationship
-        userRoleRepository.save(userRoleSample);
+        userRoleRepository.save(username, role);
 
-        return toDto(readRole.get());
+        return readRole.get();
     }
 
     @Override
     public final Iterable<Role> getAvailableRoles(final String username, final Pageable pageable) {
-        final int            count;
+        final long           count;
         final Iterable<Role> roles;
 
         count = roleRepository.countForUser(username);
         if (count == 0) {
-            roles = roleRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .toList();
+            roles = roleRepository.findAll(pageable);
         } else {
-            roles = roleRepository.findAvailableToUser(username, pageable)
-                .map(this::toDto);
+            roles = roleRepository.findAvailableToUser(username, pageable);
         }
 
         return roles;
@@ -119,52 +105,32 @@ public final class DefaultUserRoleService implements UserRoleService {
     public final Iterable<Role> getRoles(final String username, final Pageable pageable) {
         log.debug("Getting roles for user {} and pagination {}", username, pageable);
 
-        return roleRepository.findForUser(username, pageable)
-            .map(this::toDto);
+        return roleRepository.findForUser(username, pageable);
     }
 
     @Override
     public final Role removeRole(final String username, final String role) {
-        final UserRoleEntity       userRoleSample;
-        final Optional<RoleEntity> readRole;
-        final Optional<UserEntity> readUser;
+        final Optional<Role> readRole;
+        final Optional<User> readUser;
 
         log.debug("Removing role {} from user {}", username, role);
 
-        readUser = userRepository.findOneByUsername(username);
+        readUser = userRepository.findOne(username);
 
         if (readUser.isEmpty()) {
             throw new MissingUserUsernameException(username);
         }
 
-        readRole = roleRepository.findOneByName(role);
+        readRole = roleRepository.findOne(role);
 
         if (readRole.isEmpty()) {
             throw new MissingRoleNameException(role);
         }
 
-        userRoleSample = getUserRoleSample(readUser.get()
-            .getId(),
-            readRole.get()
-                .getId());
-
         // Persist relationship
-        userRoleRepository.delete(userRoleSample);
+        userRoleRepository.delete(username, role);
 
-        return toDto(readRole.get());
-    }
-
-    private final UserRoleEntity getUserRoleSample(final long user, final long role) {
-        return UserRoleEntity.builder()
-            .withUserId(user)
-            .withRoleId(role)
-            .build();
-    }
-
-    private final Role toDto(final RoleEntity role) {
-        return Role.builder()
-            .withName(role.getName())
-            .build();
+        return readRole.get();
     }
 
 }

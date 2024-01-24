@@ -22,6 +22,11 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     @Override
+    public final long countForUser(final String username) {
+        return roleRepository.countForUser(username);
+    }
+
+    @Override
     public final void delete(final String name) {
         roleRepository.deleteByName(name);
     }
@@ -32,12 +37,30 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     @Override
+    public final Iterable<Role> findAll(final Pageable page) {
+        return roleRepository.findAll(page)
+            .map(this::toDomain);
+    }
+
+    @Override
     public final Iterable<Role> findAll(final RoleQuery query, final Pageable page) {
         final RoleEntity entity;
 
         entity = toEntity(query);
 
         return roleRepository.findAll(Example.of(entity), page)
+            .map(this::toDomain);
+    }
+
+    @Override
+    public final Iterable<Role> findAvailableToUser(final String username, final Pageable page) {
+        return roleRepository.findAvailableToUser(username, page)
+            .map(this::toDomain);
+    }
+
+    @Override
+    public final Iterable<Role> findForUser(final String username, final Pageable page) {
+        return roleRepository.findForUser(username, page)
             .map(this::toDomain);
     }
 
