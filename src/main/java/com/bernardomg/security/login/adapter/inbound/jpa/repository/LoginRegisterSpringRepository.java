@@ -34,6 +34,6 @@ import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEnti
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface LoginRegisterRepository extends JpaRepository<LoginRegisterEntity, Long> {
+public interface LoginRegisterSpringRepository extends JpaRepository<LoginRegisterEntity, Long> {
 
 }

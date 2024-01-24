@@ -39,8 +39,10 @@ import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
-import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
+import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.domain.event.LoginEvenRegisterListener;
+import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
 import com.bernardomg.security.login.usecase.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
@@ -68,6 +70,11 @@ public class LoginConfig {
     @Bean("loginEventRegisterListener")
     public LoginEvenRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {
         return new LoginEvenRegisterListener(loginRegisterService);
+    }
+
+    @Bean("loginRegisterRepository")
+    public LoginRegisterRepository getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterRepo) {
+        return new JpaLoginRegisterRepository(loginRegisterRepo);
     }
 
     @Bean("loginRegisterService")

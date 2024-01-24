@@ -29,9 +29,8 @@ import java.util.Objects;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
-import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.domain.model.LoginRegister;
+import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,33 +50,24 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
 
     @Override
     public final Iterable<LoginRegister> getAll(final Pageable page) {
-        return loginRegisterRepository.findAll(page)
-            .map(this::toDto);
+        return loginRegisterRepository.findAll(page);
     }
 
     @Override
     public final void register(final String username, final boolean logged) {
-        final LoginRegisterEntity entity;
-        final LocalDateTime       now;
+        final LoginRegister entity;
+        final LocalDateTime now;
 
         log.debug("Registering log in attempt for user {} and status {}", username, logged);
 
         now = LocalDateTime.now();
-        entity = LoginRegisterEntity.builder()
+        entity = LoginRegister.builder()
             .withUsername(username)
             .withLoggedIn(logged)
             .withDate(now)
             .build();
 
         loginRegisterRepository.save(entity);
-    }
-
-    private final LoginRegister toDto(final LoginRegisterEntity login) {
-        return LoginRegister.builder()
-            .withUsername(login.getUsername())
-            .withLoggedIn(login.getLoggedIn())
-            .withDate(login.getDate())
-            .build();
     }
 
 }

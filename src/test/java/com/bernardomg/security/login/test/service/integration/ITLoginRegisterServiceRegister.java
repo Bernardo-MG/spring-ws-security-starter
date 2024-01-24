@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
-import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -20,18 +20,18 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("LoginRegisterService - register log in")
 class ITLoginRegisterServiceRegister {
 
-    private final LocalDateTime     dayEnd   = LocalDate.now()
+    private final LocalDateTime           dayEnd   = LocalDate.now()
         .atStartOfDay()
         .plusDays(1);
 
-    private final LocalDateTime     dayStart = LocalDate.now()
+    private final LocalDateTime           dayStart = LocalDate.now()
         .atStartOfDay();
 
     @Autowired
-    private LoginRegisterRepository repository;
+    private LoginRegisterSpringRepository repository;
 
     @Autowired
-    private LoginRegisterService    service;
+    private LoginRegisterService          service;
 
     public ITLoginRegisterServiceRegister() {
         super();
