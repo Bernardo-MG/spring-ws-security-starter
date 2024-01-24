@@ -45,6 +45,8 @@ public interface UserRepository {
 
     public Optional<User> findOneByEmail(final String email);
 
+    public String findPassword(final String username);
+
     public User save(final String username, final UserChange user);
 
     public User save(final User user, final String password);

@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaActionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaResourcePermissionRepository;
@@ -67,10 +68,10 @@ public class PermissionConfig {
     }
 
     @Bean("resourcePermissionRepository")
-    public ResourcePermissionRepository getResourcePermissionRepository(
+    public ResourcePermissionRepository getResourcePermissionRepository(final UserSpringRepository userRepo,
             final ResourcePermissionSpringRepository resourcePermissionRepo,
             final RolePermissionSpringRepository rolePermissionRepo, final RoleSpringRepository roleRepo) {
-        return new JpaResourcePermissionRepository(resourcePermissionRepo, rolePermissionRepo, roleRepo);
+        return new JpaResourcePermissionRepository(userRepo, resourcePermissionRepo, rolePermissionRepo, roleRepo);
     }
 
     @Bean("resourceRepository")

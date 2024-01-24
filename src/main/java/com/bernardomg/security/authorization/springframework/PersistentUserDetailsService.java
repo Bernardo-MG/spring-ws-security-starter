@@ -25,22 +25,20 @@
 package com.bernardomg.security.authorization.springframework;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -71,12 +69,12 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     /**
      * Resource permissions repository.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository               userRepository;
+    private final UserRepository               userRepository;
 
     /**
      * Constructs a user details service.
@@ -86,8 +84,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @param resourcePermissionRepo
      *            resource permissions repository
      */
-    public PersistentUserDetailsService(final UserSpringRepository userRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo) {
+    public PersistentUserDetailsService(final UserRepository userRepo,
+            final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");
@@ -97,26 +95,31 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
     @Override
     public final UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final Optional<UserEntity>                   user;
-        final Collection<? extends GrantedAuthority> authorities;
-        final UserDetails                            details;
+        final Optional<com.bernardomg.security.authentication.user.domain.model.User> user;
+        final Collection<? extends GrantedAuthority>                                  authorities;
+        final UserDetails                                                             details;
+        final String                                                                  password;
 
-        user = userRepository.findOneByUsername(username.toLowerCase(Locale.getDefault()));
+        user = userRepository.findOne(username.toLowerCase(Locale.getDefault()));
 
         if (user.isEmpty()) {
             log.error("Username {} not found in database", username);
             throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
         }
 
-        authorities = getAuthorities(user.get()
-            .getId());
+        authorities = resourcePermissionRepository.findAllForUser(user.get()
+            .getUsername())
+            .stream()
+            .map(this::toAuthority)
+            .toList();
 
         if (authorities.isEmpty()) {
             log.error("Username {} has no authorities", username);
             throw new UsernameNotFoundException(String.format("Username %s has no authorities", username));
         }
 
-        details = toUserDetails(user.get(), authorities);
+        password = userRepository.findPassword(username);
+        details = toUserDetails(user.get(), password, authorities);
 
         log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}", username,
             details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),
@@ -126,27 +129,11 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         return details;
     }
 
-    /**
-     * Returns all the authorities for the user.
-     *
-     * @param userId
-     *            id of the user
-     * @return all the authorities for the user
-     */
-    private final List<? extends GrantedAuthority> getAuthorities(final Long userId) {
-        final Function<ResourcePermissionEntity, ResourceActionGrantedAuthority> toAuthority;
-
-        // Maps a persistent permission to an authority
-        toAuthority = p -> ResourceActionGrantedAuthority.builder()
-            .withResource(p.getResource())
-            .withAction(p.getAction())
+    private final GrantedAuthority toAuthority(final ResourcePermission permission) {
+        return ResourceActionGrantedAuthority.builder()
+            .withResource(permission.getResource())
+            .withAction(permission.getAction())
             .build();
-
-        return resourcePermissionRepository.findAllForUser(userId)
-            .stream()
-            .map(toAuthority)
-            .distinct()
-            .toList();
     }
 
     /**
@@ -158,7 +145,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      *            authorities for the user details
      * @return equivalent user details
      */
-    private final UserDetails toUserDetails(final UserEntity user,
+    private final UserDetails toUserDetails(final User user, final String password,
             final Collection<? extends GrantedAuthority> authorities) {
         final Boolean enabled;
         final Boolean accountNonExpired;
@@ -166,13 +153,13 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         final Boolean accountNonLocked;
 
         // Loads status
-        enabled = user.getEnabled();
-        accountNonExpired = !user.getExpired();
-        credentialsNonExpired = !user.getPasswordExpired();
-        accountNonLocked = !user.getLocked();
+        enabled = user.isEnabled();
+        accountNonExpired = !user.isExpired();
+        credentialsNonExpired = !user.isPasswordExpired();
+        accountNonLocked = !user.isLocked();
 
-        return new User(user.getUsername(), user.getPassword(), enabled, accountNonExpired, credentialsNonExpired,
-            accountNonLocked, authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), password, enabled,
+            accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 
 }

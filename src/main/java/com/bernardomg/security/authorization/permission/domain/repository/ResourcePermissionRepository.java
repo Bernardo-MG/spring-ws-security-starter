@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.authorization.permission.domain.repository;
 
+import java.util.Collection;
+
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
@@ -10,6 +12,8 @@ public interface ResourcePermissionRepository {
     public ResourcePermission addPermission(final String role, final String permission);
 
     public boolean exists(final String name);
+
+    public Collection<ResourcePermission> findAllForUser(final String username);
 
     public Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable);
 

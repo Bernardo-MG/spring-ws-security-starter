@@ -84,6 +84,13 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final String findPassword(final String username) {
+        return userRepository.findOneByUsername(username)
+            .map(UserEntity::getPassword)
+            .orElse("");
+    }
+
+    @Override
     public final User save(final String username, final UserChange user) {
         final UserEntity           entity;
         final Optional<UserEntity> readUser;

@@ -1,10 +1,13 @@
 
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
@@ -32,10 +35,14 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
      */
     private final RoleSpringRepository               roleRepository;
 
-    public JpaResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionRepo,
+    private final UserSpringRepository               userRepository;
+
+    public JpaResourcePermissionRepository(final UserSpringRepository userRepo,
+            final ResourcePermissionSpringRepository resourcePermissionRepo,
             final RolePermissionSpringRepository rolePermissionRepo, final RoleSpringRepository roleRepo) {
         super();
 
+        userRepository = userRepo;
         resourcePermissionRepository = resourcePermissionRepo;
         rolePermissionRepository = rolePermissionRepo;
         roleRepository = roleRepo;
@@ -68,6 +75,20 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     @Override
     public final boolean exists(final String name) {
         return resourcePermissionRepository.existsByName(name);
+    }
+
+    @Override
+    public final Collection<ResourcePermission> findAllForUser(final String username) {
+        final Optional<UserEntity> user;
+
+        user = userRepository.findOneByUsername(username);
+
+        return resourcePermissionRepository.findAllForUser(user.get()
+            .getId())
+            .stream()
+            .map(this::toDomain)
+            .distinct()
+            .toList();
     }
 
     @Override

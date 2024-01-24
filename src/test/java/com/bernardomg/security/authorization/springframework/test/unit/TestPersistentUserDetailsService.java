@@ -18,12 +18,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissionEntities;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
+import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,13 +33,13 @@ import com.bernardomg.security.authorization.springframework.PersistentUserDetai
 class TestPersistentUserDetailsService {
 
     @Mock
-    private ResourcePermissionSpringRepository resourcePermissionRepository;
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @InjectMocks
-    private PersistentUserDetailsService       service;
+    private PersistentUserDetailsService service;
 
     @Mock
-    private UserSpringRepository               userRepository;
+    private UserRepository               userRepository;
 
     public TestPersistentUserDetailsService() {
         super();
@@ -46,12 +48,15 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is disabled it is returned")
     void testLoadByUsername_Disabled() {
-        final UserDetails userDetails;
-        final UserEntity  user;
+        final UserDetails        userDetails;
+        final User               user;
+        final ResourcePermission permission;
 
-        user = UserEntities.disabled();
-        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
+        user = Users.disabled();
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        permission = ResourcePermissions.read();
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -61,7 +66,7 @@ class TestPersistentUserDetailsService {
                 .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(UserConstants.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -82,24 +87,27 @@ class TestPersistentUserDetailsService {
                 .extracting("resource")
                 .first()
                 .as("authority resource")
-                .isEqualTo("resource");
+                .isEqualTo(PermissionConstants.DATA);
             softly.assertThat(userDetails.getAuthorities())
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo("action");
+                .isEqualTo(PermissionConstants.READ);
         });
     }
 
     @Test
     @DisplayName("When the user is enabled it is returned")
     void testLoadByUsername_Enabled() {
-        final UserDetails userDetails;
-        final UserEntity  user;
+        final UserDetails        userDetails;
+        final User               user;
+        final ResourcePermission permission;
 
-        user = UserEntities.enabled();
-        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
+        user = Users.enabled();
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        permission = ResourcePermissions.read();
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -109,7 +117,7 @@ class TestPersistentUserDetailsService {
                 .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(UserConstants.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -130,24 +138,27 @@ class TestPersistentUserDetailsService {
                 .extracting("resource")
                 .first()
                 .as("authority resource")
-                .isEqualTo("resource");
+                .isEqualTo(PermissionConstants.DATA);
             softly.assertThat(userDetails.getAuthorities())
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo("action");
+                .isEqualTo(PermissionConstants.READ);
         });
     }
 
     @Test
     @DisplayName("When the user is expired it is returned")
     void testLoadByUsername_Expired() {
-        final UserDetails userDetails;
-        final UserEntity  user;
+        final UserDetails        userDetails;
+        final User               user;
+        final ResourcePermission permission;
 
-        user = UserEntities.expired();
-        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
+        user = Users.expired();
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        permission = ResourcePermissions.read();
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -157,7 +168,7 @@ class TestPersistentUserDetailsService {
                 .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(UserConstants.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isFalse();
@@ -178,24 +189,27 @@ class TestPersistentUserDetailsService {
                 .extracting("resource")
                 .first()
                 .as("authority resource")
-                .isEqualTo("resource");
+                .isEqualTo(PermissionConstants.DATA);
             softly.assertThat(userDetails.getAuthorities())
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo("action");
+                .isEqualTo(PermissionConstants.READ);
         });
     }
 
     @Test
     @DisplayName("When the user is locked it is returned")
     void testLoadByUsername_Locked() {
-        final UserDetails userDetails;
-        final UserEntity  user;
+        final UserDetails        userDetails;
+        final User               user;
+        final ResourcePermission permission;
 
-        user = UserEntities.locked();
-        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
+        user = Users.locked();
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        permission = ResourcePermissions.read();
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -205,7 +219,7 @@ class TestPersistentUserDetailsService {
                 .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(UserConstants.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -226,12 +240,12 @@ class TestPersistentUserDetailsService {
                 .extracting("resource")
                 .first()
                 .as("authority resource")
-                .isEqualTo("resource");
+                .isEqualTo(PermissionConstants.DATA);
             softly.assertThat(userDetails.getAuthorities())
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo("action");
+                .isEqualTo(PermissionConstants.READ);
         });
     }
 
@@ -240,9 +254,11 @@ class TestPersistentUserDetailsService {
     void testLoadByUsername_NoAuthorities() {
         final ThrowingCallable executable;
         final Exception        exception;
+        final User             user;
 
-        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserEntities.enabled()));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of());
+        user = Users.enabled();
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of());
 
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -255,12 +271,15 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user has the password expired it is returned")
     void testLoadByUsername_PasswordExpired() {
-        final UserDetails userDetails;
-        final UserEntity  user;
+        final UserDetails        userDetails;
+        final User               user;
+        final ResourcePermission permission;
 
-        user = UserEntities.passwordExpired();
-        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.of(user));
-        given(resourcePermissionRepository.findAllForUser(1L)).willReturn(List.of(ResourcePermissionEntities.valid()));
+        user = Users.passwordExpired();
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        permission = ResourcePermissions.read();
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
 
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
@@ -270,7 +289,7 @@ class TestPersistentUserDetailsService {
                 .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
                 .as("password")
-                .isEqualTo(UserConstants.ENCODED_PASSWORD);
+                .isEqualTo(UserConstants.PASSWORD);
             softly.assertThat(userDetails.isAccountNonExpired())
                 .as("non expired")
                 .isTrue();
@@ -291,12 +310,12 @@ class TestPersistentUserDetailsService {
                 .extracting("resource")
                 .first()
                 .as("authority resource")
-                .isEqualTo("resource");
+                .isEqualTo(PermissionConstants.DATA);
             softly.assertThat(userDetails.getAuthorities())
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo("action");
+                .isEqualTo(PermissionConstants.READ);
         });
     }
 
@@ -306,7 +325,7 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
-        given(userRepository.findOneByUsername(UserConstants.USERNAME)).willReturn(Optional.empty());
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
