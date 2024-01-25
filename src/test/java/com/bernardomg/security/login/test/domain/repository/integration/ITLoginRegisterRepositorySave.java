@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.login.test.domain.repository.integration;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.assertj.core.api.SoftAssertions;
@@ -21,10 +20,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @IntegrationTest
 @DisplayName("LoginRegisterRepository - save")
 class ITLoginRegisterRepositorySave {
-
-    private final LocalDateTime           dayEnd   = LoginConstants.DATE.plusDays(1);
-
-    private final LocalDateTime           dayStart = LoginConstants.DATE;
 
     @Autowired
     private LoginRegisterRepository       repository;
@@ -69,7 +64,7 @@ class ITLoginRegisterRepositorySave {
 
             softly.assertThat(entity.getDate())
                 .as("date")
-                .isBetween(dayStart, dayEnd);
+                .isEqualTo(LoginConstants.DATE);
         });
     }
 
@@ -106,7 +101,7 @@ class ITLoginRegisterRepositorySave {
 
             softly.assertThat(entity.getDate())
                 .as("date")
-                .isBetween(dayStart, dayEnd);
+                .isEqualTo(LoginConstants.DATE);
         });
     }
 
