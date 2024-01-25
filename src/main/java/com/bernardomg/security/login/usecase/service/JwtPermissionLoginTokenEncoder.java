@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,20 +28,20 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     /**
      * Resource permissions repository.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
     /**
      * Token encoder for creating authentication tokens.
      */
-    private final TokenEncoder                       tokenEncoder;
+    private final TokenEncoder                 tokenEncoder;
 
     /**
      * Token validity time in seconds.
      */
-    private final Duration                           validity;
+    private final Duration                     validity;
 
     public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder,
-            final ResourcePermissionSpringRepository resourcePermissionRepo, final Duration vldt) {
+            final ResourcePermissionRepository resourcePermissionRepo, final Duration vldt) {
         super();
 
         tokenEncoder = Objects.requireNonNull(tknEncoder);
@@ -88,15 +88,15 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     }
 
     private final Map<String, List<String>> getPermissionsMap(final String username) {
-        Function<ResourcePermissionEntity, String> resourceMapper;
-        Function<ResourcePermissionEntity, String> actionMapper;
+        Function<ResourcePermission, String> resourceMapper;
+        Function<ResourcePermission, String> actionMapper;
 
         // Resource name in lower case
-        resourceMapper = ResourcePermissionEntity::getResource;
+        resourceMapper = ResourcePermission::getResource;
         resourceMapper = resourceMapper.andThen(String::toLowerCase);
 
         // Action name in lower case
-        actionMapper = ResourcePermissionEntity::getAction;
+        actionMapper = ResourcePermission::getAction;
         actionMapper = actionMapper.andThen(String::toLowerCase);
 
         // Transform into a map, with the resource as key, and the list of actions as value

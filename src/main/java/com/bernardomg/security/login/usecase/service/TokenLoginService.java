@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
 
 import org.springframework.context.ApplicationEventPublisher;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.login.domain.event.LogInEvent;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 
@@ -56,9 +56,9 @@ public final class TokenLoginService implements LoginService {
 
     private final LoginTokenEncoder           loginTokenEncoder;
 
-    private final UserSpringRepository        userRepository;
+    private final UserRepository              userRepository;
 
-    public TokenLoginService(final BiPredicate<String, String> valid, final UserSpringRepository userRepo,
+    public TokenLoginService(final BiPredicate<String, String> valid, final UserRepository userRepo,
             final LoginTokenEncoder loginTokenEnc, final ApplicationEventPublisher publisher) {
         super();
 
@@ -110,9 +110,9 @@ public final class TokenLoginService implements LoginService {
     }
 
     private final String loadLoginName(final String username) {
-        final Matcher              emailMatcher;
-        final Optional<UserEntity> readUser;
-        final String               validUsername;
+        final Matcher        emailMatcher;
+        final Optional<User> readUser;
+        final String         validUsername;
 
         emailMatcher = emailPattern.matcher(username);
 

@@ -16,17 +16,17 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.LoginTokenEncoder;
@@ -38,22 +38,22 @@ import com.bernardomg.security.login.usecase.service.springframework.SpringValid
 class TestTokenLoginServicePassword {
 
     @Mock
-    private ApplicationEventPublisher          eventPublisher;
+    private ApplicationEventPublisher    eventPublisher;
 
     @Mock
-    private PasswordEncoder                    passEncoder;
+    private PasswordEncoder              passEncoder;
 
     @Mock
-    private ResourcePermissionSpringRepository resourcePermissionRepository;
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
-    private TokenEncoder                       tokenEncoder;
+    private TokenEncoder                 tokenEncoder;
 
     @Mock
-    private UserDetailsService                 userDetService;
+    private UserDetailsService           userDetService;
 
     @Mock
-    private UserSpringRepository               userRepository;
+    private UserRepository               userRepository;
 
     public TestTokenLoginServicePassword() {
         super();
@@ -64,8 +64,8 @@ class TestTokenLoginServicePassword {
         final BiPredicate<String, String> valid;
         final LoginTokenEncoder           loginTokenEncoder;
 
-        user = new User(UserConstants.USERNAME, UserConstants.PASSWORD, true, true, true, true,
-            Collections.emptyList());
+        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, UserConstants.PASSWORD,
+            true, true, true, true, Collections.emptyList());
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
@@ -80,13 +80,10 @@ class TestTokenLoginServicePassword {
     }
 
     private final void loadUser() {
-        final UserEntity persistentUser;
+        final User user;
 
-        persistentUser = new UserEntity();
-        persistentUser.setId(1l);
-        persistentUser.setUsername(UserConstants.USERNAME);
-        persistentUser.setPassword(UserConstants.EMAIL);
-        given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(persistentUser));
+        user = Users.enabled();
+        given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(user));
     }
 
     @Test
