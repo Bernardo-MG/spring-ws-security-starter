@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.function.BiPredicate;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -91,16 +92,23 @@ class TestTokenLoginServiceToken {
     void testLogin_Logged() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
 
+        // WHEN
         status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
-        Assertions.assertThat(status.isLogged())
-            .isTrue();
-        Assertions.assertThat(status.getToken())
-            .isEqualTo(UserTokenConstants.TOKEN);
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.isLogged())
+                .as("logged")
+                .isFalse();
+            softly.assertThat(status.getToken())
+                .as("token")
+                .isEqualTo(UserTokenConstants.TOKEN);
+        });
     }
 
     @Test
@@ -108,10 +116,13 @@ class TestTokenLoginServiceToken {
     void testLogin_NotLogged() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         status = getService(false).login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }

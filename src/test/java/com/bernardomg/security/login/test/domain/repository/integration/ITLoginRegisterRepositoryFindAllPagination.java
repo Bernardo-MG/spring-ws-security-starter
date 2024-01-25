@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.usecase.service.integration;
+package com.bernardomg.security.login.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -10,22 +10,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.login.domain.model.LoginRegister;
+import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.test.config.annotation.LoggedInLoginRegister;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
-import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @AllAuthoritiesMockUser
-@DisplayName("User service - get all")
+@DisplayName("LoginRegisterRepository - find all - pagination")
 @LoggedInLoginRegister
-class ITLoginRegisterServiceGetAllPagination {
+class ITLoginRegisterRepositoryFindAllPagination {
 
     @Autowired
-    private LoginRegisterService service;
+    private LoginRegisterRepository repository;
 
-    public ITLoginRegisterServiceGetAllPagination() {
+    public ITLoginRegisterRepositoryFindAllPagination() {
         super();
     }
 
@@ -35,10 +35,13 @@ class ITLoginRegisterServiceGetAllPagination {
         final Iterable<LoginRegister> logins;
         final Pageable                pageable;
 
+        // GIVEN
         pageable = Pageable.ofSize(10);
 
-        logins = service.getAll(pageable);
+        // WHEN
+        logins = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(logins)
             .as("logins")
             .isInstanceOf(Page.class);
@@ -50,10 +53,13 @@ class ITLoginRegisterServiceGetAllPagination {
         final Iterable<LoginRegister> logins;
         final Pageable                pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 1);
 
-        logins = service.getAll(pageable);
+        // WHEN
+        logins = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(logins)
             .as("logins")
             .containsExactly(LoginRegisters.loggedIn());
@@ -65,10 +71,13 @@ class ITLoginRegisterServiceGetAllPagination {
         final Iterable<LoginRegister> logins;
         final Pageable                pageable;
 
+        // GIVEN
         pageable = PageRequest.of(1, 1);
 
-        logins = service.getAll(pageable);
+        // WHEN
+        logins = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(logins)
             .isEmpty();
     }
@@ -79,10 +88,13 @@ class ITLoginRegisterServiceGetAllPagination {
         final Iterable<LoginRegister> logins;
         final Pageable                pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        logins = service.getAll(pageable);
+        // WHEN
+        logins = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(logins)
             .as("logins")
             .isInstanceOf(Page.class);

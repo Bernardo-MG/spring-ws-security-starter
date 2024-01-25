@@ -77,8 +77,10 @@ class TestTokenLoginServiceFailure {
     void testLogIn_NullUser() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getServiceWithNullUser().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }

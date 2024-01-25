@@ -91,10 +91,13 @@ class TestTokenLoginServicePassword {
     void testLogIn_Email_InvalidPassword() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         status = getService(false).login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -104,12 +107,15 @@ class TestTokenLoginServicePassword {
     void testLogIn_Email_ValidPassword() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
+        // WHEN
         status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isTrue();
     }
@@ -119,8 +125,10 @@ class TestTokenLoginServicePassword {
     void testLogIn_Username_InvalidPassword() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getService(false).login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -130,10 +138,13 @@ class TestTokenLoginServicePassword {
     void testLogIn_Username_ValidPassword() {
         final TokenLoginStatus status;
 
+        // GIVEN
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
+        // WHEN
         status = getService(true).login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isTrue();
     }

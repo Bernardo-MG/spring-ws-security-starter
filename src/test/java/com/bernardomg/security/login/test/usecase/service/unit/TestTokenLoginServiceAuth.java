@@ -146,10 +146,13 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Email_AccountExpired() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         status = getServiceForAccountExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -159,10 +162,13 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Email_CredentialsExpired() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         status = getServiceForCredentialsExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -172,10 +178,13 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Email_Disabled() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         status = getServiceForDisabled().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -185,10 +194,13 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Email_Locked() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         status = getServiceForLocked().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -198,8 +210,10 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Email_NotExisting() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getServiceForNotExisting().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -209,13 +223,16 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Email_Valid() {
         final TokenLoginStatus status;
 
+        // GIVEN
         loadUser();
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
+        // WHEN
         status = getServiceForValid().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isTrue();
     }
@@ -225,8 +242,10 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Username_AccountExpired() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getServiceForAccountExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -236,8 +255,10 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Username_CredentialsExpired() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getServiceForCredentialsExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -247,8 +268,10 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Username_Disabled() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getServiceForDisabled().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -258,8 +281,10 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Username_Locked() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getServiceForLocked().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -269,8 +294,10 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Username_NotExisting() {
         final TokenLoginStatus status;
 
+        // WHEN
         status = getServiceForNotExisting().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isFalse();
     }
@@ -280,11 +307,14 @@ class TestTokenLoginServiceAuth {
     void testLogIn_Username_Valid() {
         final TokenLoginStatus status;
 
+        // GIVEN
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
+        // WHEN
         status = getServiceForValid().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Assertions.assertThat(status.isLogged())
             .isTrue();
     }

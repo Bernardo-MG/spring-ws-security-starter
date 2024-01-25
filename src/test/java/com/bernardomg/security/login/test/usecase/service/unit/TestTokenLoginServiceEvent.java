@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
-import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -152,20 +152,26 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_AccountExpired() {
         final LogInEvent event;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         getServiceForAccountExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -173,20 +179,25 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_CredentialsExpired() {
         final LogInEvent event;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         getServiceForCredentialsExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -194,20 +205,25 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_Disabled() {
         final LogInEvent event;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         getServiceForDisabled().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -215,20 +231,25 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_Locked() {
         final LogInEvent event;
 
+        // GIVEN
         loadUser();
 
+        // WHEN
         getServiceForLocked().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -236,18 +257,22 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_NotExisting() {
         final LogInEvent event;
 
+        // WHEN
         getServiceForNotExisting().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.EMAIL);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -255,23 +280,28 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_Valid() {
         final LogInEvent event;
 
+        // GIVEN
         loadUser();
 
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
+        // WHEN
         getServiceForValid().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isTrue();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -279,18 +309,22 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_AccountExpired() {
         final LogInEvent event;
 
+        // WHEN
         getServiceForAccountExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -298,18 +332,22 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_CredentialsExpired() {
         final LogInEvent event;
 
+        // WHEN
         getServiceForCredentialsExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -317,18 +355,22 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_Disabled() {
         final LogInEvent event;
 
+        // WHEN
         getServiceForDisabled().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -336,18 +378,22 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_Locked() {
         final LogInEvent event;
 
+        // WHEN
         getServiceForLocked().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -355,18 +401,22 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_NotExisting() {
         final LogInEvent event;
 
+        // WHEN
         getServiceForNotExisting().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isFalse();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
     @Test
@@ -374,21 +424,26 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Username_Valid() {
         final LogInEvent event;
 
+        // GIVEN
         given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
+        // WHEN
         getServiceForValid().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
+        // THEN
         Mockito.verify(eventPublisher)
             .publishEvent(emailCaptor.capture());
 
         event = emailCaptor.getValue();
-        Assertions.assertThat(event.isLoggedIn())
-            .as("logged in")
-            .isTrue();
-        Assertions.assertThat(event.getUsername())
-            .as("username")
-            .isEqualTo(UserConstants.USERNAME);
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
     }
 
 }

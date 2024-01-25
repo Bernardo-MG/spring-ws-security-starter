@@ -13,6 +13,14 @@ public final class LoginRegisters {
             .build();
     }
 
+    public static final LoginRegister notLoggedIn() {
+        return LoginRegister.builder()
+            .withUsername(LoginConstants.USERNAME)
+            .withLoggedIn(false)
+            .withDate(LoginConstants.DATE)
+            .build();
+    }
+
     private LoginRegisters() {
         super();
     }
