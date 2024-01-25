@@ -271,7 +271,7 @@ class TestTokenLoginServiceEvent {
                 .isFalse();
             softly.assertThat(event.getUsername())
                 .as("username")
-                .isEqualTo(UserConstants.USERNAME);
+                .isEqualTo(UserConstants.EMAIL);
         });
     }
 

@@ -104,7 +104,7 @@ class TestTokenLoginServiceToken {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isLogged())
                 .as("logged")
-                .isFalse();
+                .isTrue();
             softly.assertThat(status.getToken())
                 .as("token")
                 .isEqualTo(UserTokenConstants.TOKEN);
