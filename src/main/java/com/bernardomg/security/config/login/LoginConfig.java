@@ -42,14 +42,14 @@ import com.bernardomg.security.config.authentication.JwtProperties;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.adapter.inbound.listener.LoginEvenRegisterListener;
+import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
+import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
-import com.bernardomg.security.login.usecase.service.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.security.login.usecase.service.LoginService;
-import com.bernardomg.security.login.usecase.service.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
-import com.bernardomg.security.login.usecase.service.springframework.SpringValidLoginPredicate;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**

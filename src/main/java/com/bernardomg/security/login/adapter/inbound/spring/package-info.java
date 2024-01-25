@@ -22,23 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.usecase.service;
-
 /**
- * Token encoder for login.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Login services prepared to be used with Spring.
  */
-public interface LoginTokenEncoder {
 
-    /**
-     * Encodes a token for a successful login. It will use the data from the received user.
-     *
-     * @param username
-     *            user to encode a token for
-     * @return token encoded for user
-     */
-    public String encode(final String username);
-
-}
+package com.bernardomg.security.login.adapter.inbound.spring;

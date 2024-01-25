@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.usecase.service;
+package com.bernardomg.security.login.usecase.encoder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

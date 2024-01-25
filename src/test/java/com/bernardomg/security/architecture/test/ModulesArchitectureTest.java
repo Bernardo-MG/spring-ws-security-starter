@@ -46,7 +46,7 @@ public class ModulesArchitectureTest {
         .whereLayer("Access")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Tokens")
-        .mayOnlyBeAccessedByLayers("Users","Password", "Config")
+        .mayOnlyBeAccessedByLayers("Users", "Password", "Config")
         .whereLayer("Login")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Initializers")

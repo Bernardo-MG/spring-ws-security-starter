@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.usecase.service.springframework;
+package com.bernardomg.security.login.adapter.inbound.spring;
 
 import java.util.Locale;
 import java.util.Objects;

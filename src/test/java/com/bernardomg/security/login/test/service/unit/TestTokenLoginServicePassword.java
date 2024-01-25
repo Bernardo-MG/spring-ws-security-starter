@@ -27,11 +27,11 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
-import com.bernardomg.security.login.usecase.service.JwtPermissionLoginTokenEncoder;
-import com.bernardomg.security.login.usecase.service.LoginTokenEncoder;
+import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
+import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
-import com.bernardomg.security.login.usecase.service.springframework.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenLoginService - password validation")

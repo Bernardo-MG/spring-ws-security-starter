@@ -16,7 +16,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.authentication.user.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.usecase.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificator")

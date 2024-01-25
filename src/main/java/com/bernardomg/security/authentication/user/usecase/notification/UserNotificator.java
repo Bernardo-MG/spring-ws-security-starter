@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.usecase;
+package com.bernardomg.security.authentication.user.usecase.notification;
 
 /**
  * User notificator. Sends emails related to the user workflow, such as when a new user is registered.

@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.authentication.user.adapter.outbound.email;
 
-import com.bernardomg.security.authentication.user.usecase.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 
 import lombok.extern.slf4j.Slf4j;
 

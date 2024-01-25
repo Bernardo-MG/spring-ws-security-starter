@@ -36,6 +36,7 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.login.domain.event.LogInEvent;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
+import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -33,7 +33,7 @@ import com.bernardomg.security.authentication.user.domain.exception.LockedUserEx
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.usecase.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.validation.RegisterUserValidator;
 import com.bernardomg.security.authorization.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
