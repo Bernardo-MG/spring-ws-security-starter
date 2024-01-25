@@ -41,7 +41,7 @@ import com.bernardomg.security.authorization.permission.domain.repository.Resour
 import com.bernardomg.security.config.authentication.JwtProperties;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
-import com.bernardomg.security.login.adapter.inbound.listener.LoginEvenRegisterListener;
+import com.bernardomg.security.login.adapter.inbound.spring.LoginEvenRegisterListener;
 import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.integration;
+package com.bernardomg.security.login.test.usecase.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

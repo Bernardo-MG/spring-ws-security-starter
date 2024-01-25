@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.unit;
+package com.bernardomg.security.login.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 

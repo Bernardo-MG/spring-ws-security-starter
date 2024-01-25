@@ -23,7 +23,7 @@
  */
 
 /**
- * Login events and event handling.
+ * Login events.
  */
 
 package com.bernardomg.security.login.domain.event;

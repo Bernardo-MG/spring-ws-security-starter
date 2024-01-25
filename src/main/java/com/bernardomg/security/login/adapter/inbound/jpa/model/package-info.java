@@ -23,7 +23,7 @@
  */
 
 /**
- * Persistence entities.
+ * Login JPA entities.
  */
 
 package com.bernardomg.security.login.adapter.inbound.jpa.model;

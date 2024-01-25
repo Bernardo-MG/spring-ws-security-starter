@@ -23,7 +23,7 @@
  */
 
 /**
- * Login controller.
+ * Login controllers.
  */
 
 package com.bernardomg.security.login.adapter.outbound.rest.controller;

@@ -23,7 +23,7 @@
  */
 
 /**
- * Repositories.
+ * Login JPA repositories.
  */
 
 package com.bernardomg.security.login.adapter.inbound.jpa.repository;

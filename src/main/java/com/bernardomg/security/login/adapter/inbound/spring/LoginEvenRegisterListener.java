@@ -22,18 +22,37 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.inbound.jpa.repository;
+package com.bernardomg.security.login.adapter.inbound.spring;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Objects;
 
-import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.context.ApplicationListener;
+
+import com.bernardomg.security.login.adapter.outbound.cache.Logins;
+import com.bernardomg.security.login.domain.event.LogInEvent;
+import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 
 /**
- * Login register Spring repository.
+ * Listens for log in events and registers them.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-public interface LoginRegisterSpringRepository extends JpaRepository<LoginRegisterEntity, Long> {
+public final class LoginEvenRegisterListener implements ApplicationListener<LogInEvent> {
+
+    private final LoginRegisterService loginRegisterService;
+
+    public LoginEvenRegisterListener(final LoginRegisterService loginRegisterServ) {
+        super();
+
+        loginRegisterService = Objects.requireNonNull(loginRegisterServ);
+    }
+
+    @Override
+    @Caching(evict = { @CacheEvict(cacheNames = Logins.LOGIN_REGISTERS, allEntries = true) })
+    public final void onApplicationEvent(final LogInEvent event) {
+        loginRegisterService.register(event.getUsername(), event.isLoggedIn());
+    }
 
 }

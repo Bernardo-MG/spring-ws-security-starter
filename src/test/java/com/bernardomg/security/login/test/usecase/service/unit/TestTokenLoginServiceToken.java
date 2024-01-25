@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.service.unit;
+package com.bernardomg.security.login.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -21,12 +21,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
@@ -34,8 +34,8 @@ import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TokenLoginService - password validation")
-class TestTokenLoginServicePassword {
+@DisplayName("TokenLoginService - token generation")
+class TestTokenLoginServiceToken {
 
     @Mock
     private ApplicationEventPublisher    eventPublisher;
@@ -55,7 +55,7 @@ class TestTokenLoginServicePassword {
     @Mock
     private UserRepository               userRepository;
 
-    public TestTokenLoginServicePassword() {
+    public TestTokenLoginServiceToken() {
         super();
     }
 
@@ -87,8 +87,25 @@ class TestTokenLoginServicePassword {
     }
 
     @Test
-    @DisplayName("Doesn't log in using the email and with an invalid password")
-    void testLogIn_Email_InvalidPassword() {
+    @DisplayName("Returns a token login status when the user is logged")
+    void testLogin_Logged() {
+        final TokenLoginStatus status;
+
+        loadUser();
+
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
+
+        status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
+
+        Assertions.assertThat(status.isLogged())
+            .isTrue();
+        Assertions.assertThat(status.getToken())
+            .isEqualTo(UserTokenConstants.TOKEN);
+    }
+
+    @Test
+    @DisplayName("Returns a default login status when the user is logged")
+    void testLogin_NotLogged() {
         final TokenLoginStatus status;
 
         loadUser();
@@ -97,45 +114,6 @@ class TestTokenLoginServicePassword {
 
         Assertions.assertThat(status.isLogged())
             .isFalse();
-    }
-
-    @Test
-    @DisplayName("Logs in using the email and with a valid password")
-    void testLogIn_Email_ValidPassword() {
-        final TokenLoginStatus status;
-
-        loadUser();
-
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
-
-        status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
-
-        Assertions.assertThat(status.isLogged())
-            .isTrue();
-    }
-
-    @Test
-    @DisplayName("Doesn't log in using the username and with an invalid password")
-    void testLogIn_Username_InvalidPassword() {
-        final TokenLoginStatus status;
-
-        status = getService(false).login(UserConstants.USERNAME, UserConstants.PASSWORD);
-
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
-    }
-
-    @Test
-    @DisplayName("Logs in using the username and with a valid password")
-    void testLogIn_Username_ValidPassword() {
-        final TokenLoginStatus status;
-
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
-
-        status = getService(true).login(UserConstants.USERNAME, UserConstants.PASSWORD);
-
-        Assertions.assertThat(status.isLogged())
-            .isTrue();
     }
 
 }

@@ -22,18 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.inbound.jpa.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
-
 /**
- * Login register Spring repository.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Login repositories.
  */
-public interface LoginRegisterSpringRepository extends JpaRepository<LoginRegisterEntity, Long> {
 
-}
+package com.bernardomg.security.login.domain.repository;

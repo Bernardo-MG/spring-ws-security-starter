@@ -23,7 +23,7 @@
  */
 
 /**
- * Login services prepared to be used with Spring.
+ * Login spring adapters.
  */
 
 package com.bernardomg.security.login.adapter.inbound.spring;
