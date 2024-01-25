@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.login.test.domain.repository.integration;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -15,6 +14,7 @@ import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEnti
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.test.config.factory.LoginConstants;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -22,12 +22,9 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("LoginRegisterRepository - save")
 class ITLoginRegisterRepositorySave {
 
-    private final LocalDateTime           dayEnd   = LocalDate.now()
-        .atStartOfDay()
-        .plusDays(1);
+    private final LocalDateTime           dayEnd   = LoginConstants.DATE.plusDays(1);
 
-    private final LocalDateTime           dayStart = LocalDate.now()
-        .atStartOfDay();
+    private final LocalDateTime           dayStart = LoginConstants.DATE;
 
     @Autowired
     private LoginRegisterRepository       repository;

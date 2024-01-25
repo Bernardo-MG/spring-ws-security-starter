@@ -5,6 +5,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
@@ -44,7 +47,8 @@ class TestUsersInitializer {
 
     @BeforeEach
     public final void initializeMocks() {
-        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
+        given(roleRepository.findOne(ArgumentMatchers.any())).willReturn(Optional.of(Roles.valid()));
+        given(userRepository.save(ArgumentMatchers.any(), ArgumentMatchers.anyString())).willReturn(Users.enabled());
     }
 
     @Test
