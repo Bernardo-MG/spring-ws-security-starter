@@ -37,13 +37,13 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Creates initial test roles on app start. These are meant to allow local development.
+ * Creates initial test roles on app start. These are meant to help local development.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class TestRolesInitializer {
+public final class RolesInitializer {
 
     private final ResourcePermissionRepository resourcePermissionRepository;
 
@@ -51,7 +51,7 @@ public final class TestRolesInitializer {
 
     private final RoleRepository               roleRepository;
 
-    public TestRolesInitializer(final ResourcePermissionRepository permissionRepo, final RoleRepository roleRepo,
+    public RolesInitializer(final ResourcePermissionRepository permissionRepo, final RoleRepository roleRepo,
             final RolePermissionRepository rolePermissionRepo) {
         super();
 

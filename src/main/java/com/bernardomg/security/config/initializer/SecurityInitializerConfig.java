@@ -34,8 +34,8 @@ import com.bernardomg.security.authorization.permission.domain.repository.Resour
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
-import com.bernardomg.security.initializer.adapter.inbound.TestRolesInitializer;
-import com.bernardomg.security.initializer.adapter.inbound.TestUsersInitializer;
+import com.bernardomg.security.initializer.adapter.inbound.RolesInitializer;
+import com.bernardomg.security.initializer.adapter.inbound.UsersInitializer;
 
 /**
  * Security data initializer configuration.
@@ -50,20 +50,20 @@ public class SecurityInitializerConfig {
         super();
     }
 
-    @Bean(name = "testRolesInitializer", initMethod = "initialize")
+    @Bean(name = "rolesInitializer", initMethod = "initialize")
     @DependsOn("permissionsLoader")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public TestRolesInitializer getTestRolesInitializer(final ResourcePermissionRepository permissionRepo,
+    public RolesInitializer getRolesInitializer(final ResourcePermissionRepository permissionRepo,
             final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
-        return new TestRolesInitializer(permissionRepo, roleRepo, rolePermissionRepo);
+        return new RolesInitializer(permissionRepo, roleRepo, rolePermissionRepo);
     }
 
-    @Bean(name = "testUsersInitializer", initMethod = "initialize")
-    @DependsOn("testRolesInitializer")
+    @Bean(name = "usersInitializer", initMethod = "initialize")
+    @DependsOn("rolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public TestUsersInitializer getTestUsersInitializer(final UserRepository userRepository,
+    public UsersInitializer getUsersInitializer(final UserRepository userRepository,
             final UserRoleRepository userRoleRepository, final RoleRepository roleRepository) {
-        return new TestUsersInitializer(userRepository, userRoleRepository, roleRepository);
+        return new UsersInitializer(userRepository, userRoleRepository, roleRepository);
     }
 
 }

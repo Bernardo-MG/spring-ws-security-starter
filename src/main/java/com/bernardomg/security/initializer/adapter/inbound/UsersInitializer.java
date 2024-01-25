@@ -33,13 +33,13 @@ import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepo
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Creates initial test users on app start. These are meant to allow local development.
+ * Creates initial test users on app start. These are meant to help local development.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class TestUsersInitializer {
+public final class UsersInitializer {
 
     private final RoleRepository     roleRepository;
 
@@ -47,7 +47,7 @@ public final class TestUsersInitializer {
 
     private final UserRoleRepository userRoleRepository;
 
-    public TestUsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
+    public UsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
             final RoleRepository roleRepo) {
         super();
 

@@ -37,15 +37,18 @@ public interface LoginRegisterRepository {
 
     /**
      * Returns all login registers.
-     * 
-     * @param page pagination data
+     *
+     * @param page
+     *            pagination data
      * @return all login registers
      */
     public Iterable<LoginRegister> findAll(final Pageable page);
 
     /**
      * Saves a login register.
-     * @param register login register to save
+     *
+     * @param register
+     *            login register to save
      * @return newly created login register
      */
     public LoginRegister save(final LoginRegister register);

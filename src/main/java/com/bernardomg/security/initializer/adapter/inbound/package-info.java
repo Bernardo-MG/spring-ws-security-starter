@@ -23,7 +23,7 @@
  */
 
 /**
- * Data initializers.
+ * Security data initializers. Meant to add initial data to test the application.
  */
 
 package com.bernardomg.security.initializer.adapter.inbound;
