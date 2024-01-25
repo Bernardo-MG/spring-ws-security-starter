@@ -18,8 +18,8 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
+import com.bernardomg.security.authorization.token.usecase.store.PersistentUserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

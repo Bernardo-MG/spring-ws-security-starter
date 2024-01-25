@@ -40,8 +40,8 @@ import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQu
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.authorization.token.store.UserTokenStore;
+import com.bernardomg.security.authorization.token.usecase.store.PersistentUserTokenStore;
+import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 

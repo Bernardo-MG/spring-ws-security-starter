@@ -16,13 +16,13 @@ import com.bernardomg.security.authorization.token.domain.exception.MissingUserT
 import com.bernardomg.security.authorization.token.domain.exception.OutOfScopeTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.RevokedTokenException;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
+import com.bernardomg.security.authorization.token.usecase.store.PersistentUserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.initializer;
+package com.bernardomg.security.initializer.adapter.inbound;
 
 import java.util.Collection;
 

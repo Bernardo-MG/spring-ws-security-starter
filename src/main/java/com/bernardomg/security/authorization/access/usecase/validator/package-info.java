@@ -22,34 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.domain.event;
-
-import java.util.Objects;
-
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
-import org.springframework.context.ApplicationListener;
-
-import com.bernardomg.security.login.adapter.outbound.cache.Logins;
-import com.bernardomg.security.login.usecase.service.LoginRegisterService;
-
 /**
- * Listens for log in events and registers them.
+ * Access aspects and annotations.
  */
-public final class LoginEvenRegisterListener implements ApplicationListener<LogInEvent> {
 
-    private final LoginRegisterService loginRegisterService;
-
-    public LoginEvenRegisterListener(final LoginRegisterService loginRegisterServ) {
-        super();
-
-        loginRegisterService = Objects.requireNonNull(loginRegisterServ);
-    }
-
-    @Override
-    @Caching(evict = { @CacheEvict(cacheNames = Logins.LOGIN_REGISTERS, allEntries = true) })
-    public final void onApplicationEvent(final LogInEvent event) {
-        loginRegisterService.register(event.getUsername(), event.isLoggedIn());
-    }
-
-}
+package com.bernardomg.security.authorization.access.usecase.validator;

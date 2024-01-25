@@ -22,11 +22,11 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.permission.adapter.inbound.spring.PersistentUserDetailsService;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.authorization.springframework.PersistentUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PersistentUserDetailsService")

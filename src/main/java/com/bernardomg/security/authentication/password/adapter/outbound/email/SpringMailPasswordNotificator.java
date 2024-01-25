@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.outbound.email;
+package com.bernardomg.security.authentication.password.adapter.outbound.email;
 
 import java.util.Objects;
 

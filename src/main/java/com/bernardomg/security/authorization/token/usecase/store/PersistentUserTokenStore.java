@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.store;
+package com.bernardomg.security.authorization.token.usecase.store;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.springframework;
+package com.bernardomg.security.authorization.permission.adapter.inbound.spring;
 
 import java.util.Collection;
 import java.util.Locale;

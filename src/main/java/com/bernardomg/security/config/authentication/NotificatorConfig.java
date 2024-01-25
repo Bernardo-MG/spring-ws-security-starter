@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.authentication.password.outbound.email.SpringMailPasswordNotificator;
+import com.bernardomg.security.authentication.password.adapter.outbound.email.SpringMailPasswordNotificator;
 import com.bernardomg.security.authentication.password.usecase.notification.DisabledPasswordNotificator;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.adapter.outbound.email.DisabledUserNotificator;

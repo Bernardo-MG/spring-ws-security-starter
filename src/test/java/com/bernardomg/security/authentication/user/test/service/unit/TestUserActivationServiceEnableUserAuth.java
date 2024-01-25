@@ -29,8 +29,8 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
-import com.bernardomg.security.authorization.token.store.UserTokenStore;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
+import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")

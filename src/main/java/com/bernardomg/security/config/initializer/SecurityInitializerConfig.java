@@ -34,8 +34,8 @@ import com.bernardomg.security.authorization.permission.domain.repository.Resour
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
-import com.bernardomg.security.initializer.TestRolesInitializer;
-import com.bernardomg.security.initializer.TestUsersInitializer;
+import com.bernardomg.security.initializer.adapter.inbound.TestRolesInitializer;
+import com.bernardomg.security.initializer.adapter.inbound.TestUsersInitializer;
 
 /**
  * Security data initializer configuration.

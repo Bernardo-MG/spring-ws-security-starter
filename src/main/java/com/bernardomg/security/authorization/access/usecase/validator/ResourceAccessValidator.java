@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.access;
+package com.bernardomg.security.authorization.access.usecase.validator;
 
 /**
  * Validates permissions over a resource.

@@ -26,4 +26,4 @@
  * Token stores.
  */
 
-package com.bernardomg.security.authorization.token.store;
+package com.bernardomg.security.authorization.token.usecase.store;

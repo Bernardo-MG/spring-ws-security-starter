@@ -23,7 +23,7 @@
  */
 
 /**
- * Data initializers.
+ * User details components.
  */
 
-package com.bernardomg.security.initializer;
+package com.bernardomg.security.authorization.permission.adapter.inbound.spring;
