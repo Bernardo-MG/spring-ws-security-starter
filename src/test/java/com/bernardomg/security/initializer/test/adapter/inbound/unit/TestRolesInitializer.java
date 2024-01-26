@@ -12,9 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,26 +24,22 @@ import com.bernardomg.security.authorization.permission.test.config.factory.Reso
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.initializer.adapter.inbound.RolesInitializer;
-import com.bernardomg.security.login.domain.model.LoginRegister;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("RolesInitializer")
 class TestRolesInitializer {
 
-    @Captor
-    private ArgumentCaptor<LoginRegister> loginRegisterCaptor;
+    @Mock
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
-    private ResourcePermissionRepository  resourcePermissionRepository;
+    private RolePermissionRepository     rolePermissionRepository;
 
     @Mock
-    private RolePermissionRepository      rolePermissionRepository;
-
-    @Mock
-    private RoleRepository                roleRepository;
+    private RoleRepository               roleRepository;
 
     @InjectMocks
-    private RolesInitializer              rolesInitializer;
+    private RolesInitializer             rolesInitializer;
 
     @BeforeEach
     public final void initializeMocks() {

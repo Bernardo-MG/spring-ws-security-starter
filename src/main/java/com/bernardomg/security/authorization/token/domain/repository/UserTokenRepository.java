@@ -27,7 +27,7 @@ public interface UserTokenRepository {
 
     public Optional<String> findUsername(final String token, final String scope);
 
-    public UserToken save(final String token, final UserTokenPartial partial);
+    public UserToken patch(final String token, final UserTokenPartial partial);
 
     public UserToken save(final UserToken token);
 

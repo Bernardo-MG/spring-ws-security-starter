@@ -1,0 +1,60 @@
+
+package com.bernardomg.security.authorization.token.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokenPartials;
+import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("SpringUserTokenService - patch")
+class TestSpringUserTokenServicePatch {
+
+    @InjectMocks
+    private SpringUserTokenService           service;
+
+    @Captor
+    private ArgumentCaptor<UserTokenPartial> userTokenCaptor;
+
+    @Mock
+    private UserTokenRepository              userTokenRepository;
+
+    @Test
+    @DisplayName("Patching sends the user token to the repository")
+    void testPatch_Empty_Persisted() {
+        final UserTokenPartial token;
+        final UserTokenPartial request;
+
+        // GIVEN
+        request = UserTokenPartials.empty();
+        given(userTokenRepository.exists(ArgumentMatchers.any())).willReturn(true);
+
+        // WHEN
+        service.patch(UserTokenConstants.TOKEN, request);
+
+        // THEN
+        verify(userTokenRepository, atLeastOnce()).patch(ArgumentMatchers.any(), userTokenCaptor.capture());
+
+        token = userTokenCaptor.getValue();
+
+        Assertions.assertThat(token)
+            .isEqualTo(UserTokenPartials.empty());
+    }
+
+}

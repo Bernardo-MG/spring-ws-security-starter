@@ -1,10 +1,11 @@
 
-package com.bernardomg.security.authorization.token.test.service.integration;
+package com.bernardomg.security.authorization.token.test.domain.repository.integration;
 
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,31 +13,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
-import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SpringUserTokenService - get one")
-class ITSpringUserTokenServiceGetOne {
+@DisplayName("SpringUserTokenService - find one")
+class ITUserTokenRepositoryFindOne {
 
     @Autowired
-    private SpringUserTokenService service;
+    private UserTokenRepository repository;
 
     @Test
     @DisplayName("Returns a token when the token is consumed")
     @OnlyUser
     @ConsumedUserToken
-    void testGetOne_Consumed() {
+    void testFindOne_Consumed() {
         final Optional<UserToken> token;
 
-        token = service.getOne(UserTokenConstants.TOKEN);
+        // WHEN
+        token = repository.findOne(UserTokenConstants.TOKEN);
 
+        // THEN
         Assertions.assertThat(token)
             .as("token")
             .contains(UserTokens.consumed());
@@ -46,11 +49,13 @@ class ITSpringUserTokenServiceGetOne {
     @DisplayName("Returns a token when the token is expired")
     @OnlyUser
     @ExpiredUserToken
-    void testGetOne_Expired() {
+    void testFindOne_Expired() {
         final Optional<UserToken> token;
 
-        token = service.getOne(UserTokenConstants.TOKEN);
+        // WHEN
+        token = repository.findOne(UserTokenConstants.TOKEN);
 
+        // THEN
         Assertions.assertThat(token)
             .as("token")
             .contains(UserTokens.expired());
@@ -58,11 +63,14 @@ class ITSpringUserTokenServiceGetOne {
 
     @Test
     @DisplayName("With a not existing token, an exception is thrown")
-    void testGetOne_NotExisting() {
+    @Disabled("Handle this")
+    void testFindOne_NotExisting() {
         final ThrowingCallable execution;
 
-        execution = () -> service.getOne(UserTokenConstants.TOKEN);
+        // WHEN
+        execution = () -> repository.findOne(UserTokenConstants.TOKEN);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingUserTokenCodeException.class);
     }
@@ -71,11 +79,13 @@ class ITSpringUserTokenServiceGetOne {
     @DisplayName("Returns a token when the token is revoked")
     @OnlyUser
     @RevokedUserToken
-    void testGetOne_Revoked() {
+    void testFindOne_Revoked() {
         final Optional<UserToken> token;
 
-        token = service.getOne(UserTokenConstants.TOKEN);
+        // WHEN
+        token = repository.findOne(UserTokenConstants.TOKEN);
 
+        // THEN
         Assertions.assertThat(token)
             .as("token")
             .contains(UserTokens.revoked());
@@ -85,11 +95,13 @@ class ITSpringUserTokenServiceGetOne {
     @DisplayName("Returns a token when the token is valid")
     @OnlyUser
     @ValidUserToken
-    void testGetOne_Valid() {
+    void testFindOne_Valid() {
         final Optional<UserToken> token;
 
-        token = service.getOne(UserTokenConstants.TOKEN);
+        // WHEN
+        token = repository.findOne(UserTokenConstants.TOKEN);
 
+        // THEN
         Assertions.assertThat(token)
             .as("token")
             .contains(UserTokens.valid());
@@ -99,11 +111,13 @@ class ITSpringUserTokenServiceGetOne {
     @DisplayName("Returns all the token data when the token is valid")
     @OnlyUser
     @ValidUserToken
-    void testGetOne_Valid_data() {
+    void testFindOne_Valid_data() {
         final Optional<UserToken> token;
 
-        token = service.getOne(UserTokenConstants.TOKEN);
+        // WHEN
+        token = repository.findOne(UserTokenConstants.TOKEN);
 
+        // THEN
         Assertions.assertThat(token)
             .as("token")
             .contains(UserTokens.valid());

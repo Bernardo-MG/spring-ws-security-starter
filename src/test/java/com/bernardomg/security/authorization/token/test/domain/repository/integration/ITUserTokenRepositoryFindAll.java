@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.token.test.service.integration;
+package com.bernardomg.security.authorization.token.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,33 +9,36 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
-import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SpringUserTokenService - get all")
-class ITSpringUserTokenServiceGetAll {
+@DisplayName("UserTokenRepository - find all")
+class ITUserTokenRepositoryFindAll {
 
     @Autowired
-    private SpringUserTokenService service;
+    private UserTokenRepository repository;
 
     @Test
     @DisplayName("Returns a token when the token is consumed")
     @OnlyUser
     @ConsumedUserToken
-    void testGetAll_Consumed() {
+    void testFindAll_Consumed() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        tokens = service.getAll(pageable);
+        // WHEN
+        tokens = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
             .hasSize(1);
@@ -45,14 +48,17 @@ class ITSpringUserTokenServiceGetAll {
     @DisplayName("Returns a token when the token is expired")
     @OnlyUser
     @ExpiredUserToken
-    void testGetAll_Expired() {
+    void testFindAll_Expired() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        tokens = service.getAll(pageable);
+        // WHEN
+        tokens = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
             .hasSize(1);
@@ -61,14 +67,17 @@ class ITSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("Doesn't return anything when the token doesn't exist")
     @OnlyUser
-    void testGetAll_NotExisting() {
+    void testFindAll_NotExisting() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        tokens = service.getAll(pageable);
+        // WHEN
+        tokens = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
             .isEmpty();
@@ -78,14 +87,17 @@ class ITSpringUserTokenServiceGetAll {
     @DisplayName("Returns a token when the token is revoked")
     @OnlyUser
     @RevokedUserToken
-    void testGetAll_Revoked() {
+    void testFindAll_Revoked() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        tokens = service.getAll(pageable);
+        // WHEN
+        tokens = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
             .hasSize(1);
@@ -95,14 +107,17 @@ class ITSpringUserTokenServiceGetAll {
     @DisplayName("Returns a token when the token is valid")
     @OnlyUser
     @ValidUserToken
-    void testGetAll_Valid() {
+    void testFindAll_Valid() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        tokens = service.getAll(pageable);
+        // WHEN
+        tokens = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
             .hasSize(1);
@@ -112,14 +127,17 @@ class ITSpringUserTokenServiceGetAll {
     @DisplayName("Returns all the token data when the token is valid")
     @OnlyUser
     @ValidUserToken
-    void testGetAll_Valid_data() {
+    void testFindAll_Valid_data() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        tokens = service.getAll(pageable);
+        // WHEN
+        tokens = repository.findAll(pageable);
 
+        // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
             .containsExactly(UserTokens.valid());

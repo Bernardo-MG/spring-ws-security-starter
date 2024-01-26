@@ -98,7 +98,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     @Override
-    public final UserToken save(final String token, final UserTokenPartial partial) {
+    public final UserToken patch(final String token, final UserTokenPartial partial) {
         final Optional<UserDataTokenEntity> readtoken;
         final UserDataTokenEntity           toPatch;
         final UserTokenEntity               toSave;

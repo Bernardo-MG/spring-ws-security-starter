@@ -121,7 +121,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         validatorPatch.validate(partial);
 
-        return userTokenRepository.save(token, partial);
+        return userTokenRepository.patch(token, partial);
     }
 
 }

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.token.test.store.integration;
+package com.bernardomg.security.authorization.token.test.usecase.store.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;

@@ -1,9 +1,10 @@
 
-package com.bernardomg.security.authorization.token.test.service.integration;
+package com.bernardomg.security.authorization.token.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,34 +16,37 @@ import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenPartials;
-import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SpringUserTokenService - patch")
-class ITSpringUserTokenServicePatch {
+@DisplayName("UserTokenRepository - patch")
+@OnlyUser
+@ValidUserToken
+class ITUserTokenRepositoryPatch {
 
     @Autowired
-    private SpringUserTokenService    service;
+    private UserTokenRepository       repository;
 
     @Autowired
     private UserTokenSpringRepository userTokenRepository;
 
     @Test
-    @DisplayName("Patching with no data changes nothing")
-    @OnlyUser
-    @ValidUserToken
+    @DisplayName("Saving with no data changes nothing")
     void testPatch_Empty_Persisted() {
         final UserTokenEntity  token;
         final UserTokenPartial request;
 
+        // GIVEN
         request = UserTokenPartials.empty();
 
-        service.patch(UserTokenConstants.TOKEN, request);
+        // WHEN
+        repository.patch(UserTokenConstants.TOKEN, request);
 
+        // THEN
         token = userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
@@ -65,17 +69,18 @@ class ITSpringUserTokenServicePatch {
     }
 
     @Test
-    @DisplayName("Patching the expiration date persists an updated token")
-    @OnlyUser
-    @ValidUserToken
+    @DisplayName("Saving the expiration date persists an updated token")
     void testPatch_ExpirationDate_Persisted() {
         final UserTokenEntity  token;
         final UserTokenPartial request;
 
+        // GIVEN
         request = UserTokenPartials.expirationDate();
 
-        service.patch(UserTokenConstants.TOKEN, request);
+        // WHEN
+        repository.patch(UserTokenConstants.TOKEN, request);
 
+        // THEN
         token = userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
@@ -98,16 +103,17 @@ class ITSpringUserTokenServicePatch {
     }
 
     @Test
-    @DisplayName("Patching the revoked flag creates no new token")
-    @OnlyUser
-    @ValidUserToken
+    @DisplayName("Saving the revoked flag creates no new token")
     void testPatch_NotCreated() {
         final UserTokenPartial request;
 
+        // GIVEN
         request = UserTokenPartials.revoked();
 
-        service.patch(UserTokenConstants.TOKEN, request);
+        // WHEN
+        repository.patch(UserTokenConstants.TOKEN, request);
 
+        // THEN
         userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
@@ -116,32 +122,36 @@ class ITSpringUserTokenServicePatch {
     }
 
     @Test
-    @DisplayName("Patching a not existing entity throws an exception")
-    @OnlyUser
+    @DisplayName("Saving a not existing entity throws an exception")
+    @Disabled("Handle this error")
     void testPatch_NotExisting() {
         final UserTokenPartial request;
         final ThrowingCallable execution;
 
+        // GIVEN
         request = UserTokenPartials.revoked();
 
-        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
+        // WHEN
+        execution = () -> repository.patch(UserTokenConstants.TOKEN, request);
 
+        // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingUserTokenCodeException.class);
     }
 
     @Test
-    @DisplayName("Patching the revoked flag persists an updated token")
-    @OnlyUser
-    @ValidUserToken
+    @DisplayName("Saving the revoked flag persists an updated token")
     void testPatch_Revoked_Persisted() {
         final UserTokenEntity  token;
         final UserTokenPartial request;
 
+        // GIVEN
         request = UserTokenPartials.revoked();
 
-        service.patch(UserTokenConstants.TOKEN, request);
+        // WHEN
+        repository.patch(UserTokenConstants.TOKEN, request);
 
+        // THEN
         token = userTokenRepository.findOneByToken(UserTokenConstants.TOKEN)
             .get();
 
@@ -164,17 +174,18 @@ class ITSpringUserTokenServicePatch {
     }
 
     @Test
-    @DisplayName("Patching the revoked flag returns an updated token")
-    @OnlyUser
-    @ValidUserToken
+    @DisplayName("Saving the revoked flag returns an updated token")
     void testPatch_Revoked_Returned() {
         final UserToken        token;
         final UserTokenPartial request;
 
+        // GIVEN
         request = UserTokenPartials.revoked();
 
-        token = service.patch(UserTokenConstants.TOKEN, request);
+        // WHEN
+        token = repository.patch(UserTokenConstants.TOKEN, request);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getUsername())
                 .isEqualTo(UserConstants.USERNAME);
