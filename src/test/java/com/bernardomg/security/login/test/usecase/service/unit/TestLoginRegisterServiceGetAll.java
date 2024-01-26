@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.test.config.annotation.LoggedInLoginRegister;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
 
@@ -37,7 +36,6 @@ class TestLoginRegisterServiceGetAll {
 
     @Test
     @DisplayName("Returns all data")
-    @LoggedInLoginRegister
     void testGetAll_Data() {
         final Iterable<LoginRegister> readLogins;
         final Iterable<LoginRegister> logins;
