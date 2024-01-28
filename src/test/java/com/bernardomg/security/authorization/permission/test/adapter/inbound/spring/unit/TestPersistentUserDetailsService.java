@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.springframework.test.unit;
+package com.bernardomg.security.authorization.permission.test.adapter.inbound.spring.unit;
 
 import static org.mockito.BDDMockito.given;
 

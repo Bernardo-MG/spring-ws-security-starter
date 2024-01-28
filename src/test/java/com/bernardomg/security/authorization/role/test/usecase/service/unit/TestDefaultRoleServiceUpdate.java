@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.test.service.unit;
+package com.bernardomg.security.authorization.role.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -32,63 +32,97 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
+import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.authorization.role.test.config.factory.RolesUpdate;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultRoleService - delete")
-class TestDefaultRoleServiceDelete {
+@DisplayName("DefaultRoleService - update")
+class TestDefaultRoleServiceUpdate {
+
+    @Captor
+    private ArgumentCaptor<Role> roleCaptor;
 
     @Mock
-    private RoleRepository     roleRepository;
+    private RoleRepository       roleRepository;
 
     @InjectMocks
-    private DefaultRoleService service;
+    private DefaultRoleService   service;
 
-    @Mock
-    private UserRoleRepository userRoleRepository;
-
-    public TestDefaultRoleServiceDelete() {
+    public TestDefaultRoleServiceUpdate() {
         super();
     }
 
     @Test
-    @DisplayName("Deleting calls the repository")
-    void testDelete() {
-
-        // GIVEN
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-
-        // WHEN
-        service.delete(RoleConstants.NAME);
-
-        // THEN
-        verify(roleRepository).delete(RoleConstants.NAME);
-    }
-
-    @Test
-    @DisplayName("Deleting a not existing role throws an exception")
-    @ValidUser
-    void testDelete_NotExisting() {
-        final ThrowingCallable executable;
+    @DisplayName("When the role doesn't exists an exception is thrown")
+    void testUpdate_NotExistingRole() {
+        final ThrowingCallable execution;
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
 
         // WHEN
-        executable = () -> service.delete(RoleConstants.NAME);
+        execution = () -> service.update(RoleConstants.NAME, RolesUpdate.valid());
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingRoleNameException.class);
+    }
+
+    @Test
+    @DisplayName("Sends the role to the repository")
+    void testUpdate_PersistedData() {
+        final RoleChange data;
+        final Role       role;
+
+        // GIVEN
+        data = RolesUpdate.valid();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
+
+        // WHEN
+        service.update(RoleConstants.NAME, data);
+
+        // THEN
+        verify(roleRepository).save(roleCaptor.capture());
+
+        role = roleCaptor.getValue();
+
+        Assertions.assertThat(role.getName())
+            .isEqualTo(RoleConstants.NAME);
+    }
+
+    @Test
+    @DisplayName("Returns the updated data")
+    void testUpdate_ReturnedData() {
+        final RoleChange data;
+        final Role       role;
+
+        // GIVEN
+        data = RolesUpdate.valid();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
+
+        // WHEN
+        role = service.update(RoleConstants.NAME, data);
+
+        // THEN
+        Assertions.assertThat(role)
+            .isEqualTo(Roles.valid());
     }
 
 }

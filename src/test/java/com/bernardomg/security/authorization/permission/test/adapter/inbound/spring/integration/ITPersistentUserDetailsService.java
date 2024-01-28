@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.springframework.test.integration;
+package com.bernardomg.security.authorization.permission.test.adapter.inbound.spring.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;

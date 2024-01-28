@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.role.test.service.unit;
+package com.bernardomg.security.authorization.role.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
