@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.integration.service;
+package com.bernardomg.security.authorization.permission.test.usecase.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;

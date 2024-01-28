@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.integration.service;
+package com.bernardomg.security.authorization.permission.test.usecase.service.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -14,25 +14,25 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role permission service - get available permissions - errors")
-class ITRolePermissionServiceGetAvailablePermissionsErrors {
+@DisplayName("Role permission service - get permissions - errors")
+class ITRolePermissionServiceGetPermissionsError {
 
     @Autowired
     private RolePermissionService service;
 
-    public ITRolePermissionServiceGetAvailablePermissionsErrors() {
+    public ITRolePermissionServiceGetPermissionsError() {
         super();
     }
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    void testGetAvailablePermissions_NoRole() {
+    void testGetPermissions_NoRole() {
         final Pageable         pageable;
         final ThrowingCallable executable;
 
         pageable = Pageable.unpaged();
 
-        executable = () -> service.getAvailablePermissions(RoleConstants.NAME, pageable);
+        executable = () -> service.getPermissions(RoleConstants.NAME, pageable);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleNameException.class);
