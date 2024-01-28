@@ -10,7 +10,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -40,8 +39,8 @@ class TestSpringUserTokenServiceGetOne {
 
         // GIVEN
         existing = Optional.of(UserTokens.valid());
-        given(userTokenRepository.findOne(ArgumentMatchers.any())).willReturn(existing);
-        given(userTokenRepository.exists(ArgumentMatchers.any())).willReturn(true);
+        given(userTokenRepository.findOne(UserTokenConstants.TOKEN)).willReturn(existing);
+        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
 
         // WHEN
         token = service.getOne(UserTokenConstants.TOKEN);
@@ -58,7 +57,7 @@ class TestSpringUserTokenServiceGetOne {
         final ThrowingCallable executable;
 
         // GIVEN
-        given(userTokenRepository.exists(ArgumentMatchers.any())).willReturn(false);
+        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(false);
 
         executable = () -> service.getOne(UserTokenConstants.TOKEN);
 

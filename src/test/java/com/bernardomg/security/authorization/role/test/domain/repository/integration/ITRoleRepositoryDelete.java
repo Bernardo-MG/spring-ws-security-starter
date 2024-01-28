@@ -22,40 +22,56 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.test.service.integration;
+package com.bernardomg.security.authorization.role.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
-import com.bernardomg.security.authorization.role.test.config.factory.RolesUpdate;
-import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role service - update validation")
-class ITRoleServiceUpdateValidation {
+@DisplayName("RoleRepository - delete")
+class ITRoleRepositoryDelete {
 
     @Autowired
-    private RoleService service;
+    private RoleRepository       repository;
 
-    public ITRoleServiceUpdateValidation() {
+    @Autowired
+    private RoleSpringRepository springRepository;
+
+    public ITRoleRepositoryDelete() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the role doesn't exist")
-    void testUpdate_NotExistingRole() {
-        final ThrowingCallable execution;
+    @DisplayName("Deletes a role with no permissions")
+    @SingleRole
+    void testDelete() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
 
-        execution = () -> service.update(RoleConstants.NAME, RolesUpdate.valid());
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
 
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingRoleNameException.class);
+    @Test
+    @DisplayName("Deletes a role with permissions")
+    @RoleWithPermission
+    void testDelete_WithPermissions() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
     }
 
 }

@@ -10,7 +10,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
@@ -58,10 +57,12 @@ class TestTokenLoginServiceFailure {
         final BiPredicate<String, String> valid;
         final LoginTokenEncoder           loginTokenEncoder;
 
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
+        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
+        // TODO: Mock this
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
+        // TODO: Mock this
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
             Duration.ZERO);
 

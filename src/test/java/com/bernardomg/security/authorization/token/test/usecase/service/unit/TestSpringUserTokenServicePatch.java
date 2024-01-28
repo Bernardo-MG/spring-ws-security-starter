@@ -43,7 +43,7 @@ class TestSpringUserTokenServicePatch {
 
         // GIVEN
         request = UserTokenPartials.empty();
-        given(userTokenRepository.exists(ArgumentMatchers.any())).willReturn(true);
+        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
 
         // WHEN
         service.patch(UserTokenConstants.TOKEN, request);

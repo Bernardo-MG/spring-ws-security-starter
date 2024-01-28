@@ -9,7 +9,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -42,10 +41,10 @@ class TestLoginRegisterServiceGetAll {
         final Pageable                pageable;
 
         // GIVEN
-        readLogins = List.of(LoginRegisters.loggedIn());
-        given(loginRegisterRepository.findAll(ArgumentMatchers.any())).willReturn(readLogins);
-
         pageable = Pageable.unpaged();
+
+        readLogins = List.of(LoginRegisters.loggedIn());
+        given(loginRegisterRepository.findAll(pageable)).willReturn(readLogins);
 
         // WHEN
         logins = service.getAll(pageable);
@@ -64,10 +63,10 @@ class TestLoginRegisterServiceGetAll {
         final Pageable                pageable;
 
         // GIVEN
-        readLogins = List.of();
-        given(loginRegisterRepository.findAll(ArgumentMatchers.any())).willReturn(readLogins);
-
         pageable = Pageable.unpaged();
+
+        readLogins = List.of();
+        given(loginRegisterRepository.findAll(pageable)).willReturn(readLogins);
 
         // WHEN
         logins = service.getAll(pageable);

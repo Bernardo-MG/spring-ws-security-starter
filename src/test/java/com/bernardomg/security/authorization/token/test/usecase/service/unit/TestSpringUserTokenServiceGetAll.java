@@ -2,6 +2,7 @@
 package com.bernardomg.security.authorization.token.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
@@ -9,7 +10,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,11 +26,14 @@ import com.bernardomg.security.authorization.token.usecase.service.SpringUserTok
 @DisplayName("SpringUserTokenService - get all")
 class TestSpringUserTokenServiceGetAll {
 
+    @Captor
+    private ArgumentCaptor<Pageable> pageableCaptor;
+
     @InjectMocks
-    private SpringUserTokenService service;
+    private SpringUserTokenService   service;
 
     @Mock
-    private UserTokenRepository    userTokenRepository;
+    private UserTokenRepository      userTokenRepository;
 
     @Test
     @DisplayName("When there are tokens they are returned")
@@ -38,10 +43,10 @@ class TestSpringUserTokenServiceGetAll {
         final Iterable<UserToken> existing;
 
         // GIVEN
-        existing = List.of(UserTokens.valid());
-        given(userTokenRepository.findAll(ArgumentMatchers.any())).willReturn(existing);
-
         pageable = Pageable.unpaged();
+
+        existing = List.of(UserTokens.valid());
+        given(userTokenRepository.findAll(pageable)).willReturn(existing);
 
         // WHEN
         tokens = service.getAll(pageable);
@@ -60,10 +65,10 @@ class TestSpringUserTokenServiceGetAll {
         final Iterable<UserToken> existing;
 
         // GIVEN
-        existing = List.of();
-        given(userTokenRepository.findAll(ArgumentMatchers.any())).willReturn(existing);
-
         pageable = Pageable.unpaged();
+
+        existing = List.of();
+        given(userTokenRepository.findAll(pageable)).willReturn(existing);
 
         // WHEN
         tokens = service.getAll(pageable);
@@ -72,6 +77,31 @@ class TestSpringUserTokenServiceGetAll {
         Assertions.assertThat(tokens)
             .as("tokens")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("The pagination data is sent to the repository")
+    void testGetAll_Pagination() {
+        final Pageable            pageable;
+        final Iterable<UserToken> existing;
+        final Pageable            repositoryPageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        existing = List.of(UserTokens.valid());
+        given(userTokenRepository.findAll(pageable)).willReturn(existing);
+
+        // WHEN
+        service.getAll(pageable);
+
+        // THEN
+        verify(userTokenRepository).findAll(pageableCaptor.capture());
+
+        repositoryPageable = pageableCaptor.getValue();
+        Assertions.assertThat(repositoryPageable)
+            .as("pageable")
+            .isSameAs(pageable);
     }
 
 }

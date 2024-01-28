@@ -22,37 +22,71 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.test.service.integration;
+package com.bernardomg.security.authorization.role.test.service.unit;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
-import com.bernardomg.security.authorization.role.usecase.service.RoleService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
 
-@IntegrationTest
-@DisplayName("Role service - delete - error")
-class ITRoleServiceDeleteError {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("DefaultRoleService - delete")
+class TestDefaultRoleServiceDelete {
 
-    @Autowired
-    private RoleService service;
+    @Mock
+    private RoleRepository     roleRepository;
 
-    public ITRoleServiceDeleteError() {
+    @InjectMocks
+    private DefaultRoleService service;
+
+    @Mock
+    private UserRoleRepository userRoleRepository;
+
+    public TestDefaultRoleServiceDelete() {
         super();
     }
 
     @Test
-    @DisplayName("Throws an exception when the role doesn't exist")
+    @DisplayName("Deleting calls the repository")
+    void testDelete() {
+
+        // GIVEN
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+
+        // WHEN
+        service.delete(RoleConstants.NAME);
+
+        // THEN
+        verify(roleRepository).delete(RoleConstants.NAME);
+    }
+
+    @Test
+    @DisplayName("Deleting a not existing role throws an exception")
+    @ValidUser
     void testDelete_NotExisting() {
         final ThrowingCallable executable;
 
+        // GIVEN
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
+
+        // WHEN
         executable = () -> service.delete(RoleConstants.NAME);
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingRoleNameException.class);
     }

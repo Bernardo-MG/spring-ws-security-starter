@@ -30,7 +30,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -111,18 +110,16 @@ public final class DefaultUserRoleService implements UserRoleService {
     @Override
     public final Role removeRole(final String username, final String role) {
         final Optional<Role> readRole;
-        final Optional<User> readUser;
+        final boolean        userExists;
 
         log.debug("Removing role {} from user {}", username, role);
 
-        readUser = userRepository.findOne(username);
-
-        if (readUser.isEmpty()) {
+        userExists = userRepository.exists(username);
+        if (!userExists) {
             throw new MissingUserUsernameException(username);
         }
 
         readRole = roleRepository.findOne(role);
-
         if (readRole.isEmpty()) {
             throw new MissingRoleNameException(role);
         }

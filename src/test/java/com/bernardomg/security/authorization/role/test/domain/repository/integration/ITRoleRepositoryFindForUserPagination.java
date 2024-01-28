@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.role.test.service.integration;
+package com.bernardomg.security.authorization.role.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,74 +12,86 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithPermission;
 import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
-import com.bernardomg.security.authorization.role.usecase.service.UserRoleService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User service - get roles")
+@DisplayName("User service - find for user - pagination")
 @UserWithPermission
-class ITUserRoleServiceGetRolesPagination {
+class ITRoleRepositoryFindForUserPagination {
 
     @Autowired
-    private UserRoleService service;
+    private RoleRepository repository;
 
-    public ITUserRoleServiceGetRolesPagination() {
+    public ITRoleRepositoryFindForUserPagination() {
         super();
     }
 
     @Test
     @DisplayName("Returns the page entities")
-    void testGetRoles_Page_Container() {
+    void testFindForUser_Page_Container() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 1);
 
-        roles = service.getRoles(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findForUser(UserConstants.USERNAME, pageable);
 
+        // THEN
         Assertions.assertThat(roles)
             .isInstanceOf(Page.class);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    void testGetRoles_Page1_Data() {
+    void testFindForUser_Page1_Data() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 1);
 
-        roles = service.getRoles(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findForUser(UserConstants.USERNAME, pageable);
 
+        // THEN
         Assertions.assertThat(roles)
             .containsExactly(Roles.valid());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    void testGetRoles_Page2_Data() {
+    void testFindForUser_Page2_Data() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = PageRequest.of(1, 1);
 
-        roles = service.getRoles(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findForUser(UserConstants.USERNAME, pageable);
 
+        // THEN
         Assertions.assertThat(roles)
             .isEmpty();
     }
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    void testGetRoles_Unpaged_Container() {
+    void testFindForUser_Unpaged_Container() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        roles = service.getRoles(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findForUser(UserConstants.USERNAME, pageable);
 
+        // THEN
         Assertions.assertThat(roles)
             .isInstanceOf(Page.class);
     }

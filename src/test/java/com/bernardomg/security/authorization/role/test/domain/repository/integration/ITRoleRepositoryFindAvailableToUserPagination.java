@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.role.test.service.integration;
+package com.bernardomg.security.authorization.role.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,90 +9,89 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
-import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
-import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role service - get all - pagination")
-@SingleRole
-class ITRoleServiceGetAllPagination {
+@DisplayName("RoleRepository - find available to user - pagination")
+@UserWithoutRole
+class ITRoleRepositoryFindAvailableToUserPagination {
 
     @Autowired
-    private RoleService service;
+    private RoleRepository repository;
 
-    public ITRoleServiceGetAllPagination() {
+    public ITRoleRepositoryFindAvailableToUserPagination() {
         super();
     }
 
     @Test
-    @DisplayName("Returns a page")
-    void testGetAll_Page_Container() {
+    @DisplayName("Returns the page entities")
+    void testFindAvailableToUser_Page_Container() {
         final Iterable<Role> roles;
-        final RoleQuery      sample;
         final Pageable       pageable;
 
-        pageable = Pageable.ofSize(10);
+        // GIVEN
+        pageable = PageRequest.of(0, 1);
 
-        sample = RolesQuery.empty();
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
 
-        roles = service.getAll(sample, pageable);
-
+        // THEN
         Assertions.assertThat(roles)
             .isInstanceOf(Page.class);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    void testGetAll_Page1_Data() {
-        final RoleQuery      sample;
+    void testFindAvailableToUser_Page1_Data() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = PageRequest.of(0, 1);
 
-        sample = RolesQuery.empty();
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
 
-        roles = service.getAll(sample, pageable);
-
+        // THEN
         Assertions.assertThat(roles)
             .containsExactly(Roles.valid());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    void testGetAll_Page2_Data() {
-        final RoleQuery      sample;
+    void testFindAvailableToUser_Page2_Data() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = PageRequest.of(1, 1);
 
-        sample = RolesQuery.empty();
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
 
-        roles = service.getAll(sample, pageable);
-
+        // THEN
         Assertions.assertThat(roles)
             .isEmpty();
     }
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    void testGetAll_Unpaged_Container() {
+    void testFindAvailableToUser_Unpaged_Container() {
         final Iterable<Role> roles;
-        final RoleQuery      sample;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        sample = RolesQuery.empty();
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
 
-        roles = service.getAll(sample, pageable);
-
+        // THEN
         Assertions.assertThat(roles)
             .isInstanceOf(Page.class);
     }

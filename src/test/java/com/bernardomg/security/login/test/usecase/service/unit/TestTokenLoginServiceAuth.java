@@ -66,8 +66,10 @@ class TestTokenLoginServiceAuth {
 
         given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
 
+        // TODO: Mock this
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
+        // TODO: Mock this
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
             Duration.ZERO);
 
@@ -77,8 +79,8 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForAccountExpired() {
         final UserDetails user;
 
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, UserConstants.PASSWORD,
-            true, false, true, true, Collections.emptyList());
+        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
+            UserConstants.ENCODED_PASSWORD, true, false, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -86,8 +88,8 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForCredentialsExpired() {
         final UserDetails user;
 
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, UserConstants.PASSWORD,
-            true, true, false, true, Collections.emptyList());
+        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
+            UserConstants.ENCODED_PASSWORD, true, true, false, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -95,8 +97,8 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForDisabled() {
         final UserDetails user;
 
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, UserConstants.PASSWORD,
-            false, true, true, true, Collections.emptyList());
+        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
+            UserConstants.ENCODED_PASSWORD, false, true, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -104,8 +106,8 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForLocked() {
         final UserDetails user;
 
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, UserConstants.PASSWORD,
-            true, true, false, true, Collections.emptyList());
+        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
+            UserConstants.ENCODED_PASSWORD, true, true, false, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -128,8 +130,8 @@ class TestTokenLoginServiceAuth {
     private final TokenLoginService getServiceForValid() {
         final UserDetails user;
 
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, UserConstants.PASSWORD,
-            true, true, true, true, Collections.emptyList());
+        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
+            UserConstants.ENCODED_PASSWORD, true, true, true, true, Collections.emptyList());
 
         return getService(user);
     }
@@ -138,7 +140,7 @@ class TestTokenLoginServiceAuth {
         final User user;
 
         user = Users.enabled();
-        given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(user));
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(user));
     }
 
     @Test
@@ -226,7 +228,7 @@ class TestTokenLoginServiceAuth {
         // GIVEN
         loadUser();
 
-        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+        given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
         // WHEN
@@ -308,7 +310,7 @@ class TestTokenLoginServiceAuth {
         final TokenLoginStatus status;
 
         // GIVEN
-        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(true);
+        given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
         // WHEN

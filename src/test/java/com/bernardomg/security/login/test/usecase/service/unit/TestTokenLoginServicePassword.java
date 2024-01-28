@@ -64,15 +64,17 @@ class TestTokenLoginServicePassword {
         final BiPredicate<String, String> valid;
         final LoginTokenEncoder           loginTokenEncoder;
 
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME, UserConstants.PASSWORD,
-            true, true, true, true, Collections.emptyList());
+        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
+            UserConstants.ENCODED_PASSWORD, true, true, true, true, Collections.emptyList());
 
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(user);
+        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
-        given(passEncoder.matches(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).willReturn(match);
+        given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(match);
 
+        // TODO: Mock this
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
+        // TODO: Mock this
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
             Duration.ZERO);
 
@@ -83,7 +85,7 @@ class TestTokenLoginServicePassword {
         final User user;
 
         user = Users.enabled();
-        given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(user));
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(user));
     }
 
     @Test

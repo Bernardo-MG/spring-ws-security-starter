@@ -37,7 +37,7 @@ class ITUserTokenRepositoryDeleteAll {
 
         // GIVEN
         tokens = List.of(UserTokens.valid());
-        
+
         // WHEN
         repository.deleteAll(tokens);
 

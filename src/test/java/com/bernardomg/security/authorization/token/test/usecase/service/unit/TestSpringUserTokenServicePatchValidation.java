@@ -7,7 +7,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,7 +42,7 @@ class TestSpringUserTokenServicePatchValidation {
         final UserTokenPartial request;
 
         // GIVEN
-        given(userTokenRepository.exists(ArgumentMatchers.any())).willReturn(true);
+        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
 
         request = UserTokenPartials.expirationDateYesterday();
 
@@ -67,7 +66,7 @@ class TestSpringUserTokenServicePatchValidation {
         final UserTokenPartial request;
 
         // GIVEN
-        given(userTokenRepository.exists(ArgumentMatchers.any())).willReturn(true);
+        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
 
         request = UserTokenPartials.notRevoked();
 
