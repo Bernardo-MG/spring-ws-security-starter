@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.usecase.service.integration;
+package com.bernardomg.security.authorization.permission.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeRoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeRoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
@@ -15,33 +16,35 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.R
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role permission service - get available permissions")
-class ITRolePermissionServiceGetAvailablePermissions {
+@DisplayName("ResourcePermissionRepository - find available permissions")
+class ITResourcePermissionRepositoryFindAvailablePermissions {
 
     @Autowired
-    private RolePermissionService service;
+    private ResourcePermissionRepository repository;
 
-    public ITRolePermissionServiceGetAvailablePermissions() {
+    public ITResourcePermissionRepositoryFindAvailablePermissions() {
         super();
     }
 
     @Test
     @DisplayName("Returns the permissions not assigned")
     @RoleWithPermission
-    void testGetAvailablePermissions() {
+    void testFindAvailablePermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);
+        // WHEN
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .containsOnly(ResourcePermissions.read(), ResourcePermissions.update(), ResourcePermissions.delete());
@@ -50,14 +53,17 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @Test
     @DisplayName("When all the permission have been assigned nothing is returned")
     @RoleWithCrudPermissions
-    void testGetAvailablePermissions_AllAssigned() {
+    void testFindAvailablePermissions_AllAssigned() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);
+        // WHEN
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .isEmpty();
@@ -67,14 +73,17 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @DisplayName("When all the permission have been assigned, and there is another role with no permissions, nothing is returned")
     @RoleWithCrudPermissions
     @AlternativeRoleWithCrudPermissionsNotGranted
-    void testGetAvailablePermissions_AllAssigned_AlternativeRole() {
+    void testFindAvailablePermissions_AllAssigned_AlternativeRole() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);
+        // WHEN
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .isEmpty();
@@ -84,14 +93,17 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @DisplayName("When the role has no permissions all the permissions are returned")
     @CrudPermissions
     @SingleRole
-    void testGetAvailablePermissions_NoPermissions() {
+    void testFindAvailablePermissions_NoPermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);
+        // WHEN
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
@@ -103,14 +115,17 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @CrudPermissions
     @SingleRole
     @AlternativeRoleWithCrudPermissions
-    void testGetAvailablePermissions_NoPermissions_AlternativeRole() {
+    void testFindAvailablePermissions_NoPermissions_AlternativeRole() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);
+        // WHEN
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
@@ -120,14 +135,17 @@ class ITRolePermissionServiceGetAvailablePermissions {
     @Test
     @DisplayName("When there are no permissions granted all are returned")
     @RoleWithCrudPermissionsNotGranted
-    void testGetAvailablePermissions_NotGranted() {
+    void testFindAvailablePermissions_NotGranted() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
-        permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);
+        // WHEN
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
