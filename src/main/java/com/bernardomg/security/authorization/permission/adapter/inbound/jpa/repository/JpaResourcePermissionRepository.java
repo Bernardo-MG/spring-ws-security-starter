@@ -11,6 +11,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
@@ -49,20 +50,20 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
-    public final ResourcePermission addPermission(final String role, final String permission) {
+    public final ResourcePermission addPermission(final RolePermission permission) {
         final RolePermissionEntity               rolePermission;
         final Optional<RoleEntity>               readRole;
         final Optional<ResourcePermissionEntity> readPermission;
 
-        log.debug("Adding permission {} for role {}", permission, role);
+        log.debug("Adding permission {} for role {}", permission.getPermission(), permission.getRole());
 
-        readRole = roleRepository.findOneByName(role);
+        readRole = roleRepository.findOneByName(permission.getRole());
 
-        readPermission = resourcePermissionRepository.findByName(permission);
+        readPermission = resourcePermissionRepository.findByName(permission.getPermission());
 
         // Granted permission
         rolePermission = getRolePermissionSample(readRole.get()
-            .getId(), permission);
+            .getId(), permission.getPermission());
         rolePermission.setGranted(true);
 
         // Persist relationship entities
@@ -127,20 +128,20 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
-    public final ResourcePermission removePermission(final String role, final String permission) {
+    public final ResourcePermission removePermission(final RolePermission permission) {
         final RolePermissionEntity               rolePermissionSample;
         final Optional<ResourcePermissionEntity> readPermission;
         final Optional<RoleEntity>               readRole;
 
-        log.debug("Removing permission {} for role {}", permission, role);
+        log.debug("Removing permission {} for role {}", permission.getPermission(), permission.getRole());
 
-        readRole = roleRepository.findOneByName(role);
+        readRole = roleRepository.findOneByName(permission.getRole());
 
-        readPermission = resourcePermissionRepository.findByName(permission);
+        readPermission = resourcePermissionRepository.findByName(permission.getPermission());
 
         // Not granted permission
         rolePermissionSample = getRolePermissionSample(readRole.get()
-            .getId(), permission);
+            .getId(), permission.getPermission());
         rolePermissionSample.setGranted(false);
 
         // Delete relationship entities

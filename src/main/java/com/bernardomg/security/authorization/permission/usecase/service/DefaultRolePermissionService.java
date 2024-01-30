@@ -32,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.domain.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
@@ -83,8 +84,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final ResourcePermission addPermission(final String role, final String permission) {
-        final boolean roleExists;
-        final boolean permissionExists;
+        final boolean        roleExists;
+        final boolean        permissionExists;
+        final RolePermission rolePermission;
 
         log.debug("Adding permission {} for role {}", permission, role);
 
@@ -98,7 +100,11 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingResourcePermissionNameException(permission);
         }
 
-        return resourcePermissionRepository.addPermission(role, permission);
+        rolePermission = RolePermission.builder()
+            .withPermission(permission)
+            .withRole(role)
+            .build();
+        return resourcePermissionRepository.addPermission(rolePermission);
     }
 
     @Override
@@ -134,6 +140,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
         final boolean        rolePermissionExists;
         final boolean        permissionExists;
         final Optional<Role> readRole;
+        final RolePermission rolePermission;
 
         log.debug("Removing permission {} for role {}", permission, role);
 
@@ -154,7 +161,11 @@ public final class DefaultRolePermissionService implements RolePermissionService
                 .getName() + permission);
         }
 
-        return resourcePermissionRepository.removePermission(role, permission);
+        rolePermission = RolePermission.builder()
+            .withPermission(permission)
+            .withRole(role)
+            .build();
+        return resourcePermissionRepository.removePermission(rolePermission);
     }
 
 }

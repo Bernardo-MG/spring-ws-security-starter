@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.usecase.service.integration;
+package com.bernardomg.security.authorization.permission.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,30 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
-import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
-import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
+import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissions;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
-import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role permission service - add permission")
-class ITRolePermissionServiceAddPermission {
+@DisplayName("ResourcePermissionRepository - add permission")
+class ITResourcePermissionRepositoryAddPermission {
 
     @Autowired
-    private RolePermissionSpringRepository rolePermissionRepository;
+    private ResourcePermissionRepository   repository;
 
     @Autowired
-    private RolePermissionService          service;
-
-    public ITRolePermissionServiceAddPermission() {
-        super();
-    }
+    private RolePermissionSpringRepository rolePermissionSpringRepository;
 
     @Test
     @DisplayName("Adds a permission")
@@ -41,8 +36,11 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_AddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
-        permissions = rolePermissionRepository.findAll();
+        // WHEN
+        repository.addPermission(RolePermissions.create());
+
+        // THEN
+        permissions = rolePermissionSpringRepository.findAll();
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -55,8 +53,11 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_Existing_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
-        permissions = rolePermissionRepository.findAll();
+        // WHEN
+        repository.addPermission(RolePermissions.create());
+
+        // THEN
+        permissions = rolePermissionSpringRepository.findAll();
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -69,8 +70,10 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_Existing_ReturnedData() {
         final ResourcePermission permissions;
 
-        permissions = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
+        // WHEN
+        permissions = repository.addPermission(RolePermissions.create());
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .isEqualTo(ResourcePermissions.create());
@@ -82,8 +85,11 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_NotGranted_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
-        service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
-        permissions = rolePermissionRepository.findAll();
+        // WHEN
+        repository.addPermission(RolePermissions.create());
+
+        // THEN
+        permissions = rolePermissionSpringRepository.findAll();
 
         Assertions.assertThat(permissions)
             .as("permissions")
@@ -96,8 +102,10 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_NotGranted_ReturnedData() {
         final ResourcePermission permissions;
 
-        permissions = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
+        // WHEN
+        permissions = repository.addPermission(RolePermissions.create());
 
+        // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
             .isEqualTo(ResourcePermissions.create());
@@ -110,8 +118,10 @@ class ITRolePermissionServiceAddPermission {
     void testAddPermission_ReturnedData() {
         final ResourcePermission permission;
 
-        permission = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
+        // WHEN
+        permission = repository.addPermission(RolePermissions.create());
 
+        // THEN
         Assertions.assertThat(permission)
             .as("permission")
             .isEqualTo(ResourcePermissions.create());
