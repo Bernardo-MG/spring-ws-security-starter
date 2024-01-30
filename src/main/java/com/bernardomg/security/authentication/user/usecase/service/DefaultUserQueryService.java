@@ -68,10 +68,12 @@ public final class DefaultUserQueryService implements UserQueryService {
 
     @Override
     public final void delete(final String username) {
+        final boolean exists;
 
         log.debug("Deleting user {}", username);
 
-        if (!userRepository.exists(username)) {
+        exists = userRepository.exists(username);
+        if (!exists) {
             throw new MissingUserUsernameException(username);
         }
 
@@ -87,10 +89,12 @@ public final class DefaultUserQueryService implements UserQueryService {
 
     @Override
     public final Optional<User> getOne(final String username) {
+        final boolean exists;
 
         log.debug("Reading user {}", username);
 
-        if (!userRepository.exists(username)) {
+        exists = userRepository.exists(username);
+        if (!exists) {
             throw new MissingUserUsernameException(username);
         }
 

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.service.integration;
+package com.bernardomg.security.authentication.user.test.domain.repository.unit;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -11,21 +11,21 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User service - get all")
+@DisplayName("UserRepository - find all - pagination")
 @OnlyUser
-class ITUserQueryServiceGetAllPagination {
+class ITUserRepositoryFindAllPagination {
 
     @Autowired
-    private UserQueryService service;
+    private UserRepository repository;
 
-    public ITUserQueryServiceGetAllPagination() {
+    public ITUserRepositoryFindAllPagination() {
         super();
     }
 
@@ -40,7 +40,7 @@ class ITUserQueryServiceGetAllPagination {
 
         sample = UserQueries.empty();
 
-        users = service.getAll(sample, pageable);
+        users = repository.findAll(sample, pageable);
 
         Assertions.assertThat(users)
             .isInstanceOf(Page.class);
@@ -57,7 +57,7 @@ class ITUserQueryServiceGetAllPagination {
 
         sample = UserQueries.empty();
 
-        users = service.getAll(sample, pageable);
+        users = repository.findAll(sample, pageable);
 
         Assertions.assertThat(users)
             .as("users")
@@ -75,7 +75,7 @@ class ITUserQueryServiceGetAllPagination {
 
         sample = UserQueries.empty();
 
-        users = service.getAll(sample, pageable);
+        users = repository.findAll(sample, pageable);
 
         Assertions.assertThat(users)
             .isEmpty();
@@ -92,7 +92,7 @@ class ITUserQueryServiceGetAllPagination {
 
         sample = UserQueries.empty();
 
-        users = service.getAll(sample, pageable);
+        users = repository.findAll(sample, pageable);
 
         Assertions.assertThat(users)
             .hasSize(1);
@@ -109,7 +109,7 @@ class ITUserQueryServiceGetAllPagination {
 
         sample = UserQueries.empty();
 
-        users = service.getAll(sample, pageable);
+        users = repository.findAll(sample, pageable);
 
         Assertions.assertThat(users)
             .isInstanceOf(Page.class);

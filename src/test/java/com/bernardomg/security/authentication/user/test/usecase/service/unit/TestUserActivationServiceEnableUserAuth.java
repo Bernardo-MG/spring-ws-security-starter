@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.service.unit;
+package com.bernardomg.security.authentication.user.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -148,10 +148,13 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadCredentialsExpiredUser();
 
+        // WHEN
         executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -166,10 +169,13 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadDisabledUser();
 
+        // WHEN
         executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -183,10 +189,13 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadEnabledUser();
 
+        // WHEN
         executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -200,10 +209,13 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadExpiredUser();
 
+        // WHEN
         executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -217,10 +229,13 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         loadLockedUser();
 
+        // WHEN
         executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -234,8 +249,10 @@ class TestUserActivationServiceEnableUserAuth {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
 
         Assertions.assertThat(exception.getMessage())

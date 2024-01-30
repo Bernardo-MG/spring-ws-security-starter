@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.notification.unit;
+package com.bernardomg.security.authentication.user.test.adapter.outbound.email.unit;
 
 import static org.mockito.Mockito.verify;
 

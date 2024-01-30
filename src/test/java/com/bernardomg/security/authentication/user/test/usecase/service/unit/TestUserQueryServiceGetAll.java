@@ -1,63 +1,81 @@
 
-package com.bernardomg.security.authentication.user.test.service.integration;
+package com.bernardomg.security.authentication.user.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
-import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
 
-@IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("User service - get all")
-class ITUserQueryServiceGetAll {
+class TestUserQueryServiceGetAll {
 
-    @Autowired
-    private UserQueryService service;
+    @InjectMocks
+    private DefaultUserQueryService service;
 
-    public ITUserQueryServiceGetAll() {
+    @Mock
+    private UserRepository          userRepository;
+
+    public TestUserQueryServiceGetAll() {
         super();
     }
 
     @Test
-    @DisplayName("Returns all data")
-    @OnlyUser
-    void testGetAll_Data() {
+    @DisplayName("When there are users they are returned")
+    void testGetAll() {
         final Iterable<User> users;
         final UserQuery      sample;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         sample = UserQueries.empty();
 
+        given(userRepository.findAll(sample, pageable)).willReturn(List.of(Users.enabled()));
+
+        // WHEN
         users = service.getAll(sample, pageable);
 
+        // THEN
         Assertions.assertThat(users)
             .as("users")
             .containsExactly(Users.enabled());
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
-    void testGetAll_Empty_Count() {
+    @DisplayName("When there are no users nothing is returned")
+    void testGetAll_NoData() {
         final Iterable<User> users;
         final UserQuery      sample;
         final Pageable       pageable;
 
+        // GIVEN
         pageable = Pageable.unpaged();
 
         sample = UserQueries.empty();
 
+        given(userRepository.findAll(sample, pageable)).willReturn(List.of());
+
+        // WHEN
         users = service.getAll(sample, pageable);
 
+        // THEN
         Assertions.assertThat(users)
             .as("users")
             .isEmpty();

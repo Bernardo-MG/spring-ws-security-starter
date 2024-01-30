@@ -1,16 +1,15 @@
 
-package com.bernardomg.security.authentication.user.test.service.integration;
+package com.bernardomg.security.authentication.user.test.domain.repository.unit;
 
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
@@ -18,17 +17,16 @@ import com.bernardomg.security.authentication.user.test.config.annotation.Locked
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User service - get one")
-class ITUserQueryServiceGetOne {
+@DisplayName("UserRepository - find one")
+class ITUserRepositoryFindOne {
 
     @Autowired
-    private UserQueryService service;
+    private UserRepository repository;
 
-    public ITUserQueryServiceGetOne() {
+    public ITUserRepositoryFindOne() {
         super();
     }
 
@@ -38,7 +36,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Disabled() {
         final Optional<User> result;
 
-        result = service.getOne(UserConstants.USERNAME);
+        result = repository.findOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.disabled());
@@ -50,7 +48,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Enabled() {
         final Optional<User> result;
 
-        result = service.getOne(UserConstants.USERNAME);
+        result = repository.findOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.enabled());
@@ -62,7 +60,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Expired() {
         final Optional<User> result;
 
-        result = service.getOne(UserConstants.USERNAME);
+        result = repository.findOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.expired());
@@ -74,7 +72,7 @@ class ITUserQueryServiceGetOne {
     void testGetOne_ExpiredPassword() {
         final Optional<User> result;
 
-        result = service.getOne(UserConstants.USERNAME);
+        result = repository.findOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.passwordExpired());
@@ -86,21 +84,10 @@ class ITUserQueryServiceGetOne {
     void testGetOne_Locked() {
         final Optional<User> result;
 
-        result = service.getOne(UserConstants.USERNAME);
+        result = repository.findOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
             .contains(Users.locked());
-    }
-
-    @Test
-    @DisplayName("With a not existing user, an exception is thrown")
-    void testGetOne_NotExisting() {
-        final ThrowingCallable execution;
-
-        execution = () -> service.getOne(UserConstants.USERNAME);
-
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
     }
 
 }

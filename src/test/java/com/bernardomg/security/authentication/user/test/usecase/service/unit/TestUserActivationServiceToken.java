@@ -22,46 +22,62 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.test.service.integration;
+package com.bernardomg.security.authentication.user.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
+import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
-import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredConsumedUserToken;
-import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredExpiredUserToken;
-import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
-@IntegrationTest
-@DisplayName("Role service - token validation")
-class ITUserActivationServiceToken {
+@ExtendWith(MockitoExtension.class)
+@DisplayName("UserActivationService - token validation")
+class TestUserActivationServiceToken {
 
-    @Autowired
-    private UserActivationService service;
+    @Mock
+    private PasswordEncoder              passwordEncoder;
 
-    public ITUserActivationServiceToken() {
-        super();
-        // TODO: Maybe should be a unit test
-    }
+    @Mock
+    private UserRepository               repository;
+
+    @InjectMocks
+    private DefaultUserActivationService service;
+
+    @Mock
+    private UserTokenStore               tokenStore;
+
+    @Mock
+    private UserNotificator              userNotificator;
 
     @Test
-    @WithMockUser(username = "username")
-    @DisplayName("A consumed token is not valid")
-    @ValidUser
-    @UserRegisteredConsumedUserToken
-    void testValidateToken_Consumed() {
+    void testValidateToken_Invalid() {
         final UserTokenStatus status;
 
+        // GIVEN
+        Mockito.doThrow(ConsumedTokenException.class)
+            .when(tokenStore)
+            .validate(UserTokenConstants.TOKEN);
+        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+
+        // WHEN
         status = service.validateToken(UserTokenConstants.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .isFalse();
@@ -71,33 +87,16 @@ class ITUserActivationServiceToken {
     }
 
     @Test
-    @WithMockUser(username = "username")
-    @DisplayName("An expired token is not valid")
-    @ValidUser
-    @UserRegisteredExpiredUserToken
-    void testValidateToken_Expired() {
-        final UserTokenStatus status;
-
-        status = service.validateToken(UserTokenConstants.TOKEN);
-
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(status.isValid())
-                .isFalse();
-            softly.assertThat(status.getUsername())
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @WithMockUser(username = "username")
-    @DisplayName("A valid token is valid")
-    @ValidUser
-    @UserRegisteredUserToken
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 
+        // GIVEN
+        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+
+        // WHEN
         status = service.validateToken(UserTokenConstants.TOKEN);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(status.isValid())
                 .isTrue();

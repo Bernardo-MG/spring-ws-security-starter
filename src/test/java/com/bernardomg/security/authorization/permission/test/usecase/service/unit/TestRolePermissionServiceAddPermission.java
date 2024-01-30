@@ -9,15 +9,12 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
@@ -32,20 +29,17 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 @DisplayName("Role permission service - add permission")
 class TestRolePermissionServiceAddPermission {
 
-    @Captor
-    private ArgumentCaptor<RolePermission> permissionCaptor;
+    @Mock
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
-    private ResourcePermissionRepository   resourcePermissionRepository;
+    private RolePermissionRepository     rolePermissionRepository;
 
     @Mock
-    private RolePermissionRepository       rolePermissionRepository;
-
-    @Mock
-    private RoleRepository                 roleRepository;
+    private RoleRepository               roleRepository;
 
     @InjectMocks
-    private DefaultRolePermissionService   service;
+    private DefaultRolePermissionService service;
 
     @Test
     @DisplayName("Throws an exception when adding a permission which doesn't exist")
@@ -83,8 +77,6 @@ class TestRolePermissionServiceAddPermission {
     @Test
     @DisplayName("Sends the permission to the repository")
     void testAddPermission_PersistedData() {
-        final RolePermission permission;
-
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
@@ -95,13 +87,7 @@ class TestRolePermissionServiceAddPermission {
         service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         // THEN
-        verify(resourcePermissionRepository).addPermission(permissionCaptor.capture());
-
-        permission = permissionCaptor.getValue();
-
-        Assertions.assertThat(permission)
-            .as("permission")
-            .isEqualTo(RolePermissions.create());
+        verify(resourcePermissionRepository).addPermission(RolePermissions.create());
     }
 
     @Test

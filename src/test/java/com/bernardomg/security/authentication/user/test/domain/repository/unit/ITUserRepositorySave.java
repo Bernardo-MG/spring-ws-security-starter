@@ -22,74 +22,57 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.test.service.integration;
+package com.bernardomg.security.authentication.user.test.domain.repository.unit;
+
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User service - delete without roles")
-class ITUserQueryServiceDelete {
+@DisplayName("Role service - save")
+class ITUserRepositorySave {
 
     @Autowired
-    private UserSpringRepository repository;
+    private UserRepository       repository;
 
     @Autowired
-    private RoleSpringRepository roleRepository;
+    private UserSpringRepository userSpringRepository;
 
-    @Autowired
-    private UserQueryService     service;
-
-    public ITUserQueryServiceDelete() {
+    public ITUserRepositorySave() {
         super();
     }
 
     @Test
-    @DisplayName("Does not remove roles when deleting")
+    @DisplayName("Updates persisted data, ignoring case")
     @ValidUser
-    void testDelete_DoesNotRemoveRelations() {
-        service.delete(UserConstants.USERNAME);
+    void testSave_Case_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(repository.count())
-                .isZero();
-            softly.assertThat(roleRepository.count())
-                .isEqualTo(1);
-        });
-    }
+        // GIVEN
+        user = Users.enabled();
 
-    @Test
-    @DisplayName("With a not existing user, an exception is thrown")
-    void testDelete_NotExisting() {
-        final ThrowingCallable execution;
+        // WHEN
+        repository.save(user, UserConstants.PASSWORD);
 
-        execution = () -> service.delete(UserConstants.USERNAME);
-
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
-    }
-
-    @Test
-    @DisplayName("Removes an entity when deleting")
-    @OnlyUser
-    void testDelete_RemovesEntity() {
-        service.delete(UserConstants.USERNAME);
-
-        Assertions.assertThat(repository.count())
-            .isZero();
+        // THEN
+        entities = userSpringRepository.findAll();
+        // TODO: can't compare content due to password
+        Assertions.assertThat(entities)
+            .as("roles")
+            .hasSize(1);
     }
 
 }
