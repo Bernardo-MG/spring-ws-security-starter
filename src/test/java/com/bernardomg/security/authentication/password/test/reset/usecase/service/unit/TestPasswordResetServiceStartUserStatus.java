@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.test.reset.service.unit;
+package com.bernardomg.security.authentication.password.test.reset.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 

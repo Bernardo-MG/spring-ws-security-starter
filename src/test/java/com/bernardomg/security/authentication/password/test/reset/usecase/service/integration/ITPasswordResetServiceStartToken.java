@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.test.reset.service.integration;
+package com.bernardomg.security.authentication.password.test.reset.usecase.service.integration;
 
 import java.time.LocalDateTime;
 

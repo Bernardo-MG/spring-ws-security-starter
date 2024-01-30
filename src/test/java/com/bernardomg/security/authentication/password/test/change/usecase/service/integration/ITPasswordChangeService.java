@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.test.change.service.integration;
+package com.bernardomg.security.authentication.password.test.change.usecase.service.integration;
 
 import java.util.List;
 

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.integration;
+package com.bernardomg.security.authentication.user.test.usecase.integration;
 
 import java.util.Collection;
 import java.util.List;

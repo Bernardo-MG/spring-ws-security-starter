@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.test.reset.service.integration;
+package com.bernardomg.security.authentication.password.test.reset.usecase.service.integration;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;

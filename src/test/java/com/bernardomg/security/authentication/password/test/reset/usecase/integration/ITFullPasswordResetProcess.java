@@ -1,12 +1,11 @@
 
-package com.bernardomg.security.authentication.password.test.reset.integration;
+package com.bernardomg.security.authentication.password.test.reset.usecase.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
@@ -38,7 +37,6 @@ class ITFullPasswordResetProcess {
     }
 
     @Test
-    @WithMockUser(username = "username")
     @DisplayName("Can follow the password recovery from start to end")
     @ValidUser
     void testResetPassword() {
