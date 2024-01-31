@@ -30,6 +30,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
+import com.bernardomg.security.login.test.config.factory.TokenLoginStatuses;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
@@ -187,8 +188,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForDisabled().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -203,8 +204,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForLocked().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -216,8 +217,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForNotExisting().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -235,8 +236,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForValid().login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isTrue();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.logged());
     }
 
     @Test
@@ -248,8 +249,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForAccountExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -261,8 +262,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForCredentialsExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -274,8 +275,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForDisabled().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -287,8 +288,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForLocked().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -300,8 +301,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForNotExisting().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isFalse();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.notLogged());
     }
 
     @Test
@@ -317,8 +318,8 @@ class TestTokenLoginServiceAuth {
         status = getServiceForValid().login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(status.isLogged())
-            .isTrue();
+        Assertions.assertThat(status)
+            .isEqualTo(TokenLoginStatuses.logged());
     }
 
 }

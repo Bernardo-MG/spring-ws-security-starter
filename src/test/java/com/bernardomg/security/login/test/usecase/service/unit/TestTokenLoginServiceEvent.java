@@ -42,7 +42,7 @@ import com.bernardomg.security.login.usecase.service.TokenLoginService;
 class TestTokenLoginServiceEvent {
 
     @Captor
-    private ArgumentCaptor<LogInEvent>   emailCaptor;
+    private ArgumentCaptor<LogInEvent>   eventCaptor;
 
     @Mock
     private ApplicationEventPublisher    eventPublisher;
@@ -162,9 +162,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
@@ -189,9 +189,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -215,9 +215,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -241,9 +241,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -264,9 +264,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -293,9 +293,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -316,9 +316,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -339,9 +339,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -362,9 +362,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -385,9 +385,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -408,9 +408,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -435,9 +435,9 @@ class TestTokenLoginServiceEvent {
 
         // THEN
         Mockito.verify(eventPublisher)
-            .publishEvent(emailCaptor.capture());
+            .publishEvent(eventCaptor.capture());
 
-        event = emailCaptor.getValue();
+        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")

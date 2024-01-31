@@ -60,6 +60,7 @@ class TestTokenLoginServiceFailure {
         given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // TODO: Mock this
+        // TODO: This is a validator test
         valid = new SpringValidLoginPredicate(userDetService, passEncoder);
 
         // TODO: Mock this
