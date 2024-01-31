@@ -29,13 +29,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.persistence.repository.UserRoleRepository;
-import com.bernardomg.security.authorization.role.service.DefaultRoleService;
-import com.bernardomg.security.authorization.role.service.DefaultUserRoleService;
-import com.bernardomg.security.authorization.role.service.RoleService;
-import com.bernardomg.security.authorization.role.service.UserRoleService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaUserRoleRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
+import com.bernardomg.security.authorization.role.usecase.service.DefaultUserRoleService;
+import com.bernardomg.security.authorization.role.usecase.service.RoleService;
+import com.bernardomg.security.authorization.role.usecase.service.UserRoleService;
 
 /**
  * Password handling configuration.
@@ -44,17 +49,28 @@ import com.bernardomg.security.authorization.role.service.UserRoleService;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authorization.role.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.persistence" })
+@ComponentScan({ "com.bernardomg.security.authorization.role.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.adapter.inbound.jpa" })
 public class RoleConfig {
 
     public RoleConfig() {
         super();
     }
 
+    @Bean("RoleRepository")
+    public RoleRepository getRoleRepository(final RoleSpringRepository roleRepo) {
+        return new JpaRoleRepository(roleRepo);
+    }
+
     @Bean("roleService")
     public RoleService getRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
         return new DefaultRoleService(roleRepo, userRoleRepo);
+    }
+
+    @Bean("UserRoleRepository")
+    public UserRoleRepository getUserRoleRepository(final UserSpringRepository userRepo,
+            final RoleSpringRepository roleRepo, final UserRoleSpringRepository userRoleRepo) {
+        return new JpaUserRoleRepository(userRepo, roleRepo, userRoleRepo);
     }
 
     @Bean("userRoleService")

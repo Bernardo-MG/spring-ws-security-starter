@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authorization.role.test.config.factory;
 
-import com.bernardomg.security.authorization.role.model.Role;
+import com.bernardomg.security.authorization.role.domain.model.Role;
 
 public final class Roles {
 

@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authorization.permission.test.config.factory;
 
-import com.bernardomg.security.authorization.permission.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 
 public final class ResourcePermissions {
 

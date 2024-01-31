@@ -1,8 +1,9 @@
 
 package com.bernardomg.security.authorization.token.test.config.factory;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authorization.token.model.UserToken;
+import com.bernardomg.security.authorization.token.domain.model.UserToken;
 
 public final class UserTokens {
 
@@ -11,7 +12,7 @@ public final class UserTokens {
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
             .withScope(UserTokenConstants.SCOPE)
-            .withToken(UserTokenConstants.TOKEN)
+            .withToken(Tokens.TOKEN)
             .withCreationDate(UserTokenConstants.DATE)
             .withExpirationDate(UserTokenConstants.DATE_FUTURE)
             .withConsumed(true)
@@ -24,7 +25,7 @@ public final class UserTokens {
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
             .withScope(UserTokenConstants.SCOPE)
-            .withToken(UserTokenConstants.TOKEN)
+            .withToken(Tokens.TOKEN)
             .withCreationDate(UserTokenConstants.DATE)
             .withExpirationDate(UserTokenConstants.DATE_PAST)
             .withConsumed(false)
@@ -37,7 +38,7 @@ public final class UserTokens {
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
             .withScope(UserTokenConstants.SCOPE)
-            .withToken(UserTokenConstants.TOKEN)
+            .withToken(Tokens.TOKEN)
             .withCreationDate(UserTokenConstants.DATE)
             .withExpirationDate(UserTokenConstants.DATE_FUTURE)
             .withConsumed(false)
@@ -50,7 +51,7 @@ public final class UserTokens {
             .withUsername(UserConstants.USERNAME)
             .withName(UserConstants.NAME)
             .withScope(UserTokenConstants.SCOPE)
-            .withToken(UserTokenConstants.TOKEN)
+            .withToken(Tokens.TOKEN)
             .withCreationDate(UserTokenConstants.DATE)
             .withExpirationDate(UserTokenConstants.DATE_FUTURE)
             .withConsumed(false)

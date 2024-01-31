@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.login.test.config.factory;
 
-import com.bernardomg.security.login.model.LoginRegister;
+import com.bernardomg.security.login.domain.model.LoginRegister;
 
 public final class LoginRegisters {
 
@@ -9,6 +9,14 @@ public final class LoginRegisters {
         return LoginRegister.builder()
             .withUsername(LoginConstants.USERNAME)
             .withLoggedIn(true)
+            .withDate(LoginConstants.DATE)
+            .build();
+    }
+
+    public static final LoginRegister notLoggedIn() {
+        return LoginRegister.builder()
+            .withUsername(LoginConstants.USERNAME)
+            .withLoggedIn(false)
             .withDate(LoginConstants.DATE)
             .build();
     }

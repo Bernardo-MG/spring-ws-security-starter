@@ -16,11 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.authorization.access.ResourceAccessValidator;
-import com.bernardomg.security.authorization.access.SpringResourceAccessValidator;
+import com.bernardomg.security.authorization.access.adapter.inbound.spring.SpringResourceAccessValidator;
 import com.bernardomg.security.authorization.access.test.config.factory.GrantedAuthorities;
+import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.authorization.permission.adapter.inbound.spring.ResourceActionGrantedAuthority;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
-import com.bernardomg.security.authorization.springframework.ResourceActionGrantedAuthority;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringResourceAccessValidator")

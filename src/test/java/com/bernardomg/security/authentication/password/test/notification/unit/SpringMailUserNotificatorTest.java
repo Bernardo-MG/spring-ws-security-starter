@@ -14,9 +14,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.authentication.user.notification.SpringMailUserNotificator;
-import com.bernardomg.security.authentication.user.notification.UserNotificator;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
+import com.bernardomg.security.authentication.user.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificator")
@@ -44,7 +45,7 @@ class SpringMailUserNotificatorTest {
     @DisplayName("The message is sent")
     void testSendEmail_MessageSent() throws Exception {
         // WHEN
-        userNotificator.sendUserRegisteredMessage(UserConstants.EMAIL, UserConstants.USERNAME, "token");
+        userNotificator.sendUserRegisteredMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

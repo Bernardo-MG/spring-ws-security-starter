@@ -182,6 +182,7 @@
       <!-- ============================================== -->
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
+      <archunit.version>1.2.1</archunit.version>
       <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.1.2</bernardomg.framework.ws.version>
       <jjwt.version>0.12.3</jjwt.version>
@@ -620,6 +621,13 @@
          <!-- GSON -->
          <groupId>com.google.code.gson</groupId>
          <artifactId>gson</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- ArchUnit -->
+         <groupId>com.tngtech.archunit</groupId>
+         <artifactId>archunit-junit5</artifactId>
+         <version>${archunit.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
