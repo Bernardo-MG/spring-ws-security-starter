@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
@@ -54,7 +55,7 @@ class ITPersistentUserTokenStoreValidate {
     void testIsValid_Consumed() {
         final ThrowingCallable executable;
 
-        executable = () -> store.validate(UserTokenConstants.TOKEN);
+        executable = () -> store.validate(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(ConsumedTokenException.class);
@@ -67,7 +68,7 @@ class ITPersistentUserTokenStoreValidate {
     void testIsValid_Expired() {
         final ThrowingCallable executable;
 
-        executable = () -> store.validate(UserTokenConstants.TOKEN);
+        executable = () -> store.validate(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(ExpiredTokenException.class);
@@ -79,7 +80,7 @@ class ITPersistentUserTokenStoreValidate {
     void testIsValid_NotExisting() {
         final ThrowingCallable executable;
 
-        executable = () -> store.validate(UserTokenConstants.TOKEN);
+        executable = () -> store.validate(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserTokenCodeException.class);
@@ -92,7 +93,7 @@ class ITPersistentUserTokenStoreValidate {
     void testIsValid_outOfScope() {
         final ThrowingCallable executable;
 
-        executable = () -> store.validate(UserTokenConstants.TOKEN);
+        executable = () -> store.validate(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(OutOfScopeTokenException.class);
@@ -105,7 +106,7 @@ class ITPersistentUserTokenStoreValidate {
     void testIsValid_Revoked() {
         final ThrowingCallable executable;
 
-        executable = () -> store.validate(UserTokenConstants.TOKEN);
+        executable = () -> store.validate(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(RevokedTokenException.class);
@@ -118,7 +119,7 @@ class ITPersistentUserTokenStoreValidate {
     void testIsValid_Valid() {
         final ThrowingCallable executable;
 
-        executable = () -> store.validate(UserTokenConstants.TOKEN);
+        executable = () -> store.validate(Tokens.TOKEN);
 
         Assertions.assertThatCode(executable)
             .doesNotThrowAnyException();

@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -42,12 +43,12 @@ class TestSpringUserTokenServicePatchValidation {
         final UserTokenPartial request;
 
         // GIVEN
-        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
+        given(userTokenRepository.exists(Tokens.TOKEN)).willReturn(true);
 
         request = UserTokenPartials.expirationDateYesterday();
 
         // WHEN
-        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
+        execution = () -> service.patch(Tokens.TOKEN, request);
 
         // THEN
         failure = FieldFailure.of("expirationDate.beforeToday", "expirationDate", "beforeToday",
@@ -66,12 +67,12 @@ class TestSpringUserTokenServicePatchValidation {
         final UserTokenPartial request;
 
         // GIVEN
-        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
+        given(userTokenRepository.exists(Tokens.TOKEN)).willReturn(true);
 
         request = UserTokenPartials.notRevoked();
 
         // WHEN
-        execution = () -> service.patch(UserTokenConstants.TOKEN, request);
+        execution = () -> service.patch(Tokens.TOKEN, request);
 
         // THEN
         failure = FieldFailure.of("revoked.invalidValue", "revoked", "invalidValue", false);

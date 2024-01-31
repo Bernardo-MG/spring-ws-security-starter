@@ -22,12 +22,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
@@ -97,7 +97,7 @@ class TestTokenLoginServiceToken {
         // GIVEN
         loadUser();
 
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(UserTokenConstants.TOKEN);
+        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
         // WHEN
         status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
@@ -109,7 +109,7 @@ class TestTokenLoginServiceToken {
                 .isTrue();
             softly.assertThat(status.getToken())
                 .as("token")
-                .isEqualTo(UserTokenConstants.TOKEN);
+                .isEqualTo(Tokens.TOKEN);
         });
     }
 

@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
@@ -30,12 +31,11 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordRecoveryService - change password - user status")
-class TestPasswordResetServiceChangeUserStatus {
+@DisplayName("SpringSecurityPasswordResetService - change password - user status")
+class TestSpringSecurityPasswordResetServiceChangeUserStatus {
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -55,7 +55,7 @@ class TestPasswordResetServiceChangeUserStatus {
     @Mock
     private UserRepository                     userRepository;
 
-    public TestPasswordResetServiceChangeUserStatus() {
+    public TestSpringSecurityPasswordResetServiceChangeUserStatus() {
         super();
     }
 
@@ -105,7 +105,7 @@ class TestPasswordResetServiceChangeUserStatus {
 
     @BeforeEach
     void initializeToken() {
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
     }
 
     @Test
@@ -119,7 +119,7 @@ class TestPasswordResetServiceChangeUserStatus {
         loadDisabledUser();
 
         // WHEN
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
@@ -140,7 +140,7 @@ class TestPasswordResetServiceChangeUserStatus {
         loadExpiredUser();
 
         // WHEN
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
@@ -161,7 +161,7 @@ class TestPasswordResetServiceChangeUserStatus {
         loadLockedUser();
 
         // WHEN
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
@@ -179,7 +179,7 @@ class TestPasswordResetServiceChangeUserStatus {
         final Exception        exception;
 
         // WHEN
-        executable = () -> service.changePassword(UserTokenConstants.TOKEN, "abc");
+        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);

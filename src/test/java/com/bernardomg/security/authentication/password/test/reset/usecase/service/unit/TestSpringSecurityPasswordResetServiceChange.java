@@ -16,17 +16,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordRecoveryService - change password")
-class TestPasswordResetServiceChange {
+@DisplayName("SpringSecurityPasswordResetService - change password")
+class TestSpringSecurityPasswordResetServiceChange {
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -49,7 +49,7 @@ class TestPasswordResetServiceChange {
     @Mock
     private UserRepository                     userRepository;
 
-    public TestPasswordResetServiceChange() {
+    public TestSpringSecurityPasswordResetServiceChange() {
         super();
     }
 
@@ -61,12 +61,12 @@ class TestPasswordResetServiceChange {
         given(userDetails.isAccountNonLocked()).willReturn(true);
         given(userDetails.isEnabled()).willReturn(true);
 
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         // WHEN
-        service.changePassword(UserTokenConstants.TOKEN, UserConstants.NEW_PASSWORD);
+        service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
         verify(userRepository).save(Users.enabled(), UserConstants.NEW_PASSWORD);
@@ -80,12 +80,12 @@ class TestPasswordResetServiceChange {
         given(userDetails.isAccountNonLocked()).willReturn(true);
         given(userDetails.isEnabled()).willReturn(true);
 
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         // WHEN
-        service.changePassword(UserTokenConstants.TOKEN, UserConstants.NEW_PASSWORD);
+        service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
         verify(userRepository).save(Users.enabled(), UserConstants.NEW_PASSWORD);
@@ -99,15 +99,15 @@ class TestPasswordResetServiceChange {
         given(userDetails.isAccountNonLocked()).willReturn(true);
         given(userDetails.isEnabled()).willReturn(true);
 
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         // WHEN
-        service.changePassword(UserTokenConstants.TOKEN, UserConstants.NEW_PASSWORD);
+        service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(tokenStore).consumeToken(UserTokenConstants.TOKEN);
+        verify(tokenStore).consumeToken(Tokens.TOKEN);
     }
 
 }

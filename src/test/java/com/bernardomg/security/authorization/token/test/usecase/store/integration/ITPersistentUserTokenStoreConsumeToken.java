@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
@@ -54,7 +55,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_AlreadyConsumed_Exception() {
         final ThrowingCallable executable;
 
-        executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
+        executable = () -> store.consumeToken(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(ConsumedTokenException.class);
@@ -67,7 +68,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_Consumes() {
         final UserTokenEntity persistedToken;
 
-        store.consumeToken(UserTokenConstants.TOKEN);
+        store.consumeToken(Tokens.TOKEN);
 
         persistedToken = userTokenSpringRepository.findAll()
             .iterator()
@@ -84,7 +85,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_NotCreate() {
         final long count;
 
-        store.consumeToken(UserTokenConstants.TOKEN);
+        store.consumeToken(Tokens.TOKEN);
 
         count = userTokenSpringRepository.count();
         Assertions.assertThat(count)
@@ -97,7 +98,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_NotExisting_Exception() {
         final ThrowingCallable executable;
 
-        executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
+        executable = () -> store.consumeToken(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserTokenCodeException.class);
@@ -110,7 +111,7 @@ class ITPersistentUserTokenStoreConsumeToken {
     void testConsume_OutOfScope() {
         final ThrowingCallable executable;
 
-        executable = () -> store.consumeToken(UserTokenConstants.TOKEN);
+        executable = () -> store.consumeToken(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserTokenCodeException.class);

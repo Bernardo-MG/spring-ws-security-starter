@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,13 +50,13 @@ class TestUserActivationServiceActivateUser {
     void testActivateUser_ConsumesToken() {
         // GIVEN
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN
-        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        verify(tokenStore).consumeToken(UserTokenConstants.TOKEN);
+        verify(tokenStore).consumeToken(Tokens.TOKEN);
     }
 
     @Test
@@ -64,10 +64,10 @@ class TestUserActivationServiceActivateUser {
     void testActivateUser_Enabled() {
         // GIVEN
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN
-        service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
         verify(repository).save(Users.enabled(), UserConstants.PASSWORD);

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
@@ -18,7 +19,6 @@ import com.bernardomg.security.authorization.token.test.config.annotation.Consum
 import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -37,7 +37,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(UserTokenConstants.TOKEN);
+        token = repository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -53,7 +53,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(UserTokenConstants.TOKEN);
+        token = repository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -68,7 +68,7 @@ class ITUserTokenRepositoryFindOne {
         final ThrowingCallable execution;
 
         // WHEN
-        execution = () -> repository.findOne(UserTokenConstants.TOKEN);
+        execution = () -> repository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -83,7 +83,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(UserTokenConstants.TOKEN);
+        token = repository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -99,7 +99,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(UserTokenConstants.TOKEN);
+        token = repository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -115,7 +115,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(UserTokenConstants.TOKEN);
+        token = repository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)

@@ -11,6 +11,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -18,18 +19,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PasswordRecoveryService - change password")
-class TestPasswordResetServiceStart {
+@DisplayName("SpringSecurityPasswordResetService - change password")
+class TestSpringSecurityPasswordResetServiceStart {
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -52,8 +53,28 @@ class TestPasswordResetServiceStart {
     @Mock
     private UserRepository                     userRepository;
 
-    public TestPasswordResetServiceStart() {
+    public TestSpringSecurityPasswordResetServiceStart() {
         super();
+    }
+
+    @Test
+    @DisplayName("When recovering the password the correct message arguments are used")
+    void testStartPasswordReset_Message() {
+        // GIVEN
+        given(userDetails.isAccountNonExpired()).willReturn(true);
+        given(userDetails.isAccountNonLocked()).willReturn(true);
+        given(userDetails.isEnabled()).willReturn(true);
+
+        given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(userDetails);
+        given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(Users.enabled()));
+        given(tokenStore.createToken(ArgumentMatchers.anyString())).willReturn(Tokens.TOKEN);
+
+        // WHEN
+        service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        verify(passwordNotificator).sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME,
+            Tokens.TOKEN);
     }
 
     @Test
@@ -105,14 +126,14 @@ class TestPasswordResetServiceStart {
 
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(UserTokenConstants.TOKEN);
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
         verify(passwordNotificator).sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME,
-            UserTokenConstants.TOKEN);
+            Tokens.TOKEN);
     }
 
 }

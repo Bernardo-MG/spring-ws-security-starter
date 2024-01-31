@@ -14,10 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 
@@ -39,11 +39,11 @@ class TestSpringUserTokenServiceGetOne {
 
         // GIVEN
         existing = Optional.of(UserTokens.valid());
-        given(userTokenRepository.findOne(UserTokenConstants.TOKEN)).willReturn(existing);
-        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(existing);
+        given(userTokenRepository.exists(Tokens.TOKEN)).willReturn(true);
 
         // WHEN
-        token = service.getOne(UserTokenConstants.TOKEN);
+        token = service.getOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -57,9 +57,9 @@ class TestSpringUserTokenServiceGetOne {
         final ThrowingCallable executable;
 
         // GIVEN
-        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(false);
+        given(userTokenRepository.exists(Tokens.TOKEN)).willReturn(false);
 
-        executable = () -> service.getOne(UserTokenConstants.TOKEN);
+        executable = () -> service.getOne(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserTokenCodeException.class);

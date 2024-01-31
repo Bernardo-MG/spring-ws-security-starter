@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
@@ -29,7 +30,6 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -152,7 +152,7 @@ class TestUserActivationServiceEnableUserAuth {
         loadCredentialsExpiredUser();
 
         // WHEN
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
@@ -173,7 +173,7 @@ class TestUserActivationServiceEnableUserAuth {
         loadDisabledUser();
 
         // WHEN
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
@@ -193,7 +193,7 @@ class TestUserActivationServiceEnableUserAuth {
         loadEnabledUser();
 
         // WHEN
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
@@ -213,7 +213,7 @@ class TestUserActivationServiceEnableUserAuth {
         loadExpiredUser();
 
         // WHEN
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
@@ -233,7 +233,7 @@ class TestUserActivationServiceEnableUserAuth {
         loadLockedUser();
 
         // WHEN
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
@@ -250,7 +250,7 @@ class TestUserActivationServiceEnableUserAuth {
         final Exception        exception;
 
         // WHEN
-        executable = () -> service.activateUser(UserTokenConstants.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);

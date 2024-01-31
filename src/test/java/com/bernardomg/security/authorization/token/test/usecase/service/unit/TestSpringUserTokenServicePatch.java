@@ -16,9 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenPartials;
 import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 
@@ -43,10 +43,10 @@ class TestSpringUserTokenServicePatch {
 
         // GIVEN
         request = UserTokenPartials.empty();
-        given(userTokenRepository.exists(UserTokenConstants.TOKEN)).willReturn(true);
+        given(userTokenRepository.exists(Tokens.TOKEN)).willReturn(true);
 
         // WHEN
-        service.patch(UserTokenConstants.TOKEN, request);
+        service.patch(Tokens.TOKEN, request);
 
         // THEN
         verify(userTokenRepository, atLeastOnce()).patch(ArgumentMatchers.any(), userTokenCaptor.capture());

@@ -36,13 +36,13 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,11 +71,11 @@ class TestUserActivationServiceToken {
         // GIVEN
         Mockito.doThrow(ConsumedTokenException.class)
             .when(tokenStore)
-            .validate(UserTokenConstants.TOKEN);
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+            .validate(Tokens.TOKEN);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        status = service.validateToken(Tokens.TOKEN);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -91,10 +91,10 @@ class TestUserActivationServiceToken {
         final UserTokenStatus status;
 
         // GIVEN
-        given(tokenStore.getUsername(UserTokenConstants.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN
-        status = service.validateToken(UserTokenConstants.TOKEN);
+        status = service.validateToken(Tokens.TOKEN);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {

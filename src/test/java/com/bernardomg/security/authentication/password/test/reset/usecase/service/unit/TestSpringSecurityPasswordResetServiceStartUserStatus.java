@@ -33,7 +33,7 @@ import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordResetService - recovery start - user status")
-class TestPasswordResetServiceStartUserStatus {
+class TestSpringSecurityPasswordResetServiceStartUserStatus {
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -53,7 +53,7 @@ class TestPasswordResetServiceStartUserStatus {
     @Mock
     private UserRepository                     userRepository;
 
-    public TestPasswordResetServiceStartUserStatus() {
+    public TestSpringSecurityPasswordResetServiceStartUserStatus() {
         super();
     }
 
