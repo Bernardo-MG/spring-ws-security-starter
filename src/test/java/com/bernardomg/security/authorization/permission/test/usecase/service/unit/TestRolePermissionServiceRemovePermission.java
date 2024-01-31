@@ -11,8 +11,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.domain.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
@@ -36,20 +33,17 @@ import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 @DisplayName("Role permission service - remove permission")
 class TestRolePermissionServiceRemovePermission {
 
-    @Captor
-    private ArgumentCaptor<RolePermission> permissionCaptor;
+    @Mock
+    private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
-    private ResourcePermissionRepository   resourcePermissionRepository;
+    private RolePermissionRepository     rolePermissionRepository;
 
     @Mock
-    private RolePermissionRepository       rolePermissionRepository;
-
-    @Mock
-    private RoleRepository                 roleRepository;
+    private RoleRepository               roleRepository;
 
     @InjectMocks
-    private DefaultRolePermissionService   service;
+    private DefaultRolePermissionService service;
 
     @Test
     @DisplayName("Throws an exception when the permission doesn't exist")
@@ -126,7 +120,6 @@ class TestRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Returns the removed permission")
     void testRemovePermission_ReturnedData() {
-        final RolePermission permission;
 
         // GIVEN
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.of(Roles.valid()));
@@ -139,13 +132,7 @@ class TestRolePermissionServiceRemovePermission {
         service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         // THEN
-        verify(resourcePermissionRepository).removePermission(permissionCaptor.capture());
-
-        permission = permissionCaptor.getValue();
-
-        Assertions.assertThat(permission)
-            .as("permission")
-            .isEqualTo(RolePermissions.create());
+        verify(resourcePermissionRepository).removePermission(RolePermissions.create());
     }
 
 }

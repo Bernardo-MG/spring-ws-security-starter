@@ -9,9 +9,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -28,14 +26,11 @@ import com.bernardomg.validation.failure.FieldFailure;
 @DisplayName("DefaultRoleService - create")
 class TestDefaultRoleServiceCreate {
 
-    @Captor
-    private ArgumentCaptor<Role> roleCaptor;
-
     @Mock
-    private RoleRepository       roleRepository;
+    private RoleRepository     roleRepository;
 
     @InjectMocks
-    private DefaultRoleService   service;
+    private DefaultRoleService service;
 
     public TestDefaultRoleServiceCreate() {
         super();
@@ -62,21 +57,11 @@ class TestDefaultRoleServiceCreate {
     @Test
     @DisplayName("Sends the role to the repository")
     void testCreate_PersistedData() {
-        final Role role;
-
-        // GIVEN
-        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
-
         // WHEN
         service.create(RoleConstants.NAME);
 
         // THEN
-        verify(roleRepository).save(roleCaptor.capture());
-
-        role = roleCaptor.getValue();
-
-        Assertions.assertThat(role.getName())
-            .isEqualTo(RoleConstants.NAME);
+        verify(roleRepository).save(Roles.valid());
     }
 
     @Test

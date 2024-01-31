@@ -5,13 +5,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,18 +23,14 @@ import com.bernardomg.security.authorization.token.usecase.service.SpringUserTok
 class TestSpringUserTokenServicePatch {
 
     @InjectMocks
-    private SpringUserTokenService           service;
-
-    @Captor
-    private ArgumentCaptor<UserTokenPartial> userTokenCaptor;
+    private SpringUserTokenService service;
 
     @Mock
-    private UserTokenRepository              userTokenRepository;
+    private UserTokenRepository    userTokenRepository;
 
     @Test
     @DisplayName("Patching sends the user token to the repository")
     void testPatch_Empty_Persisted() {
-        final UserTokenPartial token;
         final UserTokenPartial request;
 
         // GIVEN
@@ -49,12 +41,7 @@ class TestSpringUserTokenServicePatch {
         service.patch(Tokens.TOKEN, request);
 
         // THEN
-        verify(userTokenRepository, atLeastOnce()).patch(ArgumentMatchers.any(), userTokenCaptor.capture());
-
-        token = userTokenCaptor.getValue();
-
-        Assertions.assertThat(token)
-            .isEqualTo(UserTokenPartials.empty());
+        verify(userTokenRepository, atLeastOnce()).patch(Tokens.TOKEN, request);
     }
 
 }

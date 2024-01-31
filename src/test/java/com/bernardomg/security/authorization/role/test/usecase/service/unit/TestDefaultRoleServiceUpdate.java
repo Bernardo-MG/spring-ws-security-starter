@@ -32,9 +32,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -52,14 +50,11 @@ import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleSer
 @DisplayName("DefaultRoleService - update")
 class TestDefaultRoleServiceUpdate {
 
-    @Captor
-    private ArgumentCaptor<Role> roleCaptor;
-
     @Mock
-    private RoleRepository       roleRepository;
+    private RoleRepository     roleRepository;
 
     @InjectMocks
-    private DefaultRoleService   service;
+    private DefaultRoleService service;
 
     public TestDefaultRoleServiceUpdate() {
         super();
@@ -85,24 +80,17 @@ class TestDefaultRoleServiceUpdate {
     @DisplayName("Sends the role to the repository")
     void testUpdate_PersistedData() {
         final RoleChange data;
-        final Role       role;
 
         // GIVEN
         data = RolesUpdate.valid();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
 
         // WHEN
         service.update(RoleConstants.NAME, data);
 
         // THEN
-        verify(roleRepository).save(roleCaptor.capture());
-
-        role = roleCaptor.getValue();
-
-        Assertions.assertThat(role.getName())
-            .isEqualTo(RoleConstants.NAME);
+        verify(roleRepository).save(Roles.valid());
     }
 
     @Test

@@ -7,12 +7,9 @@ import static org.mockito.Mockito.verify;
 import java.util.Collection;
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,19 +24,15 @@ import com.bernardomg.security.authorization.token.usecase.service.SpringUserTok
 class TestSpringUserTokenServiceCleanUp {
 
     @InjectMocks
-    private SpringUserTokenService                service;
+    private SpringUserTokenService service;
 
     @Mock
-    private UserTokenRepository                   userTokenRepository;
-
-    @Captor
-    private ArgumentCaptor<Collection<UserToken>> userTokensCaptor;
+    private UserTokenRepository    userTokenRepository;
 
     @Test
     @DisplayName("Sends the finished tokens to delete")
     void testCleanUpTokens_DeletesFinished() {
         final Collection<UserToken> existing;
-        final Collection<UserToken> deleted;
 
         // GIVEN
         existing = List.of(UserTokens.valid());
@@ -49,11 +42,7 @@ class TestSpringUserTokenServiceCleanUp {
         service.cleanUpTokens();
 
         // THEN
-        verify(userTokenRepository).deleteAll(userTokensCaptor.capture());
-
-        deleted = userTokensCaptor.getValue();
-        Assertions.assertThat(deleted)
-            .isEqualTo(existing);
+        verify(userTokenRepository).deleteAll(existing);
     }
 
 }

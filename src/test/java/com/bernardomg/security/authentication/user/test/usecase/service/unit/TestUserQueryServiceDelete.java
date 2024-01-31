@@ -32,8 +32,6 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -49,9 +47,6 @@ class TestUserQueryServiceDelete {
 
     @InjectMocks
     private DefaultUserQueryService service;
-
-    @Captor
-    private ArgumentCaptor<String>  userCaptor;
 
     @Mock
     private UserRepository          userRepository;

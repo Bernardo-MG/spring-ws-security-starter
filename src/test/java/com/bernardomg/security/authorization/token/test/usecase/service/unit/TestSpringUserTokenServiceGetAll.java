@@ -10,8 +10,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,14 +24,11 @@ import com.bernardomg.security.authorization.token.usecase.service.SpringUserTok
 @DisplayName("SpringUserTokenService - get all")
 class TestSpringUserTokenServiceGetAll {
 
-    @Captor
-    private ArgumentCaptor<Pageable> pageableCaptor;
-
     @InjectMocks
-    private SpringUserTokenService   service;
+    private SpringUserTokenService service;
 
     @Mock
-    private UserTokenRepository      userTokenRepository;
+    private UserTokenRepository    userTokenRepository;
 
     @Test
     @DisplayName("When there are tokens they are returned")
@@ -84,7 +79,6 @@ class TestSpringUserTokenServiceGetAll {
     void testGetAll_Pagination() {
         final Pageable            pageable;
         final Iterable<UserToken> existing;
-        final Pageable            repositoryPageable;
 
         // GIVEN
         pageable = Pageable.unpaged();
@@ -96,12 +90,7 @@ class TestSpringUserTokenServiceGetAll {
         service.getAll(pageable);
 
         // THEN
-        verify(userTokenRepository).findAll(pageableCaptor.capture());
-
-        repositoryPageable = pageableCaptor.getValue();
-        Assertions.assertThat(repositoryPageable)
-            .as("pageable")
-            .isSameAs(pageable);
+        verify(userTokenRepository).findAll(pageable);
     }
 
 }

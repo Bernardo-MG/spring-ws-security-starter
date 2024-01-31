@@ -7,13 +7,10 @@ import static org.mockito.Mockito.verify;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,17 +30,11 @@ import com.bernardomg.security.authorization.role.usecase.service.DefaultUserRol
 @DisplayName("DefaultUserRoleService - add role")
 class TestDefaultUserRoleServiceAddRole {
 
-    @Captor
-    private ArgumentCaptor<String> roleCaptor;
-
     @Mock
     private RoleRepository         roleRepository;
 
     @InjectMocks
     private DefaultUserRoleService service;
-
-    @Captor
-    private ArgumentCaptor<String> userCaptor;
 
     @Mock
     private UserRepository         userRepository;
@@ -93,32 +84,15 @@ class TestDefaultUserRoleServiceAddRole {
     @Test
     @DisplayName("Sends the data to the repository")
     void testAddRole_PersistedData() {
-        final Optional<Role> role;
-
         // GIVEN
-        role = Optional.of(Roles.valid());
-        given(roleRepository.findOne(RoleConstants.NAME)).willReturn(role);
+        given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.of(Roles.valid()));
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
         service.addRole(UserConstants.USERNAME, RoleConstants.NAME);
 
         // THEN
-        verify(userRoleRepository).save(userCaptor.capture(), roleCaptor.capture());
-
-        SoftAssertions.assertSoftly(softly -> {
-            final String capturedUser;
-            final String capturedRole;
-
-            capturedUser = userCaptor.getValue();
-            capturedRole = roleCaptor.getValue();
-            softly.assertThat(capturedUser)
-                .as("user")
-                .isEqualTo(UserConstants.USERNAME);
-            softly.assertThat(capturedRole)
-                .as("role")
-                .isEqualTo(RoleConstants.NAME);
-        });
+        verify(userRoleRepository).save(UserConstants.USERNAME, RoleConstants.NAME);
     }
 
     @Test
