@@ -14,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.password.adapter.outbound.email.SpringMailPasswordNotificator;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
@@ -44,7 +45,7 @@ class SpringMailPasswordNotificatorTest {
     @DisplayName("The message content is sent to the target email")
     void testSendEmail_Content() throws Exception {
         // WHEN
-        passwordNotificator.sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME, "token");
+        passwordNotificator.sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

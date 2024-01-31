@@ -34,7 +34,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @DisplayName("JwtTokenFilter")
 class TestJwtTokenFilter {
 
-    private static final String HEADER_BEARER = "Bearer token";
+    private static final String HEADER_BEARER = "Bearer " + Tokens.TOKEN;
 
     @Mock
     private TokenDecoder        decoder;

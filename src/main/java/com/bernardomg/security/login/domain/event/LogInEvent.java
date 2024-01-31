@@ -28,11 +28,15 @@ import java.util.Objects;
 
 import org.springframework.context.ApplicationEvent;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
+@ToString
+@EqualsAndHashCode(callSuper = true)
 @Getter
 public final class LogInEvent extends ApplicationEvent {
 
