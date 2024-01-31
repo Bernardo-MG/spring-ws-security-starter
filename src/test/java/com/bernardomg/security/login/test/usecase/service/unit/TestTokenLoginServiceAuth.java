@@ -4,7 +4,6 @@ package com.bernardomg.security.login.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.time.Duration;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
@@ -52,6 +51,9 @@ class TestTokenLoginServiceAuth {
     private TokenEncoder                 tokenEncoder;
 
     @Mock
+    private UserDetails                  user;
+
+    @Mock
     private UserDetailsService           userDetService;
 
     @Mock
@@ -78,37 +80,37 @@ class TestTokenLoginServiceAuth {
     }
 
     private final TokenLoginService getServiceForAccountExpired() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, false, true, true, Collections.emptyList());
+        given(user.isEnabled()).willReturn(true);
+        given(user.isAccountNonExpired()).willReturn(false);
+        given(user.isCredentialsNonExpired()).willReturn(true);
+        given(user.isAccountNonLocked()).willReturn(true);
 
         return getService(user);
     }
 
     private final TokenLoginService getServiceForCredentialsExpired() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, true, false, true, Collections.emptyList());
+        given(user.isEnabled()).willReturn(true);
+        given(user.isAccountNonExpired()).willReturn(true);
+        given(user.isCredentialsNonExpired()).willReturn(false);
+        given(user.isAccountNonLocked()).willReturn(true);
 
         return getService(user);
     }
 
     private final TokenLoginService getServiceForDisabled() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, false, true, true, true, Collections.emptyList());
+        given(user.isEnabled()).willReturn(false);
+        given(user.isAccountNonExpired()).willReturn(true);
+        given(user.isCredentialsNonExpired()).willReturn(true);
+        given(user.isAccountNonLocked()).willReturn(true);
 
         return getService(user);
     }
 
     private final TokenLoginService getServiceForLocked() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, true, false, true, Collections.emptyList());
+        given(user.isEnabled()).willReturn(true);
+        given(user.isAccountNonExpired()).willReturn(true);
+        given(user.isCredentialsNonExpired()).willReturn(true);
+        given(user.isAccountNonLocked()).willReturn(false);
 
         return getService(user);
     }
@@ -129,10 +131,10 @@ class TestTokenLoginServiceAuth {
     }
 
     private final TokenLoginService getServiceForValid() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, true, true, true, Collections.emptyList());
+        given(user.isEnabled()).willReturn(true);
+        given(user.isAccountNonExpired()).willReturn(true);
+        given(user.isCredentialsNonExpired()).willReturn(true);
+        given(user.isAccountNonLocked()).willReturn(true);
 
         return getService(user);
     }
@@ -229,6 +231,8 @@ class TestTokenLoginServiceAuth {
         // GIVEN
         loadUser();
 
+        given(user.getPassword()).willReturn(UserConstants.ENCODED_PASSWORD);
+
         given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
 
@@ -313,6 +317,8 @@ class TestTokenLoginServiceAuth {
         // GIVEN
         given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
         given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
+
+        given(user.getPassword()).willReturn(UserConstants.ENCODED_PASSWORD);
 
         // WHEN
         status = getServiceForValid().login(UserConstants.USERNAME, UserConstants.PASSWORD);
