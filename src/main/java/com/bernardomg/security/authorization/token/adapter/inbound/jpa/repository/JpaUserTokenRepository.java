@@ -74,7 +74,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Collection<UserToken> findAllNotRevoked(final String username, final String scope) {
-        return userDataTokenRepository.findAllNotRevokedByUsernameAndScope(username, scope)
+        return userDataTokenRepository.findAllByRevokedFalseAndUsernameAndScope(username, scope)
             .stream()
             .map(this::toDomain)
             .toList();

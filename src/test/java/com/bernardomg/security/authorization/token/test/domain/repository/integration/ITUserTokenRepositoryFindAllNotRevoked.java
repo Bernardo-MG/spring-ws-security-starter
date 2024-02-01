@@ -5,9 +5,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
@@ -18,8 +19,8 @@ import com.bernardomg.security.authorization.token.test.config.factory.UserToken
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserTokenRepository - find all")
-class ITUserTokenRepositoryFindAll {
+@DisplayName("UserTokenRepository - find all not revoked")
+class ITUserTokenRepositoryFindAllNotRevoked {
 
     @Autowired
     private UserTokenRepository repository;
@@ -28,15 +29,11 @@ class ITUserTokenRepositoryFindAll {
     @DisplayName("Returns a token when the token is consumed")
     @OnlyUser
     @ConsumedUserToken
-    void testFindAll_Consumed() {
-        final Pageable            pageable;
+    void testFindAllNotRevoked_Consumed() {
         final Iterable<UserToken> tokens;
 
-        // GIVEN
-        pageable = Pageable.unpaged();
-
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -48,15 +45,11 @@ class ITUserTokenRepositoryFindAll {
     @DisplayName("Returns a token when the token is expired")
     @OnlyUser
     @ExpiredUserToken
-    void testFindAll_Expired() {
-        final Pageable            pageable;
+    void testFindAllNotRevoked_Expired() {
         final Iterable<UserToken> tokens;
 
-        // GIVEN
-        pageable = Pageable.unpaged();
-
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -65,17 +58,13 @@ class ITUserTokenRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("Doesn't return anything when there is no data")
+    @DisplayName("Returns a token when there is no data")
     @OnlyUser
-    void testFindAll_NoData() {
-        final Pageable            pageable;
+    void testFindAllNotRevoked_NoData() {
         final Iterable<UserToken> tokens;
 
-        // GIVEN
-        pageable = Pageable.unpaged();
-
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -84,38 +73,30 @@ class ITUserTokenRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("Returns a token when the token is revoked")
+    @DisplayName("Doesn't return anything when the token is revoked")
     @OnlyUser
     @RevokedUserToken
-    void testFindAll_Revoked() {
-        final Pageable            pageable;
+    void testFindAllNotRevoked_Revoked() {
         final Iterable<UserToken> tokens;
 
-        // GIVEN
-        pageable = Pageable.unpaged();
-
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
-            .containsExactly(UserTokens.revoked());
+            .isEmpty();
     }
 
     @Test
     @DisplayName("Returns a token when the token is valid")
     @OnlyUser
     @ValidUserToken
-    void testFindAll_Valid() {
-        final Pageable            pageable;
+    void testFindAllNotRevoked_Valid() {
         final Iterable<UserToken> tokens;
 
-        // GIVEN
-        pageable = Pageable.unpaged();
-
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)

@@ -13,6 +13,8 @@ public final class Tokens {
         "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
             .getBytes(Charset.forName("UTF-8")));
 
+    public static final String    SCOPE = "scope";
+
     public static final String    TOKEN = "bd656aaf-0c18-4178-bcdf-71ccb7f320fa";
 
     private Tokens() {

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
@@ -17,7 +18,6 @@ import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -26,7 +26,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("ScopedUserTokenStore - revoke existing tokens")
 class ITScopedUserTokenStoreRevokeTokens {
 
-    private ScopedUserTokenStore  store;
+    private ScopedUserTokenStore      store;
 
     @Autowired
     private UserTokenProperties       tokenProperties;
@@ -42,7 +42,7 @@ class ITScopedUserTokenStoreRevokeTokens {
 
     @BeforeEach
     public void initialize() {
-        store = new ScopedUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
+        store = new ScopedUserTokenStore(userTokenRepository, userRepository, Tokens.SCOPE,
             tokenProperties.getValidity());
     }
 

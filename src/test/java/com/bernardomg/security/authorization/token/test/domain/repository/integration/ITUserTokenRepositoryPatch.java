@@ -55,7 +55,7 @@ class ITUserTokenRepositoryPatch {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())
@@ -89,7 +89,7 @@ class ITUserTokenRepositoryPatch {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())
@@ -160,7 +160,7 @@ class ITUserTokenRepositoryPatch {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())
@@ -193,7 +193,7 @@ class ITUserTokenRepositoryPatch {
             softly.assertThat(token.getName())
                 .isEqualTo(UserConstants.NAME);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())

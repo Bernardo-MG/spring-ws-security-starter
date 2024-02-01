@@ -19,7 +19,6 @@ import com.bernardomg.security.authorization.token.domain.repository.UserTokenRe
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
-import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -28,7 +27,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 @DisplayName("ScopedUserTokenStore - consume")
 class ITScopedUserTokenStoreConsumeToken {
 
-    private ScopedUserTokenStore  store;
+    private ScopedUserTokenStore      store;
 
     @Autowired
     private UserTokenProperties       tokenProperties;
@@ -44,7 +43,7 @@ class ITScopedUserTokenStoreConsumeToken {
 
     @BeforeEach
     public void initialize() {
-        store = new ScopedUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
+        store = new ScopedUserTokenStore(userTokenRepository, userRepository, Tokens.SCOPE,
             tokenProperties.getValidity());
     }
 
