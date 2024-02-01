@@ -640,22 +640,6 @@
       <defaultGoal>clean package</defaultGoal>
       <plugins>
          <plugin>
-            <!-- Compiler -->
-            <!-- Compiles the source code. -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-               <annotationProcessorPaths>
-                  <path>
-                     <!-- Lombok -->
-                     <groupId>org.projectlombok</groupId>
-                     <artifactId>lombok</artifactId>
-                     <version>${lombok.version}</version>
-                  </path>
-               </annotationProcessorPaths>
-            </configuration>
-         </plugin>
-         <plugin>
             <!-- Changes -->
             <!-- Takes care of the changes log -->
             <!-- It is set to also validate the changes log file -->
