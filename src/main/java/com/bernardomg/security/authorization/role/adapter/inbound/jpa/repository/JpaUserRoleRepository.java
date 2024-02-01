@@ -49,16 +49,23 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
 
     @Override
     public final boolean existsForRole(final String role) {
-        final UserRoleEntity sample;
-        final RoleEntity     roleEntity;
+        final UserRoleEntity       sample;
+        final Optional<RoleEntity> roleEntity;
+        final boolean              exists;
 
-        roleEntity = roleRepository.findOneByName(role)
-            .get();
-        sample = UserRoleEntity.builder()
-            .withRoleId(roleEntity.getId())
-            .build();
+        roleEntity = roleRepository.findOneByName(role);
+        if (roleEntity.isPresent()) {
+            sample = UserRoleEntity.builder()
+                .withRoleId(roleEntity.get()
+                    .getId())
+                .build();
 
-        return userRoleRepository.exists(Example.of(sample));
+            exists = userRoleRepository.exists(Example.of(sample));
+        } else {
+            exists = false;
+        }
+
+        return exists;
     }
 
     @Override
