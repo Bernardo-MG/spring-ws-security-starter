@@ -66,8 +66,7 @@ class TestScopedUserTokenStoreRevokeTokens {
     void testRevokeExistingTokens_NoData() {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userTokenRepository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE))
-            .willReturn(List.of());
+        given(userTokenRepository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE)).willReturn(List.of());
 
         // WHEN
         store.revokeExistingTokens(UserConstants.USERNAME);
@@ -80,7 +79,7 @@ class TestScopedUserTokenStoreRevokeTokens {
     @DisplayName("When revoking a not existing user an exception is thrown")
     void testRevokeExistingTokens_NotExistingUser() {
         final ThrowingCallable executable;
-        
+
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
@@ -89,7 +88,7 @@ class TestScopedUserTokenStoreRevokeTokens {
 
         // THEN
         Assertions.assertThatThrownBy(executable)
-        .isInstanceOf(MissingUserUsernameException.class);
+            .isInstanceOf(MissingUserUsernameException.class);
     }
 
 }

@@ -6,33 +6,43 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithPermission;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRoleRepository - delete")
-class ITUserRoleRepositoryDelete {
+@DisplayName("UserRoleRepository - exists for role")
+class ITUserRoleRepositoryExistsForRole {
 
     @Autowired
-    private UserRoleRepository       repository;
-
-    @Autowired
-    private UserRoleSpringRepository userRoleRepository;
+    private UserRoleRepository repository;
 
     @Test
-    @DisplayName("Removes the entity when removing a role")
+    @DisplayName("When the role has a user it exists")
     @UserWithPermission
-    void testRemoveRole_RemovesEntity() {
+    void testExistsForRole_Exists() {
+        final boolean exists;
+
         // WHEN
-        repository.delete(UserConstants.USERNAME, RoleConstants.NAME);
+        exists = repository.existsForRole(RoleConstants.NAME);
 
         // THEN
-        Assertions.assertThat(userRoleRepository.count())
-            .isZero();
+        Assertions.assertThat(exists)
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("When there is no role it doesn't exists")
+    void testExistsForRole_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.existsForRole(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .isFalse();
     }
 
 }
