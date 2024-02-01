@@ -1,125 +1,143 @@
 
-package com.bernardomg.security.authorization.token.test.usecase.store.integration;
+package com.bernardomg.security.authorization.token.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+
+import java.time.Duration;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.exception.OutOfScopeTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.RevokedTokenException;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
-import com.bernardomg.security.authorization.token.test.config.annotation.ExpiredUserToken;
-import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
-import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
-import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
-import com.bernardomg.security.config.authorization.UserTokenProperties;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("ScopedUserTokenStore - validate")
-class ITScopedUserTokenStoreValidate {
+class TestScopedUserTokenStoreValidate {
 
     private ScopedUserTokenStore store;
 
-    @Autowired
-    private UserTokenProperties  tokenProperties;
-
-    @Autowired
+    @Mock
     private UserRepository       userRepository;
 
-    @Autowired
+    @Mock
     private UserTokenRepository  userTokenRepository;
 
     @BeforeEach
     public void initialize() {
-        store = new ScopedUserTokenStore(userTokenRepository, userRepository, Tokens.SCOPE,
-            tokenProperties.getValidity());
+        final Duration validity;
+
+        validity = Duration.ofMinutes(1);
+        store = new ScopedUserTokenStore(userTokenRepository, userRepository, Tokens.SCOPE, validity);
     }
 
     @Test
     @DisplayName("A consumed token throws an exception")
-    @OnlyUser
-    @ConsumedUserToken
-    void testIsValid_Consumed() {
+    void testValidate_Consumed() {
         final ThrowingCallable executable;
 
+        // GIVEN
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.consumed()));
+
+        // WHEN
         executable = () -> store.validate(Tokens.TOKEN);
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(ConsumedTokenException.class);
     }
 
     @Test
     @DisplayName("An expired token throws an exception")
-    @OnlyUser
-    @ExpiredUserToken
-    void testIsValid_Expired() {
+    void testValidate_Expired() {
         final ThrowingCallable executable;
 
+        // GIVEN
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.expired()));
+
+        // WHEN
         executable = () -> store.validate(Tokens.TOKEN);
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(ExpiredTokenException.class);
     }
 
     @Test
     @DisplayName("A not existing token throws an exception")
-    @OnlyUser
-    void testIsValid_NotExisting() {
+    void testValidate_NotExisting() {
         final ThrowingCallable executable;
 
+        // GIVEN
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.empty());
+
+        // WHEN
         executable = () -> store.validate(Tokens.TOKEN);
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(MissingUserTokenCodeException.class);
     }
 
     @Test
     @DisplayName("An out of scope token throws an exception")
-    @OnlyUser
-    @UserRegisteredUserToken
-    void testIsValid_outOfScope() {
+    void testValidate_OutOfScope() {
         final ThrowingCallable executable;
 
+        // GIVEN
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.outOfScope()));
+
+        // WHEN
         executable = () -> store.validate(Tokens.TOKEN);
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(OutOfScopeTokenException.class);
     }
 
     @Test
     @DisplayName("A revoked token throws an exception")
-    @OnlyUser
-    @RevokedUserToken
-    void testIsValid_Revoked() {
+    void testValidate_Revoked() {
         final ThrowingCallable executable;
 
+        // GIVEN
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.revoked()));
+
+        // WHEN
         executable = () -> store.validate(Tokens.TOKEN);
 
+        // THEN
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(RevokedTokenException.class);
     }
 
     @Test
     @DisplayName("A valid token throws no exception")
-    @OnlyUser
-    @ValidUserToken
-    void testIsValid_Valid() {
+    void testValidate_Valid() {
         final ThrowingCallable executable;
 
+        // GIVEN
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
+
+        // WHEN
         executable = () -> store.validate(Tokens.TOKEN);
 
+        // THEN
         Assertions.assertThatCode(executable)
             .doesNotThrowAnyException();
     }
