@@ -23,7 +23,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserTokenRepositoryFindAllPagination {
 
     @Autowired
-    private UserTokenRepository repository;
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("Returns a page")
@@ -35,7 +35,7 @@ class ITUserTokenRepositoryFindAllPagination {
         pageable = Pageable.ofSize(10);
 
         // WHEN
-        logins = repository.findAll(pageable);
+        logins = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(logins)
@@ -53,7 +53,7 @@ class ITUserTokenRepositoryFindAllPagination {
         pageable = PageRequest.of(0, 1);
 
         // WHEN
-        logins = repository.findAll(pageable);
+        logins = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(logins)
@@ -71,7 +71,7 @@ class ITUserTokenRepositoryFindAllPagination {
         pageable = PageRequest.of(1, 1);
 
         // WHEN
-        logins = repository.findAll(pageable);
+        logins = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(logins)
@@ -88,7 +88,7 @@ class ITUserTokenRepositoryFindAllPagination {
         pageable = Pageable.unpaged();
 
         // WHEN
-        logins = repository.findAll(pageable);
+        logins = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(logins)

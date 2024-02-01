@@ -20,8 +20,8 @@ import com.bernardomg.security.authorization.token.test.config.factory.UserToken
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserTokenRepository - find one")
-class ITUserTokenRepositoryFindOne {
+@DisplayName("UserTokenRepository - find one by scope")
+class ITUserTokenRepositoryFindOneByScope {
 
     @Autowired
     private UserTokenRepository userTokenRepository;
@@ -30,11 +30,11 @@ class ITUserTokenRepositoryFindOne {
     @DisplayName("Returns a token when the token is consumed")
     @OnlyUser
     @ConsumedUserToken
-    void testFindOne_Consumed() {
+    void testFindOneByScope_Consumed() {
         final Optional<UserToken> token;
 
         // WHEN
-        token = userTokenRepository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(token)
@@ -46,11 +46,11 @@ class ITUserTokenRepositoryFindOne {
     @DisplayName("Returns a token when the token is expired")
     @OnlyUser
     @ExpiredUserToken
-    void testFindOne_Expired() {
+    void testFindOneByScope_Expired() {
         final Optional<UserToken> token;
 
         // WHEN
-        token = userTokenRepository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(token)
@@ -60,11 +60,11 @@ class ITUserTokenRepositoryFindOne {
 
     @Test
     @DisplayName("When there is no data, nothing is returned")
-    void testFindOne_NoData() {
+    void testFindOneByScope_NoData() {
         final Optional<UserToken> token;
 
         // WHEN
-        token = userTokenRepository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(token)
@@ -76,11 +76,11 @@ class ITUserTokenRepositoryFindOne {
     @DisplayName("Returns a token when the token is revoked")
     @OnlyUser
     @RevokedUserToken
-    void testFindOne_Revoked() {
+    void testFindOneByScope_Revoked() {
         final Optional<UserToken> token;
 
         // WHEN
-        token = userTokenRepository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(token)
@@ -92,16 +92,32 @@ class ITUserTokenRepositoryFindOne {
     @DisplayName("Returns a token when the token is valid")
     @OnlyUser
     @ValidUserToken
-    void testFindOne_Valid() {
+    void testFindOneByScope_Valid() {
         final Optional<UserToken> token;
 
         // WHEN
-        token = userTokenRepository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(token)
             .as("token")
             .contains(UserTokens.valid());
+    }
+
+    @Test
+    @DisplayName("When reading for the wrong scope, nothing is returned")
+    @OnlyUser
+    @ValidUserToken
+    void testFindOneByScope_WrongScope() {
+        final Optional<UserToken> token;
+
+        // WHEN
+        token = userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.ALTERNATIVE_SCOPE);
+
+        // THEN
+        Assertions.assertThat(token)
+            .as("token")
+            .isEmpty();
     }
 
 }

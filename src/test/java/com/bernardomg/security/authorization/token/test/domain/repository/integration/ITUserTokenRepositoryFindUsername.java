@@ -23,17 +23,17 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserTokenRepositoryFindUsername {
 
     @Autowired
-    private UserTokenRepository repository;
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("Returns the username when the token is consumed")
     @OnlyUser
     @ConsumedUserToken
-    void testFindAllNotRevoked_Consumed() {
+    void testFindUsername_Consumed() {
         final Optional<String> username;
 
         // WHEN
-        username = repository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
+        username = userTokenRepository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(username)
@@ -45,11 +45,11 @@ class ITUserTokenRepositoryFindUsername {
     @DisplayName("Returns the username when the token is expired")
     @OnlyUser
     @ExpiredUserToken
-    void testFindAllNotRevoked_Expired() {
+    void testFindUsername_Expired() {
         final Optional<String> username;
 
         // WHEN
-        username = repository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
+        username = userTokenRepository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(username)
@@ -60,11 +60,11 @@ class ITUserTokenRepositoryFindUsername {
     @Test
     @DisplayName("Returns nothing when there is no data")
     @OnlyUser
-    void testFindAllNotRevoked_NoData() {
+    void testFindUsername_NoData() {
         final Optional<String> username;
 
         // WHEN
-        username = repository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
+        username = userTokenRepository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(username)
@@ -76,11 +76,11 @@ class ITUserTokenRepositoryFindUsername {
     @DisplayName("Returns the username when the token is revoked")
     @OnlyUser
     @RevokedUserToken
-    void testFindAllNotRevoked_Revoked() {
+    void testFindUsername_Revoked() {
         final Optional<String> username;
 
         // WHEN
-        username = repository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
+        username = userTokenRepository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(username)
@@ -92,11 +92,11 @@ class ITUserTokenRepositoryFindUsername {
     @DisplayName("Returns the username when the token is valid")
     @OnlyUser
     @ValidUserToken
-    void testFindAllNotRevoked_Valid() {
+    void testFindUsername_Valid() {
         final Optional<String> username;
 
         // WHEN
-        username = repository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
+        username = userTokenRepository.findUsername(Tokens.TOKEN, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(username)

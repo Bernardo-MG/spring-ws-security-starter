@@ -23,7 +23,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserTokenRepositoryFindAllNotRevoked {
 
     @Autowired
-    private UserTokenRepository repository;
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("Returns a token when the token is consumed")
@@ -33,7 +33,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
         final Iterable<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
+        tokens = userTokenRepository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -49,7 +49,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
         final Iterable<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
+        tokens = userTokenRepository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -64,7 +64,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
         final Iterable<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
+        tokens = userTokenRepository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -80,7 +80,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
         final Iterable<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
+        tokens = userTokenRepository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -96,7 +96,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
         final Iterable<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
+        tokens = userTokenRepository.findAllNotRevoked(UserConstants.USERNAME, Tokens.SCOPE);
 
         // THEN
         Assertions.assertThat(tokens)

@@ -19,11 +19,11 @@ import com.bernardomg.security.authorization.token.test.config.annotation.ValidU
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SpringUserTokenService - find all finished")
+@DisplayName("UserTokenRepository - find all finished")
 class ITUserTokenRepositoryFindAllFinished {
 
     @Autowired
-    private UserTokenRepository repository;
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("With a consumed token it is returned as finished")
@@ -33,7 +33,7 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
@@ -49,7 +49,7 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
@@ -64,7 +64,7 @@ class ITUserTokenRepositoryFindAllFinished {
         final Iterable<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
@@ -80,7 +80,7 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
@@ -96,7 +96,7 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)

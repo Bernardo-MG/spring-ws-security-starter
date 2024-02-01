@@ -162,7 +162,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final void revokeExistingTokens(final String username) {
-        final Collection<UserToken> notRevoked;
+        final Collection<UserToken> toRevoke;
         final Optional<User>        readUser;
         final User                  user;
 
@@ -174,10 +174,10 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         user = readUser.get();
 
         // Find all tokens not revoked, and mark them as revoked
-        notRevoked = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
-        notRevoked.forEach(t -> t.setRevoked(true));
+        toRevoke = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
+        toRevoke.forEach(t -> t.setRevoked(true));
 
-        userTokenRepository.saveAll(notRevoked);
+        userTokenRepository.saveAll(toRevoke);
 
         log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.getUsername());
     }

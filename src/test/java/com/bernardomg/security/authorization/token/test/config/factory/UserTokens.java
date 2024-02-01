@@ -7,6 +7,19 @@ import com.bernardomg.security.authorization.token.domain.model.UserToken;
 
 public final class UserTokens {
 
+    public static final UserToken alternative() {
+        return UserToken.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
+            .withScope(Tokens.SCOPE)
+            .withToken(Tokens.ALTERNATIVE_TOKEN)
+            .withCreationDate(UserTokenConstants.DATE)
+            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
+            .withConsumed(false)
+            .withRevoked(false)
+            .build();
+    }
+
     public static final UserToken consumed() {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)

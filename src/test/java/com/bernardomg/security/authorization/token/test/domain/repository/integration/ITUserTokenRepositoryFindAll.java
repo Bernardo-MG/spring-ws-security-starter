@@ -22,7 +22,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserTokenRepositoryFindAll {
 
     @Autowired
-    private UserTokenRepository repository;
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("Returns a token when the token is consumed")
@@ -36,7 +36,7 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -56,7 +56,7 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -75,7 +75,7 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -95,7 +95,7 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -115,7 +115,7 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
