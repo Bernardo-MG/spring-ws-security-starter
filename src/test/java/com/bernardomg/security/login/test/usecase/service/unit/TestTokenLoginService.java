@@ -72,16 +72,14 @@ class TestTokenLoginService {
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.empty());
 
-        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-
-        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
+        given(valid.test(UserConstants.EMAIL, UserConstants.PASSWORD)).willReturn(false);
 
         // WHEN
         status = service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
         Assertions.assertThat(status.isLogged())
-            .isTrue();
+            .isFalse();
     }
 
     @Test
