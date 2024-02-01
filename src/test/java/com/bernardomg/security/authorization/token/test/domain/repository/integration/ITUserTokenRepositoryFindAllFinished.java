@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -25,20 +26,6 @@ class ITUserTokenRepositoryFindAllFinished {
     private UserTokenRepository repository;
 
     @Test
-    @DisplayName("With no token nothing is returned")
-    @ValidUser
-    void testFindAllFinished() {
-        final Collection<UserToken> tokens;
-
-        // WHEN
-        tokens = repository.findAllFinished();
-
-        // THEN
-        Assertions.assertThat(tokens)
-            .isEmpty();
-    }
-
-    @Test
     @DisplayName("With a consumed token it is returned as finished")
     @ValidUser
     @ConsumedUserToken
@@ -50,6 +37,7 @@ class ITUserTokenRepositoryFindAllFinished {
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -65,7 +53,23 @@ class ITUserTokenRepositoryFindAllFinished {
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Returns nothing when there is no data")
+    @OnlyUser
+    void testFindAllFinished_NoData() {
+        final Iterable<UserToken> tokens;
+
+        // WHEN
+        tokens = repository.findAllFinished();
+
+        // THEN
+        Assertions.assertThat(tokens)
+            .as("tokens")
+            .isEmpty();
     }
 
     @Test
@@ -80,6 +84,7 @@ class ITUserTokenRepositoryFindAllFinished {
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -95,6 +100,7 @@ class ITUserTokenRepositoryFindAllFinished {
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .isEmpty();
     }
 
