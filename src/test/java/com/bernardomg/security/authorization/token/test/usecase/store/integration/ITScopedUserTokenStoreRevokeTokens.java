@@ -18,15 +18,15 @@ import com.bernardomg.security.authorization.token.domain.repository.UserTokenRe
 import com.bernardomg.security.authorization.token.test.config.annotation.UserRegisteredUserToken;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenConstants;
-import com.bernardomg.security.authorization.token.usecase.store.PersistentUserTokenStore;
+import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentUserTokenStore - revoke existing tokens")
-class ITPersistentUserTokenStoreRevokeTokens {
+@DisplayName("ScopedUserTokenStore - revoke existing tokens")
+class ITScopedUserTokenStoreRevokeTokens {
 
-    private PersistentUserTokenStore  store;
+    private ScopedUserTokenStore  store;
 
     @Autowired
     private UserTokenProperties       tokenProperties;
@@ -42,7 +42,7 @@ class ITPersistentUserTokenStoreRevokeTokens {
 
     @BeforeEach
     public void initialize() {
-        store = new PersistentUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
+        store = new ScopedUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
             tokenProperties.getValidity());
     }
 

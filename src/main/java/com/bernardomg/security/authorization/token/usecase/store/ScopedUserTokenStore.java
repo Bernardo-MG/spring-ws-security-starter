@@ -34,7 +34,6 @@ import java.util.UUID;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
@@ -46,7 +45,8 @@ import com.bernardomg.security.authorization.token.domain.repository.UserTokenRe
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * User token store based on {@link UserTokenEntity}.
+ * User token store which handles a scope for the tokens. This scope allows keeping a single table for all the tokens,
+ * while isolating the usecases.
  * <h2>Validity</h2>
  * <p>
  * The token validity duration is received in the constructor. This sets the validity duration, starting on the moment
@@ -56,7 +56,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class PersistentUserTokenStore implements UserTokenStore {
+public final class ScopedUserTokenStore implements UserTokenStore {
 
     /**
      * Token scope.
@@ -78,8 +78,8 @@ public final class PersistentUserTokenStore implements UserTokenStore {
      */
     private final Duration            validity;
 
-    public PersistentUserTokenStore(final UserTokenRepository tokenRepo, final UserRepository userRepo,
-            final String scope, final Duration duration) {
+    public ScopedUserTokenStore(final UserTokenRepository tokenRepo, final UserRepository userRepo, final String scope,
+            final Duration duration) {
         super();
 
         userTokenRepository = Objects.requireNonNull(tokenRepo);
