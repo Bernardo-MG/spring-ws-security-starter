@@ -2,6 +2,7 @@
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -89,16 +90,22 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
 
     @Override
     public final Collection<ResourcePermission> findAllForUser(final String username) {
-        final Optional<UserEntity> user;
+        final Optional<UserEntity>           user;
+        final Collection<ResourcePermission> permissions;
 
         user = userRepository.findOneByUsername(username);
+        if (user.isPresent()) {
+            permissions = resourcePermissionRepository.findAllForUser(user.get()
+                .getId())
+                .stream()
+                .map(this::toDomain)
+                .distinct()
+                .toList();
+        } else {
+            permissions = List.of();
+        }
 
-        return resourcePermissionRepository.findAllForUser(user.get()
-            .getId())
-            .stream()
-            .map(this::toDomain)
-            .distinct()
-            .toList();
+        return permissions;
     }
 
     @Override
