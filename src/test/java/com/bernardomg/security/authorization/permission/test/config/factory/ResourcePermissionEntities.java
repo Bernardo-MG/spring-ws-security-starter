@@ -5,6 +5,15 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
 
 public final class ResourcePermissionEntities {
 
+    public static final ResourcePermissionEntity create() {
+        return ResourcePermissionEntity.builder()
+            .withName(PermissionConstants.DATA + ":" + PermissionConstants.CREATE)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.CREATE)
+            .build();
+    }
+
+    @Deprecated
     public static final ResourcePermissionEntity valid() {
         return ResourcePermissionEntity.builder()
             .withResource(PermissionConstants.RESOURCE)

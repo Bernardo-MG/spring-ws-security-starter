@@ -35,8 +35,10 @@ class ITPersistentUserDetailsService {
     void testLoadByUsername_Enabled() {
         final UserDetails userDetails;
 
+        // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
@@ -70,8 +72,10 @@ class ITPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -86,8 +90,10 @@ class ITPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -101,8 +107,10 @@ class ITPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // WHEN
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())

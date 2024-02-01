@@ -18,12 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.adapter.inbound.spring.PersistentUserDetailsService;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
@@ -48,18 +46,18 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is disabled it is returned")
     void testLoadByUsername_Disabled() {
-        final UserDetails        userDetails;
-        final User               user;
-        final ResourcePermission permission;
+        final UserDetails userDetails;
 
-        user = Users.disabled();
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
-        permission = ResourcePermissions.read();
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+            .willReturn(List.of(ResourcePermissions.read()));
 
+        // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
@@ -99,18 +97,18 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is enabled it is returned")
     void testLoadByUsername_Enabled() {
-        final UserDetails        userDetails;
-        final User               user;
-        final ResourcePermission permission;
+        final UserDetails userDetails;
 
-        user = Users.enabled();
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
-        permission = ResourcePermissions.read();
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+            .willReturn(List.of(ResourcePermissions.read()));
 
+        // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
@@ -150,18 +148,18 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is expired it is returned")
     void testLoadByUsername_Expired() {
-        final UserDetails        userDetails;
-        final User               user;
-        final ResourcePermission permission;
+        final UserDetails userDetails;
 
-        user = Users.expired();
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
-        permission = ResourcePermissions.read();
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+            .willReturn(List.of(ResourcePermissions.read()));
 
+        // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
@@ -201,18 +199,18 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user is locked it is returned")
     void testLoadByUsername_Locked() {
-        final UserDetails        userDetails;
-        final User               user;
-        final ResourcePermission permission;
+        final UserDetails userDetails;
 
-        user = Users.locked();
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
-        permission = ResourcePermissions.read();
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+            .willReturn(List.of(ResourcePermissions.read()));
 
+        // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
@@ -254,14 +252,15 @@ class TestPersistentUserDetailsService {
     void testLoadByUsername_NoAuthorities() {
         final ThrowingCallable executable;
         final Exception        exception;
-        final User             user;
 
-        user = Users.enabled();
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of());
 
+        // WHEN
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
@@ -271,18 +270,18 @@ class TestPersistentUserDetailsService {
     @Test
     @DisplayName("When the user has the password expired it is returned")
     void testLoadByUsername_PasswordExpired() {
-        final UserDetails        userDetails;
-        final User               user;
-        final ResourcePermission permission;
+        final UserDetails userDetails;
 
-        user = Users.passwordExpired();
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
-        permission = ResourcePermissions.read();
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of(permission));
+        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+            .willReturn(List.of(ResourcePermissions.read()));
 
+        // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
                 .as("username")
@@ -325,10 +324,13 @@ class TestPersistentUserDetailsService {
         final ThrowingCallable executable;
         final Exception        exception;
 
+        // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
+        // WHEN
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
+        // THEN
         exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
 
         Assertions.assertThat(exception.getMessage())
