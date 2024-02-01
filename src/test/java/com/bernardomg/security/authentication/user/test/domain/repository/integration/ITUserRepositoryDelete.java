@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.test.domain.repository.unit;
+package com.bernardomg.security.authentication.user.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;

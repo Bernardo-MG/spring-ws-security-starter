@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.domain.repository.unit;
+package com.bernardomg.security.authentication.user.test.domain.repository.integration;
 
 import java.util.Optional;
 
