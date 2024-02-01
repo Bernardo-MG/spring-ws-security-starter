@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
@@ -32,6 +33,9 @@ class TestTokenLoginService {
     @Mock
     private LoginTokenEncoder           loginTokenEncoder;
 
+    @InjectMocks
+    private TokenLoginService           service;
+
     @Mock
     private UserRepository              userRepository;
 
@@ -42,22 +46,18 @@ class TestTokenLoginService {
         super();
     }
 
-    private final TokenLoginService getService(final Boolean passwordMatches) {
-        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(passwordMatches);
-
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
-    }
-
     @Test
-    @DisplayName("Doesn't log in using the email and with an invalid password")
-    void testLogIn_Email_InvalidPassword() {
+    @DisplayName("Doesn't log in using the email and with an invalid user")
+    void testLogIn_Email_Invalid() {
         final TokenLoginStatus status;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
 
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(false);
+
         // WHEN
-        status = getService(false).login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        status = service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
         Assertions.assertThat(status.isLogged())
@@ -65,17 +65,19 @@ class TestTokenLoginService {
     }
 
     @Test
-    @DisplayName("Logs in using the email and with a valid password")
-    void testLogIn_Email_ValidPassword() {
+    @DisplayName("Doesn't log in a no existing user using the email")
+    void testLogIn_Email_NotExisting() {
         final TokenLoginStatus status;
 
         // GIVEN
-        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.empty());
 
         given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
 
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
+
         // WHEN
-        status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        status = service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
         Assertions.assertThat(status.isLogged())
@@ -83,12 +85,35 @@ class TestTokenLoginService {
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username and with an invalid password")
-    void testLogIn_Username_InvalidPassword() {
+    @DisplayName("Logs in using the email and with a valid user")
+    void testLogIn_Email_Valid() {
         final TokenLoginStatus status;
 
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
+
         // WHEN
-        status = getService(false).login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
+
+        // THEN
+        Assertions.assertThat(status.isLogged())
+            .isTrue();
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the username and with an invalid user")
+    void testLogIn_Username_Invalid() {
+        final TokenLoginStatus status;
+
+        // GIVEN
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(false);
+
+        // WHEN
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
         Assertions.assertThat(status.isLogged())
@@ -96,15 +121,17 @@ class TestTokenLoginService {
     }
 
     @Test
-    @DisplayName("Logs in using the username and with a valid password")
-    void testLogIn_Username_ValidPassword() {
+    @DisplayName("Logs in using the username and with a valid user")
+    void testLogIn_Username_Valid() {
         final TokenLoginStatus status;
 
         // GIVEN
         given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
 
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
+
         // WHEN
-        status = getService(true).login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
         Assertions.assertThat(status.isLogged())
