@@ -36,6 +36,10 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.initializer.adapter.inbound.RolesInitializer;
 import com.bernardomg.security.initializer.adapter.inbound.UsersInitializer;
+import com.bernardomg.security.initializer.usecase.service.DefaultRolesInitializerService;
+import com.bernardomg.security.initializer.usecase.service.DefaultUsersInitializerService;
+import com.bernardomg.security.initializer.usecase.service.RolesInitializerService;
+import com.bernardomg.security.initializer.usecase.service.UsersInitializerService;
 
 /**
  * Security data initializer configuration.
@@ -50,20 +54,32 @@ public class SecurityInitializerConfig {
         super();
     }
 
+    @Bean(name = "rolesInitializerService")
+    @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
+    public RolesInitializerService getRolesInitializer(final ResourcePermissionRepository permissionRepo,
+            final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
+        return new DefaultRolesInitializerService(permissionRepo, roleRepo, rolePermissionRepo);
+    }
+
     @Bean(name = "rolesInitializer", initMethod = "initialize")
     @DependsOn("permissionsLoader")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public RolesInitializer getRolesInitializer(final ResourcePermissionRepository permissionRepo,
-            final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
-        return new RolesInitializer(permissionRepo, roleRepo, rolePermissionRepo);
+    public RolesInitializer getRolesInitializer(final RolesInitializerService service) {
+        return new RolesInitializer(service);
     }
 
     @Bean(name = "usersInitializer", initMethod = "initialize")
     @DependsOn("rolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public UsersInitializer getUsersInitializer(final UserRepository userRepository,
+    public UsersInitializer getUsersInitializer(final UsersInitializerService usersInitializerService) {
+        return new UsersInitializer(usersInitializerService);
+    }
+
+    @Bean(name = "usersInitializerService")
+    @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
+    public UsersInitializerService getUsersInitializerService(final UserRepository userRepository,
             final UserRoleRepository userRoleRepository, final RoleRepository roleRepository) {
-        return new UsersInitializer(userRepository, userRoleRepository, roleRepository);
+        return new DefaultUsersInitializerService(userRepository, userRoleRepository, roleRepository);
     }
 
 }

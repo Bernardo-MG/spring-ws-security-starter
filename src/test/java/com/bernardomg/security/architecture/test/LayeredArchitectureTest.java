@@ -28,7 +28,7 @@ public class LayeredArchitectureTest {
         .whereLayer("Infrastructure - Outbound")
         .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Infrastructure - Inbound")
-        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound")
+        .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Use case")
         .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound")
         .whereLayer("Domain")

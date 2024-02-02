@@ -24,17 +24,7 @@
 
 package com.bernardomg.security.initializer.adapter.inbound;
 
-import java.util.Collection;
-
-import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.security.initializer.usecase.service.RolesInitializerService;
 
 /**
  * Creates initial test roles on app start. These are meant to help local development.
@@ -42,104 +32,18 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class RolesInitializer {
 
-    private final ResourcePermissionRepository resourcePermissionRepository;
+    private final RolesInitializerService rolesInitializerService;
 
-    private final RolePermissionRepository     rolePermissionRepository;
-
-    private final RoleRepository               roleRepository;
-
-    public RolesInitializer(final ResourcePermissionRepository permissionRepo, final RoleRepository roleRepo,
-            final RolePermissionRepository rolePermissionRepo) {
+    public RolesInitializer(final RolesInitializerService rolesInitializerServ) {
         super();
 
-        resourcePermissionRepository = permissionRepo;
-        roleRepository = roleRepo;
-        rolePermissionRepository = rolePermissionRepo;
+        rolesInitializerService = rolesInitializerServ;
     }
 
     public final void initialize() {
-        final Collection<ResourcePermission> permissions;
-
-        log.debug("Initializing test roles");
-
-        permissions = resourcePermissionRepository.findAll();
-
-        runIfNotExists(() -> initializeAdminRole(permissions), "ADMIN");
-        runIfNotExists(() -> initializeReadRole(permissions), "READ");
-
-        log.debug("Initialized test roles");
-    }
-
-    private final Role getReadRole() {
-        return Role.builder()
-            .withName("READ")
-            .build();
-    }
-
-    private final Role getRootRole() {
-        return Role.builder()
-            .withName("ADMIN")
-            .build();
-    }
-
-    private final void initializeAdminRole(final Collection<ResourcePermission> permissions) {
-        final Role     rootRole;
-        final Role     savedRootRole;
-        RolePermission rolePermission;
-
-        // Add read user
-        rootRole = getRootRole();
-        savedRootRole = roleRepository.save(rootRole);
-
-        for (final ResourcePermission permission : permissions) {
-            rolePermission = RolePermission.builder()
-                .withRole(savedRootRole.getName())
-                .withPermission(permission.getName())
-                .build();
-            rolePermissionRepository.save(rolePermission);
-        }
-    }
-
-    private final void initializeReadRole(final Collection<ResourcePermission> permissions) {
-        final Role readRole;
-        final Role savedReadRole;
-
-        // Add read user
-        readRole = getReadRole();
-        savedReadRole = roleRepository.save(readRole);
-
-        setPermissions(savedReadRole, permissions, Actions.READ);
-        setPermissions(savedReadRole, permissions, Actions.VIEW);
-    }
-
-    private final void runIfNotExists(final Runnable runnable, final String name) {
-        if (!roleRepository.exists(name)) {
-            runnable.run();
-            log.debug("Initialized {} role", name);
-        } else {
-            log.debug("Role {} already exists. Skipped initialization.", name);
-        }
-    }
-
-    private final void setPermissions(final Role role, final Collection<ResourcePermission> permissions,
-            final String actionName) {
-        final Collection<ResourcePermission> validPermissions;
-        RolePermission                       rolePermission;
-
-        validPermissions = permissions.stream()
-            .filter(p -> p.getAction()
-                .equals(actionName))
-            .toList();
-        for (final ResourcePermission permission : validPermissions) {
-            rolePermission = RolePermission.builder()
-                .withRole(role.getName())
-                .withPermission(permission.getName())
-                .build();
-            rolePermissionRepository.save(rolePermission);
-        }
+        rolesInitializerService.initialize();
     }
 
 }

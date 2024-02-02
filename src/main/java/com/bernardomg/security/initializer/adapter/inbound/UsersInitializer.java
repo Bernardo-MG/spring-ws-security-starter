@@ -24,13 +24,7 @@
 
 package com.bernardomg.security.initializer.adapter.inbound;
 
-import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.security.initializer.usecase.service.UsersInitializerService;
 
 /**
  * Creates initial test users on app start. These are meant to help local development.
@@ -38,94 +32,18 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class UsersInitializer {
 
-    private final RoleRepository     roleRepository;
+    private final UsersInitializerService usersInitializerService;
 
-    private final UserRepository     userRepository;
-
-    private final UserRoleRepository userRoleRepository;
-
-    public UsersInitializer(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
-            final RoleRepository roleRepo) {
+    public UsersInitializer(final UsersInitializerService usersInitializerServ) {
         super();
 
-        userRepository = userRepo;
-        userRoleRepository = userRoleRepo;
-        roleRepository = roleRepo;
+        usersInitializerService = usersInitializerServ;
     }
 
     public final void initialize() {
-        log.debug("Initializing test users");
-
-        runIfNotExists(this::initializeRootUser, "root");
-        runIfNotExists(this::initializeReadUser, "read");
-
-        log.debug("Initialized test users");
-    }
-
-    private final User getReadUser() {
-        return User.builder()
-            .withUsername("read")
-            .withName("read")
-            .withEmail("email2@nowhere.com")
-            .withEnabled(true)
-            .withLocked(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .build();
-    }
-
-    private final User getRootUser() {
-        return User.builder()
-            .withUsername("root")
-            .withName("root")
-            .withEmail("email1@nowhere.com")
-            .withEnabled(true)
-            .withLocked(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .build();
-    }
-
-    private final void initializeReadUser() {
-        final User readUser;
-        final User savedReadUser;
-        final Role role;
-
-        // Add read user
-        readUser = getReadUser();
-        savedReadUser = userRepository.save(readUser, "1234");
-
-        role = roleRepository.findOne("READ")
-            .get();
-
-        userRoleRepository.save(savedReadUser.getUsername(), role.getName());
-    }
-
-    private final void initializeRootUser() {
-        final User rootUser;
-        final User savedRootUser;
-        final Role role;
-
-        // Add root user
-        rootUser = getRootUser();
-        savedRootUser = userRepository.save(rootUser, "1234");
-
-        role = roleRepository.findOne("ADMIN")
-            .get();
-
-        userRoleRepository.save(savedRootUser.getUsername(), role.getName());
-    }
-
-    private final void runIfNotExists(final Runnable runnable, final String name) {
-        if (!userRepository.exists(name)) {
-            runnable.run();
-            log.debug("Initialized {} user", name);
-        } else {
-            log.debug("User {} already exists. Skipped initialization.", name);
-        }
+        usersInitializerService.initialize();
     }
 
 }
