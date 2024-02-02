@@ -57,7 +57,7 @@ class TestSpringResourceAccessValidator {
             .setAuthentication(authentication);
 
         // WHEN
-        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
 
         // THEN
         Assertions.assertThat(authorized)
@@ -74,7 +74,7 @@ class TestSpringResourceAccessValidator {
             .setAuthentication(null);
 
         // WHEN
-        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
 
         // THEN
         Assertions.assertThat(authorized)
@@ -93,7 +93,7 @@ class TestSpringResourceAccessValidator {
             .setAuthentication(authentication);
 
         // WHEN
-        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
 
         // THEN
         Assertions.assertThat(authorized)
@@ -112,7 +112,7 @@ class TestSpringResourceAccessValidator {
             .setAuthentication(authentication);
 
         // WHEN
-        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
 
         // THEN
         Assertions.assertThat(authorized)
@@ -133,7 +133,7 @@ class TestSpringResourceAccessValidator {
             .setAuthentication(authentication);
 
         // WHEN
-        authorized = validator.isAuthorized(PermissionConstants.RESOURCE, PermissionConstants.ACTION);
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
 
         // THEN
         Assertions.assertThat(authorized)

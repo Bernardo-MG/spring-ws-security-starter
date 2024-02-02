@@ -13,14 +13,6 @@ public final class ResourcePermissionEntities {
             .build();
     }
 
-    @Deprecated
-    public static final ResourcePermissionEntity valid() {
-        return ResourcePermissionEntity.builder()
-            .withResource(PermissionConstants.RESOURCE)
-            .withAction(PermissionConstants.ACTION)
-            .build();
-    }
-
     private ResourcePermissionEntities() {
         super();
     }
