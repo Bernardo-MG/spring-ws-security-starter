@@ -3,8 +3,6 @@ package com.bernardomg.security.login.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import java.time.Duration;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
@@ -13,27 +11,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
 import com.bernardomg.security.login.domain.event.LogInEvent;
-import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
 
@@ -42,123 +31,39 @@ import com.bernardomg.security.login.usecase.service.TokenLoginService;
 class TestTokenLoginServiceEvent {
 
     @Captor
-    private ArgumentCaptor<LogInEvent>   eventCaptor;
+    private ArgumentCaptor<LogInEvent>  eventCaptor;
 
     @Mock
-    private ApplicationEventPublisher    eventPublisher;
+    private ApplicationEventPublisher   eventPublisher;
 
     @Mock
-    private PasswordEncoder              passEncoder;
+    private LoginTokenEncoder           loginTokenEncoder;
+
+    @InjectMocks
+    private TokenLoginService           service;
 
     @Mock
-    private ResourcePermissionRepository resourcePermissionRepository;
+    private UserRepository              userRepository;
 
     @Mock
-    private TokenEncoder                 tokenEncoder;
-
-    @Mock
-    private UserDetailsService           userDetService;
-
-    @Mock
-    private UserRepository               userRepository;
+    private BiPredicate<String, String> valid;
 
     public TestTokenLoginServiceEvent() {
         super();
     }
 
-    private final TokenLoginService getService(final UserDetails user) {
-        final BiPredicate<String, String> valid;
-        final LoginTokenEncoder           loginTokenEncoder;
-
-        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-
-        // TODO: Mock this
-        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
-
-        // TODO: Mock this
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
-            Duration.ZERO);
-
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
-    }
-
-    private final TokenLoginService getServiceForAccountExpired() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, false, true, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final TokenLoginService getServiceForCredentialsExpired() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, true, false, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final TokenLoginService getServiceForDisabled() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, false, true, true, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final TokenLoginService getServiceForLocked() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, true, false, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final TokenLoginService getServiceForNotExisting() {
-        final BiPredicate<String, String> valid;
-        final LoginTokenEncoder           loginTokenEncoder;
-
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
-            .willThrow(UsernameNotFoundException.class);
-
-        valid = new SpringValidLoginPredicate(userDetService, passEncoder);
-
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, resourcePermissionRepository,
-            Duration.ZERO);
-
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
-    }
-
-    private final TokenLoginService getServiceForValid() {
-        final UserDetails user;
-
-        user = new org.springframework.security.core.userdetails.User(UserConstants.USERNAME,
-            UserConstants.ENCODED_PASSWORD, true, true, true, true, Collections.emptyList());
-
-        return getService(user);
-    }
-
-    private final void loadUser() {
-        final User user;
-
-        user = Users.enabled();
-        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(user));
-    }
-
     @Test
     @DisplayName("With an expired account and logging with email it generates an event not logged in")
-    void testLogIn_Email_AccountExpired() {
+    void testLogIn_Email_Invalid() {
         final LogInEvent event;
 
         // GIVEN
-        loadUser();
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(false);
 
         // WHEN
-        getServiceForAccountExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -166,84 +71,6 @@ class TestTokenLoginServiceEvent {
 
         event = eventCaptor.getValue();
 
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @DisplayName("With expired credentials and logging with email it generates an event not logged in")
-    void testLogIn_Email_CredentialsExpired() {
-        final LogInEvent event;
-
-        // GIVEN
-        loadUser();
-
-        // WHEN
-        getServiceForCredentialsExpired().login(UserConstants.EMAIL, UserConstants.PASSWORD);
-
-        // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @DisplayName("With a disabled account and logging with email it generates an event not logged in")
-    void testLogIn_Email_Disabled() {
-        final LogInEvent event;
-
-        // GIVEN
-        loadUser();
-
-        // WHEN
-        getServiceForDisabled().login(UserConstants.EMAIL, UserConstants.PASSWORD);
-
-        // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @DisplayName("With a locked account and logging with email it generates an event not logged in")
-    void testLogIn_Email_Locked() {
-        final LogInEvent event;
-
-        // GIVEN
-        loadUser();
-
-        // WHEN
-        getServiceForLocked().login(UserConstants.EMAIL, UserConstants.PASSWORD);
-
-        // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
@@ -259,8 +86,11 @@ class TestTokenLoginServiceEvent {
     void testLogIn_Email_NotExisting() {
         final LogInEvent event;
 
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.empty());
+
         // WHEN
-        getServiceForNotExisting().login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -283,13 +113,14 @@ class TestTokenLoginServiceEvent {
         final LogInEvent event;
 
         // GIVEN
-        loadUser();
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
 
-        given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
 
         // WHEN
-        getServiceForValid().login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -308,103 +139,14 @@ class TestTokenLoginServiceEvent {
 
     @Test
     @DisplayName("With an expired account and logging with username it generates an event not logged in")
-    void testLogIn_Username_AccountExpired() {
+    void testLogIn_Username_Invalid() {
         final LogInEvent event;
 
-        // WHEN
-        getServiceForAccountExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
-
-        // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @DisplayName("With expired credentials and logging with username it generates an event not logged in")
-    void testLogIn_Username_CredentialsExpired() {
-        final LogInEvent event;
+        // GIVEN
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(false);
 
         // WHEN
-        getServiceForCredentialsExpired().login(UserConstants.USERNAME, UserConstants.PASSWORD);
-
-        // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @DisplayName("With a disabled account and logging with username it generates an event not logged in")
-    void testLogIn_Username_Disabled() {
-        final LogInEvent event;
-
-        // WHEN
-        getServiceForDisabled().login(UserConstants.USERNAME, UserConstants.PASSWORD);
-
-        // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @DisplayName("With a locked account and logging with username it generates an event not logged in")
-    void testLogIn_Username_Locked() {
-        final LogInEvent event;
-
-        // WHEN
-        getServiceForLocked().login(UserConstants.USERNAME, UserConstants.PASSWORD);
-
-        // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
-    @DisplayName("With a not existing user and logging with email it generates an event not logged in")
-    void testLogIn_Username_NotExisting() {
-        final LogInEvent event;
-
-        // WHEN
-        getServiceForNotExisting().login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -427,11 +169,12 @@ class TestTokenLoginServiceEvent {
         final LogInEvent event;
 
         // GIVEN
-        given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
-        given(tokenEncoder.encode(ArgumentMatchers.any())).willReturn(Tokens.TOKEN);
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
 
         // WHEN
-        getServiceForValid().login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
         Mockito.verify(eventPublisher)

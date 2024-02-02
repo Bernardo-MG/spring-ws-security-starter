@@ -15,8 +15,6 @@ public final class UserTokenConstants {
     public static final LocalDateTime DATE_YESTERDAY = LocalDateTime.now()
         .minusDays(1);
 
-    public static final String        SCOPE          = "scope";
-
     private UserTokenConstants() {
         super();
     }

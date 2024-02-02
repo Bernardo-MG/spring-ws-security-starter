@@ -3,17 +3,16 @@ package com.bernardomg.security.login.test.domain.repository.integration;
 
 import java.util.Collection;
 
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.test.config.factory.LoginConstants;
+import com.bernardomg.security.login.test.config.factory.LoginRegisterEntities;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -33,76 +32,80 @@ class ITLoginRegisterRepositorySave {
 
     @Test
     @DisplayName("Persists a logged in register")
-    void testRegister_Logged_Persisted() {
-        final Collection<LoginRegisterEntity> registers;
+    void testSave_Logged_Persisted() {
         final LoginRegister                   register;
+        final Collection<LoginRegisterEntity> registers;
 
         // GIVEN
         register = LoginRegisters.loggedIn();
-        repository.save(register);
 
         // WHEN
-        registers = springRepository.findAll();
+        repository.save(register);
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final LoginRegisterEntity entity;
+        registers = springRepository.findAll();
 
-            softly.assertThat(registers)
-                .as("registers")
-                .hasSize(1);
+        Assertions.assertThat(registers)
+            .as("login registers")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(LoginRegisterEntities.loggedIn());
+    }
 
-            entity = registers.iterator()
-                .next();
+    @Test
+    @DisplayName("Returns a persisted logged in register")
+    void testSave_Logged_Returned() {
+        final LoginRegister register;
+        final LoginRegister returned;
 
-            softly.assertThat(entity.getLoggedIn())
-                .as("logged in")
-                .isTrue();
-            softly.assertThat(entity.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
+        // GIVEN
+        register = LoginRegisters.loggedIn();
 
-            softly.assertThat(entity.getDate())
-                .as("date")
-                .isEqualTo(LoginConstants.DATE);
-        });
+        // WHEN
+        returned = repository.save(register);
+
+        // THEN
+        Assertions.assertThat(returned)
+            .as("login register")
+            .isEqualTo(LoginRegisters.loggedIn());
     }
 
     @Test
     @DisplayName("Persists a not logged in register")
-    void testRegister_NotLogged_Persisted() {
-        final Collection<LoginRegisterEntity> entities;
+    void testSave_NotLogged_Persisted() {
         final LoginRegister                   register;
+        final Collection<LoginRegisterEntity> registers;
 
         // GIVEN
         register = LoginRegisters.notLoggedIn();
-        repository.save(register);
 
         // WHEN
-        entities = springRepository.findAll();
+        repository.save(register);
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            final LoginRegisterEntity entity;
+        registers = springRepository.findAll();
 
-            softly.assertThat(entities)
-                .as("registers")
-                .hasSize(1);
+        Assertions.assertThat(registers)
+            .as("login registers")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(LoginRegisterEntities.notLoggedIn());
+    }
 
-            entity = entities.iterator()
-                .next();
+    @Test
+    @DisplayName("Returns a persisted not logged in register")
+    void testSave_NotLogged_Returned() {
+        final LoginRegister register;
+        final LoginRegister returned;
 
-            softly.assertThat(entity.getLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(entity.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
+        // GIVEN
+        register = LoginRegisters.notLoggedIn();
 
-            softly.assertThat(entity.getDate())
-                .as("date")
-                .isEqualTo(LoginConstants.DATE);
-        });
+        // WHEN
+        returned = repository.save(register);
+
+        // THEN
+        Assertions.assertThat(returned)
+            .as("login register")
+            .isEqualTo(LoginRegisters.notLoggedIn());
     }
 
 }

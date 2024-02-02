@@ -13,6 +13,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserDataTokenEntity;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -74,7 +75,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Collection<UserToken> findAllNotRevoked(final String username, final String scope) {
-        return userDataTokenRepository.findAllNotRevokedByUsernameAndScope(username, scope)
+        return userDataTokenRepository.findAllByRevokedFalseAndUsernameAndScope(username, scope)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -103,8 +104,14 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final UserDataTokenEntity           toPatch;
         final UserTokenEntity               toSave;
         final UserTokenEntity               saved;
+        final boolean                       exists;
 
         log.debug("Patching token {}", token);
+
+        exists = userTokenRepository.existsByToken(token);
+        if (!exists) {
+            throw new MissingUserTokenCodeException(token);
+        }
 
         readtoken = userDataTokenRepository.findByToken(token);
 
@@ -137,11 +144,13 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         entity = toSimpleEntity(token);
 
         existing = userDataTokenRepository.findByToken(token.getToken());
+        // TODO: Else exception
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
         existingUser = userRepository.findOneByUsername(token.getUsername());
+        // TODO: Else exception
         if (existingUser.isPresent()) {
             entity.setUserId(existingUser.get()
                 .getId());
@@ -162,6 +171,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Collection<UserTokenEntity>  toSave;
         final Collection<UserTokenEntity>  saved;
         final Collection<Long>             savedIds;
+
+        // TODO: Reject duplicated tokens
 
         toSave = tokens.stream()
             .map(this::toSimpleEntityLoadUsername)

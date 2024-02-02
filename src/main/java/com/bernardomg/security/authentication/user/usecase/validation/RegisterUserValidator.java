@@ -73,7 +73,7 @@ public final class RegisterUserValidator extends AbstractValidator<User> {
 
         // TODO: Don't give hints about existing emails
         // The email is not registered
-        if (userRepository.existsEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             log.error("A user already exists with the username {}", user.getUsername());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());

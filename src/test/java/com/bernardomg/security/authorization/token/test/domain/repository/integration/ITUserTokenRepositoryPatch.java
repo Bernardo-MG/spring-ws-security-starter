@@ -4,7 +4,6 @@ package com.bernardomg.security.authorization.token.test.domain.repository.integ
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +24,18 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("UserTokenRepository - patch")
-@OnlyUser
-@ValidUserToken
 class ITUserTokenRepositoryPatch {
 
     @Autowired
-    private UserTokenRepository       repository;
+    private UserTokenRepository       userTokenRepository;
 
     @Autowired
-    private UserTokenSpringRepository userTokenRepository;
+    private UserTokenSpringRepository userTokenSpringRepository;
 
     @Test
-    @DisplayName("Saving with no data changes nothing")
+    @DisplayName("Patching with no data changes nothing")
+    @OnlyUser
+    @ValidUserToken
     void testPatch_Empty_Persisted() {
         final UserTokenEntity  token;
         final UserTokenPartial request;
@@ -45,17 +44,17 @@ class ITUserTokenRepositoryPatch {
         request = UserTokenPartials.empty();
 
         // WHEN
-        repository.patch(Tokens.TOKEN, request);
+        userTokenRepository.patch(Tokens.TOKEN, request);
 
         // THEN
-        token = userTokenRepository.findOneByToken(Tokens.TOKEN)
+        token = userTokenSpringRepository.findOneByToken(Tokens.TOKEN)
             .get();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())
@@ -70,7 +69,9 @@ class ITUserTokenRepositoryPatch {
     }
 
     @Test
-    @DisplayName("Saving the expiration date persists an updated token")
+    @DisplayName("Patching the expiration date persists an updated token")
+    @OnlyUser
+    @ValidUserToken
     void testPatch_ExpirationDate_Persisted() {
         final UserTokenEntity  token;
         final UserTokenPartial request;
@@ -79,17 +80,17 @@ class ITUserTokenRepositoryPatch {
         request = UserTokenPartials.expirationDate();
 
         // WHEN
-        repository.patch(Tokens.TOKEN, request);
+        userTokenRepository.patch(Tokens.TOKEN, request);
 
         // THEN
-        token = userTokenRepository.findOneByToken(Tokens.TOKEN)
+        token = userTokenSpringRepository.findOneByToken(Tokens.TOKEN)
             .get();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())
@@ -104,28 +105,9 @@ class ITUserTokenRepositoryPatch {
     }
 
     @Test
-    @DisplayName("Saving the revoked flag creates no new token")
-    void testPatch_NotCreated() {
-        final UserTokenPartial request;
-
-        // GIVEN
-        request = UserTokenPartials.revoked();
-
-        // WHEN
-        repository.patch(Tokens.TOKEN, request);
-
-        // THEN
-        userTokenRepository.findOneByToken(Tokens.TOKEN)
-            .get();
-
-        Assertions.assertThat(userTokenRepository.count())
-            .isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("Saving a not existing entity throws an exception")
-    @Disabled("Handle this error")
-    void testPatch_NotExisting() {
+    @DisplayName("When there is no data, an exception is thrown")
+    @OnlyUser
+    void testPatch_NoData() {
         final UserTokenPartial request;
         final ThrowingCallable execution;
 
@@ -133,7 +115,7 @@ class ITUserTokenRepositoryPatch {
         request = UserTokenPartials.revoked();
 
         // WHEN
-        execution = () -> repository.patch(Tokens.TOKEN, request);
+        execution = () -> userTokenRepository.patch(Tokens.TOKEN, request);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -141,7 +123,30 @@ class ITUserTokenRepositoryPatch {
     }
 
     @Test
-    @DisplayName("Saving the revoked flag persists an updated token")
+    @DisplayName("Patching the revoked flag creates no new token")
+    @OnlyUser
+    @ValidUserToken
+    void testPatch_NotCreated() {
+        final UserTokenPartial request;
+
+        // GIVEN
+        request = UserTokenPartials.revoked();
+
+        // WHEN
+        userTokenRepository.patch(Tokens.TOKEN, request);
+
+        // THEN
+        userTokenSpringRepository.findOneByToken(Tokens.TOKEN)
+            .get();
+
+        Assertions.assertThat(userTokenSpringRepository.count())
+            .isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("Patching the revoked flag persists an updated token")
+    @OnlyUser
+    @ValidUserToken
     void testPatch_Revoked_Persisted() {
         final UserTokenEntity  token;
         final UserTokenPartial request;
@@ -150,17 +155,17 @@ class ITUserTokenRepositoryPatch {
         request = UserTokenPartials.revoked();
 
         // WHEN
-        repository.patch(Tokens.TOKEN, request);
+        userTokenRepository.patch(Tokens.TOKEN, request);
 
         // THEN
-        token = userTokenRepository.findOneByToken(Tokens.TOKEN)
+        token = userTokenSpringRepository.findOneByToken(Tokens.TOKEN)
             .get();
 
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(token.getId())
                 .isEqualTo(1);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())
@@ -175,7 +180,9 @@ class ITUserTokenRepositoryPatch {
     }
 
     @Test
-    @DisplayName("Saving the revoked flag returns an updated token")
+    @DisplayName("Patching the revoked flag returns an updated token")
+    @OnlyUser
+    @ValidUserToken
     void testPatch_Revoked_Returned() {
         final UserToken        token;
         final UserTokenPartial request;
@@ -184,7 +191,7 @@ class ITUserTokenRepositoryPatch {
         request = UserTokenPartials.revoked();
 
         // WHEN
-        token = repository.patch(Tokens.TOKEN, request);
+        token = userTokenRepository.patch(Tokens.TOKEN, request);
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
@@ -193,7 +200,7 @@ class ITUserTokenRepositoryPatch {
             softly.assertThat(token.getName())
                 .isEqualTo(UserConstants.NAME);
             softly.assertThat(token.getScope())
-                .isEqualTo(UserTokenConstants.SCOPE);
+                .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isEqualTo(Tokens.TOKEN);
             softly.assertThat(token.isConsumed())

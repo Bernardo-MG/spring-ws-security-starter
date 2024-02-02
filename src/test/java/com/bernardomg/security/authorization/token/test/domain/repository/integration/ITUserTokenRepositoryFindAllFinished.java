@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -18,25 +19,11 @@ import com.bernardomg.security.authorization.token.test.config.annotation.ValidU
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SpringUserTokenService - find all finished")
+@DisplayName("UserTokenRepository - find all finished")
 class ITUserTokenRepositoryFindAllFinished {
 
     @Autowired
-    private UserTokenRepository repository;
-
-    @Test
-    @DisplayName("With no token nothing is returned")
-    @ValidUser
-    void testFindAllFinished() {
-        final Collection<UserToken> tokens;
-
-        // WHEN
-        tokens = repository.findAllFinished();
-
-        // THEN
-        Assertions.assertThat(tokens)
-            .isEmpty();
-    }
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("With a consumed token it is returned as finished")
@@ -46,10 +33,11 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -61,11 +49,27 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Returns nothing when there is no data")
+    @OnlyUser
+    void testFindAllFinished_NoData() {
+        final Iterable<UserToken> tokens;
+
+        // WHEN
+        tokens = userTokenRepository.findAllFinished();
+
+        // THEN
+        Assertions.assertThat(tokens)
+            .as("tokens")
+            .isEmpty();
     }
 
     @Test
@@ -76,10 +80,11 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .hasSize(1);
     }
 
@@ -91,10 +96,11 @@ class ITUserTokenRepositoryFindAllFinished {
         final Collection<UserToken> tokens;
 
         // WHEN
-        tokens = repository.findAllFinished();
+        tokens = userTokenRepository.findAllFinished();
 
         // THEN
         Assertions.assertThat(tokens)
+            .as("tokens")
             .isEmpty();
     }
 

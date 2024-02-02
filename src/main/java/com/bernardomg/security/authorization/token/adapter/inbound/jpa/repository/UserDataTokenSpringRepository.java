@@ -40,6 +40,18 @@ import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.Use
  */
 public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTokenEntity, Long> {
 
+    /**
+     * Returns all the tokens which are not revoked for a user and scope.
+     *
+     * @param username
+     *            user with the tokens
+     * @param scope
+     *            token scope
+     * @return all the tokens which are not revoked
+     */
+    public Collection<UserDataTokenEntity> findAllByRevokedFalseAndUsernameAndScope(final String username,
+            final String scope);
+
     public Optional<UserDataTokenEntity> findAllByTokenIn(final Collection<String> tokens);
 
     /**
@@ -55,18 +67,6 @@ public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTok
      */
     @Query("SELECT t FROM UserDataToken t WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE")
     public Collection<UserDataTokenEntity> findAllFinished();
-
-    /**
-     * Returns all the tokens which are not revoked for a user and scope.
-     *
-     * @param username
-     *            user with the tokens
-     * @param scope
-     *            token scope
-     * @return all the tokens which are not revoked
-     */
-    public Collection<UserDataTokenEntity> findAllNotRevokedByUsernameAndScope(final String username,
-            final String scope);
 
     public Optional<UserDataTokenEntity> findByToken(final String token);
 

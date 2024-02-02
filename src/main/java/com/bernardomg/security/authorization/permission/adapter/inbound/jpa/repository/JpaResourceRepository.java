@@ -26,12 +26,6 @@ public final class JpaResourceRepository implements ResourceRepository {
     }
 
     @Override
-    public final Optional<Resource> findOne(final String name) {
-        return resourceRepository.findByName(name)
-            .map(this::toDomain);
-    }
-
-    @Override
     public final Resource save(final Resource resource) {
         final Optional<ResourceEntity> existing;
         final ResourceEntity           entity;

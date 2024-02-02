@@ -39,18 +39,25 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         final RolePermissionEntity rolePermission;
         final Optional<RoleEntity> role;
         final RolePermissionEntity saved;
+        final RolePermission       created;
 
         role = roleRepository.findOneByName(permission.getRole());
+        if (role.isPresent()) {
+            rolePermission = RolePermissionEntity.builder()
+                .withRoleId(role.get()
+                    .getId())
+                .withPermission(permission.getPermission())
+                .withGranted(true)
+                .build();
+            saved = rolePermissionRepository.save(rolePermission);
 
-        rolePermission = RolePermissionEntity.builder()
-            .withRoleId(role.get()
-                .getId())
-            .withPermission(permission.getPermission())
-            .withGranted(true)
-            .build();
-        saved = rolePermissionRepository.save(rolePermission);
+            created = toDomain(saved, role.get());
+        } else {
+            created = RolePermission.builder()
+                .build();
+        }
 
-        return toDomain(saved, role.get());
+        return created;
     }
 
     private final RolePermission toDomain(final RolePermissionEntity permission, final RoleEntity role) {
