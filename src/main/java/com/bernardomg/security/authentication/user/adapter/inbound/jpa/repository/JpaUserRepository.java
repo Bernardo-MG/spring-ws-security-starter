@@ -44,7 +44,7 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final boolean existsEmail(final String email) {
+    public final boolean existsByEmail(final String email) {
         return userRepository.existsByEmail(email);
     }
 
@@ -84,10 +84,9 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final String findPassword(final String username) {
+    public final Optional<String> findPassword(final String username) {
         return userRepository.findOneByUsername(username)
-            .map(UserEntity::getPassword)
-            .orElse("");
+            .map(UserEntity::getPassword);
     }
 
     @Override

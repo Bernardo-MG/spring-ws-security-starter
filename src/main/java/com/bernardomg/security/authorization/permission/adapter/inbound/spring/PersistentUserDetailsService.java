@@ -118,7 +118,8 @@ public final class PersistentUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("Username %s has no authorities", username));
         }
 
-        password = userRepository.findPassword(username);
+        password = userRepository.findPassword(username)
+            .get();
         details = toUserDetails(user.get(), password, authorities);
 
         log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}", username,

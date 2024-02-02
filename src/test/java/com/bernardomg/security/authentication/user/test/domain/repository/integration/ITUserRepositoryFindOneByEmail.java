@@ -20,23 +20,23 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - find one")
-class ITUserRepositoryFindOne {
+@DisplayName("UserRepository - find one by email")
+class ITUserRepositoryFindOneByEmail {
 
     @Autowired
     private UserRepository repository;
 
-    public ITUserRepositoryFindOne() {
+    public ITUserRepositoryFindOneByEmail() {
         super();
     }
 
     @Test
     @DisplayName("Returns the correct data when reading a disabled user")
     @DisabledUser
-    void testFindOne_Disabled() {
+    void testFindOneByEmail_Disabled() {
         final Optional<User> result;
 
-        result = repository.findOne(UserConstants.USERNAME);
+        result = repository.findOneByEmail(UserConstants.EMAIL);
 
         Assertions.assertThat(result)
             .contains(Users.disabled());
@@ -45,10 +45,10 @@ class ITUserRepositoryFindOne {
     @Test
     @DisplayName("Returns the correct data when reading an enabled user")
     @OnlyUser
-    void testFindOne_Enabled() {
+    void testFindOneByEmail_Enabled() {
         final Optional<User> result;
 
-        result = repository.findOne(UserConstants.USERNAME);
+        result = repository.findOneByEmail(UserConstants.EMAIL);
 
         Assertions.assertThat(result)
             .contains(Users.enabled());
@@ -57,10 +57,10 @@ class ITUserRepositoryFindOne {
     @Test
     @DisplayName("Returns the correct data when reading an expired user")
     @ExpiredUser
-    void testFindOne_Expired() {
+    void testFindOneByEmail_Expired() {
         final Optional<User> result;
 
-        result = repository.findOne(UserConstants.USERNAME);
+        result = repository.findOneByEmail(UserConstants.EMAIL);
 
         Assertions.assertThat(result)
             .contains(Users.expired());
@@ -69,10 +69,10 @@ class ITUserRepositoryFindOne {
     @Test
     @DisplayName("Returns the correct data when reading a user with expired password")
     @ExpiredPasswordUser
-    void testFindOne_ExpiredPassword() {
+    void testFindOneByEmail_ExpiredPassword() {
         final Optional<User> result;
 
-        result = repository.findOne(UserConstants.USERNAME);
+        result = repository.findOneByEmail(UserConstants.EMAIL);
 
         Assertions.assertThat(result)
             .contains(Users.passwordExpired());
@@ -81,10 +81,10 @@ class ITUserRepositoryFindOne {
     @Test
     @DisplayName("Returns the correct data when reading a locked user")
     @LockedUser
-    void testFindOne_Locked() {
+    void testFindOneByEmail_Locked() {
         final Optional<User> result;
 
-        result = repository.findOne(UserConstants.USERNAME);
+        result = repository.findOneByEmail(UserConstants.EMAIL);
 
         Assertions.assertThat(result)
             .contains(Users.locked());
@@ -92,10 +92,10 @@ class ITUserRepositoryFindOne {
 
     @Test
     @DisplayName("When there is no data nothing is returned")
-    void testFindOne_NoData() {
+    void testFindOneByEmail_NoData() {
         final Optional<User> result;
 
-        result = repository.findOne(UserConstants.USERNAME);
+        result = repository.findOneByEmail(UserConstants.EMAIL);
 
         Assertions.assertThat(result)
             .isEmpty();

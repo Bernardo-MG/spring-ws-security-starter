@@ -37,6 +37,7 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -55,9 +56,9 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("Updates persisted data, ignoring case")
+    @DisplayName("Updates persisted data")
     @ValidUser
-    void testSave_Case_PersistedData() {
+    void testSave_Existing_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -69,10 +70,48 @@ class ITUserRepositorySave {
 
         // THEN
         entities = userSpringRepository.findAll();
-        // TODO: can't compare content due to password
         Assertions.assertThat(entities)
-            .as("roles")
-            .hasSize(1);
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.enabled());
+    }
+
+    @Test
+    @DisplayName("Persists a user")
+    void testSave_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.enabled();
+
+        // WHEN
+        repository.save(user, UserConstants.PASSWORD);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.enabled());
+    }
+
+    @Test
+    @DisplayName("Returns a persisted user")
+    void testSave_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.enabled();
+
+        // WHEN
+        created = repository.save(user, UserConstants.PASSWORD);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.enabled());
     }
 
 }

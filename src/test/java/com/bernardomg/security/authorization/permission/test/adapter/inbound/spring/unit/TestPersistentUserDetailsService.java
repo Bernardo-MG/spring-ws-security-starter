@@ -50,7 +50,7 @@ class TestPersistentUserDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
-        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
         given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
@@ -101,7 +101,7 @@ class TestPersistentUserDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
         given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
@@ -152,7 +152,7 @@ class TestPersistentUserDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
-        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
         given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
@@ -203,7 +203,7 @@ class TestPersistentUserDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
-        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
         given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
@@ -274,7 +274,7 @@ class TestPersistentUserDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
-        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(UserConstants.PASSWORD);
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
         given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
