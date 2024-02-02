@@ -15,7 +15,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("UserRoleRepository - delete")
-@UserWithPermission
 class ITUserRoleRepositoryDelete {
 
     @Autowired
@@ -26,9 +25,12 @@ class ITUserRoleRepositoryDelete {
 
     @Test
     @DisplayName("Removes the entity when removing a role")
+    @UserWithPermission
     void testRemoveRole_RemovesEntity() {
+        // WHEN
         repository.delete(UserConstants.USERNAME, RoleConstants.NAME);
 
+        // THEN
         Assertions.assertThat(userRoleRepository.count())
             .isZero();
     }

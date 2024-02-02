@@ -41,7 +41,7 @@ import com.bernardomg.security.authentication.password.reset.usecase.service.Spr
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.usecase.store.PersistentUserTokenStore;
+import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
@@ -79,7 +79,7 @@ public class PasswordConfig {
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
-        tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepository, "password_reset",
+        tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
             tokenProperties.getValidity());
 
         return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore);

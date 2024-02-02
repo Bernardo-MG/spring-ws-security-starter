@@ -81,7 +81,7 @@ class TestUserActivationServiceRegisterNewUser {
         final FieldFailure     failure;
 
         // GIVEN
-        given(repository.existsEmail(UserConstants.EMAIL)).willReturn(true);
+        given(repository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
 
         // WHEN
         executable = () -> service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);

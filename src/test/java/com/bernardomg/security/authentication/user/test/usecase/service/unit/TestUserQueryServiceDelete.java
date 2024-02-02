@@ -56,8 +56,8 @@ class TestUserQueryServiceDelete {
     }
 
     @Test
-    @DisplayName("Does not remove roles when deleting")
-    void testDelete_DoesNotRemoveRelations() {
+    @DisplayName("Deletes a user")
+    void testDelete() {
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 

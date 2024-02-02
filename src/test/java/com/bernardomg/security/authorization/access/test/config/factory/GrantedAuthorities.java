@@ -10,13 +10,13 @@ public final class GrantedAuthorities {
 
     public static ResourceActionGrantedAuthority resource() {
         return ResourceActionGrantedAuthority.builder()
-            .withResource(PermissionConstants.RESOURCE)
-            .withAction(PermissionConstants.ACTION)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.CREATE)
             .build();
     }
 
     public static SimpleGrantedAuthority simple() {
-        return new SimpleGrantedAuthority(PermissionConstants.PERMISSION);
+        return new SimpleGrantedAuthority(PermissionConstants.DATA_CREATE);
     }
 
     private GrantedAuthorities() {

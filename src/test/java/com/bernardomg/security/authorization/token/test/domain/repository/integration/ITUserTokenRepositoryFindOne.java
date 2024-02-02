@@ -4,15 +4,12 @@ package com.bernardomg.security.authorization.token.test.domain.repository.integ
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ConsumedUserToken;
@@ -23,11 +20,11 @@ import com.bernardomg.security.authorization.token.test.config.factory.UserToken
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SpringUserTokenService - find one")
+@DisplayName("UserTokenRepository - find one")
 class ITUserTokenRepositoryFindOne {
 
     @Autowired
-    private UserTokenRepository repository;
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("Returns a token when the token is consumed")
@@ -37,7 +34,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -53,7 +50,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -62,17 +59,17 @@ class ITUserTokenRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With a not existing token, an exception is thrown")
-    @Disabled("Handle this")
-    void testFindOne_NotExisting() {
-        final ThrowingCallable execution;
+    @DisplayName("When there is no data, nothing is returned")
+    void testFindOne_NoData() {
+        final Optional<UserToken> token;
 
         // WHEN
-        execution = () -> repository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOne(Tokens.TOKEN);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserTokenCodeException.class);
+        Assertions.assertThat(token)
+            .as("token")
+            .isEmpty();
     }
 
     @Test
@@ -83,7 +80,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)
@@ -99,23 +96,7 @@ class ITUserTokenRepositoryFindOne {
         final Optional<UserToken> token;
 
         // WHEN
-        token = repository.findOne(Tokens.TOKEN);
-
-        // THEN
-        Assertions.assertThat(token)
-            .as("token")
-            .contains(UserTokens.valid());
-    }
-
-    @Test
-    @DisplayName("Returns all the token data when the token is valid")
-    @OnlyUser
-    @ValidUserToken
-    void testFindOne_Valid_data() {
-        final Optional<UserToken> token;
-
-        // WHEN
-        token = repository.findOne(Tokens.TOKEN);
+        token = userTokenRepository.findOne(Tokens.TOKEN);
 
         // THEN
         Assertions.assertThat(token)

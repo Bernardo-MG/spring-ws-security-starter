@@ -28,7 +28,7 @@ public interface UserRepository {
      */
     public boolean exists(final String username);
 
-    public boolean existsEmail(final String email);
+    public boolean existsByEmail(final String email);
 
     public boolean existsEmailForAnotherUser(final String username, final String email);
 
@@ -45,7 +45,7 @@ public interface UserRepository {
 
     public Optional<User> findOneByEmail(final String email);
 
-    public String findPassword(final String username);
+    public Optional<String> findPassword(final String username);
 
     public User save(final String username, final UserChange user);
 

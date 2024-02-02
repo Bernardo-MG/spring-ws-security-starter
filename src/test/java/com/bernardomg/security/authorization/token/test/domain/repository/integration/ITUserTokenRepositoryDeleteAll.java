@@ -18,14 +18,14 @@ import com.bernardomg.security.authorization.token.test.config.factory.UserToken
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("SpringUserTokenService - delete all")
+@DisplayName("UserTokenRepository - delete all")
 class ITUserTokenRepositoryDeleteAll {
 
     @Autowired
-    private UserTokenRepository       repository;
+    private UserTokenRepository       userTokenRepository;
 
     @Autowired
-    private UserTokenSpringRepository userTokenRepository;
+    private UserTokenSpringRepository userTokenSpringRepository;
 
     @Test
     @DisplayName("Deletes tokens")
@@ -39,12 +39,32 @@ class ITUserTokenRepositoryDeleteAll {
         tokens = List.of(UserTokens.valid());
 
         // WHEN
-        repository.deleteAll(tokens);
+        userTokenRepository.deleteAll(tokens);
 
         // THEN
-        count = userTokenRepository.count();
+        count = userTokenSpringRepository.count();
         Assertions.assertThat(count)
             .isZero();
+    }
+
+    @Test
+    @DisplayName("When it receives no tokens nothing is returned")
+    @ValidUser
+    @ValidUserToken
+    void testDeleteAll_EmptyList() {
+        final long                  count;
+        final Collection<UserToken> tokens;
+
+        // GIVEN
+        tokens = List.of();
+
+        // WHEN
+        userTokenRepository.deleteAll(tokens);
+
+        // THEN
+        count = userTokenSpringRepository.count();
+        Assertions.assertThat(count)
+            .isEqualTo(1);
     }
 
 }

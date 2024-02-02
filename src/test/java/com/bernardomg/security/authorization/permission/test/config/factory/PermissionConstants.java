@@ -3,8 +3,6 @@ package com.bernardomg.security.authorization.permission.test.config.factory;
 
 public final class PermissionConstants {
 
-    public static final String ACTION      = "action";
-
     public static final String CREATE      = "CREATE";
 
     public static final String DATA        = "DATA";
@@ -19,11 +17,7 @@ public final class PermissionConstants {
 
     public static final String DELETE      = "DELETE";
 
-    public static final String PERMISSION  = "resource:action";
-
     public static final String READ        = "READ";
-
-    public static final String RESOURCE    = "resource";
 
     public static final String UPDATE      = "UPDATE";
 

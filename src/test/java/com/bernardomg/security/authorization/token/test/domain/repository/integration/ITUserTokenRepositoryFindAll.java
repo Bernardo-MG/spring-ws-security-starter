@@ -22,7 +22,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserTokenRepositoryFindAll {
 
     @Autowired
-    private UserTokenRepository repository;
+    private UserTokenRepository userTokenRepository;
 
     @Test
     @DisplayName("Returns a token when the token is consumed")
@@ -36,12 +36,12 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
-            .hasSize(1);
+            .containsExactly(UserTokens.consumed());
     }
 
     @Test
@@ -56,18 +56,18 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
-            .hasSize(1);
+            .containsExactly(UserTokens.expired());
     }
 
     @Test
-    @DisplayName("Doesn't return anything when the token doesn't exist")
+    @DisplayName("Doesn't return anything when there is no data")
     @OnlyUser
-    void testFindAll_NotExisting() {
+    void testFindAll_NoData() {
         final Pageable            pageable;
         final Iterable<UserToken> tokens;
 
@@ -75,7 +75,7 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -95,12 +95,12 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
-            .hasSize(1);
+            .containsExactly(UserTokens.revoked());
     }
 
     @Test
@@ -115,27 +115,7 @@ class ITUserTokenRepositoryFindAll {
         pageable = Pageable.unpaged();
 
         // WHEN
-        tokens = repository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(tokens)
-            .as("tokens")
-            .hasSize(1);
-    }
-
-    @Test
-    @DisplayName("Returns all the token data when the token is valid")
-    @OnlyUser
-    @ValidUserToken
-    void testFindAll_Valid_data() {
-        final Pageable            pageable;
-        final Iterable<UserToken> tokens;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // WHEN
-        tokens = repository.findAll(pageable);
+        tokens = userTokenRepository.findAll(pageable);
 
         // THEN
         Assertions.assertThat(tokens)
