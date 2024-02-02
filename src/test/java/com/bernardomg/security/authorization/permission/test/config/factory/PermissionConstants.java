@@ -3,6 +3,7 @@ package com.bernardomg.security.authorization.permission.test.config.factory;
 
 public final class PermissionConstants {
 
+    @Deprecated
     public static final String ACTION      = "action";
 
     public static final String CREATE      = "CREATE";
@@ -19,10 +20,12 @@ public final class PermissionConstants {
 
     public static final String DELETE      = "DELETE";
 
+    @Deprecated
     public static final String PERMISSION  = "resource:action";
 
     public static final String READ        = "READ";
 
+    @Deprecated
     public static final String RESOURCE    = "resource";
 
     public static final String UPDATE      = "UPDATE";

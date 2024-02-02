@@ -10,10 +10,8 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.Resource;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourceRepository;
-import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourceEntities;
 import com.bernardomg.security.authorization.permission.test.config.factory.Resources;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -28,8 +26,6 @@ class ITResourceRepositorySave {
 
     @Test
     @DisplayName("Persists the data")
-    @SingleRole
-    @SinglePermission
     void testRemovePermission_Persisted() {
         final Iterable<ResourceEntity> permissions;
         final Resource                 permission;
@@ -51,8 +47,6 @@ class ITResourceRepositorySave {
 
     @Test
     @DisplayName("Returns the persisted data")
-    @SingleRole
-    @SinglePermission
     void testRemovePermission_Returned() {
         final Resource created;
         final Resource permission;
