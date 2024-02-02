@@ -91,7 +91,7 @@ class ITRolePermissionRepositorySave {
 
         // THEN
         Assertions.assertThat(created)
-            .as("permissions")
+            .as("permission")
             .isEqualTo(RolePermissions.create());
     }
 
