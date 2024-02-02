@@ -9,18 +9,19 @@ import java.time.LocalDateTime;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("LoginRegisterService - register log in")
 class TestLoginRegisterServiceRegister {
 
@@ -39,10 +40,6 @@ class TestLoginRegisterServiceRegister {
 
     @InjectMocks
     private DefaultLoginRegisterService   service;
-
-    public TestLoginRegisterServiceRegister() {
-        super();
-    }
 
     @Test
     @DisplayName("Persists a succesful log in attempt")
