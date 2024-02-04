@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,64 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.jwt.token;
+package com.bernardomg.security.authentication.jwt.domain;
+
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import lombok.Builder;
+import lombok.Value;
 
 /**
- * Validates a JWT token.
+ * Immutable implementation of the JWT token data.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface TokenValidator {
+@Value
+@Builder(setterPrefix = "with")
+public class JwtTokenData {
 
     /**
-     * Check if the token has expired.
-     *
-     * @param token
-     *            token to validate
-     * @return {@code true} if the token has expired, {@code false} otherwise
+     * Audience.
      */
-    public boolean hasExpired(final String token);
+    private final Collection<String>        audience;
+
+    /**
+     * Expiration date.
+     */
+    private final LocalDateTime             expiration;
+
+    /**
+     * Id.
+     */
+    private final String                    id;
+
+    /**
+     * Issued at date.
+     */
+    private final LocalDateTime             issuedAt;
+
+    /**
+     * Issuer.
+     */
+    private final String                    issuer;
+
+    /**
+     * Not before date.
+     */
+    private final LocalDateTime             notBefore;
+
+    /**
+     * Permissions.
+     */
+    private final Map<String, List<String>> permissions;
+
+    /**
+     * Subject.
+     */
+    private final String                    subject;
 
 }

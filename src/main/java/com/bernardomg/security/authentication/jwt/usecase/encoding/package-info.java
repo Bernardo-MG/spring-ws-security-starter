@@ -26,4 +26,4 @@
  * JWT token components.
  */
 
-package com.bernardomg.security.authentication.jwt.token;
+package com.bernardomg.security.authentication.jwt.usecase.encoding;

@@ -35,7 +35,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;

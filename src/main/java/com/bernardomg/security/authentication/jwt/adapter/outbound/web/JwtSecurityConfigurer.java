@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.jwt.configuration;
+package com.bernardomg.security.authentication.jwt.adapter.outbound.web;
 
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,9 +30,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.bernardomg.security.authentication.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
-import com.bernardomg.security.authentication.jwt.token.TokenValidator;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenDecoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenValidator;
 
 /**
  * JWT security configurer. Sets up the web security by adding a {@link JwtTokenFilter} before the username and password

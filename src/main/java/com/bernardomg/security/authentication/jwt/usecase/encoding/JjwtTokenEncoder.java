@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.jwt.token;
+package com.bernardomg.security.authentication.jwt.usecase.encoding;
 
 import java.time.ZoneId;
 import java.util.Date;
@@ -30,7 +30,7 @@ import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

@@ -22,24 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.jwt.token;
+package com.bernardomg.security.authentication.jwt.usecase.encoding;
 
-import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
 
 /**
- * Creates a {@link JwtTokenData} from a JWT token.
+ * Creates a JWT token from a {@link JwtTokenData}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public interface TokenDecoder {
+public interface TokenEncoder {
 
     /**
-     * Returns a {@code JwtTokenData} decoded from the JWT token.
+     * Returns a JWT token encoding the {@code JwtTokenData}.
      *
-     * @param token
-     *            token to decode
-     * @return {@code JwtTokenData} decoded from the token
+     * @param data
+     *            data to encode into the token
+     * @return token decoded from the {@code JwtTokenData}
      */
-    public JwtTokenData decode(final String token);
+    public String encode(final JwtTokenData data);
 
 }

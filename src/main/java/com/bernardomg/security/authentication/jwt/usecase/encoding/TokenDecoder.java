@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,24 @@
  * SOFTWARE.
  */
 
-/**
- * JWT configuration components.
- */
+package com.bernardomg.security.authentication.jwt.usecase.encoding;
 
-package com.bernardomg.security.authentication.jwt.configuration;
+import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
+
+/**
+ * Creates a {@link JwtTokenData} from a JWT token.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+public interface TokenDecoder {
+
+    /**
+     * Returns a {@code JwtTokenData} decoded from the JWT token.
+     *
+     * @param token
+     *            token to decode
+     * @return {@code JwtTokenData} decoded from the token
+     */
+    public JwtTokenData decode(final String token);
+
+}

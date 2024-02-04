@@ -9,8 +9,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 

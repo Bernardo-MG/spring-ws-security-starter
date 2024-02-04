@@ -18,11 +18,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.authentication.jwt.filter.JwtTokenFilter;
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
-import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
-import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.adapter.outbound.web.JwtTokenFilter;
+import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenValidator;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenDecoder;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 
 import jakarta.servlet.FilterChain;

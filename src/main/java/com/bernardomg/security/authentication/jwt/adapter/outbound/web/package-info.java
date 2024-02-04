@@ -22,64 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.jwt.token.model;
-
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import lombok.Builder;
-import lombok.Value;
-
 /**
- * Immutable implementation of the JWT token data.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * JWT request filters.
  */
-@Value
-@Builder(setterPrefix = "with")
-public class JwtTokenData {
 
-    /**
-     * Audience.
-     */
-    private final Collection<String>        audience;
-
-    /**
-     * Expiration date.
-     */
-    private final LocalDateTime             expiration;
-
-    /**
-     * Id.
-     */
-    private final String                    id;
-
-    /**
-     * Issued at date.
-     */
-    private final LocalDateTime             issuedAt;
-
-    /**
-     * Issuer.
-     */
-    private final String                    issuer;
-
-    /**
-     * Not before date.
-     */
-    private final LocalDateTime             notBefore;
-
-    /**
-     * Permissions.
-     */
-    private final Map<String, List<String>> permissions;
-
-    /**
-     * Subject.
-     */
-    private final String                    subject;
-
-}
+package com.bernardomg.security.authentication.jwt.adapter.outbound.web;

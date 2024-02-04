@@ -8,11 +8,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
-import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenValidator;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 
 @DisplayName("JjwtTokenValidator - has expired")
 class TestJjwtTokenValidatorHasExpired {

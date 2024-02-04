@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.jwt.token;
+package com.bernardomg.security.authentication.jwt.usecase.encoding;
 
 import java.time.LocalDateTime;
 

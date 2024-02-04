@@ -54,18 +54,18 @@ public class SecurityInitializerConfig {
         super();
     }
 
-    @Bean(name = "rolesInitializerService")
-    @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public RolesInitializerService getRolesInitializerService(final ResourcePermissionRepository permissionRepo,
-            final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
-        return new DefaultRolesInitializerService(permissionRepo, roleRepo, rolePermissionRepo);
-    }
-
     @Bean(name = "rolesInitializer", initMethod = "initialize")
     @DependsOn("permissionsLoader")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public RolesInitializer getRolesInitializer(final RolesInitializerService service) {
         return new RolesInitializer(service);
+    }
+
+    @Bean(name = "rolesInitializerService")
+    @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
+    public RolesInitializerService getRolesInitializerService(final ResourcePermissionRepository permissionRepo,
+            final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
+        return new DefaultRolesInitializerService(permissionRepo, roleRepo, rolePermissionRepo);
     }
 
     @Bean(name = "usersInitializer", initMethod = "initialize")
