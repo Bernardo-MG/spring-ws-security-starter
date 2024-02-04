@@ -85,7 +85,10 @@
             Fixed cache ids.
          </action>
       </release>
-      <release version="1.0.0" date="2023-12-26" description="">
+      <release version="0.2.0" date="2023-02-04" description="Clean architecture">
+         <action dev="bmg" type="update">
+            Moving closer to clean architecture.
+         </action>
       </release>
    </body>
 </document>
