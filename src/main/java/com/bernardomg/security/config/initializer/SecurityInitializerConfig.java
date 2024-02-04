@@ -56,7 +56,7 @@ public class SecurityInitializerConfig {
 
     @Bean(name = "rolesInitializerService")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
-    public RolesInitializerService getRolesInitializer(final ResourcePermissionRepository permissionRepo,
+    public RolesInitializerService getRolesInitializerService(final ResourcePermissionRepository permissionRepo,
             final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
         return new DefaultRolesInitializerService(permissionRepo, roleRepo, rolePermissionRepo);
     }
