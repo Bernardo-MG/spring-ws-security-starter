@@ -31,15 +31,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.notification.UserNotificator;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authentication.user.service.DefaultUserActivationService;
-import com.bernardomg.security.authentication.user.service.DefaultUserQueryService;
-import com.bernardomg.security.authentication.user.service.UserActivationService;
-import com.bernardomg.security.authentication.user.service.UserQueryService;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.store.PersistentUserTokenStore;
-import com.bernardomg.security.authorization.token.store.UserTokenStore;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
+import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
@@ -50,8 +52,8 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authentication.user.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.persistence" })
+@ComponentScan({ "com.bernardomg.security.authentication.user.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.adapter.inbound.jpa" })
 public class UserConfig {
 
     public UserConfig() {
@@ -59,20 +61,25 @@ public class UserConfig {
     }
 
     @Bean("userActivationService")
-    public UserActivationService getUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
-            final PasswordEncoder passEncoder, final UserTokenRepository userTokenRepository,
+    public UserActivationService getUserActivationService(final UserRepository userSpringRepo,
+            final UserRepository userRepo, final UserNotificator mSender, final UserTokenRepository userTokenRepository,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
 
-        tokenStore = new PersistentUserTokenStore(userTokenRepository, userRepo, "user_registered",
+        tokenStore = new ScopedUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
             tokenProperties.getValidity());
 
-        return new DefaultUserActivationService(userRepo, mSender, tokenStore, passEncoder);
+        return new DefaultUserActivationService(userRepo, mSender, tokenStore);
     }
 
     @Bean("userQueryService")
     public UserQueryService getUserQueryService(final UserRepository userRepo) {
         return new DefaultUserQueryService(userRepo);
+    }
+
+    @Bean("UuserRepository")
+    public UserRepository getUserRepository(final UserSpringRepository userRepo, final PasswordEncoder passEncoder) {
+        return new JpaUserRepository(userRepo, passEncoder);
     }
 
     @Bean("userWhitelist")

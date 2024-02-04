@@ -8,12 +8,12 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenDecoder;
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
-import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.model.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenDecoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenDecoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 
 import io.jsonwebtoken.ExpiredJwtException;
 

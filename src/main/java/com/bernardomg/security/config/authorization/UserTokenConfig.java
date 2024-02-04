@@ -30,11 +30,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.token.persistence.repository.UserDataTokenRepository;
-import com.bernardomg.security.authorization.token.persistence.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.authorization.token.service.SpringUserTokenService;
-import com.bernardomg.security.authorization.token.service.UserTokenService;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.schedule.TokenCleanUpScheduleTask;
+import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
 
 /**
  * User token configuration.
@@ -44,8 +47,8 @@ import com.bernardomg.security.authorization.token.service.UserTokenService;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(UserTokenProperties.class)
-@ComponentScan({ "com.bernardomg.security.authorization.token.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.persistence" })
+@ComponentScan({ "com.bernardomg.security.authorization.token.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.adapter.inbound.jpa" })
 public class UserTokenConfig {
 
     public UserTokenConfig() {
@@ -57,10 +60,15 @@ public class UserTokenConfig {
         return new TokenCleanUpScheduleTask(tokenCleanUpService);
     }
 
+    @Bean("userTokenRepository")
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepo,
+            final UserDataTokenSpringRepository userDataTokenRepo, final UserSpringRepository userRepo) {
+        return new JpaUserTokenRepository(userTokenRepo, userDataTokenRepo, userRepo);
+    }
+
     @Bean("userTokenService")
-    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo,
-            final UserDataTokenRepository userDataTokenRepo) {
-        return new SpringUserTokenService(userTokenRepo, userDataTokenRepo);
+    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo) {
+        return new SpringUserTokenService(userTokenRepo);
     }
 
 }

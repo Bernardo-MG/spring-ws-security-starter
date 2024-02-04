@@ -35,19 +35,21 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.user.persistence.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.persistence.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
-import com.bernardomg.security.login.event.LoginEvenRegisterListener;
-import com.bernardomg.security.login.persistence.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.service.DefaultLoginRegisterService;
-import com.bernardomg.security.login.service.JwtPermissionLoginTokenEncoder;
-import com.bernardomg.security.login.service.LoginRegisterService;
-import com.bernardomg.security.login.service.LoginService;
-import com.bernardomg.security.login.service.LoginTokenEncoder;
-import com.bernardomg.security.login.service.TokenLoginService;
-import com.bernardomg.security.login.service.springframework.SpringValidLoginPredicate;
+import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
+import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
+import com.bernardomg.security.login.adapter.inbound.spring.LoginEvenRegisterListener;
+import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
+import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
+import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
+import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
+import com.bernardomg.security.login.usecase.service.LoginRegisterService;
+import com.bernardomg.security.login.usecase.service.LoginService;
+import com.bernardomg.security.login.usecase.service.TokenLoginService;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
@@ -57,8 +59,8 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.login.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.persistence" })
+@ComponentScan({ "com.bernardomg.security.login.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa" })
 public class LoginConfig {
 
     public LoginConfig() {
@@ -68,6 +70,11 @@ public class LoginConfig {
     @Bean("loginEventRegisterListener")
     public LoginEvenRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {
         return new LoginEvenRegisterListener(loginRegisterService);
+    }
+
+    @Bean("loginRegisterRepository")
+    public LoginRegisterRepository getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterRepo) {
+        return new JpaLoginRegisterRepository(loginRegisterRepo);
     }
 
     @Bean("loginRegisterService")

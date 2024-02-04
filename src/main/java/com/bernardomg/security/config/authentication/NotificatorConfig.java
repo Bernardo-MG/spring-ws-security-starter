@@ -31,12 +31,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.authentication.password.notification.DisabledPasswordNotificator;
-import com.bernardomg.security.authentication.password.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.password.notification.SpringMailPasswordNotificator;
-import com.bernardomg.security.authentication.user.notification.DisabledUserNotificator;
-import com.bernardomg.security.authentication.user.notification.SpringMailUserNotificator;
-import com.bernardomg.security.authentication.user.notification.UserNotificator;
+import com.bernardomg.security.authentication.password.adapter.outbound.email.SpringMailPasswordNotificator;
+import com.bernardomg.security.authentication.password.usecase.notification.DisabledPasswordNotificator;
+import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.authentication.user.adapter.outbound.email.DisabledUserNotificator;
+import com.bernardomg.security.authentication.user.adapter.outbound.email.SpringMailUserNotificator;
+import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 
 import lombok.extern.slf4j.Slf4j;
 

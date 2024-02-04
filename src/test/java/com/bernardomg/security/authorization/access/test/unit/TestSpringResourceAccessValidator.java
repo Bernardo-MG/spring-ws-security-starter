@@ -13,12 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.authorization.access.ResourceAccessValidator;
-import com.bernardomg.security.authorization.access.SpringResourceAccessValidator;
-import com.bernardomg.security.authorization.springframework.ResourceActionGrantedAuthority;
+import com.bernardomg.security.authorization.access.adapter.inbound.spring.SpringResourceAccessValidator;
+import com.bernardomg.security.authorization.access.test.config.factory.GrantedAuthorities;
+import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringResourceAccessValidator")
@@ -35,69 +35,31 @@ class TestSpringResourceAccessValidator {
 
     @SuppressWarnings("rawtypes")
     private final Collection getAuthorities() {
-        final ResourceActionGrantedAuthority authority;
-
-        authority = ResourceActionGrantedAuthority.builder()
-            .withResource("resource")
-            .withAction("action")
-            .build();
-        return List.of(authority);
+        return List.of(GrantedAuthorities.resource());
     }
 
     @SuppressWarnings("rawtypes")
     private final Collection getSimpleAuthorities() {
-        final SimpleGrantedAuthority authority;
-
-        authority = new SimpleGrantedAuthority("resource:action");
-        return List.of(authority);
+        return List.of(GrantedAuthorities.simple());
     }
 
+    @Test
+    @DisplayName("An authorized user is authorized")
     @SuppressWarnings("unchecked")
-    private final void initializeAuthenticated() {
+    void testIsAuthorized() {
+        final Boolean authorized;
+
+        // GIVEN
         given(authentication.isAuthenticated()).willReturn(true);
         given(authentication.getAuthorities()).willReturn(getAuthorities());
 
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
-    }
 
-    private final void initializeEmptyAuthentication() {
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
-    }
+        // WHEN
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
 
-    private final void initializeNoAuthorities() {
-        given(authentication.isAuthenticated()).willReturn(true);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-    }
-
-    private final void initializeNotAuthenticated() {
-        given(authentication.isAuthenticated()).willReturn(false);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-    }
-
-    @SuppressWarnings("unchecked")
-    private final void initializeSimpleAuthenticated() {
-        given(authentication.isAuthenticated()).willReturn(true);
-        given(authentication.getAuthorities()).willReturn(getSimpleAuthorities());
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-    }
-
-    @Test
-    @DisplayName("An authorized user is authorized")
-    void testIsAuthorized() {
-        final Boolean authorized;
-
-        initializeAuthenticated();
-
-        authorized = validator.isAuthorized("resource", "action");
-
+        // THEN
         Assertions.assertThat(authorized)
             .isTrue();
     }
@@ -107,10 +69,14 @@ class TestSpringResourceAccessValidator {
     void testIsAuthorized_MissingAuthentication() {
         final Boolean authorized;
 
-        initializeEmptyAuthentication();
+        // GIVEN
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
 
-        authorized = validator.isAuthorized("resource", "action");
+        // WHEN
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
 
+        // THEN
         Assertions.assertThat(authorized)
             .isFalse();
     }
@@ -120,10 +86,16 @@ class TestSpringResourceAccessValidator {
     void testIsAuthorized_NoAuthorities() {
         final Boolean authorized;
 
-        initializeNoAuthorities();
+        // GIVEN
+        given(authentication.isAuthenticated()).willReturn(true);
 
-        authorized = validator.isAuthorized("resource", "action");
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
 
+        // WHEN
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
+
+        // THEN
         Assertions.assertThat(authorized)
             .isFalse();
     }
@@ -133,23 +105,37 @@ class TestSpringResourceAccessValidator {
     void testIsAuthorized_NotAuthenticated() {
         final Boolean authorized;
 
-        initializeNotAuthenticated();
+        // GIVEN
+        given(authentication.isAuthenticated()).willReturn(false);
 
-        authorized = validator.isAuthorized("resource", "action");
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
 
+        // WHEN
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
+
+        // THEN
         Assertions.assertThat(authorized)
             .isFalse();
     }
 
     @Test
     @DisplayName("When using simple authorities the user is not authorized")
+    @SuppressWarnings("unchecked")
     void testIsAuthorized_SimpleAuthorities() {
         final Boolean authorized;
 
-        initializeSimpleAuthenticated();
+        // GIVEN
+        given(authentication.isAuthenticated()).willReturn(true);
+        given(authentication.getAuthorities()).willReturn(getSimpleAuthorities());
 
-        authorized = validator.isAuthorized("resource", "action");
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
 
+        // WHEN
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
+
+        // THEN
         Assertions.assertThat(authorized)
             .isFalse();
     }

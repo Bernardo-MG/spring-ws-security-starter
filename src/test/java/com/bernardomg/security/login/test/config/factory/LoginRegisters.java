@@ -1,22 +1,23 @@
 
 package com.bernardomg.security.login.test.config.factory;
 
-import java.time.LocalDateTime;
-import java.time.Month;
-
-import com.bernardomg.security.login.model.LoginRegister;
+import com.bernardomg.security.login.domain.model.LoginRegister;
 
 public final class LoginRegisters {
 
-    public static final LocalDateTime DATE     = LocalDateTime.of(2020, Month.JANUARY, 1, 0, 0);
-
-    public static final String        USERNAME = "username";
-
     public static final LoginRegister loggedIn() {
         return LoginRegister.builder()
-            .withUsername(USERNAME)
+            .withUsername(LoginConstants.USERNAME)
             .withLoggedIn(true)
-            .withDate(DATE)
+            .withDate(LoginConstants.DATE)
+            .build();
+    }
+
+    public static final LoginRegister notLoggedIn() {
+        return LoginRegister.builder()
+            .withUsername(LoginConstants.USERNAME)
+            .withLoggedIn(false)
+            .withDate(LoginConstants.DATE)
             .build();
     }
 

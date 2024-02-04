@@ -33,13 +33,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.authentication.jwt.configuration.JwtSecurityConfigurer;
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenDecoder;
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.JjwtTokenValidator;
-import com.bernardomg.security.authentication.jwt.token.TokenDecoder;
-import com.bernardomg.security.authentication.jwt.token.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.token.TokenValidator;
+import com.bernardomg.security.authentication.jwt.adapter.outbound.web.JwtSecurityConfigurer;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenDecoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenValidator;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenDecoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
+import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenValidator;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
