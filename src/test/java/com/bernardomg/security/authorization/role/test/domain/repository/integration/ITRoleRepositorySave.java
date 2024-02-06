@@ -47,6 +47,7 @@ class ITRoleRepositorySave {
 
         Assertions.assertThat(roles)
             .as("roles")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .containsExactly(RoleEntities.valid());
     }
 
@@ -65,8 +66,6 @@ class ITRoleRepositorySave {
         // THEN
         Assertions.assertThat(roles)
             .as("roles")
-            .usingRecursiveAssertion()
-            .ignoringFields("id")
             .isEqualTo(Roles.valid());
     }
 
