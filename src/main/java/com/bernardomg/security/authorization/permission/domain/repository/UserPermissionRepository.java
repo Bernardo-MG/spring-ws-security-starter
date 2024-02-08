@@ -29,35 +29,19 @@ import java.util.Collection;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 
 /**
- * Resource permission repository.
+ * User permissions repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public interface ResourcePermissionRepository {
+public interface UserPermissionRepository {
 
     /**
-     * Checks if a resource permission exists with the given name.
+     * Returns all the resource permissions for a user.
      *
-     * @param name
-     *            name of the resource permission to check
-     * @return {@code true} if the resource permission exists, {@code false} otherwise
+     * @param username
+     *            user to search for the permissions
+     * @return all the resource permissions for the user
      */
-    public boolean exists(final String name);
-
-    /**
-     * Returns all the resource permissions.
-     *
-     * @return all the resource permissions
-     */
-    public Collection<ResourcePermission> findAll();
-
-    /**
-     * Saves the received permission. If it exists it is updated, otherwise it is created.
-     *
-     * @param action
-     *            permission to save
-     * @return the saved permission
-     */
-    public ResourcePermission save(final ResourcePermission permission);
+    public Collection<ResourcePermission> findAllForUser(final String username);
 
 }

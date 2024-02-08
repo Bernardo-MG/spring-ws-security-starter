@@ -22,7 +22,7 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.adapter.inbound.spring.PersistentUserDetailsService;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 
@@ -30,11 +30,11 @@ import com.bernardomg.security.authorization.permission.test.config.factory.Reso
 @DisplayName("PersistentUserDetailsService")
 class TestPersistentUserDetailsService {
 
-    @Mock
-    private ResourcePermissionRepository resourcePermissionRepository;
-
     @InjectMocks
     private PersistentUserDetailsService service;
+
+    @Mock
+    private UserPermissionRepository     userPermissionRepository;
 
     @Mock
     private UserRepository               userRepository;
@@ -51,7 +51,7 @@ class TestPersistentUserDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+        given(userPermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
@@ -102,7 +102,7 @@ class TestPersistentUserDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+        given(userPermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
@@ -153,7 +153,7 @@ class TestPersistentUserDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+        given(userPermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
@@ -204,7 +204,7 @@ class TestPersistentUserDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+        given(userPermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
@@ -255,7 +255,7 @@ class TestPersistentUserDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of());
+        given(userPermissionRepository.findAllForUser(UserConstants.USERNAME)).willReturn(List.of());
 
         // WHEN
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
@@ -275,7 +275,7 @@ class TestPersistentUserDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(resourcePermissionRepository.findAllForUser(UserConstants.USERNAME))
+        given(userPermissionRepository.findAllForUser(UserConstants.USERNAME))
             .willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN

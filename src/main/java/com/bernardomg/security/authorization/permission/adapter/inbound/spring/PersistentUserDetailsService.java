@@ -38,7 +38,7 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,30 +67,30 @@ import lombok.extern.slf4j.Slf4j;
 public final class PersistentUserDetailsService implements UserDetailsService {
 
     /**
-     * Resource permissions repository.
+     * User permissions repository.
      */
-    private final ResourcePermissionRepository resourcePermissionRepository;
+    private final UserPermissionRepository userPermissionRepository;
 
     /**
      * User repository.
      */
-    private final UserRepository               userRepository;
+    private final UserRepository           userRepository;
 
     /**
      * Constructs a user details service.
      *
      * @param userRepo
      *            users repository
-     * @param resourcePermissionRepo
-     *            resource permissions repository
+     * @param userPermissionRepo
+     *            user permissions repository
      */
     public PersistentUserDetailsService(final UserRepository userRepo,
-            final ResourcePermissionRepository resourcePermissionRepo) {
+            final UserPermissionRepository userPermissionRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");
-        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo,
-            "Received a null pointer as resource permission repository");
+        userPermissionRepository = Objects.requireNonNull(userPermissionRepo,
+            "Received a null pointer as user permission repository");
     }
 
     @Override
@@ -107,7 +107,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
         }
 
-        authorities = resourcePermissionRepository.findAllForUser(user.get()
+        authorities = userPermissionRepository.findAllForUser(user.get()
             .getUsername())
             .stream()
             .map(this::toAuthority)

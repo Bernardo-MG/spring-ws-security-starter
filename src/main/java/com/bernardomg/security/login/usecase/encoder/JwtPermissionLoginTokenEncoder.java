@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,26 +26,26 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
     /**
-     * Resource permissions repository.
-     */
-    private final ResourcePermissionRepository resourcePermissionRepository;
-
-    /**
      * Token encoder for creating authentication tokens.
      */
-    private final TokenEncoder                 tokenEncoder;
+    private final TokenEncoder             tokenEncoder;
+
+    /**
+     * User permissions repository.
+     */
+    private final UserPermissionRepository userPermissionRepository;
 
     /**
      * Token validity time in seconds.
      */
-    private final Duration                     validity;
+    private final Duration                 validity;
 
     public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder,
-            final ResourcePermissionRepository resourcePermissionRepo, final Duration vldt) {
+            final UserPermissionRepository userPermissionRepo, final Duration vldt) {
         super();
 
         tokenEncoder = Objects.requireNonNull(tknEncoder);
-        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
+        userPermissionRepository = Objects.requireNonNull(userPermissionRepo);
         validity = Objects.requireNonNull(vldt);
     }
 
@@ -101,7 +101,7 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
         // Transform into a map, with the resource as key, and the list of actions as value
         // TODO: query by id
-        return resourcePermissionRepository.findAllForUser(username)
+        return userPermissionRepository.findAllForUser(username)
             .stream()
             .collect(Collectors.groupingBy(resourceMapper, Collectors.mapping(actionMapper, Collectors.toList())));
     }
