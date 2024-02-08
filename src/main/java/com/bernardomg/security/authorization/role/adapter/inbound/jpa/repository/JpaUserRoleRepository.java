@@ -34,11 +34,14 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.Role
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * User repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Slf4j
 public final class JpaUserRoleRepository implements UserRoleRepository {
 
     private final RoleSpringRepository     roleRepository;
@@ -65,14 +68,23 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
         readUser = userRepository.findOneByUsername(username);
         readRole = roleRepository.findOneByName(role);
 
-        userRole = UserRoleEntity.builder()
-            .withUserId(readUser.get()
-                .getId())
-            .withRoleId(readRole.get()
-                .getId())
-            .build();
+        if ((readUser.isPresent()) && (readRole.isPresent())) {
+            userRole = UserRoleEntity.builder()
+                .withUserId(readUser.get()
+                    .getId())
+                .withRoleId(readRole.get()
+                    .getId())
+                .build();
 
-        userRoleRepository.delete(userRole);
+            userRoleRepository.delete(userRole);
+        } else {
+            if (readUser.isEmpty()) {
+                log.warn("User {} doesn't exist. Can't delete role", username);
+            }
+            if (readRole.isEmpty()) {
+                log.warn("Role {} doesn't exist. Can't delete role for user {}", role, username);
+            }
+        }
     }
 
     @Override
@@ -80,6 +92,8 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
         final UserRoleEntity       sample;
         final Optional<RoleEntity> roleEntity;
         final boolean              exists;
+
+        // TODO: rename, it is not clear what this method is for
 
         roleEntity = roleRepository.findOneByName(role);
         if (roleEntity.isPresent()) {
@@ -105,14 +119,23 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
         readUser = userRepository.findOneByUsername(username);
         readRole = roleRepository.findOneByName(role);
 
-        userRole = UserRoleEntity.builder()
-            .withUserId(readUser.get()
-                .getId())
-            .withRoleId(readRole.get()
-                .getId())
-            .build();
+        if ((readUser.isPresent()) && (readRole.isPresent())) {
+            userRole = UserRoleEntity.builder()
+                .withUserId(readUser.get()
+                    .getId())
+                .withRoleId(readRole.get()
+                    .getId())
+                .build();
 
-        userRoleRepository.save(userRole);
+            userRoleRepository.save(userRole);
+        } else {
+            if (readUser.isEmpty()) {
+                log.warn("User {} doesn't exist. Can't save role", username);
+            }
+            if (readRole.isEmpty()) {
+                log.warn("Role {} doesn't exist. Can't save role for user {}", role, username);
+            }
+        }
     }
 
 }
