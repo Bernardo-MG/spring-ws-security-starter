@@ -34,11 +34,14 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Resource permissions repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Slf4j
 public final class JpaUserPermissionRepository implements UserPermissionRepository {
 
     /**
@@ -70,6 +73,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
                 .distinct()
                 .toList();
         } else {
+            log.warn("User {} doesn't exist. Cant find its permissions");
             permissions = List.of();
         }
 

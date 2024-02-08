@@ -44,22 +44,24 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
     public JpaResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionRepo) {
         super();
 
-        resourcePermissionRepository = resourcePermissionRepo;
+        resourcePermissionSpringRepository = resourcePermissionRepo;
     }
 
     @Override
     public final boolean exists(final String name) {
-        return resourcePermissionRepository.existsByName(name);
+        log.debug("Checking if resource permission {} exists", name);
+        
+        return resourcePermissionSpringRepository.existsByName(name);
     }
 
     @Override
     public final Collection<ResourcePermission> findAll() {
-        return resourcePermissionRepository.findAll()
+        return resourcePermissionSpringRepository.findAll()
             .stream()
             .map(this::toDomain)
             .distinct()
@@ -72,17 +74,17 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         final ResourcePermissionEntity           entity;
         final ResourcePermissionEntity           created;
 
-        log.debug("Saving permission {}", permission);
+        log.debug("Saving resource permission {}", permission);
 
         entity = toEntity(permission);
 
-        existing = resourcePermissionRepository.findByName(permission.getName());
+        existing = resourcePermissionSpringRepository.findByName(permission.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = resourcePermissionRepository.save(entity);
+        created = resourcePermissionSpringRepository.save(entity);
 
         return toDomain(created);
     }

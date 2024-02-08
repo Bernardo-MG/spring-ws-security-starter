@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -49,20 +50,20 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
-    private final RolePermissionSpringRepository     rolePermissionRepository;
+    private final RolePermissionSpringRepository     rolePermissionSpringRepository;
 
-    private final RoleSpringRepository               roleRepository;
+    private final RoleSpringRepository               roleSpringRepository;
 
     public JpaRolePermissionRepository(final RoleSpringRepository roleRepo,
             final RolePermissionSpringRepository rolePermissionRepo,
             final ResourcePermissionSpringRepository resourcePermissionRepo) {
         super();
 
-        roleRepository = roleRepo;
-        rolePermissionRepository = rolePermissionRepo;
-        resourcePermissionRepository = resourcePermissionRepo;
+        roleSpringRepository = roleRepo;
+        rolePermissionSpringRepository = rolePermissionRepo;
+        resourcePermissionSpringRepository = resourcePermissionRepo;
     }
 
     @Override
@@ -72,9 +73,9 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         final RolePermissionEntity saved;
         final RolePermission       created;
 
-        log.debug("Adding permission {} for role {}", permission.getPermission(), permission.getRole());
+        log.debug("Adding permission {} to role {}", permission.getPermission(), permission.getRole());
 
-        role = roleRepository.findOneByName(permission.getRole());
+        role = roleSpringRepository.findOneByName(permission.getRole());
         if (role.isPresent()) {
             toSave = RolePermissionEntity.builder()
                 .withRoleId(role.get()
@@ -82,10 +83,12 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
                 .withPermission(permission.getPermission())
                 .withGranted(true)
                 .build();
-            saved = rolePermissionRepository.save(toSave);
+            saved = rolePermissionSpringRepository.save(toSave);
 
             created = toDomain(saved, role.get());
         } else {
+            log.warn("Role {} doesn't exist. Can't add permission {}", permission.getRole(),
+                permission.getPermission());
             created = RolePermission.builder()
                 .build();
         }
@@ -97,58 +100,93 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     public final boolean exists(final String role, final String permission) {
         final Optional<RoleEntity> readRole;
         final long                 id;
+        final boolean              exists;
 
-        readRole = roleRepository.findOneByName(role);
-        id = readRole.get()
-            .getId();
-        return rolePermissionRepository.existsByRoleIdAndPermissionAndGranted(id, permission, true);
+        log.debug("Checking if permission {} exists for role {}", permission, role);
+
+        readRole = roleSpringRepository.findOneByName(role);
+        if (readRole.isPresent()) {
+            id = readRole.get()
+                .getId();
+            exists = rolePermissionSpringRepository.existsByRoleIdAndPermissionAndGranted(id, permission, true);
+        } else {
+            log.warn("Role {} doesn't exist. Can't check for permission {} existence", role, permission);
+            exists = false;
+        }
+
+        return exists;
     }
 
     @Override
     public final Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable) {
-        final Optional<RoleEntity> readRole;
+        final Optional<RoleEntity>         readRole;
+        final RoleEntity                   roleEntity;
+        final Iterable<ResourcePermission> permissions;
 
         log.debug("Reading available permissions for {}", role);
 
-        readRole = roleRepository.findOneByName(role);
+        readRole = roleSpringRepository.findOneByName(role);
 
-        return resourcePermissionRepository.findAllAvailableToRole(readRole.get()
-            .getId(), pageable)
-            .map(this::toDomain);
+        if (readRole.isPresent()) {
+            roleEntity = readRole.get();
+            permissions = resourcePermissionSpringRepository.findAllAvailableToRole(roleEntity.getId(), pageable)
+                .map(this::toDomain);
+        } else {
+            log.warn("Role {} doesn't exist. Can't find available permissions", role);
+            permissions = List.of();
+        }
+
+        return permissions;
     }
 
     @Override
     public final Iterable<ResourcePermission> findPermissions(final String role, final Pageable page) {
-        final Optional<RoleEntity> readRole;
+        final Optional<RoleEntity>         readRole;
+        final Iterable<ResourcePermission> permissions;
 
         log.debug("Reading permissions for {}", role);
 
-        readRole = roleRepository.findOneByName(role);
+        readRole = roleSpringRepository.findOneByName(role);
+        if (readRole.isPresent()) {
+            permissions = resourcePermissionSpringRepository.findAllForRole(readRole.get()
+                .getId(), page)
+                .map(this::toDomain);
+        } else {
+            log.warn("Role {} doesn't exist. Can't find its permissions", role);
+            permissions = List.of();
+        }
 
-        return resourcePermissionRepository.findAllForRole(readRole.get()
-            .getId(), page)
-            .map(this::toDomain);
+        return permissions;
     }
 
     @Override
     public final RolePermission removePermission(final RolePermission permission) {
         final RolePermissionEntity toSave;
         final Optional<RoleEntity> readRole;
+        final RolePermission       removed;
 
         log.debug("Removing permission {} for role {}", permission.getPermission(), permission.getRole());
 
-        readRole = roleRepository.findOneByName(permission.getRole());
+        readRole = roleSpringRepository.findOneByName(permission.getRole());
 
-        // Not granted permission
-        toSave = getRolePermissionSample(readRole.get()
-            .getId(), permission.getPermission());
-        toSave.setGranted(false);
+        if (readRole.isPresent()) {
+            // Not granted permission
+            toSave = getRolePermissionSample(readRole.get()
+                .getId(), permission.getPermission());
+            toSave.setGranted(false);
 
-        // The permissions are not deleted
-        // Instead they are set to not granted
-        rolePermissionRepository.save(toSave);
+            // The permissions are not deleted
+            // Instead they are set to not granted
+            rolePermissionSpringRepository.save(toSave);
 
-        return toDomain(toSave, readRole.get());
+            removed = toDomain(toSave, readRole.get());
+        } else {
+            log.warn("Role {} doesn't exist. Can't remove permission {}", permission.getRole(),
+                permission.getPermission());
+            removed = null;
+        }
+
+        return removed;
     }
 
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final String permission) {

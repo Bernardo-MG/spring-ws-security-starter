@@ -40,17 +40,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class JpaActionRepository implements ActionRepository {
 
-    private final ActionSpringRepository actionRepository;
+    private final ActionSpringRepository actionSpringRepository;
 
     public JpaActionRepository(final ActionSpringRepository actionRepo) {
         super();
 
-        actionRepository = actionRepo;
+        actionSpringRepository = actionRepo;
     }
 
     @Override
     public final boolean exists(final String name) {
-        return actionRepository.existsByName(name);
+        log.debug("Checking if action {} exists", name);
+        
+        return actionSpringRepository.existsByName(name);
     }
 
     @Override
@@ -63,13 +65,13 @@ public final class JpaActionRepository implements ActionRepository {
 
         entity = toEntity(action);
 
-        existing = actionRepository.findByName(action.getName());
+        existing = actionSpringRepository.findByName(action.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = actionRepository.save(entity);
+        created = actionSpringRepository.save(entity);
 
         return toDomain(created);
     }

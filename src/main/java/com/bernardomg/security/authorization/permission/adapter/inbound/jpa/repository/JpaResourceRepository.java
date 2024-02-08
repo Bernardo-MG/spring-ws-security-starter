@@ -40,17 +40,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class JpaResourceRepository implements ResourceRepository {
 
-    private final ResourceSpringRepository resourceRepository;
+    private final ResourceSpringRepository resourceSpringRepository;
 
     public JpaResourceRepository(final ResourceSpringRepository resourceRepo) {
         super();
 
-        resourceRepository = resourceRepo;
+        resourceSpringRepository = resourceRepo;
     }
 
     @Override
     public final boolean exists(final String name) {
-        return resourceRepository.existsByName(name);
+        log.debug("Checking if resource {} exists", name);
+        
+        return resourceSpringRepository.existsByName(name);
     }
 
     @Override
@@ -63,13 +65,13 @@ public final class JpaResourceRepository implements ResourceRepository {
 
         entity = toEntity(resource);
 
-        existing = resourceRepository.findByName(resource.getName());
+        existing = resourceSpringRepository.findByName(resource.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        created = resourceRepository.save(entity);
+        created = resourceSpringRepository.save(entity);
 
         return toDomain(created);
     }
