@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermissionNotGranted;
@@ -68,14 +68,14 @@ class ITRolePermissionRepositoryAddPermission {
     @DisplayName("When adding an existing permission the permission is returned")
     @RoleWithPermission
     void testAddPermission_Existing_ReturnedData() {
-        final ResourcePermission permissions;
+        final RolePermission permission;
 
         // WHEN
-        permissions = repository.addPermission(RolePermissions.create());
+        permission = repository.addPermission(RolePermissions.create());
 
         // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
+        Assertions.assertThat(permission)
+            .as("permission")
             .isEqualTo(ResourcePermissions.create());
     }
 
@@ -100,14 +100,14 @@ class ITRolePermissionRepositoryAddPermission {
     @DisplayName("When adding an existing not granted permission the permission is returned")
     @RoleWithPermissionNotGranted
     void testAddPermission_NotGranted_ReturnedData() {
-        final ResourcePermission permissions;
+        final RolePermission permission;
 
         // WHEN
-        permissions = repository.addPermission(RolePermissions.create());
+        permission = repository.addPermission(RolePermissions.create());
 
         // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
+        Assertions.assertThat(permission)
+            .as("permission")
             .isEqualTo(ResourcePermissions.create());
     }
 
@@ -116,7 +116,7 @@ class ITRolePermissionRepositoryAddPermission {
     @SinglePermission
     @SingleRole
     void testAddPermission_ReturnedData() {
-        final ResourcePermission permission;
+        final RolePermission permission;
 
         // WHEN
         permission = repository.addPermission(RolePermissions.create());

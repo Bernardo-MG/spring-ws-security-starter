@@ -17,11 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionNameException;
 import com.bernardomg.security.authorization.permission.domain.exception.MissingRolePermissionIdException;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissions;
 import com.bernardomg.security.authorization.permission.usecase.service.DefaultRolePermissionService;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
@@ -99,14 +98,13 @@ class TestRolePermissionServiceRemovePermission {
     @Test
     @DisplayName("Sends the permission to the repository")
     void testRemovePermission_PersistedData() {
-        final ResourcePermission permission;
+        final RolePermission permission;
 
         // GIVEN
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.of(Roles.valid()));
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
         given(rolePermissionRepository.exists(RoleConstants.NAME, PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(rolePermissionRepository.removePermission(RolePermissions.create()))
-            .willReturn(ResourcePermissions.create());
+        given(rolePermissionRepository.removePermission(RolePermissions.create())).willReturn(RolePermissions.create());
 
         // WHEN
         permission = service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
@@ -114,7 +112,7 @@ class TestRolePermissionServiceRemovePermission {
         // THEN
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(ResourcePermissions.create());
+            .isEqualTo(RolePermissions.create());
     }
 
     @Test
@@ -125,8 +123,7 @@ class TestRolePermissionServiceRemovePermission {
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.of(Roles.valid()));
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
         given(rolePermissionRepository.exists(RoleConstants.NAME, PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(rolePermissionRepository.removePermission(RolePermissions.create()))
-            .willReturn(ResourcePermissions.create());
+        given(rolePermissionRepository.removePermission(RolePermissions.create())).willReturn(RolePermissions.create());
 
         // WHEN
         service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);

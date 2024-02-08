@@ -66,27 +66,23 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     @Override
-    public final ResourcePermission addPermission(final RolePermission permission) {
-        final RolePermissionEntity               rolePermission;
-        final Optional<RoleEntity>               readRole;
-        final Optional<ResourcePermissionEntity> readPermission;
+    public final RolePermission addPermission(final RolePermission permission) {
+        final RolePermissionEntity toSave;
+        final Optional<RoleEntity> readRole;
 
         log.debug("Adding permission {} for role {}", permission.getPermission(), permission.getRole());
 
         readRole = roleRepository.findOneByName(permission.getRole());
 
-        readPermission = resourcePermissionRepository.findByName(permission.getPermission());
-
         // Granted permission
-        rolePermission = getRolePermissionSample(readRole.get()
+        toSave = getRolePermissionSample(readRole.get()
             .getId(), permission.getPermission());
-        rolePermission.setGranted(true);
+        toSave.setGranted(true);
 
         // Persist relationship entities
-        rolePermissionRepository.save(rolePermission);
+        rolePermissionRepository.save(toSave);
 
-        return readPermission.map(this::toDomain)
-            .get();
+        return toDomain(toSave, readRole.get());
     }
 
     @Override
@@ -127,26 +123,24 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     @Override
-    public final ResourcePermission removePermission(final RolePermission permission) {
-        final RolePermissionEntity               rolePermissionSample;
-        final Optional<ResourcePermissionEntity> readPermission;
-        final Optional<RoleEntity>               readRole;
+    public final RolePermission removePermission(final RolePermission permission) {
+        final RolePermissionEntity toSave;
+        final Optional<RoleEntity> readRole;
 
         log.debug("Removing permission {} for role {}", permission.getPermission(), permission.getRole());
 
         readRole = roleRepository.findOneByName(permission.getRole());
 
-        readPermission = resourcePermissionRepository.findByName(permission.getPermission());
-
         // Not granted permission
-        rolePermissionSample = getRolePermissionSample(readRole.get()
+        toSave = getRolePermissionSample(readRole.get()
             .getId(), permission.getPermission());
-        rolePermissionSample.setGranted(false);
+        toSave.setGranted(false);
 
-        // Delete relationship entities
-        rolePermissionRepository.save(rolePermissionSample);
+        // The permissions are not deleted
+        // Instead they are set to not granted
+        rolePermissionRepository.save(toSave);
 
-        return toDomain(readPermission.get());
+        return toDomain(toSave, readRole.get());
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.bernardomg.security.authorization.permission.domain.model.RolePermiss
 
 public interface RolePermissionRepository {
 
-    public ResourcePermission addPermission(final RolePermission permission);
+    public RolePermission addPermission(final RolePermission permission);
 
     public boolean exists(final String role, final String permission);
 
@@ -41,7 +41,7 @@ public interface RolePermissionRepository {
      *            permission to remove
      * @return the removed permission
      */
-    public ResourcePermission removePermission(final RolePermission permission);
+    public RolePermission removePermission(final RolePermission permission);
 
     public RolePermission save(final RolePermission permission);
 

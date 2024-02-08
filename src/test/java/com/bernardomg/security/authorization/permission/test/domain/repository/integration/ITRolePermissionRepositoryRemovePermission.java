@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
@@ -51,7 +51,7 @@ class ITRolePermissionRepositoryRemovePermission {
     @Test
     @DisplayName("Returns the removed data")
     void testRemovePermission_ReturnedData() {
-        final ResourcePermission permission;
+        final RolePermission permission;
 
         // WHEN
         permission = repository.removePermission(RolePermissions.create());

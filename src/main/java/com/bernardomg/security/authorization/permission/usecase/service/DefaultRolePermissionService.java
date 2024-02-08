@@ -83,7 +83,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final ResourcePermission addPermission(final String role, final String permission) {
+    public final RolePermission addPermission(final String role, final String permission) {
         final boolean        roleExists;
         final boolean        permissionExists;
         final RolePermission rolePermission;
@@ -136,7 +136,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final ResourcePermission removePermission(final String role, final String permission) {
+    public final RolePermission removePermission(final String role, final String permission) {
         final boolean        rolePermissionExists;
         final boolean        permissionExists;
         final Optional<Role> readRole;

@@ -40,6 +40,7 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.adapter.outbound.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
 
 import lombok.AllArgsConstructor;
@@ -74,7 +75,7 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public ResourcePermission add(@PathVariable("role") final String role,
+    public RolePermission add(@PathVariable("role") final String role,
             @PathVariable("permission") final String permission) {
         return service.addPermission(role, permission);
     }
@@ -124,7 +125,7 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public ResourcePermission remove(@PathVariable("role") final String role,
+    public RolePermission remove(@PathVariable("role") final String role,
             @PathVariable("permission") final String permission) {
         return service.removePermission(role, permission);
     }
