@@ -31,7 +31,7 @@ import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 
 /**
- * JPA login registers repository.
+ * Login register repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */

@@ -138,10 +138,12 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     }
 
     /**
-     * Transforms a user entity into a user details object.
+     * Transforms a user into a user details object.
      *
      * @param user
-     *            entity to transform
+     *            user to transform
+     * @param password
+     *            user password
      * @param authorities
      *            authorities for the user details
      * @return equivalent user details
