@@ -104,7 +104,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .withPermission(permission)
             .withRole(role)
             .build();
-        return rolePermissionRepository.addPermission(rolePermission);
+        return rolePermissionRepository.save(rolePermission);
     }
 
     @Override
@@ -165,7 +165,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .withPermission(permission)
             .withRole(role)
             .build();
-        return rolePermissionRepository.removePermission(rolePermission);
+        return rolePermissionRepository.delete(rolePermission);
     }
 
 }

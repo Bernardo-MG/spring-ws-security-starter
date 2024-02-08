@@ -37,13 +37,13 @@ import com.bernardomg.security.authorization.permission.domain.model.RolePermiss
 public interface RolePermissionRepository {
 
     /**
-     * Adds a permission to a role.
+     * Deletes the role permission.
      *
      * @param permission
-     *            permission to add
-     * @return the added permission
+     *            permission to remove
+     * @return the removed permission
      */
-    public RolePermission addPermission(final RolePermission permission);
+    public RolePermission delete(final RolePermission permission);
 
     /**
      * Checks if the given permission exists.
@@ -79,12 +79,12 @@ public interface RolePermissionRepository {
     public Iterable<ResourcePermission> findPermissions(final String role, final Pageable page);
 
     /**
-     * Removes a permission from a role.
+     * Creates the role permission.
      *
      * @param permission
-     *            permission to remove
-     * @return the removed permission
+     *            permission to add
+     * @return the added permission
      */
-    public RolePermission removePermission(final RolePermission permission);
+    public RolePermission save(final RolePermission permission);
 
 }

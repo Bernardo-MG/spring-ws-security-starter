@@ -67,33 +67,33 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     @Override
-    public final RolePermission addPermission(final RolePermission permission) {
+    public final RolePermission delete(final RolePermission permission) {
         final RolePermissionEntity toSave;
-        final Optional<RoleEntity> role;
-        final RolePermissionEntity saved;
-        final RolePermission       created;
+        final Optional<RoleEntity> readRole;
+        final RolePermission       removed;
 
-        log.debug("Adding permission {} to role {}", permission.getPermission(), permission.getRole());
+        log.debug("Removing permission {} for role {}", permission.getPermission(), permission.getRole());
 
-        role = roleSpringRepository.findOneByName(permission.getRole());
-        if (role.isPresent()) {
-            toSave = RolePermissionEntity.builder()
-                .withRoleId(role.get()
-                    .getId())
-                .withPermission(permission.getPermission())
-                .withGranted(true)
-                .build();
-            saved = rolePermissionSpringRepository.save(toSave);
+        readRole = roleSpringRepository.findOneByName(permission.getRole());
 
-            created = toDomain(saved, role.get());
+        if (readRole.isPresent()) {
+            // Not granted permission
+            toSave = getRolePermissionSample(readRole.get()
+                .getId(), permission.getPermission());
+            toSave.setGranted(false);
+
+            // The permissions are not deleted
+            // Instead they are set to not granted
+            rolePermissionSpringRepository.save(toSave);
+
+            removed = toDomain(toSave, readRole.get());
         } else {
-            log.warn("Role {} doesn't exist. Can't add permission {}", permission.getRole(),
+            log.warn("Role {} doesn't exist. Can't remove permission {}", permission.getRole(),
                 permission.getPermission());
-            created = RolePermission.builder()
-                .build();
+            removed = null;
         }
 
-        return created;
+        return removed;
     }
 
     @Override
@@ -160,33 +160,33 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     @Override
-    public final RolePermission removePermission(final RolePermission permission) {
+    public final RolePermission save(final RolePermission permission) {
         final RolePermissionEntity toSave;
-        final Optional<RoleEntity> readRole;
-        final RolePermission       removed;
+        final Optional<RoleEntity> role;
+        final RolePermissionEntity saved;
+        final RolePermission       created;
 
-        log.debug("Removing permission {} for role {}", permission.getPermission(), permission.getRole());
+        log.debug("Adding permission {} to role {}", permission.getPermission(), permission.getRole());
 
-        readRole = roleSpringRepository.findOneByName(permission.getRole());
+        role = roleSpringRepository.findOneByName(permission.getRole());
+        if (role.isPresent()) {
+            toSave = RolePermissionEntity.builder()
+                .withRoleId(role.get()
+                    .getId())
+                .withPermission(permission.getPermission())
+                .withGranted(true)
+                .build();
+            saved = rolePermissionSpringRepository.save(toSave);
 
-        if (readRole.isPresent()) {
-            // Not granted permission
-            toSave = getRolePermissionSample(readRole.get()
-                .getId(), permission.getPermission());
-            toSave.setGranted(false);
-
-            // The permissions are not deleted
-            // Instead they are set to not granted
-            rolePermissionSpringRepository.save(toSave);
-
-            removed = toDomain(toSave, readRole.get());
+            created = toDomain(saved, role.get());
         } else {
-            log.warn("Role {} doesn't exist. Can't remove permission {}", permission.getRole(),
+            log.warn("Role {} doesn't exist. Can't add permission {}", permission.getRole(),
                 permission.getPermission());
-            removed = null;
+            created = RolePermission.builder()
+                .build();
         }
 
-        return removed;
+        return created;
     }
 
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final String permission) {

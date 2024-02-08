@@ -38,18 +38,72 @@ import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery
  */
 public interface RoleRepository {
 
+    /**
+     * Deletes the role with the received name.
+     *
+     * @param name
+     *            role to delete
+     */
     public void delete(final String name);
 
+    /**
+     * Checks if a role exists with the given name.
+     *
+     * @param name
+     *            name of the role to check
+     * @return {@code true} if the role exists, {@code false} otherwise
+     */
     public boolean exists(final String name);
 
+    /**
+     * Returns all the roles for the received query.
+     *
+     * @param query
+     *            query to filter the roles
+     * @param page
+     *            pagination to apply
+     * @return all the roles for the received query
+     */
     public Iterable<Role> findAll(final RoleQuery query, final Pageable page);
 
+    /**
+     * Returns all the roles available to the user.
+     *
+     * @param username
+     *            user to search for
+     * @param page
+     *            pagination to apply
+     * @return all the roles available to the user
+     */
     public Iterable<Role> findAvailableToUser(final String username, final Pageable page);
 
+    /**
+     * Returns all the roles assigned to the user.
+     *
+     * @param username
+     *            user to search for
+     * @param page
+     *            pagination to apply
+     * @return all the roles assigned to the user
+     */
     public Iterable<Role> findForUser(final String username, final Pageable page);
 
+    /**
+     * Returns the role for the received name.
+     *
+     * @param name
+     *            role to search for
+     * @return the role for the received name
+     */
     public Optional<Role> findOne(final String name);
 
+    /**
+     * Saves the received role. If it exists it is updated, otherwise it is created.
+     *
+     * @param role
+     *            role to save
+     * @return the saved user
+     */
     public Role save(final Role role);
 
 }

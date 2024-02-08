@@ -76,7 +76,7 @@ public interface UserRepository {
     public boolean existsEmailForAnotherUser(final String username, final String email);
 
     /**
-     * Returns all the user for the received query.
+     * Returns all the users for the received query.
      *
      * @param query
      *            query to filter the users
@@ -90,8 +90,8 @@ public interface UserRepository {
      * Returns the user for the received username.
      *
      * @param username
-     *            username to search for
-     * @return the user for the received username
+     *            user to search for
+     * @return the users for the received username
      */
     public Optional<User> findOne(final String username);
 

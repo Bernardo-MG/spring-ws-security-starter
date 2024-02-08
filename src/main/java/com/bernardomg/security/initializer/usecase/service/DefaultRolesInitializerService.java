@@ -100,7 +100,7 @@ public final class DefaultRolesInitializerService implements RolesInitializerSer
                 .withRole(savedRootRole.getName())
                 .withPermission(permission.getName())
                 .build();
-            rolePermissionRepository.addPermission(rolePermission);
+            rolePermissionRepository.save(rolePermission);
         }
     }
 
@@ -139,7 +139,7 @@ public final class DefaultRolesInitializerService implements RolesInitializerSer
                 .withRole(role.getName())
                 .withPermission(permission.getName())
                 .build();
-            rolePermissionRepository.addPermission(rolePermission);
+            rolePermissionRepository.save(rolePermission);
         }
     }
 

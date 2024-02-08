@@ -26,7 +26,7 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Role permission service - add permission")
-class TestRolePermissionServiceAddPermission {
+class TestRolePermissionServiceSave {
 
     @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
@@ -84,7 +84,7 @@ class TestRolePermissionServiceAddPermission {
         service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         // THEN
-        verify(rolePermissionRepository).addPermission(RolePermissions.create());
+        verify(rolePermissionRepository).save(RolePermissions.create());
     }
 
     @Test
@@ -95,7 +95,7 @@ class TestRolePermissionServiceAddPermission {
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(rolePermissionRepository.addPermission(RolePermissions.create())).willReturn(RolePermissions.create());
+        given(rolePermissionRepository.save(RolePermissions.create())).willReturn(RolePermissions.create());
 
         // WHEN
         permission = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);

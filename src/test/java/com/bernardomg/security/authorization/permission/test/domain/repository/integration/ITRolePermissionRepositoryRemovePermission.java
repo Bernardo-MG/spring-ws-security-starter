@@ -36,7 +36,7 @@ class ITRolePermissionRepositoryRemovePermission {
         final Iterable<RolePermissionEntity> permissions;
 
         // WHEN
-        repository.removePermission(RolePermissions.create());
+        repository.delete(RolePermissions.create());
 
         // THEN
         permissions = rolePermissionSpringRepository.findAll();
@@ -53,7 +53,7 @@ class ITRolePermissionRepositoryRemovePermission {
         final RolePermission permission;
 
         // WHEN
-        permission = repository.removePermission(RolePermissions.create());
+        permission = repository.delete(RolePermissions.create());
 
         // THEN
         Assertions.assertThat(permission)

@@ -19,7 +19,7 @@ import com.bernardomg.security.authorization.role.test.config.annotation.SingleR
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("RolePermissionRepository - add permission")
+@DisplayName("RolePermissionRepository - save")
 class ITRolePermissionRepositoryAddPermission {
 
     @Autowired
@@ -31,11 +31,11 @@ class ITRolePermissionRepositoryAddPermission {
     @Test
     @DisplayName("When adding an existing permission no permission is added")
     @RoleWithPermission
-    void testAddPermission_Existing_NotAddsEntity() {
+    void testSave_Existing_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
         // WHEN
-        repository.addPermission(RolePermissions.create());
+        repository.save(RolePermissions.create());
 
         // THEN
         permissions = rolePermissionSpringRepository.findAll();
@@ -48,11 +48,11 @@ class ITRolePermissionRepositoryAddPermission {
     @Test
     @DisplayName("When adding an existing permission the permission is returned")
     @RoleWithPermission
-    void testAddPermission_Existing_ReturnedData() {
+    void testSave_Existing_ReturnedData() {
         final RolePermission permission;
 
         // WHEN
-        permission = repository.addPermission(RolePermissions.create());
+        permission = repository.save(RolePermissions.create());
 
         // THEN
         Assertions.assertThat(permission)
@@ -62,7 +62,7 @@ class ITRolePermissionRepositoryAddPermission {
 
     @Test
     @DisplayName("When there is no role nothing is persisted")
-    void testAddPermission_NoRole_Persisted() {
+    void testSave_NoRole_Persisted() {
         final Iterable<RolePermissionEntity> permissions;
         final RolePermission                 permission;
 
@@ -70,7 +70,7 @@ class ITRolePermissionRepositoryAddPermission {
         permission = RolePermissions.create();
 
         // WHEN
-        repository.addPermission(permission);
+        repository.save(permission);
 
         // THEN
         permissions = rolePermissionSpringRepository.findAll();
@@ -83,11 +83,11 @@ class ITRolePermissionRepositoryAddPermission {
     @Test
     @DisplayName("When adding an existing not granted permission the permission is set to granted")
     @RoleWithPermissionNotGranted
-    void testAddPermission_NotGranted_NotAddsEntity() {
+    void testSave_NotGranted_NotAddsEntity() {
         final Iterable<RolePermissionEntity> permissions;
 
         // WHEN
-        repository.addPermission(RolePermissions.create());
+        repository.save(RolePermissions.create());
 
         // THEN
         permissions = rolePermissionSpringRepository.findAll();
@@ -100,11 +100,11 @@ class ITRolePermissionRepositoryAddPermission {
     @Test
     @DisplayName("When adding an existing not granted permission the permission is returned")
     @RoleWithPermissionNotGranted
-    void testAddPermission_NotGranted_ReturnedData() {
+    void testSave_NotGranted_ReturnedData() {
         final RolePermission permission;
 
         // WHEN
-        permission = repository.addPermission(RolePermissions.create());
+        permission = repository.save(RolePermissions.create());
 
         // THEN
         Assertions.assertThat(permission)
@@ -116,11 +116,11 @@ class ITRolePermissionRepositoryAddPermission {
     @DisplayName("Adds a permission")
     @SinglePermission
     @SingleRole
-    void testAddPermission_Persisted() {
+    void testSave_Persisted() {
         final Iterable<RolePermissionEntity> permissions;
 
         // WHEN
-        repository.addPermission(RolePermissions.create());
+        repository.save(RolePermissions.create());
 
         // THEN
         permissions = rolePermissionSpringRepository.findAll();
@@ -134,7 +134,7 @@ class ITRolePermissionRepositoryAddPermission {
     @DisplayName("Returns the persisted data")
     @SinglePermission
     @SingleRole
-    void testAddPermission_Returned() {
+    void testSave_Returned() {
         final RolePermission created;
         final RolePermission permission;
 
@@ -142,7 +142,7 @@ class ITRolePermissionRepositoryAddPermission {
         permission = RolePermissions.create();
 
         // WHEN
-        created = repository.addPermission(permission);
+        created = repository.save(permission);
 
         // THEN
         Assertions.assertThat(created)

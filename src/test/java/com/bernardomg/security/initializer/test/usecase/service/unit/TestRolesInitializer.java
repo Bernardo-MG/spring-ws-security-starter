@@ -57,7 +57,7 @@ class TestRolesInitializer {
         rolesInitializerService.initialize();
 
         // THEN
-        verify(rolePermissionRepository, atLeastOnce()).addPermission(ArgumentMatchers.any());
+        verify(rolePermissionRepository, atLeastOnce()).save(ArgumentMatchers.any());
     }
 
     @Test
