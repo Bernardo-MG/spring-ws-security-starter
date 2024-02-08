@@ -26,6 +26,8 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
+
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
@@ -96,6 +98,32 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         id = readRole.get()
             .getId();
         return rolePermissionRepository.existsByRoleIdAndPermissionAndGranted(id, permission, true);
+    }
+
+    @Override
+    public final Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable) {
+        final Optional<RoleEntity> readRole;
+
+        log.debug("Reading available permissions for {}", role);
+
+        readRole = roleRepository.findOneByName(role);
+
+        return resourcePermissionRepository.findAllAvailableToRole(readRole.get()
+            .getId(), pageable)
+            .map(this::toDomain);
+    }
+
+    @Override
+    public final Iterable<ResourcePermission> findPermissionsForRole(final String role, final Pageable page) {
+        final Optional<RoleEntity> readRole;
+
+        log.debug("Reading permissions for {}", role);
+
+        readRole = roleRepository.findOneByName(role);
+
+        return resourcePermissionRepository.findAllForRole(readRole.get()
+            .getId(), page)
+            .map(this::toDomain);
     }
 
     @Override

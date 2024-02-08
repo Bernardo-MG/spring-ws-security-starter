@@ -26,8 +26,6 @@ package com.bernardomg.security.authorization.permission.domain.repository;
 
 import java.util.Collection;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 
 /**
@@ -61,28 +59,6 @@ public interface ResourcePermissionRepository {
      * @return all the resource permissions for the user
      */
     public Collection<ResourcePermission> findAllForUser(final String username);
-
-    /**
-     * Returns all the resource permissions available to a role.
-     *
-     * @param role
-     *            role to search for the available permissions
-     * @param pageable
-     *            pagination to apply
-     * @return all the resource permissions available to a role
-     */
-    public Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable);
-
-    /**
-     * Returns all the resource for a role.
-     *
-     * @param role
-     *            role to search for the permissions
-     * @param pageable
-     *            pagination to apply
-     * @return all the resource permissions for the role
-     */
-    public Iterable<ResourcePermission> findPermissionsForRole(final String role, final Pageable page);
 
     /**
      * Saves the received permission. If it exists it is updated, otherwise it is created.

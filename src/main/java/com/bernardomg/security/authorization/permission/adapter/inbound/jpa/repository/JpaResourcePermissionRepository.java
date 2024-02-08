@@ -28,15 +28,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,20 +49,14 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
      */
     private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
-    /**
-     * Role repository. Used to validate the role exists.
-     */
-    private final RoleSpringRepository               roleRepository;
-
     private final UserSpringRepository               userRepository;
 
     public JpaResourcePermissionRepository(final UserSpringRepository userRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo, final RoleSpringRepository roleRepo) {
+            final ResourcePermissionSpringRepository resourcePermissionRepo) {
         super();
 
         userRepository = userRepo;
         resourcePermissionRepository = resourcePermissionRepo;
-        roleRepository = roleRepo;
     }
 
     @Override
@@ -101,32 +91,6 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         }
 
         return permissions;
-    }
-
-    @Override
-    public final Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable) {
-        final Optional<RoleEntity> readRole;
-
-        log.debug("Reading available permissions for {}", role);
-
-        readRole = roleRepository.findOneByName(role);
-
-        return resourcePermissionRepository.findAllAvailableToRole(readRole.get()
-            .getId(), pageable)
-            .map(this::toDomain);
-    }
-
-    @Override
-    public final Iterable<ResourcePermission> findPermissionsForRole(final String role, final Pageable page) {
-        final Optional<RoleEntity> readRole;
-
-        log.debug("Reading permissions for {}", role);
-
-        readRole = roleRepository.findOneByName(role);
-
-        return resourcePermissionRepository.findAllForRole(readRole.get()
-            .getId(), page)
-            .map(this::toDomain);
     }
 
     @Override

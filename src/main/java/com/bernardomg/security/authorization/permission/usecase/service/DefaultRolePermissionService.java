@@ -118,7 +118,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleNameException(role);
         }
 
-        return resourcePermissionRepository.findAvailablePermissions(role, pageable);
+        return rolePermissionRepository.findAvailablePermissions(role, pageable);
     }
 
     @Override
@@ -132,7 +132,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleNameException(role);
         }
 
-        return resourcePermissionRepository.findPermissionsForRole(role, page);
+        return rolePermissionRepository.findPermissionsForRole(role, page);
     }
 
     @Override
