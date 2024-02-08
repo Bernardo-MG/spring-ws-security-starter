@@ -3,7 +3,6 @@ package com.bernardomg.security.authorization.token.test.domain.repository.integ
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUs
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -102,24 +100,6 @@ class ITUserTokenRepositoryPatch {
             softly.assertThat(token.getExpirationDate())
                 .isEqualTo(UserTokenConstants.DATE_FUTURE);
         });
-    }
-
-    @Test
-    @DisplayName("When there is no data, an exception is thrown")
-    @OnlyUser
-    void testPatch_NoData() {
-        final UserTokenPartial request;
-        final ThrowingCallable execution;
-
-        // GIVEN
-        request = UserTokenPartials.revoked();
-
-        // WHEN
-        execution = () -> userTokenRepository.patch(Tokens.TOKEN, request);
-
-        // THEN
-        Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserTokenCodeException.class);
     }
 
     @Test

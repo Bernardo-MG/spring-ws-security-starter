@@ -36,7 +36,6 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserDataTokenEntity;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -132,31 +131,32 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final UserDataTokenEntity           toPatch;
         final UserTokenEntity               toSave;
         final UserTokenEntity               saved;
-        final boolean                       exists;
+        final UserToken                     userToken;
 
         log.debug("Patching token {}", token);
 
-        exists = userTokenRepository.existsByToken(token);
-        if (!exists) {
-            throw new MissingUserTokenCodeException(token);
-        }
-
         readtoken = userDataTokenRepository.findByToken(token);
 
-        toPatch = readtoken.get();
+        if (readtoken.isPresent()) {
+            toPatch = readtoken.get();
 
-        toSave = toEntity(toPatch);
+            toSave = toEntity(toPatch);
 
-        if (partial.getExpirationDate() != null) {
-            toSave.setExpirationDate(partial.getExpirationDate());
+            if (partial.getExpirationDate() != null) {
+                toSave.setExpirationDate(partial.getExpirationDate());
+            }
+            if (partial.getRevoked() != null) {
+                toSave.setRevoked(partial.getRevoked());
+            }
+
+            saved = userTokenRepository.save(toSave);
+
+            userToken = toDomain(saved, readtoken.get());
+        } else {
+            userToken = null;
         }
-        if (partial.getRevoked() != null) {
-            toSave.setRevoked(partial.getRevoked());
-        }
 
-        saved = userTokenRepository.save(toSave);
-
-        return toDomain(saved, readtoken.get());
+        return userToken;
     }
 
     @Override

@@ -72,11 +72,11 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final Iterable<Role> findAll(final RoleQuery query, final Pageable page) {
-        final RoleEntity entity;
+        final RoleEntity sample;
 
-        entity = toEntity(query);
+        sample = toEntity(query);
 
-        return roleRepository.findAll(Example.of(entity), page)
+        return roleRepository.findAll(Example.of(sample), page)
             .map(this::toDomain);
     }
 
