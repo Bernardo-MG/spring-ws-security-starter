@@ -44,7 +44,7 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
     @Test
     @DisplayName("When the user has no roles all the roles are returned")
-    void testGetRoles_NoneAssigned() {
+    void testGetAvailableRoles_NoneAssigned() {
         final Iterable<Role> existing;
         final Iterable<Role> roles;
         final Pageable       pageable;
@@ -67,7 +67,7 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
     @Test
     @DisplayName("When the user has roles only the available ones are returned")
-    void testGetRoles_OneAssigned() {
+    void testGetAvailableRoles_OneAssigned() {
         final Iterable<Role> existing;
         final Iterable<Role> roles;
         final Pageable       pageable;

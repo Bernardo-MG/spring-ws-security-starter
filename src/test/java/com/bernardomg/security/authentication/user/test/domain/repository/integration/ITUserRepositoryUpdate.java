@@ -128,7 +128,7 @@ class ITUserRepositoryUpdate {
         // THEN
         Assertions.assertThat(created)
             .as("user")
-            .isEqualTo(Users.enabled());
+            .isNull();
     }
 
 }
