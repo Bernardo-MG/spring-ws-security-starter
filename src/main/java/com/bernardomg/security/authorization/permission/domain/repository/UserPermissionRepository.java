@@ -42,6 +42,6 @@ public interface UserPermissionRepository {
      *            user to search for the permissions
      * @return all the resource permissions for the user
      */
-    public Collection<ResourcePermission> findAllForUser(final String username);
+    public Collection<ResourcePermission> findAll(final String username);
 
 }

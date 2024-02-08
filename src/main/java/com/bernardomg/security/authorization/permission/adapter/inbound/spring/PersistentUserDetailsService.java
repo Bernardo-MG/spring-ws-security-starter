@@ -107,7 +107,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
         }
 
-        authorities = userPermissionRepository.findAllForUser(user.get()
+        authorities = userPermissionRepository.findAll(user.get()
             .getUsername())
             .stream()
             .map(this::toAuthority)

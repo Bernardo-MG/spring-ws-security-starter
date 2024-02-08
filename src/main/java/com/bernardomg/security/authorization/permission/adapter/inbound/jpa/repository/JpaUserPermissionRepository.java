@@ -57,7 +57,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     }
 
     @Override
-    public final Collection<ResourcePermission> findAllForUser(final String username) {
+    public final Collection<ResourcePermission> findAll(final String username) {
         final Optional<UserEntity>           user;
         final Collection<ResourcePermission> permissions;
 

@@ -14,7 +14,7 @@ import com.bernardomg.security.authorization.permission.test.config.factory.Reso
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserPermissionRepository - find all for user")
+@DisplayName("UserPermissionRepository - find all")
 class ITUserPermissionRepositoryFindAllForUser {
 
     @Autowired
@@ -30,7 +30,7 @@ class ITUserPermissionRepositoryFindAllForUser {
         final Iterable<ResourcePermission> permissions;
 
         // WHEN
-        permissions = repository.findAllForUser(UserConstants.USERNAME);
+        permissions = repository.findAll(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -45,7 +45,7 @@ class ITUserPermissionRepositoryFindAllForUser {
         final Iterable<ResourcePermission> permissions;
 
         // WHEN
-        permissions = repository.findAllForUser(UserConstants.USERNAME);
+        permissions = repository.findAll(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(permissions)
