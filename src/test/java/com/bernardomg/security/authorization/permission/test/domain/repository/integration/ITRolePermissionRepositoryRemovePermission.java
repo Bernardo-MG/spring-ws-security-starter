@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
@@ -17,17 +17,17 @@ import com.bernardomg.security.authorization.permission.test.config.factory.Role
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourcePermissionRepository - remove permission")
+@DisplayName("RolePermissionRepository - remove permission")
 @RoleWithCrudPermissions
-class ITResourcePermissionRepositoryRemovePermission {
+class ITRolePermissionRepositoryRemovePermission {
 
     @Autowired
-    private ResourcePermissionRepository   repository;
+    private RolePermissionRepository       repository;
 
     @Autowired
     private RolePermissionSpringRepository rolePermissionSpringRepository;
 
-    public ITResourcePermissionRepositoryRemovePermission() {
+    public ITRolePermissionRepositoryRemovePermission() {
         super();
     }
 

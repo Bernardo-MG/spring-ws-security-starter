@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.RolePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
@@ -20,11 +20,11 @@ import com.bernardomg.security.authorization.role.test.config.annotation.SingleR
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourcePermissionRepository - add permission")
-class ITResourcePermissionRepositoryAddPermission {
+@DisplayName("RolePermissionRepository - add permission")
+class ITRolePermissionRepositoryAddPermission {
 
     @Autowired
-    private ResourcePermissionRepository   repository;
+    private RolePermissionRepository       repository;
 
     @Autowired
     private RolePermissionSpringRepository rolePermissionSpringRepository;

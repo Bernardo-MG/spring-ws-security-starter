@@ -36,7 +36,7 @@ import org.springframework.data.repository.query.Param;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 
 /**
- * Resource permission repository.
+ * Resource permission repository based on Spring Data repositories.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -79,16 +79,6 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
      */
     @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission INNER JOIN Role r ON r.id = rp.roleId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE u.id = :userId AND rp.granted = true")
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
-
-    /**
-     * Returns all the permissions available to a user.
-     *
-     * @param username
-     *            user username
-     * @return a page with the permissions
-     */
-    @Query("SELECT p FROM ResourcePermission p INNER JOIN RolePermission rp ON p.name = rp.permission INNER JOIN Role r ON r.id = rp.roleId INNER JOIN UserRole ur ON ur.roleId = r.id INNER JOIN User u ON u.id = ur.userId WHERE u.username = :username AND rp.granted = true")
-    public Collection<ResourcePermissionEntity> findAllForUser(@Param("username") final String username);
 
     public Optional<ResourcePermissionEntity> findByName(final String name);
 

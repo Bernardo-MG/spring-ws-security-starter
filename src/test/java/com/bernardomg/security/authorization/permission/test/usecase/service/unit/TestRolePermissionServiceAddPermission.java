@@ -80,14 +80,12 @@ class TestRolePermissionServiceAddPermission {
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.addPermission(RolePermissions.create()))
-            .willReturn(ResourcePermissions.create());
 
         // WHEN
         service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         // THEN
-        verify(resourcePermissionRepository).addPermission(RolePermissions.create());
+        verify(rolePermissionRepository).addPermission(RolePermissions.create());
     }
 
     @Test
@@ -98,7 +96,7 @@ class TestRolePermissionServiceAddPermission {
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.addPermission(RolePermissions.create()))
+        given(rolePermissionRepository.addPermission(RolePermissions.create()))
             .willReturn(ResourcePermissions.create());
 
         // WHEN

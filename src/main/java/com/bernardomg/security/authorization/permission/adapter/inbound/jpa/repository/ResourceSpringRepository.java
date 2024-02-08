@@ -31,7 +31,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourceEntity;
 
 /**
- * Resource repository.
+ * Resource repository based on Spring Data repositories.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

@@ -69,9 +69,8 @@ public class PermissionConfig {
 
     @Bean("resourcePermissionRepository")
     public ResourcePermissionRepository getResourcePermissionRepository(final UserSpringRepository userRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo,
-            final RolePermissionSpringRepository rolePermissionRepo, final RoleSpringRepository roleRepo) {
-        return new JpaResourcePermissionRepository(userRepo, resourcePermissionRepo, rolePermissionRepo, roleRepo);
+            final ResourcePermissionSpringRepository resourcePermissionRepo, final RoleSpringRepository roleRepo) {
+        return new JpaResourcePermissionRepository(userRepo, resourcePermissionRepo, roleRepo);
     }
 
     @Bean("resourceRepository")
@@ -81,8 +80,9 @@ public class PermissionConfig {
 
     @Bean("rolePermissionRepository")
     public RolePermissionRepository getRolePermissionRepository(final RoleSpringRepository roleRepo,
-            final RolePermissionSpringRepository rolePermissionRepo) {
-        return new JpaRolePermissionRepository(roleRepo, rolePermissionRepo);
+            final RolePermissionSpringRepository rolePermissionRepo,
+            final ResourcePermissionSpringRepository resourcePermissionRepo) {
+        return new JpaRolePermissionRepository(roleRepo, rolePermissionRepo, resourcePermissionRepo);
     }
 
     @Bean("rolePermissionService")

@@ -30,7 +30,7 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionKey;
 
 /**
- * Role permission repository.
+ * Role permission repository based on Spring Data repositories.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

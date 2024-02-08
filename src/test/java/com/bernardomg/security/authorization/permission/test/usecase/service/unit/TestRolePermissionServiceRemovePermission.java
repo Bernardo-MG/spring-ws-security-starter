@@ -105,7 +105,7 @@ class TestRolePermissionServiceRemovePermission {
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.of(Roles.valid()));
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
         given(rolePermissionRepository.exists(RoleConstants.NAME, PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.removePermission(RolePermissions.create()))
+        given(rolePermissionRepository.removePermission(RolePermissions.create()))
             .willReturn(ResourcePermissions.create());
 
         // WHEN
@@ -125,14 +125,14 @@ class TestRolePermissionServiceRemovePermission {
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.of(Roles.valid()));
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
         given(rolePermissionRepository.exists(RoleConstants.NAME, PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.removePermission(RolePermissions.create()))
+        given(rolePermissionRepository.removePermission(RolePermissions.create()))
             .willReturn(ResourcePermissions.create());
 
         // WHEN
         service.removePermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         // THEN
-        verify(resourcePermissionRepository).removePermission(RolePermissions.create());
+        verify(rolePermissionRepository).removePermission(RolePermissions.create());
     }
 
 }

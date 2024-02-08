@@ -26,29 +26,65 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 
 import java.util.Optional;
 
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Role permission repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Slf4j
 public final class JpaRolePermissionRepository implements RolePermissionRepository {
 
-    private final RolePermissionSpringRepository rolePermissionRepository;
+    /**
+     * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
+     */
+    private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
-    private final RoleSpringRepository           roleRepository;
+    private final RolePermissionSpringRepository     rolePermissionRepository;
+
+    private final RoleSpringRepository               roleRepository;
 
     public JpaRolePermissionRepository(final RoleSpringRepository roleRepo,
-            final RolePermissionSpringRepository rolePermissionRepo) {
+            final RolePermissionSpringRepository rolePermissionRepo,
+            final ResourcePermissionSpringRepository resourcePermissionRepo) {
         super();
 
         roleRepository = roleRepo;
         rolePermissionRepository = rolePermissionRepo;
+        resourcePermissionRepository = resourcePermissionRepo;
+    }
+
+    @Override
+    public final ResourcePermission addPermission(final RolePermission permission) {
+        final RolePermissionEntity               rolePermission;
+        final Optional<RoleEntity>               readRole;
+        final Optional<ResourcePermissionEntity> readPermission;
+
+        log.debug("Adding permission {} for role {}", permission.getPermission(), permission.getRole());
+
+        readRole = roleRepository.findOneByName(permission.getRole());
+
+        readPermission = resourcePermissionRepository.findByName(permission.getPermission());
+
+        // Granted permission
+        rolePermission = getRolePermissionSample(readRole.get()
+            .getId(), permission.getPermission());
+        rolePermission.setGranted(true);
+
+        // Persist relationship entities
+        rolePermissionRepository.save(rolePermission);
+
+        return readPermission.map(this::toDomain)
+            .get();
     }
 
     @Override
@@ -60,6 +96,29 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         id = readRole.get()
             .getId();
         return rolePermissionRepository.existsByRoleIdAndPermissionAndGranted(id, permission, true);
+    }
+
+    @Override
+    public final ResourcePermission removePermission(final RolePermission permission) {
+        final RolePermissionEntity               rolePermissionSample;
+        final Optional<ResourcePermissionEntity> readPermission;
+        final Optional<RoleEntity>               readRole;
+
+        log.debug("Removing permission {} for role {}", permission.getPermission(), permission.getRole());
+
+        readRole = roleRepository.findOneByName(permission.getRole());
+
+        readPermission = resourcePermissionRepository.findByName(permission.getPermission());
+
+        // Not granted permission
+        rolePermissionSample = getRolePermissionSample(readRole.get()
+            .getId(), permission.getPermission());
+        rolePermissionSample.setGranted(false);
+
+        // Delete relationship entities
+        rolePermissionRepository.save(rolePermissionSample);
+
+        return toDomain(readPermission.get());
     }
 
     @Override
@@ -86,6 +145,21 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         }
 
         return created;
+    }
+
+    private final RolePermissionEntity getRolePermissionSample(final long roleId, final String permission) {
+        return RolePermissionEntity.builder()
+            .withRoleId(roleId)
+            .withPermission(permission)
+            .build();
+    }
+
+    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
+        return ResourcePermission.builder()
+            .withName(entity.getName())
+            .withResource(entity.getResource())
+            .withAction(entity.getAction())
+            .build();
     }
 
     private final RolePermission toDomain(final RolePermissionEntity permission, final RoleEntity role) {
