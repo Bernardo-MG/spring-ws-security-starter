@@ -19,7 +19,7 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("RolePermissionRepository - find permissions for role")
+@DisplayName("RolePermissionRepository - find permissions")
 class ITRolePermissionRepositoryFindPermissionsForRole {
 
     @Autowired
@@ -32,7 +32,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
     @Test
     @DisplayName("Returns all the data for a role's permission")
     @RoleWithPermission
-    void testFindPermissionsForRole() {
+    void testFindPermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -40,7 +40,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -51,7 +51,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
     @Test
     @DisplayName("Returns the permissions for a role with multiple permissions")
     @RoleWithCrudPermissions
-    void testFindPermissionsForRole_multiple() {
+    void testFindPermissions_multiple() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -59,7 +59,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -72,7 +72,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
     @DisplayName("When the role has no permissions nothing is returned")
     @CrudPermissions
     @SingleRole
-    void testFindPermissionsForRole_NoPermissions() {
+    void testFindPermissions_NoPermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -80,7 +80,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -91,7 +91,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
     @Test
     @DisplayName("When there are no permissions are granted nothing is returned")
     @RoleWithCrudPermissionsNotGranted
-    void testFindPermissionsForRole_NotGranted() {
+    void testFindPermissions_NotGranted() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -99,7 +99,7 @@ class ITRolePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)

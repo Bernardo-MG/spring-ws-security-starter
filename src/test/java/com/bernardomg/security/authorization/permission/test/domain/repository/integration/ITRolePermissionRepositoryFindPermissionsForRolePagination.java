@@ -30,7 +30,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
 
     @Test
     @DisplayName("Returns the page entities")
-    void testfindPermissionsForRole_Page_Container() {
+    void testFindPermissions_Page_Container() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -38,7 +38,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
         pageable = PageRequest.of(0, 1);
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -48,7 +48,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
 
     @Test
     @DisplayName("Returns all the data for the first page")
-    void testfindPermissionsForRole_Page1_Data() {
+    void testFindPermissions_Page1_Data() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -56,7 +56,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
         pageable = PageRequest.of(0, 1);
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -66,7 +66,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
 
     @Test
     @DisplayName("Returns all the data for the second page")
-    void testfindPermissionsForRole_Page2_Data() {
+    void testFindPermissions_Page2_Data() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -74,7 +74,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
         pageable = PageRequest.of(1, 1);
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -84,7 +84,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
 
     @Test
     @DisplayName("Returns a page")
-    void testfindPermissionsForRole_Paged_Count() {
+    void testFindPermissions_Paged_Count() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -92,7 +92,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
         pageable = PageRequest.of(0, 1);
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -102,7 +102,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
 
     @Test
     @DisplayName("Returns a page when the pagination is disabled")
-    void testfindPermissionsForRole_Unpaged_Container() {
+    void testFindPermissions_Unpaged_Container() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -110,7 +110,7 @@ class ITRolePermissionRepositoryFindPermissionsForRolePagination {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)

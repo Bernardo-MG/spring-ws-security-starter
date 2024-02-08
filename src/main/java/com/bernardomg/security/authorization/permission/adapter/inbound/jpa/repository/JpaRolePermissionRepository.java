@@ -110,7 +110,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     @Override
-    public final Iterable<ResourcePermission> findPermissionsForRole(final String role, final Pageable page) {
+    public final Iterable<ResourcePermission> findPermissions(final String role, final Pageable page) {
         final Optional<RoleEntity> readRole;
 
         log.debug("Reading permissions for {}", role);

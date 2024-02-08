@@ -132,7 +132,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleNameException(role);
         }
 
-        return rolePermissionRepository.findPermissionsForRole(role, page);
+        return rolePermissionRepository.findPermissions(role, page);
     }
 
     @Override

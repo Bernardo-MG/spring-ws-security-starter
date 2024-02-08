@@ -24,7 +24,7 @@ public interface RolePermissionRepository {
     public Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable);
 
     /**
-     * Returns all the resource for a role.
+     * Returns all the resource permissions for a role.
      *
      * @param role
      *            role to search for the permissions
@@ -32,7 +32,7 @@ public interface RolePermissionRepository {
      *            pagination to apply
      * @return all the resource permissions for the role
      */
-    public Iterable<ResourcePermission> findPermissionsForRole(final String role, final Pageable page);
+    public Iterable<ResourcePermission> findPermissions(final String role, final Pageable page);
 
     /**
      * Removes a permission from a role.
