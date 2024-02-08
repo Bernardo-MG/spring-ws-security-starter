@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 
 /**
@@ -67,18 +66,22 @@ public interface UserRepository {
 
     /**
      * Returns whether an user, other than the one received, has the email.
-     * 
-     * @param username user to ignore
-     * @param email email to search for
+     *
+     * @param username
+     *            user to ignore
+     * @param email
+     *            email to search for
      * @return {@code true} if another user has the email, {@code false} otherwise
      */
     public boolean existsEmailForAnotherUser(final String username, final String email);
 
     /**
      * Returns all the user for the received query.
-     * 
-     * @param query query to filter the users
-     * @param page pagination to apply
+     *
+     * @param query
+     *            query to filter the users
+     * @param page
+     *            pagination to apply
      * @return all the user for the received query
      */
     public Iterable<User> findAll(final UserQuery query, final Pageable page);
@@ -103,13 +106,27 @@ public interface UserRepository {
 
     /**
      * Returns the password for the user.
-     * @param username user to search for the password
+     *
+     * @param username
+     *            user to search for the password
      * @return the user password
      */
     public Optional<String> findPassword(final String username);
 
-    public User save(final String username, final UserChange user);
-
+    /**
+     * Saves the received user. If it exists it is updated, otherwise it is created.
+     * 
+     * @param user user to save
+     * @param password password for the user
+     * @return the saved user
+     */
     public User save(final User user, final String password);
+
+    /**
+     * Updates an existing user.
+     * @param user the user to update
+     * @return the updated user
+     */
+    public User update(final User user);
 
 }

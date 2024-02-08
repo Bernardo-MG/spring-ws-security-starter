@@ -98,7 +98,7 @@ class TestUserQueryServiceUpdate {
         service.update(UserConstants.USERNAME, user);
 
         // THEN
-        verify(userRepository).save(UserConstants.USERNAME, UserChanges.emailChange());
+        verify(userRepository).update(Users.emailChange());
     }
 
     @Test
@@ -111,7 +111,7 @@ class TestUserQueryServiceUpdate {
         user = UserChanges.emailChange();
 
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
-        given(userRepository.save(UserConstants.USERNAME, user)).willReturn(Users.emailChange());
+        given(userRepository.update(Users.emailChange())).willReturn(Users.emailChange());
 
         // WHEN
         result = service.update(UserConstants.USERNAME, user);
