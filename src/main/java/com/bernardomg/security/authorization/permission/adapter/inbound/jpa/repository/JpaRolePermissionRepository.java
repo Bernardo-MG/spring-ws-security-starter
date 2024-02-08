@@ -68,21 +68,29 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     @Override
     public final RolePermission addPermission(final RolePermission permission) {
         final RolePermissionEntity toSave;
-        final Optional<RoleEntity> readRole;
+        final Optional<RoleEntity> role;
+        final RolePermissionEntity saved;
+        final RolePermission       created;
 
         log.debug("Adding permission {} for role {}", permission.getPermission(), permission.getRole());
 
-        readRole = roleRepository.findOneByName(permission.getRole());
+        role = roleRepository.findOneByName(permission.getRole());
+        if (role.isPresent()) {
+            toSave = RolePermissionEntity.builder()
+                .withRoleId(role.get()
+                    .getId())
+                .withPermission(permission.getPermission())
+                .withGranted(true)
+                .build();
+            saved = rolePermissionRepository.save(toSave);
 
-        // Granted permission
-        toSave = getRolePermissionSample(readRole.get()
-            .getId(), permission.getPermission());
-        toSave.setGranted(true);
+            created = toDomain(saved, role.get());
+        } else {
+            created = RolePermission.builder()
+                .build();
+        }
 
-        // Persist relationship entities
-        rolePermissionRepository.save(toSave);
-
-        return toDomain(toSave, readRole.get());
+        return created;
     }
 
     @Override
@@ -141,32 +149,6 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         rolePermissionRepository.save(toSave);
 
         return toDomain(toSave, readRole.get());
-    }
-
-    @Override
-    public final RolePermission save(final RolePermission permission) {
-        final RolePermissionEntity rolePermission;
-        final Optional<RoleEntity> role;
-        final RolePermissionEntity saved;
-        final RolePermission       created;
-
-        role = roleRepository.findOneByName(permission.getRole());
-        if (role.isPresent()) {
-            rolePermission = RolePermissionEntity.builder()
-                .withRoleId(role.get()
-                    .getId())
-                .withPermission(permission.getPermission())
-                .withGranted(true)
-                .build();
-            saved = rolePermissionRepository.save(rolePermission);
-
-            created = toDomain(saved, role.get());
-        } else {
-            created = RolePermission.builder()
-                .build();
-        }
-
-        return created;
     }
 
     private final RolePermissionEntity getRolePermissionSample(final long roleId, final String permission) {

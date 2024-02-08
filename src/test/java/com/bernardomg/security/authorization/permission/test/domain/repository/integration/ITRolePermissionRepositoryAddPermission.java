@@ -29,24 +29,6 @@ class ITRolePermissionRepositoryAddPermission {
     private RolePermissionSpringRepository rolePermissionSpringRepository;
 
     @Test
-    @DisplayName("Adds a permission")
-    @SinglePermission
-    @SingleRole
-    void testAddPermission_AddsEntity() {
-        final Iterable<RolePermissionEntity> permissions;
-
-        // WHEN
-        repository.addPermission(RolePermissions.create());
-
-        // THEN
-        permissions = rolePermissionSpringRepository.findAll();
-
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .containsOnly(RolePermissionEntities.create());
-    }
-
-    @Test
     @DisplayName("When adding an existing permission no permission is added")
     @RoleWithPermission
     void testAddPermission_Existing_NotAddsEntity() {
@@ -76,6 +58,26 @@ class ITRolePermissionRepositoryAddPermission {
         Assertions.assertThat(permission)
             .as("permission")
             .isEqualTo(RolePermissions.create());
+    }
+
+    @Test
+    @DisplayName("When there is no role nothing is persisted")
+    void testAddPermission_NoRole_Persisted() {
+        final Iterable<RolePermissionEntity> permissions;
+        final RolePermission                 permission;
+
+        // GIVEN
+        permission = RolePermissions.create();
+
+        // WHEN
+        repository.addPermission(permission);
+
+        // THEN
+        permissions = rolePermissionSpringRepository.findAll();
+
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .isEmpty();
     }
 
     @Test
@@ -111,17 +113,39 @@ class ITRolePermissionRepositoryAddPermission {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("Adds a permission")
     @SinglePermission
     @SingleRole
-    void testAddPermission_ReturnedData() {
-        final RolePermission permission;
+    void testAddPermission_Persisted() {
+        final Iterable<RolePermissionEntity> permissions;
 
         // WHEN
-        permission = repository.addPermission(RolePermissions.create());
+        repository.addPermission(RolePermissions.create());
 
         // THEN
-        Assertions.assertThat(permission)
+        permissions = rolePermissionSpringRepository.findAll();
+
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(RolePermissionEntities.create());
+    }
+
+    @Test
+    @DisplayName("Returns the persisted data")
+    @SinglePermission
+    @SingleRole
+    void testAddPermission_Returned() {
+        final RolePermission created;
+        final RolePermission permission;
+
+        // GIVEN
+        permission = RolePermissions.create();
+
+        // WHEN
+        created = repository.addPermission(permission);
+
+        // THEN
+        Assertions.assertThat(created)
             .as("permission")
             .isEqualTo(RolePermissions.create());
     }
