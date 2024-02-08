@@ -108,7 +108,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         if (readRole.isPresent()) {
             id = readRole.get()
                 .getId();
-            exists = rolePermissionSpringRepository.existsByRoleIdAndPermissionAndGranted(id, permission, true);
+            exists = rolePermissionSpringRepository.existsByRoleIdAndPermissionAndGrantedTrue(id, permission);
         } else {
             log.warn("Role {} doesn't exist. Can't check for permission {} existence", role, permission);
             exists = false;

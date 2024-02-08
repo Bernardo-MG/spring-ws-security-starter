@@ -96,16 +96,16 @@ public final class SpringUserTokenService implements UserTokenService {
 
     @Override
     public final Optional<UserToken> getOne(final String token) {
-        final boolean exists;
+        final Optional<UserToken> userToken;
 
         log.debug("Reading token {}", token);
 
-        exists = userTokenRepository.exists(token);
-        if (!exists) {
+        userToken = userTokenRepository.findOne(token);
+        if (userToken.isEmpty()) {
             throw new MissingUserTokenCodeException(token);
         }
 
-        return userTokenRepository.findOne(token);
+        return userToken;
     }
 
     @Override

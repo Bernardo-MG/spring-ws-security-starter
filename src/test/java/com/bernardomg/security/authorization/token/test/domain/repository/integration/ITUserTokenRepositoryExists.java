@@ -26,7 +26,7 @@ class ITUserTokenRepositoryExists {
     @DisplayName("When the token is consumed, it exists")
     @OnlyUser
     @ConsumedUserToken
-    void testFindOne_Consumed() {
+    void testExists_Consumed() {
         final boolean exists;
 
         // WHEN
@@ -42,7 +42,7 @@ class ITUserTokenRepositoryExists {
     @DisplayName("When the token is expired, it exists")
     @OnlyUser
     @ExpiredUserToken
-    void testFindOne_Expired() {
+    void testExists_Expired() {
         final boolean exists;
 
         // WHEN
@@ -56,7 +56,7 @@ class ITUserTokenRepositoryExists {
 
     @Test
     @DisplayName("When there is no data, the token doesn't exist")
-    void testFindOne_NotData() {
+    void testExists_NotData() {
         final boolean exists;
 
         // WHEN
@@ -72,7 +72,7 @@ class ITUserTokenRepositoryExists {
     @DisplayName("When the token is revoked, it exists")
     @OnlyUser
     @RevokedUserToken
-    void testFindOne_Revoked() {
+    void testExists_Revoked() {
         final boolean exists;
 
         // WHEN
@@ -88,7 +88,7 @@ class ITUserTokenRepositoryExists {
     @DisplayName("When the token is valid, it exists")
     @OnlyUser
     @ValidUserToken
-    void testFindOne_Valid() {
+    void testExists_Valid() {
         final boolean exists;
 
         // WHEN
