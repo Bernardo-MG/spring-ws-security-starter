@@ -24,11 +24,13 @@
 
 package com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
@@ -43,15 +45,13 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final RoleSpringRepository roleRepository;
 
-    public JpaRoleRepository(final RoleSpringRepository roleRepo) {
+    private final UserSpringRepository userRepository;
+
+    public JpaRoleRepository(final RoleSpringRepository roleRepo, final UserSpringRepository userRepo) {
         super();
 
         roleRepository = roleRepo;
-    }
-
-    @Override
-    public final long countForUser(final String username) {
-        return roleRepository.countForUser(username);
+        userRepository = userRepo;
     }
 
     @Override
@@ -62,12 +62,6 @@ public final class JpaRoleRepository implements RoleRepository {
     @Override
     public final boolean exists(final String name) {
         return roleRepository.existsByName(name);
-    }
-
-    @Override
-    public final Iterable<Role> findAll(final Pageable page) {
-        return roleRepository.findAll(page)
-            .map(this::toDomain);
     }
 
     @Override
@@ -82,8 +76,18 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final Iterable<Role> findAvailableToUser(final String username, final Pageable page) {
-        return roleRepository.findAvailableToUser(username, page)
-            .map(this::toDomain);
+        final boolean        exists;
+        final Iterable<Role> roles;
+
+        exists = userRepository.existsByUsername(username);
+        if (exists) {
+            roles = roleRepository.findAvailableToUser(username, page)
+                .map(this::toDomain);
+        } else {
+            roles = List.of();
+        }
+
+        return roles;
     }
 
     @Override

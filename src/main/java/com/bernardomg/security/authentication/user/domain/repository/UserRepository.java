@@ -115,16 +115,20 @@ public interface UserRepository {
 
     /**
      * Saves the received user. If it exists it is updated, otherwise it is created.
-     * 
-     * @param user user to save
-     * @param password password for the user
+     *
+     * @param user
+     *            user to save
+     * @param password
+     *            password for the user
      * @return the saved user
      */
     public User save(final User user, final String password);
 
     /**
      * Updates an existing user.
-     * @param user the user to update
+     *
+     * @param user
+     *            the user to update
      * @return the updated user
      */
     public User update(final User user);

@@ -43,19 +43,15 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
     }
 
     @Test
-    @DisplayName("When the user has no roles all the roles are returned")
-    void testGetAvailableRoles_NoneAssigned() {
-        final Iterable<Role> existing;
+    @DisplayName("When the user has available ones they are returned")
+    void testGetAvailableRoles() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(roleRepository.countForUser(UserConstants.USERNAME)).willReturn(0L);
-
-        existing = List.of(Roles.valid());
-        given(roleRepository.findAll(pageable)).willReturn(existing);
+        given(roleRepository.findAvailableToUser(UserConstants.USERNAME, pageable)).willReturn(List.of(Roles.valid()));
 
         // WHEN
         roles = service.getAvailableRoles(UserConstants.USERNAME, pageable);
@@ -66,26 +62,22 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
     }
 
     @Test
-    @DisplayName("When the user has roles only the available ones are returned")
-    void testGetAvailableRoles_OneAssigned() {
-        final Iterable<Role> existing;
+    @DisplayName("When the user has no available ones nothing is returned")
+    void testGetAvailableRoles_NoData() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(roleRepository.countForUser(UserConstants.USERNAME)).willReturn(1L);
-
-        existing = List.of(Roles.valid());
-        given(roleRepository.findAvailableToUser(UserConstants.USERNAME, pageable)).willReturn(existing);
+        given(roleRepository.findAvailableToUser(UserConstants.USERNAME, pageable)).willReturn(List.of());
 
         // WHEN
         roles = service.getAvailableRoles(UserConstants.USERNAME, pageable);
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .isEmpty();
     }
 
 }
