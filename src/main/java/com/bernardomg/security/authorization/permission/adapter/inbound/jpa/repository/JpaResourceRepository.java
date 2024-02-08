@@ -51,7 +51,7 @@ public final class JpaResourceRepository implements ResourceRepository {
     @Override
     public final boolean exists(final String name) {
         log.debug("Checking if resource {} exists", name);
-        
+
         return resourceSpringRepository.existsByName(name);
     }
 

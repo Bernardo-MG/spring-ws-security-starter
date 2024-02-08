@@ -55,7 +55,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     @Override
     public final boolean exists(final String name) {
         log.debug("Checking if resource permission {} exists", name);
-        
+
         return resourcePermissionSpringRepository.existsByName(name);
     }
 
