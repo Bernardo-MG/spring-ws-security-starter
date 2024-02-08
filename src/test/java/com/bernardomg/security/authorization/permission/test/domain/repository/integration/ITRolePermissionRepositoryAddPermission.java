@@ -13,7 +13,6 @@ import com.bernardomg.security.authorization.permission.domain.repository.RolePe
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermissionNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.SinglePermission;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissions;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
@@ -76,7 +75,7 @@ class ITRolePermissionRepositoryAddPermission {
         // THEN
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(ResourcePermissions.create());
+            .isEqualTo(RolePermissions.create());
     }
 
     @Test
@@ -108,7 +107,7 @@ class ITRolePermissionRepositoryAddPermission {
         // THEN
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(ResourcePermissions.create());
+            .isEqualTo(RolePermissions.create());
     }
 
     @Test
@@ -124,7 +123,7 @@ class ITRolePermissionRepositoryAddPermission {
         // THEN
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(ResourcePermissions.create());
+            .isEqualTo(RolePermissions.create());
     }
 
 }

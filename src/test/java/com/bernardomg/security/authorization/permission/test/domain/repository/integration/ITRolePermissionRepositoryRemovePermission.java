@@ -11,7 +11,6 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repo
 import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -59,7 +58,7 @@ class ITRolePermissionRepositoryRemovePermission {
         // THEN
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(ResourcePermissions.create());
+            .isEqualTo(RolePermissions.create());
     }
 
 }
