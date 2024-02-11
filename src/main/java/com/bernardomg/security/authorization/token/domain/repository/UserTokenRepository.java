@@ -38,7 +38,13 @@ import com.bernardomg.security.authorization.token.domain.model.UserToken;
  */
 public interface UserTokenRepository {
 
-    public void deleteAll(final Collection<UserToken> tokens);
+    /**
+     * Deletes all the tokens with the received token codes.
+     *
+     * @param tokens
+     *            token code to delete
+     */
+    public void deleteAll(final Collection<String> tokens);
 
     public Iterable<UserToken> findAll(final Pageable pagination);
 

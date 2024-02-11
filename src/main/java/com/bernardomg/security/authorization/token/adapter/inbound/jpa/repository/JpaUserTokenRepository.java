@@ -71,13 +71,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     @Override
-    public final void deleteAll(final Collection<UserToken> tokens) {
-        final Collection<String> names;
-
-        names = tokens.stream()
-            .map(UserToken::getToken)
-            .toList();
-        userTokenRepository.deleteByTokenIn(names);
+    public final void deleteAll(final Collection<String> tokens) {
+        userTokenRepository.deleteByTokenIn(tokens);
     }
 
     @Override

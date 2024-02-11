@@ -78,6 +78,7 @@ public final class SpringUserTokenService implements UserTokenService {
     @Override
     public final void cleanUpTokens() {
         final Collection<UserToken> tokens;
+        final Collection<String>    tokenCodes;
 
         // Expiration date before now
         // Revoked
@@ -86,7 +87,10 @@ public final class SpringUserTokenService implements UserTokenService {
 
         log.info("Removing {} finished tokens", tokens.size());
 
-        userTokenRepository.deleteAll(tokens);
+        tokenCodes = tokens.stream()
+            .map(UserToken::getToken)
+            .toList();
+        userTokenRepository.deleteAll(tokenCodes);
     }
 
     @Override
