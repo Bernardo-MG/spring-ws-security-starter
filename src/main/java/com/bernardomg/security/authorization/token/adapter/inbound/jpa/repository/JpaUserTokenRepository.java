@@ -110,11 +110,6 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     @Override
-    public final Optional<String> findUsername(final String token, final String scope) {
-        return userTokenRepository.findUsernameByToken(token, scope);
-    }
-
-    @Override
     public final UserToken save(final UserToken token) {
         final Optional<UserDataTokenEntity> existing;
         final Optional<UserEntity>          existingUser;

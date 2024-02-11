@@ -30,7 +30,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
 
@@ -92,15 +91,5 @@ public interface UserTokenSpringRepository extends JpaRepository<UserTokenEntity
      * @return the token for the code and scope
      */
     public Optional<UserTokenEntity> findOneByTokenAndScope(final String token, final String scope);
-
-    /**
-     * Returns the username of the user linked to the token.
-     *
-     * @param token
-     *            token to search for the username
-     * @return username of the token's user
-     */
-    @Query("SELECT u.username FROM User u JOIN UserToken t ON u.id = t.userId WHERE t.token = :token AND t.scope = :scope")
-    public Optional<String> findUsernameByToken(@Param("token") final String token, @Param("scope") final String scope);
 
 }

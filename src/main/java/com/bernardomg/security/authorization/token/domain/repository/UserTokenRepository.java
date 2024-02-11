@@ -46,20 +46,75 @@ public interface UserTokenRepository {
      */
     public void deleteAll(final Collection<String> tokens);
 
+    /**
+     * Returns all the tokens paginated.
+     *
+     * @param pagination
+     *            pagination to apply
+     * @return all the tokens paginated
+     */
     public Iterable<UserToken> findAll(final Pageable pagination);
 
+    /**
+     * Returns all the finished tokens. This means all tokens which are at least one of the following:
+     * <p>
+     * <ul>
+     * <li>Consumed</li>
+     * <li>Revoked</li>
+     * <li>Expired</li>
+     * </ul>
+     *
+     * @return all the finished tokens
+     */
     public Collection<UserToken> findAllFinished();
 
+    /**
+     * Returns all the tokens which are not revoked for a user and scope.
+     *
+     * @param username
+     *            user with the tokens
+     * @param scope
+     *            token scope
+     * @return all the tokens which are not revoked for a user and scope.
+     */
     public Collection<UserToken> findAllNotRevoked(final String username, final String scope);
 
+    /**
+     * Returns the token for the received token code.
+     *
+     * @param token
+     *            token code to search for
+     * @return the token for the received code
+     */
     public Optional<UserToken> findOne(final String token);
 
+    /**
+     * Returns the token for the received token code and scope.
+     *
+     * @param token
+     *            token code to search for
+     * @param scope
+     *            scope to filter by
+     * @return the token for the received code and scope
+     */
     public Optional<UserToken> findOneByScope(final String token, final String scope);
 
-    public Optional<String> findUsername(final String token, final String scope);
-
+    /**
+     * Saves the received token. If it exists it is updated, otherwise it is created.
+     *
+     * @param token
+     *            token to save
+     * @return the saved token
+     */
     public UserToken save(final UserToken token);
 
+    /**
+     * Saves all the received tokens. If they exists they are updated, otherwise they are created.
+     *
+     * @param tokens
+     *            tokens to save
+     * @return the saved tokens
+     */
     public Collection<UserToken> saveAll(final Collection<UserToken> tokens);
 
 }

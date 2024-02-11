@@ -20,6 +20,7 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,8 +49,8 @@ class TestScopedUserTokenStoreGetUsername {
         final String username;
 
         // GIVEN
-        given(userTokenRepository.findUsername(Tokens.TOKEN, Tokens.SCOPE))
-            .willReturn(Optional.of(UserConstants.USERNAME));
+        given(userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.SCOPE))
+            .willReturn(Optional.of(UserTokens.valid()));
 
         // WHEN
         username = store.getUsername(Tokens.TOKEN);
@@ -66,7 +67,7 @@ class TestScopedUserTokenStoreGetUsername {
         final Exception        exception;
 
         // GIVEN
-        given(userTokenRepository.findUsername(Tokens.TOKEN, Tokens.SCOPE)).willReturn(Optional.empty());
+        given(userTokenRepository.findOneByScope(Tokens.TOKEN, Tokens.SCOPE)).willReturn(Optional.empty());
 
         // WHEN
         executable = () -> store.getUsername(Tokens.TOKEN);
