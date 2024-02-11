@@ -72,7 +72,7 @@ public interface RolePermissionRepository {
      *
      * @param role
      *            role to search for the permissions
-     * @param pageable
+     * @param page
      *            pagination to apply
      * @return all the resource permissions for the role
      */

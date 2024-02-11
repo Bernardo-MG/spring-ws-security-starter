@@ -34,7 +34,9 @@ public interface UserRoleRepository {
     /**
      * Deletes the role for the user.
      *
-     * @param name
+     * @param username
+     *            username from with to delete the role
+     * @param role
      *            role to delete
      */
     public void delete(final String username, final String role);

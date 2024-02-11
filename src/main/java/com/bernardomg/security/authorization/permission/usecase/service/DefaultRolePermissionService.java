@@ -43,8 +43,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default role permissions service.
+ * <h2>Validations</h2>
  * <p>
- * <h2>Validations</h2> All relationships are validated, this means verifying that:
+ * All relationships are validated, this means verifying that:
  * <ul>
  * <li>Permission exists</li>
  * <li>Role exists</li>

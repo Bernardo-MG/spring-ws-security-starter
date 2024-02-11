@@ -57,7 +57,6 @@ public interface UserTokenRepository {
 
     /**
      * Returns all the finished tokens. This means all tokens which are at least one of the following states:
-     * <p>
      * <ul>
      * <li>Consumed</li>
      * <li>Revoked</li>

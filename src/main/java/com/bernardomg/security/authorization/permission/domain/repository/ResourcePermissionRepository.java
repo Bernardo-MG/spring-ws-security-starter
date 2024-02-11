@@ -54,7 +54,7 @@ public interface ResourcePermissionRepository {
     /**
      * Saves the received permission. If it exists it is updated, otherwise it is created.
      *
-     * @param action
+     * @param permission
      *            permission to save
      * @return the saved permission
      */

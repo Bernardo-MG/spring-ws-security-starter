@@ -44,7 +44,6 @@ import lombok.extern.slf4j.Slf4j;
  * <h2>Unusable tokens</h2>
  * <p>
  * Cleaning up tokens removes all of these:
- * <p>
  * <ul>
  * <li>Consumed tokens</li>
  * <li>Revoked tokens</li>
