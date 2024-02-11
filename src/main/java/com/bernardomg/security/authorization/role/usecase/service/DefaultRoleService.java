@@ -31,7 +31,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
@@ -115,25 +114,6 @@ public final class DefaultRoleService implements RoleService {
         }
 
         return roleRepository.findOne(role);
-    }
-
-    @Override
-    public final Role update(final String role, final RoleChange data) {
-        final Role    roleData;
-        final boolean exists;
-
-        log.debug("Updating role {} using data {}", role, data);
-
-        exists = roleRepository.exists(role);
-        if (!exists) {
-            throw new MissingRoleNameException(role);
-        }
-
-        roleData = Role.builder()
-            .withName(data.getName())
-            .build();
-
-        return roleRepository.save(roleData);
     }
 
 }

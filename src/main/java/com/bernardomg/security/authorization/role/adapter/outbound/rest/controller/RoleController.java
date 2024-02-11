@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +44,6 @@ import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleCreate;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 
@@ -127,23 +125,6 @@ public class RoleController {
     public Role readOne(@PathVariable("role") final String role) {
         return service.getOne(role)
             .orElse(null);
-    }
-
-    /**
-     * Updates a role.
-     *
-     * @param role
-     *            role name
-     * @param request
-     *            updated role data
-     * @return the updated role
-     */
-    @PutMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
-            evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
-    public Role update(@PathVariable("role") final String role, @Valid @RequestBody final RoleChange request) {
-        return service.update(role, request);
     }
 
 }

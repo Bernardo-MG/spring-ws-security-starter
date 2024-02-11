@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 
 /**
@@ -76,16 +75,5 @@ public interface RoleService {
      * @return an {@code Optional} with the role, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<Role> getOne(final String role);
-
-    /**
-     * Updates the role for the received name with the received data.
-     *
-     * @param role
-     *            name of the role to update
-     * @param data
-     *            new data for the role
-     * @return the updated role
-     */
-    public Role update(final String role, final RoleChange data);
 
 }
