@@ -30,7 +30,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
-import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 
 /**
  * User token repository.
@@ -40,8 +39,6 @@ import com.bernardomg.security.authorization.token.domain.model.request.UserToke
 public interface UserTokenRepository {
 
     public void deleteAll(final Collection<UserToken> tokens);
-
-    public boolean exists(final String token);
 
     public Iterable<UserToken> findAll(final Pageable pagination);
 
@@ -54,8 +51,6 @@ public interface UserTokenRepository {
     public Optional<UserToken> findOneByScope(final String token, final String scope);
 
     public Optional<String> findUsername(final String token, final String scope);
-
-    public UserToken patch(final String token, final UserTokenPartial partial);
 
     public UserToken save(final UserToken token);
 
