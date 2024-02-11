@@ -116,6 +116,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final UserTokenEntity               entity;
         final UserTokenEntity               created;
         final UserDataTokenEntity           data;
+        final UserToken                     result;
 
         log.debug("Saving token {}", token);
 
@@ -137,12 +138,14 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         created = userTokenSpringRepository.save(entity);
         data = userDataTokenSpringRepository.findById(created.getId())
             .get();
-        
-        // TODO: the view is not updating correctly, remove the view and use queries
-        data.setRevoked(created.isRevoked());
-        data.setExpirationDate(created.getExpirationDate());
 
-        return toDomain(data);
+        result = toDomain(data);
+
+        // TODO: the view is not updating correctly, remove the view and use queries
+        result.setRevoked(created.isRevoked());
+        result.setExpirationDate(created.getExpirationDate());
+
+        return result;
     }
 
     @Override
