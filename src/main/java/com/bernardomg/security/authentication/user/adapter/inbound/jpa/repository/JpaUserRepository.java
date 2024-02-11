@@ -51,33 +51,33 @@ public final class JpaUserRepository implements UserRepository {
     /**
      * User repository.
      */
-    private final UserSpringRepository userRepository;
+    private final UserSpringRepository userSpringRepository;
 
-    public JpaUserRepository(final UserSpringRepository userRepo, final PasswordEncoder passEncoder) {
+    public JpaUserRepository(final UserSpringRepository userSpringRepo, final PasswordEncoder passEncoder) {
         super();
 
-        userRepository = userRepo;
+        userSpringRepository = userSpringRepo;
         passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
     public final void delete(final String username) {
-        userRepository.deleteByUsername(username);
+        userSpringRepository.deleteByUsername(username);
     }
 
     @Override
     public final boolean exists(final String username) {
-        return userRepository.existsByUsername(username);
+        return userSpringRepository.existsByUsername(username);
     }
 
     @Override
     public final boolean existsByEmail(final String email) {
-        return userRepository.existsByEmail(email);
+        return userSpringRepository.existsByEmail(email);
     }
 
     @Override
     public final boolean existsEmailForAnotherUser(final String username, final String email) {
-        return userRepository.existsByUsernameNotAndEmail(username, email);
+        return userSpringRepository.existsByUsernameNotAndEmail(username, email);
     }
 
     @Override
@@ -94,25 +94,25 @@ public final class JpaUserRepository implements UserRepository {
                 .toLowerCase());
         }
 
-        return userRepository.findAll(Example.of(entity), page)
+        return userSpringRepository.findAll(Example.of(entity), page)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<User> findOne(final String username) {
-        return userRepository.findOneByUsername(username)
+        return userSpringRepository.findOneByUsername(username)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<User> findOneByEmail(final String email) {
-        return userRepository.findOneByEmail(email)
+        return userSpringRepository.findOneByEmail(email)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<String> findPassword(final String username) {
-        return userRepository.findOneByUsername(username)
+        return userSpringRepository.findOneByUsername(username)
             .map(UserEntity::getPassword);
     }
 
@@ -125,7 +125,7 @@ public final class JpaUserRepository implements UserRepository {
 
         entity = toEntity(user);
 
-        existing = userRepository.findOneByUsername(user.getUsername());
+        existing = userSpringRepository.findOneByUsername(user.getUsername());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -134,7 +134,7 @@ public final class JpaUserRepository implements UserRepository {
         encodedPassword = passwordEncoder.encode(password);
         entity.setPassword(encodedPassword);
 
-        saved = userRepository.save(entity);
+        saved = userSpringRepository.save(entity);
 
         return toDomain(saved);
     }
@@ -148,14 +148,14 @@ public final class JpaUserRepository implements UserRepository {
 
         entity = toEntity(user);
 
-        existing = userRepository.findOneByUsername(user.getUsername());
+        existing = userSpringRepository.findOneByUsername(user.getUsername());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
             entity.setPassword(existing.get()
                 .getPassword());
 
-            saved = userRepository.save(entity);
+            saved = userSpringRepository.save(entity);
             result = toDomain(saved);
         } else {
             result = null;

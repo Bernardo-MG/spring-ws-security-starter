@@ -44,19 +44,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class JpaUserRoleRepository implements UserRoleRepository {
 
-    private final RoleSpringRepository     roleRepository;
+    private final RoleSpringRepository     roleSpringRepository;
 
-    private final UserSpringRepository     userRepository;
+    private final UserRoleSpringRepository userRoleSpringRepository;
 
-    private final UserRoleSpringRepository userRoleRepository;
+    private final UserSpringRepository     userSpringRepository;
 
-    public JpaUserRoleRepository(final UserSpringRepository userRepo, final RoleSpringRepository roleRepo,
-            final UserRoleSpringRepository userRoleRepo) {
+    public JpaUserRoleRepository(final UserSpringRepository userSpringRepo, final RoleSpringRepository roleSpringRepo,
+            final UserRoleSpringRepository userRoleSpringRepo) {
         super();
 
-        userRepository = userRepo;
-        roleRepository = roleRepo;
-        userRoleRepository = userRoleRepo;
+        userSpringRepository = userSpringRepo;
+        roleSpringRepository = roleSpringRepo;
+        userRoleSpringRepository = userRoleSpringRepo;
     }
 
     @Override
@@ -65,8 +65,8 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
         final Optional<RoleEntity> readRole;
         final Optional<UserEntity> readUser;
 
-        readUser = userRepository.findOneByUsername(username);
-        readRole = roleRepository.findOneByName(role);
+        readUser = userSpringRepository.findOneByUsername(username);
+        readRole = roleSpringRepository.findOneByName(role);
 
         if ((readUser.isPresent()) && (readRole.isPresent())) {
             userRole = UserRoleEntity.builder()
@@ -76,7 +76,7 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
                     .getId())
                 .build();
 
-            userRoleRepository.delete(userRole);
+            userRoleSpringRepository.delete(userRole);
         } else {
             if (readUser.isEmpty()) {
                 log.warn("User {} doesn't exist. Can't delete role", username);
@@ -95,14 +95,14 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
 
         // TODO: rename, it is not clear what this method is for
 
-        roleEntity = roleRepository.findOneByName(role);
+        roleEntity = roleSpringRepository.findOneByName(role);
         if (roleEntity.isPresent()) {
             sample = UserRoleEntity.builder()
                 .withRoleId(roleEntity.get()
                     .getId())
                 .build();
 
-            exists = userRoleRepository.exists(Example.of(sample));
+            exists = userRoleSpringRepository.exists(Example.of(sample));
         } else {
             exists = false;
         }
@@ -116,8 +116,8 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
         final Optional<RoleEntity> readRole;
         final Optional<UserEntity> readUser;
 
-        readUser = userRepository.findOneByUsername(username);
-        readRole = roleRepository.findOneByName(role);
+        readUser = userSpringRepository.findOneByUsername(username);
+        readRole = roleSpringRepository.findOneByName(role);
 
         if ((readUser.isPresent()) && (readRole.isPresent())) {
             userRole = UserRoleEntity.builder()
@@ -127,7 +127,7 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
                     .getId())
                 .build();
 
-            userRoleRepository.save(userRole);
+            userRoleSpringRepository.save(userRole);
         } else {
             if (readUser.isEmpty()) {
                 log.warn("User {} doesn't exist. Can't save role", username);

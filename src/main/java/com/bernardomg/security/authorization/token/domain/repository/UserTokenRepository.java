@@ -56,7 +56,7 @@ public interface UserTokenRepository {
     public Iterable<UserToken> findAll(final Pageable pagination);
 
     /**
-     * Returns all the finished tokens. This means all tokens which are at least one of the following:
+     * Returns all the finished tokens. This means all tokens which are at least one of the following states:
      * <p>
      * <ul>
      * <li>Consumed</li>

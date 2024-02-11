@@ -46,10 +46,10 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
      */
     private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
-    public JpaResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionRepo) {
+    public JpaResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
-        resourcePermissionSpringRepository = resourcePermissionRepo;
+        resourcePermissionSpringRepository = resourcePermissionSpringRepo;
     }
 
     @Override

@@ -51,12 +51,12 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
 
     private final UserSpringRepository               userRepository;
 
-    public JpaUserPermissionRepository(final UserSpringRepository userRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo) {
+    public JpaUserPermissionRepository(final UserSpringRepository userSpringRepo,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
-        userRepository = userRepo;
-        resourcePermissionRepository = resourcePermissionRepo;
+        userRepository = userSpringRepo;
+        resourcePermissionRepository = resourcePermissionSpringRepo;
     }
 
     @Override

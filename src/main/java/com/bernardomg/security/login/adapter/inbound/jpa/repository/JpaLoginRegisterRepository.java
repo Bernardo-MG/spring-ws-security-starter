@@ -37,6 +37,9 @@ import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
  */
 public final class JpaLoginRegisterRepository implements LoginRegisterRepository {
 
+    /**
+     * Login register Spring repository.
+     */
     private final LoginRegisterSpringRepository loginRegisterSpringRepository;
 
     public JpaLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterRepository) {

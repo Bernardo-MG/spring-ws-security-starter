@@ -42,10 +42,10 @@ public final class JpaResourceRepository implements ResourceRepository {
 
     private final ResourceSpringRepository resourceSpringRepository;
 
-    public JpaResourceRepository(final ResourceSpringRepository resourceRepo) {
+    public JpaResourceRepository(final ResourceSpringRepository resourceSpringRepo) {
         super();
 
-        resourceSpringRepository = resourceRepo;
+        resourceSpringRepository = resourceSpringRepo;
     }
 
     @Override

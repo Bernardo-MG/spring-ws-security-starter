@@ -43,25 +43,25 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
  */
 public final class JpaRoleRepository implements RoleRepository {
 
-    private final RoleSpringRepository roleRepository;
+    private final RoleSpringRepository roleSpringRepository;
 
-    private final UserSpringRepository userRepository;
+    private final UserSpringRepository userSpringRepository;
 
-    public JpaRoleRepository(final RoleSpringRepository roleRepo, final UserSpringRepository userRepo) {
+    public JpaRoleRepository(final RoleSpringRepository roleSpringRepo, final UserSpringRepository userSpringRepo) {
         super();
 
-        roleRepository = roleRepo;
-        userRepository = userRepo;
+        roleSpringRepository = roleSpringRepo;
+        userSpringRepository = userSpringRepo;
     }
 
     @Override
     public final void delete(final String name) {
-        roleRepository.deleteByName(name);
+        roleSpringRepository.deleteByName(name);
     }
 
     @Override
     public final boolean exists(final String name) {
-        return roleRepository.existsByName(name);
+        return roleSpringRepository.existsByName(name);
     }
 
     @Override
@@ -70,7 +70,7 @@ public final class JpaRoleRepository implements RoleRepository {
 
         sample = toEntity(query);
 
-        return roleRepository.findAll(Example.of(sample), page)
+        return roleSpringRepository.findAll(Example.of(sample), page)
             .map(this::toDomain);
     }
 
@@ -79,9 +79,9 @@ public final class JpaRoleRepository implements RoleRepository {
         final boolean        exists;
         final Iterable<Role> roles;
 
-        exists = userRepository.existsByUsername(username);
+        exists = userSpringRepository.existsByUsername(username);
         if (exists) {
-            roles = roleRepository.findAvailableToUser(username, page)
+            roles = roleSpringRepository.findAvailableToUser(username, page)
                 .map(this::toDomain);
         } else {
             roles = List.of();
@@ -92,13 +92,13 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final Iterable<Role> findForUser(final String username, final Pageable page) {
-        return roleRepository.findForUser(username, page)
+        return roleSpringRepository.findForUser(username, page)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<Role> findOne(final String name) {
-        return roleRepository.findOneByName(name)
+        return roleSpringRepository.findOneByName(name)
             .map(this::toDomain);
     }
 
@@ -110,13 +110,13 @@ public final class JpaRoleRepository implements RoleRepository {
 
         entity = toEntity(role);
 
-        existing = roleRepository.findOneByName(role.getName());
+        existing = roleSpringRepository.findOneByName(role.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
 
-        saved = roleRepository.save(entity);
+        saved = roleSpringRepository.save(entity);
 
         return toDomain(saved);
     }

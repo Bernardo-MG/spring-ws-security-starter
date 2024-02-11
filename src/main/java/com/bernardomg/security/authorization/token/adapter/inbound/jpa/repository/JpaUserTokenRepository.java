@@ -52,38 +52,38 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     /**
      * User data token repository. This queries a view joining user tokens with their users.
      */
-    private final UserDataTokenSpringRepository userDataTokenRepository;
+    private final UserDataTokenSpringRepository userDataTokenSpringRepository;
 
-    private final UserSpringRepository          userRepository;
+    private final UserSpringRepository          userSpringRepository;
 
     /**
      * User token repository.
      */
-    private final UserTokenSpringRepository     userTokenRepository;
+    private final UserTokenSpringRepository     userTokenSpringRepository;
 
-    public JpaUserTokenRepository(final UserTokenSpringRepository userTokenRepo,
-            final UserDataTokenSpringRepository userDataTokenRepo, final UserSpringRepository userRepo) {
+    public JpaUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepo,
+            final UserDataTokenSpringRepository userDataTokenSpringRepo, final UserSpringRepository userSpringRepo) {
         super();
 
-        userTokenRepository = userTokenRepo;
-        userDataTokenRepository = userDataTokenRepo;
-        userRepository = userRepo;
+        userTokenSpringRepository = userTokenSpringRepo;
+        userDataTokenSpringRepository = userDataTokenSpringRepo;
+        userSpringRepository = userSpringRepo;
     }
 
     @Override
     public final void deleteAll(final Collection<String> tokens) {
-        userTokenRepository.deleteByTokenIn(tokens);
+        userTokenSpringRepository.deleteByTokenIn(tokens);
     }
 
     @Override
     public final Iterable<UserToken> findAll(final Pageable pagination) {
-        return userDataTokenRepository.findAll(pagination)
+        return userDataTokenSpringRepository.findAll(pagination)
             .map(this::toDomain);
     }
 
     @Override
     public final Collection<UserToken> findAllFinished() {
-        return userDataTokenRepository.findAllFinished()
+        return userDataTokenSpringRepository.findAllFinished()
             .stream()
             .map(this::toDomain)
             .toList();
@@ -91,7 +91,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Collection<UserToken> findAllNotRevoked(final String username, final String scope) {
-        return userDataTokenRepository.findAllByRevokedFalseAndUsernameAndScope(username, scope)
+        return userDataTokenSpringRepository.findAllByRevokedFalseAndUsernameAndScope(username, scope)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -99,13 +99,13 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Optional<UserToken> findOne(final String token) {
-        return userDataTokenRepository.findOneByToken(token)
+        return userDataTokenSpringRepository.findOneByToken(token)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<UserToken> findOneByScope(final String token, final String scope) {
-        return userDataTokenRepository.findOneByTokenAndScope(token, scope)
+        return userDataTokenSpringRepository.findOneByTokenAndScope(token, scope)
             .map(this::toDomain);
     }
 
@@ -121,21 +121,21 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         entity = toSimpleEntity(token);
 
-        existing = userDataTokenRepository.findByToken(token.getToken());
+        existing = userDataTokenSpringRepository.findByToken(token.getToken());
         // TODO: Else exception
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
-        existingUser = userRepository.findOneByUsername(token.getUsername());
+        existingUser = userSpringRepository.findOneByUsername(token.getUsername());
         // TODO: Else exception
         if (existingUser.isPresent()) {
             entity.setUserId(existingUser.get()
                 .getId());
         }
 
-        created = userTokenRepository.save(entity);
-        data = userDataTokenRepository.findById(created.getId())
+        created = userTokenSpringRepository.save(entity);
+        data = userDataTokenSpringRepository.findById(created.getId())
             .get();
 
         return toDomain(data);
@@ -161,7 +161,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             .map(UserToken::getToken)
             .distinct()
             .toList();
-        existing = userTokenRepository.findAllByTokenIn(tokenCodes);
+        existing = userTokenSpringRepository.findAllByTokenIn(tokenCodes);
         existingByToken = existing.stream()
             .collect(Collectors.toMap(UserTokenEntity::getToken, Function.identity()));
 
@@ -174,12 +174,12 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
                 t.setId(found.getId());
             });
 
-        saved = userTokenRepository.saveAll(toSave);
+        saved = userTokenSpringRepository.saveAll(toSave);
         savedIds = saved.stream()
             .map(UserTokenEntity::getId)
             .toList();
 
-        return userDataTokenRepository.findAllById(savedIds)
+        return userDataTokenSpringRepository.findAllById(savedIds)
             .stream()
             .map(this::toDomain)
             .toList();
@@ -213,7 +213,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Optional<UserEntity> user;
         final Long                 userId;
 
-        user = userRepository.findOneByUsername(dataToken.getUsername());
+        user = userSpringRepository.findOneByUsername(dataToken.getUsername());
         userId = user.map(UserEntity::getId)
             .orElse(null);
         return UserTokenEntity.builder()

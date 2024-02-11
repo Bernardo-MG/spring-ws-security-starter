@@ -42,10 +42,10 @@ public final class JpaActionRepository implements ActionRepository {
 
     private final ActionSpringRepository actionSpringRepository;
 
-    public JpaActionRepository(final ActionSpringRepository actionRepo) {
+    public JpaActionRepository(final ActionSpringRepository actionSpringRepo) {
         super();
 
-        actionSpringRepository = actionRepo;
+        actionSpringRepository = actionSpringRepo;
     }
 
     @Override

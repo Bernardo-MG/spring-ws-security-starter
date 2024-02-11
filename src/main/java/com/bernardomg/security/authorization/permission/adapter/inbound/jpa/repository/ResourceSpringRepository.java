@@ -38,8 +38,22 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
  */
 public interface ResourceSpringRepository extends JpaRepository<ResourceEntity, Long> {
 
+    /**
+     * Checks if a resource exists for the received name.
+     *
+     * @param name
+     *            resource name
+     * @return {@code true} if the resource exists, {@code false} otherwise
+     */
     public boolean existsByName(final String name);
 
+    /**
+     * Returns the resource for the received name.
+     *
+     * @param name
+     *            name of the resource to search for
+     * @return the resource for the received name
+     */
     public Optional<ResourceEntity> findByName(final String name);
 
 }

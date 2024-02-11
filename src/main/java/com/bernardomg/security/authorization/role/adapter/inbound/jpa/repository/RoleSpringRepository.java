@@ -42,9 +42,12 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.Role
  */
 public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
 
-    @Query("SELECT COUNT(r) FROM Role r JOIN UserRole ur ON r.id = ur.roleId JOIN User u ON ur.userId = u.id WHERE u.username = :username")
-    public int countForUser(@Param("username") final String username);
-
+    /**
+     * Deletes the role with the received name.
+     *
+     * @param name
+     *            name of the role to delete
+     */
     public void deleteByName(final String name);
 
     /**
