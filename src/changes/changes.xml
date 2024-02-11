@@ -90,7 +90,10 @@
             Moving closer to clean architecture.
          </action>
       </release>
-      <release version="1.0.0" date="2024-02-04" description="">
+      <release version="0.2.1" date="2024-02-11" description="Cleaned up repositories">
+         <action dev="bmg" type="update">
+            Cleaned up repositories.
+         </action>
       </release>
    </body>
 </document>
