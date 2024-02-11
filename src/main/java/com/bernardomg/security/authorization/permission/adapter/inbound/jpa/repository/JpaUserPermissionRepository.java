@@ -25,11 +25,14 @@
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,66 +42,46 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
-public final class JpaResourcePermissionRepository implements ResourcePermissionRepository {
+public final class JpaUserPermissionRepository implements UserPermissionRepository {
 
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
-    public JpaResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
+    private final UserSpringRepository               userRepository;
+
+    public JpaUserPermissionRepository(final UserSpringRepository userSpringRepo,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
-        resourcePermissionSpringRepository = resourcePermissionSpringRepo;
+        userRepository = userSpringRepo;
+        resourcePermissionRepository = resourcePermissionSpringRepo;
     }
 
     @Override
-    public final boolean exists(final String name) {
-        log.debug("Checking if resource permission {} exists", name);
+    public final Collection<ResourcePermission> findAll(final String username) {
+        final Optional<UserEntity>           user;
+        final Collection<ResourcePermission> permissions;
 
-        return resourcePermissionSpringRepository.existsByName(name);
-    }
-
-    @Override
-    public final Collection<ResourcePermission> findAll() {
-        return resourcePermissionSpringRepository.findAll()
-            .stream()
-            .map(this::toDomain)
-            .distinct()
-            .toList();
-    }
-
-    @Override
-    public final ResourcePermission save(final ResourcePermission permission) {
-        final Optional<ResourcePermissionEntity> existing;
-        final ResourcePermissionEntity           entity;
-        final ResourcePermissionEntity           created;
-
-        log.debug("Saving resource permission {}", permission);
-
-        entity = toEntity(permission);
-
-        existing = resourcePermissionSpringRepository.findByName(permission.getName());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
+        user = userRepository.findOneByUsername(username);
+        if (user.isPresent()) {
+            permissions = resourcePermissionRepository.findAllForUser(user.get()
+                .getId())
+                .stream()
+                .map(this::toDomain)
+                .distinct()
+                .toList();
+        } else {
+            log.warn("User {} doesn't exist. Cant find its permissions");
+            permissions = List.of();
         }
 
-        created = resourcePermissionSpringRepository.save(entity);
-
-        return toDomain(created);
+        return permissions;
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
-            .withName(entity.getName())
-            .withResource(entity.getResource())
-            .withAction(entity.getAction())
-            .build();
-    }
-
-    private final ResourcePermissionEntity toEntity(final ResourcePermission entity) {
-        return ResourcePermissionEntity.builder()
             .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())

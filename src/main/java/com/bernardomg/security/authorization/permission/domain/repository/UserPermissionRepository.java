@@ -22,38 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
+package com.bernardomg.security.authorization.permission.domain.repository;
 
-import java.util.Optional;
+import java.util.Collection;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 
 /**
- * Action repository based on Spring Data repositories.
+ * User permissions repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long> {
+public interface UserPermissionRepository {
 
     /**
-     * Checks if an action exists with the given name.
+     * Returns all the resource permissions for a user.
      *
-     * @param name
-     *            name of the action to check
-     * @return {@code true} if the action exists, {@code false} otherwise
+     * @param username
+     *            user to search for the permissions
+     * @return all the resource permissions for the user
      */
-    public boolean existsByName(final String name);
-
-    /**
-     * Finds the action with the given name.
-     *
-     * @param name
-     *            name of the action to find
-     * @return an {@code Optional} with the action if it exists, or an empty {@code Optional} otherwise
-     */
-    public Optional<ActionEntity> findByName(final String name);
+    public Collection<ResourcePermission> findAll(final String username);
 
 }

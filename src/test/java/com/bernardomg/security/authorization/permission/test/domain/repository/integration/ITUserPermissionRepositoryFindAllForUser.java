@@ -8,19 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourcePermissionRepository - find all for user")
-class ITResourcePermissionRepositoryFindAllForUser {
+@DisplayName("UserPermissionRepository - find all")
+class ITUserPermissionRepositoryFindAllForUser {
 
     @Autowired
-    private ResourcePermissionRepository repository;
+    private UserPermissionRepository repository;
 
-    public ITResourcePermissionRepositoryFindAllForUser() {
+    public ITUserPermissionRepositoryFindAllForUser() {
         super();
     }
 
@@ -30,7 +30,7 @@ class ITResourcePermissionRepositoryFindAllForUser {
         final Iterable<ResourcePermission> permissions;
 
         // WHEN
-        permissions = repository.findAllForUser(UserConstants.USERNAME);
+        permissions = repository.findAll(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -45,7 +45,7 @@ class ITResourcePermissionRepositoryFindAllForUser {
         final Iterable<ResourcePermission> permissions;
 
         // WHEN
-        permissions = repository.findAllForUser(UserConstants.USERNAME);
+        permissions = repository.findAll(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(permissions)

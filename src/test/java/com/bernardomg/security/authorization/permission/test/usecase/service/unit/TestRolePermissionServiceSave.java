@@ -14,11 +14,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionNameException;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissions;
 import com.bernardomg.security.authorization.permission.usecase.service.DefaultRolePermissionService;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
@@ -27,7 +26,7 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Role permission service - add permission")
-class TestRolePermissionServiceAddPermission {
+class TestRolePermissionServiceSave {
 
     @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
@@ -80,26 +79,23 @@ class TestRolePermissionServiceAddPermission {
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.addPermission(RolePermissions.create()))
-            .willReturn(ResourcePermissions.create());
 
         // WHEN
         service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
 
         // THEN
-        verify(resourcePermissionRepository).addPermission(RolePermissions.create());
+        verify(rolePermissionRepository).save(RolePermissions.create());
     }
 
     @Test
     @DisplayName("Returns the created permission")
     void testAddPermission_ReturnedData() {
-        final ResourcePermission permission;
+        final RolePermission permission;
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.addPermission(RolePermissions.create()))
-            .willReturn(ResourcePermissions.create());
+        given(rolePermissionRepository.save(RolePermissions.create())).willReturn(RolePermissions.create());
 
         // WHEN
         permission = service.addPermission(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
@@ -107,7 +103,7 @@ class TestRolePermissionServiceAddPermission {
         // THEN
         Assertions.assertThat(permission)
             .as("permission")
-            .isEqualTo(ResourcePermissions.create());
+            .isEqualTo(RolePermissions.create());
     }
 
 }

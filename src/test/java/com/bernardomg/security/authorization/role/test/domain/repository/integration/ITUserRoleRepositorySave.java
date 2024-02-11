@@ -37,7 +37,7 @@ class ITUserRoleRepositorySave {
     @Test
     @DisplayName("Adding a role which the user already has adds nothing")
     @UserWithPermission
-    void testAddRoles_AddExisting() {
+    void testSave_AddExisting() {
         final List<UserRoleEntity> roles;
 
         // WHEN
@@ -54,7 +54,7 @@ class ITUserRoleRepositorySave {
     @DisplayName("Adding a new role when the user already has one persists it")
     @UserWithPermission
     @AlternativeRole
-    void testAddRoles_AddNew_CallBack() {
+    void testSave_AddNew_CallBack() {
         final List<UserRoleEntity> roles;
 
         // WHEN

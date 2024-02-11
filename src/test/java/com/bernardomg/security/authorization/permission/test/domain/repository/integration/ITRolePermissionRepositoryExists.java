@@ -36,6 +36,20 @@ class ITRolePermissionRepositoryExists {
     }
 
     @Test
+    @DisplayName("An not existing permission is identified as not existing")
+    void testExists_NoData() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(RoleConstants.NAME, PermissionConstants.DATA_CREATE);
+
+        // THEN
+        Assertions.assertThat(exists)
+            .as("exists")
+            .isFalse();
+    }
+
+    @Test
     @DisplayName("An not granted permission is identified as not existing")
     @RoleWithPermissionNotGranted
     void testExists_NotGranted() {

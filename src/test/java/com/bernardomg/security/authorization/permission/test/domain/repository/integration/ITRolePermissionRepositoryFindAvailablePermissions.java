@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeRoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeRoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
@@ -21,13 +21,13 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourcePermissionRepository - find available permissions")
-class ITResourcePermissionRepositoryFindAvailablePermissions {
+@DisplayName("RolePermissionRepository - find available permissions")
+class ITRolePermissionRepositoryFindAvailablePermissions {
 
     @Autowired
-    private ResourcePermissionRepository repository;
+    private RolePermissionRepository repository;
 
-    public ITResourcePermissionRepositoryFindAvailablePermissions() {
+    public ITRolePermissionRepositoryFindAvailablePermissions() {
         super();
     }
 

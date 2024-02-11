@@ -13,6 +13,7 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.U
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -48,6 +49,7 @@ class ITRoleRepositoryFindForUser {
     @Test
     @DisplayName("When the user has no roles, no role is returned")
     @UserWithoutRole
+    @SingleRole
     void testFindForUser_NoRoles() {
         final Iterable<Role> roles;
         final Pageable       pageable;
@@ -66,6 +68,7 @@ class ITRoleRepositoryFindForUser {
     @Test
     @DisplayName("When the user has no roles, and there is another with roles, no role is returned")
     @UserWithoutRole
+    @SingleRole
     @AlternativeUserWithCrudPermissions
     void testFindForUser_NoRoles_Alternative() {
         final Iterable<Role> roles;

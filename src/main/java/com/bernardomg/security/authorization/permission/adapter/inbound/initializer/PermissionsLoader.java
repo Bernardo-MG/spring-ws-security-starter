@@ -44,12 +44,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class PermissionsLoader {
 
+    /**
+     * Actions repository.
+     */
     private final ActionRepository               actionRepository;
 
-    private final Collection<PermissionRegister> permissions;
+    /**
+     * Permissions to load.
+     */
+    private final Collection<PermissionRegister> permissionRegisters;
 
+    /**
+     * Resource permissions repository.
+     */
     private final ResourcePermissionRepository   resourcePermissionRepository;
 
+    /**
+     * Resource repository.
+     */
     private final ResourceRepository             resourceRepository;
 
     public PermissionsLoader(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
@@ -59,7 +71,7 @@ public final class PermissionsLoader {
         actionRepository = Objects.requireNonNull(actionRepo);
         resourceRepository = Objects.requireNonNull(resourceRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
-        permissions = Objects.requireNonNull(perms);
+        permissionRegisters = Objects.requireNonNull(perms);
     }
 
     /**
@@ -70,7 +82,7 @@ public final class PermissionsLoader {
 
         // Load actions
         log.debug("Saving actions");
-        permissions.stream()
+        permissionRegisters.stream()
             .map(PermissionRegister::getActions)
             .flatMap(Collection::stream)
             .forEach(this::saveAction);
@@ -78,7 +90,7 @@ public final class PermissionsLoader {
 
         // Load resources
         log.debug("Saving resources");
-        permissions.stream()
+        permissionRegisters.stream()
             .map(PermissionRegister::getResources)
             .flatMap(Collection::stream)
             .forEach(this::saveResource);
@@ -86,7 +98,7 @@ public final class PermissionsLoader {
 
         // Load permissions
         log.debug("Saving permissions");
-        permissions.stream()
+        permissionRegisters.stream()
             .map(PermissionRegister::getPermissions)
             .flatMap(Collection::stream)
             .forEach(this::savePermission);
