@@ -123,6 +123,7 @@ public final class PermissionsLoader {
         final ResourcePermission resourcePermission;
         final String             name;
 
+        // TODO: the model should handle this
         resourcePermission = ResourcePermission.builder()
             .withName(pair.getAction() + ":" + pair.getResource())
             .withAction(pair.getAction())

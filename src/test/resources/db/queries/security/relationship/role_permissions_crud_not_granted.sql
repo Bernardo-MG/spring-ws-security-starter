@@ -1,5 +1,5 @@
 INSERT INTO security.role_permissions (role_id, permission, granted) VALUES
-   (1, 'DATA:CREATE', false),
-   (1, 'DATA:READ', false),
-   (1, 'DATA:UPDATE', false),
-   (1, 'DATA:DELETE', false);
+   (1, 'CREATE:DATA', false),
+   (1, 'READ:DATA', false),
+   (1, 'UPDATE:DATA', false),
+   (1, 'DELETE:DATA', false);
