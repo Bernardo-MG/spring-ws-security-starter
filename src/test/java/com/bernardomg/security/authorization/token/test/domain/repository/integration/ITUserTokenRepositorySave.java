@@ -29,14 +29,14 @@ class ITUserTokenRepositorySave {
     private UserTokenSpringRepository userTokenSpringRepository;
 
     @Test
-    @DisplayName("Persists an existing token")
+    @DisplayName("Updates an existing token")
     @OnlyUser
     @ValidUserToken
     void testSave_Existing_Persisted() {
         final List<UserTokenEntity> tokens;
 
         // WHEN
-        userTokenRepository.save(UserTokens.valid());
+        userTokenRepository.save(UserTokens.revoked());
 
         // THEN
         tokens = userTokenSpringRepository.findAll();
@@ -44,7 +44,23 @@ class ITUserTokenRepositorySave {
         Assertions.assertThat(tokens)
             .as("tokens")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(UserTokenEntities.valid());
+            .containsExactly(UserTokenEntities.revoked());
+    }
+
+    @Test
+    @DisplayName("Returns the existing token when it is persisted")
+    @OnlyUser
+    @ValidUserToken
+    void testSave_Existing_Returned() {
+        final UserToken token;
+
+        // WHEN
+        token = userTokenRepository.save(UserTokens.revoked());
+
+        // THEN
+        Assertions.assertThat(token)
+            .as("token")
+            .isEqualTo(UserTokens.revoked());
     }
 
     @Test

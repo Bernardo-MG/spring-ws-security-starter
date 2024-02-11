@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.RevokedUserToken;
@@ -52,6 +54,42 @@ class TestSpringUserTokenServicePatch {
 
         // THEN
         verify(userTokenRepository, atLeastOnce()).save(UserTokens.valid());
+    }
+
+    @Test
+    @DisplayName("Patching returns the updated token")
+    void testPatch_Empty_Returned() {
+        final UserTokenPartial request;
+        final UserToken        token;
+
+        // GIVEN
+        request = UserTokenPartials.empty();
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
+        given(userTokenRepository.save(UserTokens.valid())).willReturn(UserTokens.valid());
+
+        // WHEN
+        token = service.patch(Tokens.TOKEN, request);
+
+        // THEN
+        Assertions.assertThat(token)
+            .as("token")
+            .isEqualTo(UserTokens.valid());
+    }
+
+    @Test
+    @DisplayName("Patching the expiration date sends the user token to the repository")
+    void testPatch_ExpirationDate_Persisted() {
+        final UserTokenPartial request;
+
+        // GIVEN
+        request = UserTokenPartials.expirationDate();
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
+
+        // WHEN
+        service.patch(Tokens.TOKEN, request);
+
+        // THEN
+        verify(userTokenRepository, atLeastOnce()).save(UserTokens.future());
     }
 
     @Test
@@ -99,6 +137,22 @@ class TestSpringUserTokenServicePatch {
         failure = FieldFailure.of("revoked.invalidValue", "revoked", "invalidValue", false);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("Patching the revoke flag sends the user token to the repository")
+    void testPatch_Revoke_Persisted() {
+        final UserTokenPartial request;
+
+        // GIVEN
+        request = UserTokenPartials.revoked();
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.revoked()));
+
+        // WHEN
+        service.patch(Tokens.TOKEN, request);
+
+        // THEN
+        verify(userTokenRepository, atLeastOnce()).save(UserTokens.revoked());
     }
 
 }

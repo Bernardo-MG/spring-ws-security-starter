@@ -12,7 +12,7 @@ public final class UserTokenPartials {
 
     public static final UserTokenPartial expirationDate() {
         return UserTokenPartial.builder()
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
+            .withExpirationDate(UserTokenConstants.DATE_MORE_FUTURE)
             .build();
     }
 

@@ -137,6 +137,10 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         created = userTokenSpringRepository.save(entity);
         data = userDataTokenSpringRepository.findById(created.getId())
             .get();
+        
+        // TODO: the view is not updating correctly, remove the view and use queries
+        data.setRevoked(created.isRevoked());
+        data.setExpirationDate(created.getExpirationDate());
 
         return toDomain(data);
     }

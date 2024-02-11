@@ -46,6 +46,19 @@ public final class UserTokens {
             .build();
     }
 
+    public static final UserToken future() {
+        return UserToken.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.NAME)
+            .withScope(Tokens.SCOPE)
+            .withToken(Tokens.TOKEN)
+            .withCreationDate(UserTokenConstants.DATE)
+            .withExpirationDate(UserTokenConstants.DATE_MORE_FUTURE)
+            .withConsumed(false)
+            .withRevoked(false)
+            .build();
+    }
+
     public static final UserToken outOfScope() {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)
