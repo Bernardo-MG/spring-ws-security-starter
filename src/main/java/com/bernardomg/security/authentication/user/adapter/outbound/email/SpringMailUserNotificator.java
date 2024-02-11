@@ -47,14 +47,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class SpringMailUserNotificator implements UserNotificator {
 
+    /**
+     * Email for the from field.
+     */
     private final String               fromEmail;
 
+    /**
+     * Mail sender. This will do the actual sending.
+     */
     private final JavaMailSender       mailSender;
 
+    /**
+     * Template engine to generate the email content.
+     */
     private final SpringTemplateEngine templateEngine;
 
+    /**
+     * Subject when the user is registered.
+     */
     private final String               userRegisteredSubject = "User registered";
 
+    /**
+     * URL for the registered user email, to activate the user.
+     */
     private final String               userRegisteredUrl;
 
     public SpringMailUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,

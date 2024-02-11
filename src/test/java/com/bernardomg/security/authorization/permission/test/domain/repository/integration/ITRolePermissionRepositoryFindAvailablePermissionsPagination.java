@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
@@ -18,13 +18,13 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourcePermissionRepository - find available permissions - pagination")
+@DisplayName("RolePermissionRepository - find available permissions - pagination")
 @CrudPermissions
 @SingleRole
-class ITResourcePermissionRepositoryFindAvailablePermissionsPagination {
+class ITRolePermissionRepositoryFindAvailablePermissionsPagination {
 
     @Autowired
-    private ResourcePermissionRepository repository;
+    private RolePermissionRepository repository;
 
     @Test
     @DisplayName("Returns the page entities")

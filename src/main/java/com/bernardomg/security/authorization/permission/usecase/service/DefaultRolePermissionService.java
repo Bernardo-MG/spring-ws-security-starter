@@ -43,8 +43,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default role permissions service.
+ * <h2>Validations</h2>
  * <p>
- * <h2>Validations</h2> All relationships are validated, this means verifying that:
+ * All relationships are validated, this means verifying that:
  * <ul>
  * <li>Permission exists</li>
  * <li>Role exists</li>
@@ -83,7 +84,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final ResourcePermission addPermission(final String role, final String permission) {
+    public final RolePermission addPermission(final String role, final String permission) {
         final boolean        roleExists;
         final boolean        permissionExists;
         final RolePermission rolePermission;
@@ -104,7 +105,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .withPermission(permission)
             .withRole(role)
             .build();
-        return resourcePermissionRepository.addPermission(rolePermission);
+        return rolePermissionRepository.save(rolePermission);
     }
 
     @Override
@@ -118,7 +119,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleNameException(role);
         }
 
-        return resourcePermissionRepository.findAvailablePermissions(role, pageable);
+        return rolePermissionRepository.findAvailablePermissions(role, pageable);
     }
 
     @Override
@@ -132,11 +133,11 @@ public final class DefaultRolePermissionService implements RolePermissionService
             throw new MissingRoleNameException(role);
         }
 
-        return resourcePermissionRepository.findPermissionsForRole(role, page);
+        return rolePermissionRepository.findPermissions(role, page);
     }
 
     @Override
-    public final ResourcePermission removePermission(final String role, final String permission) {
+    public final RolePermission removePermission(final String role, final String permission) {
         final boolean        rolePermissionExists;
         final boolean        permissionExists;
         final Optional<Role> readRole;
@@ -165,7 +166,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
             .withPermission(permission)
             .withRole(role)
             .build();
-        return resourcePermissionRepository.removePermission(rolePermission);
+        return rolePermissionRepository.delete(rolePermission);
     }
 
 }

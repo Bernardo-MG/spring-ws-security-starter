@@ -40,7 +40,6 @@ class TestSpringUserTokenServiceGetOne {
         // GIVEN
         existing = Optional.of(UserTokens.valid());
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(existing);
-        given(userTokenRepository.exists(Tokens.TOKEN)).willReturn(true);
 
         // WHEN
         token = service.getOne(Tokens.TOKEN);
@@ -57,7 +56,7 @@ class TestSpringUserTokenServiceGetOne {
         final ThrowingCallable executable;
 
         // GIVEN
-        given(userTokenRepository.exists(Tokens.TOKEN)).willReturn(false);
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.empty());
 
         executable = () -> service.getOne(Tokens.TOKEN);
 

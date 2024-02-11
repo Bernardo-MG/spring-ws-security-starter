@@ -14,6 +14,7 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.U
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.AlternativeRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -31,6 +32,7 @@ class ITRoleRepositoryFindAvailableToUser {
     @Test
     @DisplayName("When the user has no roles the role is returned")
     @UserWithoutRole
+    @SingleRole
     void testFindAvailableToUser() {
         final Iterable<Role> roles;
         final Pageable       pageable;
@@ -61,6 +63,7 @@ class ITRoleRepositoryFindAvailableToUser {
     @Test
     @DisplayName("When the user has no roles, and there is another user with all the roles, the role is returned")
     @UserWithoutRole
+    @SingleRole
     @AlternativeUserWithCrudPermissions
     void testFindAvailableToUser_Alternative() {
         final Iterable<Role> roles;
@@ -75,7 +78,7 @@ class ITRoleRepositoryFindAvailableToUser {
     }
 
     @Test
-    @DisplayName("Returns no available roles when a user has all the roles")
+    @DisplayName("Returns the available roles")
     @UserWithPermission
     @AlternativeRole
     void testFindAvailableToUser_Assigned() {
@@ -93,6 +96,21 @@ class ITRoleRepositoryFindAvailableToUser {
     @Test
     @DisplayName("Returns no available roles for a not existing user")
     void testFindAvailableToUser_NotExisting() {
+        final Iterable<Role> roles;
+        final Pageable       pageable;
+
+        pageable = Pageable.unpaged();
+
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+
+        Assertions.assertThat(roles)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exist nothing is returned")
+    @SingleRole
+    void testFindAvailableToUser_NoUser() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 

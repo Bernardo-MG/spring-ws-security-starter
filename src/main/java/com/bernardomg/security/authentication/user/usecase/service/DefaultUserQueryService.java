@@ -103,18 +103,36 @@ public final class DefaultUserQueryService implements UserQueryService {
 
     @Override
     public final User update(final String username, final UserChange user) {
-        final boolean exists;
+        final Optional<User> existing;
+        final User           toSave;
 
         log.debug("Updating user {} using data {}", username, user);
 
-        exists = userRepository.exists(username);
-        if (!exists) {
+        existing = userRepository.findOne(username);
+        if (existing.isEmpty()) {
             throw new MissingUserUsernameException(username);
         }
 
         validatorUpdateUser.validate(user);
 
-        return userRepository.save(username, user);
+        toSave = User.builder()
+            .withUsername(existing.get()
+                .getUsername())
+            // TODO: should be handled by the model
+            .withName(user.getName()
+                .trim())
+            // TODO: should be handled by the model
+            .withEmail(user.getEmail()
+                .trim())
+            .withEnabled(user.getEnabled())
+            .withExpired(existing.get()
+                .isExpired())
+            .withLocked(existing.get()
+                .isLocked())
+            .withPasswordExpired(user.getPasswordExpired())
+            .build();
+
+        return userRepository.update(toSave);
     }
 
 }

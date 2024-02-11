@@ -31,15 +31,29 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
 
 /**
- * Action repository.
+ * Action repository based on Spring Data repositories.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long> {
 
+    /**
+     * Checks if an action exists with the given name.
+     *
+     * @param name
+     *            name of the action to check
+     * @return {@code true} if the action exists, {@code false} otherwise
+     */
     public boolean existsByName(final String name);
 
+    /**
+     * Finds the action with the given name.
+     *
+     * @param name
+     *            name of the action to find
+     * @return an {@code Optional} with the action if it exists, or an empty {@code Optional} otherwise
+     */
     public Optional<ActionEntity> findByName(final String name);
 
 }

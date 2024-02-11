@@ -42,7 +42,7 @@ class TestRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("When there are permissions for the role they are returned")
-    void testGetAvailablePermissions() {
+    void testGetPermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
         final Iterable<ResourcePermission> existing;
@@ -53,7 +53,7 @@ class TestRolePermissionServiceGetPermissions {
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         existing = List.of(ResourcePermissions.read());
-        given(resourcePermissionRepository.findPermissionsForRole(RoleConstants.NAME, pageable)).willReturn(existing);
+        given(rolePermissionRepository.findPermissions(RoleConstants.NAME, pageable)).willReturn(existing);
 
         // WHEN
         permissions = service.getPermissions(RoleConstants.NAME, pageable);
@@ -66,7 +66,7 @@ class TestRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("When there are no permissions for the role nothing is returned")
-    void testGetAvailablePermissions_NoData() {
+    void testGetPermissions_NoData() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
         final Iterable<ResourcePermission> existing;
@@ -77,7 +77,7 @@ class TestRolePermissionServiceGetPermissions {
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         existing = List.of();
-        given(resourcePermissionRepository.findPermissionsForRole(RoleConstants.NAME, pageable)).willReturn(existing);
+        given(rolePermissionRepository.findPermissions(RoleConstants.NAME, pageable)).willReturn(existing);
 
         // WHEN
         permissions = service.getPermissions(RoleConstants.NAME, pageable);
@@ -90,7 +90,7 @@ class TestRolePermissionServiceGetPermissions {
 
     @Test
     @DisplayName("Throws an exception when the role doesn't exist")
-    void testGetAvailablePermissions_NoRole() {
+    void testGetPermissions_NoRole() {
         final Pageable         pageable;
         final ThrowingCallable executable;
 

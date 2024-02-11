@@ -151,7 +151,8 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     public final String getUsername(final String token) {
         final Optional<String> username;
 
-        username = userTokenRepository.findUsername(token, tokenScope);
+        username = userTokenRepository.findOneByScope(token, tokenScope)
+            .map(UserToken::getUsername);
 
         if (username.isEmpty()) {
             throw new MissingUserTokenCodeException(token);

@@ -87,17 +87,8 @@ public final class DefaultUserRoleService implements UserRoleService {
 
     @Override
     public final Iterable<Role> getAvailableRoles(final String username, final Pageable pageable) {
-        final long           count;
-        final Iterable<Role> roles;
-
-        count = roleRepository.countForUser(username);
-        if (count == 0) {
-            roles = roleRepository.findAll(pageable);
-        } else {
-            roles = roleRepository.findAvailableToUser(username, pageable);
-        }
-
-        return roles;
+        // TODO: Check if user exists
+        return roleRepository.findAvailableToUser(username, pageable);
     }
 
     @Override
