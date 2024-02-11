@@ -31,12 +31,15 @@ import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 
 /**
- * JPA login registers repository.
+ * Login register repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 public final class JpaLoginRegisterRepository implements LoginRegisterRepository {
 
+    /**
+     * Login register Spring repository.
+     */
     private final LoginRegisterSpringRepository loginRegisterSpringRepository;
 
     public JpaLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterRepository) {

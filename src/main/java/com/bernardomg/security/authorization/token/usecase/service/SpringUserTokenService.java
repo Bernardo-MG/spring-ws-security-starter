@@ -44,7 +44,6 @@ import lombok.extern.slf4j.Slf4j;
  * <h2>Unusable tokens</h2>
  * <p>
  * Cleaning up tokens removes all of these:
- * <p>
  * <ul>
  * <li>Consumed tokens</li>
  * <li>Revoked tokens</li>
@@ -78,6 +77,7 @@ public final class SpringUserTokenService implements UserTokenService {
     @Override
     public final void cleanUpTokens() {
         final Collection<UserToken> tokens;
+        final Collection<String>    tokenCodes;
 
         // Expiration date before now
         // Revoked
@@ -86,7 +86,10 @@ public final class SpringUserTokenService implements UserTokenService {
 
         log.info("Removing {} finished tokens", tokens.size());
 
-        userTokenRepository.deleteAll(tokens);
+        tokenCodes = tokens.stream()
+            .map(UserToken::getToken)
+            .toList();
+        userTokenRepository.deleteAll(tokenCodes);
     }
 
     @Override
@@ -96,32 +99,42 @@ public final class SpringUserTokenService implements UserTokenService {
 
     @Override
     public final Optional<UserToken> getOne(final String token) {
-        final boolean exists;
+        final Optional<UserToken> userToken;
 
         log.debug("Reading token {}", token);
 
-        exists = userTokenRepository.exists(token);
-        if (!exists) {
+        userToken = userTokenRepository.findOne(token);
+        if (userToken.isEmpty()) {
             throw new MissingUserTokenCodeException(token);
         }
 
-        return userTokenRepository.findOne(token);
+        return userToken;
     }
 
     @Override
     public final UserToken patch(final String token, final UserTokenPartial partial) {
-        final boolean exists;
+        final Optional<UserToken> readToken;
+        final UserToken           toSave;
 
         log.debug("Patching token {}", token);
 
-        exists = userTokenRepository.exists(token);
-        if (!exists) {
+        readToken = userTokenRepository.findOne(token);
+        if (readToken.isEmpty()) {
             throw new MissingUserTokenCodeException(token);
         }
 
         validatorPatch.validate(partial);
 
-        return userTokenRepository.patch(token, partial);
+        toSave = readToken.get();
+
+        if (partial.getExpirationDate() != null) {
+            toSave.setExpirationDate(partial.getExpirationDate());
+        }
+        if (partial.getRevoked() != null) {
+            toSave.setRevoked(partial.getRevoked());
+        }
+
+        return userTokenRepository.save(toSave);
     }
 
 }

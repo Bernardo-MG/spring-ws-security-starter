@@ -25,12 +25,9 @@
 package com.bernardomg.security.authorization.permission.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.adapter.outbound.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
 
 import lombok.AllArgsConstructor;
@@ -74,41 +71,9 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public ResourcePermission add(@PathVariable("role") final String role,
+    public RolePermission add(@PathVariable("role") final String role,
             @PathVariable("permission") final String permission) {
         return service.addPermission(role, permission);
-    }
-
-    /**
-     * Returns all the permissions for a role in a paginated form.
-     *
-     * @param role
-     *            role name
-     * @param page
-     *            pagination to apply
-     * @return a page with the permissions for the role
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = PermissionCaches.ROLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAll(@PathVariable("role") final String role, final Pageable page) {
-        return service.getPermissions(role, page);
-    }
-
-    /**
-     * Returns all the permissions available to a role. That is, those which haven't been assigned to the role.
-     *
-     * @param role
-     *            role name
-     * @param page
-     *            pagination to apply
-     * @return a page with the available permissions
-     */
-    @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = PermissionCaches.ROLE_AVAILABLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAvailable(@PathVariable("role") final String role, final Pageable page) {
-        return service.getAvailablePermissions(role, page);
     }
 
     /**
@@ -124,7 +89,7 @@ public class RolePermissionController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @CacheEvict(cacheNames = { PermissionCaches.PERMISSION_SET, PermissionCaches.ROLE_PERMISSIONS,
             PermissionCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true)
-    public ResourcePermission remove(@PathVariable("role") final String role,
+    public RolePermission remove(@PathVariable("role") final String role,
             @PathVariable("permission") final String permission) {
         return service.removePermission(role, permission);
     }

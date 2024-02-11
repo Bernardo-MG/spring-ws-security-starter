@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
@@ -42,7 +43,7 @@ class TestSpringUserTokenServiceCleanUp {
         service.cleanUpTokens();
 
         // THEN
-        verify(userTokenRepository).deleteAll(existing);
+        verify(userTokenRepository).deleteAll(List.of(Tokens.TOKEN));
     }
 
 }

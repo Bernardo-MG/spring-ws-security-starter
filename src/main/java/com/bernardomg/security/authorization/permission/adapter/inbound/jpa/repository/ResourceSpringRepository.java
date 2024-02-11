@@ -31,15 +31,29 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourceEntity;
 
 /**
- * Resource repository.
+ * Resource repository based on Spring Data repositories.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 public interface ResourceSpringRepository extends JpaRepository<ResourceEntity, Long> {
 
+    /**
+     * Checks if a resource exists for the received name.
+     *
+     * @param name
+     *            resource name
+     * @return {@code true} if the resource exists, {@code false} otherwise
+     */
     public boolean existsByName(final String name);
 
+    /**
+     * Returns the resource for the received name.
+     *
+     * @param name
+     *            name of the resource to search for
+     * @return the resource for the received name
+     */
     public Optional<ResourceEntity> findByName(final String name);
 
 }

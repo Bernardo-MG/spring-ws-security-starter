@@ -7,7 +7,7 @@ public final class ResourcePermissionEntities {
 
     public static final ResourcePermissionEntity create() {
         return ResourcePermissionEntity.builder()
-            .withName(PermissionConstants.DATA + ":" + PermissionConstants.CREATE)
+            .withName(PermissionConstants.DATA_CREATE)
             .withResource(PermissionConstants.DATA)
             .withAction(PermissionConstants.CREATE)
             .build();

@@ -53,7 +53,7 @@ class TestRolePermissionServiceGetAvailablePermissions {
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         existing = List.of(ResourcePermissions.read());
-        given(resourcePermissionRepository.findAvailablePermissions(RoleConstants.NAME, pageable)).willReturn(existing);
+        given(rolePermissionRepository.findAvailablePermissions(RoleConstants.NAME, pageable)).willReturn(existing);
 
         // WHEN
         permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);
@@ -77,7 +77,7 @@ class TestRolePermissionServiceGetAvailablePermissions {
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         existing = List.of();
-        given(resourcePermissionRepository.findAvailablePermissions(RoleConstants.NAME, pageable)).willReturn(existing);
+        given(rolePermissionRepository.findAvailablePermissions(RoleConstants.NAME, pageable)).willReturn(existing);
 
         // WHEN
         permissions = service.getAvailablePermissions(RoleConstants.NAME, pageable);

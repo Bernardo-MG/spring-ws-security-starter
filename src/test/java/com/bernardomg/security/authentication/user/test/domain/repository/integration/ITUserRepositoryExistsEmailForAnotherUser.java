@@ -50,7 +50,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
     @DisplayName("When there is another user with the email it exists")
     @ValidUser
     @AlternativeUser
-    void testExists_AnotherUser() {
+    void testExistsEmailForAnotherUser_AnotherUser() {
         final boolean exists;
 
         // WHEN
@@ -64,7 +64,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
 
     @Test
     @DisplayName("When there is no data the email doesn't exist")
-    void testExists_NoData() {
+    void testExistsEmailForAnotherUser_NoData() {
         final boolean exists;
 
         // WHEN
@@ -79,7 +79,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
     @Test
     @DisplayName("When the user exists and there is not another user the email doesn't exist")
     @ValidUser
-    void testExists_SingleUser() {
+    void testExistsEmailForAnotherUser_SingleUser() {
         final boolean exists;
 
         // WHEN

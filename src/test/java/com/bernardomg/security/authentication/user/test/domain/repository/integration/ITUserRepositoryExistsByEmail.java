@@ -48,7 +48,7 @@ class ITUserRepositoryExistsByEmail {
     @Test
     @DisplayName("When the user exists it is returned as existing")
     @ValidUser
-    void testExists() {
+    void testExistsByEmail() {
         final boolean exists;
 
         // WHEN
@@ -62,7 +62,7 @@ class ITUserRepositoryExistsByEmail {
 
     @Test
     @DisplayName("When there is no data it is returned as not existing")
-    void testExists_NoData() {
+    void testExistsByEmail_NoData() {
         final boolean exists;
 
         // WHEN

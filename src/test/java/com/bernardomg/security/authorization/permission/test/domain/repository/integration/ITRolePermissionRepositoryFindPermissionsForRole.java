@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissionsNotGranted;
@@ -19,20 +19,20 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleConsta
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourcePermissionRepository - find permissions for role")
-class ITResourcePermissionRepositoryFindPermissionsForRole {
+@DisplayName("RolePermissionRepository - find permissions")
+class ITRolePermissionRepositoryFindPermissionsForRole {
 
     @Autowired
-    private ResourcePermissionRepository repository;
+    private RolePermissionRepository repository;
 
-    public ITResourcePermissionRepositoryFindPermissionsForRole() {
+    public ITRolePermissionRepositoryFindPermissionsForRole() {
         super();
     }
 
     @Test
     @DisplayName("Returns all the data for a role's permission")
     @RoleWithPermission
-    void testFindPermissionsForRole() {
+    void testFindPermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -40,7 +40,7 @@ class ITResourcePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -51,7 +51,7 @@ class ITResourcePermissionRepositoryFindPermissionsForRole {
     @Test
     @DisplayName("Returns the permissions for a role with multiple permissions")
     @RoleWithCrudPermissions
-    void testFindPermissionsForRole_multiple() {
+    void testFindPermissions_multiple() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -59,7 +59,7 @@ class ITResourcePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -72,7 +72,7 @@ class ITResourcePermissionRepositoryFindPermissionsForRole {
     @DisplayName("When the role has no permissions nothing is returned")
     @CrudPermissions
     @SingleRole
-    void testFindPermissionsForRole_NoPermissions() {
+    void testFindPermissions_NoPermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -80,7 +80,7 @@ class ITResourcePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -91,7 +91,7 @@ class ITResourcePermissionRepositoryFindPermissionsForRole {
     @Test
     @DisplayName("When there are no permissions are granted nothing is returned")
     @RoleWithCrudPermissionsNotGranted
-    void testFindPermissionsForRole_NotGranted() {
+    void testFindPermissions_NotGranted() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
 
@@ -99,7 +99,7 @@ class ITResourcePermissionRepositoryFindPermissionsForRole {
         pageable = Pageable.unpaged();
 
         // WHEN
-        permissions = repository.findPermissionsForRole(RoleConstants.NAME, pageable);
+        permissions = repository.findPermissions(RoleConstants.NAME, pageable);
 
         // THEN
         Assertions.assertThat(permissions)

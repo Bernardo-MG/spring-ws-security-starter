@@ -13,12 +13,14 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("RoleRepository - find available to user - pagination")
 @UserWithoutRole
+@SingleRole
 class ITRoleRepositoryFindAvailableToUserPagination {
 
     @Autowired
