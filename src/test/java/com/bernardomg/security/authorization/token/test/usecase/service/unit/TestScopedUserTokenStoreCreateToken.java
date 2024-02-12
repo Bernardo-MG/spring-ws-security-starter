@@ -84,9 +84,9 @@ class TestScopedUserTokenStoreCreateToken {
                 .isEqualTo(Tokens.SCOPE);
             softly.assertThat(token.getToken())
                 .isNotNull();
-            softly.assertThat(token.isConsumed())
+            softly.assertThat(token.getConsumed())
                 .isFalse();
-            softly.assertThat(token.isRevoked())
+            softly.assertThat(token.getRevoked())
                 .isFalse();
 
             softly.assertThat(token.getCreationDate())

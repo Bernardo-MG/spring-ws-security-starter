@@ -36,8 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.authorization.token.adapter.outbound.rest.controller.model.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
-import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
 
 import lombok.AllArgsConstructor;
@@ -63,7 +63,7 @@ public class UserTokenController {
     /**
      * Applies a partial change into a user token.
      *
-     * @param token
+     * @param tokenCode
      *            token for the user token to patch
      * @param request
      *            partial change to apply
@@ -71,8 +71,15 @@ public class UserTokenController {
      */
     @PatchMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
-    public UserToken patch(@PathVariable("token") final String token, @RequestBody final UserTokenPartial request) {
-        return service.patch(token, request);
+    public UserToken patch(@PathVariable("token") final String tokenCode, @RequestBody final UserTokenPartial request) {
+        final UserToken token;
+
+        token = UserToken.builder()
+            .withToken(tokenCode)
+            .withExpirationDate(request.getExpirationDate())
+            .withRevoked(request.getRevoked())
+            .build();
+        return service.patch(token);
     }
 
     /**

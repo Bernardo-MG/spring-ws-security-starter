@@ -20,6 +20,33 @@ public final class UserTokens {
             .build();
     }
 
+    public static final UserToken changeExpirationDateYesterday() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
+            .withExpirationDate(UserTokenConstants.DATE_YESTERDAY)
+            .build();
+    }
+
+    public static final UserToken changeFuture() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
+            .withExpirationDate(UserTokenConstants.DATE_MORE_FUTURE)
+            .build();
+    }
+
+    public static final UserToken changeNothing() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
+            .build();
+    }
+
+    public static final UserToken changeNotRevoked() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
+            .withRevoked(false)
+            .build();
+    }
+
     public static final UserToken consumed() {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)

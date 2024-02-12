@@ -22,8 +22,36 @@
  * SOFTWARE.
  */
 
-/**
- * Token request model.
- */
+package com.bernardomg.security.authorization.token.adapter.outbound.rest.controller.model;
 
-package com.bernardomg.security.authorization.token.domain.model.request;
+import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Partial user token. All the fields are expected to be nullable, as this allows knowing which one will actually
+ * change.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class UserTokenPartial {
+
+    /**
+     * The date at which the token will expire
+     */
+    private LocalDateTime expirationDate;
+
+    /**
+     * Indicates if the token is revoked.
+     */
+    private Boolean       revoked;
+
+}

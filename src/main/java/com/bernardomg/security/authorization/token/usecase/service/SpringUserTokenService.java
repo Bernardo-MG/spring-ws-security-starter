@@ -32,7 +32,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
-import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.validation.PatchUserTokenValidator;
 import com.bernardomg.validation.Validator;
@@ -59,12 +58,12 @@ public final class SpringUserTokenService implements UserTokenService {
     /**
      * User token repository.
      */
-    private final UserTokenRepository         userTokenRepository;
+    private final UserTokenRepository  userTokenRepository;
 
     /**
      * Patch validator.
      */
-    private final Validator<UserTokenPartial> validatorPatch;
+    private final Validator<UserToken> validatorPatch;
 
     public SpringUserTokenService(final UserTokenRepository userTokenRepo) {
         super();
@@ -112,26 +111,26 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final UserToken patch(final String token, final UserTokenPartial partial) {
+    public final UserToken patch(final UserToken token) {
         final Optional<UserToken> readToken;
         final UserToken           toSave;
 
-        log.debug("Patching token {}", token);
+        log.debug("Patching token {}", token.getToken());
 
-        readToken = userTokenRepository.findOne(token);
+        readToken = userTokenRepository.findOne(token.getToken());
         if (readToken.isEmpty()) {
-            throw new MissingUserTokenCodeException(token);
+            throw new MissingUserTokenCodeException(token.getToken());
         }
 
-        validatorPatch.validate(partial);
+        validatorPatch.validate(token);
 
         toSave = readToken.get();
 
-        if (partial.getExpirationDate() != null) {
-            toSave.setExpirationDate(partial.getExpirationDate());
+        if (token.getExpirationDate() != null) {
+            toSave.setExpirationDate(token.getExpirationDate());
         }
-        if (partial.getRevoked() != null) {
-            toSave.setRevoked(partial.getRevoked());
+        if (token.getRevoked() != null) {
+            toSave.setRevoked(token.getRevoked());
         }
 
         return userTokenRepository.save(toSave);

@@ -211,8 +211,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             .withScope(dataToken.getScope())
             .withCreationDate(dataToken.getCreationDate())
             .withExpirationDate(dataToken.getExpirationDate())
-            .withConsumed(dataToken.isConsumed())
-            .withRevoked(dataToken.isRevoked())
+            .withConsumed(dataToken.getConsumed())
+            .withRevoked(dataToken.getRevoked())
             .build();
     }
 
@@ -229,8 +229,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             .withScope(dataToken.getScope())
             .withCreationDate(dataToken.getCreationDate())
             .withExpirationDate(dataToken.getExpirationDate())
-            .withConsumed(dataToken.isConsumed())
-            .withRevoked(dataToken.isRevoked())
+            .withConsumed(dataToken.getConsumed())
+            .withRevoked(dataToken.getRevoked())
             .build();
     }
 

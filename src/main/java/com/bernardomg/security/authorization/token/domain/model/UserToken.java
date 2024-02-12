@@ -44,7 +44,7 @@ public final class UserToken {
     /**
      * Token consumed flag.
      */
-    private boolean       consumed;
+    private Boolean       consumed;
 
     /**
      * Token creation date.
@@ -66,7 +66,7 @@ public final class UserToken {
     /**
      * Token revoked flag.
      */
-    private boolean       revoked;
+    private Boolean       revoked;
 
     /**
      * Token scope.
