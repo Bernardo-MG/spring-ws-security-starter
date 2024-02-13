@@ -31,7 +31,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.validation.UpdateUserValidator;
@@ -51,12 +50,12 @@ public final class DefaultUserQueryService implements UserQueryService {
     /**
      * User repository.
      */
-    private final UserRepository        userRepository;
+    private final UserRepository  userRepository;
 
     /**
      * Update user validator.
      */
-    private final Validator<UserChange> validatorUpdateUser;
+    private final Validator<User> validatorUpdateUser;
 
     public DefaultUserQueryService(final UserRepository userRepo) {
         super();
@@ -102,15 +101,15 @@ public final class DefaultUserQueryService implements UserQueryService {
     }
 
     @Override
-    public final User update(final String username, final UserChange user) {
+    public final User update(final User user) {
         final Optional<User> existing;
         final User           toSave;
 
-        log.debug("Updating user {} using data {}", username, user);
+        log.debug("Updating user {} using data {}", user.getUsername(), user);
 
-        existing = userRepository.findOne(username);
+        existing = userRepository.findOne(user.getUsername());
         if (existing.isEmpty()) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserUsernameException(user.getUsername());
         }
 
         validatorUpdateUser.validate(user);
@@ -124,12 +123,12 @@ public final class DefaultUserQueryService implements UserQueryService {
             // TODO: should be handled by the model
             .withEmail(user.getEmail()
                 .trim())
-            .withEnabled(user.getEnabled())
+            .withEnabled(user.isEnabled())
             .withExpired(existing.get()
                 .isExpired())
             .withLocked(existing.get()
                 .isLocked())
-            .withPasswordExpired(user.getPasswordExpired())
+            .withPasswordExpired(user.isPasswordExpired())
             .build();
 
         return userRepository.update(toSave);

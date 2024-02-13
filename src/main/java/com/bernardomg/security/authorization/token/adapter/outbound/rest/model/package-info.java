@@ -26,4 +26,4 @@
  * REST controller model.
  */
 
-package com.bernardomg.security.authorization.token.adapter.outbound.rest.controller.model;
+package com.bernardomg.security.authorization.token.adapter.outbound.rest.model;

@@ -22,18 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.adapter.outbound.rest.controller.model;
+package com.bernardomg.security.authentication.user.adapter.outbound.rest.model;
 
-import java.time.LocalDateTime;
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Partial user token. All the fields are expected to be nullable, as this allows knowing which one will actually
- * change.
+ * Data which can be changed for a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -42,16 +41,37 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class UserTokenPartial {
+public final class UserChange {
 
     /**
-     * The date at which the token will expire
+     * User email.
      */
-    private LocalDateTime expirationDate;
+    @NotNull
+    @Email
+    private String  email;
 
     /**
-     * Indicates if the token is revoked.
+     * User enabled flag.
      */
-    private Boolean       revoked;
+    @NotNull
+    private Boolean enabled;
+
+    /**
+     * User name.
+     */
+    @NotNull
+    private String  name;
+
+    /**
+     * Password expired flag.
+     */
+    @NotNull
+    private Boolean passwordExpired;
+
+    /**
+     * User username.
+     */
+    @NotNull
+    private String  username;
 
 }

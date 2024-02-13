@@ -45,8 +45,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.NewUser;
+import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
@@ -153,7 +153,17 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User update(@PathVariable("username") final String username, @Valid @RequestBody final UserChange request) {
-        return userQueryService.update(username, request);
+        final User user;
+
+        user = User.builder()
+            .withUsername(request.getUsername())
+            .withName(request.getName())
+            .withEmail(request.getEmail())
+            .withEnabled(request.getEnabled())
+            .withPasswordExpired(request.getPasswordExpired())
+            .build();
+
+        return userQueryService.update(user);
     }
 
 }

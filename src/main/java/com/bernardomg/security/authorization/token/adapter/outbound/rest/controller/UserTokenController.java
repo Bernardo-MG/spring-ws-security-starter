@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.token.adapter.outbound.rest.controller.model.UserTokenPartial;
+import com.bernardomg.security.authorization.token.adapter.outbound.rest.model.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
 

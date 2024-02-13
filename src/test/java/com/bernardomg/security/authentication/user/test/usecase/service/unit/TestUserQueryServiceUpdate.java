@@ -40,9 +40,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.UserChanges;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
@@ -68,17 +66,14 @@ class TestUserQueryServiceUpdate {
     void testUpdate_ExistingMail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
-        final UserChange       data;
 
         // GIVEN
-        data = UserChanges.emailChange();
-
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userRepository.existsEmailForAnotherUser(ArgumentMatchers.eq(UserConstants.USERNAME),
             ArgumentMatchers.anyString())).willReturn(true);
 
         // WHEN
-        executable = () -> service.update(UserConstants.USERNAME, data);
+        executable = () -> service.update(Users.emailChange());
 
         // THEN
         failure = FieldFailure.of("email.existing", "email", "existing", UserConstants.ALTERNATIVE_EMAIL);
@@ -89,15 +84,12 @@ class TestUserQueryServiceUpdate {
     @Test
     @DisplayName("Sends the user to the repository")
     void testUpdate_PersistedData() {
-        final UserChange user;
 
         // GIVEN
-        user = UserChanges.emailChange();
-
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
-        service.update(UserConstants.USERNAME, user);
+        service.update(Users.emailChange());
 
         // THEN
         verify(userRepository).update(Users.emailChange());
@@ -106,17 +98,14 @@ class TestUserQueryServiceUpdate {
     @Test
     @DisplayName("Returns the created user")
     void testUpdate_ReturnedData() {
-        final UserChange user;
-        final User       result;
+        final User result;
 
         // GIVEN
-        user = UserChanges.emailChange();
-
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userRepository.update(Users.emailChange())).willReturn(Users.emailChange());
 
         // WHEN
-        result = service.update(UserConstants.USERNAME, user);
+        result = service.update(Users.emailChange());
 
         // THEN
         Assertions.assertThat(result)
