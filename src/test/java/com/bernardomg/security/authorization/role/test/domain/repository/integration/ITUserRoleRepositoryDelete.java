@@ -26,7 +26,18 @@ class ITUserRoleRepositoryDelete {
     @Test
     @DisplayName("Removes the entity when removing a role")
     @UserWithPermission
-    void testRemoveRole_RemovesEntity() {
+    void testDelete() {
+        // WHEN
+        repository.delete(UserConstants.USERNAME, RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(userRoleRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("Where there is no data, nothing is removed")
+    void testDelete_NoData() {
         // WHEN
         repository.delete(UserConstants.USERNAME, RoleConstants.NAME);
 

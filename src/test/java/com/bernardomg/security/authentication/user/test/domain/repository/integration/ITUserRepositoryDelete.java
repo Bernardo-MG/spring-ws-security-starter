@@ -56,6 +56,18 @@ class ITUserRepositoryDelete {
     }
 
     @Test
+    @DisplayName("Removes an entity when deleting")
+    @OnlyUser
+    void testDelete() {
+        // WHEN
+        userRepository.delete(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(userSpringRepository.count())
+            .isZero();
+    }
+
+    @Test
     @DisplayName("Does not remove roles when deleting")
     @ValidUser
     void testDelete_DoesNotRemoveRelations() {
@@ -72,9 +84,8 @@ class ITUserRepositoryDelete {
     }
 
     @Test
-    @DisplayName("Removes an entity when deleting")
-    @OnlyUser
-    void testDelete_RemovesEntity() {
+    @DisplayName("When there is no data, nothing is removed")
+    void testDelete_NoData() {
         // WHEN
         userRepository.delete(UserConstants.USERNAME);
 

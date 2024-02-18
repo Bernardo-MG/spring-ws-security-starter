@@ -63,6 +63,17 @@ class ITRoleRepositoryDelete {
     }
 
     @Test
+    @DisplayName("When there is no data, nothing is removed")
+    void testDelete_NoData() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
     @DisplayName("Deletes a role with permissions")
     @RoleWithPermission
     void testDelete_WithPermissions() {
