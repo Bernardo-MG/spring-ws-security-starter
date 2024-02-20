@@ -123,20 +123,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final Iterable<ResourcePermission> getPermissions(final String role, final Pageable page) {
-        final boolean roleExists;
-
-        log.debug("Reading permissions for {}", role);
-
-        roleExists = roleRepository.exists(role);
-        if (!roleExists) {
-            throw new MissingRoleNameException(role);
-        }
-
-        return rolePermissionRepository.findPermissions(role, page);
-    }
-
-    @Override
     public final RolePermission removePermission(final String role, final String permission) {
         final boolean        rolePermissionExists;
         final boolean        permissionExists;

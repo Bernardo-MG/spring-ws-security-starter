@@ -61,18 +61,6 @@ public interface RolePermissionService {
     public Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable page);
 
     /**
-     * Returns all permissions assigned to a role.
-     *
-     * @param role
-     *            role name
-     * @param page
-     *            pagination to apply
-     * @return role permissions
-     */
-    @Deprecated
-    public Iterable<ResourcePermission> getPermissions(final String role, final Pageable page);
-
-    /**
      * Removes a permission from a role.
      *
      * @param role

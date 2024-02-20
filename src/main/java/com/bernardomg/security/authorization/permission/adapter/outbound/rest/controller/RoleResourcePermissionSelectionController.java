@@ -59,22 +59,6 @@ public class RoleResourcePermissionSelectionController {
     private final RolePermissionService service;
 
     /**
-     * Returns all the permissions for a role in a paginated form.
-     *
-     * @param role
-     *            role name
-     * @param page
-     *            pagination to apply
-     * @return a page with the permissions for the role
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = PermissionCaches.ROLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAll(@PathVariable("role") final String role, final Pageable page) {
-        return service.getPermissions(role, page);
-    }
-
-    /**
      * Returns all the permissions available to a role. That is, those which haven't been assigned to the role.
      *
      * @param role
