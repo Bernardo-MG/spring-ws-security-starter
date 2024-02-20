@@ -8,6 +8,7 @@ public final class RolePermissionEntities {
     public static final RolePermissionEntity create() {
         return RolePermissionEntity.builder()
             .withPermission(PermissionConstants.DATA_CREATE)
+            .withResourcePermission(ResourcePermissionEntities.create())
             .withRoleId(1L)
             .withGranted(true)
             .build();
@@ -16,6 +17,7 @@ public final class RolePermissionEntities {
     public static final RolePermissionEntity delete() {
         return RolePermissionEntity.builder()
             .withPermission(PermissionConstants.DATA_DELETE)
+            .withResourcePermission(ResourcePermissionEntities.delete())
             .withRoleId(1L)
             .withGranted(true)
             .build();
@@ -24,6 +26,7 @@ public final class RolePermissionEntities {
     public static final RolePermissionEntity granted() {
         return RolePermissionEntity.builder()
             .withPermission(PermissionConstants.DATA_CREATE)
+            .withResourcePermission(ResourcePermissionEntities.create())
             .withRoleId(1L)
             .withGranted(true)
             .build();
@@ -32,6 +35,7 @@ public final class RolePermissionEntities {
     public static final RolePermissionEntity notGranted() {
         return RolePermissionEntity.builder()
             .withPermission(PermissionConstants.DATA_CREATE)
+            .withResourcePermission(ResourcePermissionEntities.create())
             .withRoleId(1L)
             .withGranted(false)
             .build();
@@ -40,6 +44,7 @@ public final class RolePermissionEntities {
     public static final RolePermissionEntity read() {
         return RolePermissionEntity.builder()
             .withPermission(PermissionConstants.DATA_READ)
+            .withResourcePermission(ResourcePermissionEntities.read())
             .withRoleId(1L)
             .withGranted(true)
             .build();
@@ -48,6 +53,7 @@ public final class RolePermissionEntities {
     public static final RolePermissionEntity update() {
         return RolePermissionEntity.builder()
             .withPermission(PermissionConstants.DATA_UPDATE)
+            .withResourcePermission(ResourcePermissionEntities.update())
             .withRoleId(1L)
             .withGranted(true)
             .build();

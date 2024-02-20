@@ -22,7 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.domain.model.request;
+package com.bernardomg.security.authorization.role.adapter.outbound.rest.model;
+
+import java.util.Collection;
+
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -43,6 +47,6 @@ import lombok.NoArgsConstructor;
 public class RoleChange {
 
     @NotNull
-    private String name;
+    private Collection<ResourcePermission> permissions;
 
 }

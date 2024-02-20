@@ -43,9 +43,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.cache.RoleCaches;
+import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleChange;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleCreate;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 
@@ -142,8 +142,15 @@ public class RoleController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
-    public Role update(@PathVariable("role") final String role, @Valid @RequestBody final RoleChange request) {
-        return service.update(role, request);
+    public Role update(@PathVariable("role") final String roleName, @Valid @RequestBody final RoleChange request) {
+        final Role role;
+
+        role = Role.builder()
+            .withName(roleName)
+            .withPermissions(request.getPermissions())
+            .build();
+
+        return service.update(role);
     }
 
 }

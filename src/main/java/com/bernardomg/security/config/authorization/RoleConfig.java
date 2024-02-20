@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
@@ -58,8 +59,10 @@ public class RoleConfig {
     }
 
     @Bean("RoleRepository")
-    public RoleRepository getRoleRepository(final RoleSpringRepository roleRepo, final UserSpringRepository userRepo) {
-        return new JpaRoleRepository(roleRepo, userRepo);
+    public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepo,
+            final UserSpringRepository userSpringRepo,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
+        return new JpaRoleRepository(roleSpringRepo, userSpringRepo, resourcePermissionSpringRepo);
     }
 
     @Bean("roleService")

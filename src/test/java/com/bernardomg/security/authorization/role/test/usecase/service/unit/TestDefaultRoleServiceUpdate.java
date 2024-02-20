@@ -39,11 +39,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
-import com.bernardomg.security.authorization.role.test.config.factory.RolesUpdate;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,12 +62,15 @@ class TestDefaultRoleServiceUpdate {
     @DisplayName("When the role doesn't exists an exception is thrown")
     void testUpdate_NotExistingRole() {
         final ThrowingCallable execution;
+        final Role             data;
 
         // GIVEN
+        data = Roles.valid();
+
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(RoleConstants.NAME, RolesUpdate.valid());
+        execution = () -> service.update(data);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -79,15 +80,15 @@ class TestDefaultRoleServiceUpdate {
     @Test
     @DisplayName("Sends the role to the repository")
     void testUpdate_PersistedData() {
-        final RoleChange data;
+        final Role data;
 
         // GIVEN
-        data = RolesUpdate.valid();
+        data = Roles.valid();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
-        service.update(RoleConstants.NAME, data);
+        service.update(data);
 
         // THEN
         verify(roleRepository).save(Roles.valid());
@@ -96,17 +97,17 @@ class TestDefaultRoleServiceUpdate {
     @Test
     @DisplayName("Returns the updated data")
     void testUpdate_ReturnedData() {
-        final RoleChange data;
-        final Role       role;
+        final Role data;
+        final Role role;
 
         // GIVEN
-        data = RolesUpdate.valid();
+        data = Roles.valid();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
 
         // WHEN
-        role = service.update(RoleConstants.NAME, data);
+        role = service.update(data);
 
         // THEN
         Assertions.assertThat(role)

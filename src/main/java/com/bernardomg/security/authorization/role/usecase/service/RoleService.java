@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 
 /**
@@ -81,11 +80,9 @@ public interface RoleService {
      * Updates the role for the received name with the received data.
      *
      * @param role
-     *            name of the role to update
-     * @param data
-     *            new data for the role
+     *            role to update
      * @return the updated role
      */
-    public Role update(final String role, final RoleChange data);
+    public Role update(final Role role);
 
 }
