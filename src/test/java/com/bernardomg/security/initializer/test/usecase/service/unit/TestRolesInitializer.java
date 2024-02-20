@@ -51,16 +51,6 @@ class TestRolesInitializer {
     }
 
     @Test
-    @DisplayName("Sets permissions to roles")
-    void testInitialize_Permissions() {
-        // WHEN
-        rolesInitializerService.initialize();
-
-        // THEN
-        verify(rolePermissionRepository, atLeastOnce()).save(ArgumentMatchers.any());
-    }
-
-    @Test
     @DisplayName("Creates roles")
     void testInitialize_Roles() {
         // WHEN

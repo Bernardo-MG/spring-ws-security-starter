@@ -31,7 +31,6 @@ import org.springframework.context.annotation.DependsOn;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.initializer.adapter.inbound.RolesInitializer;
@@ -64,8 +63,8 @@ public class SecurityInitializerConfig {
     @Bean(name = "rolesInitializerService")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public RolesInitializerService getRolesInitializerService(final ResourcePermissionRepository permissionRepo,
-            final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo) {
-        return new DefaultRolesInitializerService(permissionRepo, roleRepo, rolePermissionRepo);
+            final RoleRepository roleRepo) {
+        return new DefaultRolesInitializerService(permissionRepo, roleRepo);
     }
 
     @Bean(name = "usersInitializer", initMethod = "initialize")

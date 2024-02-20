@@ -29,7 +29,6 @@ import java.io.Serializable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -68,19 +67,8 @@ public class RolePermissionEntity implements Serializable {
     /**
      * Permission.
      */
-    @Id
-    @Column(name = "permission", nullable = false)
-    private String                   permission;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "permission", referencedColumnName = "name")
     private ResourcePermissionEntity resourcePermission;
-
-    /**
-     * Role id.
-     */
-    @Id
-    @Column(name = "role_id", nullable = false)
-    private Long                     roleId;
 
 }

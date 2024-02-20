@@ -123,9 +123,6 @@ public final class JpaRoleRepository implements RoleRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
-            entity.getPermissions()
-                .forEach(p -> p.setRoleId(existing.get()
-                    .getId()));
         }
 
         saved = roleSpringRepository.save(entity);
@@ -169,7 +166,6 @@ public final class JpaRoleRepository implements RoleRepository {
 
         return RolePermissionEntity.builder()
             .withGranted(true)
-            .withPermission(entity.getName())
             .withResourcePermission(resourceEntity)
             .build();
     }

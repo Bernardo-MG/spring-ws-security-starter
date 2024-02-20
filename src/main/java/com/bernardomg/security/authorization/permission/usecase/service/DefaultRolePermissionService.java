@@ -25,18 +25,13 @@
 package com.bernardomg.security.authorization.permission.usecase.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionNameException;
-import com.bernardomg.security.authorization.permission.domain.exception.MissingRolePermissionIdException;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
-import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,31 +79,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final RolePermission addPermission(final String role, final String permission) {
-        final boolean        roleExists;
-        final boolean        permissionExists;
-        final RolePermission rolePermission;
-
-        log.debug("Adding permission {} for role {}", permission, role);
-
-        roleExists = roleRepository.exists(role);
-        if (!roleExists) {
-            throw new MissingRoleException(role);
-        }
-
-        permissionExists = resourcePermissionRepository.exists(permission);
-        if (!permissionExists) {
-            throw new MissingResourcePermissionNameException(permission);
-        }
-
-        rolePermission = RolePermission.builder()
-            .withPermission(permission)
-            .withRole(role)
-            .build();
-        return rolePermissionRepository.save(rolePermission);
-    }
-
-    @Override
     public final Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable pageable) {
         final boolean roleExists;
 
@@ -120,39 +90,6 @@ public final class DefaultRolePermissionService implements RolePermissionService
         }
 
         return rolePermissionRepository.findAvailablePermissions(role, pageable);
-    }
-
-    @Override
-    public final RolePermission removePermission(final String role, final String permission) {
-        final boolean        rolePermissionExists;
-        final boolean        permissionExists;
-        final Optional<Role> readRole;
-        final RolePermission rolePermission;
-
-        log.debug("Removing permission {} for role {}", permission, role);
-
-        readRole = roleRepository.findOne(role);
-        if (readRole.isEmpty()) {
-            throw new MissingRoleException(role);
-        }
-
-        permissionExists = resourcePermissionRepository.exists(permission);
-        if (!permissionExists) {
-            throw new MissingResourcePermissionNameException(permission);
-        }
-
-        rolePermissionExists = rolePermissionRepository.exists(readRole.get()
-            .getName(), permission);
-        if (!rolePermissionExists) {
-            throw new MissingRolePermissionIdException(readRole.get()
-                .getName() + permission);
-        }
-
-        rolePermission = RolePermission.builder()
-            .withPermission(permission)
-            .withRole(role)
-            .build();
-        return rolePermissionRepository.delete(rolePermission);
     }
 
 }

@@ -27,7 +27,6 @@ package com.bernardomg.security.authorization.permission.usecase.service;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 
 /**
  * Role permissions service.
@@ -36,18 +35,6 @@ import com.bernardomg.security.authorization.permission.domain.model.RolePermiss
  *
  */
 public interface RolePermissionService {
-
-    /**
-     * Adds a permission to a role.
-     *
-     * @param role
-     *            role name
-     * @param permission
-     *            permission to add
-     * @return the added permission
-     */
-    @Deprecated
-    public RolePermission addPermission(final String role, final String permission);
 
     /**
      * Returns all permissions available to a role in a paginated form.
@@ -59,17 +46,5 @@ public interface RolePermissionService {
      * @return permissions the role doesn't have
      */
     public Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable page);
-
-    /**
-     * Removes a permission from a role.
-     *
-     * @param role
-     *            role name
-     * @param permission
-     *            permission to remove
-     * @return the removed permission
-     */
-    @Deprecated
-    public RolePermission removePermission(final String role, final String permission);
 
 }
