@@ -5,10 +5,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -18,80 +19,20 @@ import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("RoleRepository - find all by sample - pagination")
-@SingleRole
-class ITRoleRepositoryFindAllBySamplePagination {
+@DisplayName("RoleRepository - find all")
+class ITRoleRepositoryFindAll {
 
     @Autowired
     private RoleRepository repository;
 
-    public ITRoleRepositoryFindAllBySamplePagination() {
+    public ITRoleRepositoryFindAll() {
         super();
     }
 
     @Test
-    @DisplayName("Returns a page")
-    void testFindAll_Page_Container() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pageable       pageable;
-
-        // GIVEN
-        pageable = Pageable.ofSize(10);
-
-        sample = RolesQuery.empty();
-
-        // WHEN
-        roles = repository.findAll(sample, pageable);
-
-        // THEN
-        Assertions.assertThat(roles)
-            .isInstanceOf(Page.class);
-    }
-
-    @Test
-    @DisplayName("Returns all the data for the first page")
-    void testFindAll_Page1_Data() {
-        final RoleQuery      sample;
-        final Iterable<Role> roles;
-        final Pageable       pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        sample = RolesQuery.empty();
-
-        // WHEN
-        roles = repository.findAll(sample, pageable);
-
-        // THEN
-        Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
-    }
-
-    @Test
-    @DisplayName("Returns all the data for the second page")
-    void testFindAll_Page2_Data() {
-        final RoleQuery      sample;
-        final Iterable<Role> roles;
-        final Pageable       pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(1, 1);
-
-        sample = RolesQuery.empty();
-
-        // WHEN
-        roles = repository.findAll(sample, pageable);
-
-        // THEN
-        Assertions.assertThat(roles)
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
-    void testFindAll_Unpaged_Container() {
+    @DisplayName("When there are roles they are returned")
+    @SingleRole
+    void testFindAll() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
         final Pageable       pageable;
@@ -106,7 +47,90 @@ class ITRoleRepositoryFindAllBySamplePagination {
 
         // THEN
         Assertions.assertThat(roles)
-            .isInstanceOf(Page.class);
+            .containsExactly(Roles.valid());
+    }
+
+    @Test
+    @DisplayName("When there are no roles nothing is returned")
+    void testFindAll_NoData() {
+        final Iterable<Role> roles;
+        final RoleQuery      sample;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        sample = RolesQuery.empty();
+
+        // WHEN
+        roles = repository.findAll(sample, pageable);
+
+        // THEN
+        Assertions.assertThat(roles)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there are roles with no granted permissions they are returned")
+    @RoleWithCrudPermissionsNotGranted
+    void testFindAll_WithNotGrantedPermission() {
+        final Iterable<Role> roles;
+        final RoleQuery      sample;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        sample = RolesQuery.empty();
+
+        // WHEN
+        roles = repository.findAll(sample, pageable);
+
+        // THEN
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.valid());
+    }
+
+    @Test
+    @DisplayName("When there are roles with permissions they are returned")
+    @RoleWithCrudPermissions
+    void testFindAll_WithPermissions() {
+        final Iterable<Role> roles;
+        final RoleQuery      sample;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        sample = RolesQuery.empty();
+
+        // WHEN
+        roles = repository.findAll(sample, pageable);
+
+        // THEN
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.withPermissions());
+    }
+
+    @Test
+    @DisplayName("When there are roles with a single permission they are returned")
+    @RoleWithPermission
+    void testFindAll_WithSinglePermission() {
+        final Iterable<Role> roles;
+        final RoleQuery      sample;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        sample = RolesQuery.empty();
+
+        // WHEN
+        roles = repository.findAll(sample, pageable);
+
+        // THEN
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.withSinglePermission());
     }
 
 }

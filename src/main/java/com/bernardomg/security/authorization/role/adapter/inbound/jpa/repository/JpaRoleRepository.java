@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
@@ -121,9 +125,30 @@ public final class JpaRoleRepository implements RoleRepository {
         return toDomain(saved);
     }
 
+    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
+        return ResourcePermission.builder()
+            .withName(entity.getName())
+            .withResource(entity.getResource())
+            .withAction(entity.getAction())
+            .build();
+    }
+
     private final Role toDomain(final RoleEntity role) {
+        final Collection<ResourcePermission> permissions;
+
+        if (role.getPermissions() == null) {
+            permissions = List.of();
+        } else {
+            permissions = role.getPermissions()
+                .stream()
+                .filter(RolePermissionEntity::getGranted)
+                .map(RolePermissionEntity::getResourcePermission)
+                .map(this::toDomain)
+                .toList();
+        }
         return Role.builder()
             .withName(role.getName())
+            .withPermissions(permissions)
             .build();
     }
 

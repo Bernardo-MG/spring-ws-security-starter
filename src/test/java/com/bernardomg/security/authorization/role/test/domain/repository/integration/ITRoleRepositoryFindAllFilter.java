@@ -16,13 +16,13 @@ import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("RoleRepository - find all by sample - filter")
-class ITRoleRepositoryFindAllBySampleFilter {
+@DisplayName("RoleRepository - find all - filter")
+class ITRoleRepositoryFindAllFilter {
 
     @Autowired
     private RoleRepository repository;
 
-    public ITRoleRepositoryFindAllBySampleFilter() {
+    public ITRoleRepositoryFindAllFilter() {
         super();
     }
 

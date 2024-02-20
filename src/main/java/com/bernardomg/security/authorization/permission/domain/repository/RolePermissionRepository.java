@@ -34,6 +34,7 @@ import com.bernardomg.security.authorization.permission.domain.model.RolePermiss
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Deprecated
 public interface RolePermissionRepository {
 
     /**

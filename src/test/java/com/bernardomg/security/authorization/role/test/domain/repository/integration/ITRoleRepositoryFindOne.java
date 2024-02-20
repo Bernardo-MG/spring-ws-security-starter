@@ -8,6 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithCrudPermissionsNotGranted;
+import com.bernardomg.security.authorization.permission.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
@@ -65,6 +68,48 @@ class ITRoleRepositoryFindOne {
         // WHILE
         Assertions.assertThat(role)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the role exists, and it has no granted permission, it is returned")
+    @RoleWithCrudPermissionsNotGranted
+    void testFindOne_WithNotGrantedPermission() {
+        final Optional<Role> role;
+
+        // WHEN
+        role = repository.findOne(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(role)
+            .contains(Roles.valid());
+    }
+
+    @Test
+    @DisplayName("When the role exists, and it has permissions, it is returned")
+    @RoleWithCrudPermissions
+    void testFindOne_WithPermissions() {
+        final Optional<Role> role;
+
+        // WHEN
+        role = repository.findOne(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(role)
+            .contains(Roles.withPermissions());
+    }
+
+    @Test
+    @DisplayName("When the role exists, and it has a permission, it is returned")
+    @RoleWithPermission
+    void testFindOne_WithSinglePermission() {
+        final Optional<Role> role;
+
+        // WHEN
+        role = repository.findOne(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(role)
+            .contains(Roles.withSinglePermission());
     }
 
 }

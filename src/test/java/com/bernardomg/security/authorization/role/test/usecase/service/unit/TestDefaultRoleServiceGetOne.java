@@ -42,7 +42,7 @@ class TestDefaultRoleServiceGetOne {
         final Optional<Role> role;
 
         // GIVEN
-        existing = Optional.of(Roles.valid());
+        existing = Optional.of(Roles.withPermissions());
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(existing);
 
@@ -51,7 +51,7 @@ class TestDefaultRoleServiceGetOne {
 
         // THEN
         Assertions.assertThat(role)
-            .contains(Roles.valid());
+            .contains(Roles.withPermissions());
     }
 
     @Test

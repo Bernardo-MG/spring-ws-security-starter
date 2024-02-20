@@ -39,6 +39,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
+@Deprecated
 public class RolePermission {
 
     /**
@@ -49,6 +50,7 @@ public class RolePermission {
     /**
      * Role id.
      */
+    @Deprecated
     private String role;
 
 }

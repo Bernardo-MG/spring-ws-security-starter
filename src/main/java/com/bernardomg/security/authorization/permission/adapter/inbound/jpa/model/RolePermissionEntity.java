@@ -26,10 +26,13 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mod
 
 import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,26 +57,30 @@ public class RolePermissionEntity implements Serializable {
     /**
      * Serialization id.
      */
-    private static final long serialVersionUID = 8513041662486312372L;
+    private static final long        serialVersionUID = 8513041662486312372L;
 
     /**
      * Granted flag.
      */
     @Column(name = "granted", nullable = false)
-    private Boolean           granted;
+    private Boolean                  granted;
 
     /**
      * Permission.
      */
     @Id
     @Column(name = "permission", nullable = false)
-    private String            permission;
+    private String                   permission;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "permission", referencedColumnName = "name")
+    private ResourcePermissionEntity resourcePermission;
 
     /**
      * Role id.
      */
     @Id
     @Column(name = "role_id", nullable = false)
-    private Long              roleId;
+    private Long                     roleId;
 
 }

@@ -46,6 +46,7 @@ public interface RolePermissionService {
      *            permission to add
      * @return the added permission
      */
+    @Deprecated
     public RolePermission addPermission(final String role, final String permission);
 
     /**
@@ -68,6 +69,7 @@ public interface RolePermissionService {
      *            pagination to apply
      * @return role permissions
      */
+    @Deprecated
     public Iterable<ResourcePermission> getPermissions(final String role, final Pageable page);
 
     /**
@@ -79,6 +81,7 @@ public interface RolePermissionService {
      *            permission to remove
      * @return the removed permission
      */
+    @Deprecated
     public RolePermission removePermission(final String role, final String permission);
 
 }

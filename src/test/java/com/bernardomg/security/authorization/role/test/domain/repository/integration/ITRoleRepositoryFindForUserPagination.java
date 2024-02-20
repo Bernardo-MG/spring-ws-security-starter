@@ -59,7 +59,7 @@ class ITRoleRepositoryFindForUserPagination {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withSinglePermission());
     }
 
     @Test

@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.annotation.AlternativeUserWithCrudPermissions;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithPermission;
+import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -30,7 +32,7 @@ class ITRoleRepositoryFindForUser {
 
     @Test
     @DisplayName("When the user has roles, these are returned")
-    @UserWithPermission
+    @UserWithoutPermissions
     void testFindForUser() {
         final Iterable<Role> roles;
         final Pageable       pageable;
@@ -100,6 +102,42 @@ class ITRoleRepositoryFindForUser {
         // THEN
         Assertions.assertThat(roles)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user has roles with permissions, these are returned")
+    @UserWithCrudPermissions
+    void testFindForUser_WithPermissions() {
+        final Iterable<Role> roles;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        roles = repository.findForUser(UserConstants.USERNAME, pageable);
+
+        // THEN
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.withPermissions());
+    }
+
+    @Test
+    @DisplayName("When the user has roles with a single permissions, these are returned")
+    @UserWithPermission
+    void testFindForUser_WithSinglePermission() {
+        final Iterable<Role> roles;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        // WHEN
+        roles = repository.findForUser(UserConstants.USERNAME, pageable);
+
+        // THEN
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.withSinglePermission());
     }
 
 }

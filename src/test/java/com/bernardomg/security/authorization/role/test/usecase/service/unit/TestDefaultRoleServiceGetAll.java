@@ -44,7 +44,7 @@ class TestDefaultRoleServiceGetAll {
 
         sample = RolesQuery.empty();
 
-        existing = List.of(Roles.valid());
+        existing = List.of(Roles.withPermissions());
         given(roleRepository.findAll(sample, pageable)).willReturn(existing);
 
         // WHEN
@@ -52,7 +52,7 @@ class TestDefaultRoleServiceGetAll {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withPermissions());
     }
 
     @Test
