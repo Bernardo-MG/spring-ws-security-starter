@@ -27,16 +27,16 @@ package com.bernardomg.security.authorization.role.domain.exception;
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing role by name exception.
+ * Missing role exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingRoleNameException extends MissingIdException {
+public final class MissingRoleException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingRoleNameException(final String name) {
+    public MissingRoleException(final String name) {
         super("role", name);
     }
 

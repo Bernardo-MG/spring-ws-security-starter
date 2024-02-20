@@ -31,7 +31,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
@@ -76,7 +76,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         readRole = roleRepository.findOne(role);
         if (readRole.isEmpty()) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         // Persist relationship
@@ -112,7 +112,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         readRole = roleRepository.findOne(role);
         if (readRole.isEmpty()) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         // Persist relationship

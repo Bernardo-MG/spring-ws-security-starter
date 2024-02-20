@@ -37,7 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -73,7 +73,7 @@ class TestDefaultRoleServiceUpdate {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingRoleNameException.class);
+            .isInstanceOf(MissingRoleException.class);
     }
 
     @Test

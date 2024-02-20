@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
@@ -88,7 +88,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         validatorDeleteRole.validate(role);
@@ -111,7 +111,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         return roleRepository.findOne(role);
@@ -126,7 +126,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         roleData = Role.builder()

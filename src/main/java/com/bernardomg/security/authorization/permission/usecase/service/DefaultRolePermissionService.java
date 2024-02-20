@@ -35,7 +35,7 @@ import com.bernardomg.security.authorization.permission.domain.model.ResourcePer
 import com.bernardomg.security.authorization.permission.domain.model.RolePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
@@ -93,7 +93,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         roleExists = roleRepository.exists(role);
         if (!roleExists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         permissionExists = resourcePermissionRepository.exists(permission);
@@ -116,7 +116,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         roleExists = roleRepository.exists(role);
         if (!roleExists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         return rolePermissionRepository.findAvailablePermissions(role, pageable);
@@ -133,7 +133,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         readRole = roleRepository.findOne(role);
         if (readRole.isEmpty()) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         permissionExists = resourcePermissionRepository.exists(permission);

@@ -23,7 +23,7 @@ import com.bernardomg.security.authorization.permission.domain.repository.RolePe
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissions;
 import com.bernardomg.security.authorization.permission.usecase.service.DefaultRolePermissionService;
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
@@ -74,7 +74,7 @@ class TestRolePermissionServiceDelete {
 
         // THEN
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingRoleNameException.class);
+            .isInstanceOf(MissingRoleException.class);
     }
 
     @Test

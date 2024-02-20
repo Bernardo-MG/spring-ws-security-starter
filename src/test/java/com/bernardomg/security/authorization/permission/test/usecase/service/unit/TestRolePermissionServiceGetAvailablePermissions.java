@@ -20,7 +20,7 @@ import com.bernardomg.security.authorization.permission.domain.repository.Resour
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.permission.usecase.service.DefaultRolePermissionService;
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 
@@ -104,7 +104,7 @@ class TestRolePermissionServiceGetAvailablePermissions {
 
         // THEN
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingRoleNameException.class);
+            .isInstanceOf(MissingRoleException.class);
     }
 
 }
