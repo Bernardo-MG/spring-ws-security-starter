@@ -68,6 +68,13 @@ public class RolePermissionEntity implements Serializable {
     /**
      * Permission.
      */
+    @Id
+    @Column(name = "permission", nullable = false)
+    private String                   permission;
+
+    /**
+     * Permission.
+     */
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "permission", referencedColumnName = "name")
     private ResourcePermissionEntity resourcePermission;

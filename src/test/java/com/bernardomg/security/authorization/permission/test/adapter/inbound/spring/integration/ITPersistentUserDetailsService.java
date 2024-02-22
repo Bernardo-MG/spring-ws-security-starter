@@ -19,7 +19,7 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.U
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentUserDetailsService - integration")
+@DisplayName("PersistentUserDetailsService - load by username")
 class ITPersistentUserDetailsService {
 
     @Autowired

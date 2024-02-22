@@ -157,15 +157,16 @@ public final class JpaRoleRepository implements RoleRepository {
             .build();
     }
 
-    private final RolePermissionEntity toEntity(final ResourcePermission entity) {
+    private final RolePermissionEntity toEntity(final ResourcePermission permission) {
         final ResourcePermissionEntity resourceEntity;
 
         // TODO: check if it exists
-        resourceEntity = resourcePermissionSpringRepository.findByName(entity.getName())
+        resourceEntity = resourcePermissionSpringRepository.findByName(permission.getName())
             .get();
 
         return RolePermissionEntity.builder()
             .withGranted(true)
+            .withPermission(resourceEntity.getName())
             .withResourcePermission(resourceEntity)
             .build();
     }
