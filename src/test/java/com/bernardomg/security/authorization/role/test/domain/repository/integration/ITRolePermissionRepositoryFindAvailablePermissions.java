@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.domain.repository.integration;
+package com.bernardomg.security.authorization.role.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -42,7 +42,7 @@ import com.bernardomg.security.authorization.permission.domain.repository.Resour
 import com.bernardomg.security.authorization.permission.domain.repository.ResourceRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.JpaRolePermissionRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRolePermissionService;
