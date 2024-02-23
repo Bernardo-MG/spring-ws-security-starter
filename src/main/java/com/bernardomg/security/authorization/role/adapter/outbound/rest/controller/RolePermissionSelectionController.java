@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.adapter.outbound.rest.controller;
+package com.bernardomg.security.authorization.role.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +37,7 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.adapter.outbound.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.usecase.service.RolePermissionService;
 
 import lombok.AllArgsConstructor;
 
@@ -51,7 +51,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/security/role/{role}/permission")
 @AllArgsConstructor
 @Transactional
-public class RoleResourcePermissionSelectionController {
+public class RolePermissionSelectionController {
 
     /**
      * Role permission service.

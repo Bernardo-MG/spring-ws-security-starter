@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.usecase.service.unit;
+package com.bernardomg.security.authorization.role.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -19,10 +19,10 @@ import com.bernardomg.security.authorization.permission.domain.model.ResourcePer
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.authorization.permission.usecase.service.DefaultRolePermissionService;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
+import com.bernardomg.security.authorization.role.usecase.service.DefaultRolePermissionService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRolePermissionService - get available permissions")

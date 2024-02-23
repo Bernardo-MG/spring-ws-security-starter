@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.usecase.service;
+package com.bernardomg.security.authorization.role.usecase.service;
 
 import java.util.Objects;
 

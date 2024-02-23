@@ -22,8 +22,29 @@
  * SOFTWARE.
  */
 
-/**
- * Permissions controllers.
- */
+package com.bernardomg.security.authorization.role.usecase.service;
 
-package com.bernardomg.security.authorization.permission.adapter.outbound.rest.controller;
+import org.springframework.data.domain.Pageable;
+
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+
+/**
+ * Role permissions service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface RolePermissionService {
+
+    /**
+     * Returns all permissions available to a role in a paginated form.
+     *
+     * @param role
+     *            role name
+     * @param page
+     *            pagination to apply
+     * @return permissions the role doesn't have
+     */
+    public Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable page);
+
+}

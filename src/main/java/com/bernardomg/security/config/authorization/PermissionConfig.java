@@ -34,7 +34,6 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repo
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaActionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaResourceRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
@@ -43,10 +42,11 @@ import com.bernardomg.security.authorization.permission.domain.repository.Resour
 import com.bernardomg.security.authorization.permission.domain.repository.ResourceRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.authorization.permission.usecase.service.DefaultRolePermissionService;
-import com.bernardomg.security.authorization.permission.usecase.service.RolePermissionService;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.JpaRolePermissionRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.usecase.service.DefaultRolePermissionService;
+import com.bernardomg.security.authorization.role.usecase.service.RolePermissionService;
 
 /**
  * Security configuration.
