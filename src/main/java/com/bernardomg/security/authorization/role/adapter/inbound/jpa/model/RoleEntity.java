@@ -77,7 +77,7 @@ public class RoleEntity implements Serializable {
     private String                           name;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Collection<RolePermissionEntity> permissions;
 
 }

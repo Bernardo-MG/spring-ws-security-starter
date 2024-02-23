@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authorization.role.usecase.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -72,6 +73,7 @@ public final class DefaultRoleService implements RoleService {
 
         entity = Role.builder()
             .withName(name)
+            .withPermissions(List.of())
             .build();
 
         validatorCreateRole.validate(entity);

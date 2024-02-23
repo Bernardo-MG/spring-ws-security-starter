@@ -27,7 +27,7 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionKey;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionId;
 
 /**
  * Role permission repository based on Spring Data repositories.
@@ -35,17 +35,6 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mode
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface RolePermissionSpringRepository extends JpaRepository<RolePermissionEntity, RolePermissionKey> {
-
-    /**
-     * Checks if a role permission exists for the received name and permission, and it is granted.
-     *
-     * @param role
-     *            role to check
-     * @param permission
-     *            permission to check
-     * @return {@code true} if the role permission exists and is granted, {@code false} otherwise
-     */
-    public boolean existsByRoleIdAndPermissionAndGrantedTrue(final long role, final String permission);
+public interface RolePermissionSpringRepository extends JpaRepository<RolePermissionEntity, RolePermissionId> {
 
 }

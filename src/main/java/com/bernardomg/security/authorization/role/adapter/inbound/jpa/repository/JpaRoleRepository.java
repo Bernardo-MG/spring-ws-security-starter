@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
@@ -113,9 +115,11 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final Role save(final Role role) {
-        final Optional<RoleEntity> existing;
-        final RoleEntity           entity;
-        final RoleEntity           saved;
+        final Optional<RoleEntity>             existing;
+        final RoleEntity                       entity;
+        final RoleEntity                       saved;
+        final RoleEntity                       savedAgain;
+        final Collection<RolePermissionEntity> permissions;
 
         entity = toEntity(role);
 
@@ -125,9 +129,16 @@ public final class JpaRoleRepository implements RoleRepository {
                 .getId());
         }
 
+        permissions = new ArrayList<>(entity.getPermissions());
+        entity.setPermissions(new ArrayList<>());
         saved = roleSpringRepository.save(entity);
 
-        return toDomain(saved);
+        permissions.forEach(p -> p.getId()
+            .setRoleId(saved.getId()));
+        saved.setPermissions(permissions);
+        savedAgain = roleSpringRepository.save(saved);
+
+        return toDomain(savedAgain);
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
@@ -159,14 +170,18 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final RolePermissionEntity toEntity(final ResourcePermission permission) {
         final ResourcePermissionEntity resourceEntity;
+        final RolePermissionId         id;
 
         // TODO: check if it exists
         resourceEntity = resourcePermissionSpringRepository.findByName(permission.getName())
             .get();
 
+        id = RolePermissionId.builder()
+            .withPermission(resourceEntity.getName())
+            .build();
         return RolePermissionEntity.builder()
             .withGranted(true)
-            .withPermission(resourceEntity.getName())
+            .withId(id)
             .withResourcePermission(resourceEntity)
             .build();
     }

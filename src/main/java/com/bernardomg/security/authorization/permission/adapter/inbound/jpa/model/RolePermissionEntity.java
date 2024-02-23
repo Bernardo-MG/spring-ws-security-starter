@@ -26,13 +26,14 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mod
 
 import java.io.Serializable;
 
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,7 +48,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "RolePermission")
 @Table(schema = "security", name = "role_permissions")
-@IdClass(RolePermissionKey.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -65,25 +65,19 @@ public class RolePermissionEntity implements Serializable {
     @Column(name = "granted", nullable = false)
     private Boolean                  granted;
 
-    /**
-     * Permission.
-     */
-    @Id
-    @Column(name = "permission", nullable = false)
-    private String                   permission;
+    @EmbeddedId
+    private RolePermissionId         id;
 
     /**
      * Permission.
      */
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "permission", referencedColumnName = "name")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "permission", referencedColumnName = "name", insertable = false, updatable = false)
     private ResourcePermissionEntity resourcePermission;
 
-    /**
-     * Role id.
-     */
-    @Id
-    @Column(name = "role_id", nullable = false)
-    private Long                     roleId;
+    @ManyToOne
+    @JoinColumn(name = "role_id", insertable = false, updatable = false)
+    // @MapsId("roleId")
+    private RoleEntity               role;
 
 }

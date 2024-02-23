@@ -26,6 +26,8 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mod
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,11 +39,12 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class RolePermissionKey implements Serializable {
+public class RolePermissionId implements Serializable {
 
     /**
      * Serialization ID.
@@ -51,11 +54,13 @@ public class RolePermissionKey implements Serializable {
     /**
      * Permission.
      */
+    @Column(name = "permission", nullable = false)
     private String            permission;
 
     /**
      * Role id.
      */
+    @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Long              roleId;
 
 }
