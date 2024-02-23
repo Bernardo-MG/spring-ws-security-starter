@@ -133,8 +133,10 @@ public final class JpaRoleRepository implements RoleRepository {
         entity.setPermissions(new ArrayList<>());
         saved = roleSpringRepository.save(entity);
 
-        permissions.forEach(p -> p.getId()
-            .setRoleId(saved.getId()));
+        permissions.forEach(p -> {
+            p.getId()
+                .setRoleId(saved.getId());
+        });
         saved.setPermissions(permissions);
         savedAgain = roleSpringRepository.save(saved);
 

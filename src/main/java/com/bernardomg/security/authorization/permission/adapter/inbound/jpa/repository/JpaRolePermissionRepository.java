@@ -50,17 +50,13 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
      */
     private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
-    private final RolePermissionSpringRepository     rolePermissionSpringRepository;
-
     private final RoleSpringRepository               roleSpringRepository;
 
     public JpaRolePermissionRepository(final RoleSpringRepository roleSpringRepo,
-            final RolePermissionSpringRepository rolePermissionSpringRepo,
             final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
         roleSpringRepository = roleSpringRepo;
-        rolePermissionSpringRepository = rolePermissionSpringRepo;
         resourcePermissionSpringRepository = resourcePermissionSpringRepo;
     }
 

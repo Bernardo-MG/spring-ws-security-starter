@@ -26,8 +26,6 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.mod
 
 import java.io.Serializable;
 
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -73,11 +71,7 @@ public class RolePermissionEntity implements Serializable {
      */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "permission", referencedColumnName = "name", insertable = false, updatable = false)
+    // @MapsId("permission")
     private ResourcePermissionEntity resourcePermission;
-
-    @ManyToOne
-    @JoinColumn(name = "role_id", insertable = false, updatable = false)
-    // @MapsId("roleId")
-    private RoleEntity               role;
 
 }
