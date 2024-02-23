@@ -40,10 +40,10 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repo
 import com.bernardomg.security.authorization.permission.domain.repository.ActionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourceRepository;
-import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRolePermissionService;
 import com.bernardomg.security.authorization.role.usecase.service.RolePermissionService;
@@ -87,9 +87,8 @@ public class PermissionConfig {
 
     @Bean("rolePermissionService")
     public RolePermissionService getRolePermissionService(final RoleRepository roleRepository,
-            final ResourcePermissionRepository resourcePermissionRepository,
             final RolePermissionRepository rolePermissionRepository) {
-        return new DefaultRolePermissionService(roleRepository, resourcePermissionRepository, rolePermissionRepository);
+        return new DefaultRolePermissionService(roleRepository, rolePermissionRepository);
     }
 
     @Bean("userPermissionRepository")

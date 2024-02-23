@@ -29,9 +29,8 @@ import java.util.Objects;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
+import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,27 +53,20 @@ import lombok.extern.slf4j.Slf4j;
 public final class DefaultRolePermissionService implements RolePermissionService {
 
     /**
-     * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
-     */
-    private final ResourcePermissionRepository resourcePermissionRepository;
-
-    /**
      * Role permissions repository. Used to modify permissions for the roles.
      */
-    private final RolePermissionRepository     rolePermissionRepository;
+    private final RolePermissionRepository rolePermissionRepository;
 
     /**
      * Role repository. Used to validate the role exists.
      */
-    private final RoleRepository               roleRepository;
+    private final RoleRepository           roleRepository;
 
     public DefaultRolePermissionService(final RoleRepository roleRepo,
-            final ResourcePermissionRepository resourcePermissionRepo,
             final RolePermissionRepository rolePermissionRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
-        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
         rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
     }
 

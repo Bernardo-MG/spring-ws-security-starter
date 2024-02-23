@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.domain.repository;
+package com.bernardomg.security.authorization.role.domain.repository;
 
 import org.springframework.data.domain.Pageable;
 
