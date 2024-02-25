@@ -36,7 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
@@ -81,7 +81,7 @@ class TestUserQueryServiceDelete {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
+            .isInstanceOf(MissingUserException.class);
     }
 
 }

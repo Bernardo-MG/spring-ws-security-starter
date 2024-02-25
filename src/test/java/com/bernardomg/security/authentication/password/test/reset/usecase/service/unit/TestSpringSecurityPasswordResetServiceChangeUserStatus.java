@@ -26,7 +26,7 @@ import com.bernardomg.security.authentication.password.usecase.notification.Pass
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
@@ -182,7 +182,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
         executable = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

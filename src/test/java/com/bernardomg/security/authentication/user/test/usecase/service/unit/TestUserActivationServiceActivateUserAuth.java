@@ -24,7 +24,7 @@ import com.bernardomg.security.authentication.user.domain.exception.DisabledUser
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
@@ -253,7 +253,7 @@ class TestUserActivationServiceActivateUserAuth {
         executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing id username for user");

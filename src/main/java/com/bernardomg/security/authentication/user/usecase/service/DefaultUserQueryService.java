@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
@@ -73,7 +73,7 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         exists = userRepository.exists(username);
         if (!exists) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         userRepository.delete(username);
@@ -94,7 +94,7 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         exists = userRepository.exists(username);
         if (!exists) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         return userRepository.findOne(username);
@@ -109,7 +109,7 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         existing = userRepository.findOne(user.getUsername());
         if (existing.isEmpty()) {
-            throw new MissingUserUsernameException(user.getUsername());
+            throw new MissingUserException(user.getUsername());
         }
 
         validatorUpdateUser.validate(user);

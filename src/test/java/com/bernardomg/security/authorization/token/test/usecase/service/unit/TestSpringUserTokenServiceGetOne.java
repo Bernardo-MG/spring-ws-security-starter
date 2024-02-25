@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
@@ -61,7 +61,7 @@ class TestSpringUserTokenServiceGetOne {
         executable = () -> service.getOne(Tokens.TOKEN);
 
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingUserTokenCodeException.class);
+            .isInstanceOf(MissingUserTokenException.class);
     }
 
 }

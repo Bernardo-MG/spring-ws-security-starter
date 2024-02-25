@@ -22,22 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.domain.exception;
+package com.bernardomg.security.authentication.user.domain.exception;
 
 import com.bernardomg.exception.MissingIdException;
 
 /**
- * Missing role by name exception.
+ * Missing user by username exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingResourcePermissionNameException extends MissingIdException {
+public final class MissingUserException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingResourcePermissionNameException(final String name) {
-        super("permission", name);
+    public MissingUserException(final String username) {
+        super("user", username);
     }
 
 }

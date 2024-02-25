@@ -28,7 +28,7 @@ import java.util.Objects;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -63,7 +63,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         userExists = userRepository.exists(username);
         if (!userExists) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         return userRoleRepository.findAvailableToUser(username, pageable);

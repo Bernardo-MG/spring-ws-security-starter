@@ -22,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
@@ -109,7 +109,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserUsernameException.class);
+        exception = Assertions.catchThrowableOfType(executable, MissingUserException.class);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

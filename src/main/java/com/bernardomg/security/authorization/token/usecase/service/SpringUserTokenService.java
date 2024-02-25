@@ -30,7 +30,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.validation.PatchUserTokenValidator;
@@ -104,7 +104,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userToken = userTokenRepository.findOne(token);
         if (userToken.isEmpty()) {
-            throw new MissingUserTokenCodeException(token);
+            throw new MissingUserTokenException(token);
         }
 
         return userToken;
@@ -119,7 +119,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         readToken = userTokenRepository.findOne(token.getToken());
         if (readToken.isEmpty()) {
-            throw new MissingUserTokenCodeException(token.getToken());
+            throw new MissingUserTokenException(token.getToken());
         }
 
         validatorPatch.validate(token);

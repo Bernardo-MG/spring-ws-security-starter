@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
@@ -97,7 +97,7 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
+            .isInstanceOf(MissingUserException.class);
     }
 
 }

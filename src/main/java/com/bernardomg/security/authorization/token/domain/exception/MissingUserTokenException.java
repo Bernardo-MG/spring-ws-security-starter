@@ -24,17 +24,19 @@
 
 package com.bernardomg.security.authorization.token.domain.exception;
 
+import com.bernardomg.exception.MissingIdException;
+
 /**
  * Exception caused by a user token code missing.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingUserTokenCodeException extends InvalidTokenException {
+public final class MissingUserTokenException extends MissingIdException {
 
     private static final long serialVersionUID = -3466160863479056525L;
 
-    public MissingUserTokenCodeException(final String token) {
+    public MissingUserTokenException(final String token) {
         super(String.format("Missing token %s", token), token);
     }
 

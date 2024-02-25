@@ -31,7 +31,7 @@ import java.util.Optional;
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
@@ -194,7 +194,7 @@ public final class DefaultUserActivationService implements UserActivationService
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't activate new user {}, as it doesn't exist", username);
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         return user.get();
