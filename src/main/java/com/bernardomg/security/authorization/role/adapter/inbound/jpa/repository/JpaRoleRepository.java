@@ -131,12 +131,6 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     @Override
-    public final Iterable<Role> findForUser(final String username, final Pageable page) {
-        return roleSpringRepository.findForUser(username, page)
-            .map(this::toDomain);
-    }
-
-    @Override
     public final Optional<Role> findOne(final String name) {
         return roleSpringRepository.findOneByName(name)
             .map(this::toDomain);

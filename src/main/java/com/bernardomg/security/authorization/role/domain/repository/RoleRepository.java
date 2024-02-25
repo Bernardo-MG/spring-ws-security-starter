@@ -87,17 +87,6 @@ public interface RoleRepository {
     public Iterable<Role> findAvailableToUser(final String username, final Pageable page);
 
     /**
-     * Returns all the roles assigned to the user.
-     *
-     * @param username
-     *            user to search for
-     * @param page
-     *            pagination to apply
-     * @return all the roles assigned to the user
-     */
-    public Iterable<Role> findForUser(final String username, final Pageable page);
-
-    /**
      * Returns the role for the received name.
      *
      * @param name
