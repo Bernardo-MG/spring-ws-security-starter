@@ -33,8 +33,8 @@ import com.bernardomg.security.authentication.user.domain.repository.UserPermiss
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.access.usecase.validator.RequireResourceAccessInterceptor;
 import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
-import com.bernardomg.security.spring.PersistentUserDetailsService;
-import com.bernardomg.security.spring.SpringResourceAccessValidator;
+import com.bernardomg.security.spring.usecase.PersistentUserDetailsService;
+import com.bernardomg.security.spring.usecase.SpringResourceAccessValidator;
 
 /**
  * Login configuration.

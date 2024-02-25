@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.access.test.unit;
+package com.bernardomg.security.spring.test.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -18,7 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.bernardomg.security.authorization.access.test.config.factory.GrantedAuthorities;
 import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
-import com.bernardomg.security.spring.SpringResourceAccessValidator;
+import com.bernardomg.security.spring.usecase.SpringResourceAccessValidator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringResourceAccessValidator")

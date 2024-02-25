@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.spring;
+package com.bernardomg.security.spring.usecase;
 
 import java.util.Collection;
 import java.util.Locale;

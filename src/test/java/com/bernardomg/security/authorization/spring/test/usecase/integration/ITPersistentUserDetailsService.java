@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.adapter.inbound.spring.integration;
+package com.bernardomg.security.authorization.spring.test.usecase.integration;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -15,7 +15,7 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.A
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutPermissions;
-import com.bernardomg.security.spring.PersistentUserDetailsService;
+import com.bernardomg.security.spring.usecase.PersistentUserDetailsService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

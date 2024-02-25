@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.permission.test.adapter.inbound.spring.unit;
+package com.bernardomg.security.authorization.spring.test.usecase.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -24,7 +24,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.spring.PersistentUserDetailsService;
+import com.bernardomg.security.spring.usecase.PersistentUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PersistentUserDetailsService")
