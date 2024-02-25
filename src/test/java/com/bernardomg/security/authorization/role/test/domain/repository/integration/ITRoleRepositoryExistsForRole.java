@@ -25,7 +25,7 @@ class ITRoleRepositoryExistsForRole {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsForRole(RoleConstants.NAME);
+        exists = repository.isLinkedToUser(RoleConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)
@@ -38,7 +38,7 @@ class ITRoleRepositoryExistsForRole {
         final boolean exists;
 
         // WHEN
-        exists = repository.existsForRole(RoleConstants.NAME);
+        exists = repository.isLinkedToUser(RoleConstants.NAME);
 
         // THEN
         Assertions.assertThat(exists)

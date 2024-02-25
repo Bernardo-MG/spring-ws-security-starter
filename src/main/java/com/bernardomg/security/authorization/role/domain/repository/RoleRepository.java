@@ -56,15 +56,6 @@ public interface RoleRepository {
     public boolean exists(final String name);
 
     /**
-     * Checks if a role exists with the given name for any user.
-     *
-     * @param role
-     *            name of the role to check
-     * @return {@code true} if the role exists for any user, {@code false} otherwise
-     */
-    public boolean existsForRole(final String role);
-
-    /**
      * Returns all the roles for the received query.
      *
      * @param query
@@ -94,6 +85,15 @@ public interface RoleRepository {
      * @return the role for the received name
      */
     public Optional<Role> findOne(final String name);
+
+    /**
+     * Checks if a role exists with the given name for any user.
+     *
+     * @param role
+     *            name of the role to check
+     * @return {@code true} if the role exists for any user, {@code false} otherwise
+     */
+    public boolean isLinkedToUser(final String role);
 
     /**
      * Saves the received role. If it exists it is updated, otherwise it is created.

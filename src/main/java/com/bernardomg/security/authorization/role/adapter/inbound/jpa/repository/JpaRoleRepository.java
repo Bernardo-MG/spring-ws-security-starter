@@ -82,29 +82,6 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     @Override
-    public final boolean existsForRole(final String role) {
-        final UserRoleEntity       sample;
-        final Optional<RoleEntity> roleEntity;
-        final boolean              exists;
-
-        // TODO: rename, it is not clear what this method is for
-
-        roleEntity = roleSpringRepository.findOneByName(role);
-        if (roleEntity.isPresent()) {
-            sample = UserRoleEntity.builder()
-                .withRoleId(roleEntity.get()
-                    .getId())
-                .build();
-
-            exists = userRoleSpringRepository.exists(Example.of(sample));
-        } else {
-            exists = false;
-        }
-
-        return exists;
-    }
-
-    @Override
     public final Iterable<Role> findAll(final RoleQuery query, final Pageable page) {
         final RoleEntity sample;
 
@@ -134,6 +111,30 @@ public final class JpaRoleRepository implements RoleRepository {
     public final Optional<Role> findOne(final String name) {
         return roleSpringRepository.findOneByName(name)
             .map(this::toDomain);
+    }
+
+    @Override
+    public final boolean isLinkedToUser(final String role) {
+        final UserRoleEntity       sample;
+        final Optional<RoleEntity> roleEntity;
+        final boolean              exists;
+
+        // TODO: rename, it is not clear what this method is for
+        // TODO: the roles shouldn't know about users
+
+        roleEntity = roleSpringRepository.findOneByName(role);
+        if (roleEntity.isPresent()) {
+            sample = UserRoleEntity.builder()
+                .withRoleId(roleEntity.get()
+                    .getId())
+                .build();
+
+            exists = userRoleSpringRepository.exists(Example.of(sample));
+        } else {
+            exists = false;
+        }
+
+        return exists;
     }
 
     @Override
