@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Import;
  *
  */
 @AutoConfiguration
-@Import({ PermissionConfig.class, RoleConfig.class, SpringUserConfig.class, UserTokenConfig.class })
+@Import({ PermissionConfig.class, RoleConfig.class, UserTokenConfig.class })
 public class AuthorizationAutoConfiguration {
 
     public AuthorizationAutoConfiguration() {

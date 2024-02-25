@@ -22,29 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.access;
+package com.bernardomg.security.config.spring;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.access.usecase.validator.RequireResourceAccessInterceptor;
 import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.spring.PersistentUserDetailsService;
 import com.bernardomg.security.spring.SpringResourceAccessValidator;
 
 /**
- * Access configuration.
+ * Login configuration.
  *
- * @author Bernardo Martínez Garrido
+ * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Configuration(proxyBeanMethods = false)
-public class AccessConfig {
+public class SpringConfig {
 
-    /**
-     * Default constructor.
-     */
-    public AccessConfig() {
+    public SpringConfig() {
         super();
     }
 
@@ -55,6 +56,12 @@ public class AccessConfig {
 
         validator = new SpringResourceAccessValidator();
         return new RequireResourceAccessInterceptor(validator);
+    }
+
+    @Bean("userDetailsService")
+    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
+            final UserPermissionRepository userPermissionRepository) {
+        return new PersistentUserDetailsService(userRepository, userPermissionRepository);
     }
 
 }

@@ -22,33 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authorization;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.spring.PersistentUserDetailsService;
-
 /**
- * Spring user configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Spring Framework components configuration.
  */
-@Configuration(proxyBeanMethods = false)
-public class SpringUserConfig {
 
-    public SpringUserConfig() {
-        super();
-    }
-
-    @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final UserPermissionRepository userPermissionRepository) {
-        return new PersistentUserDetailsService(userRepository, userPermissionRepository);
-    }
-
-}
+package com.bernardomg.security.config.spring;
