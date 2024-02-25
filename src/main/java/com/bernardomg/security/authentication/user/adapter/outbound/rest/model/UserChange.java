@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authentication.user.adapter.outbound.rest.model;
 
+import java.util.Collection;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -73,5 +75,8 @@ public final class UserChange {
      */
     @NotNull
     private String  username;
+
+    @NotNull
+    private Collection<String> roles;
 
 }

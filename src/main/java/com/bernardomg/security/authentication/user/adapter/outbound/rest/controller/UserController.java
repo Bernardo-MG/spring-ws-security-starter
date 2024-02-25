@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authentication.user.adapter.outbound.rest.controller;
 
+import java.util.Collection;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -51,6 +53,7 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.authorization.role.domain.model.Role;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -154,13 +157,16 @@ public class UserController {
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User update(@PathVariable("username") final String username, @Valid @RequestBody final UserChange request) {
         final User user;
+        final Collection<Role> roles;
 
+        roles = request.getRoles().stream().map(r -> Role.builder().withName(r).build()).toList();
         user = User.builder()
             .withUsername(request.getUsername())
             .withName(request.getName())
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
             .withPasswordExpired(request.getPasswordExpired())
+            .withRoles(roles)
             .build();
 
         return userQueryService.update(user);
