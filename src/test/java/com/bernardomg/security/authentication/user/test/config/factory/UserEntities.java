@@ -107,6 +107,21 @@ public final class UserEntities {
             .build();
     }
 
+    public static final UserEntity withoutRole() {
+        return UserEntity.builder()
+            .withId(1L)
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPassword(UserConstants.ENCODED_PASSWORD)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .withRoles(List.of())
+            .build();
+    }
+
     private UserEntities() {
         super();
     }

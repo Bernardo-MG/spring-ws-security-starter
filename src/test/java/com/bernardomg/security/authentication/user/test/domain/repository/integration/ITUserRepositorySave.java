@@ -35,6 +35,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
@@ -44,7 +45,6 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Role service - save")
-@RoleWithPermission
 class ITUserRepositorySave {
 
     @Autowired
@@ -58,7 +58,29 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("Updates persisted data")
+    @DisplayName("When a role is added, it is updated")
+    @OnlyUser
+    @RoleWithPermission
+    void testSave_AddRole_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.enabled();
+
+        // WHEN
+        repository.save(user, UserConstants.PASSWORD);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.enabled());
+    }
+
+    @Test
+    @DisplayName("When the user exists, it is updated")
     @ValidUser
     void testSave_Existing_PersistedData() {
         final User             user;
@@ -79,7 +101,27 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a user")
+    @DisplayName("When the user it is updated, it is returned")
+    @ValidUser
+    void testSave_Existing_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.enabled();
+
+        // WHEN
+        created = repository.save(user, UserConstants.PASSWORD);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.enabled());
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exists, it is created")
+    @RoleWithPermission
     void testSave_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
@@ -100,7 +142,29 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns a persisted user")
+    @DisplayName("When the role is removed, it is updated")
+    @ValidUser
+    void testSave_RemoveRole_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.withoutRole();
+
+        // WHEN
+        repository.save(user, UserConstants.PASSWORD);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.withoutRole());
+    }
+
+    @Test
+    @DisplayName("When the user it is created, it is returned")
+    @RoleWithPermission
     void testSave_Returned() {
         final User user;
         final User created;
