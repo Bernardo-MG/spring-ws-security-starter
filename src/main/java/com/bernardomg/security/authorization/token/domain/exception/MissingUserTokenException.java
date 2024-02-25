@@ -37,7 +37,7 @@ public final class MissingUserTokenException extends MissingIdException {
     private static final long serialVersionUID = -3466160863479056525L;
 
     public MissingUserTokenException(final String token) {
-        super(String.format("Missing token %s", token), token);
+        super("token", token);
     }
 
 }
