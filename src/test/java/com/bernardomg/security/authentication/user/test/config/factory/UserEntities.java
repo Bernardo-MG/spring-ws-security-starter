@@ -1,7 +1,10 @@
 
 package com.bernardomg.security.authentication.user.test.config.factory;
 
+import java.util.List;
+
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
 
 public final class UserEntities {
 
@@ -44,6 +47,7 @@ public final class UserEntities {
             .withExpired(false)
             .withPasswordExpired(false)
             .withLocked(false)
+            .withRoles(List.of(RoleEntities.withPermission()))
             .build();
     }
 

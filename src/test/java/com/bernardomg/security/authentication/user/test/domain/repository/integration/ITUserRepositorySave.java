@@ -39,10 +39,12 @@ import com.bernardomg.security.authentication.user.test.config.annotation.ValidU
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("Role service - save")
+@RoleWithPermission
 class ITUserRepositorySave {
 
     @Autowired
@@ -92,7 +94,8 @@ class ITUserRepositorySave {
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.id",
+                "roles.permissions.id.roleId")
             .containsExactly(UserEntities.enabled());
     }
 

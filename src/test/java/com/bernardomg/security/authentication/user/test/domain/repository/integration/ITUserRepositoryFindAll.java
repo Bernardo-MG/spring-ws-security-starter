@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -28,7 +28,7 @@ class ITUserRepositoryFindAll {
 
     @Test
     @DisplayName("Returns all data")
-    @OnlyUser
+    @EnabledUser
     void testFindAll_Data() {
         final Iterable<User> users;
         final UserQuery      sample;

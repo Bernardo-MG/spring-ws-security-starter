@@ -27,6 +27,7 @@ package com.bernardomg.security.authorization.role.adapter.inbound.jpa.repositor
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Example;
@@ -159,9 +160,11 @@ public final class JpaRoleRepository implements RoleRepository {
         } else {
             permissions = role.getPermissions()
                 .stream()
+                .filter(Objects::nonNull)
                 .filter(RolePermissionEntity::getGranted)
                 .map(RolePermissionEntity::getResourcePermission)
                 .map(this::toDomain)
+                .filter(Objects::nonNull)
                 .toList();
         }
         return Role.builder()
@@ -171,21 +174,28 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     private final RolePermissionEntity toEntity(final ResourcePermission permission) {
-        final ResourcePermissionEntity resourceEntity;
-        final RolePermissionId         id;
+        final Optional<ResourcePermissionEntity> read;
+        final ResourcePermissionEntity           resourceEntity;
+        final RolePermissionEntity               entity;
+        final RolePermissionId                   id;
 
-        // TODO: check if it exists
-        resourceEntity = resourcePermissionSpringRepository.findByName(permission.getName())
-            .get();
+        read = resourcePermissionSpringRepository.findByName(permission.getName());
 
-        id = RolePermissionId.builder()
-            .withPermission(resourceEntity.getName())
-            .build();
-        return RolePermissionEntity.builder()
-            .withGranted(true)
-            .withId(id)
-            .withResourcePermission(resourceEntity)
-            .build();
+        if (read.isPresent()) {
+            resourceEntity = read.get();
+            id = RolePermissionId.builder()
+                .withPermission(resourceEntity.getName())
+                .build();
+            entity = RolePermissionEntity.builder()
+                .withGranted(true)
+                .withId(id)
+                .withResourcePermission(resourceEntity)
+                .build();
+        } else {
+            entity = null;
+        }
+
+        return entity;
     }
 
     private final RoleEntity toEntity(final Role role) {

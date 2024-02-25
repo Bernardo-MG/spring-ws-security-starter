@@ -47,7 +47,7 @@ import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserActivationService - token validation")
-class TestUserActivationServiceToken {
+class TestUserActivationServiceValidateToken {
 
     @Mock
     private PasswordEncoder              passwordEncoder;

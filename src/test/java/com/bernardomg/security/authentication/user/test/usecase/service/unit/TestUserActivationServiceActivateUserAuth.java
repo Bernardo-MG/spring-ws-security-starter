@@ -34,7 +34,7 @@ import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - enable new user - authentication")
-class TestUserActivationServiceEnableUserAuth {
+class TestUserActivationServiceActivateUserAuth {
 
     @Mock
     private PasswordEncoder              passwordEncoder;
@@ -51,7 +51,7 @@ class TestUserActivationServiceEnableUserAuth {
     @Mock
     private UserNotificator              userNotificator;
 
-    public TestUserActivationServiceEnableUserAuth() {
+    public TestUserActivationServiceActivateUserAuth() {
         super();
     }
 

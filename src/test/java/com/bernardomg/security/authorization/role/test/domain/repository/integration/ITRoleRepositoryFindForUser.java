@@ -31,8 +31,8 @@ class ITRoleRepositoryFindForUser {
     }
 
     @Test
-    @DisplayName("When the user has roles, these are returned")
-    @UserWithoutPermissions
+    @DisplayName("When the user has roles with permissions, these are returned")
+    @UserWithCrudPermissions
     void testFindForUser() {
         final Iterable<Role> roles;
         final Pageable       pageable;
@@ -45,7 +45,7 @@ class ITRoleRepositoryFindForUser {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withPermissions());
     }
 
     @Test
@@ -105,9 +105,9 @@ class ITRoleRepositoryFindForUser {
     }
 
     @Test
-    @DisplayName("When the user has roles with permissions, these are returned")
-    @UserWithCrudPermissions
-    void testFindForUser_WithPermissions() {
+    @DisplayName("When the user has roles without permissions, these are returned")
+    @UserWithoutPermissions
+    void testFindForUser_WithoutPermissions() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
@@ -119,7 +119,7 @@ class ITRoleRepositoryFindForUser {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.withPermissions());
+            .containsExactly(Roles.valid());
     }
 
     @Test

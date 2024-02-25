@@ -70,7 +70,7 @@ class TestUserActivationServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        verify(repository).save(Users.enabled(), UserConstants.PASSWORD);
+        verify(repository).save(Users.withoutRole(), UserConstants.PASSWORD);
     }
 
 }

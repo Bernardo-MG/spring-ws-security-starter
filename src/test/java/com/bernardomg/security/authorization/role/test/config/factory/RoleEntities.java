@@ -18,6 +18,23 @@ public final class RoleEntities {
             .build();
     }
 
+    public static final RoleEntity withPermission() {
+        final Collection<RolePermissionEntity> permissions;
+        final RolePermissionEntity             create;
+
+        create = RolePermissionEntities.create();
+
+        create.getResourcePermission()
+            .setId(1L);
+
+        permissions = List.of(create);
+        return RoleEntity.builder()
+            .withId(1L)
+            .withName(RoleConstants.NAME)
+            .withPermissions(permissions)
+            .build();
+    }
+
     public static final RoleEntity withPermissions() {
         final Collection<RolePermissionEntity> permissions;
         final RolePermissionEntity             create;

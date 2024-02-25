@@ -24,6 +24,10 @@
 
 package com.bernardomg.security.authentication.user.domain.model;
 
+import java.util.Collection;
+
+import com.bernardomg.security.authorization.role.domain.model.Role;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -42,38 +46,40 @@ public final class User {
      * User email.
      */
     @NonNull
-    private String  email;
+    private String           email;
 
     /**
      * User enabled flag.
      */
-    private boolean enabled;
+    private boolean          enabled;
 
     /**
      * User expired flag.
      */
-    private boolean expired;
+    private boolean          expired;
 
     /**
      * User locked flag.
      */
-    private boolean locked;
+    private boolean          locked;
 
     /**
      * User name.
      */
     @NonNull
-    private String  name;
+    private String           name;
 
     /**
      * Password expired flag.
      */
-    private boolean passwordExpired;
+    private boolean          passwordExpired;
+
+    private Collection<Role> roles;
 
     /**
      * User username.
      */
     @NonNull
-    private String  username;
+    private String           username;
 
 }

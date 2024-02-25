@@ -39,6 +39,8 @@ import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAc
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
@@ -78,8 +80,10 @@ public class UserConfig {
     }
 
     @Bean("UuserRepository")
-    public UserRepository getUserRepository(final UserSpringRepository userRepo, final PasswordEncoder passEncoder) {
-        return new JpaUserRepository(userRepo, passEncoder);
+    public UserRepository getUserRepository(final UserSpringRepository userRepo,
+            final RoleSpringRepository roleSpringRepo,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo, final PasswordEncoder passEncoder) {
+        return new JpaUserRepository(userRepo, roleSpringRepo, resourcePermissionSpringRepo, passEncoder);
     }
 
     @Bean("userWhitelist")

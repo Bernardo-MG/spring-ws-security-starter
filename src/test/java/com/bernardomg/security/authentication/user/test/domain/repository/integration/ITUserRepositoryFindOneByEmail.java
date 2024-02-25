@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.LockedUser;
-import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -44,7 +44,7 @@ class ITUserRepositoryFindOneByEmail {
 
     @Test
     @DisplayName("Returns the correct data when reading an enabled user")
-    @OnlyUser
+    @EnabledUser
     void testFindOneByEmail_Enabled() {
         final Optional<User> result;
 

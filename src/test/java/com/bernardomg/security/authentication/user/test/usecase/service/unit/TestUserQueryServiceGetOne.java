@@ -37,7 +37,7 @@ class TestUserQueryServiceGetOne {
 
     @Test
     @DisplayName("When there is a user it is returned")
-    void testGetAll() {
+    void testGetOne() {
         final Optional<User> user;
 
         // GIVEN
@@ -55,7 +55,7 @@ class TestUserQueryServiceGetOne {
 
     @Test
     @DisplayName("When the user doesn't exist an exception is thrown")
-    void testGetAll_NoData() {
+    void testGetOne_NoData() {
         final ThrowingCallable execution;
 
         // GIVEN
