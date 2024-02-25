@@ -22,8 +22,35 @@
  * SOFTWARE.
  */
 
-/**
- * Permissions services.
- */
+package com.bernardomg.security.authorization.role.domain.model;
 
-package com.bernardomg.security.authorization.permission.usecase.service;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Role permission.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+@Deprecated
+public class RolePermission {
+
+    /**
+     * Permission.
+     */
+    private String permission;
+
+    /**
+     * Role id.
+     */
+    @Deprecated
+    private String role;
+
+}
