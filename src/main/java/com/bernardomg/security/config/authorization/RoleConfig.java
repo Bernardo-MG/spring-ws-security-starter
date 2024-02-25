@@ -31,15 +31,15 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserRoleService;
+import com.bernardomg.security.authentication.user.usecase.service.UserRoleService;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
-import com.bernardomg.security.authorization.role.usecase.service.DefaultUserRoleService;
 import com.bernardomg.security.authorization.role.usecase.service.RoleService;
-import com.bernardomg.security.authorization.role.usecase.service.UserRoleService;
 
 /**
  * Password handling configuration.

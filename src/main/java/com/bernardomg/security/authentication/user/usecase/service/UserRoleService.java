@@ -22,51 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.usecase.service;
-
-import java.util.Objects;
+package com.bernardomg.security.authentication.user.usecase.service;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default user role service.
+ * User roles service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class DefaultUserRoleService implements UserRoleService {
+public interface UserRoleService {
 
-    private final RoleRepository roleRepository;
-
-    private final UserRepository userRepository;
-
-    public DefaultUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo) {
-        super();
-
-        userRepository = Objects.requireNonNull(userRepo);
-        roleRepository = Objects.requireNonNull(roleRepo);
-    }
-
-    @Override
-    public final Iterable<Role> getAvailableRoles(final String username, final Pageable pageable) {
-        final boolean userExists;
-
-        log.debug("Reading available roles for {}", username);
-
-        userExists = userRepository.exists(username);
-        if (!userExists) {
-            throw new MissingUserUsernameException(username);
-        }
-
-        return roleRepository.findAvailableToUser(username, pageable);
-    }
+    /**
+     * Returns all the roles available to the user, in paginated form.
+     *
+     * @param username
+     *            user username
+     * @param page
+     *            pagination to apply
+     * @return a page with the available roles
+     */
+    public Iterable<Role> getAvailableRoles(final String username, final Pageable page);
 
 }
