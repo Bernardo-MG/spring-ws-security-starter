@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.LockedUser;
@@ -44,7 +45,7 @@ class ITUserRepositoryFindOne {
 
     @Test
     @DisplayName("Returns the correct data when reading an enabled user")
-    @OnlyUser
+    @EnabledUser
     void testFindOne_Enabled() {
         final Optional<User> result;
 
@@ -99,6 +100,18 @@ class ITUserRepositoryFindOne {
 
         Assertions.assertThat(result)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("Returns the correct data when reading a user without role")
+    @OnlyUser
+    void testFindOne_WithoutRole() {
+        final Optional<User> result;
+
+        result = repository.findOne(UserConstants.USERNAME);
+
+        Assertions.assertThat(result)
+            .contains(Users.withoutRole());
     }
 
 }

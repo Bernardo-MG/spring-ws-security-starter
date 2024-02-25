@@ -129,6 +129,7 @@ public final class DefaultUserQueryService implements UserQueryService {
             .withLocked(existing.get()
                 .isLocked())
             .withPasswordExpired(user.isPasswordExpired())
+            .withRoles(user.getRoles())
             .build();
 
         return userRepository.update(toSave);

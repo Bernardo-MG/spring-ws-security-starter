@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authentication.user.usecase.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -102,6 +103,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         user.setEnabled(true);
         user.setPasswordExpired(false);
+        user.setRoles(List.of());
 
         saved = userRepository.save(user, password);
         tokenStore.consumeToken(token);

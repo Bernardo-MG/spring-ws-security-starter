@@ -3,8 +3,8 @@ package com.bernardomg.security.authorization.access.test.config.factory;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.spring.ResourceActionGrantedAuthority;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
+import com.bernardomg.security.spring.usecase.ResourceActionGrantedAuthority;
 
 public final class GrantedAuthorities {
 

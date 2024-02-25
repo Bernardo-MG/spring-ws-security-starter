@@ -67,28 +67,6 @@ public interface RoleRepository {
     public Iterable<Role> findAll(final RoleQuery query, final Pageable page);
 
     /**
-     * Returns all the roles available to the user.
-     *
-     * @param username
-     *            user to search for
-     * @param page
-     *            pagination to apply
-     * @return all the roles available to the user
-     */
-    public Iterable<Role> findAvailableToUser(final String username, final Pageable page);
-
-    /**
-     * Returns all the roles assigned to the user.
-     *
-     * @param username
-     *            user to search for
-     * @param page
-     *            pagination to apply
-     * @return all the roles assigned to the user
-     */
-    public Iterable<Role> findForUser(final String username, final Pageable page);
-
-    /**
      * Returns the role for the received name.
      *
      * @param name
@@ -96,6 +74,15 @@ public interface RoleRepository {
      * @return the role for the received name
      */
     public Optional<Role> findOne(final String name);
+
+    /**
+     * Checks if a role exists with the given name for any user.
+     *
+     * @param role
+     *            name of the role to check
+     * @return {@code true} if the role exists for any user, {@code false} otherwise
+     */
+    public boolean isLinkedToUser(final String role);
 
     /**
      * Saves the received role. If it exists it is updated, otherwise it is created.

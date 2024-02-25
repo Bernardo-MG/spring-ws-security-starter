@@ -32,13 +32,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRepository;
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
@@ -77,9 +81,17 @@ public class UserConfig {
         return new DefaultUserQueryService(userRepo);
     }
 
-    @Bean("UuserRepository")
-    public UserRepository getUserRepository(final UserSpringRepository userRepo, final PasswordEncoder passEncoder) {
-        return new JpaUserRepository(userRepo, passEncoder);
+    @Bean("userRepository")
+    public UserRepository getUserRepository(final UserSpringRepository userRepo,
+            final RoleSpringRepository roleSpringRepo,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo, final PasswordEncoder passEncoder) {
+        return new JpaUserRepository(userRepo, roleSpringRepo, resourcePermissionSpringRepo, passEncoder);
+    }
+
+    @Bean("userRoleRepository")
+    public UserRoleRepository getUserRoleRepository(final RoleSpringRepository roleSpringRepo,
+            final UserSpringRepository userSpringRepo) {
+        return new JpaUserRoleRepository(roleSpringRepo, userSpringRepo);
     }
 
     @Bean("userWhitelist")

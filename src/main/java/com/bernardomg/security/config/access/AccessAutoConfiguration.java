@@ -25,7 +25,6 @@
 package com.bernardomg.security.config.access;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
 
 /**
  * Access auto configuration.
@@ -34,7 +33,6 @@ import org.springframework.context.annotation.Import;
  *
  */
 @AutoConfiguration
-@Import({ AccessConfig.class })
 public class AccessAutoConfiguration {
 
     public AccessAutoConfiguration() {

@@ -4,5 +4,6 @@ com.bernardomg.security.config.authorization.AuthorizationAutoConfiguration
 com.bernardomg.security.config.initializer.SecurityInitializerAutoConfiguration
 com.bernardomg.security.config.loader.PermissionLoaderAutoConfiguration
 com.bernardomg.security.config.login.LoginAutoConfiguration
+com.bernardomg.security.config.spring.SpringConfig
 com.bernardomg.security.config.web.WebSecurityAutoConfiguration
 com.bernardomg.security.config.SecurityAutoConfiguration

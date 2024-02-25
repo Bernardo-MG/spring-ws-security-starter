@@ -27,7 +27,7 @@ package com.bernardomg.security.authorization.role.usecase.validation;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -49,12 +49,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DeleteRoleValidator implements Validator<String> {
 
-    private final UserRoleRepository userRoleRepository;
+    private final RoleRepository roleRepository;
 
-    public DeleteRoleValidator(final UserRoleRepository userRoleRepo) {
+    public DeleteRoleValidator(final RoleRepository roleRepo) {
         super();
 
-        userRoleRepository = userRoleRepo;
+        roleRepository = roleRepo;
     }
 
     @Override
@@ -65,7 +65,8 @@ public final class DeleteRoleValidator implements Validator<String> {
         failures = new ArrayList<>();
 
         // No user has the role
-        if (userRoleRepository.existsForRole(role)) {
+        // TODO: Is this really needed?
+        if (roleRepository.isLinkedToUser(role)) {
             log.error("Role with id {} has a relationship with a user", role);
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("user", "existing", role);

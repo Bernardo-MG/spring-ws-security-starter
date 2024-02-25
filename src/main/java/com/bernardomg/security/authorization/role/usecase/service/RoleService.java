@@ -76,4 +76,13 @@ public interface RoleService {
      */
     public Optional<Role> getOne(final String role);
 
+    /**
+     * Updates the role for the received name with the received data.
+     *
+     * @param role
+     *            role to update
+     * @return the updated role
+     */
+    public Role update(final Role role);
+
 }
