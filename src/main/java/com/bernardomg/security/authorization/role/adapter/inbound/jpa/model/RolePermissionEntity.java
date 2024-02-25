@@ -22,45 +22,58 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model;
+package com.bernardomg.security.authorization.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Role permission key.
+ * Role permission entity.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Embeddable
+@Entity(name = "RolePermission")
+@Table(schema = "security", name = "role_permissions")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class RolePermissionId implements Serializable {
+public class RolePermissionEntity implements Serializable {
 
     /**
-     * Serialization ID.
+     * Serialization id.
      */
-    private static final long serialVersionUID = -7233957066746780621L;
+    private static final long        serialVersionUID = 8513041662486312372L;
+
+    /**
+     * Granted flag.
+     */
+    @Column(name = "granted", nullable = false)
+    private Boolean                  granted;
+
+    @EmbeddedId
+    private RolePermissionId         id;
 
     /**
      * Permission.
      */
-    @Column(name = "permission", nullable = false)
-    private String            permission;
-
-    /**
-     * Role id.
-     */
-    @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
-    private Long              roleId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "permission", referencedColumnName = "name", insertable = false, updatable = false)
+    // @MapsId("permission")
+    private ResourcePermissionEntity resourcePermission;
 
 }

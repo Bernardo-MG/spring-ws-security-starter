@@ -22,56 +22,45 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model;
+package com.bernardomg.security.authorization.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Role permission entity.
+ * Role permission key.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Entity(name = "RolePermission")
-@Table(schema = "security", name = "role_permissions")
+@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class RolePermissionEntity implements Serializable {
+public class RolePermissionId implements Serializable {
 
     /**
-     * Serialization id.
+     * Serialization ID.
      */
-    private static final long        serialVersionUID = 8513041662486312372L;
-
-    /**
-     * Granted flag.
-     */
-    @Column(name = "granted", nullable = false)
-    private Boolean                  granted;
-
-    @EmbeddedId
-    private RolePermissionId         id;
+    private static final long serialVersionUID = -7233957066746780621L;
 
     /**
      * Permission.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "permission", referencedColumnName = "name", insertable = false, updatable = false)
-    // @MapsId("permission")
-    private ResourcePermissionEntity resourcePermission;
+    @Column(name = "permission", nullable = false)
+    private String            permission;
+
+    /**
+     * Role id.
+     */
+    @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
+    private Long              roleId;
 
 }

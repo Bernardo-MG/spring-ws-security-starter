@@ -27,8 +27,6 @@ package com.bernardomg.security.authorization.role.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Collection;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

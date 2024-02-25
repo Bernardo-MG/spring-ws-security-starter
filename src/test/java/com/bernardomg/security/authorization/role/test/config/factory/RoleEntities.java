@@ -4,9 +4,9 @@ package com.bernardomg.security.authorization.role.test.config.factory;
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.permission.test.config.factory.RolePermissionEntities;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
 
 public final class RoleEntities {
 
