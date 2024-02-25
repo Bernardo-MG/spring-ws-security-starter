@@ -34,7 +34,6 @@ import com.bernardomg.security.authorization.role.domain.exception.MissingRoleEx
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.usecase.validation.CreateRoleValidator;
 import com.bernardomg.security.authorization.role.usecase.validation.DeleteRoleValidator;
 import com.bernardomg.validation.Validator;
@@ -56,13 +55,13 @@ public final class DefaultRoleService implements RoleService {
 
     private final Validator<String> validatorDeleteRole;
 
-    public DefaultRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
+    public DefaultRoleService(final RoleRepository roleRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
-        validatorDeleteRole = new DeleteRoleValidator(userRoleRepo);
+        validatorDeleteRole = new DeleteRoleValidator(roleRepo);
     }
 
     @Override

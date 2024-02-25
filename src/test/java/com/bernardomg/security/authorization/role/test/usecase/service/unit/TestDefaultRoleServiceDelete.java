@@ -39,7 +39,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
 
@@ -52,9 +51,6 @@ class TestDefaultRoleServiceDelete {
 
     @InjectMocks
     private DefaultRoleService service;
-
-    @Mock
-    private UserRoleRepository userRoleRepository;
 
     public TestDefaultRoleServiceDelete() {
         super();

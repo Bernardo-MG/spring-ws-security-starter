@@ -40,6 +40,7 @@ import com.bernardomg.security.authorization.permission.domain.model.ResourcePer
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -55,15 +56,19 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final RoleSpringRepository               roleSpringRepository;
 
+    private final UserRoleSpringRepository           userRoleSpringRepository;
+
     private final UserSpringRepository               userSpringRepository;
 
     public JpaRoleRepository(final RoleSpringRepository roleSpringRepo, final UserSpringRepository userSpringRepo,
-            final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
+            final UserRoleSpringRepository userRoleSpringRepo) {
         super();
 
         roleSpringRepository = roleSpringRepo;
         userSpringRepository = userSpringRepo;
         resourcePermissionSpringRepository = resourcePermissionSpringRepo;
+        userRoleSpringRepository = userRoleSpringRepo;
     }
 
     @Override
@@ -74,6 +79,29 @@ public final class JpaRoleRepository implements RoleRepository {
     @Override
     public final boolean exists(final String name) {
         return roleSpringRepository.existsByName(name);
+    }
+
+    @Override
+    public final boolean existsForRole(final String role) {
+        final UserRoleEntity       sample;
+        final Optional<RoleEntity> roleEntity;
+        final boolean              exists;
+
+        // TODO: rename, it is not clear what this method is for
+
+        roleEntity = roleSpringRepository.findOneByName(role);
+        if (roleEntity.isPresent()) {
+            sample = UserRoleEntity.builder()
+                .withRoleId(roleEntity.get()
+                    .getId())
+                .build();
+
+            exists = userRoleSpringRepository.exists(Example.of(sample));
+        } else {
+            exists = false;
+        }
+
+        return exists;
     }
 
     @Override

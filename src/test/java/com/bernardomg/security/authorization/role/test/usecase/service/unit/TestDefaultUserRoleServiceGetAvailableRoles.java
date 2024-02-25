@@ -18,7 +18,6 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultUserRoleService;
 
@@ -34,9 +33,6 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
     @Mock
     private UserRepository         userRepository;
-
-    @Mock
-    private UserRoleRepository     userRoleRepository;
 
     public TestDefaultUserRoleServiceGetAvailableRoles() {
         super();

@@ -56,6 +56,15 @@ public interface RoleRepository {
     public boolean exists(final String name);
 
     /**
+     * Checks if a role exists with the given name for any user.
+     *
+     * @param role
+     *            name of the role to check
+     * @return {@code true} if the role exists for any user, {@code false} otherwise
+     */
+    public boolean existsForRole(final String role);
+
+    /**
      * Returns all the roles for the received query.
      *
      * @param query

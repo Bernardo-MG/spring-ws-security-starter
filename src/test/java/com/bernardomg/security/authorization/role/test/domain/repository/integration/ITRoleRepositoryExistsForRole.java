@@ -7,16 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithPermission;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRoleRepository - exists for role")
-class ITUserRoleRepositoryExistsForRole {
+@DisplayName("RoleRepository - exists for role")
+class ITRoleRepositoryExistsForRole {
 
     @Autowired
-    private UserRoleRepository repository;
+    private RoleRepository repository;
 
     @Test
     @DisplayName("When the role has a user it exists")

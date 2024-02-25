@@ -59,6 +59,8 @@ public final class DefaultUserRoleService implements UserRoleService {
     public final Iterable<Role> getAvailableRoles(final String username, final Pageable pageable) {
         final boolean userExists;
 
+        log.debug("Reading available roles for {}", username);
+
         userExists = userRepository.exists(username);
         if (!userExists) {
             throw new MissingUserUsernameException(username);
