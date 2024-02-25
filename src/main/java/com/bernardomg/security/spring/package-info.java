@@ -26,4 +26,4 @@
  * Spring access validator.
  */
 
-package com.bernardomg.security.authorization.access.adapter.inbound.spring;
+package com.bernardomg.security.spring;

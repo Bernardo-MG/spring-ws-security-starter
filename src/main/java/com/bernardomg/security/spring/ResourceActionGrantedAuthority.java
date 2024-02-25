@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.adapter.inbound.spring;
+package com.bernardomg.security.spring;
 
 import org.springframework.security.core.GrantedAuthority;
 

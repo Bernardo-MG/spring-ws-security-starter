@@ -28,9 +28,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.access.adapter.inbound.spring.SpringResourceAccessValidator;
 import com.bernardomg.security.authorization.access.usecase.validator.RequireResourceAccessInterceptor;
 import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.spring.SpringResourceAccessValidator;
 
 /**
  * Access configuration.

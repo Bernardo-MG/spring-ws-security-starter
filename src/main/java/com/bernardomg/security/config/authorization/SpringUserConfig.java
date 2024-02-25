@@ -28,9 +28,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authorization.permission.adapter.inbound.spring.PersistentUserDetailsService;
-import com.bernardomg.security.authorization.permission.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.spring.PersistentUserDetailsService;
 
 /**
  * Spring user configuration.

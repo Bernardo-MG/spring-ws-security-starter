@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.domain.repository;
+package com.bernardomg.security.authentication.user.domain.repository;
 
 import java.util.Collection;
 

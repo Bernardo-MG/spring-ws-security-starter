@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.access.adapter.inbound.spring;
+package com.bernardomg.security.spring;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -31,7 +31,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
-import com.bernardomg.security.authorization.permission.adapter.inbound.spring.ResourceActionGrantedAuthority;
 
 import lombok.extern.slf4j.Slf4j;
 
