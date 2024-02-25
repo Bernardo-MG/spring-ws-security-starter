@@ -71,15 +71,14 @@ public class RoleConfig {
     }
 
     @Bean("UserRoleRepository")
-    public UserRoleRepository getUserRoleRepository(final UserSpringRepository userRepo,
-            final RoleSpringRepository roleRepo, final UserRoleSpringRepository userRoleRepo) {
-        return new JpaUserRoleRepository(userRepo, roleRepo, userRoleRepo);
+    public UserRoleRepository getUserRoleRepository(final RoleSpringRepository roleRepo,
+            final UserRoleSpringRepository userRoleRepo) {
+        return new JpaUserRoleRepository(roleRepo, userRoleRepo);
     }
 
     @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
-        return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
+    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo) {
+        return new DefaultUserRoleService(userRepo, roleRepo);
     }
 
 }

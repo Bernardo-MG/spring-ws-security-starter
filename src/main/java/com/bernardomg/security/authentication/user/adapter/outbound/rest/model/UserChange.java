@@ -50,33 +50,33 @@ public final class UserChange {
      */
     @NotNull
     @Email
-    private String  email;
+    private String             email;
 
     /**
      * User enabled flag.
      */
     @NotNull
-    private Boolean enabled;
+    private Boolean            enabled;
 
     /**
      * User name.
      */
     @NotNull
-    private String  name;
+    private String             name;
 
     /**
      * Password expired flag.
      */
     @NotNull
-    private Boolean passwordExpired;
+    private Boolean            passwordExpired;
+
+    @NotNull
+    private Collection<String> roles;
 
     /**
      * User username.
      */
     @NotNull
-    private String  username;
-
-    @NotNull
-    private Collection<String> roles;
+    private String             username;
 
 }

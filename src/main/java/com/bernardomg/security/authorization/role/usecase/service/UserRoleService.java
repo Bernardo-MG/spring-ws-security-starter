@@ -37,17 +37,6 @@ import com.bernardomg.security.authorization.role.domain.model.Role;
 public interface UserRoleService {
 
     /**
-     * Adds a role to a user.
-     *
-     * @param username
-     *            user username
-     * @param role
-     *            role to add
-     * @return the added role
-     */
-    public Role addRole(final String username, final String role);
-
-    /**
      * Returns all the roles available to the user, in paginated form.
      *
      * @param username
@@ -57,27 +46,5 @@ public interface UserRoleService {
      * @return a page with the available roles
      */
     public Iterable<Role> getAvailableRoles(final String username, final Pageable page);
-
-    /**
-     * Returns all the roles for the user, in paginated form.
-     *
-     * @param username
-     *            user username
-     * @param pageable
-     *            pagination to apply
-     * @return a page with the roles
-     */
-    public Iterable<Role> getRoles(final String username, final Pageable pageable);
-
-    /**
-     * Removes a role from a user.
-     *
-     * @param username
-     *            user username
-     * @param role
-     *            role to add
-     * @return the removed role
-     */
-    public Role removeRole(final String username, final String role);
 
 }

@@ -24,11 +24,12 @@
 
 package com.bernardomg.security.initializer.usecase.service;
 
+import java.util.List;
+
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,18 +42,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUsersInitializerService implements UsersInitializerService {
 
-    private final RoleRepository     roleRepository;
+    private final RoleRepository roleRepository;
 
-    private final UserRepository     userRepository;
+    private final UserRepository userRepository;
 
-    private final UserRoleRepository userRoleRepository;
-
-    public DefaultUsersInitializerService(final UserRepository userRepo, final UserRoleRepository userRoleRepo,
-            final RoleRepository roleRepo) {
+    public DefaultUsersInitializerService(final UserRepository userRepo, final RoleRepository roleRepo) {
         super();
 
         userRepository = userRepo;
-        userRoleRepository = userRoleRepo;
         roleRepository = roleRepo;
     }
 
@@ -67,6 +64,11 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
     }
 
     private final User getReadUser() {
+        final Role role;
+
+        role = roleRepository.findOne("READ")
+            .get();
+
         return User.builder()
             .withUsername("read")
             .withName("read")
@@ -75,10 +77,16 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withLocked(false)
             .withExpired(false)
             .withPasswordExpired(false)
+            .withRoles(List.of(role))
             .build();
     }
 
     private final User getRootUser() {
+        final Role role;
+
+        role = roleRepository.findOne("ADMIN")
+            .get();
+
         return User.builder()
             .withUsername("root")
             .withName("root")
@@ -87,37 +95,24 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withLocked(false)
             .withExpired(false)
             .withPasswordExpired(false)
+            .withRoles(List.of(role))
             .build();
     }
 
     private final void initializeReadUser() {
         final User readUser;
-        final User savedReadUser;
-        final Role role;
 
         // Add read user
         readUser = getReadUser();
-        savedReadUser = userRepository.save(readUser, "1234");
-
-        role = roleRepository.findOne("READ")
-            .get();
-
-        userRoleRepository.save(savedReadUser.getUsername(), role.getName());
+        userRepository.save(readUser, "1234");
     }
 
     private final void initializeRootUser() {
         final User rootUser;
-        final User savedRootUser;
-        final Role role;
 
         // Add root user
         rootUser = getRootUser();
-        savedRootUser = userRepository.save(rootUser, "1234");
-
-        role = roleRepository.findOne("ADMIN")
-            .get();
-
-        userRoleRepository.save(savedRootUser.getUsername(), role.getName());
+        userRepository.save(rootUser, "1234");
     }
 
     private final void runIfNotExists(final Runnable runnable, final String name) {

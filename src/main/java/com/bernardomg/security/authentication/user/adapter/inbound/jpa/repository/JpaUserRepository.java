@@ -282,13 +282,13 @@ public final class JpaUserRepository implements UserRepository {
     private final UserEntity toEntity(final User user) {
         final Collection<RoleEntity> roles;
 
-        if(user.getRoles()==null) {
+        if (user.getRoles() == null) {
             roles = List.of();
         } else {
             roles = user.getRoles()
-                    .stream()
-                    .map(this::toEntity)
-                    .toList();
+                .stream()
+                .map(this::toEntity)
+                .toList();
         }
         return UserEntity.builder()
             .withUsername(user.getUsername())

@@ -156,10 +156,15 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User update(@PathVariable("username") final String username, @Valid @RequestBody final UserChange request) {
-        final User user;
+        final User             user;
         final Collection<Role> roles;
 
-        roles = request.getRoles().stream().map(r -> Role.builder().withName(r).build()).toList();
+        roles = request.getRoles()
+            .stream()
+            .map(r -> Role.builder()
+                .withName(r)
+                .build())
+            .toList();
         user = User.builder()
             .withUsername(request.getUsername())
             .withName(request.getName())

@@ -25,16 +25,13 @@
 package com.bernardomg.security.authorization.role.usecase.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,78 +44,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 
-    private final RoleRepository     roleRepository;
+    private final RoleRepository roleRepository;
 
-    private final UserRepository     userRepository;
+    private final UserRepository userRepository;
 
-    private final UserRoleRepository userRoleRepository;
-
-    public DefaultUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
+    public DefaultUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
-        userRoleRepository = Objects.requireNonNull(userRoleRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
     }
 
     @Override
-    public final Role addRole(final String username, final String role) {
-        final Optional<Role> readRole;
-        final boolean        userExists;
-
-        log.debug("Adding role {} to user {}", role, username);
-
-        userExists = userRepository.exists(username);
-        if (!userExists) {
-            throw new MissingUserUsernameException(username);
-        }
-
-        readRole = roleRepository.findOne(role);
-        if (readRole.isEmpty()) {
-            throw new MissingRoleException(role);
-        }
-
-        // Persist relationship
-        userRoleRepository.save(username, role);
-
-        return readRole.get();
-    }
-
-    @Override
     public final Iterable<Role> getAvailableRoles(final String username, final Pageable pageable) {
-        // TODO: Check if user exists
-        return roleRepository.findAvailableToUser(username, pageable);
-    }
-
-    @Override
-    public final Iterable<Role> getRoles(final String username, final Pageable pageable) {
-        log.debug("Getting roles for user {} and pagination {}", username, pageable);
-
-        return roleRepository.findForUser(username, pageable);
-    }
-
-    @Override
-    public final Role removeRole(final String username, final String role) {
-        final Optional<Role> readRole;
-        final boolean        userExists;
-
-        log.debug("Removing role {} from user {}", username, role);
+        final boolean userExists;
 
         userExists = userRepository.exists(username);
         if (!userExists) {
             throw new MissingUserUsernameException(username);
         }
 
-        readRole = roleRepository.findOne(role);
-        if (readRole.isEmpty()) {
-            throw new MissingRoleException(role);
-        }
-
-        // Persist relationship
-        userRoleRepository.delete(username, role);
-
-        return readRole.get();
+        return roleRepository.findAvailableToUser(username, pageable);
     }
 
 }

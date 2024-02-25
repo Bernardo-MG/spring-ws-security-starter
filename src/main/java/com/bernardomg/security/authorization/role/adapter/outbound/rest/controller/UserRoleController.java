@@ -24,20 +24,16 @@
 
 package com.bernardomg.security.authorization.role.adapter.outbound.rest.controller;
 
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.adapter.outbound.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -63,40 +59,6 @@ public class UserRoleController {
     private final UserRoleService service;
 
     /**
-     * Adds a role to a user.
-     *
-     * @param username
-     *            user username
-     * @param role
-     *            role to add
-     * @return the added role
-     */
-    @PutMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @CacheEvict(
-            cacheNames = { PermissionCaches.PERMISSION_SET, RoleCaches.USER_ROLES, RoleCaches.USER_AVAILABLE_ROLES },
-            allEntries = true)
-    public Role add(@PathVariable("username") final String username, @PathVariable("role") final String role) {
-        return service.addRole(username, role);
-    }
-
-    /**
-     * Returns all the user roles in a paginated form.
-     *
-     * @param username
-     *            user username
-     * @param page
-     *            pagination to apply
-     * @return a page with the user roles
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = RoleCaches.USER_ROLES)
-    public Iterable<Role> readAll(@PathVariable("username") final String username, final Pageable page) {
-        return service.getRoles(username, page);
-    }
-
-    /**
      * Returns all the roles available to a user. That is, those which haven't been assigned to the role.
      *
      * @param username
@@ -112,21 +74,4 @@ public class UserRoleController {
         return service.getAvailableRoles(username, page);
     }
 
-    /**
-     * Removes a role from a user.
-     *
-     * @param username
-     *            user username
-     * @param role
-     *            role to add
-     * @return removed role
-     */
-    @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @CacheEvict(
-            cacheNames = { PermissionCaches.PERMISSION_SET, RoleCaches.USER_ROLES, RoleCaches.USER_AVAILABLE_ROLES },
-            allEntries = true)
-    public Role remove(@PathVariable("username") final String username, @PathVariable("role") final String role) {
-        return service.removeRole(username, role);
-    }
 }

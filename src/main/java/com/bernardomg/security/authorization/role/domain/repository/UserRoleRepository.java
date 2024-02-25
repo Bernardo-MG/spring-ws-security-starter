@@ -32,16 +32,6 @@ package com.bernardomg.security.authorization.role.domain.repository;
 public interface UserRoleRepository {
 
     /**
-     * Deletes the role for the user.
-     *
-     * @param username
-     *            username from with to delete the role
-     * @param role
-     *            role to delete
-     */
-    public void delete(final String username, final String role);
-
-    /**
      * Checks if a role exists with the given name for any user.
      *
      * @param role
@@ -49,15 +39,5 @@ public interface UserRoleRepository {
      * @return {@code true} if the role exists for any user, {@code false} otherwise
      */
     public boolean existsForRole(final String role);
-
-    /**
-     * Saves the received role. If it exists it is updated, otherwise it is created.
-     *
-     * @param username
-     *            username to assign the role to
-     * @param role
-     *            role to assign
-     */
-    public void save(final String username, final String role);
 
 }

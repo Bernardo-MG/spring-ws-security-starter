@@ -65,6 +65,7 @@ public final class DeleteRoleValidator implements Validator<String> {
         failures = new ArrayList<>();
 
         // No user has the role
+        // TODO: Is this really needed?
         if (userRoleRepository.existsForRole(role)) {
             log.error("Role with id {} has a relationship with a user", role);
             // TODO: Is the code exists or is it existing? Make sure all use the same

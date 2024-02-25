@@ -46,16 +46,6 @@ class TestUsersInitializer {
     }
 
     @Test
-    @DisplayName("Sets roles to users")
-    void testInitialize_Permissions() {
-        // WHEN
-        usersInitializerService.initialize();
-
-        // THEN
-        verify(userRoleRepository, atLeastOnce()).save(ArgumentMatchers.any(), ArgumentMatchers.any());
-    }
-
-    @Test
     @DisplayName("Creates users")
     void testInitialize_Roles() {
         // WHEN
