@@ -132,7 +132,7 @@ public class RoleController {
     /**
      * Updates a role.
      *
-     * @param role
+     * @param roleName
      *            role name
      * @param request
      *            updated role data
