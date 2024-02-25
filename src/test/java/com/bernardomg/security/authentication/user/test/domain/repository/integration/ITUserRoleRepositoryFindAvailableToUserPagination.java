@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authorization.role.test.domain.repository.integration;
+package com.bernardomg.security.authentication.user.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,24 +9,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("RoleRepository - find available to user - pagination")
+@DisplayName("UserRoleRepository - find available to user - pagination")
 @UserWithoutRole
 @SingleRole
-class ITRoleRepositoryFindAvailableToUserPagination {
+class ITUserRoleRepositoryFindAvailableToUserPagination {
 
     @Autowired
-    private RoleRepository repository;
+    private UserRoleRepository repository;
 
-    public ITRoleRepositoryFindAvailableToUserPagination() {
+    public ITUserRoleRepositoryFindAvailableToUserPagination() {
         super();
     }
 

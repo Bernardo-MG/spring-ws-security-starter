@@ -17,24 +17,24 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserRoleService;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserRoleService - get available roles")
 class TestDefaultUserRoleServiceGetAvailableRoles {
 
-    @Mock
-    private RoleRepository         roleRepository;
-
     @InjectMocks
     private DefaultUserRoleService service;
 
     @Mock
     private UserRepository         userRepository;
+
+    @Mock
+    private UserRoleRepository     userRoleRepository;
 
     public TestDefaultUserRoleServiceGetAvailableRoles() {
         super();
@@ -49,7 +49,8 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(roleRepository.findAvailableToUser(UserConstants.USERNAME, pageable)).willReturn(List.of(Roles.valid()));
+        given(userRoleRepository.findAvailableToUser(UserConstants.USERNAME, pageable))
+            .willReturn(List.of(Roles.valid()));
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
@@ -69,7 +70,7 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
         // GIVEN
         pageable = Pageable.unpaged();
 
-        given(roleRepository.findAvailableToUser(UserConstants.USERNAME, pageable)).willReturn(List.of());
+        given(userRoleRepository.findAvailableToUser(UserConstants.USERNAME, pageable)).willReturn(List.of());
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN

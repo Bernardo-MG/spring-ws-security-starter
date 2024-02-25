@@ -30,8 +30,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,15 +44,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DefaultUserRoleService implements UserRoleService {
 
-    private final RoleRepository roleRepository;
+    private final UserRepository     userRepository;
 
-    private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
 
-    public DefaultUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo) {
+    public DefaultUserRoleService(final UserRepository userRepo, final UserRoleRepository userRoleRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
-        roleRepository = Objects.requireNonNull(roleRepo);
+        userRoleRepository = Objects.requireNonNull(userRoleRepo);
     }
 
     @Override
@@ -66,7 +66,7 @@ public final class DefaultUserRoleService implements UserRoleService {
             throw new MissingUserUsernameException(username);
         }
 
-        return roleRepository.findAvailableToUser(username, pageable);
+        return userRoleRepository.findAvailableToUser(username, pageable);
     }
 
 }

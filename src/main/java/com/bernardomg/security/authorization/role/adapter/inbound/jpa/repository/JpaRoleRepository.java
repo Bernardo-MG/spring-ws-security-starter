@@ -33,7 +33,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
@@ -58,15 +57,12 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final UserRoleSpringRepository           userRoleSpringRepository;
 
-    private final UserSpringRepository               userSpringRepository;
-
-    public JpaRoleRepository(final RoleSpringRepository roleSpringRepo, final UserSpringRepository userSpringRepo,
+    public JpaRoleRepository(final RoleSpringRepository roleSpringRepo,
             final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
             final UserRoleSpringRepository userRoleSpringRepo) {
         super();
 
         roleSpringRepository = roleSpringRepo;
-        userSpringRepository = userSpringRepo;
         resourcePermissionSpringRepository = resourcePermissionSpringRepo;
         userRoleSpringRepository = userRoleSpringRepo;
     }
@@ -89,22 +85,6 @@ public final class JpaRoleRepository implements RoleRepository {
 
         return roleSpringRepository.findAll(Example.of(sample), page)
             .map(this::toDomain);
-    }
-
-    @Override
-    public final Iterable<Role> findAvailableToUser(final String username, final Pageable page) {
-        final boolean        exists;
-        final Iterable<Role> roles;
-
-        exists = userSpringRepository.existsByUsername(username);
-        if (exists) {
-            roles = roleSpringRepository.findAvailableToUser(username, page)
-                .map(this::toDomain);
-        } else {
-            roles = List.of();
-        }
-
-        return roles;
     }
 
     @Override

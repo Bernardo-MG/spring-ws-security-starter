@@ -36,7 +36,7 @@ public class ModulesArchitectureTest {
         .definedBy("com.bernardomg.security.config..")
 
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Permissions", "Password", "Roles", "Tokens", "Initializers", "Config", "Login")
+        .mayOnlyBeAccessedByLayers("Permissions", "Password", "Tokens", "Initializers", "Config", "Login")
         .whereLayer("Roles")
         .mayOnlyBeAccessedByLayers("Users", "Initializers", "Config")
         .whereLayer("Permissions")
