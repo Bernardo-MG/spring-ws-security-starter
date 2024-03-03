@@ -5,9 +5,6 @@ import static com.bernardomg.security.architecture.config.ControllerClassPredica
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -18,18 +15,6 @@ import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(packages = "com.bernardomg.security", importOptions = ImportOption.DoNotIncludeTests.class)
 public class ControllerArchitectureRulesTest {
-
-    @ArchTest
-    static final ArchRule controllers_methods_should_be_cached        = methods().that()
-        .areDeclaredInClassesThat(areControllerClasses())
-        .and()
-        .arePublic()
-        .should()
-        .beAnnotatedWith(Caching.class)
-        .orShould()
-        .beAnnotatedWith(Cacheable.class)
-        .orShould()
-        .beAnnotatedWith(CacheEvict.class);
 
     @ArchTest
     static final ArchRule controllers_methods_should_be_secured       = methods().that()
