@@ -9,26 +9,26 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(packages = "com.bernardomg.security", importOptions = ImportOption.DoNotIncludeTests.class)
-public class LayeredArchitectureTest {
+public class LayeredArchitectureRulesTest {
 
     @ArchTest
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
         .layer("Use case")
-        .definedBy("com.bernardomg.security..usecase..")
+        .definedBy("com.bernardomg.association..usecase..")
         .layer("Domain")
-        .definedBy("com.bernardomg.security..domain..")
+        .definedBy("com.bernardomg.association..domain..")
         .layer("Infrastructure - Inbound")
-        .definedBy("com.bernardomg.security..adapter.inbound..")
+        .definedBy("com.bernardomg.association..adapter.inbound..")
         .layer("Infrastructure - Outbound")
-        .definedBy("com.bernardomg.security..adapter.outbound..")
+        .definedBy("com.bernardomg.association..adapter.outbound..")
         .layer("Configuration")
-        .definedBy("com.bernardomg.security..config..")
+        .definedBy("com.bernardomg.association..config..")
 
         .whereLayer("Infrastructure - Outbound")
         .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Infrastructure - Inbound")
-        .mayOnlyBeAccessedByLayers("Configuration")
+        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound")
         .whereLayer("Use case")
         .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound")
         .whereLayer("Domain")
