@@ -67,7 +67,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/user")
 @AllArgsConstructor
-@Transactional
 public class UserController {
 
     /**

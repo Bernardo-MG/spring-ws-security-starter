@@ -26,7 +26,6 @@ package com.bernardomg.security.authentication.password.reset.adapter.outbound.r
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,7 +52,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/password/reset")
 @AllArgsConstructor
-@Transactional
 public class PasswordResetController {
 
     /**

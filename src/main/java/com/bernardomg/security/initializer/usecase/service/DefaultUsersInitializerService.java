@@ -26,6 +26,8 @@ package com.bernardomg.security.initializer.usecase.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -40,6 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultUsersInitializerService implements UsersInitializerService {
 
     private final RoleRepository roleRepository;

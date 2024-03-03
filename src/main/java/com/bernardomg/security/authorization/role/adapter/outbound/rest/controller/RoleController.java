@@ -30,7 +30,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.role.adapter.outbound.rest.cache.RoleCaches;
+import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleChange;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleCreate;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -61,7 +60,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/role")
 @AllArgsConstructor
-@Transactional
 public class RoleController {
 
     /**

@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
@@ -50,6 +52,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultUserActivationService implements UserActivationService {
 
     /**

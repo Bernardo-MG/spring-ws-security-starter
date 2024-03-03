@@ -50,7 +50,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/role/{role}/permission")
 @AllArgsConstructor
-@Transactional
 public class RolePermissionSelectionController {
 
     /**

@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.controller;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +44,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/login")
 @AllArgsConstructor
-@Transactional
 public class LoginController {
 
     /**

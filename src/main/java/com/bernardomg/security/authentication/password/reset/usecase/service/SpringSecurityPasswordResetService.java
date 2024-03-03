@@ -64,6 +64,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
 
     /**
