@@ -22,44 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.web;
-
-import java.util.List;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import lombok.Data;
+package com.bernardomg.security.authorization.role.adapter.outbound.cache;
 
 /**
- * CORS configuration properties.
+ * Names of all the caches used for role queries.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-@Data
-@ConfigurationProperties(prefix = "cors")
-public final class CorsProperties {
+public final class RoleCaches {
 
     /**
-     * Allowed headers.
+     * Single role.
      */
-    private List<String> allowedHeaders = List.of("*");
+    public static final String ROLE                 = "security_role";
 
     /**
-     * Allowed methods.
+     * Multiple roles.
      */
-    private List<String> allowedMethods = List.of("*");
+    public static final String ROLES                = "security_roles";
 
     /**
-     * Allowed origins.
+     * Roles available to user.
      */
-    private List<String> allowedOrigins = List.of("*");
+    public static final String USER_AVAILABLE_ROLES = "security_user_available_roles";
 
     /**
-     * Exposed headers.
+     * User roles.
      */
-    private List<String> exposedHeaders = List.of("*");
+    public static final String USER_ROLES           = "security_user_roles";
 
-    /**
-     * Valid pattern.
-     */
-    private String       pattern        = "/**";
+    private RoleCaches() {
+        super();
+    }
 
 }

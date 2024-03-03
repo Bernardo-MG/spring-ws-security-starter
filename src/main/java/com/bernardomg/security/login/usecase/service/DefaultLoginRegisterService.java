@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
@@ -38,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
  * Default implementation of the log in service.
  */
 @Slf4j
+@Transactional
 public final class DefaultLoginRegisterService implements LoginRegisterService {
 
     private final LoginRegisterRepository loginRegisterRepository;

@@ -22,38 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.adapter.outbound.rest.cache;
-
 /**
- * Names of all the caches used for role queries.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Role cache configuration.
  */
-public final class RoleCaches {
 
-    /**
-     * Single role.
-     */
-    public static final String ROLE                 = "security_role";
-
-    /**
-     * Multiple roles.
-     */
-    public static final String ROLES                = "security_roles";
-
-    /**
-     * Roles available to user.
-     */
-    public static final String USER_AVAILABLE_ROLES = "security_user_available_roles";
-
-    /**
-     * User roles.
-     */
-    public static final String USER_ROLES           = "security_user_roles";
-
-    private RoleCaches() {
-        super();
-    }
-
-}
+package com.bernardomg.security.authorization.role.adapter.outbound.cache;

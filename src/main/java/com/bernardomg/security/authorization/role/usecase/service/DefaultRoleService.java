@@ -29,6 +29,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -47,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultRoleService implements RoleService {
 
     private final RoleRepository    roleRepository;

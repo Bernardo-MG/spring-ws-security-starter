@@ -9,7 +9,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(packages = "com.bernardomg.security", importOptions = ImportOption.DoNotIncludeTests.class)
-public class LayeredArchitectureTest {
+public class LayeredArchitectureRulesTest {
 
     @ArchTest
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()

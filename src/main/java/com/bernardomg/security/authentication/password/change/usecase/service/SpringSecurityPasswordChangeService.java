@@ -33,6 +33,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.password.domain.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
@@ -53,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class SpringSecurityPasswordChangeService implements PasswordChangeService {
 
     /**

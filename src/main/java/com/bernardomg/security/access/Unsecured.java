@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,25 @@
  * SOFTWARE.
  */
 
-/**
- * Role cache configuration.
- */
+package com.bernardomg.security.access;
 
-package com.bernardomg.security.authorization.role.adapter.outbound.rest.cache;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Access control annotation, marking a method with applies no security.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Target({ ElementType.METHOD, ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+public @interface Unsecured {
+
+}

@@ -29,7 +29,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserActivation;
 import com.bernardomg.security.authentication.user.domain.model.User;
@@ -56,7 +56,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/user/activate")
 @AllArgsConstructor
-@Transactional
 public class UserActivationController {
 
     /**
@@ -75,6 +74,7 @@ public class UserActivationController {
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Unsecured
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User activate(@PathVariable("token") final String token, @Valid @RequestBody final UserActivation request) {
@@ -90,8 +90,10 @@ public class UserActivationController {
      * @return {@code true} if the token is valid, {@code false} otherwise
      */
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Unsecured
     public UserTokenStatus validateToken(@PathVariable("token") final String token) {
         // TODO: Use a generic controller for tokens
+        // TODO: Use cache
         return service.validateToken(token);
     }
 

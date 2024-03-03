@@ -22,47 +22,28 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.outbound.rest.controller;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.login.adapter.outbound.rest.model.Login;
-import com.bernardomg.security.login.domain.model.TokenLoginStatus;
-import com.bernardomg.security.login.usecase.service.LoginService;
-
-import lombok.AllArgsConstructor;
+package com.bernardomg.security.authorization.token.adapter.outbound.cache;
 
 /**
- * Handles login requests. All the logic is delegated to a {@link LoginService}.
+ * Names of all the caches used for user token queries.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-@RequestMapping("/login")
-@AllArgsConstructor
-public class LoginController {
+public final class UserTokenCaches {
 
     /**
-     * Login service.
+     * Single user token.
      */
-    private final LoginService service;
+    public static final String USER_TOKEN  = "user_token";
 
     /**
-     * Attempts to log in a user, returning the login status.
-     *
-     * @param request
-     *            login request
-     * @return the login status after the login attempt
+     * Multiple user tokens.
      */
-    @PostMapping
-    @Unsecured
-    public TokenLoginStatus login(@RequestBody final Login request) {
-        return service.login(request.getUsername(), request.getPassword());
+    public static final String USER_TOKENS = "user_tokens";
+
+    private UserTokenCaches() {
+        super();
     }
 
 }

@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
@@ -45,6 +46,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultUserQueryService implements UserQueryService {
 
     /**

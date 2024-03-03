@@ -26,6 +26,8 @@ package com.bernardomg.security.initializer.usecase.service;
 
 import java.util.Collection;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
@@ -41,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultRolesInitializerService implements RolesInitializerService {
 
     private final ResourcePermissionRepository resourcePermissionRepository;

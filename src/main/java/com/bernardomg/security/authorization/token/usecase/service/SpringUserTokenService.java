@@ -29,6 +29,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
@@ -53,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class SpringUserTokenService implements UserTokenService {
 
     /**

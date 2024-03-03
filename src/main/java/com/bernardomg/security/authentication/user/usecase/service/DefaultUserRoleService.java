@@ -27,6 +27,7 @@ package com.bernardomg.security.authentication.user.usecase.service;
 import java.util.Objects;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
@@ -42,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultUserRoleService implements UserRoleService {
 
     private final UserRepository     userRepository;
