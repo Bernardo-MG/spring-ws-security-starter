@@ -29,6 +29,7 @@ import java.util.Collection;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurer;
@@ -70,6 +71,12 @@ public class WebSecurityConfig {
         super();
     }
 
+    @Primary
+    @Bean("corsConfigurationSource")
+    public CorsConfigurationSource getCorsConfigurationSource(final CorsProperties corsProperties) {
+        return new CorsConfigurationPropertiesSource(corsProperties);
+    }
+
     @Bean("actuatorWhitelist")
     public WhitelistRoute getLoginWhitelist() {
         return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
@@ -82,8 +89,8 @@ public class WebSecurityConfig {
      *            HTTP security component
      * @param handlerMappingIntrospector
      *            utility class to find routes
-     * @param corsProperties
-     *            CORS properties
+     * @param corsConfigurationSource
+     *            CORS configuration source
      * @param securityConfigurers
      *            security configurers
      * @param whitelist
@@ -94,13 +101,11 @@ public class WebSecurityConfig {
      */
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
-            final HandlerMappingIntrospector handlerMappingIntrospector, final CorsProperties corsProperties,
+            final HandlerMappingIntrospector handlerMappingIntrospector,
+            final CorsConfigurationSource corsConfigurationSource,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final Collection<WhitelistRoute> whitelist) throws Exception {
-        final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
-
-        corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
 
         whitelister = new WhitelistCustomizer(whitelist, handlerMappingIntrospector);
         http
