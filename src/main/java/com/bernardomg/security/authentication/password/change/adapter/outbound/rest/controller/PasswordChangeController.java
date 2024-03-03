@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.authentication.password.change.adapter.outbound.rest.model.PasswordChange;
 import com.bernardomg.security.authentication.password.change.usecase.service.PasswordChangeService;
 
@@ -62,6 +63,7 @@ public class PasswordChangeController {
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Unsecured
     public void changePassword(@Valid @RequestBody final PasswordChange request) {
         // TODO: return if it was successful
         service.changePasswordForUserInSession(request.getOldPassword(), request.getNewPassword());

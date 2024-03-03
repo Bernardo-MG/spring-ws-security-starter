@@ -6,6 +6,7 @@ import static com.bernardomg.security.architecture.config.ServiceClassPredicate.
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
 import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.Unsecured;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -20,7 +21,9 @@ public class SecuredArchitectureRulesTest {
         .and()
         .arePublic()
         .should()
-        .beAnnotatedWith(RequireResourceAccess.class);
+        .beAnnotatedWith(RequireResourceAccess.class)
+        .orShould()
+        .beAnnotatedWith(Unsecured.class);
 
     @ArchTest
     static final ArchRule service_methods_should_not_be_secured = methods().that()
