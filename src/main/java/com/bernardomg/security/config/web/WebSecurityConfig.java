@@ -72,12 +72,6 @@ public class WebSecurityConfig {
         super();
     }
 
-    @Primary
-    @Bean("corsConfigurationSource")
-    public CorsConfigurationSource getCorsConfigurationSource(final CorsProperties corsProperties) {
-        return new CorsConfigurationPropertiesSource(corsProperties);
-    }
-
     @Bean("actuatorWhitelist")
     public WhitelistRoute getLoginWhitelist() {
         return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
@@ -90,8 +84,8 @@ public class WebSecurityConfig {
      *            HTTP security component
      * @param handlerMappingIntrospector
      *            utility class to find routes
-     * @param corsConfigurationSource
-     *            CORS configuration source
+     * @param corsProperties
+     *            CORS properties
      * @param securityConfigurers
      *            security configurers
      * @param whitelist
@@ -102,11 +96,13 @@ public class WebSecurityConfig {
      */
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
-            final HandlerMappingIntrospector handlerMappingIntrospector,
-            final CorsConfigurationSource corsConfigurationSource,
+            final HandlerMappingIntrospector handlerMappingIntrospector, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final Collection<WhitelistRoute> whitelist) throws Exception {
+        final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
+
+        corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
 
         whitelister = new WhitelistCustomizer(whitelist, handlerMappingIntrospector);
         http
