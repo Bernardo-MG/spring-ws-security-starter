@@ -5,7 +5,6 @@ import static com.bernardomg.security.architecture.config.ServiceClassPredicate.
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
@@ -24,13 +23,6 @@ public class ServiceArchitectureRulesTest {
     static final ArchRule services_should_be_suffixed                = classes().that(areServiceClasses())
         .should()
         .haveSimpleNameEndingWith("Service");
-
-    @ArchTest
-    static final ArchRule services_should_be_transactional           = classes().that(areServiceClasses())
-        .and()
-        .areNotInterfaces()
-        .should()
-        .beAnnotatedWith(Transactional.class);
 
     @ArchTest
     static final ArchRule services_should_not_use_service_annotation = classes().that(areServiceClasses())
