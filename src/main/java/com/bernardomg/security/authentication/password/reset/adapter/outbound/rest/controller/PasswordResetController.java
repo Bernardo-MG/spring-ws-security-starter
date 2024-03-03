@@ -99,6 +99,7 @@ public class PasswordResetController {
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserTokenStatus validateToken(@PathVariable("token") final String token) {
         // TODO: Use a generic token controller
+        // TODO: Use cache
         return service.validateToken(token);
     }
 
