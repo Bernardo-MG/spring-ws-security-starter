@@ -26,7 +26,6 @@ package com.bernardomg.security.config.authorization;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
@@ -55,7 +54,6 @@ import com.bernardomg.security.authorization.role.usecase.service.RolePermission
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authorization.permission.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.permission.adapter.inbound.jpa" })
 public class PermissionConfig {
 

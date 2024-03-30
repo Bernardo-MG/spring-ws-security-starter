@@ -64,6 +64,11 @@ public class UserConfig {
         super();
     }
 
+    @Bean("activateUserWhitelist")
+    public WhitelistRoute geActivateUserWhitelist() {
+        return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
+    }
+
     @Bean("userActivationService")
     public UserActivationService getUserActivationService(final UserRepository userSpringRepo,
             final UserRepository userRepo, final UserNotificator mSender, final UserTokenRepository userTokenRepository,
@@ -92,11 +97,6 @@ public class UserConfig {
     public UserRoleRepository getUserRoleRepository(final RoleSpringRepository roleSpringRepo,
             final UserSpringRepository userSpringRepo) {
         return new JpaUserRoleRepository(roleSpringRepo, userSpringRepo);
-    }
-
-    @Bean("activateUserWhitelist")
-    public WhitelistRoute geActivateUserWhitelist() {
-        return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
     }
 
 }

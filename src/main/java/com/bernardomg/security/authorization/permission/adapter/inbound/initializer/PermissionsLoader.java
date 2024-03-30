@@ -79,7 +79,7 @@ public final class PermissionsLoader {
      */
     public final void load() {
         log.debug("Begins loading permissions");
-        
+
         // TODO: Apply transactionality
         // TODO: Group each into a single query
 

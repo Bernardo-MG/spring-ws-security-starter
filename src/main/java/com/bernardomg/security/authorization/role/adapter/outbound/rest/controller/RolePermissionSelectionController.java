@@ -33,9 +33,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.adapter.outbound.cache.PermissionCaches;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.usecase.service.RolePermissionService;
 
 import lombok.AllArgsConstructor;
@@ -67,7 +67,7 @@ public class RolePermissionSelectionController {
      */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = PermissionCaches.ROLE_AVAILABLE_PERMISSIONS)
+    @Cacheable(cacheNames = RoleCaches.ROLE_AVAILABLE_PERMISSIONS)
     public Iterable<ResourcePermission> readAvailable(@PathVariable("role") final String role, final Pageable page) {
         return service.getAvailablePermissions(role, page);
     }
