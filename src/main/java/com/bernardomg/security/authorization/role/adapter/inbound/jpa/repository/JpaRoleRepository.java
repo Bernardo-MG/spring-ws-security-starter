@@ -32,6 +32,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
@@ -49,6 +50,7 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Transactional
 public final class JpaRoleRepository implements RoleRepository {
 
     private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;

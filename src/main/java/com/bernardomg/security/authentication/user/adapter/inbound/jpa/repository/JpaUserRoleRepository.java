@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
@@ -15,6 +16,7 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.Role
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
+@Transactional
 public final class JpaUserRoleRepository implements UserRoleRepository {
 
     private final RoleSpringRepository roleSpringRepository;

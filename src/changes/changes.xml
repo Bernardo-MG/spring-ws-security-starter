@@ -103,5 +103,10 @@
             Simplified relationship handling.
          </action>
       </release>
+      <release version="0.2.3" date="2024-03-30" description="Transactional repositories">
+         <action dev="bmg" type="fix">
+            Security repositories are now transactional.
+         </action>
+      </release>
    </body>
 </document>
