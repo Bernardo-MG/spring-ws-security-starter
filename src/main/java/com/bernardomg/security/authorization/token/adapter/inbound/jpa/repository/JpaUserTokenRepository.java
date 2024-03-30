@@ -116,6 +116,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final UserTokenEntity               entity;
         final UserTokenEntity               created;
         final UserDataTokenEntity           data;
+        final UserToken                     result;
 
         log.debug("Saving token {}", token);
 
@@ -138,7 +139,13 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         data = userDataTokenSpringRepository.findById(created.getId())
             .get();
 
-        return toDomain(data);
+        result = toDomain(data);
+
+        // TODO: the view is not updating correctly, remove the view and use queries
+        result.setRevoked(created.isRevoked());
+        result.setExpirationDate(created.getExpirationDate());
+
+        return result;
     }
 
     @Override
@@ -204,8 +211,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             .withScope(dataToken.getScope())
             .withCreationDate(dataToken.getCreationDate())
             .withExpirationDate(dataToken.getExpirationDate())
-            .withConsumed(dataToken.isConsumed())
-            .withRevoked(dataToken.isRevoked())
+            .withConsumed(dataToken.getConsumed())
+            .withRevoked(dataToken.getRevoked())
             .build();
     }
 
@@ -222,8 +229,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             .withScope(dataToken.getScope())
             .withCreationDate(dataToken.getCreationDate())
             .withExpirationDate(dataToken.getExpirationDate())
-            .withConsumed(dataToken.isConsumed())
-            .withRevoked(dataToken.isRevoked())
+            .withConsumed(dataToken.getConsumed())
+            .withRevoked(dataToken.getRevoked())
             .build();
     }
 

@@ -24,12 +24,12 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.controller;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.login.adapter.outbound.rest.model.Login;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.LoginService;
@@ -45,7 +45,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/login")
 @AllArgsConstructor
-@Transactional
 public class LoginController {
 
     /**
@@ -61,6 +60,7 @@ public class LoginController {
      * @return the login status after the login attempt
      */
     @PostMapping
+    @Unsecured
     public TokenLoginStatus login(@RequestBody final Login request) {
         return service.login(request.getUsername(), request.getPassword());
     }

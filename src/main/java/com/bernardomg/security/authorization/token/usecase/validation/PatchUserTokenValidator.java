@@ -27,7 +27,7 @@ package com.bernardomg.security.authorization.token.usecase.validation;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
+import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -46,14 +46,14 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class PatchUserTokenValidator extends AbstractValidator<UserTokenPartial> {
+public final class PatchUserTokenValidator extends AbstractValidator<UserToken> {
 
     public PatchUserTokenValidator() {
         super();
     }
 
     @Override
-    protected final void checkRules(final UserTokenPartial token, final Collection<FieldFailure> failures) {
+    protected final void checkRules(final UserToken token, final Collection<FieldFailure> failures) {
         final LocalDateTime today;
         FieldFailure        failure;
 
@@ -68,6 +68,7 @@ public final class PatchUserTokenValidator extends AbstractValidator<UserTokenPa
         }
 
         // Verify the token revoked flag is not cancelled
+        // TODO: what if the token is already valid?
         if ((token.getRevoked() != null) && (!token.getRevoked())) {
             log.error("Reverting token revocation");
             failure = FieldFailure.of("revoked", "invalidValue", token.getRevoked());

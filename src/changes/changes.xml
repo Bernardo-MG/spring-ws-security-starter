@@ -95,5 +95,13 @@
             Cleaned up repositories.
          </action>
       </release>
+      <release version="0.2.2" date="2024-03-30" description="Fixes for controllers">
+         <action dev="bmg" type="fix">
+            Fixed problems with controllers.
+         </action>
+         <action dev="bmg" type="update">
+            Simplified relationship handling.
+         </action>
+      </release>
    </body>
 </document>

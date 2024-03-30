@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
@@ -88,7 +88,7 @@ class TestScopedUserTokenStoreConsumeToken {
 
         // THEN
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingUserTokenCodeException.class);
+            .isInstanceOf(MissingUserTokenException.class);
     }
 
 }

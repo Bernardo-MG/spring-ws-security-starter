@@ -29,18 +29,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserRoleService;
+import com.bernardomg.security.authentication.user.usecase.service.UserRoleService;
+import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
-import com.bernardomg.security.authorization.role.usecase.service.DefaultUserRoleService;
 import com.bernardomg.security.authorization.role.usecase.service.RoleService;
-import com.bernardomg.security.authorization.role.usecase.service.UserRoleService;
 
 /**
  * Password handling configuration.
@@ -58,25 +57,20 @@ public class RoleConfig {
     }
 
     @Bean("RoleRepository")
-    public RoleRepository getRoleRepository(final RoleSpringRepository roleRepo, final UserSpringRepository userRepo) {
-        return new JpaRoleRepository(roleRepo, userRepo);
+    public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepo,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
+            final UserRoleSpringRepository userRoleSpringRepo) {
+        return new JpaRoleRepository(roleSpringRepo, resourcePermissionSpringRepo, userRoleSpringRepo);
     }
 
     @Bean("roleService")
-    public RoleService getRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
-        return new DefaultRoleService(roleRepo, userRoleRepo);
-    }
-
-    @Bean("UserRoleRepository")
-    public UserRoleRepository getUserRoleRepository(final UserSpringRepository userRepo,
-            final RoleSpringRepository roleRepo, final UserRoleSpringRepository userRoleRepo) {
-        return new JpaUserRoleRepository(userRepo, roleRepo, userRoleRepo);
+    public RoleService getRoleService(final RoleRepository roleRepo) {
+        return new DefaultRoleService(roleRepo);
     }
 
     @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
-        return new DefaultUserRoleService(userRepo, roleRepo, userRoleRepo);
+    public UserRoleService getUserRoleService(final UserRepository userRepo, final UserRoleRepository userRoleRepo) {
+        return new DefaultUserRoleService(userRepo, userRoleRepo);
     }
 
 }

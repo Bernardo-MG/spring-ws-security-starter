@@ -46,6 +46,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.bernardomg.security.authentication.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
+import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
@@ -71,7 +72,7 @@ public class WebSecurityConfig {
     }
 
     @Bean("actuatorWhitelist")
-    public WhitelistRoute getLoginWhitelist() {
+    public WhitelistRoute getActuatorWhitelist() {
         return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
     }
 

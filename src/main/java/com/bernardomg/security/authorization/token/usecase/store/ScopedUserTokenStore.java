@@ -31,12 +31,12 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.OutOfScopeTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.RevokedTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
@@ -97,11 +97,11 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
         if (!read.isPresent()) {
             log.error("Token missing: {}", token);
-            throw new MissingUserTokenCodeException(token);
+            throw new MissingUserTokenException(token);
         }
 
         tokenData = read.get();
-        if (tokenData.isConsumed()) {
+        if (tokenData.getConsumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
@@ -121,7 +121,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
         exists = userRepository.exists(username);
         if (!exists) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         creation = LocalDateTime.now();
@@ -155,7 +155,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             .map(UserToken::getUsername);
 
         if (username.isEmpty()) {
-            throw new MissingUserTokenCodeException(token);
+            throw new MissingUserTokenException(token);
         }
 
         return username.get();
@@ -169,7 +169,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
         readUser = userRepository.findOne(username);
         if (!readUser.isPresent()) {
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         user = readUser.get();
@@ -191,7 +191,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         read = userTokenRepository.findOne(token);
         if (!read.isPresent()) {
             log.warn("Token not registered: {}", token);
-            throw new MissingUserTokenCodeException(token);
+            throw new MissingUserTokenException(token);
         }
 
         entity = read.get();
@@ -200,13 +200,13 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
             throw new OutOfScopeTokenException(token, tokenScope, entity.getScope());
         }
-        if (entity.isConsumed()) {
+        if (entity.getConsumed()) {
             // Consumed
             // It isn't a valid token
             log.warn("Consumed token: {}", token);
             throw new ConsumedTokenException(token);
         }
-        if (entity.isRevoked()) {
+        if (entity.getRevoked()) {
             // Revoked
             // It isn't a valid token
             log.warn("Revoked token: {}", token);

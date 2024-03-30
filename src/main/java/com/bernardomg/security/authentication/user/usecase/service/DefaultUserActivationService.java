@@ -24,13 +24,16 @@
 
 package com.bernardomg.security.authentication.user.usecase.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
@@ -49,6 +52,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultUserActivationService implements UserActivationService {
 
     /**
@@ -102,6 +106,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         user.setEnabled(true);
         user.setPasswordExpired(false);
+        user.setRoles(List.of());
 
         saved = userRepository.save(user, password);
         tokenStore.consumeToken(token);
@@ -192,7 +197,7 @@ public final class DefaultUserActivationService implements UserActivationService
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't activate new user {}, as it doesn't exist", username);
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         return user.get();

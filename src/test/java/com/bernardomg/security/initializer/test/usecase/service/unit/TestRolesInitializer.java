@@ -19,8 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.initializer.usecase.service.DefaultRolesInitializerService;
@@ -48,16 +48,6 @@ class TestRolesInitializer {
         permissions = List.of(ResourcePermissions.read());
         given(resourcePermissionRepository.findAll()).willReturn(permissions);
         given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
-    }
-
-    @Test
-    @DisplayName("Sets permissions to roles")
-    void testInitialize_Permissions() {
-        // WHEN
-        rolesInitializerService.initialize();
-
-        // THEN
-        verify(rolePermissionRepository, atLeastOnce()).save(ArgumentMatchers.any());
     }
 
     @Test

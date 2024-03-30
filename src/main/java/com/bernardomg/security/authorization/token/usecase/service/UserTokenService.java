@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
-import com.bernardomg.security.authorization.token.domain.model.request.UserTokenPartial;
 
 /**
  * User token service.
@@ -67,11 +66,9 @@ public interface UserTokenService {
      * Applies a partial change to a user token.
      *
      * @param token
-     *            token of the user token to patch
-     * @param partial
-     *            partial change to apply
+     *            user token to patch
      * @return the updated user token
      */
-    public UserToken patch(final String token, final UserTokenPartial partial);
+    public UserToken patch(final UserToken token);
 
 }

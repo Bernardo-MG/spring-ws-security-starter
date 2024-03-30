@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authentication.user.adapter.outbound.rest.controller;
 
+import java.util.Collection;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,7 +33,6 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,12 +46,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.NewUser;
+import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.model.UserChange;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.authorization.role.domain.model.Role;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -64,7 +66,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/security/user")
 @AllArgsConstructor
-@Transactional
 public class UserController {
 
     /**
@@ -153,7 +154,25 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User update(@PathVariable("username") final String username, @Valid @RequestBody final UserChange request) {
-        return userQueryService.update(username, request);
+        final User             user;
+        final Collection<Role> roles;
+
+        roles = request.getRoles()
+            .stream()
+            .map(r -> Role.builder()
+                .withName(r)
+                .build())
+            .toList();
+        user = User.builder()
+            .withUsername(request.getUsername())
+            .withName(request.getName())
+            .withEmail(request.getEmail())
+            .withEnabled(request.getEnabled())
+            .withPasswordExpired(request.getPasswordExpired())
+            .withRoles(roles)
+            .build();
+
+        return userQueryService.update(user);
     }
 
 }

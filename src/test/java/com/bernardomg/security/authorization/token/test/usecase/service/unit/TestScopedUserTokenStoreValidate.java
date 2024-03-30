@@ -19,7 +19,7 @@ import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
-import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenCodeException;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.OutOfScopeTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.RevokedTokenException;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -91,7 +91,7 @@ class TestScopedUserTokenStoreValidate {
 
         // THEN
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingUserTokenCodeException.class);
+            .isInstanceOf(MissingUserTokenException.class);
     }
 
     @Test

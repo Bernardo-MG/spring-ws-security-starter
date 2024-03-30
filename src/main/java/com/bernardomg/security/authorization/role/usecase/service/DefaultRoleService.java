@@ -24,17 +24,17 @@
 
 package com.bernardomg.security.authorization.role.usecase.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authorization.role.domain.exception.MissingRoleNameException;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleChange;
 import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authorization.role.usecase.validation.CreateRoleValidator;
 import com.bernardomg.security.authorization.role.usecase.validation.DeleteRoleValidator;
 import com.bernardomg.validation.Validator;
@@ -48,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class DefaultRoleService implements RoleService {
 
     private final RoleRepository    roleRepository;
@@ -56,13 +57,13 @@ public final class DefaultRoleService implements RoleService {
 
     private final Validator<String> validatorDeleteRole;
 
-    public DefaultRoleService(final RoleRepository roleRepo, final UserRoleRepository userRoleRepo) {
+    public DefaultRoleService(final RoleRepository roleRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
-        validatorDeleteRole = new DeleteRoleValidator(userRoleRepo);
+        validatorDeleteRole = new DeleteRoleValidator(roleRepo);
     }
 
     @Override
@@ -73,6 +74,7 @@ public final class DefaultRoleService implements RoleService {
 
         entity = Role.builder()
             .withName(name)
+            .withPermissions(List.of())
             .build();
 
         validatorCreateRole.validate(entity);
@@ -88,7 +90,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         validatorDeleteRole.validate(role);
@@ -111,26 +113,27 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role);
         }
 
         return roleRepository.findOne(role);
     }
 
     @Override
-    public final Role update(final String role, final RoleChange data) {
+    public final Role update(final Role role) {
         final Role    roleData;
         final boolean exists;
 
-        log.debug("Updating role {} using data {}", role, data);
+        log.debug("Updating role {} using data {}", role.getName(), role);
 
-        exists = roleRepository.exists(role);
+        exists = roleRepository.exists(role.getName());
         if (!exists) {
-            throw new MissingRoleNameException(role);
+            throw new MissingRoleException(role.getName());
         }
 
         roleData = Role.builder()
-            .withName(data.getName())
+            .withName(role.getName())
+            .withPermissions(role.getPermissions())
             .build();
 
         return roleRepository.save(roleData);

@@ -33,12 +33,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.password.domain.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.validation.failure.FieldFailure;
@@ -53,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@Transactional
 public final class SpringSecurityPasswordChangeService implements PasswordChangeService {
 
     /**
@@ -95,7 +97,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Validate the user exists
         if (!readUser.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new MissingUserUsernameException(username);
+            throw new MissingUserException(username);
         }
 
         user = readUser.get();

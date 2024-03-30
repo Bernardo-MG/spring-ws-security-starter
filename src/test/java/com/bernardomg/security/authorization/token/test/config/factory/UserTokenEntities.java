@@ -19,6 +19,19 @@ public final class UserTokenEntities {
             .build();
     }
 
+    public static final UserTokenEntity revoked() {
+        return UserTokenEntity.builder()
+            .withId(1L)
+            .withUserId(1L)
+            .withScope(Tokens.SCOPE)
+            .withToken(Tokens.TOKEN)
+            .withCreationDate(UserTokenConstants.DATE)
+            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
+            .withConsumed(false)
+            .withRevoked(true)
+            .build();
+    }
+
     public static final UserTokenEntity valid() {
         return UserTokenEntity.builder()
             .withId(1L)

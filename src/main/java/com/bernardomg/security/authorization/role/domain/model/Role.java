@@ -24,12 +24,16 @@
 
 package com.bernardomg.security.authorization.role.domain.model;
 
+import java.util.Collection;
+
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 
 /**
- * Immutable role.
+ * Role.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -42,6 +46,8 @@ public final class Role {
      * Role name.
      */
     @NonNull
-    private final String name;
+    private final String                         name;
+
+    private final Collection<ResourcePermission> permissions;
 
 }

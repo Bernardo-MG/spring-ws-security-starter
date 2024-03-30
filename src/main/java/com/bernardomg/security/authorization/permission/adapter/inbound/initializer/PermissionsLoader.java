@@ -80,6 +80,9 @@ public final class PermissionsLoader {
     public final void load() {
         log.debug("Begins loading permissions");
 
+        // TODO: Apply transactionality
+        // TODO: Group each into a single query
+
         // Load actions
         log.debug("Saving actions");
         permissionRegisters.stream()
@@ -96,6 +99,7 @@ public final class PermissionsLoader {
             .forEach(this::saveResource);
         log.debug("Saved resources");
 
+        // TODO: Verify the resources and actions exist
         // Load permissions
         log.debug("Saving permissions");
         permissionRegisters.stream()

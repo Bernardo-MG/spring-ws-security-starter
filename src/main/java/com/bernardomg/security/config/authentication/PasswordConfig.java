@@ -53,8 +53,8 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authentication.password.change.controller",
-        "com.bernardomg.security.authentication.password.reset.controller" })
+@ComponentScan({ "com.bernardomg.security.authentication.password.change.adapter.outbound.rest.controller",
+        "com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.controller" })
 public class PasswordConfig {
 
     public PasswordConfig() {

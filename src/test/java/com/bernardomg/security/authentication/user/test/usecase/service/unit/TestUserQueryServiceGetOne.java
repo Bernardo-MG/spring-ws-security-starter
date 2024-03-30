@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserUsernameException;
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
@@ -37,7 +37,7 @@ class TestUserQueryServiceGetOne {
 
     @Test
     @DisplayName("When there is a user it is returned")
-    void testGetAll() {
+    void testGetOne() {
         final Optional<User> user;
 
         // GIVEN
@@ -55,7 +55,7 @@ class TestUserQueryServiceGetOne {
 
     @Test
     @DisplayName("When the user doesn't exist an exception is thrown")
-    void testGetAll_NoData() {
+    void testGetOne_NoData() {
         final ThrowingCallable execution;
 
         // GIVEN
@@ -66,7 +66,7 @@ class TestUserQueryServiceGetOne {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserUsernameException.class);
+            .isInstanceOf(MissingUserException.class);
     }
 
 }

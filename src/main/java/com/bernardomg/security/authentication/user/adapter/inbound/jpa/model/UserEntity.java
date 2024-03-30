@@ -25,12 +25,18 @@
 package com.bernardomg.security.authentication.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Collection;
+
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -56,25 +62,25 @@ public class UserEntity implements Serializable {
      * Serialization id.
      */
     @Transient
-    private static final long serialVersionUID = 4807136960800402795L;
+    private static final long      serialVersionUID = 4807136960800402795L;
 
     /**
      * User email.
      */
     @Column(name = "email", nullable = false, length = 60)
-    private String            email;
+    private String                 email;
 
     /**
      * User enabled flag.
      */
     @Column(name = "enabled", nullable = false)
-    private Boolean           enabled;
+    private Boolean                enabled;
 
     /**
      * User expired flag.
      */
     @Column(name = "expired", nullable = false)
-    private Boolean           expired;
+    private Boolean                expired;
 
     /**
      * Entity id.
@@ -82,36 +88,41 @@ public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long              id;
+    private Long                   id;
 
     /**
      * User locked flag.
      */
     @Column(name = "locked", nullable = false)
-    private Boolean           locked;
+    private Boolean                locked;
 
     /**
      * User name.
      */
     @Column(name = "name", nullable = false, length = 60)
-    private String            name;
+    private String                 name;
 
     /**
      * User password.
      */
     @Column(name = "password", nullable = false, length = 60)
-    private String            password;
+    private String                 password;
 
     /**
      * User expired flag.
      */
     @Column(name = "password_expired", nullable = false)
-    private Boolean           passwordExpired;
+    private Boolean                passwordExpired;
+
+    @ManyToMany
+    @JoinTable(schema = "security", name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<RoleEntity> roles;
 
     /**
      * User name.
      */
     @Column(name = "username", nullable = false, unique = true, length = 60)
-    private String            username;
+    private String                 username;
 
 }

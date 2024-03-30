@@ -13,6 +13,30 @@ public final class ResourcePermissionEntities {
             .build();
     }
 
+    public static final ResourcePermissionEntity delete() {
+        return ResourcePermissionEntity.builder()
+            .withName(PermissionConstants.DATA_DELETE)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.DELETE)
+            .build();
+    }
+
+    public static final ResourcePermissionEntity read() {
+        return ResourcePermissionEntity.builder()
+            .withName(PermissionConstants.DATA_READ)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.READ)
+            .build();
+    }
+
+    public static final ResourcePermissionEntity update() {
+        return ResourcePermissionEntity.builder()
+            .withName(PermissionConstants.DATA_UPDATE)
+            .withResource(PermissionConstants.DATA)
+            .withAction(PermissionConstants.UPDATE)
+            .build();
+    }
+
     private ResourcePermissionEntities() {
         super();
     }
