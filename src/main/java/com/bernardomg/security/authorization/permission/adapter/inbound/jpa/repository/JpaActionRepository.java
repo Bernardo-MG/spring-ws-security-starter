@@ -26,6 +26,8 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ActionEntity;
 import com.bernardomg.security.authorization.permission.domain.model.Action;
 import com.bernardomg.security.authorization.permission.domain.repository.ActionRepository;
@@ -38,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Transactional
 public final class JpaActionRepository implements ActionRepository {
 
     private final ActionSpringRepository actionSpringRepository;

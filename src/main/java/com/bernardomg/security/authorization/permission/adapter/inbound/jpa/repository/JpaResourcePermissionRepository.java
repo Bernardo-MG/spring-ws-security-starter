@@ -27,6 +27,8 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
@@ -39,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Transactional
 public final class JpaResourcePermissionRepository implements ResourcePermissionRepository {
 
     /**

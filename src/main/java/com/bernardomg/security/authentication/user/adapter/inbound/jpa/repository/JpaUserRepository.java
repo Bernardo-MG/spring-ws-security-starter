@@ -32,6 +32,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.domain.model.User;
@@ -51,6 +52,7 @@ import com.bernardomg.security.authorization.role.domain.model.Role;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Transactional
 public final class JpaUserRepository implements UserRepository {
 
     /**
