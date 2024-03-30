@@ -72,7 +72,7 @@ public class WebSecurityConfig {
     }
 
     @Bean("actuatorWhitelist")
-    public WhitelistRoute getLoginWhitelist() {
+    public WhitelistRoute getActuatorWhitelist() {
         return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
     }
 

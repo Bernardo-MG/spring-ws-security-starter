@@ -94,8 +94,8 @@ public class UserConfig {
         return new JpaUserRoleRepository(roleSpringRepo, userSpringRepo);
     }
 
-    @Bean("userWhitelist")
-    public WhitelistRoute getUserWhitelist() {
+    @Bean("activateUserWhitelist")
+    public WhitelistRoute geActivateUserWhitelist() {
         return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
     }
 
