@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -59,24 +61,32 @@ public final class JpaResourceRepository implements ResourceRepository {
     }
 
     @Override
-    public final Resource save(final Resource resource) {
+    public final Collection<Resource> save(final Collection<Resource> resources) {
+        final List<ResourceEntity> entities;
+        final List<ResourceEntity> created;
+
+        log.debug("Saving resources {}", resources);
+
+        entities = resources.stream()
+            .map(this::toEntity)
+            .toList();
+        entities.forEach(this::loadId);
+
+        created = resourceSpringRepository.saveAll(entities);
+
+        return created.stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    private final void loadId(final ResourceEntity entity) {
         final Optional<ResourceEntity> existing;
-        final ResourceEntity           entity;
-        final ResourceEntity           created;
 
-        log.debug("Saving resource {}", resource);
-
-        entity = toEntity(resource);
-
-        existing = resourceSpringRepository.findByName(resource.getName());
+        existing = resourceSpringRepository.findByName(entity.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
-
-        created = resourceSpringRepository.save(entity);
-
-        return toDomain(created);
     }
 
     private final Resource toDomain(final ResourceEntity entity) {

@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.permission.domain.repository;
 
+import java.util.Collection;
+
 import com.bernardomg.security.authorization.permission.domain.model.Action;
 
 /**
@@ -43,12 +45,12 @@ public interface ActionRepository {
     public boolean exists(final String name);
 
     /**
-     * Saves the received action. If it exists it is updated, otherwise it is created.
+     * Saves the received actions. If they exist these are updated, otherwise they are created.
      *
-     * @param action
-     *            action to save
-     * @return the saved action
+     * @param actions
+     *            actions to save
+     * @return the saved actions
      */
-    public Action save(final Action action);
+    public Collection<Action> save(final Collection<Action> actions);
 
 }

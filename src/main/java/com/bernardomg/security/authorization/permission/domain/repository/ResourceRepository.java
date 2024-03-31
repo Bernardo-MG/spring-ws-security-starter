@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.permission.domain.repository;
 
+import java.util.Collection;
+
 import com.bernardomg.security.authorization.permission.domain.model.Resource;
 
 /**
@@ -43,12 +45,12 @@ public interface ResourceRepository {
     public boolean exists(final String name);
 
     /**
-     * Saves the received resource. If it exists it is updated, otherwise it is created.
+     * Saves the received resources. If they exist these are updated, otherwise they are created.
      *
-     * @param resource
-     *            resource to save
-     * @return the saved resource
+     * @param resources
+     *            resources to save
+     * @return the saved resources
      */
-    public Resource save(final Resource resource);
+    public Collection<Resource> save(final Collection<Resource> resources);
 
 }

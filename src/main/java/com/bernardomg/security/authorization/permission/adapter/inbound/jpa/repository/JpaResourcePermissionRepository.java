@@ -25,6 +25,7 @@
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -72,24 +73,32 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
-    public final ResourcePermission save(final ResourcePermission permission) {
+    public final Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions) {
+        final List<ResourcePermissionEntity> entities;
+        final List<ResourcePermissionEntity> created;
+
+        log.debug("Saving resource permissions {}", permissions);
+
+        entities = permissions.stream()
+            .map(this::toEntity)
+            .toList();
+        entities.forEach(this::loadId);
+
+        created = resourcePermissionSpringRepository.saveAll(entities);
+
+        return created.stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    private final void loadId(final ResourcePermissionEntity entity) {
         final Optional<ResourcePermissionEntity> existing;
-        final ResourcePermissionEntity           entity;
-        final ResourcePermissionEntity           created;
 
-        log.debug("Saving resource permission {}", permission);
-
-        entity = toEntity(permission);
-
-        existing = resourcePermissionSpringRepository.findByName(permission.getName());
+        existing = resourcePermissionSpringRepository.findByName(entity.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
-
-        created = resourcePermissionSpringRepository.save(entity);
-
-        return toDomain(created);
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
