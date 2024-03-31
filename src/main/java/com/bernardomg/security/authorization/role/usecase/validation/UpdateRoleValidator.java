@@ -22,74 +22,66 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.usecase.validation;
+package com.bernardomg.security.authorization.role.usecase.validation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.validation.AbstractValidator;
+import com.bernardomg.validation.Validator;
 import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.failure.exception.FieldFailureException;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Update user validation.
+ * Update role validation.
  * <p>
  * It applies the following rules:
  * <ul>
- * <li>The email is not registered</li>
- * <li>Can't have duplicated roles</li>
+ * <li>Can't have duplicated permissions</li>
  * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
-public final class UpdateUserValidator extends AbstractValidator<User> {
+public final class UpdateRoleValidator implements Validator<Role> {
 
-    /**
-     * User repository.
-     */
-    private final UserRepository userRepository;
-
-    public UpdateUserValidator(final UserRepository userRepo) {
+    public UpdateRoleValidator() {
         super();
-
-        userRepository = userRepo;
     }
 
     @Override
-    protected final void checkRules(final User user, final Collection<FieldFailure> failures) {
-        final long   uniqueRoles;
-        final int    totalRoles;
-        final long   duplicates;
-        FieldFailure failure;
+    public final void validate(final Role role) {
+        final Collection<FieldFailure> failures;
+        final long                     uniquePermissions;
+        final int                      totalPermissions;
+        final long                     duplicates;
+        FieldFailure                   failure;
 
-        // Verify the email is not registered
-        if (userRepository.existsEmailForAnotherUser(user.getUsername(), user.getEmail())) {
-            log.error("A user already exists with the email {}", user.getEmail());
-            // TODO: Is the code exists or is it existing? Make sure all use the same
-            failure = FieldFailure.of("email", "existing", user.getEmail());
-            failures.add(failure);
-        }
+        failures = new ArrayList<>();
 
         // Verify there are no duplicated roles
-        uniqueRoles = user.getRoles()
+        uniquePermissions = role.getPermissions()
             .stream()
-            .map(Role::getName)
+            .map(ResourcePermission::getName)
             .distinct()
             .count();
-        totalRoles = user.getRoles()
+        totalPermissions = role.getPermissions()
             .size();
-        if (uniqueRoles < totalRoles) {
-            duplicates = (totalRoles - uniqueRoles);
-            log.error("Received {} roles, but {} are duplicates", totalRoles, duplicates);
+        if (uniquePermissions < totalPermissions) {
+            duplicates = (totalPermissions - uniquePermissions);
+            log.error("Received {} permissions, but {} are duplicates", totalPermissions, duplicates);
             failure = FieldFailure.of("roles[]", "duplicated", duplicates);
             failures.add(failure);
         }
 
+        if (!failures.isEmpty()) {
+            log.debug("Got failures: {}", failures);
+            throw new FieldFailureException(failures);
+        }
     }
 
 }

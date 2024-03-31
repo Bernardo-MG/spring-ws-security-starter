@@ -113,5 +113,13 @@
             Fixed adding roles on update.
          </action>
       </release>
+      <release version="0.2.5" date="2024-03-31" description="Relationship corrections">
+         <action dev="bmg" type="fix">
+            Rejects duplicated roles or permissions.
+         </action>
+         <action dev="bmg" type="fix">
+            Cleans roles and permissions caches correctly.
+         </action>
+      </release>
    </body>
 </document>

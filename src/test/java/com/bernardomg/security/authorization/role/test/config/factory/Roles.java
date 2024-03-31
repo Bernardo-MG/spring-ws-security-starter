@@ -17,6 +17,16 @@ public final class Roles {
             .build();
     }
 
+    public static final Role duplicatedPermission() {
+        final Collection<ResourcePermission> permissions;
+
+        permissions = List.of(ResourcePermissions.create(), ResourcePermissions.create());
+        return Role.builder()
+            .withName(RoleConstants.NAME)
+            .withPermissions(permissions)
+            .build();
+    }
+
     public static final Role valid() {
         return Role.builder()
             .withName(RoleConstants.NAME)

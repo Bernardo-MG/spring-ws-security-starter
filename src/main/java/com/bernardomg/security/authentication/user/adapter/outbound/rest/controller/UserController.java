@@ -52,6 +52,7 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
 import jakarta.validation.Valid;
@@ -87,7 +88,7 @@ public class UserController {
     @DeleteMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USER),
-            @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
+            @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
     public void delete(@PathVariable("username") final String username) {
         userQueryService.delete(username);
     }
@@ -151,8 +152,8 @@ public class UserController {
      */
     @PutMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
-            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") }, evict = {
+            @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
     public User update(@PathVariable("username") final String username, @Valid @RequestBody final UserChange request) {
         final User             user;
         final Collection<Role> roles;

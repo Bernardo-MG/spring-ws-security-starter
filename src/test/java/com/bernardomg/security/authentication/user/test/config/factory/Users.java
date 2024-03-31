@@ -54,8 +54,22 @@ public final class Users {
             .build();
     }
 
+    public static final User duplicatedRole() {
+        return User.builder()
+            .withRoles(List.of(Roles.withSinglePermission(), Roles.withSinglePermission()))
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
+
     public static final User emailChange() {
         return User.builder()
+            .withRoles(List.of(Roles.withSinglePermission()))
             .withName(UserConstants.NAME)
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.ALTERNATIVE_EMAIL)
@@ -107,6 +121,7 @@ public final class Users {
 
     public static final User newlyCreated() {
         return User.builder()
+            .withRoles(List.of())
             .withName(UserConstants.NAME)
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)

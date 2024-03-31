@@ -62,6 +62,24 @@ class TestUserQueryServiceUpdate {
     }
 
     @Test
+    @DisplayName("Throws an exception when the role is duplicated")
+    void testUpdate_DuplicatedRole() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+
+        // WHEN
+        executable = () -> service.update(Users.duplicatedRole());
+
+        // THEN
+        failure = FieldFailure.of("roles[].duplicated", "roles[]", "duplicated", 1L);
+
+        ValidationAssertions.assertThatFieldFails(executable, failure);
+    }
+
+    @Test
     @DisplayName("Throws an exception when the email already exists")
     void testUpdate_ExistingMail() {
         final ThrowingCallable executable;

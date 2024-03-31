@@ -43,6 +43,8 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
+import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - update")
@@ -56,6 +58,27 @@ class TestDefaultRoleServiceUpdate {
 
     public TestDefaultRoleServiceUpdate() {
         super();
+    }
+
+    @Test
+    @DisplayName("When there are duplicated permissions an exception is thrown")
+    void testUpdate_DuplicatedPermission() {
+        final ThrowingCallable executable;
+        final Role             data;
+        final FieldFailure     failure;
+
+        // GIVEN
+        data = Roles.duplicatedPermission();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+
+        // WHEN
+        executable = () -> service.update(data);
+
+        // THEN
+        failure = FieldFailure.of("roles[].duplicated", "roles[]", "duplicated", 1L);
+
+        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
