@@ -113,5 +113,7 @@
             Fixed adding roles on update.
          </action>
       </release>
+      <release version="1.0.0" date="2024-03-31" description="">
+      </release>
    </body>
 </document>
