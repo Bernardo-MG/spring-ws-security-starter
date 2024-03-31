@@ -37,6 +37,7 @@ import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.usecase.validation.CreateRoleValidator;
 import com.bernardomg.security.authorization.role.usecase.validation.DeleteRoleValidator;
+import com.bernardomg.security.authorization.role.usecase.validation.UpdateRoleValidator;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,8 @@ public final class DefaultRoleService implements RoleService {
 
     private final Validator<String> validatorDeleteRole;
 
+    private final Validator<Role>   validatorUpdateRole;
+
     public DefaultRoleService(final RoleRepository roleRepo) {
         super();
 
@@ -64,6 +67,7 @@ public final class DefaultRoleService implements RoleService {
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
         validatorDeleteRole = new DeleteRoleValidator(roleRepo);
+        validatorUpdateRole = new UpdateRoleValidator();
     }
 
     @Override
@@ -135,6 +139,8 @@ public final class DefaultRoleService implements RoleService {
             .withName(role.getName())
             .withPermissions(role.getPermissions())
             .build();
+
+        validatorUpdateRole.validate(roleData);
 
         return roleRepository.save(roleData);
     }
