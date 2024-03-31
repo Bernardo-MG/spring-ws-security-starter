@@ -108,5 +108,7 @@
             Security repositories are now transactional.
          </action>
       </release>
+      <release version="1.0.0" date="2024-03-30" description="">
+      </release>
    </body>
 </document>
