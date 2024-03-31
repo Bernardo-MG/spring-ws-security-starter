@@ -108,5 +108,10 @@
             Security repositories are now transactional.
          </action>
       </release>
+      <release version="0.2.4" date="2024-03-31" description="Fixed adding roles">
+         <action dev="bmg" type="fix">
+            Fixed adding roles on update.
+         </action>
+      </release>
    </body>
 </document>

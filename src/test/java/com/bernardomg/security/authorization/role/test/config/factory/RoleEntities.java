@@ -10,6 +10,14 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.Role
 
 public final class RoleEntities {
 
+    public static final RoleEntity alternative() {
+        return RoleEntity.builder()
+            .withId(2L)
+            .withName(RoleConstants.ALTERNATIVE_NAME)
+            .withPermissions(List.of())
+            .build();
+    }
+
     public static final RoleEntity valid() {
         return RoleEntity.builder()
             .withId(1L)
