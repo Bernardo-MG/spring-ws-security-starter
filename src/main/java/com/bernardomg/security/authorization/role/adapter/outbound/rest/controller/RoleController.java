@@ -91,7 +91,7 @@ public class RoleController {
     @DeleteMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLE),
-            @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
+            @CacheEvict(cacheNames = { RoleCaches.ROLES, RoleCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true) })
     public void delete(@PathVariable("role") final String role) {
         service.delete(role);
     }
@@ -138,8 +138,8 @@ public class RoleController {
      */
     @PutMapping(path = "/{role}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
-            evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") }, evict = {
+            @CacheEvict(cacheNames = { RoleCaches.ROLES, RoleCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true) })
     public Role update(@PathVariable("role") final String roleName, @Valid @RequestBody final RoleChange request) {
         final Role role;
 
