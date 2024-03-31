@@ -42,7 +42,7 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Roles")
         .mayOnlyBeAccessedByLayers("Users", "Initializers", "Config", "Spring")
         .whereLayer("Permissions")
-        .mayOnlyBeAccessedByLayers("Users", "Roles", "Initializers", "Login", "Access", "Config", "Spring")
+        .mayOnlyBeAccessedByLayers("Users", "Roles", "Initializers", "Login", "Access", "Config", "Spring", "Tokens")
         .whereLayer("Password")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Access")
