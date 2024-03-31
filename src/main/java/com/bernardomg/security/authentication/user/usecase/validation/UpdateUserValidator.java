@@ -28,6 +28,7 @@ import java.util.Collection;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -60,6 +61,9 @@ public final class UpdateUserValidator extends AbstractValidator<User> {
 
     @Override
     protected final void checkRules(final User user, final Collection<FieldFailure> failures) {
+        final long   uniqueRoles;
+        final int    totalRoles;
+        final long   duplicates;
         FieldFailure failure;
 
         // Verify the email is not registered
@@ -67,6 +71,21 @@ public final class UpdateUserValidator extends AbstractValidator<User> {
             log.error("A user already exists with the email {}", user.getEmail());
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("email", "existing", user.getEmail());
+            failures.add(failure);
+        }
+
+        // Verify there are no duplicated roles
+        uniqueRoles = user.getRoles()
+            .stream()
+            .map(Role::getName)
+            .distinct()
+            .count();
+        totalRoles = user.getRoles()
+            .size();
+        if (uniqueRoles < totalRoles) {
+            duplicates = (totalRoles - uniqueRoles);
+            log.error("Received {} roles, but {} are duplicates", totalRoles, duplicates);
+            failure = FieldFailure.of("roles[]", "duplicated", duplicates);
             failures.add(failure);
         }
 

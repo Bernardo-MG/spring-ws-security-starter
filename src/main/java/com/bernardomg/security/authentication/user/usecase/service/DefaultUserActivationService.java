@@ -128,6 +128,7 @@ public final class DefaultUserActivationService implements UserActivationService
             .withUsername(username)
             .withName(name)
             .withEmail(email)
+            .withRoles(List.of())
             .build();
 
         validatorRegisterUser.validate(user);
