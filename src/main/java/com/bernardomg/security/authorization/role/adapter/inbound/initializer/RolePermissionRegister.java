@@ -22,29 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.adapter.inbound.initializer;
+package com.bernardomg.security.authorization.role.adapter.inbound.initializer;
 
 import java.util.Collection;
 import java.util.List;
 
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.ResourcePermissionPair;
+
 /**
  * Default permission register. Contains all the initial permission configuration.
  */
-public final class DefaultPermissionRegister implements PermissionRegister {
+public final class RolePermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<String> getActions() {
-        return List.of("CREATE", "READ", "UPDATE", "DELETE", "VIEW");
+        return List.of();
     }
 
     @Override
     public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of();
+        return List.of(ResourcePermissionPair.of("ROLE", "CREATE"), ResourcePermissionPair.of("ROLE", "READ"),
+            ResourcePermissionPair.of("ROLE", "UPDATE"), ResourcePermissionPair.of("ROLE", "DELETE"),
+            ResourcePermissionPair.of("ROLE", "VIEW"));
     }
 
     @Override
     public final Collection<String> getResources() {
-        return List.of();
+        return List.of("ROLE");
     }
 
 }

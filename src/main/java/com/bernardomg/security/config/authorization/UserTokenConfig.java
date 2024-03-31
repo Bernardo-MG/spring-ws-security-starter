@@ -31,6 +31,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authorization.token.adapter.inbound.initializer.TokenPermissionRegister;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
@@ -58,6 +59,11 @@ public class UserTokenConfig {
     @Bean("tokenCleanUpScheduleTask")
     public TokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
         return new TokenCleanUpScheduleTask(tokenCleanUpService);
+    }
+
+    @Bean("tokenPermissionRegister")
+    public TokenPermissionRegister getTokenPermissionRegister() {
+        return new TokenPermissionRegister();
     }
 
     @Bean("userTokenRepository")
