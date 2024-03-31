@@ -24,10 +24,6 @@
 
 package com.bernardomg.security.authorization.token.adapter.outbound.rest.controller;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.token.adapter.outbound.cache.UserTokenCaches;
 import com.bernardomg.security.authorization.token.adapter.outbound.rest.model.UserTokenPartial;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
@@ -49,6 +44,8 @@ import lombok.AllArgsConstructor;
 /**
  * User token REST controller. Supports reading and patching, as the token are generated there is little which the user
  * can modify.
+ * <p>
+ * TODO: Try to add caching. Can't be done in the controller as the tokens are generated from services
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -74,8 +71,6 @@ public class UserTokenController {
      */
     @PatchMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = UserTokenCaches.USER_TOKEN, key = "#result.token") },
-            evict = { @CacheEvict(cacheNames = UserTokenCaches.USER_TOKENS, allEntries = true) })
     public UserToken patch(@PathVariable("token") final String tokenCode, @RequestBody final UserTokenPartial request) {
         final UserToken token;
 
@@ -96,7 +91,6 @@ public class UserTokenController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
-    @Cacheable(cacheNames = UserTokenCaches.USER_TOKENS)
     public Iterable<UserToken> readAll(final Pageable pagination) {
         return service.getAll(pagination);
     }
@@ -110,7 +104,6 @@ public class UserTokenController {
      */
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
-    @Cacheable(cacheNames = UserTokenCaches.USER_TOKEN)
     public UserToken readOne(@PathVariable("token") final String token) {
         return service.getOne(token)
             .orElse(null);
