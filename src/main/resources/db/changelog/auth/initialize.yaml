@@ -251,13 +251,8 @@ databaseChangeLog:
                     references: security.roles(id)
                     nullable: false
                     deleteCascade: true
-        - addUniqueConstraint:
-            constraintName: role_permissions_unique
-            schemaName: security
-            tableName: role_permissions
-            columnNames: 'role_id, permission'
-        - addUniqueConstraint:
-            constraintName: user_roles_unique
+        - addPrimaryKey:
+            constraintName: user_roles_key
             schemaName: security
             tableName: user_roles
             columnNames: 'user_id, role_id'
