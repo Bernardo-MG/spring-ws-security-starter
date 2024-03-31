@@ -4,9 +4,42 @@ package com.bernardomg.security.authentication.user.test.config.factory;
 import java.util.List;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 
 public final class Users {
+
+    public static final User additionalRole() {
+        return User.builder()
+            .withRoles(List.of(Roles.withSinglePermission(), Roles.alternative()))
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
+
+    public static final User addRole() {
+        return User.builder()
+            .withRoles(List.of(Role.builder()
+                .withName(RoleConstants.NAME)
+                .build(),
+                Role.builder()
+                    .withName(RoleConstants.ALTERNATIVE_NAME)
+                    .build()))
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
 
     public static final User disabled() {
         return User.builder()

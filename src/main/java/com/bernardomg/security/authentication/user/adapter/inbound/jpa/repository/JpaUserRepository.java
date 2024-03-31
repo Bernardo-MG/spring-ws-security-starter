@@ -160,10 +160,10 @@ public final class JpaUserRepository implements UserRepository {
 
     @Override
     public final User update(final User user) {
-        final Optional<UserEntity> existing;
-        final UserEntity           entity;
-        final UserEntity           saved;
-        final User                 result;
+        final Optional<UserEntity>   existing;
+        final UserEntity             entity;
+        final UserEntity             saved;
+        final User                   result;
 
         entity = toEntity(user);
 
@@ -264,10 +264,14 @@ public final class JpaUserRepository implements UserRepository {
         read = roleSpringRepository.findOneByName(role.getName());
 
         if (read.isPresent()) {
-            permissions = role.getPermissions()
-                .stream()
-                .map(this::toEntity)
-                .toList();
+            if (role.getPermissions() == null) {
+                permissions = List.of();
+            } else {
+                permissions = role.getPermissions()
+                    .stream()
+                    .map(this::toEntity)
+                    .toList();
+            }
             roleEntity = RoleEntity.builder()
                 .withId(read.get()
                     .getId())

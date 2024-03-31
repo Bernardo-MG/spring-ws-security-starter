@@ -8,6 +8,21 @@ import com.bernardomg.security.authorization.role.test.config.factory.RoleEntiti
 
 public final class UserEntities {
 
+    public static final UserEntity additionalRole() {
+        return UserEntity.builder()
+            .withId(1L)
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPassword(UserConstants.ENCODED_PASSWORD)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .withRoles(List.of(RoleEntities.withPermission(), RoleEntities.alternative()))
+            .build();
+    }
+
     public static final UserEntity disabled() {
         return UserEntity.builder()
             .withId(1L)

@@ -38,6 +38,7 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.role.test.config.annotation.AlternativeRole;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -52,6 +53,48 @@ class ITUserRepositoryUpdate {
 
     public ITUserRepositoryUpdate() {
         super();
+    }
+
+    @Test
+    @DisplayName("When adding a role to a user it is updated")
+    @ValidUser
+    @AlternativeRole
+    void testUpdate_AddRole_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.addRole();
+
+        // WHEN
+        repository.update(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.additionalRole());
+    }
+
+    @Test
+    @DisplayName("When adding a role to a user it is returned")
+    @ValidUser
+    @AlternativeRole
+    void testUpdate_AddRole_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.addRole();
+
+        // WHEN
+        created = repository.update(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.additionalRole());
     }
 
     @Test
@@ -115,7 +158,7 @@ class ITUserRepositoryUpdate {
 
     @Test
     @DisplayName("Doesn't return a not existing user")
-    void testUpdate_Returned() {
+    void testUpdate_NotExisting_Returned() {
         final User user;
         final User created;
 
