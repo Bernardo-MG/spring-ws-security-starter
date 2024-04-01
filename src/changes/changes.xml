@@ -121,5 +121,7 @@
             Cleans roles and permissions caches correctly.
          </action>
       </release>
+      <release version="1.0.0" date="2024-03-31" description="">
+      </release>
    </body>
 </document>
