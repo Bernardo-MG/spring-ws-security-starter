@@ -1,6 +1,9 @@
 
 package com.bernardomg.security.authorization.permission.test.domain.repository.integration;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +37,7 @@ class ITResourceRepositorySave {
         permission = Resources.data();
 
         // WHEN
-        repository.save(permission);
+        repository.save(List.of(permission));
 
         // THEN
         permissions = resourceSpringRepository.findAll();
@@ -48,19 +51,19 @@ class ITResourceRepositorySave {
     @Test
     @DisplayName("Returns the persisted data")
     void testRemovePermission_Returned() {
-        final Resource created;
-        final Resource permission;
+        final Collection<Resource> created;
+        final Resource             permission;
 
         // GIVEN
         permission = Resources.data();
 
         // WHEN
-        created = repository.save(permission);
+        created = repository.save(List.of(permission));
 
         // THEN
         Assertions.assertThat(created)
             .as("resource")
-            .isEqualTo(Resources.data());
+            .containsExactly(Resources.data());
     }
 
 }

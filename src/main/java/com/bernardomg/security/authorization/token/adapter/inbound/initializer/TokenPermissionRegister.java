@@ -22,28 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.token.adapter.outbound.cache;
+package com.bernardomg.security.authorization.token.adapter.inbound.initializer;
+
+import java.util.Collection;
+import java.util.List;
+
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
- * Names of all the caches used for user token queries.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Default permission register. Contains all the initial permission configuration.
  */
-public final class UserTokenCaches {
+public final class TokenPermissionRegister implements PermissionRegister {
 
-    /**
-     * Single user token.
-     */
-    public static final String USER_TOKEN  = "user_token";
+    @Override
+    public final Collection<String> getActions() {
+        return List.of();
+    }
 
-    /**
-     * Multiple user tokens.
-     */
-    public static final String USER_TOKENS = "user_tokens";
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        return List.of(ResourcePermissionPair.of("USER_TOKEN", "READ"),
+            ResourcePermissionPair.of("USER_TOKEN", "UPDATE"), ResourcePermissionPair.of("USER_TOKEN", "DELETE"),
+            ResourcePermissionPair.of("USER_TOKEN", "VIEW"));
+    }
 
-    private UserTokenCaches() {
-        super();
+    @Override
+    public final Collection<String> getResources() {
+        return List.of("USER_TOKEN");
     }
 
 }

@@ -39,6 +39,7 @@ import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
+import com.bernardomg.security.login.adapter.inbound.initializer.LoginPermissionRegister;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.adapter.inbound.spring.LoginEvenRegisterListener;
@@ -70,6 +71,11 @@ public class LoginConfig {
     @Bean("loginEventRegisterListener")
     public LoginEvenRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {
         return new LoginEvenRegisterListener(loginRegisterService);
+    }
+
+    @Bean("loginPermissionRegister")
+    public LoginPermissionRegister getLoginPermissionRegister() {
+        return new LoginPermissionRegister();
     }
 
     @Bean("loginRegisterRepository")

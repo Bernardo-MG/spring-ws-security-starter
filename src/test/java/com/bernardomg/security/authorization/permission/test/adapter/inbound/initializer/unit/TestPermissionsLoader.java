@@ -9,9 +9,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.initializer.PermissionRegister;
@@ -69,13 +67,20 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When loading the permissions are stored")
     void testLoad() {
+
+        // GIVEN
+        given(actionRepository.exists(PermissionConstants.CREATE)).willReturn(false);
+        given(resourceRepository.exists(PermissionConstants.DATA)).willReturn(false);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE))
+            .willReturn(false);
+
         // WHEN
         getPermissionsLoader().load();
 
         // THEN
-        verify(actionRepository).save(Actions.create());
-        verify(resourceRepository).save(Resources.data());
-        verify(resourcePermissionRepository).save(ResourcePermissions.create());
+        verify(actionRepository).save(List.of(Actions.create()));
+        verify(resourceRepository).save(List.of(Resources.data()));
+        verify(resourcePermissionRepository).save(List.of(ResourcePermissions.create()));
     }
 
     @Test
@@ -85,9 +90,9 @@ public class TestPermissionsLoader {
         getPermissionsLoaderNoData().load();
 
         // THEN
-        verify(actionRepository, Mockito.never()).save(ArgumentMatchers.any());
-        verify(resourceRepository, Mockito.never()).save(ArgumentMatchers.any());
-        verify(resourcePermissionRepository, Mockito.never()).save(ArgumentMatchers.any());
+        verify(actionRepository).save(List.of());
+        verify(resourceRepository).save(List.of());
+        verify(resourcePermissionRepository).save(List.of());
     }
 
 }

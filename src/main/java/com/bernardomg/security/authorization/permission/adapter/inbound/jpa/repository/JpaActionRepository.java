@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -59,24 +61,32 @@ public final class JpaActionRepository implements ActionRepository {
     }
 
     @Override
-    public final Action save(final Action action) {
+    public final Collection<Action> save(final Collection<Action> actions) {
+        final List<ActionEntity> entities;
+        final List<ActionEntity> created;
+
+        log.debug("Saving actions {}", actions);
+
+        entities = actions.stream()
+            .map(this::toEntity)
+            .toList();
+        entities.forEach(this::loadId);
+
+        created = actionSpringRepository.saveAll(entities);
+
+        return created.stream()
+            .map(this::toDomain)
+            .toList();
+    }
+
+    private final void loadId(final ActionEntity entity) {
         final Optional<ActionEntity> existing;
-        final ActionEntity           entity;
-        final ActionEntity           created;
 
-        log.debug("Saving action {}", action);
-
-        entity = toEntity(action);
-
-        existing = actionSpringRepository.findByName(action.getName());
+        existing = actionSpringRepository.findByName(entity.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
-
-        created = actionSpringRepository.save(entity);
-
-        return toDomain(created);
     }
 
     private final Action toDomain(final ActionEntity action) {

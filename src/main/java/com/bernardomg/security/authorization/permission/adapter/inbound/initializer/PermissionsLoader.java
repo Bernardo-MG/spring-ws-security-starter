@@ -25,7 +25,9 @@
 package com.bernardomg.security.authorization.permission.adapter.inbound.initializer;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import com.bernardomg.security.authorization.permission.domain.model.Action;
 import com.bernardomg.security.authorization.permission.domain.model.Resource;
@@ -78,6 +80,10 @@ public final class PermissionsLoader {
      * Persists the permissions.
      */
     public final void load() {
+        final List<Action>             actions;
+        final List<Resource>           resources;
+        final List<ResourcePermission> permissions;
+
         log.debug("Begins loading permissions");
 
         // TODO: Apply transactionality
@@ -85,72 +91,60 @@ public final class PermissionsLoader {
 
         // Load actions
         log.debug("Saving actions");
-        permissionRegisters.stream()
+        actions = permissionRegisters.stream()
             .map(PermissionRegister::getActions)
             .flatMap(Collection::stream)
-            .forEach(this::saveAction);
+            .filter(Predicate.not(actionRepository::exists))
+            .map(this::toAction)
+            .toList();
+        actionRepository.save(actions);
         log.debug("Saved actions");
 
         // Load resources
         log.debug("Saving resources");
-        permissionRegisters.stream()
+        resources = permissionRegisters.stream()
             .map(PermissionRegister::getResources)
             .flatMap(Collection::stream)
-            .forEach(this::saveResource);
+            .filter(Predicate.not(resourceRepository::exists))
+            .map(this::toResource)
+            .toList();
+        resourceRepository.save(resources);
         log.debug("Saved resources");
 
         // TODO: Verify the resources and actions exist
         // Load permissions
         log.debug("Saving permissions");
-        permissionRegisters.stream()
+        permissions = permissionRegisters.stream()
             .map(PermissionRegister::getPermissions)
             .flatMap(Collection::stream)
-            .forEach(this::savePermission);
+            .map(this::toResourcePermission)
+            .filter(Predicate.not(p -> resourcePermissionRepository.exists(p.getName())))
+            .toList();
+        resourcePermissionRepository.save(permissions);
         log.debug("Saved permissions");
 
         log.debug("Finished loading permissions");
     }
 
-    private final void saveAction(final String name) {
-        final Action action;
-
-        action = Action.builder()
+    private final Action toAction(final String name) {
+        return Action.builder()
             .withName(name)
             .build();
-        if (!actionRepository.exists(name)) {
-            log.debug("Saving action {}", name);
-            actionRepository.save(action);
-        }
     }
 
-    private final void savePermission(final ResourcePermissionPair pair) {
-        final ResourcePermission resourcePermission;
-        final String             name;
+    private final Resource toResource(final String name) {
+        return Resource.builder()
+            .withName(name)
+            .build();
+    }
 
-        // TODO: the model should handle this
-        resourcePermission = ResourcePermission.builder()
+    private final ResourcePermission toResourcePermission(final ResourcePermissionPair pair) {
+        // TODO: the model should handle the name
+        return ResourcePermission.builder()
             .withName(pair.getAction() + ":" + pair.getResource())
             .withAction(pair.getAction())
             .withResource(pair.getResource())
             .build();
-        // TODO: generate the name automatically
-        name = pair.getAction() + ":" + pair.getResource();
-        if (!resourcePermissionRepository.exists(name)) {
-            log.debug("Saving permission {}:{}", pair.getResource(), pair.getAction());
-            resourcePermissionRepository.save(resourcePermission);
-        }
-    }
-
-    private final void saveResource(final String resource) {
-        final Resource resourceData;
-
-        resourceData = Resource.builder()
-            .withName(resource)
-            .build();
-        if (!resourceRepository.exists(resource)) {
-            log.debug("Saving resource {}", resource);
-            resourceRepository.save(resourceData);
-        }
     }
 
 }

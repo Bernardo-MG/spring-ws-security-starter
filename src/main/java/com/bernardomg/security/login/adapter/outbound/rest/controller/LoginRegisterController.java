@@ -65,7 +65,7 @@ public class LoginRegisterController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LOGIN_REGISTER", action = Actions.READ)
     @Cacheable(cacheNames = Logins.LOGIN_REGISTERS)
-    public Iterable<LoginRegister> login(final Pageable page) {
+    public Iterable<LoginRegister> readAll(final Pageable page) {
         return service.getAll(page);
     }
 

@@ -1,6 +1,9 @@
 
 package com.bernardomg.security.authorization.permission.test.domain.repository.integration;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +37,7 @@ class ITActionRepositorySave {
         action = Actions.create();
 
         // WHEN
-        repository.save(action);
+        repository.save(List.of(action));
 
         // THEN
         actions = actionSpringRepository.findAll();
@@ -48,19 +51,19 @@ class ITActionRepositorySave {
     @Test
     @DisplayName("Returns the persisted data")
     void testRemovePermission_Returned() {
-        final Action created;
-        final Action action;
+        final Collection<Action> created;
+        final Action             action;
 
         // GIVEN
         action = Actions.create();
 
         // WHEN
-        created = repository.save(action);
+        created = repository.save(List.of(action));
 
         // THEN
         Assertions.assertThat(created)
-            .as("action")
-            .isEqualTo(Actions.create());
+            .as("actions")
+            .containsExactly(Actions.create());
     }
 
 }

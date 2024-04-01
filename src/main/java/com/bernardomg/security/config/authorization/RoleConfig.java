@@ -34,6 +34,7 @@ import com.bernardomg.security.authentication.user.domain.repository.UserRoleRep
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserRoleService;
 import com.bernardomg.security.authentication.user.usecase.service.UserRoleService;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.role.adapter.inbound.initializer.RolePermissionRegister;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
@@ -56,7 +57,12 @@ public class RoleConfig {
         super();
     }
 
-    @Bean("RoleRepository")
+    @Bean("rolePermissionRegister")
+    public RolePermissionRegister getRolePermissionRegister() {
+        return new RolePermissionRegister();
+    }
+
+    @Bean("roleRepository")
     public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepo,
             final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
             final UserRoleSpringRepository userRoleSpringRepo) {

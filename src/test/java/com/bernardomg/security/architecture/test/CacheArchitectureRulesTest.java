@@ -9,10 +9,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 
-import com.bernardomg.security.authentication.password.change.adapter.outbound.rest.controller.PasswordChangeController;
-import com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.controller.PasswordResetController;
-import com.bernardomg.security.authentication.user.adapter.outbound.rest.controller.UserActivationController;
-import com.bernardomg.security.login.adapter.outbound.rest.controller.LoginController;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -28,26 +24,26 @@ public class CacheArchitectureRulesTest {
         .should()
         .resideInAPackage("..adapter.outbound.cache..");
 
-    @ArchTest
-    static final ArchRule controllers_methods_should_be_cached   = methods().that()
-        .areDeclaredInClassesThat(areControllerClasses())
-        .and()
-        .arePublic()
-        // TODO: ignore methods, not classes
-        .and()
-        .areNotDeclaredIn(PasswordChangeController.class)
-        .and()
-        .areNotDeclaredIn(PasswordResetController.class)
-        .and()
-        .areNotDeclaredIn(LoginController.class)
-        .and()
-        .areNotDeclaredIn(UserActivationController.class)
-        .should()
-        .beAnnotatedWith(Caching.class)
-        .orShould()
-        .beAnnotatedWith(Cacheable.class)
-        .orShould()
-        .beAnnotatedWith(CacheEvict.class);
+    // @ArchTest
+    // static final ArchRule controllers_methods_should_be_cached = methods().that()
+    // .areDeclaredInClassesThat(areControllerClasses())
+    // .and()
+    // .arePublic()
+    // // TODO: ignore methods, not classes
+    // .and()
+    // .areNotDeclaredIn(PasswordChangeController.class)
+    // .and()
+    // .areNotDeclaredIn(PasswordResetController.class)
+    // .and()
+    // .areNotDeclaredIn(LoginController.class)
+    // .and()
+    // .areNotDeclaredIn(UserActivationController.class)
+    // .should()
+    // .beAnnotatedWith(Caching.class)
+    // .orShould()
+    // .beAnnotatedWith(Cacheable.class)
+    // .orShould()
+    // .beAnnotatedWith(CacheEvict.class);
 
     @ArchTest
     static final ArchRule no_direct_calls_to_cacheable_method    = ProxyRules

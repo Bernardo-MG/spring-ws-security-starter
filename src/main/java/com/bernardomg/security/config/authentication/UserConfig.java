@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -97,6 +98,11 @@ public class UserConfig {
     public UserRoleRepository getUserRoleRepository(final RoleSpringRepository roleSpringRepo,
             final UserSpringRepository userSpringRepo) {
         return new JpaUserRoleRepository(roleSpringRepo, userSpringRepo);
+    }
+
+    @Bean("userPermissionRegister")
+    public UserPermissionRegister geUserPermissionRegister() {
+        return new UserPermissionRegister();
     }
 
 }

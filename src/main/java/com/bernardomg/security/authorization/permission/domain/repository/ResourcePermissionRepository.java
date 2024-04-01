@@ -52,12 +52,12 @@ public interface ResourcePermissionRepository {
     public Collection<ResourcePermission> findAll();
 
     /**
-     * Saves the received permission. If it exists it is updated, otherwise it is created.
+     * Saves the received permissions. If they exist these are updated, otherwise they are created.
      *
-     * @param permission
-     *            permission to save
+     * @param permissions
+     *            permissions to save
      * @return the saved permission
      */
-    public ResourcePermission save(final ResourcePermission permission);
+    public Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions);
 
 }
