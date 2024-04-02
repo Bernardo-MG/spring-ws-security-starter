@@ -68,7 +68,7 @@ public class AccountController {
      *
      * @return the current user account
      */
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     public Account currentUser() {
         return service.getCurrentUser()
