@@ -94,6 +94,21 @@ public final class UserEntities {
             .build();
     }
 
+    public static final UserEntity nameChange() {
+        return UserEntity.builder()
+            .withId(1L)
+            .withName(UserConstants.ALTERNATIVE_NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withPassword(UserConstants.ENCODED_PASSWORD)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .withRoles(List.of(RoleEntities.withPermission()))
+            .build();
+    }
+
     public static final UserEntity newlyCreated() {
         return UserEntity.builder()
             .withId(1L)

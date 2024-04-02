@@ -6,6 +6,14 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 
 public final class Accounts {
 
+    public static final Account nameChange() {
+        return Account.builder()
+            .withUsername(UserConstants.USERNAME)
+            .withName(UserConstants.ALTERNATIVE_NAME)
+            .withEmail(UserConstants.EMAIL)
+            .build();
+    }
+
     public static final Account valid() {
         return Account.builder()
             .withUsername(UserConstants.USERNAME)

@@ -5,6 +5,8 @@ public final class UserConstants {
 
     public static final String ALTERNATIVE_EMAIL    = "mail2@somewhere.com";
 
+    public static final String ALTERNATIVE_NAME     = "abc";
+
     public static final String ALTERNATIVE_USERNAME = "user2";
 
     public static final String EMAIL                = "mail@somewhere.com";

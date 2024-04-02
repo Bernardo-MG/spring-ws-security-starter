@@ -45,8 +45,34 @@ public final class CompositeAccountRepository implements AccountRepository {
 
     @Override
     public final Account save(final Account account) {
-        // TODO Auto-generated method stub
-        return null;
+        final Optional<User> read;
+        final User           updated;
+        final User           user;
+
+        read = userRepository.findOne(account.getUsername());
+        // TODO: check it is not empty
+        user = User.builder()
+            .withUsername(account.getUsername())
+            .withName(account.getName())
+            .withEmail(account.getEmail())
+            .withEnabled(read.get()
+                .isEnabled())
+            .withExpired(read.get()
+                .isExpired())
+            .withLocked(read.get()
+                .isLocked())
+            .withPasswordExpired(read.get()
+                .isPasswordExpired())
+            .withRoles(read.get()
+                .getRoles())
+            .build();
+
+        updated = userRepository.update(user);
+        return Account.builder()
+            .withUsername(updated.getUsername())
+            .withEmail(updated.getEmail())
+            .withName(updated.getName())
+            .build();
     }
 
 }

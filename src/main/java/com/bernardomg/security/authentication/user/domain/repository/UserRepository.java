@@ -126,6 +126,8 @@ public interface UserRepository {
 
     /**
      * Updates an existing user.
+     * <p>
+     * TODO: rename to save
      *
      * @param user
      *            the user to update
