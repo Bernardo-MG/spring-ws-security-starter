@@ -22,23 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.login;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
-
 /**
- * Login auto configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Account repositories.
  */
-@AutoConfiguration
-@Import({ LoginConfig.class })
-public class LoginAutoConfiguration {
 
-    public LoginAutoConfiguration() {
-        super();
-    }
-
-}
+package com.bernardomg.security.account.adapter.inbound.repository;

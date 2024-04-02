@@ -22,23 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.login;
+package com.bernardomg.security.config.account;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+import com.bernardomg.security.account.adapter.inbound.repository.CompositeAccountRepository;
+import com.bernardomg.security.account.domain.repository.AccountRepository;
+import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.account.usecase.service.DefaultAccountService;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 /**
- * Login auto configuration.
+ * Login configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Import({ LoginConfig.class })
-public class LoginAutoConfiguration {
+@Configuration(proxyBeanMethods = false)
+@ComponentScan({ "com.bernardomg.security.account.adapter.outbound.rest.controller" })
+public class AccountConfig {
 
-    public LoginAutoConfiguration() {
+    public AccountConfig() {
         super();
+    }
+
+    @Bean("accountRepository")
+    public AccountRepository getAccountRepository(final UserRepository userRepo) {
+        return new CompositeAccountRepository(userRepo);
+    }
+
+    @Bean("accountService")
+    public AccountService getAccountService(final AccountRepository accountRepo) {
+        return new DefaultAccountService(accountRepo);
     }
 
 }
