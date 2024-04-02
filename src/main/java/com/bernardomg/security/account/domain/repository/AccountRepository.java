@@ -22,60 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.domain.model;
+package com.bernardomg.security.account.domain.repository;
 
-import java.util.Collection;
+import java.util.Optional;
 
-import com.bernardomg.security.authorization.role.domain.model.Role;
-
-import lombok.Builder;
-import lombok.Data;
+import com.bernardomg.security.account.domain.model.Account;
 
 /**
- * Representation of a user.
+ * Account repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-@Data
-@Builder(setterPrefix = "with")
-public final class User {
+public interface AccountRepository {
 
     /**
-     * User email.
+     * Returns the account for the received username.
+     *
+     * @param username
+     *            user to search for
+     * @return the account for the received username
      */
-    private String           email;
-
-    /**
-     * User enabled flag.
-     */
-    private boolean          enabled;
-
-    /**
-     * User expired flag.
-     */
-    private boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private boolean          locked;
-
-    /**
-     * User name.
-     */
-    private String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private boolean          passwordExpired;
-
-    private Collection<Role> roles;
-
-    /**
-     * User username.
-     */
-    private String           username;
+    public Optional<Account> findOne(final String username);
 
 }

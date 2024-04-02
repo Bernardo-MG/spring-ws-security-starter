@@ -91,7 +91,7 @@ public interface UserRepository {
      *
      * @param username
      *            user to search for
-     * @return the users for the received username
+     * @return the user for the received username
      */
     public Optional<User> findOne(final String username);
 
