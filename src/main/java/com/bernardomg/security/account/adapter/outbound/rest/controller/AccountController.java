@@ -54,7 +54,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/account")
 @AllArgsConstructor
 public class AccountController {
 
