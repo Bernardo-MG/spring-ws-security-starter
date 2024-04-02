@@ -43,4 +43,10 @@ public final class CompositeAccountRepository implements AccountRepository {
         return result;
     }
 
+    @Override
+    public final Account save(final Account account) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

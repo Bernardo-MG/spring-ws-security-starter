@@ -22,35 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.account.domain.repository;
+package com.bernardomg.security.account.domain.exception;
 
-import java.util.Optional;
-
-import com.bernardomg.security.account.domain.model.Account;
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Account repository.
+ * Missing account exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-public interface AccountRepository {
+public final class MissingAccountException extends MissingIdException {
 
-    /**
-     * Returns the account for the received username.
-     *
-     * @param username
-     *            user to search for
-     * @return the account for the received username
-     */
-    public Optional<Account> findOne(final String username);
+    private static final long serialVersionUID = -8969358976410690055L;
 
-    /**
-     * Saves the received account. If it exists it is updated, otherwise it is created.
-     *
-     * @param account
-     *            account to save
-     * @return the saved user
-     */
-    public Account save(final Account account);
+    public MissingAccountException() {
+        super("account", "");
+    }
+
+    public MissingAccountException(final String name) {
+        super("account", name);
+    }
 
 }

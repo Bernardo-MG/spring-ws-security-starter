@@ -22,35 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.account.domain.repository;
-
-import java.util.Optional;
-
-import com.bernardomg.security.account.domain.model.Account;
-
 /**
- * Account repository.
- *
- * @author Bernardo Mart&iacute;nez Garrido
+ * Account exceptions.
  */
-public interface AccountRepository {
 
-    /**
-     * Returns the account for the received username.
-     *
-     * @param username
-     *            user to search for
-     * @return the account for the received username
-     */
-    public Optional<Account> findOne(final String username);
-
-    /**
-     * Saves the received account. If it exists it is updated, otherwise it is created.
-     *
-     * @param account
-     *            account to save
-     * @return the saved user
-     */
-    public Account save(final Account account);
-
-}
+package com.bernardomg.security.account.domain.exception;

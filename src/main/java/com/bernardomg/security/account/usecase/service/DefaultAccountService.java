@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.security.account.domain.exception.MissingAccountException;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 
@@ -60,6 +61,30 @@ public final class DefaultAccountService implements AccountService {
         }
 
         return account;
+    }
+
+    @Override
+    public final Account update(final Account account) {
+        final Account           accountData;
+        final Optional<Account> current;
+
+        log.debug("Updating account {} using data {}", account.getUsername(), account);
+
+        current = getCurrentUser();
+        if (current.isEmpty()) {
+            throw new MissingAccountException();
+        }
+
+        // Can only change name
+        accountData = Account.builder()
+            .withUsername(current.get()
+                .getUsername())
+            .withName(account.getName())
+            .withEmail(current.get()
+                .getEmail())
+            .build();
+
+        return accountRepository.save(accountData);
     }
 
 }

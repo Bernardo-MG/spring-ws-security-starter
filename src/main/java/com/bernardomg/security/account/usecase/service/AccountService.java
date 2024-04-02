@@ -43,4 +43,6 @@ public interface AccountService {
      */
     public Optional<Account> getCurrentUser();
 
+    public Account update(final Account account);
+
 }
