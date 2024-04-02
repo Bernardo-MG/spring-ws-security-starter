@@ -24,14 +24,27 @@
 
 package com.bernardomg.security.account.adapter.outbound.rest.controller;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
+import com.bernardomg.security.account.adapter.outbound.rest.model.AccountChange;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
+import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
@@ -60,6 +73,31 @@ public class AccountController {
     public Account currentUser() {
         return service.getCurrentUser()
             .orElse(null);
+    }
+
+    /**
+     * Updates an account.
+     *
+     * @param username
+     *            username of the account to update
+     * @param request
+     *            updated account data
+     * @return the updated account
+     */
+    @PutMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") }, evict = {
+            @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
+    public Account update(@PathVariable("username") final String username,
+            @Valid @RequestBody final AccountChange request) {
+        final Account account;
+
+        account = Account.builder()
+            .withUsername(username)
+            .withName(request.getName())
+            .build();
+
+        return service.update(account);
     }
 
 }
