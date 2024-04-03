@@ -22,60 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.domain.model;
+package com.bernardomg.security.config.account;
 
-import java.util.Collection;
-
-import com.bernardomg.security.authorization.role.domain.model.Role;
-
-import lombok.Builder;
-import lombok.Data;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
 
 /**
- * Representation of a user.
+ * Account auto configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@Builder(setterPrefix = "with")
-public final class User {
+@AutoConfiguration
+@Import({ AccountConfig.class })
+public class AccountAutoConfiguration {
 
-    /**
-     * User email.
-     */
-    private String           email;
-
-    /**
-     * User enabled flag.
-     */
-    private boolean          enabled;
-
-    /**
-     * User expired flag.
-     */
-    private boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private boolean          locked;
-
-    /**
-     * User name.
-     */
-    private String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private boolean          passwordExpired;
-
-    private Collection<Role> roles;
-
-    /**
-     * User username.
-     */
-    private String           username;
+    public AccountAutoConfiguration() {
+        super();
+    }
 
 }

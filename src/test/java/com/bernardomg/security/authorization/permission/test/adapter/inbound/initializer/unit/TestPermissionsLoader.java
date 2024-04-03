@@ -71,8 +71,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.exists(PermissionConstants.CREATE)).willReturn(false);
         given(resourceRepository.exists(PermissionConstants.DATA)).willReturn(false);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE))
-            .willReturn(false);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
 
         // WHEN
         getPermissionsLoader().load();

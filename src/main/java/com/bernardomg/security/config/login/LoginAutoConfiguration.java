@@ -28,7 +28,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 /**
- * Authorization auto configuration.
+ * Login auto configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

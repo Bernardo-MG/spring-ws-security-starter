@@ -22,60 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.domain.model;
+package com.bernardomg.security.account.domain.exception;
 
-import java.util.Collection;
-
-import com.bernardomg.security.authorization.role.domain.model.Role;
-
-import lombok.Builder;
-import lombok.Data;
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Representation of a user.
+ * Missing account exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@Builder(setterPrefix = "with")
-public final class User {
+public final class MissingAccountException extends MissingIdException {
 
-    /**
-     * User email.
-     */
-    private String           email;
+    private static final long serialVersionUID = -8969358976410690055L;
 
-    /**
-     * User enabled flag.
-     */
-    private boolean          enabled;
+    public MissingAccountException() {
+        super("account", "");
+    }
 
-    /**
-     * User expired flag.
-     */
-    private boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private boolean          locked;
-
-    /**
-     * User name.
-     */
-    private String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private boolean          passwordExpired;
-
-    private Collection<Role> roles;
-
-    /**
-     * User username.
-     */
-    private String           username;
+    public MissingAccountException(final String name) {
+        super("account", name);
+    }
 
 }

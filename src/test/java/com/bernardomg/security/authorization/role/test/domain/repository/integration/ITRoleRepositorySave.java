@@ -102,17 +102,17 @@ class ITRoleRepositorySave {
     @Test
     @DisplayName("Returns the created data")
     void testSave_ReturnedData() {
-        final Role roles;
+        final Role saved;
         final Role role;
 
         // GIVEN
         role = Roles.valid();
 
         // WHEN
-        roles = repository.save(role);
+        saved = repository.save(role);
 
         // THEN
-        Assertions.assertThat(roles)
+        Assertions.assertThat(saved)
             .as("roles")
             .isEqualTo(Roles.valid());
     }

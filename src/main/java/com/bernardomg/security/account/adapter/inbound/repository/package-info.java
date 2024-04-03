@@ -22,60 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.domain.model;
-
-import java.util.Collection;
-
-import com.bernardomg.security.authorization.role.domain.model.Role;
-
-import lombok.Builder;
-import lombok.Data;
-
 /**
- * Representation of a user.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Account repositories.
  */
-@Data
-@Builder(setterPrefix = "with")
-public final class User {
 
-    /**
-     * User email.
-     */
-    private String           email;
-
-    /**
-     * User enabled flag.
-     */
-    private boolean          enabled;
-
-    /**
-     * User expired flag.
-     */
-    private boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private boolean          locked;
-
-    /**
-     * User name.
-     */
-    private String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private boolean          passwordExpired;
-
-    private Collection<Role> roles;
-
-    /**
-     * User username.
-     */
-    private String           username;
-
-}
+package com.bernardomg.security.account.adapter.inbound.repository;

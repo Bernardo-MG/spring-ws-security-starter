@@ -22,60 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.domain.model;
+package com.bernardomg.security.account.adapter.outbound.rest.model;
 
-import java.util.Collection;
-
-import com.bernardomg.security.authorization.role.domain.model.Role;
-
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Representation of a user.
+ * Data which can be changed for a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class User {
-
-    /**
-     * User email.
-     */
-    private String           email;
-
-    /**
-     * User enabled flag.
-     */
-    private boolean          enabled;
-
-    /**
-     * User expired flag.
-     */
-    private boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private boolean          locked;
+public final class AccountChange {
 
     /**
      * User name.
      */
-    private String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private boolean          passwordExpired;
-
-    private Collection<Role> roles;
-
-    /**
-     * User username.
-     */
-    private String           username;
+    @NotNull
+    private String name;
 
 }

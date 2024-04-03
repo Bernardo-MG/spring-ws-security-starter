@@ -83,7 +83,7 @@ class TestDefaultRoleServiceUpdate {
 
     @Test
     @DisplayName("When the role doesn't exists an exception is thrown")
-    void testUpdate_NotExistingRole() {
+    void testUpdate_NotExisting() {
         final ThrowingCallable execution;
         final Role             data;
 
