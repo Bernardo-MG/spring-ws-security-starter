@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.2.6</version>
+   <version>0.3.0</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -185,12 +185,11 @@
       <archunit.version>1.2.1</archunit.version>
       <bernardomg.framework.validation.version>0.1.0</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.1.2</bernardomg.framework.ws.version>
-      <jjwt.version>0.12.3</jjwt.version>
-      <lombok.version>1.18.30</lombok.version>
-      <micrometer.version>1.12.1</micrometer.version>
-      <spring.boot.version>3.2.0</spring.boot.version>
-      <spring.data.version>2023.1.0</spring.data.version>
-      <spring.version>6.1.2</spring.version>
+      <jjwt.version>0.12.5</jjwt.version>
+      <lombok.version>1.18.32</lombok.version>
+      <spring.boot.version>3.2.4</spring.boot.version>
+      <spring.data.version>2023.1.4</spring.data.version>
+      <spring.version>6.1.5</spring.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
@@ -544,21 +543,6 @@
          <!-- Jackson annotations -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-annotations</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =========== VERSION ENFORCEMENT ============== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Micrometer Observation -->
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-observation</artifactId>
-         <version>${micrometer.version}</version>
-      </dependency>
-      <dependency>
-         <!-- Micrometer Commons -->
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-commons</artifactId>
-         <version>${micrometer.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->

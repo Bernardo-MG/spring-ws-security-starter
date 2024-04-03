@@ -22,60 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.domain.model;
+package com.bernardomg.security.config.account;
 
-import java.util.Collection;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.role.domain.model.Role;
-
-import lombok.Builder;
-import lombok.Data;
+import com.bernardomg.security.account.adapter.inbound.repository.CompositeAccountRepository;
+import com.bernardomg.security.account.domain.repository.AccountRepository;
+import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.account.usecase.service.DefaultAccountService;
+import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
 /**
- * Representation of a user.
+ * Login configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@Builder(setterPrefix = "with")
-public final class User {
+@Configuration(proxyBeanMethods = false)
+@ComponentScan({ "com.bernardomg.security.account.adapter.outbound.rest.controller" })
+public class AccountConfig {
 
-    /**
-     * User email.
-     */
-    private String           email;
+    public AccountConfig() {
+        super();
+    }
 
-    /**
-     * User enabled flag.
-     */
-    private boolean          enabled;
+    @Bean("accountRepository")
+    public AccountRepository getAccountRepository(final UserRepository userRepo) {
+        return new CompositeAccountRepository(userRepo);
+    }
 
-    /**
-     * User expired flag.
-     */
-    private boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private boolean          locked;
-
-    /**
-     * User name.
-     */
-    private String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private boolean          passwordExpired;
-
-    private Collection<Role> roles;
-
-    /**
-     * User username.
-     */
-    private String           username;
+    @Bean("accountService")
+    public AccountService getAccountService(final AccountRepository accountRepo) {
+        return new DefaultAccountService(accountRepo);
+    }
 
 }

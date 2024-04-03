@@ -121,12 +121,17 @@
             Cleans roles and permissions caches correctly.
          </action>
       </release>
-      <release version="0.2.6" date="2024-04-01" description="">
+      <release version="0.2.6" date="2024-04-01" description="Security correction">
          <action dev="bmg" type="fix">
             Removed cache from tokens controller.
          </action>
          <action dev="bmg" type="update">
             Saving permissions data in a single query.
+         </action>
+      </release>
+      <release version="0.3.0" date="2024-04-04" description="Accoun endpoint">
+         <action dev="bmg" type="add">
+            Added account endpoint.
          </action>
       </release>
    </body>

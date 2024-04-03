@@ -22,60 +22,27 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.domain.model;
+package com.bernardomg.security.account.usecase.service;
 
-import java.util.Collection;
+import java.util.Optional;
 
-import com.bernardomg.security.authorization.role.domain.model.Role;
-
-import lombok.Builder;
-import lombok.Data;
+import com.bernardomg.security.account.domain.model.Account;
 
 /**
- * Representation of a user.
+ * Account service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@Builder(setterPrefix = "with")
-public final class User {
+public interface AccountService {
 
     /**
-     * User email.
+     * Returns the account for the current user.
+     *
+     * @return the account for the current user
      */
-    private String           email;
+    public Optional<Account> getCurrentUser();
 
-    /**
-     * User enabled flag.
-     */
-    private boolean          enabled;
-
-    /**
-     * User expired flag.
-     */
-    private boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private boolean          locked;
-
-    /**
-     * User name.
-     */
-    private String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private boolean          passwordExpired;
-
-    private Collection<Role> roles;
-
-    /**
-     * User username.
-     */
-    private String           username;
+    public Account update(final Account account);
 
 }
