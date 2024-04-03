@@ -129,10 +129,12 @@
             Saving permissions data in a single query.
          </action>
       </release>
-      <release version="0.3.0" date="2024-04-04" description="Accoun endpoint">
+      <release version="0.3.0" date="2024-04-04" description="Account endpoint">
          <action dev="bmg" type="add">
             Added account endpoint.
          </action>
+      </release>
+      <release version="1.0.0" date="2024-04-04" description="">
       </release>
    </body>
 </document>
