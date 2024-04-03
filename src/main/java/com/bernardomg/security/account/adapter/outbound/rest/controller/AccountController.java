@@ -70,8 +70,6 @@ public class AccountController {
     /**
      * Updates an account.
      *
-     * @param username
-     *            username of the account to update
      * @param request
      *            updated account data
      * @return the updated account
