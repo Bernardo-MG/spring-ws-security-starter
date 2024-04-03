@@ -26,18 +26,15 @@ package com.bernardomg.security.account.adapter.outbound.rest.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.account.adapter.outbound.rest.model.AccountChange;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.security.authorization.permission.constant.Actions;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -79,14 +76,12 @@ public class AccountController {
      *            updated account data
      * @return the updated account
      */
-    @PutMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
-    public Account update(@PathVariable("username") final String username,
-            @Valid @RequestBody final AccountChange request) {
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Unsecured
+    public Account updateForCurrentUser(@Valid @RequestBody final AccountChange request) {
         final Account account;
 
         account = Account.builder()
-            .withUsername(username)
             .withName(request.getName())
             .build();
 

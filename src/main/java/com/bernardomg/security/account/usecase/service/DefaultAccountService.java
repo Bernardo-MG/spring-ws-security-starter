@@ -68,8 +68,6 @@ public final class DefaultAccountService implements AccountService {
         final Account           accountData;
         final Optional<Account> current;
 
-        log.debug("Updating account {} using data {}", account.getUsername(), account);
-
         current = getCurrentUser();
         if (current.isEmpty()) {
             throw new MissingAccountException();
@@ -83,6 +81,8 @@ public final class DefaultAccountService implements AccountService {
             .withEmail(current.get()
                 .getEmail())
             .build();
+
+        log.debug("Updating account {} using data {}", accountData.getUsername(), accountData);
 
         return accountRepository.save(accountData);
     }
