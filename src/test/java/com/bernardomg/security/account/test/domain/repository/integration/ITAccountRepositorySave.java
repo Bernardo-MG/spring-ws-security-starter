@@ -69,7 +69,7 @@ class ITAccountRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("account")
-            .isEqualTo(Accounts.valid());
+            .isEqualTo(Accounts.nameChange());
     }
 
 }
