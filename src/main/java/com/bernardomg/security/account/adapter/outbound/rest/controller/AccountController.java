@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.account.adapter.outbound.rest.model.AccountChange;
 import com.bernardomg.security.account.domain.model.Account;
+import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.usecase.service.AccountService;
 
 import jakarta.validation.Valid;
@@ -79,7 +80,7 @@ public class AccountController {
     public Account updateForCurrentUser(@Valid @RequestBody final AccountChange request) {
         final Account account;
 
-        account = Account.builder()
+        account = BasicAccount.builder()
             .withName(request.getName())
             .build();
 

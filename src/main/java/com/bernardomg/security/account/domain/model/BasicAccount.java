@@ -24,27 +24,32 @@
 
 package com.bernardomg.security.account.domain.model;
 
+import lombok.Builder;
+import lombok.Value;
+
 /**
  * Representation of an account.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface Account {
+@Value
+@Builder(setterPrefix = "with")
+public final class BasicAccount implements Account {
 
     /**
      * User email.
      */
-    public String getEmail();
+    private final String email;
 
     /**
      * User name.
      */
-    public String getName();
+    private final String name;
 
     /**
      * User username.
      */
-    public String getUsername();
+    private final String username;
 
 }
