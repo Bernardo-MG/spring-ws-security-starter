@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.bernardomg.security.account.domain.model.Account;
+import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
@@ -29,7 +30,7 @@ public final class CompositeAccountRepository implements AccountRepository {
         if (user.isEmpty()) {
             result = Optional.empty();
         } else {
-            account = Account.builder()
+            account = BasicAccount.builder()
                 .withUsername(user.get()
                     .getUsername())
                 .withName(user.get()
@@ -68,7 +69,7 @@ public final class CompositeAccountRepository implements AccountRepository {
             .build();
 
         updated = userRepository.update(user);
-        return Account.builder()
+        return BasicAccount.builder()
             .withUsername(updated.getUsername())
             .withEmail(updated.getEmail())
             .withName(updated.getName())

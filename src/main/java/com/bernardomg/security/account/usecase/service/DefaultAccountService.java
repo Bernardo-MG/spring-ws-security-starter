@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.account.domain.exception.MissingAccountException;
 import com.bernardomg.security.account.domain.model.Account;
+import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +75,7 @@ public final class DefaultAccountService implements AccountService {
         }
 
         // Can only change name
-        accountData = Account.builder()
+        accountData = BasicAccount.builder()
             .withUsername(current.get()
                 .getUsername())
             .withName(account.getName())

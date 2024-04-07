@@ -129,9 +129,14 @@
             Saving permissions data in a single query.
          </action>
       </release>
-      <release version="0.3.0" date="2024-04-04" description="Accoun endpoint">
+      <release version="0.3.0" date="2024-04-04" description="Account endpoint">
          <action dev="bmg" type="add">
             Added account endpoint.
+         </action>
+      </release>
+      <release version="0.3.1" date="2024-04-07" description="Account extension">
+         <action dev="bmg" type="add">
+            Allows extending account output.
          </action>
       </release>
    </body>
