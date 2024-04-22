@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
@@ -149,11 +150,6 @@ public final class JpaRoleRepository implements RoleRepository {
         return toDomain(savedAgain);
     }
 
-    private final int comparePermission(final ResourcePermission left, final ResourcePermission right) {
-        return left.getName()
-            .compareTo(right.getName());
-    }
-
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
             .withName(entity.getName())
@@ -174,8 +170,7 @@ public final class JpaRoleRepository implements RoleRepository {
                 .filter(RolePermissionEntity::getGranted)
                 .map(RolePermissionEntity::getResourcePermission)
                 .map(this::toDomain)
-                .filter(Objects::nonNull)
-                .sorted(this::comparePermission)
+                .sorted(new ResourcePermissionComparator())
                 .toList();
         }
         return Role.builder()
