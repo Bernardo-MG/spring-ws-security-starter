@@ -46,6 +46,7 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.Role
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.comparator.RoleComparator;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
 /**
@@ -219,6 +220,7 @@ public final class JpaUserRepository implements UserRepository {
         roles = user.getRoles()
             .stream()
             .map(this::toDomain)
+            .sorted(new RoleComparator())
             .toList();
         return User.builder()
             .withUsername(user.getUsername())
