@@ -64,7 +64,7 @@ public final class RoleEntities {
         delete.getResourcePermission()
             .setId(4L);
 
-        permissions = List.of(create, read, update, delete);
+        permissions = List.of(create, delete, read, update);
         return RoleEntity.builder()
             .withId(1L)
             .withName(RoleConstants.NAME)

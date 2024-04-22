@@ -64,10 +64,10 @@ public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTok
      * @return all the finished tokens
      */
     @Query("""
-              SELECT t
-              FROM UserDataToken t
-              WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE      
-           """)
+               SELECT t
+               FROM UserDataToken t
+               WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE
+            """)
     public Collection<UserDataTokenEntity> findAllFinished();
 
     /**

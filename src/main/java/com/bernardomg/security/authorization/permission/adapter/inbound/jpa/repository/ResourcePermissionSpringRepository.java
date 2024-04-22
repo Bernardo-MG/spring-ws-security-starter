@@ -62,11 +62,11 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
      * @return a page with the permissions
      */
     @Query("""
-              SELECT p
-              FROM ResourcePermission p
-                LEFT JOIN RolePermission rp ON p.name = rp.id.permission AND rp.id.roleId = :roleId
-              WHERE rp.id.permission IS NULL OR rp.granted = false
-           """)
+               SELECT p
+               FROM ResourcePermission p
+                 LEFT JOIN RolePermission rp ON p.name = rp.id.permission AND rp.id.roleId = :roleId
+               WHERE rp.id.permission IS NULL OR rp.granted = false
+            """)
     public Page<ResourcePermissionEntity> findAllAvailableToRole(@Param("roleId") final Long roleId,
             final Pageable page);
 
@@ -80,11 +80,11 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
      * @return a page with the permissions
      */
     @Query("""
-              SELECT p
-              FROM ResourcePermission p
-                INNER JOIN RolePermission rp ON p.name = rp.id.permission AND rp.id.roleId = :roleId
-              WHERE rp.granted = true
-           """)
+               SELECT p
+               FROM ResourcePermission p
+                 INNER JOIN RolePermission rp ON p.name = rp.id.permission AND rp.id.roleId = :roleId
+               WHERE rp.granted = true
+            """)
     public Page<ResourcePermissionEntity> findAllForRole(@Param("roleId") final Long roleId, final Pageable page);
 
     /**
@@ -95,14 +95,14 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
      * @return a page with the permissions
      */
     @Query("""
-              SELECT p
-              FROM ResourcePermission p
-                INNER JOIN RolePermission rp ON p.name = rp.id.permission
-                INNER JOIN Role r ON r.id = rp.id.roleId
-                INNER JOIN UserRole ur ON ur.roleId = r.id
-                INNER JOIN User u ON u.id = ur.userId
-              WHERE u.id = :userId AND rp.granted = true
-           """)
+               SELECT p
+               FROM ResourcePermission p
+                 INNER JOIN RolePermission rp ON p.name = rp.id.permission
+                 INNER JOIN Role r ON r.id = rp.id.roleId
+                 INNER JOIN UserRole ur ON ur.roleId = r.id
+                 INNER JOIN User u ON u.id = ur.userId
+               WHERE u.id = :userId AND rp.granted = true
+            """)
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
 
     /**

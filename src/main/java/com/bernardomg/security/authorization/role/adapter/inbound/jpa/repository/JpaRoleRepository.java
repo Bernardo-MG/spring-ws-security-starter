@@ -149,6 +149,11 @@ public final class JpaRoleRepository implements RoleRepository {
         return toDomain(savedAgain);
     }
 
+    private final int comparePermission(final ResourcePermission left, final ResourcePermission right) {
+        return left.getName()
+            .compareTo(right.getName());
+    }
+
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
             .withName(entity.getName())
@@ -170,6 +175,7 @@ public final class JpaRoleRepository implements RoleRepository {
                 .map(RolePermissionEntity::getResourcePermission)
                 .map(this::toDomain)
                 .filter(Objects::nonNull)
+                .sorted(this::comparePermission)
                 .toList();
         }
         return Role.builder()

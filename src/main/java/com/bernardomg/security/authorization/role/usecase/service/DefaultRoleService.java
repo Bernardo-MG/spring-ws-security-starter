@@ -106,7 +106,6 @@ public final class DefaultRoleService implements RoleService {
     public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
         log.debug("Reading roles with sample {} and pagination {}", sample, pageable);
 
-        // TODO: sort permissions
         return roleRepository.findAll(sample, pageable);
     }
 
@@ -121,7 +120,6 @@ public final class DefaultRoleService implements RoleService {
             throw new MissingRoleException(role);
         }
 
-        // TODO: sort permissions
         return roleRepository.findOne(role);
     }
 

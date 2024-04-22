@@ -37,8 +37,8 @@ public final class Roles {
     public static final Role withPermissions() {
         final Collection<ResourcePermission> permissions;
 
-        permissions = List.of(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
-            ResourcePermissions.delete());
+        permissions = List.of(ResourcePermissions.create(), ResourcePermissions.delete(), ResourcePermissions.read(),
+            ResourcePermissions.update());
         return Role.builder()
             .withName(RoleConstants.NAME)
             .withPermissions(permissions)

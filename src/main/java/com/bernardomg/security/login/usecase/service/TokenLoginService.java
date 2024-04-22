@@ -90,7 +90,7 @@ public final class TokenLoginService implements LoginService {
         eventPublisher.publishEvent(event);
 
         log.debug("Log in result for {}: {}", username, status);
-        
+
         return status;
     }
 
