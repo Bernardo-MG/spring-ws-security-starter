@@ -24,10 +24,8 @@
 
 package com.bernardomg.security.authentication.user.domain.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
 /**
  * Data for querying users.
@@ -35,9 +33,7 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 @Builder(setterPrefix = "with")
 public final class UserQuery {
 
