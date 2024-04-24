@@ -24,16 +24,13 @@
 
 package com.bernardomg.security.authorization.role.adapter.outbound.rest.model;
 
-import java.util.Collection;
-
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Data which can be changed for a role.
+ * A role permission.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -42,9 +39,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class RoleChange {
+public final class RolePermission {
 
-    @NotNull
-    private Collection<RolePermission> permissions;
+    /**
+     * Action applied to the resource.
+     */
+    private String action;
+
+    /**
+     * Permission name.
+     */
+    private String name;
+
+    /**
+     * Permission resource.
+     */
+    private String resource;
 
 }

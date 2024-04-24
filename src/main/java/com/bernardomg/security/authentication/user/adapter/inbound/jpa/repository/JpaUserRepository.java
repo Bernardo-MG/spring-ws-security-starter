@@ -40,11 +40,13 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.comparator.RoleComparator;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
 /**
@@ -203,7 +205,7 @@ public final class JpaUserRepository implements UserRepository {
                 .filter(RolePermissionEntity::getGranted)
                 .map(RolePermissionEntity::getResourcePermission)
                 .map(this::toDomain)
-                .filter(Objects::nonNull)
+                .sorted(new ResourcePermissionComparator())
                 .toList();
         }
         return Role.builder()
@@ -218,6 +220,7 @@ public final class JpaUserRepository implements UserRepository {
         roles = user.getRoles()
             .stream()
             .map(this::toDomain)
+            .sorted(new RoleComparator())
             .toList();
         return User.builder()
             .withUsername(user.getUsername())
