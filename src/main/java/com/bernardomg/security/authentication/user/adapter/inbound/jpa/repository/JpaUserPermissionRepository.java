@@ -85,7 +85,6 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
-            .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())
             .build();

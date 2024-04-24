@@ -43,13 +43,15 @@ public final class ResourcePermission {
     private final String action;
 
     /**
-     * Permission name.
-     */
-    private final String name;
-
-    /**
      * Permission resource.
      */
     private final String resource;
+
+    /**
+     * Permission name.
+     */
+    public final String getName() {
+        return String.format("%s:%s", action, resource);
+    }
 
 }

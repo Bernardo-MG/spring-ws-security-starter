@@ -152,7 +152,6 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
-            .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())
             .build();
