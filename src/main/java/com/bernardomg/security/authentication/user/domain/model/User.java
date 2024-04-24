@@ -73,6 +73,9 @@ public final class User {
      */
     private boolean          passwordExpired;
 
+    /**
+     * User roles.
+     */
     private Collection<Role> roles;
 
     /**

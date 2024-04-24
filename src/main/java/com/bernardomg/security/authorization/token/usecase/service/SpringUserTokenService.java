@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.authorization.token.usecase.service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
@@ -132,15 +133,29 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     private final UserToken copy(final UserToken existing, final UserToken updated) {
+        final LocalDateTime expirationDate;
+        final Boolean       revoked;
+
+        if (updated.getExpirationDate() != null) {
+            expirationDate = updated.getExpirationDate();
+        } else {
+            expirationDate = existing.getExpirationDate();
+        }
+        if (updated.getRevoked() != null) {
+            revoked = updated.getRevoked();
+        } else {
+            revoked = existing.getRevoked();
+        }
+
         return UserToken.builder()
             .withUsername(existing.getUsername())
             .withName(existing.getName())
             .withScope(existing.getScope())
             .withToken(existing.getToken())
             .withCreationDate(existing.getCreationDate())
-            .withExpirationDate(updated.getExpirationDate())
+            .withExpirationDate(expirationDate)
             .withConsumed(existing.getConsumed())
-            .withRevoked(updated.getRevoked())
+            .withRevoked(revoked)
             .build();
     }
 
