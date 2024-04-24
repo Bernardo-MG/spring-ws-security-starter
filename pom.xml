@@ -187,9 +187,9 @@
       <bernardomg.framework.ws.version>0.1.2</bernardomg.framework.ws.version>
       <jjwt.version>0.12.5</jjwt.version>
       <lombok.version>1.18.32</lombok.version>
-      <spring.boot.version>3.2.4</spring.boot.version>
-      <spring.data.version>2023.1.4</spring.data.version>
-      <spring.version>6.1.5</spring.version>
+      <spring.boot.version>3.2.5</spring.boot.version>
+      <spring.data.version>2023.1.5</spring.data.version>
+      <spring.version>6.1.6</spring.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
