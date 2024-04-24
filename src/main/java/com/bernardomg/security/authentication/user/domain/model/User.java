@@ -33,6 +33,8 @@ import lombok.Data;
 
 /**
  * Representation of a user.
+ * <p>
+ * FIXME: this should be immutable
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * Immutable implementation of the user token.
@@ -37,7 +37,7 @@ import lombok.Data;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
 @Builder(setterPrefix = "with")
 public final class UserToken {
 

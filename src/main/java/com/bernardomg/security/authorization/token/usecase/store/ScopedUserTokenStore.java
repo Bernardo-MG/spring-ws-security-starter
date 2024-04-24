@@ -90,24 +90,25 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final void consumeToken(final String token) {
-        final Optional<UserToken> read;
+        final Optional<UserToken> readToken;
         final UserToken           tokenData;
+        final UserToken           updated;
 
-        read = userTokenRepository.findOneByScope(token, tokenScope);
+        readToken = userTokenRepository.findOneByScope(token, tokenScope);
 
-        if (!read.isPresent()) {
+        if (!readToken.isPresent()) {
             log.error("Token missing: {}", token);
             throw new MissingUserTokenException(token);
         }
 
-        tokenData = read.get();
+        tokenData = readToken.get();
         if (tokenData.getConsumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
 
-        tokenData.setConsumed(true);
-        userTokenRepository.save(tokenData);
+        updated = copyToConsume(tokenData);
+        userTokenRepository.save(updated);
         log.debug("Consumed token {}", token);
     }
 
@@ -176,7 +177,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
         // Find all tokens not revoked, and mark them as revoked
         toRevoke = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
-        toRevoke.forEach(t -> t.setRevoked(true));
+        toRevoke.forEach(t -> copyToRevoke(t));
 
         userTokenRepository.saveAll(toRevoke);
 
@@ -219,6 +220,32 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             log.warn("Expired token: {}", token);
             throw new ExpiredTokenException(token);
         }
+    }
+
+    private final UserToken copyToConsume(final UserToken existing) {
+        return UserToken.builder()
+            .withUsername(existing.getUsername())
+            .withName(existing.getName())
+            .withScope(existing.getScope())
+            .withToken(existing.getToken())
+            .withCreationDate(existing.getCreationDate())
+            .withExpirationDate(existing.getExpirationDate())
+            .withConsumed(true)
+            .withRevoked(existing.getRevoked())
+            .build();
+    }
+
+    private final UserToken copyToRevoke(final UserToken existing) {
+        return UserToken.builder()
+            .withUsername(existing.getUsername())
+            .withName(existing.getName())
+            .withScope(existing.getScope())
+            .withToken(existing.getToken())
+            .withCreationDate(existing.getCreationDate())
+            .withExpirationDate(existing.getExpirationDate())
+            .withConsumed(existing.getConsumed())
+            .withRevoked(true)
+            .build();
     }
 
 }

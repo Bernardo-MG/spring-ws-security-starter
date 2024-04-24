@@ -126,16 +126,22 @@ public final class SpringUserTokenService implements UserTokenService {
 
         validatorPatch.validate(token);
 
-        toSave = readToken.get();
-
-        if (token.getExpirationDate() != null) {
-            toSave.setExpirationDate(token.getExpirationDate());
-        }
-        if (token.getRevoked() != null) {
-            toSave.setRevoked(token.getRevoked());
-        }
+        toSave = copy(readToken.get(), token);
 
         return userTokenRepository.save(toSave);
+    }
+
+    private final UserToken copy(final UserToken existing, final UserToken updated) {
+        return UserToken.builder()
+            .withUsername(existing.getUsername())
+            .withName(existing.getName())
+            .withScope(existing.getScope())
+            .withToken(existing.getToken())
+            .withCreationDate(existing.getCreationDate())
+            .withExpirationDate(updated.getExpirationDate())
+            .withConsumed(existing.getConsumed())
+            .withRevoked(updated.getRevoked())
+            .build();
     }
 
 }
