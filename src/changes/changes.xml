@@ -152,7 +152,10 @@
             Cleaned up and corrected model.
          </action>
       </release>
-      <release version="1.0.0" date="2024-04-25" description="">
+      <release version="0.3.5" date="2024-04-25" description="Fixed controller queries">
+         <action dev="bmg" type="fix">
+            Fixed controller queries.
+         </action>
       </release>
    </body>
 </document>
