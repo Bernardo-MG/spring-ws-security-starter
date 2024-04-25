@@ -31,6 +31,6 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class RoleQuery {
 
-    private String name;
+    private final String name;
 
 }

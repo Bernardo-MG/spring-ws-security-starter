@@ -27,7 +27,7 @@ package com.bernardomg.security.authorization.token.usecase.validation;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
-import com.bernardomg.security.authorization.token.domain.model.UserToken;
+import com.bernardomg.security.authorization.token.domain.model.UserTokenPatch;
 import com.bernardomg.validation.AbstractValidator;
 import com.bernardomg.validation.failure.FieldFailure;
 
@@ -46,14 +46,14 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class PatchUserTokenValidator extends AbstractValidator<UserToken> {
+public final class PatchUserTokenValidator extends AbstractValidator<UserTokenPatch> {
 
     public PatchUserTokenValidator() {
         super();
     }
 
     @Override
-    protected final void checkRules(final UserToken token, final Collection<FieldFailure> failures) {
+    protected final void checkRules(final UserTokenPatch token, final Collection<FieldFailure> failures) {
         final LocalDateTime today;
         FieldFailure        failure;
 

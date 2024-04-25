@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.authentication.user.usecase.service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -137,7 +136,6 @@ public final class DefaultUserActivationService implements UserActivationService
             .withUsername(username)
             .withName(name)
             .withEmail(email)
-            .withRoles(List.of())
             // Password expired by default
             .withPasswordExpired(true)
             .build();

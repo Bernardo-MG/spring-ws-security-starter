@@ -25,6 +25,7 @@
 package com.bernardomg.security.authentication.user.domain.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -47,46 +48,43 @@ public final class User {
     /**
      * User email.
      */
-    private String           email;
+    private final String           email;
 
     /**
      * User enabled flag.
      */
-    @Builder.Default
-    private boolean          enabled         = false;
+    private final boolean          enabled;
 
     /**
      * User expired flag.
      */
-    @Builder.Default
-    private boolean          expired         = false;
+    private final boolean          expired;
 
     /**
      * User locked flag.
      */
-    @Builder.Default
-    private boolean          locked          = false;
+    private final boolean          locked;
 
     /**
      * User name.
      */
-    private String           name;
+    private final String           name;
 
     /**
      * Password expired flag.
      */
-    @Builder.Default
-    private boolean          passwordExpired = false;
+    private final boolean          passwordExpired;
 
     /**
      * User roles.
      */
-    private Collection<Role> roles;
+    @Builder.Default
+    private final Collection<Role> roles = List.of();
 
     /**
      * User username.
      */
-    private String           username;
+    private String                 username;
 
     public User(final String email, final boolean enabled, final boolean expired, final boolean locked,
             final String name, final boolean passwordExpired, final Collection<Role> roles, final String username) {

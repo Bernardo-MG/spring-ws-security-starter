@@ -8,7 +8,7 @@ import lombok.Value;
 
 @Value
 @Builder(setterPrefix = "with")
-public class LoginRegister {
+public final class LoginRegister {
 
     /**
      * Logging attempt date.

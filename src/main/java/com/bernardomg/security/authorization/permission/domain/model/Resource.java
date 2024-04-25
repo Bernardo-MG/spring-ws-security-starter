@@ -35,11 +35,11 @@ import lombok.Value;
  */
 @Value
 @Builder(setterPrefix = "with")
-public class Resource {
+public final class Resource {
 
     /**
      * Action name.
      */
-    private String name;
+    private final String name;
 
 }

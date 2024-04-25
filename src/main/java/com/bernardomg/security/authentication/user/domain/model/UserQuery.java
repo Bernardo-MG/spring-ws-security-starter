@@ -42,37 +42,37 @@ public final class UserQuery {
     /**
      * User email.
      */
-    private String  email;
+    private final String  email;
 
     /**
      * User enabled flag.
      */
-    private Boolean enabled;
+    private final Boolean enabled;
 
     /**
      * User expired flag.
      */
-    private Boolean expired;
+    private final Boolean expired;
 
     /**
      * User locked flag.
      */
-    private Boolean locked;
+    private final Boolean locked;
 
     /**
      * User name.
      */
-    private String  name;
+    private final String  name;
 
     /**
      * Password expired flag.
      */
-    private Boolean passwordExpired;
+    private final Boolean passwordExpired;
 
     /**
      * User username.
      */
-    private String  username;
+    private final String  username;
 
     public UserQuery(final String email, final Boolean enabled, final Boolean expired, final Boolean locked,
             final String name, final Boolean passwordExpired, final String username) {

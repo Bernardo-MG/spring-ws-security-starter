@@ -25,6 +25,7 @@
 package com.bernardomg.security.authorization.role.domain.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 
@@ -46,6 +47,10 @@ public final class Role {
      */
     private final String                         name;
 
-    private final Collection<ResourcePermission> permissions;
+    /**
+     * Role permissions.
+     */
+    @Builder.Default
+    private final Collection<ResourcePermission> permissions = List.of();
 
 }

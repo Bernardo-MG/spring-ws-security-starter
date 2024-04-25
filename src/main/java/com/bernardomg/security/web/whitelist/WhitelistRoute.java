@@ -63,7 +63,8 @@ public final class WhitelistRoute {
     /**
      * Methods to whitelist.
      */
-    private final Collection<HttpMethod> methods;
+    @Builder.Default
+    private final Collection<HttpMethod> methods = List.of();
 
     /**
      * Route to whitelist.

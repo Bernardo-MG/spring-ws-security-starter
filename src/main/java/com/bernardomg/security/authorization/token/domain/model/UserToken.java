@@ -44,43 +44,43 @@ public final class UserToken {
     /**
      * Token consumed flag.
      */
-    private Boolean       consumed;
+    private final boolean       consumed;
 
     /**
      * Token creation date.
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime creationDate;
+    private final LocalDateTime creationDate;
 
     /**
      * Token expiration date.
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime expirationDate;
+    private final LocalDateTime expirationDate;
 
     /**
      * User name.
      */
-    private String        name;
+    private final String        name;
 
     /**
      * Token revoked flag.
      */
-    private Boolean       revoked;
+    private final boolean       revoked;
 
     /**
      * Token scope.
      */
-    private String        scope;
+    private final String        scope;
 
     /**
      * Token code.
      */
-    private String        token;
+    private final String        token;
 
     /**
      * Token username.
      */
-    private String        username;
+    private final String        username;
 
 }

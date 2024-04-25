@@ -40,7 +40,7 @@ import lombok.Value;
  */
 @Value
 @Builder(setterPrefix = "with")
-public class JwtTokenData {
+public final class JwtTokenData {
 
     /**
      * Audience.
@@ -75,7 +75,8 @@ public class JwtTokenData {
     /**
      * Permissions.
      */
-    private final Map<String, List<String>> permissions;
+    @Builder.Default
+    private final Map<String, List<String>> permissions = Map.of();
 
     /**
      * Subject.

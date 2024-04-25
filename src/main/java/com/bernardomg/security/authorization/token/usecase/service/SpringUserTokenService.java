@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
+import com.bernardomg.security.authorization.token.domain.model.UserTokenPatch;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.validation.PatchUserTokenValidator;
 import com.bernardomg.validation.Validator;
@@ -61,12 +62,12 @@ public final class SpringUserTokenService implements UserTokenService {
     /**
      * User token repository.
      */
-    private final UserTokenRepository  userTokenRepository;
+    private final UserTokenRepository       userTokenRepository;
 
     /**
      * Patch validator.
      */
-    private final Validator<UserToken> validatorPatch;
+    private final Validator<UserTokenPatch> validatorPatch;
 
     public SpringUserTokenService(final UserTokenRepository userTokenRepo) {
         super();
@@ -114,7 +115,7 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final UserToken patch(final UserToken token) {
+    public final UserToken patch(final UserTokenPatch token) {
         final Optional<UserToken> readToken;
         final UserToken           toSave;
 
@@ -132,19 +133,19 @@ public final class SpringUserTokenService implements UserTokenService {
         return userTokenRepository.save(toSave);
     }
 
-    private final UserToken copy(final UserToken existing, final UserToken updated) {
+    private final UserToken copy(final UserToken existing, final UserTokenPatch updated) {
         final LocalDateTime expirationDate;
         final Boolean       revoked;
 
-        if (updated.getExpirationDate() != null) {
-            expirationDate = updated.getExpirationDate();
-        } else {
+        if (updated.getExpirationDate() == null) {
             expirationDate = existing.getExpirationDate();
-        }
-        if (updated.getRevoked() != null) {
-            revoked = updated.getRevoked();
         } else {
-            revoked = existing.getRevoked();
+            expirationDate = updated.getExpirationDate();
+        }
+        if (updated.getRevoked() == null) {
+            revoked = existing.isRevoked();
+        } else {
+            revoked = updated.getRevoked();
         }
 
         return UserToken.builder()
@@ -154,7 +155,7 @@ public final class SpringUserTokenService implements UserTokenService {
             .withToken(existing.getToken())
             .withCreationDate(existing.getCreationDate())
             .withExpirationDate(expirationDate)
-            .withConsumed(existing.getConsumed())
+            .withConsumed(existing.isConsumed())
             .withRevoked(revoked)
             .build();
     }
