@@ -74,7 +74,7 @@ public final class UpdateRoleValidator implements Validator<Role> {
         if (uniquePermissions < totalPermissions) {
             duplicates = (totalPermissions - uniquePermissions);
             log.error("Received {} permissions, but {} are duplicates", totalPermissions, duplicates);
-            failure = FieldFailure.of("roles[]", "duplicated", duplicates);
+            failure = FieldFailure.of("permissions[]", "duplicated", duplicates);
             failures.add(failure);
         }
 
