@@ -60,8 +60,36 @@ class TestUserActivationServiceActivateUser {
     }
 
     @Test
+    @DisplayName("Activating a disabled user saves it as enabled")
+    void testActivateUser_Disabled() {
+        // GIVEN
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
+
+        // WHEN
+        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+
+        // THEN
+        verify(repository).save(Users.enabled(), UserConstants.PASSWORD);
+    }
+
+    @Test
+    @DisplayName("Activating a new user keeps its roles")
+    void testActivateUser_KeepsRoles() {
+        // GIVEN
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreatedWithRole()));
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
+
+        // WHEN
+        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+
+        // THEN
+        verify(repository).save(Users.enabled(), UserConstants.PASSWORD);
+    }
+
+    @Test
     @DisplayName("Activating a new user saves it as enabled")
-    void testActivateUser_Enabled() {
+    void testActivateUser_NewlyCreated() {
         // GIVEN
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
@@ -74,10 +102,10 @@ class TestUserActivationServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a new user keeps its roles")
-    void testActivateUser_KeepsRoles() {
+    @DisplayName("Activating a user with password expired saves it as enabled")
+    void testActivateUser_PasswordExpired() {
         // GIVEN
-        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreatedWithRole()));
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpiredAndDisabled()));
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN

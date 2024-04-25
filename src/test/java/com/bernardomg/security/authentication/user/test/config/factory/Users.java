@@ -171,4 +171,17 @@ public final class Users {
             .build();
     }
 
+    public static final User passwordExpiredAndDisabled() {
+        return User.builder()
+            .withRoles(List.of(Roles.withSinglePermission()))
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withEnabled(false)
+            .withExpired(false)
+            .withPasswordExpired(true)
+            .withLocked(false)
+            .build();
+    }
+
 }

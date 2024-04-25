@@ -8,7 +8,6 @@ import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
-import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
@@ -58,38 +56,6 @@ class TestUserActivationServiceActivateUserAuth {
     @BeforeEach
     public void initializeToken() {
         given(tokenStore.getUsername(ArgumentMatchers.anyString())).willReturn(UserConstants.USERNAME);
-    }
-
-    private final void loadCredentialsExpiredUser() {
-        final User user;
-
-        user = User.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPasswordExpired(true)
-            .withEnabled(false)
-            .withExpired(false)
-            .withLocked(false)
-            .build();
-
-        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
-    }
-
-    private final void loadDisabledUser() {
-        final User user;
-
-        user = User.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPasswordExpired(false)
-            .withEnabled(false)
-            .withExpired(false)
-            .withLocked(false)
-            .build();
-
-        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
     private final void loadEnabledUser() {
@@ -138,48 +104,6 @@ class TestUserActivationServiceActivateUserAuth {
             .build();
 
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
-    }
-
-    @Test
-    @WithMockUser(username = "username")
-    @DisplayName("Activating a user with expired credentials gives a failure")
-    @Disabled
-    void testActivateUser_CredentialsExpired_Exception() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        // GIVEN
-        loadCredentialsExpiredUser();
-
-        // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
-
-        // THEN
-        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User username is expired");
-    }
-
-    @Test
-    @WithMockUser(username = "username")
-    @DisplayName("Activating a disabled user gives a failure")
-    @Disabled
-    void testActivateUser_Disabled_Exception() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        // GIVEN
-        loadDisabledUser();
-
-        // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
-
-        // THEN
-        exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("User username is disabled");
     }
 
     @Test

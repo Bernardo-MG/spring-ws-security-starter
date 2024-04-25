@@ -200,6 +200,7 @@ public final class DefaultUserActivationService implements UserActivationService
      *            user to activate
      */
     private final void validateActivation(final User user) {
+        // TODO: validate somehow that it is actually new
         if (user.isExpired()) {
             log.error("Can't activate new user. User {} is expired", user.getUsername());
             throw new ExpiredUserException(user.getUsername());
