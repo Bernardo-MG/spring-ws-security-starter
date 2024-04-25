@@ -76,9 +76,46 @@ class TestDefaultRoleServiceUpdate {
         executable = () -> service.update(data);
 
         // THEN
-        failure = FieldFailure.of("roles[].duplicated", "roles[]", "duplicated", 1L);
+        failure = FieldFailure.of("roles[].duplicated", "permissions[]", "duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
+    }
+
+    @Test
+    @DisplayName("Sends the role with multiple permissions to the repository")
+    void testUpdate_MultiplePermissions_PersistedData() {
+        final Role data;
+
+        // GIVEN
+        data = Roles.withPermissions();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+
+        // WHEN
+        service.update(data);
+
+        // THEN
+        verify(roleRepository).save(Roles.withPermissions());
+    }
+
+    @Test
+    @DisplayName("Returns the updated role with multiple permissions")
+    void testUpdate_MultiplePermissions_ReturnedData() {
+        final Role data;
+        final Role role;
+
+        // GIVEN
+        data = Roles.withPermissions();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withPermissions());
+
+        // WHEN
+        role = service.update(data);
+
+        // THEN
+        Assertions.assertThat(role)
+            .isEqualTo(Roles.withPermissions());
     }
 
     @Test
@@ -118,7 +155,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the updated data")
+    @DisplayName("Returns the updated role")
     void testUpdate_ReturnedData() {
         final Role data;
         final Role role;
