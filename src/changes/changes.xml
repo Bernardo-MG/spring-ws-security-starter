@@ -144,7 +144,13 @@
             Fixed setting permissions to roles.
          </action>
       </release>
-      <release version="1.0.0" date="2024-04-24" description="">
+      <release version="0.3.4" date="2024-04-25" description="Model corrections">
+         <action dev="bmg" type="fix">
+            Fixed model errors.
+         </action>
+         <action dev="bmg" type="update">
+            Cleaned up and corrected model.
+         </action>
       </release>
    </body>
 </document>
