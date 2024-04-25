@@ -24,10 +24,8 @@
 
 package com.bernardomg.security.authorization.permission.domain.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
 /**
  * Resource.
@@ -35,15 +33,13 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 @Builder(setterPrefix = "with")
-public class Resource {
+public final class Resource {
 
     /**
      * Action name.
      */
-    private String name;
+    private final String name;
 
 }

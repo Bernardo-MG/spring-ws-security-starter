@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.authentication.user.usecase.service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -90,6 +89,7 @@ public final class DefaultUserActivationService implements UserActivationService
     public final User activateUser(final String token, final String password) {
         final String username;
         final User   user;
+        final User   activated;
         final User   saved;
 
         // Validate token
@@ -104,11 +104,19 @@ public final class DefaultUserActivationService implements UserActivationService
 
         validateActivation(user);
 
-        user.setEnabled(true);
-        user.setPasswordExpired(false);
-        user.setRoles(List.of());
+        activated = User.builder()
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withRoles(user.getRoles())
+            .withExpired(user.isExpired())
+            .withLocked(user.isLocked())
+            // Enable user
+            .withEnabled(true)
+            .withPasswordExpired(false)
+            .build();
 
-        saved = userRepository.save(user, password);
+        saved = userRepository.save(activated, password);
         tokenStore.consumeToken(token);
 
         log.debug("Activated new user {}", username);
@@ -128,32 +136,11 @@ public final class DefaultUserActivationService implements UserActivationService
             .withUsername(username)
             .withName(name)
             .withEmail(email)
-            .withRoles(List.of())
+            // Password expired by default
+            .withPasswordExpired(true)
             .build();
 
         validatorRegisterUser.validate(user);
-
-        // TODO: Should be handled by the model
-        // Trim strings
-        user.setName(user.getName()
-            .trim());
-        user.setUsername(user.getUsername()
-            .trim());
-        user.setEmail(user.getEmail()
-            .trim());
-
-        // TODO: Should be handled by the model
-        // Remove case
-        user.setUsername(user.getUsername()
-            .toLowerCase());
-        user.setEmail(user.getEmail()
-            .toLowerCase());
-
-        // Disabled by default
-        user.setEnabled(false);
-        user.setExpired(false);
-        user.setLocked(false);
-        user.setPasswordExpired(true);
 
         created = userRepository.save(user, "");
 
@@ -211,6 +198,7 @@ public final class DefaultUserActivationService implements UserActivationService
      *            user to activate
      */
     private final void validateActivation(final User user) {
+        // TODO: validate somehow that it is actually new
         if (user.isExpired()) {
             log.error("Can't activate new user. User {} is expired", user.getUsername());
             throw new ExpiredUserException(user.getUsername());

@@ -111,7 +111,7 @@ class ITUserRepositoryFindOne {
         result = repository.findOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
-            .contains(Users.withoutRole());
+            .contains(Users.enabledWithoutRole());
     }
 
 }

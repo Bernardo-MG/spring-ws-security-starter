@@ -85,6 +85,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
         final Optional<User> readUser;
         final User           user;
+        final User           activated;
         final String         username;
         final UserDetails    userDetails;
 
@@ -111,9 +112,19 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Make sure the user can change the password
         authorizePasswordChange(userDetails);
 
-        user.setPasswordExpired(false);
+        activated = User.builder()
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withRoles(user.getRoles())
+            .withEnabled(user.isEnabled())
+            .withExpired(user.isExpired())
+            .withLocked(user.isLocked())
+            // Password is no longer expired
+            .withPasswordExpired(false)
+            .build();
 
-        repository.save(user, newPassword);
+        repository.save(activated, newPassword);
 
         log.debug("Changed password for user {}", username);
     }

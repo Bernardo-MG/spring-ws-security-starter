@@ -119,12 +119,8 @@ public final class DefaultUserQueryService implements UserQueryService {
         toSave = User.builder()
             .withUsername(existing.get()
                 .getUsername())
-            // TODO: should be handled by the model
-            .withName(user.getName()
-                .trim())
-            // TODO: should be handled by the model
-            .withEmail(user.getEmail()
-                .trim())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
             .withEnabled(user.isEnabled())
             .withExpired(existing.get()
                 .isExpired())

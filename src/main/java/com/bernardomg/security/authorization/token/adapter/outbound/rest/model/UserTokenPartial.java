@@ -52,6 +52,6 @@ public final class UserTokenPartial {
     /**
      * Indicates if the token is revoked.
      */
-    private Boolean       revoked;
+    private boolean       revoked;
 
 }

@@ -90,24 +90,25 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final void consumeToken(final String token) {
-        final Optional<UserToken> read;
+        final Optional<UserToken> readToken;
         final UserToken           tokenData;
+        final UserToken           updated;
 
-        read = userTokenRepository.findOneByScope(token, tokenScope);
+        readToken = userTokenRepository.findOneByScope(token, tokenScope);
 
-        if (!read.isPresent()) {
+        if (!readToken.isPresent()) {
             log.error("Token missing: {}", token);
             throw new MissingUserTokenException(token);
         }
 
-        tokenData = read.get();
-        if (tokenData.getConsumed()) {
+        tokenData = readToken.get();
+        if (tokenData.isConsumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
 
-        tokenData.setConsumed(true);
-        userTokenRepository.save(tokenData);
+        updated = copyToConsume(tokenData);
+        userTokenRepository.save(updated);
         log.debug("Consumed token {}", token);
     }
 
@@ -163,6 +164,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final void revokeExistingTokens(final String username) {
+        final Collection<UserToken> tokens;
         final Collection<UserToken> toRevoke;
         final Optional<User>        readUser;
         final User                  user;
@@ -175,8 +177,10 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         user = readUser.get();
 
         // Find all tokens not revoked, and mark them as revoked
-        toRevoke = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
-        toRevoke.forEach(t -> t.setRevoked(true));
+        tokens = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
+        toRevoke = tokens.stream()
+            .map(t -> copyToRevoke(t))
+            .toList();
 
         userTokenRepository.saveAll(toRevoke);
 
@@ -200,13 +204,13 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
             throw new OutOfScopeTokenException(token, tokenScope, entity.getScope());
         }
-        if (entity.getConsumed()) {
+        if (entity.isConsumed()) {
             // Consumed
             // It isn't a valid token
             log.warn("Consumed token: {}", token);
             throw new ConsumedTokenException(token);
         }
-        if (entity.getRevoked()) {
+        if (entity.isRevoked()) {
             // Revoked
             // It isn't a valid token
             log.warn("Revoked token: {}", token);
@@ -219,6 +223,32 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             log.warn("Expired token: {}", token);
             throw new ExpiredTokenException(token);
         }
+    }
+
+    private final UserToken copyToConsume(final UserToken existing) {
+        return UserToken.builder()
+            .withUsername(existing.getUsername())
+            .withName(existing.getName())
+            .withScope(existing.getScope())
+            .withToken(existing.getToken())
+            .withCreationDate(existing.getCreationDate())
+            .withExpirationDate(existing.getExpirationDate())
+            .withConsumed(true)
+            .withRevoked(existing.isRevoked())
+            .build();
+    }
+
+    private final UserToken copyToRevoke(final UserToken existing) {
+        return UserToken.builder()
+            .withUsername(existing.getUsername())
+            .withName(existing.getName())
+            .withScope(existing.getScope())
+            .withToken(existing.getToken())
+            .withCreationDate(existing.getCreationDate())
+            .withExpirationDate(existing.getExpirationDate())
+            .withConsumed(existing.isConsumed())
+            .withRevoked(true)
+            .build();
     }
 
 }

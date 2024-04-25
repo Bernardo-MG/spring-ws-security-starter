@@ -24,10 +24,10 @@
 
 package com.bernardomg.security.authentication.user.domain.model;
 
-import lombok.AllArgsConstructor;
+import java.util.Objects;
+
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
 /**
  * Data for querying users.
@@ -35,45 +35,71 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 @Builder(setterPrefix = "with")
 public final class UserQuery {
 
     /**
      * User email.
      */
-    private String  email;
+    private final String  email;
 
     /**
      * User enabled flag.
      */
-    private Boolean enabled;
+    private final Boolean enabled;
 
     /**
      * User expired flag.
      */
-    private Boolean expired;
+    private final Boolean expired;
 
     /**
      * User locked flag.
      */
-    private Boolean locked;
+    private final Boolean locked;
 
     /**
      * User name.
      */
-    private String  name;
+    private final String  name;
 
     /**
      * Password expired flag.
      */
-    private Boolean passwordExpired;
+    private final Boolean passwordExpired;
 
     /**
      * User username.
      */
-    private String  username;
+    private final String  username;
+
+    public UserQuery(final String email, final Boolean enabled, final Boolean expired, final Boolean locked,
+            final String name, final Boolean passwordExpired, final String username) {
+        super();
+
+        if (Objects.nonNull(name)) {
+            this.name = name.trim();
+        } else {
+            this.name = null;
+        }
+        if (Objects.nonNull(username)) {
+            this.username = username.trim()
+                .toLowerCase();
+        } else {
+            this.username = null;
+        }
+        if (Objects.nonNull(email)) {
+            this.email = email.trim()
+                .toLowerCase();
+        } else {
+            this.email = null;
+        }
+
+        this.enabled = enabled;
+        this.expired = expired;
+        this.locked = locked;
+        this.passwordExpired = passwordExpired;
+    }
 
 }

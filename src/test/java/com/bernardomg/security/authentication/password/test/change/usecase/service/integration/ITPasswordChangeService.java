@@ -93,6 +93,26 @@ class ITPasswordChangeService {
 
     @Test
     @WithMockUser(username = "username")
+    @DisplayName("Changing password with an existing user keeps its roles")
+    @ValidUser
+    void testChangePasswordForUserInSession_KeepsRoles() {
+        final List<UserEntity> users;
+
+        // WHEN
+        service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+
+        // THEN
+        users = userRepository.findAll();
+
+        Assertions.assertThat(users.iterator()
+            .next()
+            .getRoles())
+            .as("roles")
+            .isNotEmpty();
+    }
+
+    @Test
+    @WithMockUser(username = "username")
     @DisplayName("Changing password with an existing user and using a long password changes the password")
     @ValidUser
     void testChangePasswordForUserInSession_Long_Changed() {

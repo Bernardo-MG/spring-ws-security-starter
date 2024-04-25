@@ -25,7 +25,6 @@
 package com.bernardomg.security.authorization.token.domain.model;
 
 import lombok.Builder;
-import lombok.NonNull;
 import lombok.Value;
 
 /**
@@ -43,7 +42,6 @@ public final class UserTokenStatus {
      * <p>
      * TODO: avoid returning the username
      */
-    @NonNull
     private final String  username;
 
     /**

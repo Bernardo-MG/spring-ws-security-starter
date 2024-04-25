@@ -139,9 +139,17 @@
             Allows extending account output.
          </action>
       </release>
-      <release version="0.3.3" date="2024-04-24" description="Fixed setting roles">
+      <release version="0.3.3" date="2024-04-24" description="Fixed roles configuration">
          <action dev="bmg" type="fix">
-            Fixed setting roles to users.
+            Fixed setting permissions to roles.
+         </action>
+      </release>
+      <release version="0.3.4" date="2024-04-25" description="Model corrections">
+         <action dev="bmg" type="fix">
+            Fixed model errors.
+         </action>
+         <action dev="bmg" type="update">
+            Cleaned up and corrected model.
          </action>
       </release>
    </body>

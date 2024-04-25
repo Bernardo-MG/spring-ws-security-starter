@@ -22,24 +22,39 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.permission.domain.model;
+package com.bernardomg.security.authorization.token.domain.model;
+
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Value;
 
 /**
- * Action.
+ * Immutable implementation of the user token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Value
 @Builder(setterPrefix = "with")
-public final class Action {
+public final class UserTokenPatch {
 
     /**
-     * Action name.
+     * Token expiration date.
      */
-    private final String name;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime expirationDate;
+
+    /**
+     * Token revoked flag.
+     */
+    private final Boolean       revoked;
+
+    /**
+     * Token code.
+     */
+    private final String        token;
 
 }

@@ -141,7 +141,6 @@ public final class PermissionsLoader {
     private final ResourcePermission toResourcePermission(final ResourcePermissionPair pair) {
         // TODO: the model should handle the name
         return ResourcePermission.builder()
-            .withName(pair.getAction() + ":" + pair.getResource())
             .withAction(pair.getAction())
             .withResource(pair.getResource())
             .build();

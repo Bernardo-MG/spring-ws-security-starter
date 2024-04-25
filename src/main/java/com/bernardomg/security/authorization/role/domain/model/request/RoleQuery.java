@@ -24,17 +24,13 @@
 
 package com.bernardomg.security.authorization.role.domain.model.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 @Builder(setterPrefix = "with")
 public final class RoleQuery {
 
-    private String name;
+    private final String name;
 
 }

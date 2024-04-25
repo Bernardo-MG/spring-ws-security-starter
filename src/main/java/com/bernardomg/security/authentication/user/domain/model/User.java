@@ -25,57 +25,95 @@
 package com.bernardomg.security.authentication.user.domain.model;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * Representation of a user.
+ * <p>
+ * FIXME: this should be immutable
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
 @Builder(setterPrefix = "with")
 public final class User {
 
     /**
      * User email.
      */
-    private String           email;
+    private final String           email;
 
     /**
      * User enabled flag.
      */
-    private boolean          enabled;
+    private final boolean          enabled;
 
     /**
      * User expired flag.
      */
-    private boolean          expired;
+    private final boolean          expired;
 
     /**
      * User locked flag.
      */
-    private boolean          locked;
+    private final boolean          locked;
 
     /**
      * User name.
      */
-    private String           name;
+    private final String           name;
 
     /**
      * Password expired flag.
      */
-    private boolean          passwordExpired;
+    private final boolean          passwordExpired;
 
-    private Collection<Role> roles;
+    /**
+     * User roles.
+     */
+    @Builder.Default
+    private final Collection<Role> roles = List.of();
 
     /**
      * User username.
      */
-    private String           username;
+    private String                 username;
+
+    public User(final String email, final boolean enabled, final boolean expired, final boolean locked,
+            final String name, final boolean passwordExpired, final Collection<Role> roles, final String username) {
+        super();
+
+        if (Objects.nonNull(name)) {
+            this.name = name.trim();
+        } else {
+            this.name = null;
+        }
+        if (Objects.nonNull(username)) {
+            this.username = username.trim()
+                .toLowerCase();
+        } else {
+            this.username = null;
+        }
+        if (Objects.nonNull(email)) {
+            this.email = email.trim()
+                .toLowerCase();
+        } else {
+            this.email = null;
+        }
+
+        this.enabled = enabled;
+        this.expired = expired;
+        this.locked = locked;
+        this.passwordExpired = passwordExpired;
+        this.roles = roles;
+
+    }
 
 }

@@ -106,15 +106,6 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity entity;
 
         entity = toEntity(query);
-        if (entity.getUsername() != null) {
-            entity.setUsername(entity.getUsername()
-                .toLowerCase());
-        }
-        if (entity.getEmail() != null) {
-            entity.setEmail(entity.getEmail()
-                .toLowerCase());
-        }
-
         return userSpringRepository.findAll(Example.of(entity), page)
             .map(this::toDomain);
     }
@@ -187,7 +178,6 @@ public final class JpaUserRepository implements UserRepository {
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
         return ResourcePermission.builder()
-            .withName(entity.getName())
             .withResource(entity.getResource())
             .withAction(entity.getAction())
             .build();
