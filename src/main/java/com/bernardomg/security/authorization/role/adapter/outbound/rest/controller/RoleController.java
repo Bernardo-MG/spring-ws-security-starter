@@ -156,8 +156,8 @@ public class RoleController {
         permissions = request.getPermissions()
             .stream()
             .map(p -> ResourcePermission.builder()
-                .withAction(roleName)
-                .withResource(roleName)
+                .withAction(p.getAction())
+                .withResource(p.getResource())
                 .build())
             .toList();
         role = Role.builder()
