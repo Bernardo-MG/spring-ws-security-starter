@@ -22,8 +22,15 @@
  * SOFTWARE.
  */
 
-/**
- * Role request model.
- */
+package com.bernardomg.security.authorization.role.domain.model;
 
-package com.bernardomg.security.authorization.role.domain.model.request;
+import lombok.Builder;
+import lombok.Value;
+
+@Value
+@Builder(setterPrefix = "with")
+public final class RoleQuery {
+
+    private final String name;
+
+}

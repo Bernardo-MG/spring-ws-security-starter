@@ -47,8 +47,9 @@ import com.bernardomg.security.authorization.permission.domain.model.ResourcePer
 import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleChange;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleCreate;
+import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleQueryRequest;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.usecase.service.RoleService;
 
 import jakarta.validation.Valid;
@@ -102,7 +103,7 @@ public class RoleController {
     /**
      * Returns all the roles in a paginated form.
      *
-     * @param role
+     * @param request
      *            query to filter roles
      * @param page
      *            pagination to apply
@@ -111,8 +112,13 @@ public class RoleController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
-    public Iterable<Role> readAll(@Valid final RoleQuery role, final Pageable page) {
-        return service.getAll(role, page);
+    public Iterable<Role> readAll(@Valid final RoleQueryRequest request, final Pageable page) {
+        final RoleQuery query;
+
+        query = RoleQuery.builder()
+            .withName(request.getName())
+            .build();
+        return service.getAll(query, page);
     }
 
     /**

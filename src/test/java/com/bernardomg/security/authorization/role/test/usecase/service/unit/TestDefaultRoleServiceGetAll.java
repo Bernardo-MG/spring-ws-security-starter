@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;

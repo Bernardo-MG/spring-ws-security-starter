@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.usecase.validation.CreateRoleValidator;
 import com.bernardomg.security.authorization.role.usecase.validation.DeleteRoleValidator;

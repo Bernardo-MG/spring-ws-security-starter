@@ -47,6 +47,7 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.NewUser;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserChange;
+import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserQueryRequest;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
@@ -96,7 +97,7 @@ public class UserController {
     /**
      * Returns all the users in a paginated form.
      *
-     * @param user
+     * @param request
      *            query to filter users
      * @param page
      *            pagination to apply
@@ -105,8 +106,19 @@ public class UserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public Iterable<User> readAll(@Valid final UserQuery user, final Pageable page) {
-        return userQueryService.getAll(user, page);
+    public Iterable<User> readAll(@Valid final UserQueryRequest request, final Pageable page) {
+        final UserQuery query;
+
+        query = UserQuery.builder()
+            .withEmail(request.getEmail())
+            .withEnabled(request.getEnabled())
+            .withExpired(request.getExpired())
+            .withLocked(request.getLocked())
+            .withName(request.getName())
+            .withPasswordExpired(request.getPasswordExpired())
+            .withUsername(request.getUsername())
+            .build();
+        return userQueryService.getAll(query, page);
     }
 
     /**

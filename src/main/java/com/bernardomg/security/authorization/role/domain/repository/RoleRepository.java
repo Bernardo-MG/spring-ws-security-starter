@@ -29,7 +29,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 
 /**
  * Role repository.

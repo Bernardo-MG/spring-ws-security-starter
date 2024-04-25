@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;

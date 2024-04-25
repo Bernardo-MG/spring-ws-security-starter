@@ -22,15 +22,58 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.domain.model.request;
+package com.bernardomg.security.authentication.user.adapter.outbound.rest.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+/**
+ * Data for querying users.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(setterPrefix = "with")
-public final class RoleQuery {
+public final class UserQueryRequest {
 
-    private final String name;
+    /**
+     * User email.
+     */
+    private String  email;
+
+    /**
+     * User enabled flag.
+     */
+    private Boolean enabled;
+
+    /**
+     * User expired flag.
+     */
+    private Boolean expired;
+
+    /**
+     * User locked flag.
+     */
+    private Boolean locked;
+
+    /**
+     * User name.
+     */
+    private String  name;
+
+    /**
+     * Password expired flag.
+     */
+    private Boolean passwordExpired;
+
+    /**
+     * User username.
+     */
+    private String  username;
 
 }
