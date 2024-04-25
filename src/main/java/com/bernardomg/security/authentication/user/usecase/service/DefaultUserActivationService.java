@@ -129,31 +129,11 @@ public final class DefaultUserActivationService implements UserActivationService
             .withName(name)
             .withEmail(email)
             .withRoles(List.of())
+            // Password expired by default
+            .withPasswordExpired(true)
             .build();
 
         validatorRegisterUser.validate(user);
-
-        // TODO: Should be handled by the model
-        // Trim strings
-        user.setName(user.getName()
-            .trim());
-        user.setUsername(user.getUsername()
-            .trim());
-        user.setEmail(user.getEmail()
-            .trim());
-
-        // TODO: Should be handled by the model
-        // Remove case
-        user.setUsername(user.getUsername()
-            .toLowerCase());
-        user.setEmail(user.getEmail()
-            .toLowerCase());
-
-        // Disabled by default
-        user.setEnabled(false);
-        user.setExpired(false);
-        user.setLocked(false);
-        user.setPasswordExpired(true);
 
         created = userRepository.save(user, "");
 

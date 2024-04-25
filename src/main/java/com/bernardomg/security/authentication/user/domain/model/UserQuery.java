@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.authentication.user.domain.model;
 
+import java.util.Objects;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -71,5 +73,33 @@ public final class UserQuery {
      * User username.
      */
     private String  username;
+
+    public UserQuery(final String email, final Boolean enabled, final Boolean expired, final Boolean locked,
+            final String name, final Boolean passwordExpired, final String username) {
+        super();
+
+        if (Objects.nonNull(name)) {
+            this.name = name.trim();
+        } else {
+            this.name = null;
+        }
+        if (Objects.nonNull(username)) {
+            this.username = username.trim()
+                .toLowerCase();
+        } else {
+            this.username = null;
+        }
+        if (Objects.nonNull(email)) {
+            this.email = email.trim()
+                .toLowerCase();
+        } else {
+            this.email = null;
+        }
+
+        this.enabled = enabled;
+        this.expired = expired;
+        this.locked = locked;
+        this.passwordExpired = passwordExpired;
+    }
 
 }

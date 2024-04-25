@@ -25,6 +25,7 @@
 package com.bernardomg.security.authentication.user.domain.model;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
@@ -51,17 +52,20 @@ public final class User {
     /**
      * User enabled flag.
      */
-    private boolean          enabled;
+    @Builder.Default
+    private boolean          enabled         = false;
 
     /**
      * User expired flag.
      */
-    private boolean          expired;
+    @Builder.Default
+    private boolean          expired         = false;
 
     /**
      * User locked flag.
      */
-    private boolean          locked;
+    @Builder.Default
+    private boolean          locked          = false;
 
     /**
      * User name.
@@ -71,7 +75,8 @@ public final class User {
     /**
      * Password expired flag.
      */
-    private boolean          passwordExpired;
+    @Builder.Default
+    private boolean          passwordExpired = false;
 
     /**
      * User roles.
@@ -82,5 +87,35 @@ public final class User {
      * User username.
      */
     private String           username;
+
+    public User(final String email, final boolean enabled, final boolean expired, final boolean locked,
+            final String name, final boolean passwordExpired, final Collection<Role> roles, final String username) {
+        super();
+
+        if (Objects.nonNull(name)) {
+            this.name = name.trim();
+        } else {
+            this.name = null;
+        }
+        if (Objects.nonNull(username)) {
+            this.username = username.trim()
+                .toLowerCase();
+        } else {
+            this.username = null;
+        }
+        if (Objects.nonNull(email)) {
+            this.email = email.trim()
+                .toLowerCase();
+        } else {
+            this.email = null;
+        }
+
+        this.enabled = enabled;
+        this.expired = expired;
+        this.locked = locked;
+        this.passwordExpired = passwordExpired;
+        this.roles = roles;
+
+    }
 
 }
