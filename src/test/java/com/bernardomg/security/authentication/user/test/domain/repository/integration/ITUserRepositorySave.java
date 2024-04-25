@@ -149,7 +149,7 @@ class ITUserRepositorySave {
         final List<UserEntity> entities;
 
         // GIVEN
-        user = Users.withoutRole();
+        user = Users.enabledWithoutRole();
 
         // WHEN
         repository.save(user, UserConstants.PASSWORD);

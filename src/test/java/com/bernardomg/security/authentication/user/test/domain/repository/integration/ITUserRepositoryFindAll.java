@@ -89,7 +89,7 @@ class ITUserRepositoryFindAll {
         // THEN
         Assertions.assertThat(users)
             .as("users")
-            .containsExactly(Users.withoutRole());
+            .containsExactly(Users.enabledWithoutRole());
     }
 
 }

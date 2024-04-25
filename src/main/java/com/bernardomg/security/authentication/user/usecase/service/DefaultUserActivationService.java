@@ -90,6 +90,7 @@ public final class DefaultUserActivationService implements UserActivationService
     public final User activateUser(final String token, final String password) {
         final String username;
         final User   user;
+        final User   activated;
         final User   saved;
 
         // Validate token
@@ -104,11 +105,19 @@ public final class DefaultUserActivationService implements UserActivationService
 
         validateActivation(user);
 
-        user.setEnabled(true);
-        user.setPasswordExpired(false);
-        user.setRoles(List.of());
+        activated = User.builder()
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withRoles(user.getRoles())
+            .withExpired(user.isExpired())
+            .withLocked(user.isLocked())
+            // Enable user
+            .withEnabled(true)
+            .withPasswordExpired(false)
+            .build();
 
-        saved = userRepository.save(user, password);
+        saved = userRepository.save(activated, password);
         tokenStore.consumeToken(token);
 
         log.debug("Activated new user {}", username);

@@ -30,7 +30,7 @@ import java.util.Objects;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
 /**
  * Representation of a user.
@@ -40,7 +40,7 @@ import lombok.Data;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
+@Value
 @Builder(setterPrefix = "with")
 public final class User {
 

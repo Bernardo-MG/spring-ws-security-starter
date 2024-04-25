@@ -102,6 +102,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     public final void changePassword(final String token, final String password) {
         final String username;
         final User   user;
+        final User   activated;
 
         tokenStore.validate(token);
 
@@ -113,9 +114,19 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         authorizePasswordChange(user.getUsername());
 
-        user.setPasswordExpired(false);
+        activated = User.builder()
+            .withUsername(user.getUsername())
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withRoles(user.getRoles())
+            .withEnabled(user.isEnabled())
+            .withExpired(user.isExpired())
+            .withLocked(user.isLocked())
+            // Password is no longer expired
+            .withPasswordExpired(false)
+            .build();
 
-        userRepository.save(user, password);
+        userRepository.save(activated, password);
         tokenStore.consumeToken(token);
 
         log.debug("Finished password change for {}", username);

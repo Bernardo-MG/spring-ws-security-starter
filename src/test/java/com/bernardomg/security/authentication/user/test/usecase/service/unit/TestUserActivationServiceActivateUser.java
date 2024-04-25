@@ -70,7 +70,21 @@ class TestUserActivationServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        verify(repository).save(Users.withoutRole(), UserConstants.PASSWORD);
+        verify(repository).save(Users.enabledWithoutRole(), UserConstants.PASSWORD);
+    }
+
+    @Test
+    @DisplayName("Activating a new user keeps its roles")
+    void testActivateUser_KeepsRoles() {
+        // GIVEN
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreatedWithRole()));
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
+
+        // WHEN
+        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+
+        // THEN
+        verify(repository).save(Users.enabled(), UserConstants.PASSWORD);
     }
 
 }
