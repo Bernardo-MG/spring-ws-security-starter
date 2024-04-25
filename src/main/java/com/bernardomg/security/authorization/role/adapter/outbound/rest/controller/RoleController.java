@@ -103,7 +103,7 @@ public class RoleController {
     /**
      * Returns all the roles in a paginated form.
      *
-     * @param role
+     * @param request
      *            query to filter roles
      * @param page
      *            pagination to apply

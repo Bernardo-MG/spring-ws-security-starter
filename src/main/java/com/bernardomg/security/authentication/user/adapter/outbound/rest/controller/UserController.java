@@ -97,7 +97,7 @@ public class UserController {
     /**
      * Returns all the users in a paginated form.
      *
-     * @param user
+     * @param request
      *            query to filter users
      * @param page
      *            pagination to apply
