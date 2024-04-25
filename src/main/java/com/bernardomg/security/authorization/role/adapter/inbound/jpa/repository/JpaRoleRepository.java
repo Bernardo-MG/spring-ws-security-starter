@@ -43,7 +43,7 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.Role
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
 /**

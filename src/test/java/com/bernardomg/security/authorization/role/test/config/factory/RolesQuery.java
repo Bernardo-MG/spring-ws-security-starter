@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.authorization.role.test.config.factory;
 
-import com.bernardomg.security.authorization.role.domain.model.request.RoleQuery;
+import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 
 public final class RolesQuery {
 
