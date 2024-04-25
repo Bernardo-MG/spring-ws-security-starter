@@ -157,7 +157,10 @@
             Fixed controller queries.
          </action>
       </release>
-      <release version="1.0.0" date="2024-04-25" description="">
+      <release version="0.3.6" date="2024-04-25" description="Fixed controller values">
+         <action dev="bmg" type="fix">
+            Fixed domain mapping in roles controller.
+         </action>
       </release>
    </body>
 </document>
