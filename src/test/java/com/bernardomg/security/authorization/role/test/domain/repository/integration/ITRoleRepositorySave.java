@@ -174,7 +174,7 @@ class ITRoleRepositorySave {
 
         Assertions.assertThat(roles)
             .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "roleId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id.roleId")
             .containsExactly(RoleEntities.withPermissions());
     }
 
