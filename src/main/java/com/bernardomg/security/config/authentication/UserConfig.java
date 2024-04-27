@@ -39,11 +39,12 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
-import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.UserService;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
@@ -82,11 +83,6 @@ public class UserConfig {
         return new DefaultUserActivationService(userRepo, mSender, tokenStore);
     }
 
-    @Bean("userQueryService")
-    public UserQueryService getUserQueryService(final UserRepository userRepo) {
-        return new DefaultUserQueryService(userRepo);
-    }
-
     @Bean("userRepository")
     public UserRepository getUserRepository(final UserSpringRepository userRepo,
             final RoleSpringRepository roleSpringRepo,
@@ -98,6 +94,11 @@ public class UserConfig {
     public UserRoleRepository getUserRoleRepository(final RoleSpringRepository roleSpringRepo,
             final UserSpringRepository userSpringRepo) {
         return new JpaUserRoleRepository(roleSpringRepo, userSpringRepo);
+    }
+
+    @Bean("userService")
+    public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
+        return new DefaultUserService(userRepo, roleRepo);
     }
 
     @Bean("userPermissionRegister")

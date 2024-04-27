@@ -35,6 +35,7 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.Use
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
@@ -42,7 +43,7 @@ import com.bernardomg.security.authorization.role.test.config.annotation.Alterna
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role service - update")
+@DisplayName("User repository - update")
 class ITUserRepositoryUpdate {
 
     @Autowired
@@ -53,6 +54,46 @@ class ITUserRepositoryUpdate {
 
     public ITUserRepositoryUpdate() {
         super();
+    }
+
+    @Test
+    @DisplayName("When adding a not existing role to a user it is updated")
+    @OnlyUser
+    void testUpdate_AddRole_NotExistingRole_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.addRole();
+
+        // WHEN
+        repository.update(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.noRoles());
+    }
+
+    @Test
+    @DisplayName("When adding a not existing role to a user it is returned")
+    @OnlyUser
+    void testUpdate_AddRole_NotExistingRole_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.addRole();
+
+        // WHEN
+        created = repository.update(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.noRoles());
     }
 
     @Test
@@ -98,46 +139,6 @@ class ITUserRepositoryUpdate {
     }
 
     @Test
-    @DisplayName("When a user exists it is updated")
-    @ValidUser
-    void testUpdate_Existing_PersistedData() {
-        final User             user;
-        final List<UserEntity> entities;
-
-        // GIVEN
-        user = Users.enabled();
-
-        // WHEN
-        repository.update(user);
-
-        // THEN
-        entities = userSpringRepository.findAll();
-        Assertions.assertThat(entities)
-            .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.enabled());
-    }
-
-    @Test
-    @DisplayName("When a user exists it is returned")
-    @ValidUser
-    void testUpdate_Existing_Returned() {
-        final User user;
-        final User created;
-
-        // GIVEN
-        user = Users.enabled();
-
-        // WHEN
-        created = repository.update(user);
-
-        // THEN
-        Assertions.assertThat(created)
-            .as("user")
-            .isEqualTo(Users.enabled());
-    }
-
-    @Test
     @DisplayName("Doesn't persist a not existing user")
     void testUpdate_NotExisting_PersistedData() {
         final User             user;
@@ -172,6 +173,126 @@ class ITUserRepositoryUpdate {
         Assertions.assertThat(created)
             .as("user")
             .isNull();
+    }
+
+    @Test
+    @DisplayName("When removing the roles to a user it is updated")
+    @ValidUser
+    void testUpdate_RemoveRoles_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.withoutRoles();
+
+        // WHEN
+        repository.update(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.withoutRole());
+    }
+
+    @Test
+    @DisplayName("When removing the roles to a user it is returned")
+    @ValidUser
+    void testUpdate_RemoveRoles_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.withoutRoles();
+
+        // WHEN
+        created = repository.update(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("When a user has no roles it is updated")
+    @OnlyUser
+    void testUpdate_WithoutRoles_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.withoutRoles();
+
+        // WHEN
+        repository.update(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.withoutRole());
+    }
+
+    @Test
+    @DisplayName("When a user has no roles it is returned")
+    @OnlyUser
+    void testUpdate_WithoutRoles_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.withoutRoles();
+
+        // WHEN
+        created = repository.update(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("When a user has roles it is updated")
+    @ValidUser
+    void testUpdate_WithRoles_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.enabled();
+
+        // WHEN
+        repository.update(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.enabled());
+    }
+
+    @Test
+    @DisplayName("When a user has roles it is returned")
+    @ValidUser
+    void testUpdate_WithRoles_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.enabled();
+
+        // WHEN
+        created = repository.update(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.enabled());
     }
 
 }

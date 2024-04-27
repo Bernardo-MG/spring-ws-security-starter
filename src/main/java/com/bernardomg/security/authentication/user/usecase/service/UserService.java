@@ -32,12 +32,12 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 
 /**
- * User query service.
+ * User service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserQueryService {
+public interface UserService {
 
     /**
      * Deletes the user with the received id.

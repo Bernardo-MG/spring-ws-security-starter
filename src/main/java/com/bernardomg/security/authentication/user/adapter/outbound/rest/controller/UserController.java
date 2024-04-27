@@ -51,7 +51,7 @@ import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.U
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
-import com.bernardomg.security.authentication.user.usecase.service.UserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.UserService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -78,7 +78,7 @@ public class UserController {
     /**
      * Service which handles user queries.
      */
-    private final UserQueryService      userQueryService;
+    private final UserService           userQueryService;
 
     /**
      * Deletes a user by its id.

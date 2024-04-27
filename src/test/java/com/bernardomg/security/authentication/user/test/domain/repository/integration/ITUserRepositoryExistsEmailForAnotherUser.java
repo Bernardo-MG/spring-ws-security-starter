@@ -36,7 +36,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - exists email for another user")
+@DisplayName("User repository - exists email for another user")
 class ITUserRepositoryExistsEmailForAnotherUser {
 
     @Autowired

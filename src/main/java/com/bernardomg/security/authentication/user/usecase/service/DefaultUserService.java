@@ -35,19 +35,27 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.validation.UpdateUserValidator;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
+import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.validation.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Default user query service.
+ * Default user service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Slf4j
 @Transactional
-public final class DefaultUserQueryService implements UserQueryService {
+public final class DefaultUserService implements UserService {
+
+    /**
+     * Role repository.
+     */
+    private final RoleRepository  roleRepository;
 
     /**
      * User repository.
@@ -59,10 +67,11 @@ public final class DefaultUserQueryService implements UserQueryService {
      */
     private final Validator<User> validatorUpdateUser;
 
-    public DefaultUserQueryService(final UserRepository userRepo) {
+    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
+        roleRepository = Objects.requireNonNull(roleRepo);
 
         validatorUpdateUser = new UpdateUserValidator(userRepo);
     }
@@ -109,9 +118,17 @@ public final class DefaultUserQueryService implements UserQueryService {
 
         log.debug("Updating user {} using data {}", user.getUsername(), user);
 
+        // Verify the user exists
         existing = userRepository.findOne(user.getUsername());
         if (existing.isEmpty()) {
             throw new MissingUserException(user.getUsername());
+        }
+
+        // Verify the roles exists
+        for (final Role role : user.getRoles()) {
+            if (!roleRepository.exists(role.getName())) {
+                throw new MissingRoleException(role.getName());
+            }
         }
 
         validatorUpdateUser.validate(user);

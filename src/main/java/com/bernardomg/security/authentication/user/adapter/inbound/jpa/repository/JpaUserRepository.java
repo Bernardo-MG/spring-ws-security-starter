@@ -170,6 +170,7 @@ public final class JpaUserRepository implements UserRepository {
             saved = userSpringRepository.save(entity);
             result = toDomain(saved);
         } else {
+            // TODO: if it doesn't exist, then maybe create
             result = null;
         }
 
@@ -209,6 +210,7 @@ public final class JpaUserRepository implements UserRepository {
 
         roles = user.getRoles()
             .stream()
+            .filter(Objects::nonNull)
             .map(this::toDomain)
             .sorted(new RoleComparator())
             .toList();
@@ -287,6 +289,7 @@ public final class JpaUserRepository implements UserRepository {
             roles = user.getRoles()
                 .stream()
                 .map(this::toEntity)
+                .filter(Objects::nonNull)
                 .toList();
         }
         return UserEntity.builder()

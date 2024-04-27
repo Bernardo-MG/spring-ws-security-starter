@@ -93,18 +93,6 @@ public final class Users {
             .build();
     }
 
-    public static final User enabledWithoutRole() {
-        return User.builder()
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
-            .build();
-    }
-
     public static final User expired() {
         return User.builder()
             .withRoles(List.of(Roles.withSinglePermission()))
@@ -156,6 +144,19 @@ public final class Users {
             .build();
     }
 
+    public static final User noRoles() {
+        return User.builder()
+            .withRoles(List.of())
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
+
     public static final User passwordExpired() {
         return User.builder()
             .withRoles(List.of(Roles.withSinglePermission()))
@@ -178,6 +179,18 @@ public final class Users {
             .withEnabled(false)
             .withExpired(false)
             .withPasswordExpired(true)
+            .withLocked(false)
+            .build();
+    }
+
+    public static final User withoutRoles() {
+        return User.builder()
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
             .withLocked(false)
             .build();
     }

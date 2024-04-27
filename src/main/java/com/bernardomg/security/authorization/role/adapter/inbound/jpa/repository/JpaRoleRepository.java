@@ -210,6 +210,7 @@ public final class JpaRoleRepository implements RoleRepository {
         permissions = role.getPermissions()
             .stream()
             .map(this::toEntity)
+            .filter(Objects::nonNull)
             .toList();
         return RoleEntity.builder()
             .withName(role.getName())

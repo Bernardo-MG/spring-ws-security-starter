@@ -44,7 +44,7 @@ import com.bernardomg.security.authorization.role.test.config.annotation.RoleWit
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("Role service - save")
+@DisplayName("User repository - save")
 class ITUserRepositorySave {
 
     @Autowired
@@ -149,7 +149,7 @@ class ITUserRepositorySave {
         final List<UserEntity> entities;
 
         // GIVEN
-        user = Users.enabledWithoutRole();
+        user = Users.withoutRoles();
 
         // WHEN
         repository.save(user, UserConstants.PASSWORD);

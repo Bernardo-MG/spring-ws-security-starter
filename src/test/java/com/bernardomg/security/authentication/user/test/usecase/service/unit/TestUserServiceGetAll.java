@@ -19,19 +19,23 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserService;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User service - get all")
-class TestUserQueryServiceGetAll {
-
-    @InjectMocks
-    private DefaultUserQueryService service;
+class TestUserServiceGetAll {
 
     @Mock
-    private UserRepository          userRepository;
+    private RoleRepository     roleRepository;
 
-    public TestUserQueryServiceGetAll() {
+    @InjectMocks
+    private DefaultUserService service;
+
+    @Mock
+    private UserRepository     userRepository;
+
+    public TestUserServiceGetAll() {
         super();
     }
 

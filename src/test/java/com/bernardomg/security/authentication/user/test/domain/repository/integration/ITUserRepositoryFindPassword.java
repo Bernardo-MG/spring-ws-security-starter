@@ -14,7 +14,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - find password")
+@DisplayName("User repository - find password")
 class ITUserRepositoryFindPassword {
 
     @Autowired

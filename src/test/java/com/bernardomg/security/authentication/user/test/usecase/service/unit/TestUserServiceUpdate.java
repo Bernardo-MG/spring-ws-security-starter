@@ -39,25 +39,32 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserService;
+import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - update")
-class TestUserQueryServiceUpdate {
-
-    @InjectMocks
-    private DefaultUserQueryService service;
+class TestUserServiceUpdate {
 
     @Mock
-    private UserRepository          userRepository;
+    private RoleRepository     roleRepository;
 
-    public TestUserQueryServiceUpdate() {
+    @InjectMocks
+    private DefaultUserService service;
+
+    @Mock
+    private UserRepository     userRepository;
+
+    public TestUserServiceUpdate() {
         super();
     }
 
@@ -69,6 +76,7 @@ class TestUserQueryServiceUpdate {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
         executable = () -> service.update(Users.duplicatedRole());
@@ -87,6 +95,7 @@ class TestUserQueryServiceUpdate {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(userRepository.existsEmailForAnotherUser(ArgumentMatchers.eq(UserConstants.USERNAME),
             ArgumentMatchers.anyString())).willReturn(true);
 
@@ -100,11 +109,76 @@ class TestUserQueryServiceUpdate {
     }
 
     @Test
-    @DisplayName("Sends the user to the repository")
-    void testUpdate_PersistedData() {
+    @DisplayName("Sends the user without roles to the repository")
+    void testUpdate_NoRoles_PersistedData() {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+
+        // WHEN
+        service.update(Users.noRoles());
+
+        // THEN
+        verify(userRepository).update(Users.noRoles());
+    }
+
+    @Test
+    @DisplayName("Returns the created user without roles")
+    void testUpdate_NoRoles_ReturnedData() {
+        final User result;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.update(Users.noRoles())).willReturn(Users.noRoles());
+
+        // WHEN
+        result = service.update(Users.noRoles());
+
+        // THEN
+        Assertions.assertThat(result)
+            .isEqualTo(Users.noRoles());
+    }
+
+    @Test
+    @DisplayName("When the role doesn't exists an exception is thrown")
+    void testUpdate_NotExistingRole() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(Users.enabled());
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingRoleException.class);
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exists an exception is thrown")
+    void testUpdate_NotExistingUser() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.update(Users.enabled());
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingUserException.class);
+    }
+
+    @Test
+    @DisplayName("Sends the user with an updated email to the repository")
+    void testUpdate_UpdateEmail_PersistedData() {
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
         service.update(Users.emailChange());
@@ -114,12 +188,13 @@ class TestUserQueryServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the created user")
-    void testUpdate_ReturnedData() {
+    @DisplayName("Returns the created user with an updated email")
+    void testUpdate_UpdateEmail_ReturnedData() {
         final User result;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(userRepository.update(Users.emailChange())).willReturn(Users.emailChange());
 
         // WHEN

@@ -15,7 +15,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserQueri
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - find all - filtered")
+@DisplayName("User repository - find all - filtered")
 class ITUserRepositoryFindAllFiltered {
 
     @Autowired

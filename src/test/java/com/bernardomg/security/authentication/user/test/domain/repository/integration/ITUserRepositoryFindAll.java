@@ -17,7 +17,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - find all")
+@DisplayName("User repository - find all")
 class ITUserRepositoryFindAll {
 
     @Autowired
@@ -89,7 +89,7 @@ class ITUserRepositoryFindAll {
         // THEN
         Assertions.assertThat(users)
             .as("users")
-            .containsExactly(Users.enabledWithoutRole());
+            .containsExactly(Users.withoutRoles());
     }
 
 }

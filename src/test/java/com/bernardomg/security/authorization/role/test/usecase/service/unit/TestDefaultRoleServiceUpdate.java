@@ -134,6 +134,43 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
+    @DisplayName("Sends a role without permissions to the repository")
+    void testUpdate_NoPermissions_PersistedData() {
+        final Role data;
+
+        // GIVEN
+        data = Roles.withoutPermissions();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+
+        // WHEN
+        service.update(data);
+
+        // THEN
+        verify(roleRepository).save(Roles.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("Returns the updated role without permissions")
+    void testUpdate_NoPermissions_ReturnedData() {
+        final Role data;
+        final Role role;
+
+        // GIVEN
+        data = Roles.withoutPermissions();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withoutPermissions());
+
+        // WHEN
+        role = service.update(data);
+
+        // THEN
+        Assertions.assertThat(role)
+            .isEqualTo(Roles.withoutPermissions());
+    }
+
+    @Test
     @DisplayName("When the permission doesn't exists an exception is thrown")
     void testUpdate_NotExistingPermission() {
         final ThrowingCallable execution;
@@ -170,43 +207,6 @@ class TestDefaultRoleServiceUpdate {
         // THEN
         Assertions.assertThatThrownBy(execution)
             .isInstanceOf(MissingRoleException.class);
-    }
-
-    @Test
-    @DisplayName("Sends the role to the repository")
-    void testUpdate_PersistedData() {
-        final Role data;
-
-        // GIVEN
-        data = Roles.withoutPermissions();
-
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-
-        // WHEN
-        service.update(data);
-
-        // THEN
-        verify(roleRepository).save(Roles.withoutPermissions());
-    }
-
-    @Test
-    @DisplayName("Returns the updated role")
-    void testUpdate_ReturnedData() {
-        final Role data;
-        final Role role;
-
-        // GIVEN
-        data = Roles.withoutPermissions();
-
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withoutPermissions());
-
-        // WHEN
-        role = service.update(data);
-
-        // THEN
-        Assertions.assertThat(role)
-            .isEqualTo(Roles.withoutPermissions());
     }
 
 }

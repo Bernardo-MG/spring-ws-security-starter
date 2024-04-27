@@ -20,7 +20,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - find one by email")
+@DisplayName("User repository - find one by email")
 class ITUserRepositoryFindOneByEmail {
 
     @Autowired

@@ -39,19 +39,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserQueryService;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserService;
+import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User service - delete without roles")
-class TestUserQueryServiceDelete {
-
-    @InjectMocks
-    private DefaultUserQueryService service;
+class TestUserServiceDelete {
 
     @Mock
-    private UserRepository          userRepository;
+    private RoleRepository     roleRepository;
 
-    public TestUserQueryServiceDelete() {
+    @InjectMocks
+    private DefaultUserService service;
+
+    @Mock
+    private UserRepository     userRepository;
+
+    public TestUserServiceDelete() {
         super();
     }
 

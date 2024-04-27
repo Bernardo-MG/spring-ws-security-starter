@@ -21,7 +21,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - find one")
+@DisplayName("User repository - find one")
 class ITUserRepositoryFindOne {
 
     @Autowired
@@ -111,7 +111,7 @@ class ITUserRepositoryFindOne {
         result = repository.findOne(UserConstants.USERNAME);
 
         Assertions.assertThat(result)
-            .contains(Users.enabledWithoutRole());
+            .contains(Users.withoutRoles());
     }
 
 }

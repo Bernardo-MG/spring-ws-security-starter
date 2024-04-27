@@ -39,7 +39,7 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - delete without roles")
+@DisplayName("User repository - delete without roles")
 class ITUserRepositoryDelete {
 
     @Autowired
