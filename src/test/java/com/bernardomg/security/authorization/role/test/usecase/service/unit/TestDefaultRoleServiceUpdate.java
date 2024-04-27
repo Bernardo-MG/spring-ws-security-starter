@@ -37,6 +37,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionException;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -51,10 +54,13 @@ import com.bernardomg.validation.failure.FieldFailure;
 class TestDefaultRoleServiceUpdate {
 
     @Mock
-    private RoleRepository     roleRepository;
+    private ResourcePermissionRepository resourcePermissionRepository;
+
+    @Mock
+    private RoleRepository               roleRepository;
 
     @InjectMocks
-    private DefaultRoleService service;
+    private DefaultRoleService           service;
 
     public TestDefaultRoleServiceUpdate() {
         super();
@@ -71,6 +77,7 @@ class TestDefaultRoleServiceUpdate {
         data = Roles.duplicatedPermission();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
 
         // WHEN
         executable = () -> service.update(data);
@@ -90,6 +97,10 @@ class TestDefaultRoleServiceUpdate {
         data = Roles.withPermissions();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_DELETE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_READ)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_UPDATE)).willReturn(true);
 
         // WHEN
         service.update(data);
@@ -109,6 +120,10 @@ class TestDefaultRoleServiceUpdate {
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withPermissions());
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_DELETE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_READ)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_UPDATE)).willReturn(true);
 
         // WHEN
         role = service.update(data);
@@ -119,13 +134,33 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the role doesn't exists an exception is thrown")
-    void testUpdate_NotExisting() {
+    @DisplayName("When the permission doesn't exists an exception is thrown")
+    void testUpdate_NotExistingPermission() {
         final ThrowingCallable execution;
         final Role             data;
 
         // GIVEN
-        data = Roles.valid();
+        data = Roles.withSinglePermission();
+
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.update(data);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingResourcePermissionException.class);
+    }
+
+    @Test
+    @DisplayName("When the role doesn't exists an exception is thrown")
+    void testUpdate_NotExistingRole() {
+        final ThrowingCallable execution;
+        final Role             data;
+
+        // GIVEN
+        data = Roles.withoutPermissions();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
 
@@ -143,7 +178,7 @@ class TestDefaultRoleServiceUpdate {
         final Role data;
 
         // GIVEN
-        data = Roles.valid();
+        data = Roles.withoutPermissions();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
@@ -151,7 +186,7 @@ class TestDefaultRoleServiceUpdate {
         service.update(data);
 
         // THEN
-        verify(roleRepository).save(Roles.valid());
+        verify(roleRepository).save(Roles.withoutPermissions());
     }
 
     @Test
@@ -161,17 +196,17 @@ class TestDefaultRoleServiceUpdate {
         final Role role;
 
         // GIVEN
-        data = Roles.valid();
+        data = Roles.withoutPermissions();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withoutPermissions());
 
         // WHEN
         role = service.update(data);
 
         // THEN
         Assertions.assertThat(role)
-            .isEqualTo(Roles.valid());
+            .isEqualTo(Roles.withoutPermissions());
     }
 
 }

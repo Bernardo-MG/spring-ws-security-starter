@@ -22,21 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository;
+package com.bernardomg.security.authorization.permission.domain.exception;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleKey;
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * User role repository.
+ * Missing resource permission exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserRoleSpringRepository extends JpaRepository<UserRoleEntity, UserRoleKey> {
+public final class MissingResourcePermissionException extends MissingIdException {
 
-    public boolean existsByRoleId(final long roleId);
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingResourcePermissionException(final String name) {
+        super("resourcePermission", name);
+    }
 
 }

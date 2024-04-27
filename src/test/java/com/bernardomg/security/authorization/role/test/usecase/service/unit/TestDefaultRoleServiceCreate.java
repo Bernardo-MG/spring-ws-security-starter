@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
@@ -27,10 +28,13 @@ import com.bernardomg.validation.failure.FieldFailure;
 class TestDefaultRoleServiceCreate {
 
     @Mock
-    private RoleRepository     roleRepository;
+    private ResourcePermissionRepository resourcePermissionRepository;
+
+    @Mock
+    private RoleRepository               roleRepository;
 
     @InjectMocks
-    private DefaultRoleService service;
+    private DefaultRoleService           service;
 
     public TestDefaultRoleServiceCreate() {
         super();
@@ -55,13 +59,23 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
+    @DisplayName("Sends a role without name to the repository")
+    void testCreate_NoName_PersistedData() {
+        // WHEN
+        service.create("");
+
+        // THEN
+        verify(roleRepository).save(Roles.noName());
+    }
+
+    @Test
     @DisplayName("Sends the role to the repository")
     void testCreate_PersistedData() {
         // WHEN
         service.create(RoleConstants.NAME);
 
         // THEN
-        verify(roleRepository).save(Roles.valid());
+        verify(roleRepository).save(Roles.withoutPermissions());
     }
 
     @Test
@@ -70,14 +84,14 @@ class TestDefaultRoleServiceCreate {
         final Role result;
 
         // GIVEN
-        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withoutPermissions());
 
         // WHEN
         result = service.create(RoleConstants.NAME);
 
         // THEN
         Assertions.assertThat(result)
-            .isEqualTo(Roles.valid());
+            .isEqualTo(Roles.withoutPermissions());
     }
 
 }

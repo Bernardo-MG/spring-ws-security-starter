@@ -42,7 +42,7 @@ class ITUserRoleRepositoryFindAvailableToUser {
         roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test
@@ -74,7 +74,7 @@ class ITUserRoleRepositoryFindAvailableToUser {
         roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
 
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test

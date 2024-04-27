@@ -32,7 +32,7 @@ class ITRoleRepositoryFindOne {
     @Test
     @DisplayName("When the role exists it is returned")
     @SingleRole
-    void testFindOne() {
+    void testFindOne_Existing() {
         final Optional<Role> role;
 
         // WHEN
@@ -40,7 +40,7 @@ class ITRoleRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(role)
-            .contains(Roles.valid());
+            .contains(Roles.withoutPermissions());
     }
 
     @Test
@@ -81,7 +81,7 @@ class ITRoleRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(role)
-            .contains(Roles.valid());
+            .contains(Roles.withoutPermissions());
     }
 
     @Test

@@ -22,21 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleKey;
-
 /**
- * User role repository.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Permission exceptions.
  */
-public interface UserRoleSpringRepository extends JpaRepository<UserRoleEntity, UserRoleKey> {
 
-    public boolean existsByRoleId(final long roleId);
-
-}
+package com.bernardomg.security.authorization.permission.domain.exception;

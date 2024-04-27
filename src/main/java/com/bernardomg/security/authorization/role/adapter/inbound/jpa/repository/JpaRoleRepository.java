@@ -41,7 +41,6 @@ import com.bernardomg.security.authorization.permission.domain.model.ResourcePer
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.UserRoleEntity;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -65,9 +64,9 @@ public final class JpaRoleRepository implements RoleRepository {
             final UserRoleSpringRepository userRoleSpringRepo) {
         super();
 
-        roleSpringRepository = roleSpringRepo;
-        resourcePermissionSpringRepository = resourcePermissionSpringRepo;
-        userRoleSpringRepository = userRoleSpringRepo;
+        roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
+        resourcePermissionSpringRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
+        userRoleSpringRepository = Objects.requireNonNull(userRoleSpringRepo);
     }
 
     @Override
@@ -98,7 +97,6 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final boolean isLinkedToUser(final String role) {
-        final UserRoleEntity       sample;
         final Optional<RoleEntity> roleEntity;
         final boolean              exists;
 
@@ -107,12 +105,8 @@ public final class JpaRoleRepository implements RoleRepository {
 
         roleEntity = roleSpringRepository.findOneByName(role);
         if (roleEntity.isPresent()) {
-            sample = UserRoleEntity.builder()
-                .withRoleId(roleEntity.get()
-                    .getId())
-                .build();
-
-            exists = userRoleSpringRepository.exists(Example.of(sample));
+            exists = userRoleSpringRepository.existsByRoleId(roleEntity.get()
+                .getId());
         } else {
             exists = false;
         }
@@ -136,7 +130,14 @@ public final class JpaRoleRepository implements RoleRepository {
                 .getId());
         }
 
-        permissions = new ArrayList<>(entity.getPermissions());
+        if (entity.getPermissions() == null) {
+            permissions = new ArrayList<>();
+        } else {
+            permissions = new ArrayList<>(entity.getPermissions()
+                .stream()
+                .filter(Objects::nonNull)
+                .toList());
+        }
         entity.setPermissions(new ArrayList<>());
         saved = roleSpringRepository.save(entity);
 

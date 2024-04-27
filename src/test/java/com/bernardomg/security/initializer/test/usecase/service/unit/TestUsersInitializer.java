@@ -37,7 +37,7 @@ class TestUsersInitializer {
 
     @BeforeEach
     public final void initializeMocks() {
-        given(roleRepository.findOne(ArgumentMatchers.any())).willReturn(Optional.of(Roles.valid()));
+        given(roleRepository.findOne(ArgumentMatchers.any())).willReturn(Optional.of(Roles.withoutPermissions()));
         given(userRepository.save(ArgumentMatchers.any(), ArgumentMatchers.anyString())).willReturn(Users.enabled());
     }
 

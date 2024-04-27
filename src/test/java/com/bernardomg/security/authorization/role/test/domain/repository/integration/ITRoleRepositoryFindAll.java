@@ -47,7 +47,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test
@@ -88,7 +88,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test

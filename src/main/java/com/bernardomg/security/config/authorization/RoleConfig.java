@@ -34,6 +34,7 @@ import com.bernardomg.security.authentication.user.domain.repository.UserRoleRep
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserRoleService;
 import com.bernardomg.security.authentication.user.usecase.service.UserRoleService;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.initializer.RolePermissionRegister;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
@@ -63,20 +64,23 @@ public class RoleConfig {
     }
 
     @Bean("roleRepository")
-    public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepo,
-            final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
-            final UserRoleSpringRepository userRoleSpringRepo) {
-        return new JpaRoleRepository(roleSpringRepo, resourcePermissionSpringRepo, userRoleSpringRepo);
+    public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepository,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepository,
+            final UserRoleSpringRepository userRoleSpringRepository) {
+        return new JpaRoleRepository(roleSpringRepository, resourcePermissionSpringRepository,
+            userRoleSpringRepository);
     }
 
     @Bean("roleService")
-    public RoleService getRoleService(final RoleRepository roleRepo) {
-        return new DefaultRoleService(roleRepo);
+    public RoleService getRoleService(final RoleRepository roleRepository,
+            final ResourcePermissionRepository resourcePermissionRepository) {
+        return new DefaultRoleService(roleRepository, resourcePermissionRepository);
     }
 
     @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserRepository userRepo, final UserRoleRepository userRoleRepo) {
-        return new DefaultUserRoleService(userRepo, userRoleRepo);
+    public UserRoleService getUserRoleService(final UserRepository userRepository,
+            final UserRoleRepository userRoleRepository) {
+        return new DefaultUserRoleService(userRepository, userRoleRepository);
     }
 
 }

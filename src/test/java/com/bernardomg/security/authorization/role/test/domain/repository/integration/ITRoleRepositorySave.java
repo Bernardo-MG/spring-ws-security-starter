@@ -36,6 +36,28 @@ class ITRoleRepositorySave {
     @Test
     @DisplayName("Updates an existing role adding permissions")
     @SingleRole
+    void testSave_AddPermissions_NotExistingPermission() {
+        final List<RoleEntity> roles;
+        final Role             role;
+
+        // GIVEN
+        role = Roles.withSinglePermission();
+
+        // WHEN
+        repository.save(role);
+
+        // THEN
+        roles = springRepository.findAll();
+
+        Assertions.assertThat(roles)
+            .as("roles")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(RoleEntities.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("Updates an existing role adding permissions")
+    @SingleRole
     @CrudPermissions
     void testSave_AddPermissions_PersistedData() {
         final List<RoleEntity> roles;
@@ -57,13 +79,33 @@ class ITRoleRepositorySave {
     }
 
     @Test
+    @DisplayName("Returns an existing role adding permissions")
+    @SingleRole
+    @CrudPermissions
+    void testSave_AddPermissions_ReturnedData() {
+        final Role saved;
+        final Role role;
+
+        // GIVEN
+        role = Roles.withPermissions();
+
+        // WHEN
+        saved = repository.save(role);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("roles")
+            .isEqualTo(Roles.withPermissions());
+    }
+
+    @Test
     @DisplayName("Persists a role with no permissions")
-    void testSave_PersistedData() {
+    void testSave_NoPermissions_PersistedData() {
         final List<RoleEntity> roles;
         final Role             role;
 
         // GIVEN
-        role = Roles.valid();
+        role = Roles.withoutPermissions();
 
         // WHEN
         repository.save(role);
@@ -74,7 +116,25 @@ class ITRoleRepositorySave {
         Assertions.assertThat(roles)
             .as("roles")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(RoleEntities.valid());
+            .containsExactly(RoleEntities.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("Returns the created data")
+    void testSave_NoPermissions_ReturnedData() {
+        final Role saved;
+        final Role role;
+
+        // GIVEN
+        role = Roles.withoutPermissions();
+
+        // WHEN
+        saved = repository.save(role);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("roles")
+            .isEqualTo(Roles.withoutPermissions());
     }
 
     @Test
@@ -85,7 +145,7 @@ class ITRoleRepositorySave {
         final Role             role;
 
         // GIVEN
-        role = Roles.valid();
+        role = Roles.withoutPermissions();
 
         // WHEN
         repository.save(role);
@@ -96,17 +156,18 @@ class ITRoleRepositorySave {
         Assertions.assertThat(roles)
             .as("roles")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(RoleEntities.valid());
+            .containsExactly(RoleEntities.withoutPermissions());
     }
 
     @Test
-    @DisplayName("Returns the created data")
-    void testSave_ReturnedData() {
+    @DisplayName("Returns an existing role removing permissions")
+    @RoleWithCrudPermissions
+    void testSave_RemovePermissions_ReturneddData() {
         final Role saved;
         final Role role;
 
         // GIVEN
-        role = Roles.valid();
+        role = Roles.withoutPermissions();
 
         // WHEN
         saved = repository.save(role);
@@ -114,7 +175,7 @@ class ITRoleRepositorySave {
         // THEN
         Assertions.assertThat(saved)
             .as("roles")
-            .isEqualTo(Roles.valid());
+            .isEqualTo(Roles.withoutPermissions());
     }
 
     @Test
@@ -137,6 +198,25 @@ class ITRoleRepositorySave {
             .as("roles")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id.roleId")
             .containsExactly(RoleEntities.withPermissions());
+    }
+
+    @Test
+    @DisplayName("Returns a role with permissions")
+    @CrudPermissions
+    void testSave_WithPermissions_ReturnedData() {
+        final Role saved;
+        final Role role;
+
+        // GIVEN
+        role = Roles.withPermissions();
+
+        // WHEN
+        saved = repository.save(role);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("roles")
+            .isEqualTo(Roles.withPermissions());
     }
 
 }

@@ -61,7 +61,7 @@ class ITUserRoleRepositoryFindAvailableToUserPagination {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test
