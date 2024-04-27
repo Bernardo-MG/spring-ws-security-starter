@@ -95,7 +95,7 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
     @Test
     @DisplayName("Returns no available roles for a not existing user")
-    void testFindAvailableToUser_NotExisting() {
+    void testFindAvailableToUser_NoRoles() {
         final Iterable<Role> roles;
         final Pageable       pageable;
 
