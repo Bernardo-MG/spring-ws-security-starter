@@ -71,12 +71,16 @@ public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
     @Query("""
                SELECT r2
                FROM Role r2
-               WHERE r2.id NOT IN (
-                 SELECT r.id
-                 FROM Role r
+               WHERE EXISTS (
+                   SELECT 1
+                   FROM User u
+                   WHERE u.username = :username
+               ) AND r2.id NOT IN (
+                   SELECT r.id
+                   FROM Role r
                    JOIN UserRole ur ON r.id = ur.roleId
                    JOIN User u ON ur.userId = u.id
-                 WHERE u.username = :username
+                   WHERE u.username = :username
                )
             """)
     public Page<RoleEntity> findAvailableToUser(@Param("username") final String username, final Pageable page);

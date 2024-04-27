@@ -22,30 +22,17 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
 
     private final RoleSpringRepository roleSpringRepository;
 
-    private final UserSpringRepository userSpringRepository;
-
-    public JpaUserRoleRepository(final RoleSpringRepository roleSpringRepo, final UserSpringRepository userSpringRepo) {
+    public JpaUserRoleRepository(final RoleSpringRepository roleSpringRepo) {
         super();
 
         roleSpringRepository = roleSpringRepo;
-        userSpringRepository = userSpringRepo;
     }
 
     @Override
     public final Iterable<Role> findAvailableToUser(final String username, final Pageable page) {
-        final boolean        exists;
-        final Iterable<Role> roles;
-
-        exists = userSpringRepository.existsByUsername(username);
-        if (exists) {
-            roles = roleSpringRepository.findAvailableToUser(username, page)
-                .map(this::toDomain);
-        } else {
-            roles = List.of();
-        }
-
         // TODO: this doesn't need the full role model, just the names
-        return roles;
+        return roleSpringRepository.findAvailableToUser(username, page)
+            .map(this::toDomain);
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
