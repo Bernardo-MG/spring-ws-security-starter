@@ -15,6 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface SingleRole {
+public @interface RoleWithoutPermissions {
 
 }

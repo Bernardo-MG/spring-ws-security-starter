@@ -14,7 +14,7 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithCrudPermissions;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -35,7 +35,7 @@ class ITRoleRepositorySave {
 
     @Test
     @DisplayName("Updates an existing role adding a not existing permissions")
-    @SingleRole
+    @RoleWithoutPermissions
     void testSave_AddPermissions_NotExistingPermission_PersistedData() {
         final List<RoleEntity> roles;
         final Role             role;
@@ -57,7 +57,7 @@ class ITRoleRepositorySave {
 
     @Test
     @DisplayName("Returns an existing role adding a not existing permissions")
-    @SingleRole
+    @RoleWithoutPermissions
     void testSave_AddPermissions_NotExistingPermission_ReturnedData() {
         final Role saved;
         final Role role;
@@ -76,7 +76,7 @@ class ITRoleRepositorySave {
 
     @Test
     @DisplayName("Updates an existing role adding permissions")
-    @SingleRole
+    @RoleWithoutPermissions
     @CrudPermissions
     void testSave_AddPermissions_PersistedData() {
         final List<RoleEntity> roles;
@@ -99,7 +99,7 @@ class ITRoleRepositorySave {
 
     @Test
     @DisplayName("Returns an existing role adding permissions")
-    @SingleRole
+    @RoleWithoutPermissions
     @CrudPermissions
     void testSave_AddPermissions_ReturnedData() {
         final Role saved;

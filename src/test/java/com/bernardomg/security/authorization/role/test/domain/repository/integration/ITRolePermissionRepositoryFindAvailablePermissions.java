@@ -16,7 +16,7 @@ import com.bernardomg.security.authorization.role.domain.repository.RolePermissi
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -92,7 +92,7 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @Test
     @DisplayName("When the role has no permissions all the permissions are returned")
     @CrudPermissions
-    @SingleRole
+    @RoleWithoutPermissions
     void testFindAvailablePermissions_NoPermissions() {
         final Iterable<ResourcePermission> permissions;
         final Pageable                     pageable;
@@ -113,7 +113,7 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @Test
     @DisplayName("When the role has no permissions, and there is another role with all permissions, all the permissions are returned")
     @CrudPermissions
-    @SingleRole
+    @RoleWithoutPermissions
     @AlternativeRoleWithCrudPermissions
     void testFindAvailablePermissions_NoPermissions_AlternativeRole() {
         final Iterable<ResourcePermission> permissions;

@@ -33,7 +33,7 @@ import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repo
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -56,7 +56,7 @@ class ITRoleRepositoryDelete {
 
     @Test
     @DisplayName("Deletes a role with no permissions")
-    @SingleRole
+    @RoleWithoutPermissions
     void testDelete() {
         // WHEN
         repository.delete(RoleConstants.NAME);

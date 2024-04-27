@@ -13,7 +13,7 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -31,7 +31,7 @@ class ITRoleRepositoryFindOne {
 
     @Test
     @DisplayName("When the role exists it is returned")
-    @SingleRole
+    @RoleWithoutPermissions
     void testFindOne_Existing() {
         final Optional<Role> role;
 
@@ -58,7 +58,7 @@ class ITRoleRepositoryFindOne {
 
     @Test
     @DisplayName("When the role doesn't exist nothing is returned")
-    @SingleRole
+    @RoleWithoutPermissions
     void testFindOne_NotExisting() {
         final Optional<Role> role;
 

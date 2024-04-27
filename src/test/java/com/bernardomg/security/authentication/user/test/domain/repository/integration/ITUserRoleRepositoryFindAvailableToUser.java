@@ -14,7 +14,8 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.U
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.test.config.annotation.AlternativeRole;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -27,22 +28,6 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
     public ITUserRoleRepositoryFindAvailableToUser() {
         super();
-    }
-
-    @Test
-    @DisplayName("When the user has no roles the role is returned")
-    @UserWithoutRole
-    @SingleRole
-    void testFindAvailableToUser() {
-        final Iterable<Role> roles;
-        final Pageable       pageable;
-
-        pageable = Pageable.unpaged();
-
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
-
-        Assertions.assertThat(roles)
-            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test
@@ -63,7 +48,7 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @Test
     @DisplayName("When the user has no roles, and there is another user with all the roles, the role is returned")
     @UserWithoutRole
-    @SingleRole
+    @RoleWithoutPermissions
     @AlternativeUserWithCrudPermissions
     void testFindAvailableToUser_Alternative() {
         final Iterable<Role> roles;
@@ -109,7 +94,7 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
     @Test
     @DisplayName("When the user doesn't exist nothing is returned")
-    @SingleRole
+    @RoleWithoutPermissions
     void testFindAvailableToUser_NoUser() {
         final Iterable<Role> roles;
         final Pageable       pageable;
@@ -120,6 +105,38 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         Assertions.assertThat(roles)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user has no roles and the role has no permissions, is returned")
+    @UserWithoutRole
+    @RoleWithoutPermissions
+    void testFindAvailableToUser_WithoutPermissions() {
+        final Iterable<Role> roles;
+        final Pageable       pageable;
+
+        pageable = Pageable.unpaged();
+
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("When the user has no roles and the role has permissions, is returned")
+    @UserWithoutRole
+    @RoleWithPermission
+    void testFindAvailableToUser_WithPermissions() {
+        final Iterable<Role> roles;
+        final Pageable       pageable;
+
+        pageable = Pageable.unpaged();
+
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+
+        Assertions.assertThat(roles)
+            .containsExactly(Roles.withSinglePermission());
     }
 
 }

@@ -10,7 +10,7 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.U
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -78,7 +78,7 @@ class ITRoleRepositoryIsLinkedToUser {
 
     @Test
     @DisplayName("When there is a user without role it isn't linked")
-    @SingleRole
+    @RoleWithoutPermissions
     void testIsLinkedToUser_NoUser() {
         final boolean exists;
 

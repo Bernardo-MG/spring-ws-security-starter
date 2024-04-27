@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -24,7 +24,7 @@ class ITRoleRepositoryExists {
 
     @Test
     @DisplayName("When the role exists it is returned as existing")
-    @SingleRole
+    @RoleWithoutPermissions
     void testExists() {
         final boolean exists;
 
@@ -51,7 +51,7 @@ class ITRoleRepositoryExists {
 
     @Test
     @DisplayName("When the role doesn't exists it is returned as not existing")
-    @SingleRole
+    @RoleWithoutPermissions
     void testExists_NotExisting() {
         final boolean exists;
 
