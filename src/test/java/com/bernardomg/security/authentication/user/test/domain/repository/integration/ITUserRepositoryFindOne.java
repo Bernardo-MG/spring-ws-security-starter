@@ -12,6 +12,7 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUserWithoutPermissions;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.LockedUser;
@@ -103,9 +104,21 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a user without role")
+    @DisplayName("Returns the correct data when reading an enabled user without permissions")
+    @EnabledUserWithoutPermissions
+    void testFindOne_WithoutPermissions() {
+        final Optional<User> result;
+
+        result = repository.findOne(UserConstants.USERNAME);
+
+        Assertions.assertThat(result)
+            .contains(Users.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("Returns the correct data when reading a user without roles")
     @OnlyUser
-    void testFindOne_WithoutRole() {
+    void testFindOne_WithoutRoles() {
         final Optional<User> result;
 
         result = repository.findOne(UserConstants.USERNAME);

@@ -92,6 +92,18 @@ public final class Users {
             .withLocked(false)
             .build();
     }
+    public static final User withoutPermissions() {
+        return User.builder()
+            .withRoles(List.of(Roles.withoutPermissions()))
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .build();
+    }
 
     public static final User expired() {
         return User.builder()

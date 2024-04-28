@@ -11,6 +11,7 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUserWithoutPermissions;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserQueries;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
@@ -68,6 +69,28 @@ class ITUserRepositoryFindAll {
         Assertions.assertThat(users)
             .as("users")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When there is a user without permissions, it is returned")
+    @EnabledUserWithoutPermissions
+    void testFindAll_WithoutPermissions() {
+        final Iterable<User> users;
+        final UserQuery      sample;
+        final Pageable       pageable;
+
+        // GIVEN
+        pageable = Pageable.unpaged();
+
+        sample = UserQueries.empty();
+
+        // WHEN
+        users = repository.findAll(sample, pageable);
+
+        // THEN
+        Assertions.assertThat(users)
+            .as("users")
+            .containsExactly(Users.withoutPermissions());
     }
 
     @Test

@@ -12,9 +12,11 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.DisabledUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUserWithoutPermissions;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ExpiredUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.LockedUser;
+import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -99,6 +101,30 @@ class ITUserRepositoryFindOneByEmail {
 
         Assertions.assertThat(result)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("Returns the correct data when reading a user without permissions")
+    @EnabledUserWithoutPermissions
+    void testFindOneByEmail_WithoutPermissions() {
+        final Optional<User> result;
+
+        result = repository.findOneByEmail(UserConstants.EMAIL);
+
+        Assertions.assertThat(result)
+            .contains(Users.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("Returns the correct data when reading a user without roles")
+    @OnlyUser
+    void testFindOneByEmail_WithoutRoles() {
+        final Optional<User> result;
+
+        result = repository.findOneByEmail(UserConstants.EMAIL);
+
+        Assertions.assertThat(result)
+            .contains(Users.withoutRoles());
     }
 
 }
