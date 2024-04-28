@@ -39,12 +39,10 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.comparator.RoleComparator;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -60,24 +58,21 @@ public final class JpaUserRepository implements UserRepository {
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder                    passwordEncoder;
+    private final PasswordEncoder      passwordEncoder;
 
-    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
-
-    private final RoleSpringRepository               roleSpringRepository;
+    private final RoleSpringRepository roleSpringRepository;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository               userSpringRepository;
+    private final UserSpringRepository userSpringRepository;
 
     public JpaUserRepository(final UserSpringRepository userSpringRepo, final RoleSpringRepository roleSpringRepo,
-            final ResourcePermissionSpringRepository resourcePermissionSpringRepo, final PasswordEncoder passEncoder) {
+            final PasswordEncoder passEncoder) {
         super();
 
         userSpringRepository = userSpringRepo;
         roleSpringRepository = roleSpringRepo;
-        resourcePermissionSpringRepository = resourcePermissionSpringRepo;
         passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
@@ -226,58 +221,12 @@ public final class JpaUserRepository implements UserRepository {
             .build();
     }
 
-    private final RolePermissionEntity toEntity(final ResourcePermission permission) {
-        final Optional<ResourcePermissionEntity> read;
-        final ResourcePermissionEntity           resourceEntity;
-        final RolePermissionEntity               entity;
-        final RolePermissionId                   id;
-
-        read = resourcePermissionSpringRepository.findByName(permission.getName());
-
-        if (read.isPresent()) {
-            resourceEntity = read.get();
-            id = RolePermissionId.builder()
-                .withPermission(resourceEntity.getName())
-                .build();
-            entity = RolePermissionEntity.builder()
-                .withGranted(true)
-                .withId(id)
-                .withResourcePermission(resourceEntity)
-                .build();
-        } else {
-            entity = null;
-        }
-
-        return entity;
-    }
-
     private final RoleEntity toEntity(final Role role) {
-        final Optional<RoleEntity>             read;
-        final Collection<RolePermissionEntity> permissions;
-        final RoleEntity                       roleEntity;
+        final Optional<RoleEntity> read;
 
         read = roleSpringRepository.findOneByName(role.getName());
 
-        if (read.isPresent()) {
-            if (role.getPermissions() == null) {
-                permissions = List.of();
-            } else {
-                permissions = role.getPermissions()
-                    .stream()
-                    .map(this::toEntity)
-                    .toList();
-            }
-            roleEntity = RoleEntity.builder()
-                .withId(read.get()
-                    .getId())
-                .withName(role.getName())
-                .withPermissions(permissions)
-                .build();
-        } else {
-            roleEntity = null;
-        }
-
-        return roleEntity;
+        return read.orElse(null);
     }
 
     private final UserEntity toEntity(final User user) {

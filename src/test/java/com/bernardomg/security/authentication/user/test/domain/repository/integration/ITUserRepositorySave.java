@@ -40,7 +40,10 @@ import com.bernardomg.security.authentication.user.test.config.annotation.ValidU
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
+import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
+import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -49,6 +52,9 @@ class ITUserRepositorySave {
 
     @Autowired
     private UserRepository       repository;
+
+    @Autowired
+    private RoleSpringRepository roleSpringRepository;
 
     @Autowired
     private UserSpringRepository userSpringRepository;
@@ -117,6 +123,49 @@ class ITUserRepositorySave {
         Assertions.assertThat(created)
             .as("user")
             .isEqualTo(Users.enabled());
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exists, and the permissions were removed in the sent role, it is created")
+    @RoleWithPermission
+    void testSave_MissingPermissions_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.withoutPermissions();
+
+        // WHEN
+        repository.save(user, UserConstants.PASSWORD);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.id",
+                "roles.permissions.id.roleId")
+            .containsExactly(UserEntities.enabled());
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exists, and the permissions were removed in the sent role, the role keeps its permissions")
+    @RoleWithPermission
+    void testSave_MissingPermissions_RoleData() {
+        final User             user;
+        final List<RoleEntity> entities;
+
+        // GIVEN
+        user = Users.withoutPermissions();
+
+        // WHEN
+        repository.save(user, UserConstants.PASSWORD);
+
+        // THEN
+        entities = roleSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("roles")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(RoleEntities.withPermission());
     }
 
     @Test

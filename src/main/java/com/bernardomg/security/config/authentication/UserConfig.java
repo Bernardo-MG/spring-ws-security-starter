@@ -42,7 +42,6 @@ import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAc
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserService;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -85,9 +84,8 @@ public class UserConfig {
 
     @Bean("userRepository")
     public UserRepository getUserRepository(final UserSpringRepository userRepo,
-            final RoleSpringRepository roleSpringRepo,
-            final ResourcePermissionSpringRepository resourcePermissionSpringRepo, final PasswordEncoder passEncoder) {
-        return new JpaUserRepository(userRepo, roleSpringRepo, resourcePermissionSpringRepo, passEncoder);
+            final RoleSpringRepository roleSpringRepo, final PasswordEncoder passEncoder) {
+        return new JpaUserRepository(userRepo, roleSpringRepo, passEncoder);
     }
 
     @Bean("userRoleRepository")
