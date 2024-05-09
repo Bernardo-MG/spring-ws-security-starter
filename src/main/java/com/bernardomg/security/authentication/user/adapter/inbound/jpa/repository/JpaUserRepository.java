@@ -107,19 +107,19 @@ public final class JpaUserRepository implements UserRepository {
 
     @Override
     public final Optional<User> findOne(final String username) {
-        return userSpringRepository.findOneByUsername(username)
+        return userSpringRepository.findByUsername(username)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<User> findOneByEmail(final String email) {
-        return userSpringRepository.findOneByEmail(email)
+        return userSpringRepository.findByEmail(email)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<String> findPassword(final String username) {
-        return userSpringRepository.findOneByUsername(username)
+        return userSpringRepository.findByUsername(username)
             .map(UserEntity::getPassword);
     }
 
@@ -132,7 +132,7 @@ public final class JpaUserRepository implements UserRepository {
 
         entity = toEntity(user);
 
-        existing = userSpringRepository.findOneByUsername(user.getUsername());
+        existing = userSpringRepository.findByUsername(user.getUsername());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -155,7 +155,7 @@ public final class JpaUserRepository implements UserRepository {
 
         entity = toEntity(user);
 
-        existing = userSpringRepository.findOneByUsername(user.getUsername());
+        existing = userSpringRepository.findByUsername(user.getUsername());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -224,7 +224,7 @@ public final class JpaUserRepository implements UserRepository {
     private final RoleEntity toEntity(final Role role) {
         final Optional<RoleEntity> read;
 
-        read = roleSpringRepository.findOneByName(role.getName());
+        read = roleSpringRepository.findByName(role.getName());
 
         return read.orElse(null);
     }

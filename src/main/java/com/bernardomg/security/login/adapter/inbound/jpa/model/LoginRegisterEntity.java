@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.login.adapter.inbound.jpa.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -50,7 +51,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(setterPrefix = "with")
-public class LoginRegisterEntity {
+public class LoginRegisterEntity implements Serializable {
 
     /**
      * Serialization id.

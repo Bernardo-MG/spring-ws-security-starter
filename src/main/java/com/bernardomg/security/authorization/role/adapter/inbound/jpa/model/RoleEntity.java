@@ -36,6 +36,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -58,6 +59,7 @@ public class RoleEntity implements Serializable {
     /**
      * Serialization id.
      */
+    @Transient
     private static final long                serialVersionUID = 8513041662486312372L;
 
     /**

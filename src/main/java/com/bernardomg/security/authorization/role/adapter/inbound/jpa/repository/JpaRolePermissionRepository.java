@@ -70,7 +70,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
 
         log.debug("Reading available permissions for {}", role);
 
-        readRole = roleSpringRepository.findOneByName(role);
+        readRole = roleSpringRepository.findByName(role);
 
         if (readRole.isPresent()) {
             roleEntity = readRole.get();

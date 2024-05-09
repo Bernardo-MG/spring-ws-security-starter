@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.architecture.config;
+package com.bernardomg.security.architecture.predicate;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,12 +8,8 @@ import com.tngtech.archunit.core.domain.JavaClass;
 
 public final class ControllerClassPredicate extends DescribedPredicate<JavaClass> {
 
-    public static final ControllerClassPredicate areControllerClasses() {
-        return new ControllerClassPredicate();
-    }
-
-    private ControllerClassPredicate() {
-        super("are controller classes");
+    public ControllerClassPredicate() {
+        super("controller classes");
     }
 
     @Override
