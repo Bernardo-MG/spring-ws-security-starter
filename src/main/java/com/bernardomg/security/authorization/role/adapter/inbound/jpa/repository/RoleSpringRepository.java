@@ -83,7 +83,16 @@ public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
                    WHERE u.username = :username
                )
             """)
-    public Page<RoleEntity> findAvailableToUser(@Param("username") final String username, final Pageable page);
+    public Page<RoleEntity> findAllByUser(@Param("username") final String username, final Pageable page);
+
+    /**
+     * Returns the role for the received name.
+     *
+     * @param name
+     *            name to search for
+     * @return the role for the received name
+     */
+    public Optional<RoleEntity> findByName(final String name);
 
     /**
      * Returns all the roles assigned to the user, in a paginated form.
@@ -101,15 +110,6 @@ public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
                  JOIN User u ON ur.userId = u.id
                WHERE u.username = :username
             """)
-    public Page<RoleEntity> findForUser(@Param("username") final String username, final Pageable page);
-
-    /**
-     * Returns the role for the received name.
-     *
-     * @param name
-     *            name to search for
-     * @return the role for the received name
-     */
-    public Optional<RoleEntity> findOneByName(final String name);
+    public Page<RoleEntity> findByUser(@Param("username") final String username, final Pageable page);
 
 }

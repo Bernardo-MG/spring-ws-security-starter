@@ -80,15 +80,6 @@ public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTok
     public Optional<UserDataTokenEntity> findByToken(final String token);
 
     /**
-     * Returns a single token by its token code.
-     *
-     * @param token
-     *            token code to search for
-     * @return the token for the code
-     */
-    public Optional<UserDataTokenEntity> findOneByToken(final String token);
-
-    /**
      * Returns a single token by its token code and scope. This allows securing access to tokens, by limiting the scope.
      *
      * @param token
@@ -97,6 +88,6 @@ public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTok
      *            scope to filter by
      * @return the token for the code and scope
      */
-    public Optional<UserDataTokenEntity> findOneByTokenAndScope(final String token, final String scope);
+    public Optional<UserDataTokenEntity> findByTokenAndScope(final String token, final String scope);
 
 }

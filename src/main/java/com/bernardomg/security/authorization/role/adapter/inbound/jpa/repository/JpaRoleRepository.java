@@ -91,7 +91,7 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final Optional<Role> findOne(final String name) {
-        return roleSpringRepository.findOneByName(name)
+        return roleSpringRepository.findByName(name)
             .map(this::toDomain);
     }
 
@@ -103,7 +103,7 @@ public final class JpaRoleRepository implements RoleRepository {
         // TODO: rename, it is not clear what this method is for
         // TODO: the roles shouldn't know about users
 
-        roleEntity = roleSpringRepository.findOneByName(role);
+        roleEntity = roleSpringRepository.findByName(role);
         if (roleEntity.isPresent()) {
             exists = userRoleSpringRepository.existsByRoleId(roleEntity.get()
                 .getId());
@@ -124,7 +124,7 @@ public final class JpaRoleRepository implements RoleRepository {
 
         entity = toEntity(role);
 
-        existing = roleSpringRepository.findOneByName(role.getName());
+        existing = roleSpringRepository.findByName(role.getName());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());

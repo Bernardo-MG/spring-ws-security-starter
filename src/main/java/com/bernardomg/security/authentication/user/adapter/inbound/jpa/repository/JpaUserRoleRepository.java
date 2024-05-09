@@ -31,7 +31,7 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
     @Override
     public final Iterable<Role> findAvailableToUser(final String username, final Pageable page) {
         // TODO: this doesn't need the full role model, just the names
-        return roleSpringRepository.findAvailableToUser(username, page)
+        return roleSpringRepository.findAllByUser(username, page)
             .map(this::toDomain);
     }
 

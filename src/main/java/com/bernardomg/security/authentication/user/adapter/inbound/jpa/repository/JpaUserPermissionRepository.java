@@ -67,7 +67,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
         final Optional<UserEntity>           user;
         final Collection<ResourcePermission> permissions;
 
-        user = userRepository.findOneByUsername(username);
+        user = userRepository.findByUsername(username);
         if (user.isPresent()) {
             permissions = resourcePermissionRepository.findAllForUser(user.get()
                 .getId())
