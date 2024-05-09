@@ -33,6 +33,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -53,6 +54,7 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 public class UserDataTokenEntity implements Serializable {
 
+    @Transient
     private static final long serialVersionUID = -216369933325209746L;
 
     @Column(name = "consumed", nullable = false)

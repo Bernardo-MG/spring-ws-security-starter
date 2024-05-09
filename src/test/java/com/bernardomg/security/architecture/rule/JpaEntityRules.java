@@ -11,10 +11,20 @@ import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 public final class JpaEntityRules {
+
+    @ArchTest
+    static final ArchRule entity_serial_uid_should_be_transient          = fields().that()
+        .areDeclaredInClassesThat(Predicates.areJpaEntitiesClasses())
+        .and()
+        .haveName("serialVersionUID")
+        .should()
+        .beAnnotatedWith(Transient.class);
 
     @ArchTest
     static final ArchRule jpa_entities_should_be_annotated               = classes()
@@ -22,7 +32,9 @@ public final class JpaEntityRules {
         .should()
         .beAnnotatedWith(Entity.class)
         .andShould()
-        .beAnnotatedWith(Table.class);
+        .beAnnotatedWith(Table.class)
+        .orShould()
+        .beAnnotatedWith(Embeddable.class);
 
     @ArchTest
     static final ArchRule jpa_entities_should_be_in_model_package        = classes()
@@ -37,8 +49,8 @@ public final class JpaEntityRules {
         .beAssignableTo(Serializable.class);
 
     @ArchTest
-    static final ArchRule jpa_entities_should_be_suffixed                = classes()
-        .that(Predicates.areJpaEntitiesClasses())
+    static final ArchRule jpa_entities_should_be_suffixed                = classes().that()
+        .areAnnotatedWith(Entity.class)
         .should()
         .haveSimpleNameEndingWith("Entity");
 

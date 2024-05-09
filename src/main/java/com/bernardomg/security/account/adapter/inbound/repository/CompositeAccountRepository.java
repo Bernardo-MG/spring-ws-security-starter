@@ -4,12 +4,15 @@ package com.bernardomg.security.account.adapter.inbound.repository;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
+@Transactional
 public final class CompositeAccountRepository implements AccountRepository {
 
     private final UserRepository userRepository;

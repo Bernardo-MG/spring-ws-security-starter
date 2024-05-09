@@ -32,6 +32,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -54,6 +55,7 @@ public class ResourceEntity implements Serializable {
     /**
      * Serialization id.
      */
+    @Transient
     private static final long serialVersionUID = 8513041662486312372L;
 
     /**

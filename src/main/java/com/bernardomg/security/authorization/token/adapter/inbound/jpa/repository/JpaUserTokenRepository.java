@@ -31,6 +31,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -47,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Transactional
 public final class JpaUserTokenRepository implements UserTokenRepository {
 
     /**

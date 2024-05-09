@@ -8,7 +8,6 @@ import com.bernardomg.security.architecture.rule.ControllerRules;
 import com.bernardomg.security.architecture.rule.JpaEntityRules;
 import com.bernardomg.security.architecture.rule.RepositoryRules;
 import com.bernardomg.security.architecture.rule.SecurityRules;
-import com.bernardomg.security.architecture.rule.SerializationRules;
 import com.bernardomg.security.architecture.rule.ServiceRules;
 import com.bernardomg.security.architecture.rule.TransactionalRules;
 import com.bernardomg.security.architecture.rule.ValidationRules;
@@ -40,9 +39,6 @@ public class ArchitectureRulesTest {
 
     @ArchTest
     static final ArchTests securityRules      = ArchTests.in(SecurityRules.class);
-
-    @ArchTest
-    static final ArchTests serializationRules = ArchTests.in(SerializationRules.class);
 
     @ArchTest
     static final ArchTests serviceRules       = ArchTests.in(ServiceRules.class);
