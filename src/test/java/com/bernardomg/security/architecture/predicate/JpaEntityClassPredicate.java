@@ -4,8 +4,6 @@ package com.bernardomg.security.architecture.predicate;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 
-import jakarta.persistence.Entity;
-
 public final class JpaEntityClassPredicate extends DescribedPredicate<JavaClass> {
 
     public JpaEntityClassPredicate() {
@@ -14,7 +12,7 @@ public final class JpaEntityClassPredicate extends DescribedPredicate<JavaClass>
 
     @Override
     public final boolean test(final JavaClass javaClass) {
-        return javaClass.isAnnotatedWith(Entity.class);
+        return javaClass.isAnnotatedWith(new JpaAnnotationPredicate());
     }
 
 }
