@@ -10,12 +10,7 @@ import com.bernardomg.security.architecture.predicate.Predicates;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 public final class JpaEntityRules {
@@ -48,14 +43,6 @@ public final class JpaEntityRules {
         .and()
         .areNotStatic()
         .should()
-        .beAnnotatedWith(Column.class)
-        .orShould()
-        .beAnnotatedWith(OneToMany.class)
-        .orShould()
-        .beAnnotatedWith(ManyToOne.class)
-        .orShould()
-        .beAnnotatedWith(ManyToMany.class)
-        .orShould()
-        .beAnnotatedWith(OneToOne.class);
+        .beAnnotatedWith(Predicates.areJpaAnnotation());
 
 }

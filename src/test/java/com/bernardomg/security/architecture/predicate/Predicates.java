@@ -19,6 +19,10 @@ public class Predicates {
         return new ControllerClassPredicate();
     }
 
+    public static final JpaAnnotationPredicate areJpaAnnotation() {
+        return new JpaAnnotationPredicate();
+    }
+
     public static final JpaEntityClassPredicate areJpaEntitiesClasses() {
         return new JpaEntityClassPredicate();
     }

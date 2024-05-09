@@ -4,12 +4,12 @@ package com.bernardomg.security.architecture.predicate;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaAnnotation;
 
-public final class CachingAnnotationPredicate extends DescribedPredicate<JavaAnnotation<?>> {
+public final class JpaAnnotationPredicate extends DescribedPredicate<JavaAnnotation<?>> {
 
-    private static final String PACKAGE = "org.springframework.cache.annotation";
+    private static final String PACKAGE = "jakarta.persistence";
 
-    public CachingAnnotationPredicate() {
-        super("caching annotations");
+    public JpaAnnotationPredicate() {
+        super("JPA entity annotations");
     }
 
     @Override
