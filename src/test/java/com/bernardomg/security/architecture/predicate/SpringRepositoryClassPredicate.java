@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.architecture.config;
+package com.bernardomg.security.architecture.predicate;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,12 +8,8 @@ import com.tngtech.archunit.core.domain.JavaClass;
 
 public final class SpringRepositoryClassPredicate extends DescribedPredicate<JavaClass> {
 
-    public static final SpringRepositoryClassPredicate areSpringRepositoryClasses() {
-        return new SpringRepositoryClassPredicate();
-    }
-
-    private SpringRepositoryClassPredicate() {
-        super("are Spring repository classes");
+    public SpringRepositoryClassPredicate() {
+        super("Spring repository classes");
     }
 
     @Override

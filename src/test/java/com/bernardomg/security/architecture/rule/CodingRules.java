@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.architecture.test;
+package com.bernardomg.security.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.fields;
 import static com.tngtech.archunit.library.DependencyRules.NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
@@ -13,13 +13,10 @@ import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.sli
 
 import org.slf4j.Logger;
 
-import com.tngtech.archunit.core.importer.ImportOption;
-import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-@AnalyzeClasses(packages = "com.bernardomg.security", importOptions = ImportOption.DoNotIncludeTests.class)
-public class CodingArchitectureRulesTest {
+public class CodingRules {
 
     @ArchTest
     static final ArchRule  no_access_to_standard_streams          = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;

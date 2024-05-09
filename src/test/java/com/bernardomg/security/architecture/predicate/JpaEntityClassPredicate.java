@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.architecture.config;
+package com.bernardomg.security.architecture.predicate;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
@@ -8,12 +8,8 @@ import jakarta.persistence.Entity;
 
 public final class JpaEntityClassPredicate extends DescribedPredicate<JavaClass> {
 
-    public static final JpaEntityClassPredicate areJpaEntitiesClasses() {
-        return new JpaEntityClassPredicate();
-    }
-
-    private JpaEntityClassPredicate() {
-        super("are JPA entities classes");
+    public JpaEntityClassPredicate() {
+        super("JPA entities classes");
     }
 
     @Override

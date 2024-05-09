@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.architecture.config;
+package com.bernardomg.security.architecture.predicate;
 
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
@@ -9,17 +9,13 @@ public final class ServiceClassPredicate extends DescribedPredicate<JavaClass> {
 
     private static final String PACKAGE = ".service";
 
-    public static final ServiceClassPredicate areServiceClasses() {
-        return new ServiceClassPredicate();
-    }
-
     private static boolean isSynthetic(final JavaClass javaClass) {
         return javaClass.getModifiers()
             .contains(JavaModifier.SYNTHETIC);
     }
 
-    private ServiceClassPredicate() {
-        super("are service classes");
+    public ServiceClassPredicate() {
+        super("service classes");
     }
 
     @Override
