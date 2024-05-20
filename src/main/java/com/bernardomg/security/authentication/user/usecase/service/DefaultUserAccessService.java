@@ -33,9 +33,9 @@ public final class DefaultUserAccessService implements UserAccessService {
 
         // Get number of attempts
         attempts = userRepository.getLoginAttempts(username);
-        // If attempts + 1 >= max
+        // If attempts reached the max
         if ((attempts + 1) >= maxAttempts) {
-            // Then lock user
+            // Then the user is locked
             read = userRepository.findOne(username);
             if (read.isEmpty()) {
                 throw new MissingUserException(username);
@@ -57,7 +57,12 @@ public final class DefaultUserAccessService implements UserAccessService {
 
     @Override
     public final void clearLoginAttempts(final String username) {
-        // Set attempts to 0
+        final int attempts;
+
+        attempts = userRepository.getLoginAttempts(username);
+        if (attempts > 0) {
+            userRepository.clearLoginAttempts(username);
+        }
     }
 
 }

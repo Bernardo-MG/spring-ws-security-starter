@@ -39,6 +39,14 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 public interface UserRepository {
 
     /**
+     * Removes all login attempts for the user.
+     *
+     * @param username
+     *            user to remove login attempts
+     */
+    public void clearLoginAttempts(final String username);
+
+    /**
      * Deletes the user with the received username.
      *
      * @param username

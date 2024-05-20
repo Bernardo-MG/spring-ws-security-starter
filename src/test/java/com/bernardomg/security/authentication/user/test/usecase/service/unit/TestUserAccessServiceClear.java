@@ -4,20 +4,16 @@ package com.bernardomg.security.authentication.user.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAccessService;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,13 +39,12 @@ class TestUserAccessServiceClear {
     void testCheckForLocking_MaxAttempts() {
         // GIVEN
         given(userRepository.getLoginAttempts(UserConstants.USERNAME)).willReturn(UserConstants.MAX_LOGIN_ATTEMPTS);
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
         service.clearLoginAttempts(UserConstants.USERNAME);
 
         // THEN
-        verify(userRepository).update(Users.enabled());
+        verify(userRepository).clearLoginAttempts(UserConstants.USERNAME);
     }
 
     @Test
@@ -62,7 +57,7 @@ class TestUserAccessServiceClear {
         service.checkForLocking(UserConstants.USERNAME);
 
         // THEN
-        verify(userRepository, Mockito.never()).update(ArgumentMatchers.any());
+        verify(userRepository, Mockito.never()).clearLoginAttempts(UserConstants.USERNAME);
     }
 
 }

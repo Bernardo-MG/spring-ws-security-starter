@@ -29,65 +29,69 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.MaxLoginAttemptsUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User repository - get login attempts")
-class ITUserRepositoryLoginAttempts {
+@DisplayName("User repository - clear login attempts")
+class ITUserRepositoryClearLoginAttempts {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository       userRepository;
 
-    public ITUserRepositoryLoginAttempts() {
+    @Autowired
+    private UserSpringRepository userSpringRepository;
+
+    public ITUserRepositoryClearLoginAttempts() {
         super();
     }
 
     @Test
-    @DisplayName("When the user has login attempts, these are returned")
+    @DisplayName("When the user has login attempts, these are removed")
     @MaxLoginAttemptsUser
     void testLoginAttempts_MaxAttempts() {
-        final int attempts;
 
         // WHEN
-        attempts = userRepository.getLoginAttempts(UserConstants.USERNAME);
+        userRepository.clearLoginAttempts(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(attempts)
-            .as("attempts")
-            .isEqualTo(UserConstants.MAX_LOGIN_ATTEMPTS);
+        Assertions.assertThat(userSpringRepository.findAll())
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(UserEntities.enabled());
     }
 
     @Test
-    @DisplayName("When the user has no login attempts, zero attempts are returned")
+    @DisplayName("When the user has no login attempts, these are removed")
     @ValidUser
     void testLoginAttempts_NoAttempts() {
-        final int attempts;
 
         // WHEN
-        attempts = userRepository.getLoginAttempts(UserConstants.USERNAME);
+        userRepository.clearLoginAttempts(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(attempts)
-            .as("attempts")
-            .isZero();
+        Assertions.assertThat(userSpringRepository.findAll())
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(UserEntities.enabled());
     }
 
     @Test
-    @DisplayName("When there is no data, zero attempts are returned")
+    @DisplayName("When there is no data, nothing is done")
     void testLoginAttempts_NoData() {
-        final int attempts;
 
         // WHEN
-        attempts = userRepository.getLoginAttempts(UserConstants.USERNAME);
+        userRepository.clearLoginAttempts(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(attempts)
-            .as("attempts")
-            .isZero();
+        Assertions.assertThat(userSpringRepository.findAll())
+            .as("users")
+            .isEmpty();
     }
 
 }
