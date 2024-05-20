@@ -38,8 +38,10 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAccessService;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserService;
+import com.bernardomg.security.authentication.user.usecase.service.UserAccessService;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserService;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
@@ -68,6 +70,12 @@ public class UserConfig {
     @Bean("activateUserWhitelist")
     public WhitelistRoute geActivateUserWhitelist() {
         return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
+    }
+
+    @Bean("userAccessService")
+    public UserAccessService getUserAccessService(final UserRepository userRepo,
+            final LoginProperties userAccessProperties) {
+        return new DefaultUserAccessService(userAccessProperties.getMaxLoginAttempts(), userRepo);
     }
 
     @Bean("userActivationService")
