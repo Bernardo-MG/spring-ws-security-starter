@@ -30,8 +30,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationListener;
 
+import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.login.adapter.outbound.cache.Logins;
-import com.bernardomg.security.login.domain.event.LogInEvent;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 
 /**

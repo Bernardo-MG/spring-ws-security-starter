@@ -27,7 +27,7 @@ package com.bernardomg.security.authentication.user.adapter.inbound.event;
 import org.springframework.context.ApplicationListener;
 
 import com.bernardomg.security.authentication.user.usecase.service.UserAccessService;
-import com.bernardomg.security.login.domain.event.LogInEvent;
+import com.bernardomg.security.event.LogInEvent;
 
 /**
  * Listens for login failure events, and blocks the user after a number of failures.

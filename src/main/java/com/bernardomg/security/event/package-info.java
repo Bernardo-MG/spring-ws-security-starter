@@ -22,41 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.domain.event;
-
-import java.util.Objects;
-
-import org.springframework.context.ApplicationEvent;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 /**
- * Log in attempt event. It is created no matter if the attempt was succesful or not.
+ * Security events.
  */
-@ToString
-@EqualsAndHashCode(callSuper = true)
-@Getter
-public final class LogInEvent extends ApplicationEvent {
 
-    private static final long serialVersionUID = 4486597593510214141L;
-
-    /**
-     * Logged in successful or not flag.
-     */
-    private final boolean     loggedIn;
-
-    /**
-     * Username which attempted the log in.
-     */
-    private final String      username;
-
-    public LogInEvent(final Object source, final String user, final boolean logged) {
-        super(source);
-
-        username = Objects.requireNonNull(user);
-        loggedIn = logged;
-    }
-
-}
+package com.bernardomg.security.event;
