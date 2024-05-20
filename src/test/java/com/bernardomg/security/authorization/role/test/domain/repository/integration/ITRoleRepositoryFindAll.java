@@ -13,7 +13,7 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -31,7 +31,7 @@ class ITRoleRepositoryFindAll {
 
     @Test
     @DisplayName("When there are roles they are returned")
-    @SingleRole
+    @RoleWithoutPermissions
     void testFindAll() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
@@ -47,7 +47,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test
@@ -88,7 +88,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test

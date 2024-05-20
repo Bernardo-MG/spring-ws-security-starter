@@ -28,6 +28,7 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,6 +50,7 @@ public class RolePermissionId implements Serializable {
     /**
      * Serialization ID.
      */
+    @Transient
     private static final long serialVersionUID = -7233957066746780621L;
 
     /**

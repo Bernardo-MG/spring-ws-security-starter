@@ -47,7 +47,7 @@ class TestRolesInitializer {
 
         permissions = List.of(ResourcePermissions.read());
         given(resourcePermissionRepository.findAll()).willReturn(permissions);
-        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.valid());
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withoutPermissions());
     }
 
     @Test

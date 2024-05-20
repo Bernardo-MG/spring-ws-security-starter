@@ -25,6 +25,7 @@
 package com.bernardomg.security.login.adapter.inbound.jpa.repository;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -35,6 +36,7 @@ import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Transactional
 public final class JpaLoginRegisterRepository implements LoginRegisterRepository {
 
     /**

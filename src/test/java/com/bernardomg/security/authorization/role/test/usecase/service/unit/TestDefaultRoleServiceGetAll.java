@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -26,10 +27,13 @@ import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleSer
 class TestDefaultRoleServiceGetAll {
 
     @Mock
-    private RoleRepository     roleRepository;
+    private ResourcePermissionRepository resourcePermissionRepository;
+
+    @Mock
+    private RoleRepository               roleRepository;
 
     @InjectMocks
-    private DefaultRoleService service;
+    private DefaultRoleService           service;
 
     @Test
     @DisplayName("When there are roles they are returned")

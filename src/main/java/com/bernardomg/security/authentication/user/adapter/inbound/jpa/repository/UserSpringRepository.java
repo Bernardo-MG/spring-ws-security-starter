@@ -82,7 +82,7 @@ public interface UserSpringRepository extends JpaRepository<UserEntity, Long> {
      *            email to search for
      * @return the user for the received email
      */
-    public Optional<UserEntity> findOneByEmail(final String email);
+    public Optional<UserEntity> findByEmail(final String email);
 
     /**
      * Returns the user for the received username.
@@ -91,6 +91,6 @@ public interface UserSpringRepository extends JpaRepository<UserEntity, Long> {
      *            username to search for
      * @return the user for the received username
      */
-    public Optional<UserEntity> findOneByUsername(final String username);
+    public Optional<UserEntity> findByUsername(final String username);
 
 }

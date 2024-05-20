@@ -13,14 +13,14 @@ import com.bernardomg.security.authorization.permission.domain.model.ResourcePer
 import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("RolePermissionRepository - find available permissions - pagination")
 @CrudPermissions
-@SingleRole
+@RoleWithoutPermissions
 class ITRolePermissionRepositoryFindAvailablePermissionsPagination {
 
     @Autowired

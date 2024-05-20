@@ -38,6 +38,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.config..")
         .layer("Spring")
         .definedBy("com.bernardomg.security.spring..")
+        .layer("Event")
+        .definedBy("com.bernardomg.security.event..")
 
         .whereLayer("Users")
         .mayOnlyBeAccessedByLayers("Password", "Tokens", "Initializers", "Config", "Login", "Spring", "Account")
@@ -56,6 +58,8 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Initializers")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("JWT")
-        .mayOnlyBeAccessedByLayers("Login", "Config");
+        .mayOnlyBeAccessedByLayers("Login", "Config")
+        .whereLayer("Event")
+        .mayOnlyBeAccessedByLayers("Login", "Users");
 
 }

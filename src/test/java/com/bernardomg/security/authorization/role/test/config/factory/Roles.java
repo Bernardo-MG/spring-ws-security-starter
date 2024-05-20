@@ -27,7 +27,14 @@ public final class Roles {
             .build();
     }
 
-    public static final Role valid() {
+    public static final Role noName() {
+        return Role.builder()
+            .withName("")
+            .withPermissions(List.of())
+            .build();
+    }
+
+    public static final Role withoutPermissions() {
         return Role.builder()
             .withName(RoleConstants.NAME)
             .withPermissions(List.of())

@@ -162,5 +162,13 @@
             Fixed domain mapping in roles controller.
          </action>
       </release>
+      <release version="0.3.7" date="2024-05-20" description="Locks user after failed attempts">
+         <action dev="bmg" type="add">
+            Locks user after a number of failed attempts.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed roles losing permissions when assigning.
+         </action>
+      </release>
    </body>
 </document>

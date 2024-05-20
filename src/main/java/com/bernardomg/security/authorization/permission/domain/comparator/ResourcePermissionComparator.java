@@ -9,8 +9,12 @@ public final class ResourcePermissionComparator implements Comparator<ResourcePe
 
     @Override
     public final int compare(final ResourcePermission left, final ResourcePermission right) {
-        return left.getName()
-            .compareTo(right.getName());
+        final String leftText;
+        final String rightText;
+
+        leftText = String.format("%s %s", left.getResource(), left.getAction());
+        rightText = String.format("%s %s", right.getResource(), right.getAction());
+        return leftText.compareTo(rightText);
     }
 
 }

@@ -18,7 +18,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("UserRepository - find all - pagination")
+@DisplayName("User repository - find all - pagination")
 @EnabledUser
 class ITUserRepositoryFindAllPagination {
 

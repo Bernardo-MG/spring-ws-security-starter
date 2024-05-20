@@ -12,14 +12,14 @@ import org.springframework.data.domain.Pageable;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.test.config.annotation.SingleRole;
+import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("RoleRepository - find all - pagination")
-@SingleRole
+@RoleWithoutPermissions
 class ITRoleRepositoryFindAllPagination {
 
     @Autowired
@@ -66,7 +66,7 @@ class ITRoleRepositoryFindAllPagination {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test

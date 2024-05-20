@@ -39,12 +39,10 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.permission.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.comparator.RoleComparator;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -60,25 +58,36 @@ public final class JpaUserRepository implements UserRepository {
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder                    passwordEncoder;
+    private final PasswordEncoder      passwordEncoder;
 
-    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
-
-    private final RoleSpringRepository               roleSpringRepository;
+    private final RoleSpringRepository roleSpringRepository;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository               userSpringRepository;
+    private final UserSpringRepository userSpringRepository;
 
     public JpaUserRepository(final UserSpringRepository userSpringRepo, final RoleSpringRepository roleSpringRepo,
-            final ResourcePermissionSpringRepository resourcePermissionSpringRepo, final PasswordEncoder passEncoder) {
+            final PasswordEncoder passEncoder) {
         super();
 
         userSpringRepository = userSpringRepo;
         roleSpringRepository = roleSpringRepo;
-        resourcePermissionSpringRepository = resourcePermissionSpringRepo;
         passwordEncoder = Objects.requireNonNull(passEncoder);
+    }
+
+    @Override
+    public final void clearLoginAttempts(final String username) {
+        final Optional<UserEntity> existing;
+        final UserEntity           toSave;
+
+        existing = userSpringRepository.findByUsername(username);
+        if (existing.isPresent()) {
+            toSave = existing.get();
+            toSave.setLoginAttempts(0);
+
+            userSpringRepository.save(toSave);
+        }
     }
 
     @Override
@@ -112,20 +121,27 @@ public final class JpaUserRepository implements UserRepository {
 
     @Override
     public final Optional<User> findOne(final String username) {
-        return userSpringRepository.findOneByUsername(username)
+        return userSpringRepository.findByUsername(username)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<User> findOneByEmail(final String email) {
-        return userSpringRepository.findOneByEmail(email)
+        return userSpringRepository.findByEmail(email)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<String> findPassword(final String username) {
-        return userSpringRepository.findOneByUsername(username)
+        return userSpringRepository.findByUsername(username)
             .map(UserEntity::getPassword);
+    }
+
+    @Override
+    public final int getLoginAttempts(final String username) {
+        return userSpringRepository.findByUsername(username)
+            .map(UserEntity::getLoginAttempts)
+            .orElse(0);
     }
 
     @Override
@@ -137,10 +153,12 @@ public final class JpaUserRepository implements UserRepository {
 
         entity = toEntity(user);
 
-        existing = userSpringRepository.findOneByUsername(user.getUsername());
+        existing = userSpringRepository.findByUsername(user.getUsername());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setLoginAttempts(existing.get()
+                .getLoginAttempts());
         }
 
         encodedPassword = passwordEncoder.encode(password);
@@ -160,16 +178,19 @@ public final class JpaUserRepository implements UserRepository {
 
         entity = toEntity(user);
 
-        existing = userSpringRepository.findOneByUsername(user.getUsername());
+        existing = userSpringRepository.findByUsername(user.getUsername());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
             entity.setPassword(existing.get()
                 .getPassword());
+            entity.setLoginAttempts(existing.get()
+                .getLoginAttempts());
 
             saved = userSpringRepository.save(entity);
             result = toDomain(saved);
         } else {
+            // TODO: if it doesn't exist, then maybe create
             result = null;
         }
 
@@ -209,6 +230,7 @@ public final class JpaUserRepository implements UserRepository {
 
         roles = user.getRoles()
             .stream()
+            .filter(Objects::nonNull)
             .map(this::toDomain)
             .sorted(new RoleComparator())
             .toList();
@@ -224,58 +246,12 @@ public final class JpaUserRepository implements UserRepository {
             .build();
     }
 
-    private final RolePermissionEntity toEntity(final ResourcePermission permission) {
-        final Optional<ResourcePermissionEntity> read;
-        final ResourcePermissionEntity           resourceEntity;
-        final RolePermissionEntity               entity;
-        final RolePermissionId                   id;
-
-        read = resourcePermissionSpringRepository.findByName(permission.getName());
-
-        if (read.isPresent()) {
-            resourceEntity = read.get();
-            id = RolePermissionId.builder()
-                .withPermission(resourceEntity.getName())
-                .build();
-            entity = RolePermissionEntity.builder()
-                .withGranted(true)
-                .withId(id)
-                .withResourcePermission(resourceEntity)
-                .build();
-        } else {
-            entity = null;
-        }
-
-        return entity;
-    }
-
     private final RoleEntity toEntity(final Role role) {
-        final Optional<RoleEntity>             read;
-        final Collection<RolePermissionEntity> permissions;
-        final RoleEntity                       roleEntity;
+        final Optional<RoleEntity> read;
 
-        read = roleSpringRepository.findOneByName(role.getName());
+        read = roleSpringRepository.findByName(role.getName());
 
-        if (read.isPresent()) {
-            if (role.getPermissions() == null) {
-                permissions = List.of();
-            } else {
-                permissions = role.getPermissions()
-                    .stream()
-                    .map(this::toEntity)
-                    .toList();
-            }
-            roleEntity = RoleEntity.builder()
-                .withId(read.get()
-                    .getId())
-                .withName(role.getName())
-                .withPermissions(permissions)
-                .build();
-        } else {
-            roleEntity = null;
-        }
-
-        return roleEntity;
+        return read.orElse(null);
     }
 
     private final UserEntity toEntity(final User user) {
@@ -287,6 +263,7 @@ public final class JpaUserRepository implements UserRepository {
             roles = user.getRoles()
                 .stream()
                 .map(this::toEntity)
+                .filter(Objects::nonNull)
                 .toList();
         }
         return UserEntity.builder()
@@ -298,6 +275,7 @@ public final class JpaUserRepository implements UserRepository {
             .withLocked(user.isLocked())
             .withPasswordExpired(user.isPasswordExpired())
             .withRoles(roles)
+            .withLoginAttempts(0)
             .build();
     }
 

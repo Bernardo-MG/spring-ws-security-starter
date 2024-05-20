@@ -97,6 +97,12 @@ public class UserEntity implements Serializable {
     private Boolean                locked;
 
     /**
+     * Number of failed login attempts.
+     */
+    @Column(name = "login_attempts", nullable = false)
+    private Integer                loginAttempts;
+
+    /**
      * User name.
      */
     @Column(name = "name", nullable = false, length = 60)

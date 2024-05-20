@@ -31,6 +31,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -47,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Slf4j
+@Transactional
 public final class JpaUserTokenRepository implements UserTokenRepository {
 
     /**
@@ -99,13 +101,13 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Optional<UserToken> findOne(final String token) {
-        return userDataTokenSpringRepository.findOneByToken(token)
+        return userDataTokenSpringRepository.findByToken(token)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<UserToken> findOneByScope(final String token, final String scope) {
-        return userDataTokenSpringRepository.findOneByTokenAndScope(token, scope)
+        return userDataTokenSpringRepository.findByTokenAndScope(token, scope)
             .map(this::toDomain);
     }
 
@@ -127,7 +129,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             entity.setId(existing.get()
                 .getId());
         }
-        existingUser = userSpringRepository.findOneByUsername(token.getUsername());
+        existingUser = userSpringRepository.findByUsername(token.getUsername());
         // TODO: Else exception
         if (existingUser.isPresent()) {
             entity.setUserId(existingUser.get()
@@ -227,7 +229,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Optional<UserEntity> user;
         final Long                 userId;
 
-        user = userSpringRepository.findOneByUsername(dataToken.getUsername());
+        user = userSpringRepository.findByUsername(dataToken.getUsername());
         userId = user.map(UserEntity::getId)
             .orElse(null);
         return UserTokenEntity.builder()

@@ -18,7 +18,7 @@ public final class RoleEntities {
             .build();
     }
 
-    public static final RoleEntity valid() {
+    public static final RoleEntity withoutPermissions() {
         return RoleEntity.builder()
             .withId(1L)
             .withName(RoleConstants.NAME)

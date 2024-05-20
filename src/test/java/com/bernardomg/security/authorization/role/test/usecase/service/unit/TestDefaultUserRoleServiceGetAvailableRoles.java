@@ -50,7 +50,7 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
         pageable = Pageable.unpaged();
 
         given(userRoleRepository.findAvailableToUser(UserConstants.USERNAME, pageable))
-            .willReturn(List.of(Roles.valid()));
+            .willReturn(List.of(Roles.withoutPermissions()));
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
@@ -58,7 +58,7 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
         // THEN
         Assertions.assertThat(roles)
-            .containsExactly(Roles.valid());
+            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test

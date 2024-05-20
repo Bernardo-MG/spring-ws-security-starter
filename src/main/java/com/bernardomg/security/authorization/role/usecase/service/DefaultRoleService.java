@@ -24,13 +24,15 @@
 
 package com.bernardomg.security.authorization.role.usecase.service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.security.authorization.permission.domain.exception.MissingResourcePermissionException;
+import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
@@ -52,18 +54,22 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultRoleService implements RoleService {
 
-    private final RoleRepository    roleRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
-    private final Validator<Role>   validatorCreateRole;
+    private final RoleRepository               roleRepository;
 
-    private final Validator<String> validatorDeleteRole;
+    private final Validator<Role>              validatorCreateRole;
 
-    private final Validator<Role>   validatorUpdateRole;
+    private final Validator<String>            validatorDeleteRole;
 
-    public DefaultRoleService(final RoleRepository roleRepo) {
+    private final Validator<Role>              validatorUpdateRole;
+
+    public DefaultRoleService(final RoleRepository roleRepo,
+            final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
+        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
 
         validatorCreateRole = new CreateRoleValidator(roleRepo);
         validatorDeleteRole = new DeleteRoleValidator(roleRepo);
@@ -72,18 +78,17 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role create(final String name) {
-        final Role entity;
+        final Role role;
 
         log.debug("Creating role {}", name);
 
-        entity = Role.builder()
+        role = Role.builder()
             .withName(name)
-            .withPermissions(List.of())
             .build();
 
-        validatorCreateRole.validate(entity);
+        validatorCreateRole.validate(role);
 
-        return roleRepository.save(entity);
+        return roleRepository.save(role);
     }
 
     @Override
@@ -125,24 +130,28 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role update(final Role role) {
-        final Role    roleData;
         final boolean exists;
 
         log.debug("Updating role {} using data {}", role.getName(), role);
 
+        // Verify the role exists
         exists = roleRepository.exists(role.getName());
         if (!exists) {
             throw new MissingRoleException(role.getName());
         }
 
-        roleData = Role.builder()
-            .withName(role.getName())
-            .withPermissions(role.getPermissions())
-            .build();
+        // Verify the permissions exists
+        for (final ResourcePermission permission : role.getPermissions()) {
+            if (!resourcePermissionRepository.exists(permission.getName())) {
+                throw new MissingResourcePermissionException(role.getName());
+            }
+        }
 
-        validatorUpdateRole.validate(roleData);
+        // Verify the permissions exist
 
-        return roleRepository.save(roleData);
+        validatorUpdateRole.validate(role);
+
+        return roleRepository.save(role);
     }
 
 }

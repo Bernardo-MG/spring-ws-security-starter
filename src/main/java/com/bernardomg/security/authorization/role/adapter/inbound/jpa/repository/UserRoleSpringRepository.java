@@ -37,4 +37,6 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.User
  */
 public interface UserRoleSpringRepository extends JpaRepository<UserRoleEntity, UserRoleKey> {
 
+    public boolean existsByRoleId(final long roleId);
+
 }

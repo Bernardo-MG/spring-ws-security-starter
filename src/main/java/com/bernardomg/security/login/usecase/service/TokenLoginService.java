@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.login.domain.event.LogInEvent;
+import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 
