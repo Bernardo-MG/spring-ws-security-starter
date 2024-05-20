@@ -47,7 +47,7 @@ public final class DefaultUserAccessService implements UserAccessService {
                 .withEmail(user.getEmail())
                 .withEnabled(user.isEnabled())
                 .withExpired(user.isExpired())
-                .withLocked(user.isLocked())
+                .withLocked(true)
                 .withPasswordExpired(user.isPasswordExpired())
                 .withRoles(user.getRoles())
                 .build();
