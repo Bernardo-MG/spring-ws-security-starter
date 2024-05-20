@@ -22,8 +22,35 @@
  * SOFTWARE.
  */
 
-/**
- * Login spring adapters.
- */
+package com.bernardomg.security.authentication.user.adapter.inbound.event;
 
-package com.bernardomg.security.login.adapter.inbound.spring;
+import org.springframework.context.ApplicationListener;
+
+import com.bernardomg.security.authentication.user.usecase.service.UserAccessService;
+import com.bernardomg.security.event.LogInEvent;
+
+/**
+ * Listens for login failure events, and blocks the user after a number of failures.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+public final class LoginFailureBlockerListener implements ApplicationListener<LogInEvent> {
+
+    private final UserAccessService userAccessService;
+
+    public LoginFailureBlockerListener(final UserAccessService userAccessServ) {
+        super();
+
+        userAccessService = userAccessServ;
+    }
+
+    @Override
+    public final void onApplicationEvent(final LogInEvent event) {
+        if (event.isLoggedIn()) {
+            userAccessService.clearLoginAttempts(event.getUsername());
+        } else {
+            userAccessService.checkForLocking(event.getUsername());
+        }
+    }
+
+}

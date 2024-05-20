@@ -39,6 +39,14 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 public interface UserRepository {
 
     /**
+     * Removes all login attempts for the user.
+     *
+     * @param username
+     *            user to remove login attempts
+     */
+    public void clearLoginAttempts(final String username);
+
+    /**
      * Deletes the user with the received username.
      *
      * @param username
@@ -112,6 +120,8 @@ public interface UserRepository {
      * @return the user password
      */
     public Optional<String> findPassword(final String username);
+
+    public int getLoginAttempts(final String username);
 
     /**
      * Saves the received user. If it exists it is updated, otherwise it is created.

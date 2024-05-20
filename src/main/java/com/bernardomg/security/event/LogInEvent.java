@@ -22,37 +22,41 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.inbound.spring;
+package com.bernardomg.security.event;
 
 import java.util.Objects;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.ApplicationEvent;
 
-import com.bernardomg.security.login.adapter.outbound.cache.Logins;
-import com.bernardomg.security.login.domain.event.LogInEvent;
-import com.bernardomg.security.login.usecase.service.LoginRegisterService;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
- * Listens for log in events and registers them.
- *
- * @author Bernardo Mart&iacute;nez Garrido
+ * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-public final class LoginEvenRegisterListener implements ApplicationListener<LogInEvent> {
+@ToString
+@EqualsAndHashCode(callSuper = true)
+@Getter
+public final class LogInEvent extends ApplicationEvent {
 
-    private final LoginRegisterService loginRegisterService;
+    private static final long serialVersionUID = 4486597593510214141L;
 
-    public LoginEvenRegisterListener(final LoginRegisterService loginRegisterServ) {
-        super();
+    /**
+     * Logged in successful or not flag.
+     */
+    private final boolean     loggedIn;
 
-        loginRegisterService = Objects.requireNonNull(loginRegisterServ);
-    }
+    /**
+     * Username which attempted the log in.
+     */
+    private final String      username;
 
-    @Override
-    @Caching(evict = { @CacheEvict(cacheNames = Logins.LOGIN_REGISTERS, allEntries = true) })
-    public final void onApplicationEvent(final LogInEvent event) {
-        loginRegisterService.register(event.getUsername(), event.isLoggedIn());
+    public LogInEvent(final Object source, final String user, final boolean logged) {
+        super(source);
+
+        username = Objects.requireNonNull(user);
+        loggedIn = logged;
     }
 
 }

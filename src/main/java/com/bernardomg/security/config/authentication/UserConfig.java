@@ -25,6 +25,7 @@
 package com.bernardomg.security.config.authentication;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -38,8 +39,10 @@ import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repositor
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
+import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAccessService;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserService;
+import com.bernardomg.security.authentication.user.usecase.service.UserAccessService;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserService;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
@@ -59,6 +62,7 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.authentication.user.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.adapter.inbound.jpa" })
+@EnableConfigurationProperties({ LoginProperties.class })
 public class UserConfig {
 
     public UserConfig() {
@@ -68,6 +72,12 @@ public class UserConfig {
     @Bean("activateUserWhitelist")
     public WhitelistRoute geActivateUserWhitelist() {
         return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
+    }
+
+    @Bean("userAccessService")
+    public UserAccessService getUserAccessService(final UserRepository userRepo,
+            final LoginProperties userAccessProperties) {
+        return new DefaultUserAccessService(userAccessProperties.getMaxLoginAttempts(), userRepo);
     }
 
     @Bean("userActivationService")

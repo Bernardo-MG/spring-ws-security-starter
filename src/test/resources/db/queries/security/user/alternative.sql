@@ -1,2 +1,2 @@
-INSERT INTO security.users (id, username, name, email, password, enabled, locked, expired, password_expired) VALUES
-   (2, 'user', 'User', 'mail2@somewhere.com', '$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW', true, false, false, false);
+INSERT INTO security.users (id, username, name, email, password, enabled, locked, expired, password_expired, login_attempts) VALUES
+   (2, 'user', 'User', 'mail2@somewhere.com', '$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW', true, false, false, false, 0);

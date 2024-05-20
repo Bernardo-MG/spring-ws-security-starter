@@ -20,6 +20,7 @@ public final class UserEntities {
             .withPasswordExpired(false)
             .withLocked(false)
             .withRoles(List.of(RoleEntities.withPermission(), RoleEntities.alternative()))
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -34,6 +35,7 @@ public final class UserEntities {
             .withExpired(false)
             .withPasswordExpired(false)
             .withLocked(false)
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -48,6 +50,7 @@ public final class UserEntities {
             .withExpired(false)
             .withPasswordExpired(false)
             .withLocked(false)
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -63,6 +66,7 @@ public final class UserEntities {
             .withPasswordExpired(false)
             .withLocked(false)
             .withRoles(List.of(RoleEntities.withPermission()))
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -77,6 +81,7 @@ public final class UserEntities {
             .withExpired(true)
             .withPasswordExpired(false)
             .withLocked(false)
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -91,6 +96,7 @@ public final class UserEntities {
             .withExpired(false)
             .withPasswordExpired(false)
             .withLocked(true)
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -106,6 +112,7 @@ public final class UserEntities {
             .withPasswordExpired(false)
             .withLocked(false)
             .withRoles(List.of(RoleEntities.withPermission()))
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -120,6 +127,7 @@ public final class UserEntities {
             .withExpired(false)
             .withPasswordExpired(true)
             .withLocked(false)
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -135,6 +143,7 @@ public final class UserEntities {
             .withPasswordExpired(false)
             .withLocked(false)
             .withRoles(List.of())
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -149,6 +158,7 @@ public final class UserEntities {
             .withExpired(false)
             .withPasswordExpired(true)
             .withLocked(false)
+            .withLoginAttempts(0)
             .build();
     }
 
@@ -164,6 +174,7 @@ public final class UserEntities {
             .withPasswordExpired(false)
             .withLocked(false)
             .withRoles(List.of())
+            .withLoginAttempts(0)
             .build();
     }
 

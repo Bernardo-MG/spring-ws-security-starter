@@ -22,41 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.domain.event;
-
-import java.util.Objects;
-
-import org.springframework.context.ApplicationEvent;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+package com.bernardomg.security.authentication.user.usecase.service;
 
 /**
- * Log in attempt event. It is created no matter if the attempt was succesful or not.
+ * User access service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
  */
-@ToString
-@EqualsAndHashCode(callSuper = true)
-@Getter
-public final class LogInEvent extends ApplicationEvent {
-
-    private static final long serialVersionUID = 4486597593510214141L;
+public interface UserAccessService {
 
     /**
-     * Logged in successful or not flag.
+     * Checks if the user should be locked, and locks it if needed.
+     *
+     * @param username
+     *            user to check
      */
-    private final boolean     loggedIn;
+    public void checkForLocking(final String username);
 
     /**
-     * Username which attempted the log in.
+     * Clears the login attempts for the user.
+     *
+     * @param username
+     *            user to clear the login attempts
      */
-    private final String      username;
-
-    public LogInEvent(final Object source, final String user, final boolean logged) {
-        super(source);
-
-        username = Objects.requireNonNull(user);
-        loggedIn = logged;
-    }
+    public void clearLoginAttempts(final String username);
 
 }

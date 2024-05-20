@@ -77,6 +77,20 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final void clearLoginAttempts(final String username) {
+        final Optional<UserEntity> existing;
+        final UserEntity           toSave;
+
+        existing = userSpringRepository.findByUsername(username);
+        if (existing.isPresent()) {
+            toSave = existing.get();
+            toSave.setLoginAttempts(0);
+
+            userSpringRepository.save(toSave);
+        }
+    }
+
+    @Override
     public final void delete(final String username) {
         userSpringRepository.deleteByUsername(username);
     }
@@ -124,6 +138,13 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final int getLoginAttempts(final String username) {
+        return userSpringRepository.findByUsername(username)
+            .map(UserEntity::getLoginAttempts)
+            .orElse(0);
+    }
+
+    @Override
     public final User save(final User user, final String password) {
         final Optional<UserEntity> existing;
         final String               encodedPassword;
@@ -136,6 +157,8 @@ public final class JpaUserRepository implements UserRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
+            entity.setLoginAttempts(existing.get()
+                .getLoginAttempts());
         }
 
         encodedPassword = passwordEncoder.encode(password);
@@ -161,6 +184,8 @@ public final class JpaUserRepository implements UserRepository {
                 .getId());
             entity.setPassword(existing.get()
                 .getPassword());
+            entity.setLoginAttempts(existing.get()
+                .getLoginAttempts());
 
             saved = userSpringRepository.save(entity);
             result = toDomain(saved);
@@ -250,6 +275,7 @@ public final class JpaUserRepository implements UserRepository {
             .withLocked(user.isLocked())
             .withPasswordExpired(user.isPasswordExpired())
             .withRoles(roles)
+            .withLoginAttempts(0)
             .build();
     }
 
