@@ -113,6 +113,8 @@ public interface UserRepository {
      */
     public Optional<String> findPassword(final String username);
 
+    public int getLoginAttempts(final String username);
+
     /**
      * Saves the received user. If it exists it is updated, otherwise it is created.
      *

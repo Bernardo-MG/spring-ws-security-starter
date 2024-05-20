@@ -72,6 +72,12 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValueBoolean: false
+              - column:
+                  name: login_attempts
+                  type: int
+                  constraints:
+                    nullable: false
+                  defaultValue: '0'
         - addAutoIncrement:
             schemaName: security
             tableName: users
