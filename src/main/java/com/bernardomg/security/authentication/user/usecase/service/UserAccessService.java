@@ -45,6 +45,6 @@ public interface UserAccessService {
      * @param username
      *            user to clear the login attempts
      */
-    public void clear(final String username);
+    public void clearLoginAttempts(final String username);
 
 }

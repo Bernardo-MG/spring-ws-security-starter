@@ -47,7 +47,7 @@ public final class LoginFailureBlockerListener implements ApplicationListener<Lo
     @Override
     public final void onApplicationEvent(final LogInEvent event) {
         if (event.isLoggedIn()) {
-            userAccessService.clear(event.getUsername());
+            userAccessService.clearLoginAttempts(event.getUsername());
         } else {
             userAccessService.checkForLocking(event.getUsername());
         }
