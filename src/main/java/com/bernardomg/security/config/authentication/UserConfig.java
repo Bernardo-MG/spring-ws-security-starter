@@ -25,6 +25,7 @@
 package com.bernardomg.security.config.authentication;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +62,7 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.authentication.user.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authentication.user.adapter.inbound.jpa" })
+@EnableConfigurationProperties({ LoginProperties.class })
 public class UserConfig {
 
     public UserConfig() {
