@@ -56,7 +56,7 @@ public final class DefaultUserAccessService implements UserAccessService {
     }
 
     @Override
-    public void clear() {
+    public final void clear(final String username) {
         // Set attempts to 0
     }
 

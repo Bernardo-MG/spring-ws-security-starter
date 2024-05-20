@@ -143,7 +143,8 @@ public final class JpaUserRepository implements UserRepository {
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
-            entity.setLoginAttempts(existing.get().getLoginAttempts());
+            entity.setLoginAttempts(existing.get()
+                .getLoginAttempts());
         }
 
         encodedPassword = passwordEncoder.encode(password);
@@ -169,7 +170,8 @@ public final class JpaUserRepository implements UserRepository {
                 .getId());
             entity.setPassword(existing.get()
                 .getPassword());
-            entity.setLoginAttempts(existing.get().getLoginAttempts());
+            entity.setLoginAttempts(existing.get()
+                .getLoginAttempts());
 
             saved = userSpringRepository.save(entity);
             result = toDomain(saved);

@@ -24,10 +24,27 @@
 
 package com.bernardomg.security.authentication.user.usecase.service;
 
+/**
+ * User access service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
 public interface UserAccessService {
 
+    /**
+     * Checks if the user should be locked, and locks it if needed.
+     *
+     * @param username
+     *            user to check
+     */
     public void checkForLocking(final String username);
 
-    public void clear();
+    /**
+     * Clears the login attempts for the user.
+     *
+     * @param username
+     *            user to clear the login attempts
+     */
+    public void clear(final String username);
 
 }
