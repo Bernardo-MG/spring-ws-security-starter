@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.adapter.inbound.spring;
+package com.bernardomg.security.login.adapter.inbound.event;
 
 import java.util.Locale;
 import java.util.Objects;

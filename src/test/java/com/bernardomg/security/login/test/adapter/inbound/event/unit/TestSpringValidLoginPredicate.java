@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.test.adapter.inbound.spring.unit;
+package com.bernardomg.security.login.test.adapter.inbound.event.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -17,10 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.login.adapter.inbound.spring.SpringValidLoginPredicate;
+import com.bernardomg.security.login.adapter.inbound.event.SpringValidLoginPredicate;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TokenLoginService - failure handling")
+@DisplayName("SpringValidLoginPredicate")
 class TestSpringValidLoginPredicate {
 
     @Mock

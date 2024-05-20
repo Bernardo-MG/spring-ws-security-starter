@@ -26,4 +26,4 @@
  * Login spring adapters.
  */
 
-package com.bernardomg.security.login.adapter.inbound.spring;
+package com.bernardomg.security.login.adapter.inbound.event;

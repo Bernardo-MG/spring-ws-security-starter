@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.inbound.spring;
+package com.bernardomg.security.login.adapter.inbound.event;
 
 import java.util.Objects;
 
@@ -35,15 +35,15 @@ import com.bernardomg.security.login.domain.event.LogInEvent;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 
 /**
- * Listens for log in events and registers them.
+ * Listens for login events and registers them.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class LoginEvenRegisterListener implements ApplicationListener<LogInEvent> {
+public final class LoginEventRegisterListener implements ApplicationListener<LogInEvent> {
 
     private final LoginRegisterService loginRegisterService;
 
-    public LoginEvenRegisterListener(final LoginRegisterService loginRegisterServ) {
+    public LoginEventRegisterListener(final LoginRegisterService loginRegisterServ) {
         super();
 
         loginRegisterService = Objects.requireNonNull(loginRegisterServ);
