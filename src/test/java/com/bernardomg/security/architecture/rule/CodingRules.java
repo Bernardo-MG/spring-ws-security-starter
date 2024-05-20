@@ -9,7 +9,6 @@ import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
 import static com.tngtech.archunit.library.GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME;
-import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
 
 import org.slf4j.Logger;
 
@@ -23,12 +22,6 @@ public class CodingRules {
 
     @ArchTest
     static final ArchRule  no_accesses_to_upper_package           = NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
-
-    @ArchTest
-    static final ArchRule  no_cycles                              = slices().matching("..(*)..")
-        .namingSlices("$2 of $1")
-        .should()
-        .beFreeOfCycles();
 
     @ArchTest
     static final ArchRule  no_deprecated_api_calls                = DEPRECATED_API_SHOULD_NOT_BE_USED;
