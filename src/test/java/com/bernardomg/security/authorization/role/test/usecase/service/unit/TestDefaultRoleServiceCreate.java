@@ -41,7 +41,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("When the role already exists an exception is thrown")
+    @DisplayName("When the role name already exists, an exception is thrown")
     void testCreate_NameExists() {
         final ThrowingCallable executable;
         final FieldFailure     failure;

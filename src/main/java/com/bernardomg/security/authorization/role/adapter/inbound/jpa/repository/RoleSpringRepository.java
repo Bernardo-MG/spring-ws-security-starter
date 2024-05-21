@@ -57,7 +57,7 @@ public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
      *            role name
      * @return {@code true} if it exists, {@code false} otherwise
      */
-    public boolean existsByName(final String name);
+    public boolean existsByNameIgnoreCase(final String name);
 
     /**
      * Returns all the roles available to the user, in a paginated form.

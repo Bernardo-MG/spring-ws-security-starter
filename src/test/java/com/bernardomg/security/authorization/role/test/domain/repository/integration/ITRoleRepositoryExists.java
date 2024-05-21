@@ -37,6 +37,20 @@ class ITRoleRepositoryExists {
     }
 
     @Test
+    @DisplayName("When the role exists, ignoring case, it is returned as existing")
+    @RoleWithoutPermissions
+    void testExists_IgnoreCase() {
+        final boolean exists;
+
+        // WHEN
+        exists = repository.exists(RoleConstants.NAME.toUpperCase());
+
+        // THEN
+        Assertions.assertThat(exists)
+            .isTrue();
+    }
+
+    @Test
     @DisplayName("When there is no data it is returned as not existing")
     void testExists_NotData() {
         final boolean exists;
