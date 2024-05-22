@@ -664,26 +664,6 @@
                </dependency>
             </dependencies>
          </plugin>
-         <plugin>
-            <!-- Build helper -->
-            <!-- Adds the generated files to the Maven classpath -->
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>add-source</id>
-                  <goals>
-                     <goal>add-source</goal>
-                  </goals>
-                  <configuration>
-                     <sources>
-                        <!-- JPA meta-model -->
-                        <source>${project.build.directory}/generated-sources/apt</source>
-                     </sources>
-                  </configuration>
-               </execution>
-            </executions>
-         </plugin>
       </plugins>
    </build>
 
