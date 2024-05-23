@@ -25,7 +25,6 @@
 package com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -207,18 +206,14 @@ public final class JpaUserRepository implements UserRepository {
     private final Role toDomain(final RoleEntity role) {
         final Collection<ResourcePermission> permissions;
 
-        if (role.getPermissions() == null) {
-            permissions = List.of();
-        } else {
-            permissions = role.getPermissions()
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(RolePermissionEntity::getGranted)
-                .map(RolePermissionEntity::getResourcePermission)
-                .map(this::toDomain)
-                .sorted(new ResourcePermissionComparator())
-                .toList();
-        }
+        permissions = role.getPermissions()
+            .stream()
+            .filter(Objects::nonNull)
+            .filter(RolePermissionEntity::getGranted)
+            .map(RolePermissionEntity::getResourcePermission)
+            .map(this::toDomain)
+            .sorted(new ResourcePermissionComparator())
+            .toList();
         return Role.builder()
             .withName(role.getName())
             .withPermissions(permissions)
@@ -257,15 +252,11 @@ public final class JpaUserRepository implements UserRepository {
     private final UserEntity toEntity(final User user) {
         final Collection<RoleEntity> roles;
 
-        if (user.getRoles() == null) {
-            roles = List.of();
-        } else {
-            roles = user.getRoles()
-                .stream()
-                .map(this::toEntity)
-                .filter(Objects::nonNull)
-                .toList();
-        }
+        roles = user.getRoles()
+            .stream()
+            .map(this::toEntity)
+            .filter(Objects::nonNull)
+            .toList();
         return UserEntity.builder()
             .withUsername(user.getUsername())
             .withName(user.getName())

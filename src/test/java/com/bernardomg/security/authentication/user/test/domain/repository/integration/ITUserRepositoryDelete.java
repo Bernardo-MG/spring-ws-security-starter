@@ -25,7 +25,6 @@
 package com.bernardomg.security.authentication.user.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,12 +74,8 @@ class ITUserRepositoryDelete {
         userRepository.delete(UserConstants.USERNAME);
 
         // THEN
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(userSpringRepository.count())
-                .isZero();
-            softly.assertThat(roleSpringRepository.count())
-                .isEqualTo(1);
-        });
+        Assertions.assertThat(roleSpringRepository.count())
+            .isEqualTo(1);
     }
 
     @Test

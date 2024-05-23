@@ -1,14 +1,12 @@
 
 package com.bernardomg.security.authentication.jwt.token.test.unit;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.token.test.config.JwtTokenDatas;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenValidator;
@@ -23,22 +21,15 @@ class TestJjwtTokenValidatorHasExpired {
 
     @Test
     @DisplayName("An expired token is identified as such")
-    void testHasExpired_fromGeneratedToken_expired() throws InterruptedException {
+    void testHasExpired_expired() throws InterruptedException {
         final String       token;
         final Boolean      expired;
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withIssuer(Tokens.ISSUER)
-            .withExpiration(LocalDateTime.now()
-                .plusSeconds(-1))
-            .build();
+        data = JwtTokenDatas.withIssuerExpired();
 
         token = encoder.encode(data);
-
-        TimeUnit.SECONDS.sleep(Double.valueOf(6)
-            .longValue());
 
         // WHEN
         expired = validator.hasExpired(token);
@@ -57,9 +48,7 @@ class TestJjwtTokenValidatorHasExpired {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withIssuer(Tokens.ISSUER)
-            .build();
+        data = JwtTokenDatas.withIssuer();
 
         token = encoder.encode(data);
 
@@ -80,11 +69,7 @@ class TestJjwtTokenValidatorHasExpired {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withIssuer(Tokens.ISSUER)
-            .withExpiration(LocalDateTime.now()
-                .plusMonths(1))
-            .build();
+        data = JwtTokenDatas.withIssuerNextMonth();
 
         token = encoder.encode(data);
 

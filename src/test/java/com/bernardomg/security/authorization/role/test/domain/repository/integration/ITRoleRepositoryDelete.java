@@ -29,6 +29,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
@@ -49,6 +51,9 @@ class ITRoleRepositoryDelete {
 
     @Autowired
     private RoleSpringRepository               springRepository;
+
+    @Autowired
+    private UserSpringRepository               userSpringRepository;
 
     public ITRoleRepositoryDelete() {
         super();
@@ -98,6 +103,42 @@ class ITRoleRepositoryDelete {
 
         // THEN
         Assertions.assertThat(resourcePermissionSpringRepository.count())
+            .isNotZero();
+    }
+
+    @Test
+    @DisplayName("Deletes a role with user and permissions")
+    @EnabledUser
+    void testDelete_WithUser() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting a role with user and permissions, the permissions are not deleted")
+    @EnabledUser
+    void testDelete_WithUser_PermissionsNotDeleted() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(resourcePermissionSpringRepository.count())
+            .isNotZero();
+    }
+
+    @Test
+    @DisplayName("When deleting a role with user and permissions, the user is not deleted")
+    @EnabledUser
+    void testDelete_WithUser_UserNotDeleted() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(userSpringRepository.count())
             .isNotZero();
     }
 
