@@ -30,7 +30,7 @@ class TestJjwtTokenValidatorHasExpired {
 
         // GIVEN
         data = JwtTokenData.builder()
-            .withIssuer("issuer")
+            .withIssuer(Tokens.ISSUER)
             .withExpiration(LocalDateTime.now()
                 .plusSeconds(-1))
             .build();
@@ -58,7 +58,7 @@ class TestJjwtTokenValidatorHasExpired {
 
         // GIVEN
         data = JwtTokenData.builder()
-            .withIssuer("issuer")
+            .withIssuer(Tokens.ISSUER)
             .build();
 
         token = encoder.encode(data);
@@ -81,7 +81,7 @@ class TestJjwtTokenValidatorHasExpired {
 
         // GIVEN
         data = JwtTokenData.builder()
-            .withIssuer("issuer")
+            .withIssuer(Tokens.ISSUER)
             .withExpiration(LocalDateTime.now()
                 .plusMonths(1))
             .build();

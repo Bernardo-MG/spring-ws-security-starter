@@ -10,8 +10,8 @@ import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 
-@DisplayName("JjwtTokenEncoder - generate token")
-class TestJjwtTokenEncoderGenerateToken {
+@DisplayName("JjwtTokenEncoder - encode")
+class TestJjwtTokenEncoderEncode {
 
     private final TokenEncoder encoder = new JjwtTokenEncoder(Tokens.KEY);
 

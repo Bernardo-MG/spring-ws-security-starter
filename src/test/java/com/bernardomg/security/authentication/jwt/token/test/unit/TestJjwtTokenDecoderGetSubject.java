@@ -33,7 +33,7 @@ class TestJjwtTokenDecoderGetSubject {
 
         // GIVEN
         data = JwtTokenData.builder()
-            .withSubject("subject")
+            .withSubject(Tokens.SUBJECT)
             .build();
 
         token = encoder.encode(data);
@@ -45,7 +45,7 @@ class TestJjwtTokenDecoderGetSubject {
         // THEN
         Assertions.assertThat(subject)
             .as("subject")
-            .isEqualTo("subject");
+            .isEqualTo(Tokens.SUBJECT);
     }
 
     @Test
@@ -57,7 +57,7 @@ class TestJjwtTokenDecoderGetSubject {
 
         // GIVEN
         data = JwtTokenData.builder()
-            .withSubject("subject")
+            .withSubject(Tokens.SUBJECT)
             .withExpiration(LocalDateTime.now()
                 .plusSeconds(-1))
             .build();
