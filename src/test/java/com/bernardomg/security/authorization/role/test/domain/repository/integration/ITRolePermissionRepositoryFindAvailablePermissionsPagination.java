@@ -24,6 +24,10 @@ class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends Abstr
     @Autowired
     private RolePermissionRepository repository;
 
+    public ITRolePermissionRepositoryFindAvailablePermissionsPagination() {
+        super("name");
+    }
+
     @Override
     protected final Iterable<ResourcePermission> read(final Pageable pageable) {
         return repository.findAvailablePermissions(RoleConstants.NAME, pageable);
@@ -38,7 +42,7 @@ class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends Abstr
     @Test
     @DisplayName("Returns all the data for the second page")
     void testFindAvailablePermissions_Page2_Data() {
-        testPageData(1, ResourcePermissions.read());
+        testPageData(1, ResourcePermissions.delete());
     }
 
 }
