@@ -1,14 +1,13 @@
 
 package com.bernardomg.security.authentication.jwt.token.test.unit;
 
-import java.time.LocalDateTime;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.token.test.config.JwtTokenDatas;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenDecoder;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
@@ -32,9 +31,7 @@ class TestJjwtTokenDecoderGetSubject {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withSubject(Tokens.SUBJECT)
-            .build();
+        data = JwtTokenDatas.withSubject();
 
         token = encoder.encode(data);
 
@@ -56,11 +53,7 @@ class TestJjwtTokenDecoderGetSubject {
         final JwtTokenData     data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withSubject(Tokens.SUBJECT)
-            .withExpiration(LocalDateTime.now()
-                .plusSeconds(-1))
-            .build();
+        data = JwtTokenDatas.withSubjectExpired();
 
         // WHEN
         token = encoder.encode(data);

@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.authentication.jwt.token.test.unit;
 
-import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.Assertions;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.token.test.config.JwtTokenDatas;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenValidator;
@@ -29,11 +29,7 @@ class TestJjwtTokenValidatorHasExpired {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withIssuer(Tokens.ISSUER)
-            .withExpiration(LocalDateTime.now()
-                .plusSeconds(-1))
-            .build();
+        data = JwtTokenDatas.withIssuerExpired();
 
         token = encoder.encode(data);
 
@@ -57,9 +53,7 @@ class TestJjwtTokenValidatorHasExpired {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withIssuer(Tokens.ISSUER)
-            .build();
+        data = JwtTokenDatas.withIssuer();
 
         token = encoder.encode(data);
 
@@ -80,11 +74,7 @@ class TestJjwtTokenValidatorHasExpired {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .withIssuer(Tokens.ISSUER)
-            .withExpiration(LocalDateTime.now()
-                .plusMonths(1))
-            .build();
+        data = JwtTokenDatas.withIssuerNextMonth();
 
         token = encoder.encode(data);
 
