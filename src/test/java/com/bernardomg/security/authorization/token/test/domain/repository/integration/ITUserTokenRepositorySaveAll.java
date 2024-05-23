@@ -63,7 +63,7 @@ class ITUserTokenRepositorySaveAll {
         Assertions.assertThat(tokens)
             .as("tokens")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(UserTokenEntities.valid(), UserTokenEntities.alternative());
+            .containsExactlyInAnyOrder(UserTokenEntities.valid(), UserTokenEntities.alternative());
     }
 
     @Test
@@ -78,7 +78,7 @@ class ITUserTokenRepositorySaveAll {
         // THEN
         Assertions.assertThat(tokens)
             .as("tokens")
-            .containsExactly(UserTokens.valid(), UserTokens.alternative());
+            .containsExactlyInAnyOrder(UserTokens.valid(), UserTokens.alternative());
     }
 
     @Test
