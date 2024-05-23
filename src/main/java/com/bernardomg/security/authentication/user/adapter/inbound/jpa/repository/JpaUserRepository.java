@@ -207,18 +207,14 @@ public final class JpaUserRepository implements UserRepository {
     private final Role toDomain(final RoleEntity role) {
         final Collection<ResourcePermission> permissions;
 
-        if (role.getPermissions() == null) {
-            permissions = List.of();
-        } else {
-            permissions = role.getPermissions()
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(RolePermissionEntity::getGranted)
-                .map(RolePermissionEntity::getResourcePermission)
-                .map(this::toDomain)
-                .sorted(new ResourcePermissionComparator())
-                .toList();
-        }
+        permissions = role.getPermissions()
+            .stream()
+            .filter(Objects::nonNull)
+            .filter(RolePermissionEntity::getGranted)
+            .map(RolePermissionEntity::getResourcePermission)
+            .map(this::toDomain)
+            .sorted(new ResourcePermissionComparator())
+            .toList();
         return Role.builder()
             .withName(role.getName())
             .withPermissions(permissions)
