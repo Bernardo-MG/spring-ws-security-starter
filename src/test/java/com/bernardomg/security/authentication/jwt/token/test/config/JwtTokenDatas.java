@@ -30,19 +30,6 @@ public final class JwtTokenDatas {
             .build();
     }
 
-    public static final JwtTokenData withSubject() {
-        return JwtTokenData.builder()
-            .withSubject(Tokens.SUBJECT)
-            .build();
-    }
-
-    public static final JwtTokenData withSubjectExpired() {
-        return JwtTokenData.builder()
-            .withSubject(Tokens.SUBJECT)
-            .withExpiration(Tokens.EXPIRED_DATE)
-            .build();
-    }
-
     private JwtTokenDatas() {
         super();
     }

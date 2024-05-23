@@ -73,8 +73,12 @@ public final class JjwtTokenEncoder implements TokenEncoder {
         jwtBuilder = Jwts.builder()
             .id(data.getId())
             .issuer(data.getIssuer())
-            .subject(data.getSubject())
+            .subject(data.getSubject());
+        
+        if(!data.getPermissions().isEmpty()) {
+            jwtBuilder
             .claim("permissions", data.getPermissions());
+        }
 
         jwtBuilder.audience()
             .add(data.getAudience());
