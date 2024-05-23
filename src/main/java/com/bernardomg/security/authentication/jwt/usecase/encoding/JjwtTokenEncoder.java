@@ -74,10 +74,10 @@ public final class JjwtTokenEncoder implements TokenEncoder {
             .id(data.getId())
             .issuer(data.getIssuer())
             .subject(data.getSubject());
-        
-        if(!data.getPermissions().isEmpty()) {
-            jwtBuilder
-            .claim("permissions", data.getPermissions());
+
+        if (!data.getPermissions()
+            .isEmpty()) {
+            jwtBuilder.claim("permissions", data.getPermissions());
         }
 
         jwtBuilder.audience()

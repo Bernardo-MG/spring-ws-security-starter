@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
+import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenPatch;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
@@ -108,6 +109,24 @@ class TestSpringUserTokenServicePatch {
             UserTokenConstants.DATE_YESTERDAY);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("Patching a not existing user token throws an exception")
+    void testPatch_NotExisting() {
+        final UserTokenPatch   change;
+        final ThrowingCallable execution;
+
+        // GIVEN
+        change = UserTokenPatches.changeNothing();
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.empty());
+
+        // WHEN
+        execution = () -> service.patch(change);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingUserTokenException.class);
     }
 
     @Test
