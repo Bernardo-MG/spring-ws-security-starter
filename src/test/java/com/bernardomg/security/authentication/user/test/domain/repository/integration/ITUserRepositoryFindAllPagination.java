@@ -23,6 +23,10 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
     @Autowired
     private UserRepository repository;
 
+    public ITUserRepositoryFindAllPagination() {
+        super(1);
+    }
+
     @Override
     protected final Iterable<User> read(final Pageable pageable) {
         return repository.findAll(UserQueries.empty(), pageable);

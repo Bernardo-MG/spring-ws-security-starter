@@ -1,9 +1,11 @@
 
 package com.bernardomg.test.pagination;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
@@ -18,15 +20,19 @@ public abstract class AbstractPaginationIT<T> {
 
     private final Optional<String> sortField;
 
-    public AbstractPaginationIT() {
+    private final int              totalElements;
+
+    public AbstractPaginationIT(final int total) {
         super();
 
+        totalElements = Objects.requireNonNull(total);
         sortField = Optional.empty();
     }
 
-    public AbstractPaginationIT(final String field) {
+    public AbstractPaginationIT(final int total, final String field) {
         super();
 
+        totalElements = Objects.requireNonNull(total);
         sortField = Optional.of(field);
     }
 
@@ -91,6 +97,38 @@ public abstract class AbstractPaginationIT<T> {
         Assertions.assertThat(data)
             .as("unpaged data")
             .isInstanceOf(Page.class);
+    }
+
+    @Test
+    @DisplayName("When a page is returned, it returns the correct page data")
+    void testReadPaged_PageData() {
+        final Page<T>  data;
+        final Pageable pageable;
+        final int      currentPage;
+
+        // GIVEN
+        currentPage = 0;
+        pageable = PageRequest.of(currentPage, 1);
+
+        // WHEN
+        data = (Page<T>) read(pageable);
+
+        // THEN
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(data.getNumberOfElements())
+                .as("number of elements in page")
+                .isEqualTo(1);
+            softly.assertThat(data.getTotalElements())
+                .as("total number of elements")
+                .isEqualTo(totalElements);
+            softly.assertThat(data.getNumber())
+                .as("page number")
+                .isEqualTo(currentPage);
+            softly.assertThat(data.getTotalPages())
+                .as("total number of pages")
+                .isEqualTo(totalElements);
+        });
     }
 
     @Test

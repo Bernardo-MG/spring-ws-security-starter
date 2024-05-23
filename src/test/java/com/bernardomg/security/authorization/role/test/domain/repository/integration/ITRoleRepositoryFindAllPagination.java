@@ -14,10 +14,8 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @DisplayName("RoleRepository - find all - pagination")
 @RoleWithoutPermissions
 class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
@@ -26,7 +24,7 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     private RoleRepository repository;
 
     public ITRoleRepositoryFindAllPagination() {
-        super();
+        super(1);
     }
 
     @Override

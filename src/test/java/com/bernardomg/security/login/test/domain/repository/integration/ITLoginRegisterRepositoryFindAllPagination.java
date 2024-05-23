@@ -13,10 +13,8 @@ import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.test.config.annotation.LoggedInLoginRegister;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @AllAuthoritiesMockUser
 @DisplayName("LoginRegisterRepository - find all - pagination")
 @LoggedInLoginRegister
@@ -26,7 +24,7 @@ class ITLoginRegisterRepositoryFindAllPagination extends AbstractPaginationIT<Lo
     private LoginRegisterRepository repository;
 
     public ITLoginRegisterRepositoryFindAllPagination() {
-        super();
+        super(1);
     }
 
     @Override

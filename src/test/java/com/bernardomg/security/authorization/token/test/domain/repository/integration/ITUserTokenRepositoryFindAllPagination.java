@@ -13,10 +13,8 @@ import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @DisplayName("UserTokenRepository - find all - pagination")
 @OnlyUser
 @ValidUserToken
@@ -24,6 +22,10 @@ class ITUserTokenRepositoryFindAllPagination extends AbstractPaginationIT<UserTo
 
     @Autowired
     private UserTokenRepository userTokenRepository;
+
+    public ITUserTokenRepositoryFindAllPagination() {
+        super(1);
+    }
 
     @Override
     protected final Iterable<UserToken> read(final Pageable pageable) {

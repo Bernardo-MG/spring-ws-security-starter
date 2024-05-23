@@ -14,10 +14,8 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.U
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @DisplayName("UserRoleRepository - find available to user - pagination")
 @UserWithoutRole
 @RoleWithoutPermissions
@@ -27,7 +25,7 @@ class ITUserRoleRepositoryFindAvailableToUserPagination extends AbstractPaginati
     private UserRoleRepository repository;
 
     public ITUserRoleRepositoryFindAvailableToUserPagination() {
-        super();
+        super(1);
     }
 
     @Override

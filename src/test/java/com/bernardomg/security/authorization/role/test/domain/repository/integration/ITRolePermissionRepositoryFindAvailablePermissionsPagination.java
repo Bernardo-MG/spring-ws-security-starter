@@ -12,10 +12,8 @@ import com.bernardomg.security.authorization.permission.test.config.factory.Reso
 import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @DisplayName("RolePermissionRepository - find available permissions - pagination")
 @CrudPermissions
 @RoleWithoutPermissions
@@ -25,7 +23,7 @@ class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends Abstr
     private RolePermissionRepository repository;
 
     public ITRolePermissionRepositoryFindAvailablePermissionsPagination() {
-        super("name");
+        super(4, "name");
     }
 
     @Override
