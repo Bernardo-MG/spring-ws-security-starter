@@ -38,7 +38,7 @@ class TestJjwtTokenDecoderDecode {
     }
 
     @Test
-    @DisplayName("Recovering the subject from an expired token generates an exception")
+    @DisplayName("Decoding an expired token generates an exception")
     void testDecode_Expired() {
         final String           token;
         final ThrowingCallable executable;
