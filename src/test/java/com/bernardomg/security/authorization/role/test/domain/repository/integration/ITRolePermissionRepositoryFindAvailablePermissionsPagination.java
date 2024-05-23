@@ -1,12 +1,9 @@
 
 package com.bernardomg.security.authorization.role.test.domain.repository.integration;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
@@ -15,105 +12,35 @@ import com.bernardomg.security.authorization.permission.test.config.factory.Reso
 import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @DisplayName("RolePermissionRepository - find available permissions - pagination")
 @CrudPermissions
 @RoleWithoutPermissions
-class ITRolePermissionRepositoryFindAvailablePermissionsPagination {
+class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends AbstractPaginationIT<ResourcePermission> {
 
     @Autowired
     private RolePermissionRepository repository;
 
-    @Test
-    @DisplayName("Returns the page entities")
-    void testFindAvailablePermissions_Page_Container() {
-        final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+    public ITRolePermissionRepositoryFindAvailablePermissionsPagination() {
+        super(4, "name");
+    }
 
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .isInstanceOf(Page.class);
+    @Override
+    protected final Iterable<ResourcePermission> read(final Pageable pageable) {
+        return repository.findAvailablePermissions(RoleConstants.NAME, pageable);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAvailablePermissions_Page1_Data() {
-        final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .containsOnly(ResourcePermissions.create());
+        testPageData(0, ResourcePermissions.create());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
     void testFindAvailablePermissions_Page2_Data() {
-        final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(1, 1);
-
-        // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .containsOnly(ResourcePermissions.read());
-    }
-
-    @Test
-    @DisplayName("Returns a page")
-    void testFindAvailablePermissions_Paged_Count() {
-        final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .hasSize(1);
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
-    void testFindAvailablePermissions_Unpaged_Container() {
-        final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .isInstanceOf(Page.class);
+        testPageData(1, ResourcePermissions.delete());
     }
 
 }

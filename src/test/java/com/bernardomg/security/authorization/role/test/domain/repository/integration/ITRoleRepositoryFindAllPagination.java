@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -15,58 +14,28 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.authorization.role.test.config.factory.RolesQuery;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @DisplayName("RoleRepository - find all - pagination")
 @RoleWithoutPermissions
-class ITRoleRepositoryFindAllPagination {
+class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
 
     @Autowired
     private RoleRepository repository;
 
     public ITRoleRepositoryFindAllPagination() {
-        super();
+        super(1);
     }
 
-    @Test
-    @DisplayName("Returns a page")
-    void testFindAll_Page_Container() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pageable       pageable;
-
-        // GIVEN
-        pageable = Pageable.ofSize(10);
-
-        sample = RolesQuery.empty();
-
-        // WHEN
-        roles = repository.findAll(sample, pageable);
-
-        // THEN
-        Assertions.assertThat(roles)
-            .isInstanceOf(Page.class);
+    @Override
+    protected final Iterable<Role> read(final Pageable pageable) {
+        return repository.findAll(RolesQuery.empty(), pageable);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAll_Page1_Data() {
-        final RoleQuery      sample;
-        final Iterable<Role> roles;
-        final Pageable       pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        sample = RolesQuery.empty();
-
-        // WHEN
-        roles = repository.findAll(sample, pageable);
-
-        // THEN
-        Assertions.assertThat(roles)
-            .containsExactly(Roles.withoutPermissions());
+        testPageData(0, Roles.withoutPermissions());
     }
 
     @Test
@@ -87,26 +56,6 @@ class ITRoleRepositoryFindAllPagination {
         // THEN
         Assertions.assertThat(roles)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
-    void testFindAll_Unpaged_Container() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pageable       pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        sample = RolesQuery.empty();
-
-        // WHEN
-        roles = repository.findAll(sample, pageable);
-
-        // THEN
-        Assertions.assertThat(roles)
-            .isInstanceOf(Page.class);
     }
 
 }

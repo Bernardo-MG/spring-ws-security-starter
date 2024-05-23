@@ -596,12 +596,6 @@
          </exclusions>
       </dependency>
       <dependency>
-         <!-- H2 database -->
-         <groupId>com.h2database</groupId>
-         <artifactId>h2</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
          <!-- GSON -->
          <groupId>com.google.code.gson</groupId>
          <artifactId>gson</artifactId>
@@ -613,6 +607,16 @@
          <artifactId>archunit-junit5</artifactId>
          <version>${archunit.version}</version>
          <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Test containers -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>testcontainers</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.testcontainers</groupId>
+         <artifactId>postgresql </artifactId>
       </dependency>
    </dependencies>
 
