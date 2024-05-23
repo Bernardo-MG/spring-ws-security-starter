@@ -2,6 +2,7 @@
 package com.bernardomg.security.authentication.jwt.token.test.unit;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +96,8 @@ class TestJjwtTokenDecoderDecode {
         // THEN
         Assertions.assertThat(issuedAt)
             .as("issued at")
-            .isEqualTo(Tokens.ISSUED_AT);
+            .isEqualTo(Tokens.ISSUED_AT.atZone(ZoneId.systemDefault())
+                .toLocalDateTime());
     }
 
     @Test
@@ -133,7 +135,8 @@ class TestJjwtTokenDecoderDecode {
         // THEN
         Assertions.assertThat(notBefore)
             .as("not before")
-            .isEqualTo(Tokens.NOT_BEFORE);
+            .isEqualTo(Tokens.NOT_BEFORE.atZone(ZoneId.systemDefault())
+                .toLocalDateTime());
     }
 
     @Test
