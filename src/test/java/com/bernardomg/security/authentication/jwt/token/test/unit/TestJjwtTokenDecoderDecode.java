@@ -1,6 +1,11 @@
 
 package com.bernardomg.security.authentication.jwt.token.test.unit;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -10,8 +15,10 @@ import com.bernardomg.security.authentication.jwt.token.test.config.JwtTokens;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenDecoder;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenDecoder;
+import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 @DisplayName("JjwtTokenDecoder - decode")
 class TestJjwtTokenDecoderDecode {
@@ -19,22 +26,40 @@ class TestJjwtTokenDecoderDecode {
     private final TokenDecoder decoder = new JjwtTokenDecoder(Tokens.KEY);
 
     @Test
-    @DisplayName("An empty token decodes into an empty object")
+    @DisplayName("Recovers the audience from a token")
+    void testDecode_Audience() {
+        final String             token;
+        final Collection<String> audience;
+
+        // GIVEN
+        token = JwtTokens.WITH_AUDIENCE;
+
+        // WHEN
+        audience = decoder.decode(token)
+            .getAudience();
+
+        // THEN
+        Assertions.assertThat(audience)
+            .as("audience")
+            .usingRecursiveComparison()
+            .isEqualTo(List.of(Tokens.AUDIENCE));
+    }
+
+    @Test
+    @DisplayName("An empty token generates an exception")
     void testDecode_Empty() {
-        final String token;
-        final String subject;
+        final String           token;
+        final ThrowingCallable executable;
 
         // GIVEN
         token = JwtTokens.EMPTY;
 
         // WHEN
-        subject = decoder.decode(token)
-            .getSubject();
+        executable = () -> decoder.decode(token);
 
         // THEN
-        Assertions.assertThat(subject)
-            .as("subject")
-            .isEmpty();
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(UnsupportedJwtException.class);
     }
 
     @Test
@@ -55,6 +80,25 @@ class TestJjwtTokenDecoderDecode {
     }
 
     @Test
+    @DisplayName("Recovers the issued at from a token")
+    void testDecode_IssuedAt() {
+        final String        token;
+        final LocalDateTime issuedAt;
+
+        // GIVEN
+        token = JwtTokens.WITH_ISSUED_AT;
+
+        // WHEN
+        issuedAt = decoder.decode(token)
+            .getIssuedAt();
+
+        // THEN
+        Assertions.assertThat(issuedAt)
+            .as("issued at")
+            .isEqualTo(Tokens.ISSUED_AT);
+    }
+
+    @Test
     @DisplayName("Recovers the issuer from a token")
     void testDecode_Issuer() {
         final String token;
@@ -69,8 +113,47 @@ class TestJjwtTokenDecoderDecode {
 
         // THEN
         Assertions.assertThat(subject)
-            .as("subject")
+            .as("issuer")
             .isEqualTo(Tokens.ISSUER);
+    }
+
+    @Test
+    @DisplayName("Recovers the not before date from a token")
+    void testDecode_NotBefore() {
+        final String        token;
+        final LocalDateTime notBefore;
+
+        // GIVEN
+        token = JwtTokens.WITH_NOT_BEFORE;
+
+        // WHEN
+        notBefore = decoder.decode(token)
+            .getNotBefore();
+
+        // THEN
+        Assertions.assertThat(notBefore)
+            .as("not before")
+            .isEqualTo(Tokens.NOT_BEFORE);
+    }
+
+    @Test
+    @DisplayName("Recovers the permissions from a token")
+    void testDecode_Permissions() {
+        final String                    token;
+        final Map<String, List<String>> permissions;
+
+        // GIVEN
+        token = JwtTokens.WITH_PERMISSIONS;
+
+        // WHEN
+        permissions = decoder.decode(token)
+            .getPermissions();
+
+        // THEN
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .usingRecursiveComparison()
+            .isEqualTo(Map.of(PermissionConstants.DATA, List.of(PermissionConstants.READ)));
     }
 
     @Test
