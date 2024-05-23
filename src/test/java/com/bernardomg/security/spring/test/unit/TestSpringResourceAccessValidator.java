@@ -35,12 +35,22 @@ class TestSpringResourceAccessValidator {
 
     @SuppressWarnings("rawtypes")
     private final Collection getAuthorities() {
-        return List.of(GrantedAuthorities.resource());
+        return List.of(GrantedAuthorities.resourceCreate());
+    }
+
+    @SuppressWarnings("rawtypes")
+    private final Collection getNotMatchingActionAuthorities() {
+        return List.of(GrantedAuthorities.resourceRead());
+    }
+
+    @SuppressWarnings("rawtypes")
+    private final Collection getNotMatchingResourceAuthorities() {
+        return List.of(GrantedAuthorities.alternativeResourceCreate());
     }
 
     @SuppressWarnings("rawtypes")
     private final Collection getSimpleAuthorities() {
-        return List.of(GrantedAuthorities.simple());
+        return List.of(GrantedAuthorities.simpleCreate());
     }
 
     @Test
@@ -107,6 +117,48 @@ class TestSpringResourceAccessValidator {
 
         // GIVEN
         given(authentication.isAuthenticated()).willReturn(false);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
+
+        // WHEN
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
+
+        // THEN
+        Assertions.assertThat(authorized)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("When no authority matches the permission action, the user is not authorized")
+    @SuppressWarnings("unchecked")
+    void testIsAuthorized_NotMatchingActionAuthorities() {
+        final Boolean authorized;
+
+        // GIVEN
+        given(authentication.isAuthenticated()).willReturn(true);
+        given(authentication.getAuthorities()).willReturn(getNotMatchingActionAuthorities());
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
+
+        // WHEN
+        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.CREATE);
+
+        // THEN
+        Assertions.assertThat(authorized)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("When no authority matches the permission resource, the user is not authorized")
+    @SuppressWarnings("unchecked")
+    void testIsAuthorized_NotMatchingResourceAuthorities() {
+        final Boolean authorized;
+
+        // GIVEN
+        given(authentication.isAuthenticated()).willReturn(true);
+        given(authentication.getAuthorities()).willReturn(getNotMatchingResourceAuthorities());
 
         SecurityContextHolder.getContext()
             .setAuthentication(authentication);
