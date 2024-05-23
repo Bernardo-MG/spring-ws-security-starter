@@ -1,8 +1,6 @@
 
 package com.bernardomg.security.authentication.jwt.token.test.unit;
 
-import java.util.concurrent.TimeUnit;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +21,7 @@ class TestJjwtTokenValidatorHasExpired {
 
     @Test
     @DisplayName("An expired token is identified as such")
-    void testHasExpired_fromGeneratedToken_expired() throws InterruptedException {
+    void testHasExpired_expired() throws InterruptedException {
         final String       token;
         final Boolean      expired;
         final JwtTokenData data;
@@ -32,9 +30,6 @@ class TestJjwtTokenValidatorHasExpired {
         data = JwtTokenDatas.withIssuerExpired();
 
         token = encoder.encode(data);
-
-        TimeUnit.SECONDS.sleep(Double.valueOf(6)
-            .longValue());
 
         // WHEN
         expired = validator.hasExpired(token);
