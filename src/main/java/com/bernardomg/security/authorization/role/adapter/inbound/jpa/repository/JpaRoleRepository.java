@@ -76,7 +76,7 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final boolean exists(final String name) {
-        return roleSpringRepository.existsByName(name);
+        return roleSpringRepository.existsByNameIgnoreCase(name);
     }
 
     @Override

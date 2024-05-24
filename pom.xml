@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.3.7</version>
+   <version>0.3.8</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -596,12 +596,6 @@
          </exclusions>
       </dependency>
       <dependency>
-         <!-- H2 database -->
-         <groupId>com.h2database</groupId>
-         <artifactId>h2</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
          <!-- GSON -->
          <groupId>com.google.code.gson</groupId>
          <artifactId>gson</artifactId>
@@ -612,6 +606,18 @@
          <groupId>com.tngtech.archunit</groupId>
          <artifactId>archunit-junit5</artifactId>
          <version>${archunit.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Test containers -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>testcontainers</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Postgresql -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>postgresql </artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
@@ -663,26 +669,6 @@
                   <version>${site.skin.version}</version>
                </dependency>
             </dependencies>
-         </plugin>
-         <plugin>
-            <!-- Build helper -->
-            <!-- Adds the generated files to the Maven classpath -->
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>add-source</id>
-                  <goals>
-                     <goal>add-source</goal>
-                  </goals>
-                  <configuration>
-                     <sources>
-                        <!-- JPA meta-model -->
-                        <source>${project.build.directory}/generated-sources/apt</source>
-                     </sources>
-                  </configuration>
-               </execution>
-            </executions>
          </plugin>
       </plugins>
    </build>

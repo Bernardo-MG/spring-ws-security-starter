@@ -217,7 +217,6 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_role_id
                     references: security.roles(id)
                     nullable: false
-                    deleteCascade: true
               - column:
                   name: permission
                   type: varchar(60)
@@ -225,7 +224,6 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_permission_id
                     references: security.permissions(name)
                     nullable: false
-                    deleteCascade: true
               - column:
                   name: granted
                   type: boolean

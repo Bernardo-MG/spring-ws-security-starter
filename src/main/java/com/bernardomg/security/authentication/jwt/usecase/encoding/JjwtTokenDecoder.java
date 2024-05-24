@@ -26,6 +26,8 @@ package com.bernardomg.security.authentication.jwt.usecase.encoding;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.crypto.SecretKey;
@@ -77,12 +79,14 @@ public final class JjwtTokenDecoder implements TokenDecoder {
             .build();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public final JwtTokenData decode(final String token) {
-        final Claims        claims;
-        final LocalDateTime issuedAt;
-        final LocalDateTime expiration;
-        final LocalDateTime notBefore;
+        final Claims                    claims;
+        final LocalDateTime             issuedAt;
+        final LocalDateTime             expiration;
+        final LocalDateTime             notBefore;
+        final Map<String, List<String>> permissions;
 
         // Acquire claims
         claims = parser.parseSignedClaims(token)
@@ -118,7 +122,13 @@ public final class JjwtTokenDecoder implements TokenDecoder {
             notBefore = null;
         }
 
-        // TODO: And the permissions?
+        // Permissions
+        if (claims.get("permissions") != null) {
+            permissions = (Map<String, List<String>>) claims.get("permissions");
+        } else {
+            permissions = null;
+        }
+
         return JwtTokenData.builder()
             .withId(claims.getId())
             .withSubject(claims.getSubject())
@@ -127,6 +137,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
             .withIssuedAt(issuedAt)
             .withExpiration(expiration)
             .withNotBefore(notBefore)
+            .withPermissions(permissions)
             .build();
     }
 

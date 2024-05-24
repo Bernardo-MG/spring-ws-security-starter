@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -14,51 +13,29 @@ import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.annotation.ValidUserToken;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@IntegrationTest
 @DisplayName("UserTokenRepository - find all - pagination")
 @OnlyUser
 @ValidUserToken
-class ITUserTokenRepositoryFindAllPagination {
+class ITUserTokenRepositoryFindAllPagination extends AbstractPaginationIT<UserToken> {
 
     @Autowired
     private UserTokenRepository userTokenRepository;
 
-    @Test
-    @DisplayName("Returns a page")
-    void testFindAll_Page_Container() {
-        final Iterable<UserToken> logins;
-        final Pageable            pageable;
+    public ITUserTokenRepositoryFindAllPagination() {
+        super(1);
+    }
 
-        // GIVEN
-        pageable = Pageable.ofSize(10);
-
-        // WHEN
-        logins = userTokenRepository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(logins)
-            .as("logins")
-            .isInstanceOf(Page.class);
+    @Override
+    protected final Iterable<UserToken> read(final Pageable pageable) {
+        return userTokenRepository.findAll(pageable);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAll_Page1() {
-        final Iterable<UserToken> logins;
-        final Pageable            pageable;
-
-        // GIVEN
-        pageable = PageRequest.of(0, 1);
-
-        // WHEN
-        logins = userTokenRepository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(logins)
-            .as("logins")
-            .containsExactly(UserTokens.valid());
+        testPageData(0, UserTokens.valid());
     }
 
     @Test
@@ -76,24 +53,6 @@ class ITUserTokenRepositoryFindAllPagination {
         // THEN
         Assertions.assertThat(logins)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("Returns a page when the pagination is disabled")
-    void testFindAll_Unpaged_Container() {
-        final Iterable<UserToken> logins;
-        final Pageable            pageable;
-
-        // GIVEN
-        pageable = Pageable.unpaged();
-
-        // WHEN
-        logins = userTokenRepository.findAll(pageable);
-
-        // THEN
-        Assertions.assertThat(logins)
-            .as("logins")
-            .isInstanceOf(Page.class);
     }
 
 }

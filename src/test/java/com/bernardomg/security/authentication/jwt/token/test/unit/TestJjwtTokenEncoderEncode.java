@@ -6,12 +6,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authentication.jwt.domain.JwtTokenData;
+import com.bernardomg.security.authentication.jwt.token.test.config.JwtTokenDatas;
 import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 
-@DisplayName("JjwtTokenEncoder - generate token")
-class TestJjwtTokenEncoderGenerateToken {
+@DisplayName("JjwtTokenEncoder - encode")
+class TestJjwtTokenEncoderEncode {
 
     private final TokenEncoder encoder = new JjwtTokenEncoder(Tokens.KEY);
 
@@ -22,8 +23,7 @@ class TestJjwtTokenEncoderGenerateToken {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenData.builder()
-            .build();
+        data = JwtTokenDatas.empty();
 
         // WHEN
         token = encoder.encode(data);
