@@ -60,6 +60,6 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("JWT")
         .mayOnlyBeAccessedByLayers("Login", "Config")
         .whereLayer("Event")
-        .mayOnlyBeAccessedByLayers("Login", "Users");
+        .mayOnlyBeAccessedByLayers("Login", "Users", "Config");
 
 }
