@@ -178,5 +178,7 @@
             Now testing against Postgres.
          </action>
       </release>
+      <release version="1.0.0" date="2024-05-24" description="">
+      </release>
    </body>
 </document>
