@@ -170,7 +170,13 @@
             Fixed roles losing permissions when assigning.
          </action>
       </release>
-      <release version="1.0.0" date="2024-05-20" description="">
+      <release version="0.3.8" date="2024-05-24" description="Cascade delete">
+         <action dev="bmg" type="fix">
+            Removed cascade delete for permissions.
+         </action>
+         <action dev="bmg" type="update">
+            Now testing against Postgres.
+         </action>
       </release>
    </body>
 </document>
