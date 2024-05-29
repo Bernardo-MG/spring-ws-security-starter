@@ -54,7 +54,7 @@ class ITUserRepositoryClearLoginAttempts {
     @Test
     @DisplayName("When the user has login attempts, these are removed")
     @MaxLoginAttemptsUser
-    void testLoginAttempts_MaxAttempts() {
+    void testClearLoginAttempts_MaxAttempts() {
 
         // WHEN
         userRepository.clearLoginAttempts(UserConstants.USERNAME);
@@ -69,7 +69,7 @@ class ITUserRepositoryClearLoginAttempts {
     @Test
     @DisplayName("When the user has no login attempts, these are removed")
     @ValidUser
-    void testLoginAttempts_NoAttempts() {
+    void testClearLoginAttempts_NoAttempts() {
 
         // WHEN
         userRepository.clearLoginAttempts(UserConstants.USERNAME);
@@ -83,7 +83,7 @@ class ITUserRepositoryClearLoginAttempts {
 
     @Test
     @DisplayName("When there is no data, nothing is done")
-    void testLoginAttempts_NoData() {
+    void testClearLoginAttempts_NoData() {
 
         // WHEN
         userRepository.clearLoginAttempts(UserConstants.USERNAME);

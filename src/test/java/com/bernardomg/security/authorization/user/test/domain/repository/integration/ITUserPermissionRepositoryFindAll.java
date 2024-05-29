@@ -15,13 +15,29 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("UserPermissionRepository - find all")
-class ITUserPermissionRepositoryFindAllForUser {
+class ITUserPermissionRepositoryFindAll {
 
     @Autowired
     private UserPermissionRepository repository;
 
-    public ITUserPermissionRepositoryFindAllForUser() {
+    public ITUserPermissionRepositoryFindAll() {
         super();
+    }
+
+    @Test
+    @DisplayName("Returns all the permissions for a user")
+    @UserWithCrudPermissions
+    void testFindAll() {
+        final Iterable<ResourcePermission> permissions;
+
+        // WHEN
+        permissions = repository.findAll(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
+                ResourcePermissions.delete());
     }
 
     @Test
@@ -36,22 +52,6 @@ class ITUserPermissionRepositoryFindAllForUser {
         Assertions.assertThat(permissions)
             .as("permissions")
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("Returns all the permissions for a user")
-    @UserWithCrudPermissions
-    void testFindAllForUser() {
-        final Iterable<ResourcePermission> permissions;
-
-        // WHEN
-        permissions = repository.findAll(UserConstants.USERNAME);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
-                ResourcePermissions.delete());
     }
 
 }
