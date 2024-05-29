@@ -90,9 +90,7 @@ public final class JpaResourceRepository implements ResourceRepository {
     }
 
     private final Resource toDomain(final ResourceEntity entity) {
-        return Resource.builder()
-            .withName(entity.getName())
-            .build();
+        return Resource.of(entity.getName());
     }
 
     private final ResourceEntity toEntity(final Resource entity) {

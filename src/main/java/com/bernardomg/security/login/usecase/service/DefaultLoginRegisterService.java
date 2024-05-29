@@ -63,11 +63,7 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
         log.debug("Registering log in attempt for user {} and status {}", username, logged);
 
         now = LocalDateTime.now();
-        entity = LoginRegister.builder()
-            .withUsername(username)
-            .withLoggedIn(logged)
-            .withDate(now)
-            .build();
+        entity = LoginRegister.of(username, now, logged);
 
         loginRegisterRepository.save(entity);
     }

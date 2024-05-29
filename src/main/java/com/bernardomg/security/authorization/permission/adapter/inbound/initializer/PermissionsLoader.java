@@ -127,23 +127,15 @@ public final class PermissionsLoader {
     }
 
     private final Action toAction(final String name) {
-        return Action.builder()
-            .withName(name)
-            .build();
+        return Action.of(name);
     }
 
     private final Resource toResource(final String name) {
-        return Resource.builder()
-            .withName(name)
-            .build();
+        return Resource.of(name);
     }
 
     private final ResourcePermission toResourcePermission(final ResourcePermissionPair pair) {
-        // TODO: the model should handle the name
-        return ResourcePermission.builder()
-            .withAction(pair.getAction())
-            .withResource(pair.getResource())
-            .build();
+        return ResourcePermission.of(pair.getResource(), pair.getAction());
     }
 
 }

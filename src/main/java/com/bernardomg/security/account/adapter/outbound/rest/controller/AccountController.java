@@ -80,9 +80,7 @@ public class AccountController {
     public Account updateForCurrentUser(@Valid @RequestBody final AccountChange request) {
         final Account account;
 
-        account = BasicAccount.builder()
-            .withName(request.getName())
-            .build();
+        account = BasicAccount.of(request.getName());
 
         return service.update(account);
     }

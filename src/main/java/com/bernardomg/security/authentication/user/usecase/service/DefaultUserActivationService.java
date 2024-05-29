@@ -171,10 +171,7 @@ public final class DefaultUserActivationService implements UserActivationService
         }
         username = tokenStore.getUsername(token);
 
-        return UserTokenStatus.builder()
-            .withValid(valid)
-            .withUsername(username)
-            .build();
+        return UserTokenStatus.of(username, valid);
     }
 
     private final User getUserByUsername(final String username) {

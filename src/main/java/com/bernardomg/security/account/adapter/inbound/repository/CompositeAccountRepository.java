@@ -33,14 +33,12 @@ public final class CompositeAccountRepository implements AccountRepository {
         if (user.isEmpty()) {
             result = Optional.empty();
         } else {
-            account = BasicAccount.builder()
-                .withUsername(user.get()
-                    .getUsername())
-                .withName(user.get()
-                    .getName())
-                .withEmail(user.get()
-                    .getEmail())
-                .build();
+            account = BasicAccount.of(user.get()
+                .getUsername(),
+                user.get()
+                    .getName(),
+                user.get()
+                    .getEmail());
             result = Optional.of(account);
         }
 
@@ -72,11 +70,7 @@ public final class CompositeAccountRepository implements AccountRepository {
             .build();
 
         updated = userRepository.update(user);
-        return BasicAccount.builder()
-            .withUsername(updated.getUsername())
-            .withEmail(updated.getEmail())
-            .withName(updated.getName())
-            .build();
+        return BasicAccount.of(updated.getUsername(), updated.getName(), updated.getEmail());
     }
 
 }

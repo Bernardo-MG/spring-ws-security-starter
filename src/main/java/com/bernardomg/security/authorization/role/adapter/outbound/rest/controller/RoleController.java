@@ -155,15 +155,9 @@ public class RoleController {
 
         permissions = request.getPermissions()
             .stream()
-            .map(p -> ResourcePermission.builder()
-                .withAction(p.getAction())
-                .withResource(p.getResource())
-                .build())
+            .map(p -> ResourcePermission.of(p.getResource(), p.getAction()))
             .toList();
-        role = Role.builder()
-            .withName(roleName)
-            .withPermissions(permissions)
-            .build();
+        role = Role.of(roleName, permissions);
 
         return service.update(role);
     }

@@ -172,9 +172,7 @@ public class UserController {
 
         roles = request.getRoles()
             .stream()
-            .map(r -> Role.builder()
-                .withName(r)
-                .build())
+            .map(Role::of)
             .toList();
         user = User.builder()
             .withUsername(request.getUsername())

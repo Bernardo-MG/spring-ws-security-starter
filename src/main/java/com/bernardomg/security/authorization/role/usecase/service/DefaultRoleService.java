@@ -82,9 +82,7 @@ public final class DefaultRoleService implements RoleService {
 
         log.debug("Creating role {}", name);
 
-        role = Role.builder()
-            .withName(name)
-            .build();
+        role = Role.of(name);
 
         validatorCreateRole.validate(role);
 
