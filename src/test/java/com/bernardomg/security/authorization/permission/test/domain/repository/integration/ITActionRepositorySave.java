@@ -29,7 +29,7 @@ class ITActionRepositorySave {
 
     @Test
     @DisplayName("Persists the data")
-    void testRemovePermission_Persisted() {
+    void testSave_Persisted() {
         final Iterable<ActionEntity> actions;
         final Action                 action;
 
@@ -50,7 +50,7 @@ class ITActionRepositorySave {
 
     @Test
     @DisplayName("Returns the persisted data")
-    void testRemovePermission_Returned() {
+    void testSave_Returned() {
         final Collection<Action> created;
         final Action             action;
 

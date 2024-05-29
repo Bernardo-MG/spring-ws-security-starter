@@ -35,7 +35,7 @@ class ITResourcePermissionRepositorySave {
     @Test
     @DisplayName("Persists the data")
     @ResourceAndActions
-    void testRemovePermission_Persisted() {
+    void testSave_Persisted() {
         final Iterable<ResourcePermissionEntity> permissions;
         final ResourcePermission                 permission;
 
@@ -57,7 +57,7 @@ class ITResourcePermissionRepositorySave {
     @Test
     @DisplayName("Returns the persisted data")
     @ResourceAndActions
-    void testRemovePermission_Returned() {
+    void testSave_Returned() {
         final Collection<ResourcePermission> created;
         final ResourcePermission             permission;
 

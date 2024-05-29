@@ -178,5 +178,10 @@
             Now testing against Postgres.
          </action>
       </release>
+      <release version="0.3.9" date="2024-05-29" description="User lock">
+         <action dev="bmg" type="fix">
+            Load user lock listener.
+         </action>
+      </release>
    </body>
 </document>

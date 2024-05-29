@@ -121,6 +121,13 @@ public interface UserRepository {
      */
     public Optional<String> findPassword(final String username);
 
+    /**
+     * Returns the number of login attempts which the user has done.
+     *
+     * @param username
+     *            user to search for the login attempts
+     * @return number of login attempts for the user
+     */
     public int getLoginAttempts(final String username);
 
     /**
