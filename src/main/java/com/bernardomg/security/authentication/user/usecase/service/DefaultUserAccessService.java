@@ -10,6 +10,9 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserE
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Transactional
 public final class DefaultUserAccessService implements UserAccessService {
 
@@ -31,13 +34,19 @@ public final class DefaultUserAccessService implements UserAccessService {
         final User           user;
         final User           locked;
 
+        log.debug("Checking {} for locking user", username);
+
         // Get number of attempts
-        attempts = userRepository.getLoginAttempts(username);
+        attempts = userRepository.getLoginAttempts(username) + 1;
+
+        log.debug("User {} had {} login attempts, out of a max of {}", username, attempts, maxAttempts);
+
         // If attempts reached the max
-        if ((attempts + 1) >= maxAttempts) {
+        if (attempts >= maxAttempts) {
             // Then the user is locked
             read = userRepository.findOne(username);
             if (read.isEmpty()) {
+                log.error("Missing user {}", username);
                 throw new MissingUserException(username);
             }
             user = read.get();
@@ -52,6 +61,7 @@ public final class DefaultUserAccessService implements UserAccessService {
                 .withRoles(user.getRoles())
                 .build();
             userRepository.update(locked);
+            log.debug("Locked user {} after {} login attempts", username, attempts);
         }
     }
 
@@ -59,8 +69,11 @@ public final class DefaultUserAccessService implements UserAccessService {
     public final void clearLoginAttempts(final String username) {
         final int attempts;
 
+        log.debug("Clearing login attempts for {}", username);
+
         attempts = userRepository.getLoginAttempts(username);
         if (attempts > 0) {
+            log.debug("User {} had {} login attempts. Clearing them", username, attempts);
             userRepository.clearLoginAttempts(username);
         }
     }
