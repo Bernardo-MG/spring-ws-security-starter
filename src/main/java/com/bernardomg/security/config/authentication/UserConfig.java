@@ -26,12 +26,14 @@ package com.bernardomg.security.config.authentication;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.authentication.user.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.authentication.user.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
@@ -51,6 +53,7 @@ import com.bernardomg.security.authorization.token.domain.repository.UserTokenRe
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
+import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
@@ -70,8 +73,13 @@ public class UserConfig {
     }
 
     @Bean("activateUserWhitelist")
-    public WhitelistRoute geActivateUserWhitelist() {
+    public WhitelistRoute getActivateUserWhitelist() {
         return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
+    }
+
+    @Bean("loginFailureBlockerListener")
+    public ApplicationListener<LogInEvent> getLoginFailureBlockerListener(final UserAccessService userAccessService) {
+        return new LoginFailureBlockerListener(userAccessService);
     }
 
     @Bean("userAccessService")
