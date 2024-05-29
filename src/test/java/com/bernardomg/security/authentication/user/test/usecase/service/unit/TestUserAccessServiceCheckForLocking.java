@@ -39,44 +39,45 @@ class TestUserAccessServiceCheckForLocking {
     }
 
     @Test
-    @DisplayName("When the user is just under the max login attempts it is locked")
-    void testCheckForLocking_JustUnderMaxAttempts() {
+    @DisplayName("When this is the first login attempt it is not locked")
+    void testCheckForLocking_FirstAttempt() {
         // GIVEN
-        given(userRepository.getLoginAttempts(UserConstants.USERNAME)).willReturn(UserConstants.MAX_LOGIN_ATTEMPTS - 1);
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-
-        // WHEN
-        service.checkForLocking(UserConstants.USERNAME);
-
-        // THEN
-        verify(userRepository).update(Users.locked());
-    }
-
-    @Test
-    @DisplayName("When the user has reached the max login attempts it is locked")
-    void testCheckForLocking_MaxAttempts() {
-        // GIVEN
-        given(userRepository.getLoginAttempts(UserConstants.USERNAME)).willReturn(UserConstants.MAX_LOGIN_ATTEMPTS);
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-
-        // WHEN
-        service.checkForLocking(UserConstants.USERNAME);
-
-        // THEN
-        verify(userRepository).update(Users.locked());
-    }
-
-    @Test
-    @DisplayName("When the user has no login attempts it is not locked")
-    void testCheckForLocking_NoAttempts() {
-        // GIVEN
-        given(userRepository.getLoginAttempts(UserConstants.USERNAME)).willReturn(0);
+        given(userRepository.increaseLoginAttempts(UserConstants.USERNAME)).willReturn(1);
 
         // WHEN
         service.checkForLocking(UserConstants.USERNAME);
 
         // THEN
         verify(userRepository, Mockito.never()).update(ArgumentMatchers.any());
+    }
+
+    @Test
+    @DisplayName("When the user is in the max login attempts it is not locked")
+    void testCheckForLocking_JustUnderMaxAttempts() {
+        // GIVEN
+        given(userRepository.increaseLoginAttempts(UserConstants.USERNAME))
+            .willReturn(UserConstants.MAX_LOGIN_ATTEMPTS - 1);
+
+        // WHEN
+        service.checkForLocking(UserConstants.USERNAME);
+
+        // THEN
+        verify(userRepository, Mockito.never()).update(ArgumentMatchers.any());
+    }
+
+    @Test
+    @DisplayName("When the user has reached the max login attempts it is locked")
+    void testCheckForLocking_MaxAttempts() {
+        // GIVEN
+        given(userRepository.increaseLoginAttempts(UserConstants.USERNAME))
+            .willReturn(UserConstants.MAX_LOGIN_ATTEMPTS);
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+
+        // WHEN
+        service.checkForLocking(UserConstants.USERNAME);
+
+        // THEN
+        verify(userRepository).update(Users.locked());
     }
 
 }

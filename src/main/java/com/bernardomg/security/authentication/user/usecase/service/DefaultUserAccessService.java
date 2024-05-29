@@ -37,7 +37,7 @@ public final class DefaultUserAccessService implements UserAccessService {
         log.debug("Checking {} for locking user", username);
 
         // Get number of attempts
-        attempts = userRepository.getLoginAttempts(username) + 1;
+        attempts = userRepository.increaseLoginAttempts(username);
 
         log.debug("User {} had {} login attempts, out of a max of {}", username, attempts, maxAttempts);
 

@@ -131,6 +131,15 @@ public interface UserRepository {
     public int getLoginAttempts(final String username);
 
     /**
+     * Increases the number of login attempts and returns the new number.
+     *
+     * @param username
+     *            user to increase the login attempts
+     * @return number of login attempts for the user
+     */
+    public int increaseLoginAttempts(final String username);
+
+    /**
      * Saves the received user. If it exists it is updated, otherwise it is created.
      *
      * @param user
