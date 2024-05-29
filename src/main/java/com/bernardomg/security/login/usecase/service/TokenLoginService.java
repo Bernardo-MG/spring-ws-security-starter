@@ -100,15 +100,9 @@ public final class TokenLoginService implements LoginService {
 
         if (logged) {
             token = loginTokenEncoder.encode(username);
-            status = TokenLoginStatus.builder()
-                .withLogged(logged)
-                .withToken(token)
-                .build();
+            status = TokenLoginStatus.of(logged, token);
         } else {
-            status = TokenLoginStatus.builder()
-                .withLogged(logged)
-                .withToken("")
-                .build();
+            status = TokenLoginStatus.of(logged);
         }
 
         return status;
