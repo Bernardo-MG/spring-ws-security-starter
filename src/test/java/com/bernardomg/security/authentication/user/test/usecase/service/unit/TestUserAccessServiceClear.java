@@ -54,7 +54,7 @@ class TestUserAccessServiceClear {
         given(userRepository.getLoginAttempts(UserConstants.USERNAME)).willReturn(0);
 
         // WHEN
-        service.checkForLocking(UserConstants.USERNAME);
+        service.clearLoginAttempts(UserConstants.USERNAME);
 
         // THEN
         verify(userRepository, Mockito.never()).clearLoginAttempts(UserConstants.USERNAME);

@@ -183,5 +183,10 @@
             Load user lock listener.
          </action>
       </release>
+      <release version="0.3.10" date="2024-05-29" description="User lock">
+         <action dev="bmg" type="fix">
+            Increases login attempts correctly.
+         </action>
+      </release>
    </body>
 </document>

@@ -34,11 +34,14 @@ import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.login.adapter.outbound.cache.Logins;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Listens for login events and registers them.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
+@Slf4j
 public final class LoginEventRegisterListener implements ApplicationListener<LogInEvent> {
 
     private final LoginRegisterService loginRegisterService;
@@ -52,6 +55,7 @@ public final class LoginEventRegisterListener implements ApplicationListener<Log
     @Override
     @Caching(evict = { @CacheEvict(cacheNames = Logins.LOGIN_REGISTERS, allEntries = true) })
     public final void onApplicationEvent(final LogInEvent event) {
+        log.debug("Handling login event register for {}", event.getUsername());
         loginRegisterService.register(event.getUsername(), event.isLoggedIn());
     }
 

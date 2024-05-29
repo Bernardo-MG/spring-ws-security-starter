@@ -144,6 +144,26 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final int increaseLoginAttempts(final String username) {
+        final Optional<UserEntity> existing;
+        final UserEntity           toSave;
+        final int                  attempts;
+
+        existing = userSpringRepository.findByUsername(username);
+        if (existing.isPresent()) {
+            toSave = existing.get();
+            attempts = toSave.getLoginAttempts() + 1;
+            toSave.setLoginAttempts(attempts);
+
+            userSpringRepository.save(toSave);
+        } else {
+            attempts = -1;
+        }
+
+        return attempts;
+    }
+
+    @Override
     public final User save(final User user, final String password) {
         final Optional<UserEntity> existing;
         final String               encodedPassword;
