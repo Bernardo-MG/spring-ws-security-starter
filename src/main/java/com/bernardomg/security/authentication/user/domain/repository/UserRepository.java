@@ -39,6 +39,17 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 public interface UserRepository {
 
     /**
+     * Activates the received user, setting the password and enabling it.
+     *
+     * @param username
+     *            user to activate
+     * @param password
+     *            password for the user
+     * @return the activated user
+     */
+    public User activate(final String username, final String password);
+
+    /**
      * Removes all login attempts for the user.
      *
      * @param username
