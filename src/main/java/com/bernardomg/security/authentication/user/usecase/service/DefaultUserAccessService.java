@@ -32,7 +32,6 @@ public final class DefaultUserAccessService implements UserAccessService {
         final int            attempts;
         final Optional<User> read;
         final User           user;
-        final User           locked;
 
         log.debug("Checking {} for locking user", username);
 
@@ -50,17 +49,7 @@ public final class DefaultUserAccessService implements UserAccessService {
                 throw new MissingUserException(username);
             }
             user = read.get();
-            locked = User.builder()
-                .withUsername(user.getUsername())
-                .withName(user.getName())
-                .withEmail(user.getEmail())
-                .withEnabled(user.isEnabled())
-                .withExpired(user.isExpired())
-                .withLocked(true)
-                .withPasswordExpired(user.isPasswordExpired())
-                .withRoles(user.getRoles())
-                .build();
-            userRepository.update(locked);
+            userRepository.lock(user.getUsername());
             log.debug("Locked user {} after {} login attempts", username, attempts);
         }
     }

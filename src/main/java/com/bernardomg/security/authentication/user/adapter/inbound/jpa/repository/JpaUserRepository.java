@@ -164,6 +164,28 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final User lock(final String username) {
+        final Optional<UserEntity> read;
+        final UserEntity           user;
+        final UserEntity           updated;
+        final User                 result;
+
+        read = userSpringRepository.findByUsername(username);
+        if (read.isPresent()) {
+            user = read.get();
+            user.setLocked(true);
+            updated = userSpringRepository.save(user);
+            result = toDomain(updated);
+        } else {
+            // TODO: Maybe return an optional
+            result = User.builder()
+                .build();
+        }
+
+        return result;
+    }
+
+    @Override
     public final User save(final User user, final String password) {
         final Optional<UserEntity> existing;
         final String               encodedPassword;

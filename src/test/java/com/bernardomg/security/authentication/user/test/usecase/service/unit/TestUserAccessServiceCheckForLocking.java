@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,15 +18,16 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAccessService;
+import com.bernardomg.security.authentication.user.usecase.service.UserAccessService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserAccessService - check for locking")
 class TestUserAccessServiceCheckForLocking {
 
-    private DefaultUserAccessService service;
+    private UserAccessService service;
 
     @Mock
-    private UserRepository           userRepository;
+    private UserRepository    userRepository;
 
     public TestUserAccessServiceCheckForLocking() {
         super();
@@ -48,7 +48,7 @@ class TestUserAccessServiceCheckForLocking {
         service.checkForLocking(UserConstants.USERNAME);
 
         // THEN
-        verify(userRepository, Mockito.never()).update(ArgumentMatchers.any());
+        verify(userRepository, Mockito.never()).lock(UserConstants.USERNAME);
     }
 
     @Test
@@ -62,7 +62,7 @@ class TestUserAccessServiceCheckForLocking {
         service.checkForLocking(UserConstants.USERNAME);
 
         // THEN
-        verify(userRepository, Mockito.never()).update(ArgumentMatchers.any());
+        verify(userRepository, Mockito.never()).lock(UserConstants.USERNAME);
     }
 
     @Test
@@ -77,7 +77,7 @@ class TestUserAccessServiceCheckForLocking {
         service.checkForLocking(UserConstants.USERNAME);
 
         // THEN
-        verify(userRepository).update(Users.locked());
+        verify(userRepository).lock(UserConstants.USERNAME);
     }
 
 }

@@ -140,6 +140,15 @@ public interface UserRepository {
     public int increaseLoginAttempts(final String username);
 
     /**
+     * Locks the received user.
+     *
+     * @param username
+     *            user to lock
+     * @return the locked user
+     */
+    public User lock(final String username);
+
+    /**
      * Saves the received user. If it exists it is updated, otherwise it is created.
      *
      * @param user
