@@ -71,7 +71,7 @@ public final class CompositeAccountRepository implements AccountRepository {
             .withEmail(account.getEmail())
             .build();
 
-        updated = userRepository.update(user);
+        updated = userRepository.save(user);
         return BasicAccount.of(updated.getUsername(), updated.getName(), updated.getEmail());
     }
 

@@ -43,8 +43,8 @@ import com.bernardomg.security.authorization.role.test.config.annotation.Alterna
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User repository - update")
-class ITUserRepositoryUpdate {
+@DisplayName("User repository - save")
+class ITUserRepositorySave {
 
     @Autowired
     private UserRepository       repository;
@@ -52,14 +52,14 @@ class ITUserRepositoryUpdate {
     @Autowired
     private UserSpringRepository userSpringRepository;
 
-    public ITUserRepositoryUpdate() {
+    public ITUserRepositorySave() {
         super();
     }
 
     @Test
     @DisplayName("When adding a not existing role to a user it is updated")
     @OnlyUser
-    void testUpdate_AddRole_NotExistingRole_PersistedData() {
+    void testSave_AddRole_NotExistingRole_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -67,7 +67,7 @@ class ITUserRepositoryUpdate {
         user = Users.addRole();
 
         // WHEN
-        repository.update(user);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -80,7 +80,7 @@ class ITUserRepositoryUpdate {
     @Test
     @DisplayName("When adding a not existing role to a user it is returned")
     @OnlyUser
-    void testUpdate_AddRole_NotExistingRole_Returned() {
+    void testSave_AddRole_NotExistingRole_Returned() {
         final User user;
         final User created;
 
@@ -88,7 +88,7 @@ class ITUserRepositoryUpdate {
         user = Users.addRole();
 
         // WHEN
-        created = repository.update(user);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)
@@ -100,7 +100,7 @@ class ITUserRepositoryUpdate {
     @DisplayName("When adding a role to a user it is updated")
     @ValidUser
     @AlternativeRole
-    void testUpdate_AddRole_PersistedData() {
+    void testSave_AddRole_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -108,7 +108,7 @@ class ITUserRepositoryUpdate {
         user = Users.addRole();
 
         // WHEN
-        repository.update(user);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -122,7 +122,7 @@ class ITUserRepositoryUpdate {
     @DisplayName("When adding a role to a user it is returned")
     @ValidUser
     @AlternativeRole
-    void testUpdate_AddRole_Returned() {
+    void testSave_AddRole_Returned() {
         final User user;
         final User created;
 
@@ -130,7 +130,7 @@ class ITUserRepositoryUpdate {
         user = Users.addRole();
 
         // WHEN
-        created = repository.update(user);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)
@@ -139,8 +139,8 @@ class ITUserRepositoryUpdate {
     }
 
     @Test
-    @DisplayName("Doesn't persist a not existing user")
-    void testUpdate_NotExisting_PersistedData() {
+    @DisplayName("Persists a newly created user")
+    void testSave_NotExisting_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -148,18 +148,19 @@ class ITUserRepositoryUpdate {
         user = Users.enabled();
 
         // WHEN
-        repository.update(user);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
-            .isEmpty();
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.withoutRole());
     }
 
     @Test
-    @DisplayName("Doesn't return a not existing user")
-    void testUpdate_NotExisting_Returned() {
+    @DisplayName("Returns a newly created user")
+    void testSave_NotExisting_Returned() {
         final User user;
         final User created;
 
@@ -167,18 +168,18 @@ class ITUserRepositoryUpdate {
         user = Users.enabled();
 
         // WHEN
-        created = repository.update(user);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)
             .as("user")
-            .isNull();
+            .isEqualTo(Users.withoutRoles());
     }
 
     @Test
     @DisplayName("When removing the roles to a user it is updated")
     @ValidUser
-    void testUpdate_RemoveRoles_PersistedData() {
+    void testSave_RemoveRoles_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -186,7 +187,7 @@ class ITUserRepositoryUpdate {
         user = Users.withoutRoles();
 
         // WHEN
-        repository.update(user);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -199,7 +200,7 @@ class ITUserRepositoryUpdate {
     @Test
     @DisplayName("When removing the roles to a user it is returned")
     @ValidUser
-    void testUpdate_RemoveRoles_Returned() {
+    void testSave_RemoveRoles_Returned() {
         final User user;
         final User created;
 
@@ -207,7 +208,7 @@ class ITUserRepositoryUpdate {
         user = Users.withoutRoles();
 
         // WHEN
-        created = repository.update(user);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)
@@ -218,7 +219,7 @@ class ITUserRepositoryUpdate {
     @Test
     @DisplayName("When a user has no roles it is updated")
     @OnlyUser
-    void testUpdate_WithoutRoles_PersistedData() {
+    void testSave_WithoutRoles_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -226,7 +227,7 @@ class ITUserRepositoryUpdate {
         user = Users.withoutRoles();
 
         // WHEN
-        repository.update(user);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -239,7 +240,7 @@ class ITUserRepositoryUpdate {
     @Test
     @DisplayName("When a user has no roles it is returned")
     @OnlyUser
-    void testUpdate_WithoutRoles_Returned() {
+    void testSave_WithoutRoles_Returned() {
         final User user;
         final User created;
 
@@ -247,7 +248,7 @@ class ITUserRepositoryUpdate {
         user = Users.withoutRoles();
 
         // WHEN
-        created = repository.update(user);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)
@@ -258,7 +259,7 @@ class ITUserRepositoryUpdate {
     @Test
     @DisplayName("When a user has roles it is updated")
     @ValidUser
-    void testUpdate_WithRoles_PersistedData() {
+    void testSave_WithRoles_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -266,7 +267,7 @@ class ITUserRepositoryUpdate {
         user = Users.enabled();
 
         // WHEN
-        repository.update(user);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -279,7 +280,7 @@ class ITUserRepositoryUpdate {
     @Test
     @DisplayName("When a user has roles it is returned")
     @ValidUser
-    void testUpdate_WithRoles_Returned() {
+    void testSave_WithRoles_Returned() {
         final User user;
         final User created;
 
@@ -287,7 +288,7 @@ class ITUserRepositoryUpdate {
         user = Users.enabled();
 
         // WHEN
-        created = repository.update(user);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)

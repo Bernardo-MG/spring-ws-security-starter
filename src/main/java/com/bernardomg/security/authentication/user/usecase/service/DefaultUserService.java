@@ -149,7 +149,7 @@ public final class DefaultUserService implements UserService {
             .withRoles(user.getRoles())
             .build();
 
-        return userRepository.update(toSave);
+        return userRepository.save(toSave);
     }
 
 }

@@ -260,11 +260,10 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final User update(final User user) {
+    public final User save(final User user) {
         final Optional<UserEntity> existing;
         final UserEntity           entity;
         final UserEntity           saved;
-        final User                 result;
 
         entity = toEntity(user);
 
@@ -276,15 +275,12 @@ public final class JpaUserRepository implements UserRepository {
                 .getPassword());
             entity.setLoginAttempts(existing.get()
                 .getLoginAttempts());
-
-            saved = userSpringRepository.save(entity);
-            result = toDomain(saved);
         } else {
-            // TODO: if it doesn't exist, then maybe create
-            result = null;
+            entity.setPassword("");
         }
 
-        return result;
+        saved = userSpringRepository.save(entity);
+        return toDomain(saved);
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {

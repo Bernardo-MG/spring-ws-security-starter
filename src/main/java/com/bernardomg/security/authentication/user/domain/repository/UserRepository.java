@@ -181,13 +181,11 @@ public interface UserRepository {
 
     /**
      * Updates an existing user.
-     * <p>
-     * TODO: rename to save
      *
      * @param user
      *            the user to update
      * @return the updated user
      */
-    public User update(final User user);
+    public User save(final User user);
 
 }
