@@ -22,33 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+/**
+ * Login initializers.
+ */
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import lombok.Data;
-
-@Data
-@ConfigurationProperties(prefix = "email.security")
-public final class PasswordNotificatorProperties {
-
-    @Data
-    public final class PasswordRecoveryProperties {
-
-        /**
-         * Password recovery URL.
-         */
-        private String url;
-    }
-
-    /**
-     * Email from field.
-     */
-    private String                     from;
-
-    /**
-     * Password recovery properties.
-     */
-    private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
-
-}
+package com.bernardomg.security.login.adapter.inbound.initializer;

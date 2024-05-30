@@ -53,6 +53,9 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
      */
     private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
+    /**
+     * Role repository.
+     */
     private final RoleSpringRepository               roleSpringRepository;
 
     public JpaRolePermissionRepository(final RoleSpringRepository roleSpringRepo,

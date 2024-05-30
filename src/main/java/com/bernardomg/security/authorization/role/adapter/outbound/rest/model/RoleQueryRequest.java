@@ -35,6 +35,9 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 public final class RoleQueryRequest {
 
+    /**
+     * Role name.
+     */
     private String name;
 
 }

@@ -49,6 +49,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class DeleteRoleValidator implements Validator<String> {
 
+    /**
+     * Role repository.
+     */
     private final RoleRepository roleRepository;
 
     public DeleteRoleValidator(final RoleRepository roleRepo) {

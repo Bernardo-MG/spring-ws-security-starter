@@ -53,10 +53,19 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 @Transactional
 public final class JpaRoleRepository implements RoleRepository {
 
+    /**
+     * Resource permission repository.
+     */
     private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
+    /**
+     * Role repository.
+     */
     private final RoleSpringRepository               roleSpringRepository;
 
+    /**
+     * User roles repository.
+     */
     private final UserRoleSpringRepository           userRoleSpringRepository;
 
     public JpaRoleRepository(final RoleSpringRepository roleSpringRepo,

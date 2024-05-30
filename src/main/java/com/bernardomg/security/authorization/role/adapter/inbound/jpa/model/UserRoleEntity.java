@@ -58,10 +58,16 @@ public class UserRoleEntity implements Serializable {
     @Transient
     private static final long serialVersionUID = 8513041662486312372L;
 
+    /**
+     * Role id.
+     */
     @Id
     @Column(name = "role_id", nullable = false, unique = true)
     private Long              roleId;
 
+    /**
+     * User id.
+     */
     @Id
     @Column(name = "user_id", nullable = false, unique = true)
     private Long              userId;
