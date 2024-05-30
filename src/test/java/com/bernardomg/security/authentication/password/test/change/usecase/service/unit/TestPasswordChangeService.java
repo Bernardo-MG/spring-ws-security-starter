@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -23,14 +22,13 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserE
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
+import com.bernardomg.test.config.factory.Authentications;
+import com.bernardomg.test.config.factory.SecurityUsers;
 import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password")
 class TestPasswordChangeService {
-
-    @Mock
-    private Authentication                      authentication;
 
     @Mock
     private PasswordEncoder                     passwordEncoder;
@@ -48,36 +46,10 @@ class TestPasswordChangeService {
         super();
     }
 
-    private final void initializeAuthentication() {
-        given(authentication.isAuthenticated()).willReturn(true);
-        given(authentication.getName()).willReturn(UserConstants.USERNAME);
-
+    @BeforeEach
+    public final void initializeAuthentication() {
         SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-    }
-
-    private final void loadUser() {
-        final UserDetails user;
-
-        user = Mockito.mock(UserDetails.class);
-        // given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
-        given(user.isEnabled()).willReturn(true);
-        given(user.isAccountNonExpired()).willReturn(true);
-        given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-    }
-
-    private final void loadUserPassword() {
-        final UserDetails user;
-
-        user = Mockito.mock(UserDetails.class);
-        // given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
-        // given(user.isEnabled()).willReturn(true);
-        // given(user.isAccountNonExpired()).willReturn(true);
-        // given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+            .setAuthentication(Authentications.authenticated());
     }
 
     @Test
@@ -87,9 +59,7 @@ class TestPasswordChangeService {
         // GIVEN
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
-
-        loadUser();
-        initializeAuthentication();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
 
         // WHEN
         service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
@@ -108,9 +78,7 @@ class TestPasswordChangeService {
         // GIVEN
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(false);
-
-        loadUserPassword();
-        initializeAuthentication();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
 
         // WHEN
         execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
@@ -128,8 +96,6 @@ class TestPasswordChangeService {
 
         // GIVEN
         given(repository.exists(UserConstants.USERNAME)).willReturn(false);
-
-        initializeAuthentication();
 
         // WHEN
         execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
