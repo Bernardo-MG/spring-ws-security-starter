@@ -37,6 +37,14 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class BasicAccount implements Account {
 
+    public static final BasicAccount of(final String usrnm, final String nm, final String eml) {
+        return BasicAccount.builder()
+            .withUsername(usrnm)
+            .withName(nm)
+            .withEmail(eml)
+            .build();
+    }
+
     /**
      * User email.
      */

@@ -81,13 +81,12 @@ public final class DefaultAccountService implements AccountService {
         }
 
         // Can only change name
-        accountData = BasicAccount.builder()
-            .withUsername(current.get()
-                .getUsername())
-            .withName(account.getName())
-            .withEmail(current.get()
-                .getEmail())
-            .build();
+        accountData = BasicAccount.of(current.get()
+            .getUsername(),
+            current.get()
+                .getName(),
+            current.get()
+                .getEmail());
 
         log.debug("Updating account {} using data {}", accountData.getUsername(), accountData);
 

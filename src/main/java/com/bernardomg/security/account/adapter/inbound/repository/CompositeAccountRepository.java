@@ -33,14 +33,12 @@ public final class CompositeAccountRepository implements AccountRepository {
         if (user.isEmpty()) {
             result = Optional.empty();
         } else {
-            account = BasicAccount.builder()
-                .withUsername(user.get()
-                    .getUsername())
-                .withName(user.get()
-                    .getName())
-                .withEmail(user.get()
-                    .getEmail())
-                .build();
+            account = BasicAccount.of(user.get()
+                .getUsername(),
+                user.get()
+                    .getName(),
+                user.get()
+                    .getEmail());
             result = Optional.of(account);
         }
 
@@ -56,9 +54,7 @@ public final class CompositeAccountRepository implements AccountRepository {
         read = userRepository.findOne(account.getUsername());
         // TODO: check it is not empty
         user = User.builder()
-            .withUsername(account.getUsername())
-            .withName(account.getName())
-            .withEmail(account.getEmail())
+            // Can't change these fields
             .withEnabled(read.get()
                 .isEnabled())
             .withExpired(read.get()
@@ -69,14 +65,14 @@ public final class CompositeAccountRepository implements AccountRepository {
                 .isPasswordExpired())
             .withRoles(read.get()
                 .getRoles())
+            // These fields are allowed to change
+            .withUsername(account.getUsername())
+            .withName(account.getName())
+            .withEmail(account.getEmail())
             .build();
 
         updated = userRepository.update(user);
-        return BasicAccount.builder()
-            .withUsername(updated.getUsername())
-            .withEmail(updated.getEmail())
-            .withName(updated.getName())
-            .build();
+        return BasicAccount.of(updated.getUsername(), updated.getName(), updated.getEmail());
     }
 
 }
