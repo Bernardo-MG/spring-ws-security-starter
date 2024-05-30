@@ -34,8 +34,8 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringSecurityPasswordResetService - change password - user status")
-class TestSpringSecurityPasswordResetServiceChangeUserStatus {
+@DisplayName("SpringSecurityPasswordResetService - change password - authentication")
+class TestSpringSecurityPasswordResetServiceChangeAuth {
 
     @Mock
     private PasswordEncoder                    passwordEncoder;
@@ -55,7 +55,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     @Mock
     private UserRepository                     userRepository;
 
-    public TestSpringSecurityPasswordResetServiceChangeUserStatus() {
+    public TestSpringSecurityPasswordResetServiceChangeAuth() {
         super();
     }
 
@@ -111,7 +111,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     @Test
     @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a disabled user throws an exception")
-    void testChangePassword_Disabled_Exception() {
+    void testChangePassword_Disabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -132,7 +132,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     @Test
     @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a expired user throws an exception")
-    void testChangePassword_Expired_Exception() {
+    void testChangePassword_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -153,7 +153,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     @Test
     @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a locked user throws an exception")
-    void testChangePassword_Locked_Exception() {
+    void testChangePassword_Locked() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -174,7 +174,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     @Test
     @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password for a not existing user throws an exception")
-    void testChangePassword_NotExistingUser_Exception() {
+    void testChangePassword_NotExistingUser() {
         final ThrowingCallable executable;
         final Exception        exception;
 
