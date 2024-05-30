@@ -169,7 +169,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         // Validate the user exists
         if (!user.isPresent()) {
-            log.error("Couldn't activate new user {}, as it doesn't exist", username);
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
@@ -185,15 +185,15 @@ public final class DefaultUserActivationService implements UserActivationService
     private final void validateActivation(final User user) {
         // TODO: validate somehow that it is actually new
         if (user.isExpired()) {
-            log.error("Can't activate new user. User {} is expired", user.getUsername());
+            log.error("User {} is expired", user.getUsername());
             throw new ExpiredUserException(user.getUsername());
         }
         if (user.isLocked()) {
-            log.error("Can't activate new user. User {} is locked", user.getUsername());
+            log.error("User {} is locked", user.getUsername());
             throw new LockedUserException(user.getUsername());
         }
         if (user.isEnabled()) {
-            log.error("Can't activate new user. User {} is already enabled", user.getUsername());
+            log.error("User {} is already enabled", user.getUsername());
             throw new EnabledUserException(user.getUsername());
         }
     }

@@ -84,6 +84,7 @@ public final class DefaultUserService implements UserService {
 
         exists = userRepository.exists(username);
         if (!exists) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
@@ -105,6 +106,7 @@ public final class DefaultUserService implements UserService {
 
         exists = userRepository.exists(username);
         if (!exists) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
@@ -121,12 +123,14 @@ public final class DefaultUserService implements UserService {
         // Verify the user exists
         existing = userRepository.findOne(user.getUsername());
         if (existing.isEmpty()) {
+            log.error("Missing user {}", user.getUsername());
             throw new MissingUserException(user.getUsername());
         }
 
         // Verify the roles exists
         for (final Role role : user.getRoles()) {
             if (!roleRepository.exists(role.getName())) {
+                log.error("Missing role {}", role.getName());
                 throw new MissingRoleException(role.getName());
             }
         }

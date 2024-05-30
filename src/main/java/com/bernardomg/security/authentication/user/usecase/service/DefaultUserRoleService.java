@@ -65,6 +65,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         userExists = userRepository.exists(username);
         if (!userExists) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 

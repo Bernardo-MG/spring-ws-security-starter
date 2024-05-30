@@ -80,6 +80,7 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
         roleExists = roleRepository.exists(role);
         if (!roleExists) {
+            log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 

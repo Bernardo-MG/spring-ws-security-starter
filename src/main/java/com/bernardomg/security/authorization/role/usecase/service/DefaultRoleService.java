@@ -99,6 +99,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
+            log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
@@ -122,6 +123,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
+            log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
@@ -137,6 +139,7 @@ public final class DefaultRoleService implements RoleService {
         // Verify the role exists
         exists = roleRepository.exists(role.getName());
         if (!exists) {
+            log.error("Missing role {}", role.getName());
             throw new MissingRoleException(role.getName());
         }
 
