@@ -159,6 +159,12 @@ public interface UserRepository {
      */
     public User save(final User user, final String password);
 
+    /**
+     * Refreshes the password for the user, which resets also any related flag.
+     * @param username user to refresh the password
+     * @param password new password
+     * @return the user with the refreshed password
+     */
     public User refreshPassword(final String username, final String password);
 
     /**

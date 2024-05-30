@@ -330,11 +330,16 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity           user;
         final UserEntity           updated;
         final User                 result;
+        final String encodedPassword;
 
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
-            user.setPassword(password);
+
+            // Encode password
+            encodedPassword = passwordEncoder.encode(password);
+            user.setPassword(encodedPassword);
+            
             user.setPasswordExpired(false);
             updated = userSpringRepository.save(user);
             result = toDomain(updated);
