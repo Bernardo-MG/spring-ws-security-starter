@@ -221,7 +221,6 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity saved;
 
         entity = toEntity(user);
-        entity.setPasswordExpired(true);
 
         encodedPassword = passwordEncoder.encode("");
         entity.setPassword(encodedPassword);

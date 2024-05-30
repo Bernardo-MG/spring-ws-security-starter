@@ -74,7 +74,7 @@ class ITUserRepositorySave {
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.noRoles());
+            .containsExactly(UserEntities.withoutRoles());
     }
 
     @Test
@@ -155,7 +155,7 @@ class ITUserRepositorySave {
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.withoutRole());
+            .containsExactly(UserEntities.withoutRoles());
     }
 
     @Test
@@ -194,7 +194,7 @@ class ITUserRepositorySave {
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.withoutRole());
+            .containsExactly(UserEntities.withoutRoles());
     }
 
     @Test
@@ -234,7 +234,7 @@ class ITUserRepositorySave {
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.withoutRole());
+            .containsExactly(UserEntities.withoutRoles());
     }
 
     @Test

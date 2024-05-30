@@ -73,7 +73,7 @@ class ITUserRepositoryNewUser {
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.id",
                 "roles.permissions.id.roleId")
-            .containsExactly(UserEntities.newlyCreated());
+            .containsExactly(UserEntities.enabled());
     }
 
     @Test
@@ -92,7 +92,7 @@ class ITUserRepositoryNewUser {
         // THEN
         Assertions.assertThat(created)
             .as("user")
-            .isEqualTo(Users.newlyCreated());
+            .isEqualTo(Users.enabled());
     }
 
 }

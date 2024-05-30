@@ -131,22 +131,6 @@ public final class UserEntities {
             .build();
     }
 
-    public static final UserEntity noRoles() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
-            .withRoles(List.of())
-            .withLoginAttempts(0)
-            .build();
-    }
-
     public static final UserEntity passwordExpired() {
         return UserEntity.builder()
             .withId(1L)
@@ -179,7 +163,7 @@ public final class UserEntities {
             .build();
     }
 
-    public static final UserEntity withoutRole() {
+    public static final UserEntity withoutRoles() {
         return UserEntity.builder()
             .withId(1L)
             .withName(UserConstants.NAME)
