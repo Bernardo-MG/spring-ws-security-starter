@@ -38,6 +38,211 @@ public final class Authentications {
 
             @Override
             public Object getPrincipal() {
+                return SecurityUsers.enabled();
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
+            }
+
+            @Override
+            public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {}
+
+        };
+    }
+
+    public static final Authentication authenticatedWithAlternativeCreateAuthorities() {
+        return new Authentication() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of(GrantedAuthorities.alternativeResourceCreate());
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return UserConstants.USERNAME;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return SecurityUsers.enabled();
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
+            }
+
+            @Override
+            public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {}
+
+        };
+    }
+
+    public static final Authentication authenticatedWithCreateAuthorities() {
+        return new Authentication() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of(GrantedAuthorities.resourceCreate());
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return UserConstants.USERNAME;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return SecurityUsers.enabled();
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
+            }
+
+            @Override
+            public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {}
+
+        };
+    }
+
+    public static final Authentication authenticatedWithReadAuthorities() {
+        return new Authentication() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of(GrantedAuthorities.resourceRead());
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return UserConstants.USERNAME;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return SecurityUsers.enabled();
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
+            }
+
+            @Override
+            public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {}
+
+        };
+    }
+
+    public static final Authentication authenticatedWithSimpleAuthorities() {
+        return new Authentication() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of(GrantedAuthorities.simpleCreate());
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return UserConstants.USERNAME;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return SecurityUsers.enabled();
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
+            }
+
+            @Override
+            public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {}
+
+        };
+    }
+
+    public static final Authentication missingPrincipal() {
+        return new Authentication() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of();
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return UserConstants.USERNAME;
+            }
+
+            @Override
+            public Object getPrincipal() {
                 return null;
             }
 
@@ -79,7 +284,7 @@ public final class Authentications {
 
             @Override
             public Object getPrincipal() {
-                return null;
+                return SecurityUsers.enabled();
             }
 
             @Override

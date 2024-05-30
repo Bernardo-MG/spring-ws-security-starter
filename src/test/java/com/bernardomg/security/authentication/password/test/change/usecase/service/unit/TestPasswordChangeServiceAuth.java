@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,9 +31,6 @@ import com.bernardomg.test.config.factory.SecurityUsers;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password - authentication")
 class TestPasswordChangeServiceAuth {
-
-    @Mock
-    private Authentication                      authentication;
 
     @Mock
     private PasswordEncoder                     passwordEncoder;

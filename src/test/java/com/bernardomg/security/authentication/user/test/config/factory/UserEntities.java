@@ -70,23 +70,6 @@ public final class UserEntities {
             .build();
     }
 
-    public static final UserEntity updatedPassword() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            // FIXME: this is not the newly encoded password
-            .withPassword(UserConstants.ENCODED_NEW_PASSWORD)
-            .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
-            .withRoles(List.of(RoleEntities.withPermission()))
-            .withLoginAttempts(0)
-            .build();
-    }
-
     public static final UserEntity expired() {
         return UserEntity.builder()
             .withId(1L)
@@ -175,6 +158,23 @@ public final class UserEntities {
             .withExpired(false)
             .withPasswordExpired(true)
             .withLocked(false)
+            .withLoginAttempts(0)
+            .build();
+    }
+
+    public static final UserEntity updatedPassword() {
+        return UserEntity.builder()
+            .withId(1L)
+            .withName(UserConstants.NAME)
+            .withUsername(UserConstants.USERNAME)
+            .withEmail(UserConstants.EMAIL)
+            // FIXME: this is not the newly encoded password
+            .withPassword(UserConstants.ENCODED_NEW_PASSWORD)
+            .withEnabled(true)
+            .withExpired(false)
+            .withPasswordExpired(false)
+            .withLocked(false)
+            .withRoles(List.of(RoleEntities.withPermission()))
             .withLoginAttempts(0)
             .build();
     }

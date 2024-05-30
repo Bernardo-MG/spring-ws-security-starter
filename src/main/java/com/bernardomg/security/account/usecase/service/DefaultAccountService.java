@@ -51,8 +51,14 @@ public final class DefaultAccountService implements AccountService {
                 account = accountRepository.findOne(userDetails.getUsername());
             } else {
                 // Invalid principal
-                log.debug("Invalid principal. Received instance of {}", authentication.getPrincipal()
-                    .getClass());
+                final Object className;
+                if(authentication.getPrincipal() == null) {
+                    className = "null";
+                } else {
+                    className = authentication.getPrincipal()
+                            .getClass();
+                }
+                log.debug("Invalid principal. Received instance of {}", className);
                 account = Optional.empty();
             }
         } else {

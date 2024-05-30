@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.io.IOException;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,6 +62,12 @@ class TestJwtTokenFilter {
         super();
     }
 
+    @BeforeEach
+    public final void clearUpSecurityContext() {
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
+    }
+
     private final UserDetails getValidUserDetails() {
         final UserDetails userDetails;
 
@@ -83,9 +90,6 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
-
         given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
 
         userDetails = getValidUserDetails();
@@ -114,9 +118,6 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
-
         given(validator.hasExpired(Tokens.TOKEN)).willReturn(true);
 
         given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
@@ -135,10 +136,6 @@ class TestJwtTokenFilter {
     @DisplayName("With no authorization header no user is stored")
     void testDoFilter_NoHeader() throws ServletException, IOException {
         final Authentication authentication;
-
-        // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
