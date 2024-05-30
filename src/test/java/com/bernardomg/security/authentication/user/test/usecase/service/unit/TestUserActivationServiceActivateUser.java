@@ -82,11 +82,11 @@ class TestUserActivationServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        verify(repository).save(Users.enabled(), UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating an enabled user gives a failure")
     void testActivateUser_Enabled_Exception() {
         final ThrowingCallable executable;
@@ -106,7 +106,7 @@ class TestUserActivationServiceActivateUser {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a expired user gives a failure")
     void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
@@ -135,11 +135,11 @@ class TestUserActivationServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        verify(repository).save(Users.enabled(), UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a locked user gives a failure")
     void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
@@ -168,11 +168,11 @@ class TestUserActivationServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        verify(repository).save(Users.withoutRoles(), UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a not existing user gives a failure")
     void testActivateUser_NotExistingUser_Exception() {
         final ThrowingCallable executable;
@@ -201,7 +201,7 @@ class TestUserActivationServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        verify(repository).save(Users.enabled(), UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
     }
 
 }

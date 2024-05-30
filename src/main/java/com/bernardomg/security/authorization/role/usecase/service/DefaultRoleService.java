@@ -97,6 +97,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
+            log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
@@ -120,6 +121,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
+            log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
@@ -135,12 +137,14 @@ public final class DefaultRoleService implements RoleService {
         // Verify the role exists
         exists = roleRepository.exists(role.getName());
         if (!exists) {
+            log.error("Missing role {}", role.getName());
             throw new MissingRoleException(role.getName());
         }
 
         // Verify the permissions exists
         for (final ResourcePermission permission : role.getPermissions()) {
             if (!resourcePermissionRepository.exists(permission.getName())) {
+                // TODO: send all missing in a single exception
                 throw new MissingResourcePermissionException(role.getName());
             }
         }

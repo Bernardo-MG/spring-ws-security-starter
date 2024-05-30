@@ -10,11 +10,11 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class LoginRegister {
 
-    public static final LoginRegister of(final String usnm, final LocalDateTime dt, final boolean lgd) {
+    public static final LoginRegister of(final String usnm, final boolean lgd, final LocalDateTime dt) {
         return LoginRegister.builder()
             .withUsername(usnm)
-            .withDate(dt)
             .withLoggedIn(lgd)
+            .withDate(dt)
             .build();
     }
 

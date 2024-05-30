@@ -26,6 +26,7 @@ package com.bernardomg.security.authorization.token.adapter.inbound.jpa.reposito
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -67,9 +68,9 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             final UserDataTokenSpringRepository userDataTokenSpringRepo, final UserSpringRepository userSpringRepo) {
         super();
 
-        userTokenSpringRepository = userTokenSpringRepo;
-        userDataTokenSpringRepository = userDataTokenSpringRepo;
-        userSpringRepository = userSpringRepo;
+        userTokenSpringRepository = Objects.requireNonNull(userTokenSpringRepo);
+        userDataTokenSpringRepository = Objects.requireNonNull(userDataTokenSpringRepo);
+        userSpringRepository = Objects.requireNonNull(userSpringRepo);
     }
 
     @Override

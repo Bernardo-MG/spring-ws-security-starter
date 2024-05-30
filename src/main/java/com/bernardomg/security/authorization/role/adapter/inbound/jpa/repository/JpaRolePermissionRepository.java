@@ -25,6 +25,7 @@
 package com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -58,8 +59,8 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
             final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
-        roleSpringRepository = roleSpringRepo;
-        resourcePermissionSpringRepository = resourcePermissionSpringRepo;
+        roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
+        resourcePermissionSpringRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
     }
 
     @Override

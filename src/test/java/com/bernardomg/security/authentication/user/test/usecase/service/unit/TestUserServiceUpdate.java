@@ -119,7 +119,7 @@ class TestUserServiceUpdate {
         service.update(Users.noRoles());
 
         // THEN
-        verify(userRepository).update(Users.noRoles());
+        verify(userRepository).save(Users.noRoles());
     }
 
     @Test
@@ -129,7 +129,7 @@ class TestUserServiceUpdate {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userRepository.update(Users.noRoles())).willReturn(Users.noRoles());
+        given(userRepository.save(Users.noRoles())).willReturn(Users.noRoles());
 
         // WHEN
         result = service.update(Users.noRoles());
@@ -184,7 +184,7 @@ class TestUserServiceUpdate {
         service.update(Users.emailChange());
 
         // THEN
-        verify(userRepository).update(Users.emailChange());
+        verify(userRepository).save(Users.emailChange());
     }
 
     @Test
@@ -195,7 +195,7 @@ class TestUserServiceUpdate {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(userRepository.update(Users.emailChange())).willReturn(Users.emailChange());
+        given(userRepository.save(Users.emailChange())).willReturn(Users.emailChange());
 
         // WHEN
         result = service.update(Users.emailChange());

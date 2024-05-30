@@ -43,10 +43,10 @@ public final class BasicAccount implements Account {
             .build();
     }
 
-    public static final BasicAccount of(final String usnm, final String nam, final String eml) {
+    public static final BasicAccount of(final String usrnm, final String nm, final String eml) {
         return BasicAccount.builder()
-            .withUsername(usnm)
-            .withName(nam)
+            .withUsername(usrnm)
+            .withName(nm)
             .withEmail(eml)
             .build();
     }

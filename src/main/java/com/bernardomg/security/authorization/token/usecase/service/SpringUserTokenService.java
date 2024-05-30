@@ -108,6 +108,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userToken = userTokenRepository.findOne(token);
         if (userToken.isEmpty()) {
+            log.error("Missing user token {}", token);
             throw new MissingUserTokenException(token);
         }
 
@@ -123,6 +124,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         readToken = userTokenRepository.findOne(token.getToken());
         if (readToken.isEmpty()) {
+            log.error("Missing user token {}", token.getToken());
             throw new MissingUserTokenException(token.getToken());
         }
 

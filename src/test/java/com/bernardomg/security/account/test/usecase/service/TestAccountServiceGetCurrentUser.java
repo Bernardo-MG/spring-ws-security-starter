@@ -12,15 +12,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.test.config.factory.Accounts;
 import com.bernardomg.security.account.usecase.service.DefaultAccountService;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.test.config.factory.Authentications;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultAccountService - get current user")
@@ -29,14 +28,8 @@ class TestAccountServiceGetCurrentUser {
     @Mock
     private AccountRepository     accountRepository;
 
-    @Mock
-    private Authentication        authentication;
-
     @InjectMocks
     private DefaultAccountService service;
-
-    @Mock
-    private UserDetails           userDetails;
 
     public TestAccountServiceGetCurrentUser() {
         super();
@@ -48,13 +41,8 @@ class TestAccountServiceGetCurrentUser {
         final Optional<Account> account;
 
         // GIVEN
-        given(authentication.isAuthenticated()).willReturn(true);
-
-        given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
-        given(authentication.getPrincipal()).willReturn(userDetails);
-
         SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
+            .setAuthentication(Authentications.authenticated());
 
         given(accountRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Accounts.valid()));
 
@@ -72,11 +60,8 @@ class TestAccountServiceGetCurrentUser {
         final Optional<Account> account;
 
         // GIVEN
-        given(authentication.isAuthenticated()).willReturn(true);
-        given(authentication.getPrincipal()).willReturn("");
-
         SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
+            .setAuthentication(Authentications.missingPrincipal());
 
         // WHEN
         account = service.getCurrentUser();
@@ -109,10 +94,8 @@ class TestAccountServiceGetCurrentUser {
         final Optional<Account> account;
 
         // GIVEN
-        given(authentication.isAuthenticated()).willReturn(false);
-
         SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
+            .setAuthentication(Authentications.notAuthenticated());
 
         // WHEN
         account = service.getCurrentUser();
