@@ -70,8 +70,8 @@ public final class JpaUserRepository implements UserRepository {
             final PasswordEncoder passEncoder) {
         super();
 
-        userSpringRepository = userSpringRepo;
-        roleSpringRepository = roleSpringRepo;
+        userSpringRepository = Objects.requireNonNull(userSpringRepo);
+        roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
         passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 

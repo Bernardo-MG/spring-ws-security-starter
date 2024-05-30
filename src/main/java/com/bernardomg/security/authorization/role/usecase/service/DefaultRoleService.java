@@ -143,6 +143,7 @@ public final class DefaultRoleService implements RoleService {
         // Verify the permissions exists
         for (final ResourcePermission permission : role.getPermissions()) {
             if (!resourcePermissionRepository.exists(permission.getName())) {
+                // TODO: send all missing in a single exception
                 throw new MissingResourcePermissionException(role.getName());
             }
         }

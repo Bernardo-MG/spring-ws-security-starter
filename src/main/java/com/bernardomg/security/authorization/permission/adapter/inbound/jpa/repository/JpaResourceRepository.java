@@ -26,6 +26,7 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +51,7 @@ public final class JpaResourceRepository implements ResourceRepository {
     public JpaResourceRepository(final ResourceSpringRepository resourceSpringRepo) {
         super();
 
-        resourceSpringRepository = resourceSpringRepo;
+        resourceSpringRepository = Objects.requireNonNull(resourceSpringRepo);
     }
 
     @Override

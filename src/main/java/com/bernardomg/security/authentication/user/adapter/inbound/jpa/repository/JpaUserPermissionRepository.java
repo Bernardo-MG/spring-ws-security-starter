@@ -26,6 +26,7 @@ package com.bernardomg.security.authentication.user.adapter.inbound.jpa.reposito
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -58,8 +59,8 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
             final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
-        userRepository = userSpringRepo;
-        resourcePermissionRepository = resourcePermissionSpringRepo;
+        userRepository = Objects.requireNonNull(userSpringRepo);
+        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
     }
 
     @Override

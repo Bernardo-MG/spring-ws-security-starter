@@ -25,7 +25,7 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
     public JpaUserRoleRepository(final RoleSpringRepository roleSpringRepo) {
         super();
 
-        roleSpringRepository = roleSpringRepo;
+        roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
     }
 
     @Override
