@@ -159,6 +159,8 @@ public interface UserRepository {
      */
     public User save(final User user, final String password);
 
+    public User refreshPassword(final String username, final String password);
+
     /**
      * Updates an existing user.
      * <p>

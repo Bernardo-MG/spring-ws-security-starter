@@ -127,9 +127,9 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a disabled user gives a failure")
-    void testChangePassword_Disabled_Exception() {
+    void testChangePassword_Disabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -149,9 +149,9 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a expired user gives a failure")
-    void testChangePassword_Expired_Exception() {
+    void testChangePassword_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -171,9 +171,9 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a locked user gives a failure")
-    void testChangePassword_Locked_Exception() {
+    void testChangePassword_Locked() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -194,7 +194,7 @@ class TestPasswordChangeServiceAuth {
 
     @Test
     @DisplayName("Throws an exception when there is no authentication data")
-    void testChangePassword_MissingAuthentication_Exception() {
+    void testChangePassword_MissingAuthentication() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -213,7 +213,7 @@ class TestPasswordChangeServiceAuth {
 
     @Test
     @DisplayName("Throws an exception when the user is not authenticated")
-    void testChangePassword_NotAuthenticated_Exception() {
+    void testChangePassword_NotAuthenticated() {
         final ThrowingCallable executable;
         final Exception        exception;
 
@@ -231,9 +231,9 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a not existing user gives a failure")
-    void testChangePassword_NotExistingUser_Exception() {
+    void testChangePassword_NotExistingUser() {
         final ThrowingCallable executable;
         final Exception        exception;
 

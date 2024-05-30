@@ -324,4 +324,27 @@ public final class JpaUserRepository implements UserRepository {
             .build();
     }
 
+    @Override
+    public final User refreshPassword(final String username,final  String password) {
+        final Optional<UserEntity> read;
+        final UserEntity           user;
+        final UserEntity           updated;
+        final User                 result;
+
+        read = userSpringRepository.findByUsername(username);
+        if (read.isPresent()) {
+            user = read.get();
+            user.setPassword(password);
+            user.setPasswordExpired(false);
+            updated = userSpringRepository.save(user);
+            result = toDomain(updated);
+        } else {
+            // TODO: Maybe return an optional
+            result = User.builder()
+                .build();
+        }
+
+        return result;
+    }
+
 }

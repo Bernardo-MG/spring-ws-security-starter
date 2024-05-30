@@ -26,7 +26,6 @@ package com.bernardomg.security.authentication.password.change.usecase.service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +39,6 @@ import com.bernardomg.security.authentication.user.domain.exception.DisabledUser
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
-import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.validation.failure.FieldFailure;
 import com.bernardomg.validation.failure.exception.FieldFailureException;
@@ -83,25 +81,21 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
-        final Optional<User> readUser;
-        final User           user;
-        final User           activated;
-        final String         username;
-        final UserDetails    userDetails;
+        final boolean     exists;
+        final String      username;
+        final UserDetails userDetails;
 
         username = getCurrentUsername();
 
         log.debug("Changing password for user {}", username);
 
-        readUser = repository.findOne(username);
-
         // Validate the user exists
-        if (!readUser.isPresent()) {
+        exists = repository.exists(username);
+        if (!exists) {
+            // TODO: Is this exception being hid?
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
             throw new MissingUserException(username);
         }
-
-        user = readUser.get();
 
         // TODO: Avoid this second query
         userDetails = userDetailsService.loadUserByUsername(username);
@@ -112,19 +106,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Make sure the user can change the password
         authorizePasswordChange(userDetails);
 
-        activated = User.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withRoles(user.getRoles())
-            .withEnabled(user.isEnabled())
-            .withExpired(user.isExpired())
-            .withLocked(user.isLocked())
-            // Password is no longer expired
-            .withPasswordExpired(false)
-            .build();
-
-        repository.save(activated, newPassword);
+        repository.refreshPassword(username, newPassword);
 
         log.debug("Changed password for user {}", username);
     }

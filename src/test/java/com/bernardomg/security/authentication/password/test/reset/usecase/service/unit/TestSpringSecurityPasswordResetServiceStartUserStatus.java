@@ -102,7 +102,7 @@ class TestSpringSecurityPasswordResetServiceStartUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a new user for a disabled user throws an exception")
     void testActivateUser_Disabled_Exception() {
         final ThrowingCallable executable;
@@ -123,7 +123,7 @@ class TestSpringSecurityPasswordResetServiceStartUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a new user for an expired user throws an exception")
     void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
@@ -144,7 +144,7 @@ class TestSpringSecurityPasswordResetServiceStartUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a new user for a locked user throws an exception")
     void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
@@ -165,7 +165,7 @@ class TestSpringSecurityPasswordResetServiceStartUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a new user for a not existing user throws an exception")
     void testActivateUser_NotExisting_Exception() {
         final ThrowingCallable executable;

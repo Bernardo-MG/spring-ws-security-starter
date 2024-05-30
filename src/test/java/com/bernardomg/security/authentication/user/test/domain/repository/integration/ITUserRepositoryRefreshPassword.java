@@ -42,8 +42,8 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User repository - lock")
-class ITUserRepositoryLock {
+@DisplayName("User repository - refresh password")
+class ITUserRepositoryRefreshPassword {
 
     @Autowired
     private UserRepository       repository;
@@ -51,17 +51,17 @@ class ITUserRepositoryLock {
     @Autowired
     private UserSpringRepository userSpringRepository;
 
-    public ITUserRepositoryLock() {
+    public ITUserRepositoryRefreshPassword() {
         super();
     }
 
     @Test
     @DisplayName("When there is no data an empty user is returned")
-    void testLock_NoData_Returned() {
+    void testRefreshPassword_NoData_Returned() {
         final User updated;
 
         // WHEN
-        updated = repository.lock(UserConstants.USERNAME);
+        updated = repository.refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
 
         // THEN
         Assertions.assertThat(updated.getUsername())
@@ -70,35 +70,35 @@ class ITUserRepositoryLock {
     }
 
     @Test
-    @DisplayName("When locking a user it is updated")
+    @DisplayName("When refreshing a user password it is updated")
     @ValidUser
-    void testLock_PersistedData() {
+    void testRefreshPassword_PersistedData() {
         final List<UserEntity> entities;
 
         // WHEN
-        repository.lock(UserConstants.USERNAME);
+        repository.refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
 
         // THEN
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles")
-            .containsExactly(UserEntities.locked());
+            .containsExactly(UserEntities.updatedPassword());
     }
 
     @Test
-    @DisplayName("When locking a user it is returned")
+    @DisplayName("When refreshing a user password it is returned")
     @ValidUser
-    void testLock_ReturnedData() {
+    void testRefreshPassword_ReturnedData() {
         final User user;
 
         // WHEN
-        user = repository.lock(UserConstants.USERNAME);
+        user = repository.refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
 
         // THEN
         Assertions.assertThat(user)
             .as("user")
-            .isEqualTo(Users.locked());
+            .isEqualTo(Users.enabled());
     }
 
 }

@@ -109,7 +109,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a disabled user throws an exception")
     void testChangePassword_Disabled_Exception() {
         final ThrowingCallable executable;
@@ -130,7 +130,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a expired user throws an exception")
     void testChangePassword_Expired_Exception() {
         final ThrowingCallable executable;
@@ -151,7 +151,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a locked user throws an exception")
     void testChangePassword_Locked_Exception() {
         final ThrowingCallable executable;
@@ -172,7 +172,7 @@ class TestSpringSecurityPasswordResetServiceChangeUserStatus {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password for a not existing user throws an exception")
     void testChangePassword_NotExistingUser_Exception() {
         final ThrowingCallable executable;
