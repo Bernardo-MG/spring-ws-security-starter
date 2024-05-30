@@ -471,14 +471,6 @@
          </exclusions>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================ POSTGRES ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Postgres connector -->
-         <groupId>org.postgresql</groupId>
-         <artifactId>postgresql</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== MAIL ====================== -->
       <!-- ============================================== -->
       <dependency>
@@ -615,9 +607,15 @@
          <scope>test</scope>
       </dependency>
       <dependency>
-         <!-- Postgresql -->
+         <!-- Postgresql test container -->
          <groupId>org.testcontainers</groupId>
          <artifactId>postgresql </artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Postgres connector -->
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
