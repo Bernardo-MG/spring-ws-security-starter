@@ -77,6 +77,7 @@ public final class DefaultAccountService implements AccountService {
 
         current = getCurrentUser();
         if (current.isEmpty()) {
+            log.error("Missing account for user in session");
             throw new MissingAccountException();
         }
 
