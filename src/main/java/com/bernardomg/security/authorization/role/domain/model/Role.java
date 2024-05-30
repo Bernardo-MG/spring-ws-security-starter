@@ -42,6 +42,19 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Role {
 
+    public static final Role of(final String nm) {
+        return Role.builder()
+            .withName(nm)
+            .build();
+    }
+
+    public static final Role of(final String nm, final Collection<ResourcePermission> perms) {
+        return Role.builder()
+            .withName(nm)
+            .withPermissions(perms)
+            .build();
+    }
+
     /**
      * Role name.
      */

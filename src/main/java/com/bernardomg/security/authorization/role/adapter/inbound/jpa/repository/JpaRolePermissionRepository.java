@@ -86,10 +86,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return ResourcePermission.builder()
-            .withResource(entity.getResource())
-            .withAction(entity.getAction())
-            .build();
+        return ResourcePermission.of(entity.getResource(), entity.getAction());
     }
 
 }

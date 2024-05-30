@@ -103,10 +103,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return ResourcePermission.builder()
-            .withResource(entity.getResource())
-            .withAction(entity.getAction())
-            .build();
+        return ResourcePermission.of(entity.getResource(), entity.getAction());
     }
 
     private final ResourcePermissionEntity toEntity(final ResourcePermission entity) {

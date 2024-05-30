@@ -163,10 +163,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             username = "";
         }
 
-        return UserTokenStatus.builder()
-            .withValid(valid)
-            .withUsername(username)
-            .build();
+        return UserTokenStatus.of(username, valid);
     }
 
     /**

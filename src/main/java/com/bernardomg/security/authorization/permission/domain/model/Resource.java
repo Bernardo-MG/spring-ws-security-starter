@@ -37,6 +37,12 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Resource {
 
+    public static final Resource of(final String nm) {
+        return Resource.builder()
+            .withName(nm)
+            .build();
+    }
+
     /**
      * Action name.
      */
