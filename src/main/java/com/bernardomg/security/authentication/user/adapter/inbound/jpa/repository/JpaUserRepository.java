@@ -186,7 +186,7 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final User refreshPassword(final String username, final String password) {
+    public final User resetPassword(final String username, final String password) {
         final Optional<UserEntity> read;
         final UserEntity           user;
         final UserEntity           updated;

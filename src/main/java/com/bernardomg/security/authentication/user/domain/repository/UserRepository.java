@@ -149,7 +149,7 @@ public interface UserRepository {
     public User lock(final String username);
 
     /**
-     * Refreshes the password for the user, which resets also any related flag.
+     * Resets the password for the user, this includes disabling the password expired flag.
      *
      * @param username
      *            user to refresh the password
@@ -157,7 +157,7 @@ public interface UserRepository {
      *            new password
      * @return the user with the refreshed password
      */
-    public User refreshPassword(final String username, final String password);
+    public User resetPassword(final String username, final String password);
 
     /**
      * Saves the received user. If it exists it is updated, otherwise it is created.

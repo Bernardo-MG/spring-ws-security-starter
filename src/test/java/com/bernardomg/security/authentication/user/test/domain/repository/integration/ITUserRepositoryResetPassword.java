@@ -43,8 +43,8 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User repository - refresh password")
-class ITUserRepositoryRefreshPassword {
+@DisplayName("User repository - reset password")
+class ITUserRepositoryResetPassword {
 
     @Autowired
     private UserRepository       repository;
@@ -52,17 +52,17 @@ class ITUserRepositoryRefreshPassword {
     @Autowired
     private UserSpringRepository userSpringRepository;
 
-    public ITUserRepositoryRefreshPassword() {
+    public ITUserRepositoryResetPassword() {
         super();
     }
 
     @Test
     @DisplayName("When there is no data an empty user is returned")
-    void testRefreshPassword_NoData_Returned() {
+    void testResetPassword_NoData_Returned() {
         final User updated;
 
         // WHEN
-        updated = repository.refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        updated = repository.resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
 
         // THEN
         Assertions.assertThat(updated.getUsername())
@@ -73,11 +73,11 @@ class ITUserRepositoryRefreshPassword {
     @Test
     @DisplayName("When refreshing a user password it is updated")
     @ValidUser
-    void testRefreshPassword_PersistedData() {
+    void testResetPassword_PersistedData() {
         final List<UserEntity> entities;
 
         // WHEN
-        repository.refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        repository.resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -98,11 +98,11 @@ class ITUserRepositoryRefreshPassword {
     @Test
     @DisplayName("When refreshing a user password it is returned")
     @ValidUser
-    void testRefreshPassword_ReturnedData() {
+    void testResetPassword_ReturnedData() {
         final User user;
 
         // WHEN
-        user = repository.refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        user = repository.resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
 
         // THEN
         Assertions.assertThat(user)

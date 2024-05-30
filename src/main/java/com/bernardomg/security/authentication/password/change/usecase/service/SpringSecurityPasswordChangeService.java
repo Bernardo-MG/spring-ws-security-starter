@@ -106,7 +106,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Make sure the user can change the password
         authorizePasswordChange(userDetails);
 
-        repository.refreshPassword(username, newPassword);
+        repository.resetPassword(username, newPassword);
 
         log.debug("Changed password for user {}", username);
     }

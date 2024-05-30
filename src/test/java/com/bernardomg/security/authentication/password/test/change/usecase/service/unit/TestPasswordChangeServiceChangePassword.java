@@ -28,7 +28,7 @@ import com.bernardomg.validation.failure.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password")
-class TestPasswordChangeService {
+class TestPasswordChangeServiceChangePassword {
 
     @Mock
     private PasswordEncoder                     passwordEncoder;
@@ -42,7 +42,7 @@ class TestPasswordChangeService {
     @Mock
     private UserDetailsService                  userDetailsService;
 
-    public TestPasswordChangeService() {
+    public TestPasswordChangeServiceChangePassword() {
         super();
     }
 
@@ -54,7 +54,7 @@ class TestPasswordChangeService {
 
     @Test
     @DisplayName("When changing a password the correct query is called")
-    void testChangePassword_CallsQuery() {
+    void testResetPassword_CallsQuery() {
 
         // GIVEN
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
@@ -66,12 +66,12 @@ class TestPasswordChangeService {
 
         // THEN
         Mockito.verify(repository)
-            .refreshPassword(UserConstants.USERNAME, "abc");
+            .resetPassword(UserConstants.USERNAME, "abc");
     }
 
     @Test
     @DisplayName("When the password doesn't match an exception is thrown")
-    void testChangePassword_NotMatchingPassword() {
+    void testResetPassword_NotMatchingPassword() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
@@ -91,7 +91,7 @@ class TestPasswordChangeService {
 
     @Test
     @DisplayName("When the user doesn't exist an exception is thrown")
-    void testChangePassword_NoUser() {
+    void testResetPassword_NoUser() {
         final ThrowingCallable execution;
 
         // GIVEN
