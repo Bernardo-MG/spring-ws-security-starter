@@ -123,13 +123,11 @@ public final class DefaultUserActivationService implements UserActivationService
             .withUsername(username)
             .withName(name)
             .withEmail(email)
-            // Password expired by default
-            .withPasswordExpired(true)
             .build();
 
         validatorRegisterUser.validate(user);
 
-        created = userRepository.save(user, "");
+        created = userRepository.newUser(user);
 
         // Revoke previous tokens
         tokenStore.revokeExistingTokens(created.getUsername());

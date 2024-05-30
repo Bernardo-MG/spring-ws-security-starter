@@ -215,6 +215,23 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final User newUser(final User user) {
+        final String     encodedPassword;
+        final UserEntity entity;
+        final UserEntity saved;
+
+        entity = toEntity(user);
+        entity.setPasswordExpired(true);
+
+        encodedPassword = passwordEncoder.encode("");
+        entity.setPassword(encodedPassword);
+
+        saved = userSpringRepository.save(entity);
+
+        return toDomain(saved);
+    }
+
+    @Override
     public final User resetPassword(final String username, final String password) {
         final Optional<UserEntity> read;
         final UserEntity           user;
@@ -240,31 +257,6 @@ public final class JpaUserRepository implements UserRepository {
         }
 
         return result;
-    }
-
-    @Override
-    public final User save(final User user, final String password) {
-        final Optional<UserEntity> existing;
-        final String               encodedPassword;
-        final UserEntity           entity;
-        final UserEntity           saved;
-
-        entity = toEntity(user);
-
-        existing = userSpringRepository.findByUsername(user.getUsername());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
-            entity.setLoginAttempts(existing.get()
-                .getLoginAttempts());
-        }
-
-        encodedPassword = passwordEncoder.encode(password);
-        entity.setPassword(encodedPassword);
-
-        saved = userSpringRepository.save(entity);
-
-        return toDomain(saved);
     }
 
     @Override

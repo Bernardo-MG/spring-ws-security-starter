@@ -160,6 +160,15 @@ public interface UserRepository {
     public User lock(final String username);
 
     /**
+     * Creates a new user. It won't have a password, and will have the password expired flag active.
+     *
+     * @param user
+     *            user to save
+     * @return the saved user
+     */
+    public User newUser(final User user);
+
+    /**
      * Resets the password for the user, this includes disabling the password expired flag.
      *
      * @param username
@@ -169,17 +178,6 @@ public interface UserRepository {
      * @return the user with the refreshed password
      */
     public User resetPassword(final String username, final String password);
-
-    /**
-     * Saves the received user. If it exists it is updated, otherwise it is created.
-     *
-     * @param user
-     *            user to save
-     * @param password
-     *            password for the user
-     * @return the saved user
-     */
-    public User save(final User user, final String password);
 
     /**
      * Updates an existing user.
