@@ -69,7 +69,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(userRepository).save(Users.enabled(), UserConstants.NEW_PASSWORD);
+        verify(userRepository).refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
     @Test
@@ -88,7 +88,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(userRepository).save(Users.enabled(), UserConstants.NEW_PASSWORD);
+        verify(userRepository).refreshPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
     @Test
