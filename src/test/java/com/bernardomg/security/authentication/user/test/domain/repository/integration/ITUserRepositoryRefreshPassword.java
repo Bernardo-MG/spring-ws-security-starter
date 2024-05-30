@@ -90,7 +90,8 @@ class ITUserRepositoryRefreshPassword {
                 .first()
                 .extracting(UserEntity::getPassword)
                 .as("password")
-                .isNotEqualTo(UserConstants.ENCODED_PASSWORD);
+                .isNotEqualTo(UserConstants.ENCODED_PASSWORD)
+                .isNotEqualTo(UserConstants.NEW_PASSWORD);
         });
     }
 

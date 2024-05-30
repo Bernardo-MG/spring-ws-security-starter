@@ -52,11 +52,11 @@ public final class DefaultAccountService implements AccountService {
             } else {
                 // Invalid principal
                 final Object className;
-                if(authentication.getPrincipal() == null) {
+                if (authentication.getPrincipal() == null) {
                     className = "null";
                 } else {
                     className = authentication.getPrincipal()
-                            .getClass();
+                        .getClass();
                 }
                 log.debug("Invalid principal. Received instance of {}", className);
                 account = Optional.empty();

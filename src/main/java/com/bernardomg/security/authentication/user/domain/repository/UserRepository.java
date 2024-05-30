@@ -149,6 +149,17 @@ public interface UserRepository {
     public User lock(final String username);
 
     /**
+     * Refreshes the password for the user, which resets also any related flag.
+     *
+     * @param username
+     *            user to refresh the password
+     * @param password
+     *            new password
+     * @return the user with the refreshed password
+     */
+    public User refreshPassword(final String username, final String password);
+
+    /**
      * Saves the received user. If it exists it is updated, otherwise it is created.
      *
      * @param user
@@ -158,14 +169,6 @@ public interface UserRepository {
      * @return the saved user
      */
     public User save(final User user, final String password);
-
-    /**
-     * Refreshes the password for the user, which resets also any related flag.
-     * @param username user to refresh the password
-     * @param password new password
-     * @return the user with the refreshed password
-     */
-    public User refreshPassword(final String username, final String password);
 
     /**
      * Updates an existing user.
