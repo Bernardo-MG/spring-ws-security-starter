@@ -43,6 +43,13 @@ public interface AccountService {
      */
     public Optional<Account> getCurrentUser();
 
+    /**
+     * Updates the received account with the received data.
+     *
+     * @param account
+     *            new data for the account
+     * @return the updated account
+     */
     public Account update(final Account account);
 
 }

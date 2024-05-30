@@ -46,6 +46,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaActionRepository implements ActionRepository {
 
+    /**
+     * Action repository.
+     */
     private final ActionSpringRepository actionSpringRepository;
 
     public JpaActionRepository(final ActionSpringRepository actionSpringRepo) {

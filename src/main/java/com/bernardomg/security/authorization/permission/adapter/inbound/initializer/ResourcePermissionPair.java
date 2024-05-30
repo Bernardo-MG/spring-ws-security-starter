@@ -50,8 +50,14 @@ public final class ResourcePermissionPair {
             .build();
     }
 
+    /**
+     * Action name.
+     */
     private final String action;
 
+    /**
+     * Resource name.
+     */
     private final String resource;
 
 }

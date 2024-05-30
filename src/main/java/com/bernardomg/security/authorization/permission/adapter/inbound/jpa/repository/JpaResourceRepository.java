@@ -46,6 +46,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaResourceRepository implements ResourceRepository {
 
+    /**
+     * Resource repository.
+     */
     private final ResourceSpringRepository resourceSpringRepository;
 
     public JpaResourceRepository(final ResourceSpringRepository resourceSpringRepo) {

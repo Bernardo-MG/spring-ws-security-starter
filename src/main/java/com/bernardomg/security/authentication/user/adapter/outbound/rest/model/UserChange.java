@@ -70,6 +70,9 @@ public final class UserChange {
     @NotNull
     private Boolean            passwordExpired;
 
+    /**
+     * User roles.
+     */
     @NotNull
     private Collection<String> roles;
 
