@@ -34,16 +34,22 @@ public interface Account {
 
     /**
      * User email.
+     * 
+     * @return the user email
      */
     public String getEmail();
 
     /**
      * User name.
+     * 
+     * @return the user name
      */
     public String getName();
 
     /**
      * User username.
+     * 
+     * @return the user username
      */
     public String getUsername();
 

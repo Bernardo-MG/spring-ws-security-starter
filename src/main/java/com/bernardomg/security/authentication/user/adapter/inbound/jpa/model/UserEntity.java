@@ -120,6 +120,9 @@ public class UserEntity implements Serializable {
     @Column(name = "password_expired", nullable = false)
     private Boolean                passwordExpired;
 
+    /**
+     * User roles.
+     */
     @ManyToMany
     @JoinTable(schema = "security", name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

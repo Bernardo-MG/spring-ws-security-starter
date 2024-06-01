@@ -41,6 +41,9 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 public final class RoleCreate {
 
+    /**
+     * Role name.
+     */
     @NotNull
     private String name;
 

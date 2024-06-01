@@ -54,15 +54,30 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultRoleService implements RoleService {
 
+    /**
+     * Resource permission repository.
+     */
     private final ResourcePermissionRepository resourcePermissionRepository;
 
+    /**
+     * Role repository.
+     */
     private final RoleRepository               roleRepository;
 
-    private final Validator<Role>              validatorCreateRole;
+    /**
+     * Create validator.
+     */
+    private final Validator<Role>              validatorCreate;
 
-    private final Validator<String>            validatorDeleteRole;
+    /**
+     * Delete validator.
+     */
+    private final Validator<String>            validatorDelete;
 
-    private final Validator<Role>              validatorUpdateRole;
+    /**
+     * Update validator.
+     */
+    private final Validator<Role>              validatorUpdate;
 
     public DefaultRoleService(final RoleRepository roleRepo,
             final ResourcePermissionRepository resourcePermissionRepo) {
@@ -71,9 +86,9 @@ public final class DefaultRoleService implements RoleService {
         roleRepository = Objects.requireNonNull(roleRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
 
-        validatorCreateRole = new CreateRoleValidator(roleRepo);
-        validatorDeleteRole = new DeleteRoleValidator(roleRepo);
-        validatorUpdateRole = new UpdateRoleValidator();
+        validatorCreate = new CreateRoleValidator(roleRepo);
+        validatorDelete = new DeleteRoleValidator(roleRepo);
+        validatorUpdate = new UpdateRoleValidator();
     }
 
     @Override
@@ -84,7 +99,7 @@ public final class DefaultRoleService implements RoleService {
 
         role = Role.of(name);
 
-        validatorCreateRole.validate(role);
+        validatorCreate.validate(role);
 
         return roleRepository.save(role);
     }
@@ -101,7 +116,7 @@ public final class DefaultRoleService implements RoleService {
             throw new MissingRoleException(role);
         }
 
-        validatorDeleteRole.validate(role);
+        validatorDelete.validate(role);
 
         roleRepository.delete(role);
     }
@@ -151,7 +166,7 @@ public final class DefaultRoleService implements RoleService {
 
         // Verify the permissions exist
 
-        validatorUpdateRole.validate(role);
+        validatorUpdate.validate(role);
 
         return roleRepository.save(role);
     }

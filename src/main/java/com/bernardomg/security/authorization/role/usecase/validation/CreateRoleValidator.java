@@ -49,6 +49,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class CreateRoleValidator implements Validator<Role> {
 
+    /**
+     * Role repository.
+     */
     private final RoleRepository roleRepository;
 
     public CreateRoleValidator(final RoleRepository roleRepo) {

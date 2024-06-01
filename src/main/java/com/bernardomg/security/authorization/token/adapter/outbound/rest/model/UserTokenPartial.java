@@ -45,7 +45,7 @@ import lombok.NoArgsConstructor;
 public final class UserTokenPartial {
 
     /**
-     * The date at which the token will expire
+     * The date at which the token will expire.
      */
     private LocalDateTime expirationDate;
 

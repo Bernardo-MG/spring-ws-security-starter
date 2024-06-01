@@ -53,6 +53,9 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
      */
     private final ResourcePermissionSpringRepository resourcePermissionRepository;
 
+    /**
+     * User repository.
+     */
     private final UserSpringRepository               userRepository;
 
     public JpaUserPermissionRepository(final UserSpringRepository userSpringRepo,

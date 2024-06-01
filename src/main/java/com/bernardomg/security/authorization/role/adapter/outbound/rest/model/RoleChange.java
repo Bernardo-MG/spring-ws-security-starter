@@ -44,6 +44,9 @@ import lombok.NoArgsConstructor;
 @Builder(setterPrefix = "with")
 public class RoleChange {
 
+    /**
+     * Role permissions.
+     */
     @NotNull
     private Collection<RolePermission> permissions;
 

@@ -59,6 +59,9 @@ public final class JpaUserRepository implements UserRepository {
      */
     private final PasswordEncoder      passwordEncoder;
 
+    /**
+     * Role repository.
+     */
     private final RoleSpringRepository roleSpringRepository;
 
     /**
