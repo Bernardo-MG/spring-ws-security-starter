@@ -270,11 +270,6 @@
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Spring AOP -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-aop</artifactId>
-      </dependency>
-      <dependency>
          <!-- Spring beans -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-beans</artifactId>
@@ -288,16 +283,6 @@
          <!-- Spring context support -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-context-support</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Core -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-core</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring JDBC -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-jdbc</artifactId>
       </dependency>
       <dependency>
          <!-- Spring Data JPA -->
@@ -314,29 +299,9 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-web</artifactId>
       </dependency>
-      <dependency>
-         <!-- Spring ORM -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-orm</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- =============== SPRING BOOT ================== -->
       <!-- ============================================== -->
-      <dependency>
-         <!-- Spring Boot Starter: Web -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-web</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>ch.qos.logback</groupId>
-               <artifactId>logback-classic</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.apache.logging.log4j</groupId>
-               <artifactId>log4j-to-slf4j</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
       <dependency>
          <!-- Spring Boot Starter: AOP -->
          <groupId>org.springframework.boot</groupId>
@@ -535,6 +500,14 @@
          <!-- Jackson annotations -->
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= JAKARTA ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>jakarta.servlet</groupId>
+         <artifactId>jakarta.servlet-api</artifactId>
+         <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
