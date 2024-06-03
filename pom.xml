@@ -402,26 +402,6 @@
          <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================ HIBERNATE =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Hibernate Core -->
-         <groupId>org.hibernate.orm</groupId>
-         <artifactId>hibernate-core</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Hikari CP -->
-         <groupId>com.zaxxer</groupId>
-         <artifactId>HikariCP</artifactId>
-         <exclusions>
-            <exclusion>
-               <!-- SL4J API -->
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================ LIQUIBASE =================== -->
       <!-- ============================================== -->
       <dependency>
@@ -434,13 +414,6 @@
                <artifactId>logback-classic</artifactId>
             </exclusion>
          </exclusions>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== MAIL ====================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>jakarta.mail</groupId>
-         <artifactId>jakarta.mail-api</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOMBOK ==================== -->
