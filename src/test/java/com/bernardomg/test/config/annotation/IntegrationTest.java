@@ -37,7 +37,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.TestApplication;
+import com.bernardomg.test.config.TestApplication;
 import com.bernardomg.test.testcontainer.PostgresDbExtension;
 
 @SpringJUnitConfig
