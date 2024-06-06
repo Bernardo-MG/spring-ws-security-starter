@@ -276,6 +276,11 @@
          <artifactId>spring-data-jpa</artifactId>
       </dependency>
       <dependency>
+         <!-- Spring Data Commons -->
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-commons</artifactId>
+      </dependency>
+      <dependency>
          <!-- Spring transactions -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-tx</artifactId>
@@ -284,6 +289,11 @@
          <!-- Spring Web -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-web</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
       </dependency>
       <dependency>
           <!-- Spring Security Configuration -->
@@ -299,6 +309,19 @@
           <!-- Spring Security Core -->
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-core</artifactId>
+      </dependency>
+      <dependency>
+          <!-- Spring Security Crypto -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-crypto</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== SPRING BOOT ================== -->
+      <!-- ============================================== -->
+      <dependency>
+		 <!-- Spring Boot autoconfiguration -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== JSON WEB TOKEN =============== -->
@@ -385,6 +408,11 @@
          <groupId>org.eclipse.angus</groupId>
          <artifactId>jakarta.mail</artifactId>
       </dependency>
+      <dependency>
+          <!-- Jakarta Validation -->
+         <groupId>jakarta.validation</groupId>
+         <artifactId>jakarta.validation-api</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= ASPECTJ ==================== -->
       <!-- ============================================== -->
@@ -446,6 +474,12 @@
          <scope>test</scope>
       </dependency>
       <dependency>
+         <!-- Spring Boot Test -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-test</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
          <!-- Spring Boot Starter: Test -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-test</artifactId>
@@ -485,6 +519,13 @@
          <!-- ArchUnit -->
          <groupId>com.tngtech.archunit</groupId>
          <artifactId>archunit-junit5</artifactId>
+         <version>${archunit.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- ArchUnit JUnit 5 -->
+         <groupId>com.tngtech.archunit</groupId>
+         <artifactId>archunit-junit5-api</artifactId>
          <version>${archunit.version}</version>
          <scope>test</scope>
       </dependency>
