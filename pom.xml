@@ -462,6 +462,18 @@
          <scope>test</scope>
       </dependency>
       <dependency>
+         <!-- Mockito JUnit Jupiter -->
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-junit-jupiter</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- AssertJ -->
+         <groupId>org.assertj</groupId>
+         <artifactId>assertj-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
          <!-- Spring Test -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
@@ -518,12 +530,19 @@
       <dependency>
          <!-- ArchUnit -->
          <groupId>com.tngtech.archunit</groupId>
-         <artifactId>archunit-junit5</artifactId>
+         <artifactId>archunit</artifactId>
          <version>${archunit.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <!-- ArchUnit JUnit 5 -->
+         <groupId>com.tngtech.archunit</groupId>
+         <artifactId>archunit-junit5</artifactId>
+         <version>${archunit.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- ArchUnit JUnit 5 API -->
          <groupId>com.tngtech.archunit</groupId>
          <artifactId>archunit-junit5-api</artifactId>
          <version>${archunit.version}</version>
