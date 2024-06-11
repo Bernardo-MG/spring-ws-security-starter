@@ -38,7 +38,7 @@ import com.bernardomg.security.authentication.user.usecase.validation.UpdateUser
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 

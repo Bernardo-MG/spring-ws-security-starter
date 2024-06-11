@@ -49,7 +49,7 @@ import com.bernardomg.security.authorization.role.domain.exception.MissingRoleEx
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
 import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - update")

@@ -40,8 +40,8 @@ import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserE
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.bernardomg.validation.domain.exception.FieldFailureException;
+import com.bernardomg.validation.domain.model.FieldFailure;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -155,7 +155,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
             log.warn("Received a password which doesn't match the one stored for username {}",
                 userDetails.getUsername());
             failure = FieldFailure.of("oldPassword", "notMatch", oldPassword);
-            throw new FieldFailureException(List.of(failure));
+            throw new FieldFailureException(userDetails, List.of(failure));
         }
     }
 

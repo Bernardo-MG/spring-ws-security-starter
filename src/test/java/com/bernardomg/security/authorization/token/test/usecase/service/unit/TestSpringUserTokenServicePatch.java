@@ -26,7 +26,7 @@ import com.bernardomg.security.authorization.token.test.config.factory.UserToken
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringUserTokenService - patch")

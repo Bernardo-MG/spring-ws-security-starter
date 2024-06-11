@@ -24,13 +24,11 @@
 
 package com.bernardomg.security.authorization.role.usecase.validation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.validation.Validator;
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.validator.AbstractValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class DeleteRoleValidator implements Validator<String> {
+public final class DeleteRoleValidator extends AbstractValidator<String> {
 
     /**
      * Role repository.
@@ -61,11 +59,8 @@ public final class DeleteRoleValidator implements Validator<String> {
     }
 
     @Override
-    public final void validate(final String role) {
-        final Collection<FieldFailure> failures;
-        FieldFailure                   failure;
-
-        failures = new ArrayList<>();
+    protected final void checkRules(final String role, final Collection<FieldFailure> failures) {
+        final FieldFailure failure;
 
         // No user has the role
         // TODO: Is this really needed?
@@ -74,11 +69,6 @@ public final class DeleteRoleValidator implements Validator<String> {
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("user", "existing", role);
             failures.add(failure);
-        }
-
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
         }
     }
 

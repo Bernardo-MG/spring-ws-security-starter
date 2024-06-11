@@ -24,7 +24,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.factory.Authentications;
 import com.bernardomg.test.config.factory.SecurityUsers;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password")

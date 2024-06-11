@@ -24,14 +24,12 @@
 
 package com.bernardomg.security.authorization.role.usecase.validation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.validation.Validator;
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.validator.AbstractValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class CreateRoleValidator implements Validator<Role> {
+public final class CreateRoleValidator extends AbstractValidator<Role> {
 
     /**
      * Role repository.
@@ -61,11 +59,8 @@ public final class CreateRoleValidator implements Validator<Role> {
     }
 
     @Override
-    public final void validate(final Role role) {
-        final Collection<FieldFailure> failures;
-        final FieldFailure             failure;
-
-        failures = new ArrayList<>();
+    protected final void checkRules(final Role role, final Collection<FieldFailure> failures) {
+        final FieldFailure failure;
 
         // The role name doesn't exist
         if (roleRepository.exists(role.getName())) {
@@ -73,11 +68,6 @@ public final class CreateRoleValidator implements Validator<Role> {
             // TODO: Is the code exists or is it existing? Make sure all use the same
             failure = FieldFailure.of("name", "existing", role.getName());
             failures.add(failure);
-        }
-
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
         }
     }
 

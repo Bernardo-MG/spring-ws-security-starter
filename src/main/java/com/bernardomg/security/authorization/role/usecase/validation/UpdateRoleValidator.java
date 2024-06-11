@@ -24,14 +24,12 @@
 
 package com.bernardomg.security.authorization.role.usecase.validation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.validation.Validator;
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.validator.AbstractValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,21 +45,18 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class UpdateRoleValidator implements Validator<Role> {
+public final class UpdateRoleValidator extends AbstractValidator<Role> {
 
     public UpdateRoleValidator() {
         super();
     }
 
     @Override
-    public final void validate(final Role role) {
-        final Collection<FieldFailure> failures;
-        final long                     uniquePermissions;
-        final int                      totalPermissions;
-        final long                     duplicates;
-        FieldFailure                   failure;
-
-        failures = new ArrayList<>();
+    protected final void checkRules(final Role role, final Collection<FieldFailure> failures) {
+        final long   uniquePermissions;
+        final int    totalPermissions;
+        final long   duplicates;
+        FieldFailure failure;
 
         // Verify there are no duplicated roles
         uniquePermissions = role.getPermissions()
@@ -76,11 +71,6 @@ public final class UpdateRoleValidator implements Validator<Role> {
             log.error("Received {} permissions, but {} are duplicates", totalPermissions, duplicates);
             failure = FieldFailure.of("permissions[]", "duplicated", duplicates);
             failures.add(failure);
-        }
-
-        if (!failures.isEmpty()) {
-            log.debug("Got failures: {}", failures);
-            throw new FieldFailureException(failures);
         }
     }
 

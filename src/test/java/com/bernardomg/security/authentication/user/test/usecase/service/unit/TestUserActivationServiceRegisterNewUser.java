@@ -22,7 +22,7 @@ import com.bernardomg.security.authentication.user.usecase.notification.UserNoti
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
 import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - register new user")

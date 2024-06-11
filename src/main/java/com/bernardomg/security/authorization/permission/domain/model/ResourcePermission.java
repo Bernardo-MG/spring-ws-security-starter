@@ -56,7 +56,7 @@ public final class ResourcePermission {
 
     /**
      * Permission name.
-     * 
+     *
      * @return resource name
      */
     public final String getName() {

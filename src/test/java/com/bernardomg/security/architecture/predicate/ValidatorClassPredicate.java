@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.architecture.predicate;
 
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 

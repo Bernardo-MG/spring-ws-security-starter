@@ -5,8 +5,8 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
-import com.bernardomg.validation.failure.FieldFailure;
-import com.bernardomg.validation.failure.exception.FieldFailureException;
+import com.bernardomg.validation.domain.exception.FieldFailureException;
+import com.bernardomg.validation.domain.model.FieldFailure;
 
 public final class ValidationAssertions {
 

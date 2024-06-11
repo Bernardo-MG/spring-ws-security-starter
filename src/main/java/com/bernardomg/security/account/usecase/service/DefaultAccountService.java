@@ -41,7 +41,7 @@ public final class DefaultAccountService implements AccountService {
         final UserDetails       userDetails;
 
         log.debug("Getting account for user in session");
-        
+
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
         if (authentication == null) {
@@ -77,9 +77,8 @@ public final class DefaultAccountService implements AccountService {
         final Account           accountData;
         final Optional<Account> current;
 
-
         log.debug("Updating account {} using data {}", account.getUsername(), account);
-        
+
         current = getCurrentUser();
         if (current.isEmpty()) {
             log.error("Missing account for user in session");

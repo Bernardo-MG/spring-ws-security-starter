@@ -40,7 +40,7 @@ import com.bernardomg.security.authentication.user.usecase.validation.RegisterUs
 import com.bernardomg.security.authorization.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
