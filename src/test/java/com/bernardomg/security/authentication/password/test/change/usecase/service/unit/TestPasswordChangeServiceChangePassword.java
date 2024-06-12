@@ -21,10 +21,10 @@ import com.bernardomg.security.authentication.password.change.usecase.service.Sp
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.test.assertion.ValidationAssertions;
 import com.bernardomg.test.config.factory.Authentications;
 import com.bernardomg.test.config.factory.SecurityUsers;
 import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password")
