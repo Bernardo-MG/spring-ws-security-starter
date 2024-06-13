@@ -40,7 +40,7 @@ import com.bernardomg.security.authentication.user.usecase.validation.RegisterUs
 import com.bernardomg.security.authorization.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,7 +89,6 @@ public final class DefaultUserActivationService implements UserActivationService
     public final User activateUser(final String token, final String password) {
         final String username;
         final User   user;
-        final User   activated;
         final User   saved;
 
         // Validate token
@@ -104,19 +103,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         validateActivation(user);
 
-        activated = User.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withRoles(user.getRoles())
-            .withExpired(user.isExpired())
-            .withLocked(user.isLocked())
-            // Enable user
-            .withEnabled(true)
-            .withPasswordExpired(false)
-            .build();
-
-        saved = userRepository.save(activated, password);
+        saved = userRepository.activate(user.getUsername(), password);
         tokenStore.consumeToken(token);
 
         log.debug("Activated new user {}", username);
@@ -136,13 +123,15 @@ public final class DefaultUserActivationService implements UserActivationService
             .withUsername(username)
             .withName(name)
             .withEmail(email)
-            // Password expired by default
+            .withEnabled(false)
+            .withExpired(false)
             .withPasswordExpired(true)
+            .withLocked(false)
             .build();
 
         validatorRegisterUser.validate(user);
 
-        created = userRepository.save(user, "");
+        created = userRepository.newUser(user);
 
         // Revoke previous tokens
         tokenStore.revokeExistingTokens(created.getUsername());
@@ -171,10 +160,7 @@ public final class DefaultUserActivationService implements UserActivationService
         }
         username = tokenStore.getUsername(token);
 
-        return UserTokenStatus.builder()
-            .withValid(valid)
-            .withUsername(username)
-            .build();
+        return UserTokenStatus.of(username, valid);
     }
 
     private final User getUserByUsername(final String username) {
@@ -184,7 +170,7 @@ public final class DefaultUserActivationService implements UserActivationService
 
         // Validate the user exists
         if (!user.isPresent()) {
-            log.error("Couldn't activate new user {}, as it doesn't exist", username);
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
@@ -200,15 +186,15 @@ public final class DefaultUserActivationService implements UserActivationService
     private final void validateActivation(final User user) {
         // TODO: validate somehow that it is actually new
         if (user.isExpired()) {
-            log.error("Can't activate new user. User {} is expired", user.getUsername());
+            log.error("User {} is expired", user.getUsername());
             throw new ExpiredUserException(user.getUsername());
         }
         if (user.isLocked()) {
-            log.error("Can't activate new user. User {} is locked", user.getUsername());
+            log.error("User {} is locked", user.getUsername());
             throw new LockedUserException(user.getUsername());
         }
         if (user.isEnabled()) {
-            log.error("Can't activate new user. User {} is already enabled", user.getUsername());
+            log.error("User {} is already enabled", user.getUsername());
             throw new EnabledUserException(user.getUsername());
         }
     }

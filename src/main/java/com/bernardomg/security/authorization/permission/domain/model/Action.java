@@ -37,6 +37,12 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class Action {
 
+    public static final Action of(final String nm) {
+        return Action.builder()
+            .withName(nm)
+            .build();
+    }
+
     /**
      * Action name.
      */

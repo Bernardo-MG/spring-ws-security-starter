@@ -52,6 +52,8 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
 
     @Override
     public final Iterable<LoginRegister> getAll(final Pageable page) {
+        log.debug("Reading login registers with pagination {}", page);
+
         return loginRegisterRepository.findAll(page);
     }
 
@@ -63,11 +65,7 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
         log.debug("Registering log in attempt for user {} and status {}", username, logged);
 
         now = LocalDateTime.now();
-        entity = LoginRegister.builder()
-            .withUsername(username)
-            .withLoggedIn(logged)
-            .withDate(now)
-            .build();
+        entity = LoginRegister.of(username, logged, now);
 
         loginRegisterRepository.save(entity);
     }

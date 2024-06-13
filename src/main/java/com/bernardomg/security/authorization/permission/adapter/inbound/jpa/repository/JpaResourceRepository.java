@@ -26,6 +26,7 @@ package com.bernardomg.security.authorization.permission.adapter.inbound.jpa.rep
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -45,12 +46,15 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class JpaResourceRepository implements ResourceRepository {
 
+    /**
+     * Resource repository.
+     */
     private final ResourceSpringRepository resourceSpringRepository;
 
     public JpaResourceRepository(final ResourceSpringRepository resourceSpringRepo) {
         super();
 
-        resourceSpringRepository = resourceSpringRepo;
+        resourceSpringRepository = Objects.requireNonNull(resourceSpringRepo);
     }
 
     @Override
@@ -90,9 +94,7 @@ public final class JpaResourceRepository implements ResourceRepository {
     }
 
     private final Resource toDomain(final ResourceEntity entity) {
-        return Resource.builder()
-            .withName(entity.getName())
-            .build();
+        return Resource.of(entity.getName());
     }
 
     private final ResourceEntity toEntity(final Resource entity) {

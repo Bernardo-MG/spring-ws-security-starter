@@ -37,7 +37,7 @@ import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenPatch;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.validation.PatchUserTokenValidator;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -108,6 +108,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userToken = userTokenRepository.findOne(token);
         if (userToken.isEmpty()) {
+            log.error("Missing user token {}", token);
             throw new MissingUserTokenException(token);
         }
 
@@ -123,6 +124,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         readToken = userTokenRepository.findOne(token.getToken());
         if (readToken.isEmpty()) {
+            log.error("Missing user token {}", token.getToken());
             throw new MissingUserTokenException(token.getToken());
         }
 

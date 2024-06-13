@@ -37,6 +37,13 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class ResourcePermission {
 
+    public static final ResourcePermission of(final String rsc, final String act) {
+        return ResourcePermission.builder()
+            .withResource(rsc)
+            .withAction(act)
+            .build();
+    }
+
     /**
      * Action applied to the resource.
      */
@@ -49,6 +56,8 @@ public final class ResourcePermission {
 
     /**
      * Permission name.
+     *
+     * @return resource name
      */
     public final String getName() {
         return String.format("%s:%s", action, resource);

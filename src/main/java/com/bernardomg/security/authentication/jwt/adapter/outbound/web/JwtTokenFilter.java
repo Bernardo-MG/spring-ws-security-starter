@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -142,8 +141,9 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             // No token received
             token = Optional.empty();
             log.warn("Missing authorization header, can't return token", header);
-        } else if ((!Strings.isEmpty(header)) && (header.trim()
-            .startsWith(TOKEN_HEADER_IDENTIFIER + " "))) {
+        } else if (((header != null) && !header.trim()
+            .isEmpty()) && (header.trim()
+                .startsWith(TOKEN_HEADER_IDENTIFIER + " "))) {
             // Token received
             // Take it by removing the identifier
             // TODO: Should be case insensitive

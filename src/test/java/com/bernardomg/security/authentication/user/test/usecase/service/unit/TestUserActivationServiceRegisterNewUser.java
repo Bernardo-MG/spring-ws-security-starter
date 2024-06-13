@@ -21,8 +21,8 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
-import com.bernardomg.test.assertion.ValidationAssertions;
-import com.bernardomg.validation.failure.FieldFailure;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - register new user")
@@ -47,14 +47,14 @@ class TestUserActivationServiceRegisterNewUser {
     @DisplayName("Sends the user to the repository, ignoring case")
     void testRegisterNewUser_Case_AddsEntity() {
         // GIVEN
-        given(repository.save(Users.newlyCreated(), "")).willReturn(Users.newlyCreated());
+        given(repository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
             UserConstants.EMAIL.toUpperCase());
 
         // THEN
-        verify(repository).save(Users.newlyCreated(), "");
+        verify(repository).newUser(Users.newlyCreated());
     }
 
     @Test
@@ -63,7 +63,7 @@ class TestUserActivationServiceRegisterNewUser {
         final User user;
 
         // GIVEN
-        given(repository.save(Users.newlyCreated(), "")).willReturn(Users.newlyCreated());
+        given(repository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
@@ -114,14 +114,14 @@ class TestUserActivationServiceRegisterNewUser {
     @DisplayName("Sends the user to the repository, padded with whitespace")
     void testRegisterNewUser_Padded_AddsEntity() {
         // GIVEN
-        given(repository.save(Users.newlyCreated(), "")).willReturn(Users.newlyCreated());
+        given(repository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.registerNewUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
             " " + UserConstants.EMAIL + " ");
 
         // THEN
-        verify(repository).save(Users.newlyCreated(), "");
+        verify(repository).newUser(Users.newlyCreated());
     }
 
     @Test
@@ -130,7 +130,7 @@ class TestUserActivationServiceRegisterNewUser {
         final User user;
 
         // GIVEN
-        given(repository.save(Users.newlyCreated(), "")).willReturn(Users.newlyCreated());
+        given(repository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.registerNewUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
@@ -145,13 +145,13 @@ class TestUserActivationServiceRegisterNewUser {
     @DisplayName("Sends the user to the repository")
     void testRegisterNewUser_PersistedData() {
         // GIVEN
-        given(repository.save(Users.newlyCreated(), "")).willReturn(Users.newlyCreated());
+        given(repository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
-        verify(repository).save(Users.newlyCreated(), "");
+        verify(repository).newUser(Users.newlyCreated());
     }
 
     @Test
@@ -160,7 +160,7 @@ class TestUserActivationServiceRegisterNewUser {
         final User user;
 
         // GIVEN
-        given(repository.save(Users.newlyCreated(), "")).willReturn(Users.newlyCreated());
+        given(repository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);

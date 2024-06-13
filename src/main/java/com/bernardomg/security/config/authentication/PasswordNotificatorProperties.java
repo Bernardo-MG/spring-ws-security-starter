@@ -35,11 +35,20 @@ public final class PasswordNotificatorProperties {
     @Data
     public final class PasswordRecoveryProperties {
 
+        /**
+         * Password recovery URL.
+         */
         private String url;
     }
 
+    /**
+     * Email from field.
+     */
     private String                     from;
 
+    /**
+     * Password recovery properties.
+     */
     private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
 
 }

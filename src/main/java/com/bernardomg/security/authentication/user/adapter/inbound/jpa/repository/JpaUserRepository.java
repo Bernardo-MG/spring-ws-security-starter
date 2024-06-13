@@ -59,6 +59,9 @@ public final class JpaUserRepository implements UserRepository {
      */
     private final PasswordEncoder      passwordEncoder;
 
+    /**
+     * Role repository.
+     */
     private final RoleSpringRepository roleSpringRepository;
 
     /**
@@ -70,9 +73,38 @@ public final class JpaUserRepository implements UserRepository {
             final PasswordEncoder passEncoder) {
         super();
 
-        userSpringRepository = userSpringRepo;
-        roleSpringRepository = roleSpringRepo;
+        userSpringRepository = Objects.requireNonNull(userSpringRepo);
+        roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
         passwordEncoder = Objects.requireNonNull(passEncoder);
+    }
+
+    @Override
+    public final User activate(final String username, final String password) {
+        final Optional<UserEntity> read;
+        final UserEntity           user;
+        final UserEntity           updated;
+        final User                 result;
+        final String               encodedPassword;
+
+        read = userSpringRepository.findByUsername(username);
+        if (read.isPresent()) {
+            user = read.get();
+
+            // Encode password
+            encodedPassword = passwordEncoder.encode(password);
+            user.setPassword(encodedPassword);
+
+            user.setEnabled(true);
+            user.setPasswordExpired(false);
+            updated = userSpringRepository.save(user);
+            result = toDomain(updated);
+        } else {
+            // TODO: Maybe return an optional
+            result = User.builder()
+                .build();
+        }
+
+        return result;
     }
 
     @Override
@@ -164,23 +196,36 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final User save(final User user, final String password) {
-        final Optional<UserEntity> existing;
-        final String               encodedPassword;
-        final UserEntity           entity;
-        final UserEntity           saved;
+    public final User lock(final String username) {
+        final Optional<UserEntity> read;
+        final UserEntity           user;
+        final UserEntity           updated;
+        final User                 result;
+
+        read = userSpringRepository.findByUsername(username);
+        if (read.isPresent()) {
+            user = read.get();
+            user.setLocked(true);
+            updated = userSpringRepository.save(user);
+            result = toDomain(updated);
+        } else {
+            // TODO: Maybe return an optional
+            result = User.builder()
+                .build();
+        }
+
+        return result;
+    }
+
+    @Override
+    public final User newUser(final User user) {
+        final String     encodedPassword;
+        final UserEntity entity;
+        final UserEntity saved;
 
         entity = toEntity(user);
 
-        existing = userSpringRepository.findByUsername(user.getUsername());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
-            entity.setLoginAttempts(existing.get()
-                .getLoginAttempts());
-        }
-
-        encodedPassword = passwordEncoder.encode(password);
+        encodedPassword = passwordEncoder.encode("");
         entity.setPassword(encodedPassword);
 
         saved = userSpringRepository.save(entity);
@@ -189,11 +234,38 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final User update(final User user) {
+    public final User resetPassword(final String username, final String password) {
+        final Optional<UserEntity> read;
+        final UserEntity           user;
+        final UserEntity           updated;
+        final User                 result;
+        final String               encodedPassword;
+
+        read = userSpringRepository.findByUsername(username);
+        if (read.isPresent()) {
+            user = read.get();
+
+            // Encode password
+            encodedPassword = passwordEncoder.encode(password);
+            user.setPassword(encodedPassword);
+
+            user.setPasswordExpired(false);
+            updated = userSpringRepository.save(user);
+            result = toDomain(updated);
+        } else {
+            // TODO: Maybe return an optional
+            result = User.builder()
+                .build();
+        }
+
+        return result;
+    }
+
+    @Override
+    public final User save(final User user) {
         final Optional<UserEntity> existing;
         final UserEntity           entity;
         final UserEntity           saved;
-        final User                 result;
 
         entity = toEntity(user);
 
@@ -205,22 +277,16 @@ public final class JpaUserRepository implements UserRepository {
                 .getPassword());
             entity.setLoginAttempts(existing.get()
                 .getLoginAttempts());
-
-            saved = userSpringRepository.save(entity);
-            result = toDomain(saved);
         } else {
-            // TODO: if it doesn't exist, then maybe create
-            result = null;
+            entity.setPassword("");
         }
 
-        return result;
+        saved = userSpringRepository.save(entity);
+        return toDomain(saved);
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return ResourcePermission.builder()
-            .withResource(entity.getResource())
-            .withAction(entity.getAction())
-            .build();
+        return ResourcePermission.of(entity.getResource(), entity.getAction());
     }
 
     private final Role toDomain(final RoleEntity role) {
@@ -234,10 +300,7 @@ public final class JpaUserRepository implements UserRepository {
             .map(this::toDomain)
             .sorted(new ResourcePermissionComparator())
             .toList();
-        return Role.builder()
-            .withName(role.getName())
-            .withPermissions(permissions)
-            .build();
+        return Role.of(role.getName(), permissions);
     }
 
     private final User toDomain(final UserEntity user) {

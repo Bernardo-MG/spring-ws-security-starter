@@ -24,6 +24,9 @@
 
 package com.bernardomg.security.authorization.permission.constant;
 
+/**
+ * Default actions constants.
+ */
 public final class Actions {
 
     public static final String CREATE = "CREATE";

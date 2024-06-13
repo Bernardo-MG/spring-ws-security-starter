@@ -37,13 +37,9 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.annotation.OnlyUser;
 import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.UserEntities;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
-import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
+import com.bernardomg.security.authorization.role.test.config.annotation.AlternativeRole;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -54,9 +50,6 @@ class ITUserRepositorySave {
     private UserRepository       repository;
 
     @Autowired
-    private RoleSpringRepository roleSpringRepository;
-
-    @Autowired
     private UserSpringRepository userSpringRepository;
 
     public ITUserRepositorySave() {
@@ -64,31 +57,90 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When a role is added, it is updated")
+    @DisplayName("When adding a not existing role to a user it is updated")
     @OnlyUser
-    @RoleWithPermission
+    void testSave_AddRole_NotExistingRole_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.addRole();
+
+        // WHEN
+        repository.save(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("When adding a not existing role to a user it is returned")
+    @OnlyUser
+    void testSave_AddRole_NotExistingRole_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.addRole();
+
+        // WHEN
+        created = repository.save(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.noRoles());
+    }
+
+    @Test
+    @DisplayName("When adding a role to a user it is updated")
+    @ValidUser
+    @AlternativeRole
     void testSave_AddRole_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
         // GIVEN
-        user = Users.enabled();
+        user = Users.addRole();
 
         // WHEN
-        repository.save(user, UserConstants.PASSWORD);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.enabled());
+            .containsExactly(UserEntities.additionalRole());
     }
 
     @Test
-    @DisplayName("When the user exists, it is updated")
+    @DisplayName("When adding a role to a user it is returned")
     @ValidUser
-    void testSave_Existing_PersistedData() {
+    @AlternativeRole
+    void testSave_AddRole_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.addRole();
+
+        // WHEN
+        created = repository.save(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.additionalRole());
+    }
+
+    @Test
+    @DisplayName("Persists a newly created user")
+    void testSave_NotExisting_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -96,20 +148,19 @@ class ITUserRepositorySave {
         user = Users.enabled();
 
         // WHEN
-        repository.save(user, UserConstants.PASSWORD);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.enabled());
+            .containsExactly(UserEntities.withoutRoles());
     }
 
     @Test
-    @DisplayName("When the user it is updated, it is returned")
-    @ValidUser
-    void testSave_Existing_Returned() {
+    @DisplayName("Returns a newly created user")
+    void testSave_NotExisting_Returned() {
         final User user;
         final User created;
 
@@ -117,83 +168,18 @@ class ITUserRepositorySave {
         user = Users.enabled();
 
         // WHEN
-        created = repository.save(user, UserConstants.PASSWORD);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)
             .as("user")
-            .isEqualTo(Users.enabled());
+            .isEqualTo(Users.withoutRoles());
     }
 
     @Test
-    @DisplayName("When the user doesn't exists, and the permissions were removed in the sent role, it is created")
-    @RoleWithPermission
-    void testSave_MissingPermissions_PersistedData() {
-        final User             user;
-        final List<UserEntity> entities;
-
-        // GIVEN
-        user = Users.withoutPermissions();
-
-        // WHEN
-        repository.save(user, UserConstants.PASSWORD);
-
-        // THEN
-        entities = userSpringRepository.findAll();
-        Assertions.assertThat(entities)
-            .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.id",
-                "roles.permissions.id.roleId")
-            .containsExactly(UserEntities.enabled());
-    }
-
-    @Test
-    @DisplayName("When the user doesn't exists, and the permissions were removed in the sent role, the role keeps its permissions")
-    @RoleWithPermission
-    void testSave_MissingPermissions_RoleData() {
-        final User             user;
-        final List<RoleEntity> entities;
-
-        // GIVEN
-        user = Users.withoutPermissions();
-
-        // WHEN
-        repository.save(user, UserConstants.PASSWORD);
-
-        // THEN
-        entities = roleSpringRepository.findAll();
-        Assertions.assertThat(entities)
-            .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(RoleEntities.withPermission());
-    }
-
-    @Test
-    @DisplayName("When the user doesn't exists, it is created")
-    @RoleWithPermission
-    void testSave_PersistedData() {
-        final User             user;
-        final List<UserEntity> entities;
-
-        // GIVEN
-        user = Users.enabled();
-
-        // WHEN
-        repository.save(user, UserConstants.PASSWORD);
-
-        // THEN
-        entities = userSpringRepository.findAll();
-        Assertions.assertThat(entities)
-            .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.id",
-                "roles.permissions.id.roleId")
-            .containsExactly(UserEntities.enabled());
-    }
-
-    @Test
-    @DisplayName("When the role is removed, it is updated")
+    @DisplayName("When removing the roles to a user it is updated")
     @ValidUser
-    void testSave_RemoveRole_PersistedData() {
+    void testSave_RemoveRoles_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -201,20 +187,100 @@ class ITUserRepositorySave {
         user = Users.withoutRoles();
 
         // WHEN
-        repository.save(user, UserConstants.PASSWORD);
+        repository.save(user);
 
         // THEN
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
-            .containsExactly(UserEntities.withoutRole());
+            .containsExactly(UserEntities.withoutRoles());
     }
 
     @Test
-    @DisplayName("When the user it is created, it is returned")
-    @RoleWithPermission
-    void testSave_Returned() {
+    @DisplayName("When removing the roles to a user it is returned")
+    @ValidUser
+    void testSave_RemoveRoles_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.withoutRoles();
+
+        // WHEN
+        created = repository.save(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("When a user has no roles it is updated")
+    @OnlyUser
+    void testSave_WithoutRoles_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.withoutRoles();
+
+        // WHEN
+        repository.save(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("When a user has no roles it is returned")
+    @OnlyUser
+    void testSave_WithoutRoles_Returned() {
+        final User user;
+        final User created;
+
+        // GIVEN
+        user = Users.withoutRoles();
+
+        // WHEN
+        created = repository.save(user);
+
+        // THEN
+        Assertions.assertThat(created)
+            .as("user")
+            .isEqualTo(Users.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("When a user has roles it is updated")
+    @ValidUser
+    void testSave_WithRoles_PersistedData() {
+        final User             user;
+        final List<UserEntity> entities;
+
+        // GIVEN
+        user = Users.enabled();
+
+        // WHEN
+        repository.save(user);
+
+        // THEN
+        entities = userSpringRepository.findAll();
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .containsExactly(UserEntities.enabled());
+    }
+
+    @Test
+    @DisplayName("When a user has roles it is returned")
+    @ValidUser
+    void testSave_WithRoles_Returned() {
         final User user;
         final User created;
 
@@ -222,7 +288,7 @@ class ITUserRepositorySave {
         user = Users.enabled();
 
         // WHEN
-        created = repository.save(user, UserConstants.PASSWORD);
+        created = repository.save(user);
 
         // THEN
         Assertions.assertThat(created)

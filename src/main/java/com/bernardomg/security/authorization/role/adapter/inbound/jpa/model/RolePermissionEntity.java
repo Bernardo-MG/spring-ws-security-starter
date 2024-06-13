@@ -67,6 +67,9 @@ public class RolePermissionEntity implements Serializable {
     @Column(name = "granted", nullable = false)
     private Boolean                  granted;
 
+    /**
+     * Id.
+     */
     @EmbeddedId
     private RolePermissionId         id;
 

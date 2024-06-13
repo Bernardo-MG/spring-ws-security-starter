@@ -37,6 +37,13 @@ import lombok.Value;
 @Builder(setterPrefix = "with")
 public final class UserTokenStatus {
 
+    public static final UserTokenStatus of(final String usnm, final boolean vld) {
+        return UserTokenStatus.builder()
+            .withUsername(usnm)
+            .withValid(vld)
+            .build();
+    }
+
     /**
      * Username.
      * <p>

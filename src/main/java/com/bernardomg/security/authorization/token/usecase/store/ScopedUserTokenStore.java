@@ -122,6 +122,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
         exists = userRepository.exists(username);
         if (!exists) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
@@ -156,6 +157,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             .map(UserToken::getUsername);
 
         if (username.isEmpty()) {
+            log.error("Missing user token {}", token);
             throw new MissingUserTokenException(token);
         }
 
@@ -171,6 +173,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
         readUser = userRepository.findOne(username);
         if (!readUser.isPresent()) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 

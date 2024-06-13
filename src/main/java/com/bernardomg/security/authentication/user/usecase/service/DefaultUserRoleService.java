@@ -46,8 +46,14 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultUserRoleService implements UserRoleService {
 
+    /**
+     * User repository.
+     */
     private final UserRepository     userRepository;
 
+    /**
+     * User role repository.
+     */
     private final UserRoleRepository userRoleRepository;
 
     public DefaultUserRoleService(final UserRepository userRepo, final UserRoleRepository userRoleRepo) {
@@ -65,6 +71,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         userExists = userRepository.exists(username);
         if (!userExists) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 

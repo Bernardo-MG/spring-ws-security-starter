@@ -39,6 +39,17 @@ import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 public interface UserRepository {
 
     /**
+     * Activates the received user, setting the password and enabling it.
+     *
+     * @param username
+     *            user to activate
+     * @param password
+     *            password for the user
+     * @return the activated user
+     */
+    public User activate(final String username, final String password);
+
+    /**
      * Removes all login attempts for the user.
      *
      * @param username
@@ -140,25 +151,41 @@ public interface UserRepository {
     public int increaseLoginAttempts(final String username);
 
     /**
-     * Saves the received user. If it exists it is updated, otherwise it is created.
+     * Locks the received user.
+     *
+     * @param username
+     *            user to lock
+     * @return the locked user
+     */
+    public User lock(final String username);
+
+    /**
+     * Creates a new user. It won't have a password, and will have the password expired flag active.
      *
      * @param user
      *            user to save
-     * @param password
-     *            password for the user
      * @return the saved user
      */
-    public User save(final User user, final String password);
+    public User newUser(final User user);
+
+    /**
+     * Resets the password for the user, this includes disabling the password expired flag.
+     *
+     * @param username
+     *            user to refresh the password
+     * @param password
+     *            new password
+     * @return the user with the refreshed password
+     */
+    public User resetPassword(final String username, final String password);
 
     /**
      * Updates an existing user.
-     * <p>
-     * TODO: rename to save
      *
      * @param user
      *            the user to update
      * @return the updated user
      */
-    public User update(final User user);
+    public User save(final User user);
 
 }

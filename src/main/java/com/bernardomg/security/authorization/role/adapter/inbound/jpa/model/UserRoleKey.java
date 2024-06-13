@@ -48,8 +48,14 @@ public class UserRoleKey implements Serializable {
      */
     private static final long serialVersionUID = -7233957066746780621L;
 
+    /**
+     * Role id.
+     */
     private Long              roleId;
 
+    /**
+     * User id.
+     */
     private Long              userId;
 
 }

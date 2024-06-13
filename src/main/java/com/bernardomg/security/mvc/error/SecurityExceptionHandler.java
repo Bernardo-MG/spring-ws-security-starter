@@ -32,8 +32,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.bernardomg.web.response.model.ErrorResponse;
-import com.bernardomg.web.response.model.Response;
+import com.bernardomg.web.response.domain.model.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,7 +59,7 @@ public class SecurityExceptionHandler {
 
         log.warn(ex.getMessage(), ex);
 
-        response = Response.error("Unauthorized");
+        response = ErrorResponse.of("Unauthorized");
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }

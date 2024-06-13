@@ -69,7 +69,7 @@ public interface UserService {
     public Optional<User> getOne(final String username);
 
     /**
-     * Updates the user for the received id with the received data.
+     * Updates the received user with the received data.
      *
      * @param user
      *            new data for the user

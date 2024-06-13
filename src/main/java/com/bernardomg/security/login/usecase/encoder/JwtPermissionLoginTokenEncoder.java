@@ -76,7 +76,7 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
             .withIssuedAt(issuedAt)
             .withNotBefore(issuedAt)
             .withExpiration(expiration)
-            // TODO: Test permissions are added
+            // TODO: Test that permissions are added
             .withPermissions(permissions)
             .build();
 

@@ -38,7 +38,7 @@ import com.bernardomg.security.authentication.user.usecase.validation.UpdateUser
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,6 +84,7 @@ public final class DefaultUserService implements UserService {
 
         exists = userRepository.exists(username);
         if (!exists) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
@@ -105,6 +106,7 @@ public final class DefaultUserService implements UserService {
 
         exists = userRepository.exists(username);
         if (!exists) {
+            log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
@@ -121,12 +123,14 @@ public final class DefaultUserService implements UserService {
         // Verify the user exists
         existing = userRepository.findOne(user.getUsername());
         if (existing.isEmpty()) {
+            log.error("Missing user {}", user.getUsername());
             throw new MissingUserException(user.getUsername());
         }
 
         // Verify the roles exists
         for (final Role role : user.getRoles()) {
             if (!roleRepository.exists(role.getName())) {
+                log.error("Missing role {}", role.getName());
                 throw new MissingRoleException(role.getName());
             }
         }
@@ -134,20 +138,22 @@ public final class DefaultUserService implements UserService {
         validatorUpdateUser.validate(user);
 
         toSave = User.builder()
+            // Can't change these fields
             .withUsername(existing.get()
                 .getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.isEnabled())
             .withExpired(existing.get()
                 .isExpired())
             .withLocked(existing.get()
                 .isLocked())
+            // These fields are allowed to change
+            .withName(user.getName())
+            .withEmail(user.getEmail())
+            .withEnabled(user.isEnabled())
             .withPasswordExpired(user.isPasswordExpired())
             .withRoles(user.getRoles())
             .build();
 
-        return userRepository.update(toSave);
+        return userRepository.save(toSave);
     }
 
 }

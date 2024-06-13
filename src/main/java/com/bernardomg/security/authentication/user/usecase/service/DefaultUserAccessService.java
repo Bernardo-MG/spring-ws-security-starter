@@ -1,3 +1,26 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.bernardomg.security.authentication.user.usecase.service;
 
@@ -12,12 +35,21 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Default implementation of the user service.
+ */
 @Slf4j
 @Transactional
 public final class DefaultUserAccessService implements UserAccessService {
 
+    /**
+     * Max login attempts. Once the user reaches this number, it is locked.
+     */
     private final int            maxAttempts;
 
+    /**
+     * User repository.
+     */
     private final UserRepository userRepository;
 
     public DefaultUserAccessService(final int maxAttmp, final UserRepository userRepo) {
@@ -32,7 +64,6 @@ public final class DefaultUserAccessService implements UserAccessService {
         final int            attempts;
         final Optional<User> read;
         final User           user;
-        final User           locked;
 
         log.debug("Checking {} for locking user", username);
 
@@ -50,17 +81,7 @@ public final class DefaultUserAccessService implements UserAccessService {
                 throw new MissingUserException(username);
             }
             user = read.get();
-            locked = User.builder()
-                .withUsername(user.getUsername())
-                .withName(user.getName())
-                .withEmail(user.getEmail())
-                .withEnabled(user.isEnabled())
-                .withExpired(user.isExpired())
-                .withLocked(true)
-                .withPasswordExpired(user.isPasswordExpired())
-                .withRoles(user.getRoles())
-                .build();
-            userRepository.update(locked);
+            userRepository.lock(user.getUsername());
             log.debug("Locked user {} after {} login attempts", username, attempts);
         }
     }

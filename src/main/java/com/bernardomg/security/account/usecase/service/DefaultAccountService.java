@@ -40,6 +40,8 @@ public final class DefaultAccountService implements AccountService {
         final Optional<Account> account;
         final UserDetails       userDetails;
 
+        log.debug("Getting account for user in session");
+
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
         if (authentication == null) {
@@ -51,8 +53,14 @@ public final class DefaultAccountService implements AccountService {
                 account = accountRepository.findOne(userDetails.getUsername());
             } else {
                 // Invalid principal
-                log.debug("Invalid principal. Received instance of {}", authentication.getPrincipal()
-                    .getClass());
+                final Object className;
+                if (authentication.getPrincipal() == null) {
+                    className = "null";
+                } else {
+                    className = authentication.getPrincipal()
+                        .getClass();
+                }
+                log.debug("Invalid principal. Received instance of {}", className);
                 account = Optional.empty();
             }
         } else {
@@ -69,19 +77,21 @@ public final class DefaultAccountService implements AccountService {
         final Account           accountData;
         final Optional<Account> current;
 
+        log.debug("Updating account {} using data {}", account.getUsername(), account);
+
         current = getCurrentUser();
         if (current.isEmpty()) {
+            log.error("Missing account for user in session");
             throw new MissingAccountException();
         }
 
         // Can only change name
-        accountData = BasicAccount.builder()
-            .withUsername(current.get()
-                .getUsername())
-            .withName(account.getName())
-            .withEmail(current.get()
-                .getEmail())
-            .build();
+        accountData = BasicAccount.of(current.get()
+            .getUsername(),
+            current.get()
+                .getName(),
+            current.get()
+                .getEmail());
 
         log.debug("Updating account {} using data {}", accountData.getUsername(), accountData);
 

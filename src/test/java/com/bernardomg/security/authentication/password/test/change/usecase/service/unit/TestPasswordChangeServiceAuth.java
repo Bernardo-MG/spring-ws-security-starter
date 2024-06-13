@@ -3,8 +3,6 @@ package com.bernardomg.security.authentication.password.test.change.usecase.serv
 
 import static org.mockito.BDDMockito.given;
 
-import java.util.Optional;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,17 +23,14 @@ import com.bernardomg.security.authentication.user.domain.exception.DisabledUser
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
-import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.test.config.factory.Users;
+import com.bernardomg.test.config.factory.Authentications;
+import com.bernardomg.test.config.factory.SecurityUsers;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordChangeService - change password - authentication")
 class TestPasswordChangeServiceAuth {
-
-    @Mock
-    private Authentication                      authentication;
 
     @Mock
     private PasswordEncoder                     passwordEncoder;
@@ -55,88 +48,23 @@ class TestPasswordChangeServiceAuth {
         super();
     }
 
-    private final void initializeAuthentication() {
-        given(authentication.isAuthenticated()).willReturn(true);
-        given(authentication.getName()).willReturn(UserConstants.USERNAME);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-    }
-
-    private final void initializeEmptyAuthentication() {
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
-    }
-
-    private final void initializeNotAuthenticated() {
-        given(authentication.isAuthenticated()).willReturn(false);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-    }
-
-    private final void loadDisabledUser() {
-        final UserDetails user;
-
-        loadUserRepository();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
-        given(user.isEnabled()).willReturn(false);
-        given(user.isAccountNonExpired()).willReturn(true);
-        given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-    }
-
-    private final void loadExpiredUser() {
-        final UserDetails user;
-
-        loadUserRepository();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
-        given(user.isAccountNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-    }
-
-    private final void loadLockedUser() {
-        final UserDetails user;
-
-        loadUserRepository();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.getPassword()).willReturn(UserConstants.PASSWORD);
-        given(user.isAccountNonExpired()).willReturn(true);
-        given(user.isAccountNonLocked()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-    }
-
-    private final void loadUserRepository() {
-        final User user;
-
-        user = Users.enabled();
-
-        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
-    }
-
-    void initializeValidation() {
+    private final void initializeUser(final UserDetails user) {
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        SecurityContextHolder.getContext()
+            .setAuthentication(Authentications.authenticated());
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+        given(repository.exists(UserConstants.USERNAME)).willReturn(true);
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a disabled user gives a failure")
-    void testChangePassword_Disabled_Exception() {
+    void testChangePassword_Disabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        initializeValidation();
-        initializeAuthentication();
-        loadDisabledUser();
+        initializeUser(SecurityUsers.disabled());
 
         // WHEN
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
@@ -149,16 +77,14 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a expired user gives a failure")
-    void testChangePassword_Expired_Exception() {
+    void testChangePassword_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        initializeValidation();
-        initializeAuthentication();
-        loadExpiredUser();
+        initializeUser(SecurityUsers.expired());
 
         // WHEN
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
@@ -171,16 +97,14 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a locked user gives a failure")
-    void testChangePassword_Locked_Exception() {
+    void testChangePassword_Locked() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        initializeValidation();
-        initializeAuthentication();
-        loadLockedUser();
+        initializeUser(SecurityUsers.locked());
 
         // WHEN
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
@@ -194,12 +118,13 @@ class TestPasswordChangeServiceAuth {
 
     @Test
     @DisplayName("Throws an exception when there is no authentication data")
-    void testChangePassword_MissingAuthentication_Exception() {
+    void testChangePassword_MissingAuthentication() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        initializeEmptyAuthentication();
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
 
         // WHEN
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
@@ -213,12 +138,13 @@ class TestPasswordChangeServiceAuth {
 
     @Test
     @DisplayName("Throws an exception when the user is not authenticated")
-    void testChangePassword_NotAuthenticated_Exception() {
+    void testChangePassword_NotAuthenticated() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        initializeNotAuthenticated();
+        SecurityContextHolder.getContext()
+            .setAuthentication(Authentications.notAuthenticated());
 
         // WHEN
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
@@ -231,14 +157,16 @@ class TestPasswordChangeServiceAuth {
     }
 
     @Test
-    @WithMockUser(username = "username")
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a not existing user gives a failure")
-    void testChangePassword_NotExistingUser_Exception() {
+    void testChangePassword_NotExistingUser() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        initializeAuthentication();
+        SecurityContextHolder.getContext()
+            .setAuthentication(Authentications.authenticated());
+        given(repository.exists(UserConstants.USERNAME)).willReturn(false);
 
         // WHEN
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");

@@ -5,6 +5,7 @@ import com.bernardomg.security.architecture.rule.CacheRules;
 import com.bernardomg.security.architecture.rule.CodingRules;
 import com.bernardomg.security.architecture.rule.ConfigurationRules;
 import com.bernardomg.security.architecture.rule.ControllerRules;
+import com.bernardomg.security.architecture.rule.ImportRules;
 import com.bernardomg.security.architecture.rule.JpaEntityRules;
 import com.bernardomg.security.architecture.rule.RepositoryRules;
 import com.bernardomg.security.architecture.rule.SecurityRules;
@@ -30,6 +31,9 @@ public class ArchitectureRulesTest {
 
     @ArchTest
     static final ArchTests controllerRules    = ArchTests.in(ControllerRules.class);
+
+    @ArchTest
+    static final ArchTests importRules        = ArchTests.in(ImportRules.class);
 
     @ArchTest
     static final ArchTests jpaEntityRules     = ArchTests.in(JpaEntityRules.class);

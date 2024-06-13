@@ -40,7 +40,7 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 import com.bernardomg.security.authorization.role.usecase.validation.CreateRoleValidator;
 import com.bernardomg.security.authorization.role.usecase.validation.DeleteRoleValidator;
 import com.bernardomg.security.authorization.role.usecase.validation.UpdateRoleValidator;
-import com.bernardomg.validation.Validator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,15 +54,30 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class DefaultRoleService implements RoleService {
 
+    /**
+     * Resource permission repository.
+     */
     private final ResourcePermissionRepository resourcePermissionRepository;
 
+    /**
+     * Role repository.
+     */
     private final RoleRepository               roleRepository;
 
-    private final Validator<Role>              validatorCreateRole;
+    /**
+     * Create validator.
+     */
+    private final Validator<Role>              validatorCreate;
 
-    private final Validator<String>            validatorDeleteRole;
+    /**
+     * Delete validator.
+     */
+    private final Validator<String>            validatorDelete;
 
-    private final Validator<Role>              validatorUpdateRole;
+    /**
+     * Update validator.
+     */
+    private final Validator<Role>              validatorUpdate;
 
     public DefaultRoleService(final RoleRepository roleRepo,
             final ResourcePermissionRepository resourcePermissionRepo) {
@@ -71,9 +86,9 @@ public final class DefaultRoleService implements RoleService {
         roleRepository = Objects.requireNonNull(roleRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
 
-        validatorCreateRole = new CreateRoleValidator(roleRepo);
-        validatorDeleteRole = new DeleteRoleValidator(roleRepo);
-        validatorUpdateRole = new UpdateRoleValidator();
+        validatorCreate = new CreateRoleValidator(roleRepo);
+        validatorDelete = new DeleteRoleValidator(roleRepo);
+        validatorUpdate = new UpdateRoleValidator();
     }
 
     @Override
@@ -82,11 +97,9 @@ public final class DefaultRoleService implements RoleService {
 
         log.debug("Creating role {}", name);
 
-        role = Role.builder()
-            .withName(name)
-            .build();
+        role = Role.of(name);
 
-        validatorCreateRole.validate(role);
+        validatorCreate.validate(role);
 
         return roleRepository.save(role);
     }
@@ -99,10 +112,11 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
+            log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
-        validatorDeleteRole.validate(role);
+        validatorDelete.validate(role);
 
         roleRepository.delete(role);
     }
@@ -122,6 +136,7 @@ public final class DefaultRoleService implements RoleService {
 
         exists = roleRepository.exists(role);
         if (!exists) {
+            log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
@@ -137,19 +152,21 @@ public final class DefaultRoleService implements RoleService {
         // Verify the role exists
         exists = roleRepository.exists(role.getName());
         if (!exists) {
+            log.error("Missing role {}", role.getName());
             throw new MissingRoleException(role.getName());
         }
 
         // Verify the permissions exists
         for (final ResourcePermission permission : role.getPermissions()) {
             if (!resourcePermissionRepository.exists(permission.getName())) {
+                // TODO: send all missing in a single exception
                 throw new MissingResourcePermissionException(role.getName());
             }
         }
 
         // Verify the permissions exist
 
-        validatorUpdateRole.validate(role);
+        validatorUpdate.validate(role);
 
         return roleRepository.save(role);
     }

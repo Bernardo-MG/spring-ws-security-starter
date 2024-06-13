@@ -53,10 +53,19 @@ import com.bernardomg.security.authorization.role.domain.repository.RoleReposito
 @Transactional
 public final class JpaRoleRepository implements RoleRepository {
 
+    /**
+     * Resource permission repository.
+     */
     private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
+    /**
+     * Role repository.
+     */
     private final RoleSpringRepository               roleSpringRepository;
 
+    /**
+     * User roles repository.
+     */
     private final UserRoleSpringRepository           userRoleSpringRepository;
 
     public JpaRoleRepository(final RoleSpringRepository roleSpringRepo,
@@ -152,10 +161,7 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return ResourcePermission.builder()
-            .withResource(entity.getResource())
-            .withAction(entity.getAction())
-            .build();
+        return ResourcePermission.of(entity.getResource(), entity.getAction());
     }
 
     private final Role toDomain(final RoleEntity role) {
@@ -173,10 +179,7 @@ public final class JpaRoleRepository implements RoleRepository {
                 .sorted(new ResourcePermissionComparator())
                 .toList();
         }
-        return Role.builder()
-            .withName(role.getName())
-            .withPermissions(permissions)
-            .build();
+        return Role.of(role.getName(), permissions);
     }
 
     private final RolePermissionEntity toEntity(final ResourcePermission permission) {
