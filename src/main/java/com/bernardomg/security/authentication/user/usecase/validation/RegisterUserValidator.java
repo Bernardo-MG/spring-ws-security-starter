@@ -24,14 +24,11 @@
 
 package com.bernardomg.security.authentication.user.usecase.validation;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.validation.domain.model.FieldFailure;
-import com.bernardomg.validation.validator.AbstractValidator;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.validation.validator.AbstractFieldRuleValidator;
 
 /**
  * Register user validation.
@@ -45,40 +42,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class RegisterUserValidator extends AbstractValidator<User> {
+public final class RegisterUserValidator extends AbstractFieldRuleValidator<User> {
 
-    /**
-     * User repository.
-     */
-    private final UserRepository userRepository;
-
-    public RegisterUserValidator(final UserRepository userRepo) {
-        super();
-
-        userRepository = userRepo;
-    }
-
-    @Override
-    protected final void checkRules(final User user, final Collection<FieldFailure> failures) {
-        FieldFailure failure;
-
-        // The username is not registered
-        if (userRepository.exists(user.getUsername())) {
-            log.error("A user already exists with the username {}", user.getUsername());
-            // TODO: Is the code exists or is it existing? Make sure all use the same
-            failure = FieldFailure.of("username", "existing", user.getUsername());
-            failures.add(failure);
-        }
-
-        // TODO: Don't give hints about existing emails
-        // The email is not registered
-        if (userRepository.existsByEmail(user.getEmail())) {
-            log.error("A user already exists with the username {}", user.getUsername());
-            // TODO: Is the code exists or is it existing? Make sure all use the same
-            failure = FieldFailure.of("email", "existing", user.getEmail());
-            failures.add(failure);
-        }
+    public RegisterUserValidator(final UserRepository userRepository) {
+        super(List.of(new UserEmailNotExistsRule(userRepository), new UserUsernameNotExistsRule(userRepository)));
     }
 
 }

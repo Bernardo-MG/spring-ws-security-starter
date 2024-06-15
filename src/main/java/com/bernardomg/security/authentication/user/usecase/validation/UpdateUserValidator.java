@@ -24,15 +24,11 @@
 
 package com.bernardomg.security.authentication.user.usecase.validation;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.validation.domain.model.FieldFailure;
-import com.bernardomg.validation.validator.AbstractValidator;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.validation.validator.AbstractFieldRuleValidator;
 
 /**
  * Update user validation.
@@ -46,50 +42,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class UpdateUserValidator extends AbstractValidator<User> {
+public final class UpdateUserValidator extends AbstractFieldRuleValidator<User> {
 
-    /**
-     * User repository.
-     */
-    private final UserRepository userRepository;
-
-    public UpdateUserValidator(final UserRepository userRepo) {
-        super();
-
-        userRepository = userRepo;
-    }
-
-    @Override
-    protected final void checkRules(final User user, final Collection<FieldFailure> failures) {
-        final long   uniqueRoles;
-        final int    totalRoles;
-        final long   duplicates;
-        FieldFailure failure;
-
-        // Verify the email is not registered
-        if (userRepository.existsEmailForAnotherUser(user.getUsername(), user.getEmail())) {
-            log.error("A user already exists with the email {}", user.getEmail());
-            // TODO: Is the code exists or is it existing? Make sure all use the same
-            failure = FieldFailure.of("email", "existing", user.getEmail());
-            failures.add(failure);
-        }
-
-        // Verify there are no duplicated roles
-        uniqueRoles = user.getRoles()
-            .stream()
-            .map(Role::getName)
-            .distinct()
-            .count();
-        totalRoles = user.getRoles()
-            .size();
-        if (uniqueRoles < totalRoles) {
-            duplicates = (totalRoles - uniqueRoles);
-            log.error("Received {} roles, but {} are duplicates", totalRoles, duplicates);
-            failure = FieldFailure.of("roles[]", "duplicated", duplicates);
-            failures.add(failure);
-        }
-
+    public UpdateUserValidator(final UserRepository userRepository) {
+        super(List.of(new UserEmailNotExistsForAnotherRule(userRepository), new UserRolesNotDuplicatedRule()));
     }
 
 }
