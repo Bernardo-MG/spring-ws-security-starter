@@ -25,6 +25,7 @@
 package com.bernardomg.security.initializer.usecase.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +53,8 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
     public DefaultUsersInitializerService(final UserRepository userRepo, final RoleRepository roleRepo) {
         super();
 
-        userRepository = userRepo;
-        roleRepository = roleRepo;
+        userRepository = Objects.requireNonNull(userRepo);
+        roleRepository = Objects.requireNonNull(roleRepo);
     }
 
     @Override

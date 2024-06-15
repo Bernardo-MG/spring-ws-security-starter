@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.initializer.adapter.inbound;
 
+import java.util.Objects;
+
 import com.bernardomg.security.initializer.usecase.service.UsersInitializerService;
 
 /**
@@ -39,7 +41,7 @@ public final class UsersInitializer {
     public UsersInitializer(final UsersInitializerService usersInitializerServ) {
         super();
 
-        usersInitializerService = usersInitializerServ;
+        usersInitializerService = Objects.requireNonNull(usersInitializerServ);
     }
 
     public final void initialize() {
