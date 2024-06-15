@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
@@ -214,7 +215,7 @@ public final class JpaRoleRepository implements RoleRepository {
             .stream()
             .map(this::toEntity)
             .filter(Objects::nonNull)
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         return RoleEntity.builder()
             .withName(role.getName())
             .withPermissions(permissions)

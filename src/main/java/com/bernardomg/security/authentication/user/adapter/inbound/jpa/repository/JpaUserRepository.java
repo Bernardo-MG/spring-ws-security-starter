@@ -24,9 +24,11 @@
 
 package com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
@@ -339,7 +341,7 @@ public final class JpaUserRepository implements UserRepository {
             .stream()
             .map(this::toEntity)
             .filter(Objects::nonNull)
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         return UserEntity.builder()
             .withUsername(user.getUsername())
             .withName(user.getName())
