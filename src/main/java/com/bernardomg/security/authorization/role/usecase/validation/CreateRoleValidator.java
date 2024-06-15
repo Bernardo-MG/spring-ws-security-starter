@@ -24,14 +24,11 @@
 
 package com.bernardomg.security.authorization.role.usecase.validation;
 
-import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.validation.domain.model.FieldFailure;
-import com.bernardomg.validation.validator.AbstractValidator;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.validation.validator.AbstractFieldRuleValidator;
 
 /**
  * Create role validation.
@@ -44,31 +41,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class CreateRoleValidator extends AbstractValidator<Role> {
+public final class CreateRoleValidator extends AbstractFieldRuleValidator<Role> {
 
-    /**
-     * Role repository.
-     */
-    private final RoleRepository roleRepository;
-
-    public CreateRoleValidator(final RoleRepository roleRepo) {
-        super();
-
-        roleRepository = roleRepo;
-    }
-
-    @Override
-    protected final void checkRules(final Role role, final Collection<FieldFailure> failures) {
-        final FieldFailure failure;
-
-        // The role name doesn't exist
-        if (roleRepository.exists(role.getName())) {
-            log.error("A role already exists with the name {}", role.getName());
-            // TODO: Is the code exists or is it existing? Make sure all use the same
-            failure = FieldFailure.of("name", "existing", role.getName());
-            failures.add(failure);
-        }
+    public CreateRoleValidator(final RoleRepository roleRepository) {
+        super(List.of(new RoleNameNotExistsRule(roleRepository)));
     }
 
 }

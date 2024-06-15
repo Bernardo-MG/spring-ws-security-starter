@@ -24,14 +24,10 @@
 
 package com.bernardomg.security.authorization.role.usecase.validation;
 
-import java.util.Collection;
+import java.util.List;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.validation.domain.model.FieldFailure;
-import com.bernardomg.validation.validator.AbstractValidator;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.validation.validator.AbstractFieldRuleValidator;
 
 /**
  * Update role validation.
@@ -44,34 +40,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class UpdateRoleValidator extends AbstractValidator<Role> {
+public final class UpdateRoleValidator extends AbstractFieldRuleValidator<Role> {
 
     public UpdateRoleValidator() {
-        super();
-    }
-
-    @Override
-    protected final void checkRules(final Role role, final Collection<FieldFailure> failures) {
-        final long   uniquePermissions;
-        final int    totalPermissions;
-        final long   duplicates;
-        FieldFailure failure;
-
-        // Verify there are no duplicated roles
-        uniquePermissions = role.getPermissions()
-            .stream()
-            .map(ResourcePermission::getName)
-            .distinct()
-            .count();
-        totalPermissions = role.getPermissions()
-            .size();
-        if (uniquePermissions < totalPermissions) {
-            duplicates = (totalPermissions - uniquePermissions);
-            log.error("Received {} permissions, but {} are duplicates", totalPermissions, duplicates);
-            failure = FieldFailure.of("permissions[]", "duplicated", duplicates);
-            failures.add(failure);
-        }
+        super(List.of(new RolePermissionsNotDuplicatedRule()));
     }
 
 }
