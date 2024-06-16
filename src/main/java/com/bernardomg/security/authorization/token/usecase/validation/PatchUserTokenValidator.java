@@ -24,14 +24,10 @@
 
 package com.bernardomg.security.authorization.token.usecase.validation;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import com.bernardomg.security.authorization.token.domain.model.UserTokenPatch;
-import com.bernardomg.validation.domain.model.FieldFailure;
-import com.bernardomg.validation.validator.AbstractValidator;
-
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.validation.validator.AbstractFieldRuleValidator;
 
 /**
  * Validator for patching user tokens.
@@ -45,35 +41,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
-public final class PatchUserTokenValidator extends AbstractValidator<UserTokenPatch> {
+public final class PatchUserTokenValidator extends AbstractFieldRuleValidator<UserTokenPatch> {
 
     public PatchUserTokenValidator() {
-        super();
-    }
-
-    @Override
-    protected final void checkRules(final UserTokenPatch token, final Collection<FieldFailure> failures) {
-        final LocalDateTime today;
-        FieldFailure        failure;
-
-        // Verify the expiration date is not before now
-        today = LocalDateTime.now()
-            .minusMinutes(2);
-        if ((token.getExpirationDate() != null) && (token.getExpirationDate()
-            .isBefore(today))) {
-            log.error("Token expiration date {} is before now {}", token.getExpirationDate(), today);
-            failure = FieldFailure.of("expirationDate", "beforeToday", token.getExpirationDate());
-            failures.add(failure);
-        }
-
-        // Verify the token revoked flag is not cancelled
-        // TODO: what if the token is already valid?
-        if ((token.getRevoked() != null) && (!token.getRevoked())) {
-            log.error("Reverting token revocation");
-            failure = FieldFailure.of("revoked", "invalidValue", token.getRevoked());
-            failures.add(failure);
-        }
+        super(List.of(new UserTokenNotExpiredRule(), new UserTokenNotRevokedRule()));
     }
 
 }

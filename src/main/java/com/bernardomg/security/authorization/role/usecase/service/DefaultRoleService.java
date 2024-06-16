@@ -72,7 +72,7 @@ public final class DefaultRoleService implements RoleService {
     /**
      * Delete validator.
      */
-    private final Validator<String>            validatorDelete;
+    private final Validator<Role>              validatorDelete;
 
     /**
      * Update validator.
@@ -107,6 +107,7 @@ public final class DefaultRoleService implements RoleService {
     @Override
     public final void delete(final String role) {
         final boolean exists;
+        final Role    domainRole;
 
         log.debug("Deleting role {}", role);
 
@@ -116,7 +117,10 @@ public final class DefaultRoleService implements RoleService {
             throw new MissingRoleException(role);
         }
 
-        validatorDelete.validate(role);
+        domainRole = Role.builder()
+            .withName(role)
+            .build();
+        validatorDelete.validate(domainRole);
 
         roleRepository.delete(role);
     }
