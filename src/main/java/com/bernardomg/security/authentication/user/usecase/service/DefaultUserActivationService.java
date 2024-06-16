@@ -36,10 +36,12 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserE
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
-import com.bernardomg.security.authentication.user.usecase.validation.RegisterUserValidator;
+import com.bernardomg.security.authentication.user.usecase.validation.UserEmailNotExistsRule;
+import com.bernardomg.security.authentication.user.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.security.authorization.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
+import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +84,8 @@ public final class DefaultUserActivationService implements UserActivationService
         tokenStore = Objects.requireNonNull(tStore);
         userNotificator = Objects.requireNonNull(mSender);
 
-        validatorRegisterUser = new RegisterUserValidator(userRepo);
+        validatorRegisterUser = new FieldRuleValidator<>(new UserEmailNotExistsRule(userRepo),
+            new UserUsernameNotExistsRule(userRepository));
     }
 
     @Override
