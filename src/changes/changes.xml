@@ -196,7 +196,13 @@
             Increases login attempts correctly.
          </action>
       </release>
-      <release version="1.0.0" date="2024-06-13" description="">
+      <release version="0.3.12" date="2024-06-13" description="Updates">
+         <action dev="bmg" type="fix">
+            Added missing dependencies.
+         </action>
+         <action dev="bmg" type="update">
+            Updated validation.
+         </action>
       </release>
    </body>
 </document>
