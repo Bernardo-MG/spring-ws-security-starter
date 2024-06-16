@@ -34,10 +34,12 @@ import com.bernardomg.security.authentication.user.domain.exception.MissingUserE
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.usecase.validation.UpdateUserValidator;
+import com.bernardomg.security.authentication.user.usecase.validation.UserEmailNotExistsForAnotherRule;
+import com.bernardomg.security.authentication.user.usecase.validation.UserRolesNotDuplicatedRule;
 import com.bernardomg.security.authorization.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +75,8 @@ public final class DefaultUserService implements UserService {
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
 
-        validatorUpdateUser = new UpdateUserValidator(userRepo);
+        validatorUpdateUser = new FieldRuleValidator<>(new UserEmailNotExistsForAnotherRule(userRepo),
+            new UserRolesNotDuplicatedRule());
     }
 
     @Override

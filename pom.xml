@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.3.11</version>
+   <version>0.3.12</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -183,7 +183,7 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <archunit.version>1.2.1</archunit.version>
-      <bernardomg.framework.validation.version>0.1.1</bernardomg.framework.validation.version>
+      <bernardomg.framework.validation.version>0.2.0</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.1.4</bernardomg.framework.ws.version>
       <jjwt.version>0.12.5</jjwt.version>
       <spring.boot.version>3.3.0</spring.boot.version>
@@ -329,6 +329,18 @@
          <!-- JSON Web Token API -->
          <groupId>io.jsonwebtoken</groupId>
          <artifactId>jjwt-api</artifactId>
+         <version>${jjwt.version}</version>
+      </dependency>
+      <dependency>
+         <!-- JSON Web Token Impl -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-impl</artifactId>
+         <version>${jjwt.version}</version>
+      </dependency>
+      <dependency>
+         <!-- JSON Jackson -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-jackson</artifactId>
          <version>${jjwt.version}</version>
       </dependency>
       <!-- ============================================== -->
@@ -569,20 +581,6 @@
          <!-- Hibernate validator -->
          <groupId>org.hibernate.validator</groupId>
          <artifactId>hibernate-validator</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- JSON Web Token Impl -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-impl</artifactId>
-         <version>${jjwt.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- JSON Jackson -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-jackson</artifactId>
-         <version>${jjwt.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>

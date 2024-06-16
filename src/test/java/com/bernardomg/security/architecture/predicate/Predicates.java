@@ -43,4 +43,8 @@ public class Predicates {
         return new ValidatorClassPredicate();
     }
 
+    public static final ValidatorRuleClassPredicate areValidatorRuleClasses() {
+        return new ValidatorRuleClassPredicate();
+    }
+
 }

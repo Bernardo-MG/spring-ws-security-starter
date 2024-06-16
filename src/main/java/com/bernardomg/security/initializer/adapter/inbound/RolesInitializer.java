@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.initializer.adapter.inbound;
 
+import java.util.Objects;
+
 import com.bernardomg.security.initializer.usecase.service.RolesInitializerService;
 
 /**
@@ -39,7 +41,7 @@ public final class RolesInitializer {
     public RolesInitializer(final RolesInitializerService rolesInitializerServ) {
         super();
 
-        rolesInitializerService = rolesInitializerServ;
+        rolesInitializerService = Objects.requireNonNull(rolesInitializerServ);
     }
 
     public final void initialize() {
