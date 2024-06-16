@@ -37,9 +37,10 @@ import com.bernardomg.security.authorization.role.domain.exception.MissingRoleEx
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.usecase.validation.CreateRoleValidator;
-import com.bernardomg.security.authorization.role.usecase.validation.DeleteRoleValidator;
-import com.bernardomg.security.authorization.role.usecase.validation.UpdateRoleValidator;
+import com.bernardomg.security.authorization.role.usecase.validation.RoleHasNoUserRule;
+import com.bernardomg.security.authorization.role.usecase.validation.RoleNameNotExistsRule;
+import com.bernardomg.security.authorization.role.usecase.validation.RolePermissionsNotDuplicatedRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -86,9 +87,9 @@ public final class DefaultRoleService implements RoleService {
         roleRepository = Objects.requireNonNull(roleRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
 
-        validatorCreate = new CreateRoleValidator(roleRepo);
-        validatorDelete = new DeleteRoleValidator(roleRepo);
-        validatorUpdate = new UpdateRoleValidator();
+        validatorCreate = new FieldRuleValidator<>(new RoleNameNotExistsRule(roleRepo));
+        validatorDelete = new FieldRuleValidator<>(new RoleHasNoUserRule(roleRepo));
+        validatorUpdate = new FieldRuleValidator<>(new RolePermissionsNotDuplicatedRule());
     }
 
     @Override
