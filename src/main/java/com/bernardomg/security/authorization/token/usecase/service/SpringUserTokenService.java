@@ -36,7 +36,9 @@ import com.bernardomg.security.authorization.token.domain.exception.MissingUserT
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenPatch;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.usecase.validation.PatchUserTokenValidator;
+import com.bernardomg.security.authorization.token.usecase.validation.UserTokenNotExpiredRule;
+import com.bernardomg.security.authorization.token.usecase.validation.UserTokenNotRevokedRule;
+import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +76,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
 
-        validatorPatch = new PatchUserTokenValidator();
+        validatorPatch = new FieldRuleValidator<>(new UserTokenNotExpiredRule(), new UserTokenNotRevokedRule());
     }
 
     @Override
