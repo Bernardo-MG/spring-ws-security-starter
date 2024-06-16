@@ -188,7 +188,13 @@
             Increases login attempts correctly.
          </action>
       </release>
-      <release version="1.0.0" date="2024-05-29" description="">
+      <release version="0.3.11" date="2024-06-13" description="Small corrections">
+         <action dev="bmg" type="fix">
+            Several small corrections.
+         </action>
+         <action dev="bmg" type="update">
+            Increases login attempts correctly.
+         </action>
       </release>
    </body>
 </document>
