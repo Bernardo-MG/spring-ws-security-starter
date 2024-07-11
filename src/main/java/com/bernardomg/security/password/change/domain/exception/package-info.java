@@ -22,33 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.domain.exception;
-
-import lombok.Getter;
-
 /**
- * Invalid password change exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Password exceptions.
  */
-@Getter
-public final class InvalidPasswordChangeException extends RuntimeException {
 
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = -1717035586281773602L;
-
-    /**
-     * Username which caused the exception.
-     */
-    private final String      username;
-
-    public InvalidPasswordChangeException(final String message, final String user) {
-        super(message);
-
-        username = user;
-    }
-
-}
+package com.bernardomg.security.password.change.domain.exception;

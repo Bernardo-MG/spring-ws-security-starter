@@ -26,4 +26,4 @@
  * Password notifications.
  */
 
-package com.bernardomg.security.authentication.password.usecase.notification;
+package com.bernardomg.security.password.notification.usecase.notification;

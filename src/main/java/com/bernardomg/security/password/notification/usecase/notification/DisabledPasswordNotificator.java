@@ -22,26 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.usecase.notification;
+package com.bernardomg.security.password.notification.usecase.notification;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * Password notificator. Sends emails related to the password workflow, such as password recovery.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Disabled password notificator. For disabling emailing.
  */
-public interface PasswordNotificator {
+@Slf4j
+public final class DisabledPasswordNotificator implements PasswordNotificator {
 
-    /**
-     * Sends a password recovery message to the received email.
-     *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username to change the password
-     * @param token
-     *            token for the password change
-     */
-    public void sendPasswordRecoveryMessage(final String email, final String username, final String token);
+    public DisabledPasswordNotificator() {
+        super();
+    }
+
+    @Override
+    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
+        // To avoid sending emails
+        log.warn("Disabled email messages");
+    }
 
 }

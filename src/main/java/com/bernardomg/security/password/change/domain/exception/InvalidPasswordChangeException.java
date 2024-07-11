@@ -22,24 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.usecase.notification;
+package com.bernardomg.security.password.change.domain.exception;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.Getter;
 
 /**
- * Disabled password notificator. For disabling emailing.
+ * Invalid password change exception.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-@Slf4j
-public final class DisabledPasswordNotificator implements PasswordNotificator {
+@Getter
+public final class InvalidPasswordChangeException extends RuntimeException {
 
-    public DisabledPasswordNotificator() {
-        super();
-    }
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = -1717035586281773602L;
 
-    @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
-        // To avoid sending emails
-        log.warn("Disabled email messages");
+    /**
+     * Username which caused the exception.
+     */
+    private final String      username;
+
+    public InvalidPasswordChangeException(final String message, final String user) {
+        super(message);
+
+        username = user;
     }
 
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.adapter.outbound.email;
+package com.bernardomg.security.password.notification.adapter.outbound.email;
 
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

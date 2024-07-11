@@ -27,8 +27,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.user.login..")
 
         // Password modules
-        .layer("Password")
-        .definedBy("com.bernardomg.security.authentication.password..")
+        .layer("Password notification")
+        .definedBy("com.bernardomg.security.password.notification..")
         .layer("Password reset")
         .definedBy("com.bernardomg.security.password.reset..")
         .layer("Password change")
@@ -59,19 +59,20 @@ public class ModulesArchitectureRulesTest {
 
         // User modules access
         .whereLayer("Users data")
-        .mayOnlyBeAccessedByLayers("Users permissions", "User tokens", "Password", "Initializers", "Config", "Login",
-            "Spring", "Account", "User activation", "User login validation", "Password reset", "Password change")
+        .mayOnlyBeAccessedByLayers("Users permissions", "User tokens", "Password notification", "Initializers",
+            "Config", "Login", "Spring", "Account", "User activation", "User login validation", "Password reset",
+            "Password change")
         .whereLayer("Users permissions")
         .mayOnlyBeAccessedByLayers("Config", "Login", "Spring")
         .whereLayer("User tokens")
-        .mayOnlyBeAccessedByLayers("Password", "Config", "User activation", "Password reset")
+        .mayOnlyBeAccessedByLayers("Password notification", "Config", "User activation", "Password reset")
         .whereLayer("User activation")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("User login validation")
         .mayOnlyBeAccessedByLayers("Config")
 
         // Password modules access
-        .whereLayer("Password")
+        .whereLayer("Password notification")
         .mayOnlyBeAccessedByLayers("Config", "Password reset", "Password change")
         .whereLayer("Password change")
         .mayOnlyBeAccessedByLayers("Config")

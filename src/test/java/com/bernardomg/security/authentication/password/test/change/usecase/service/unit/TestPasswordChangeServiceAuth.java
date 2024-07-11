@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.password.domain.exception.InvalidPasswordChangeException;
+import com.bernardomg.security.password.change.domain.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;

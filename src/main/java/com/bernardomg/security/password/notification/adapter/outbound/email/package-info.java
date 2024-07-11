@@ -23,7 +23,7 @@
  */
 
 /**
- * Password exceptions.
+ * Email adapters.
  */
 
-package com.bernardomg.security.authentication.password.domain.exception;
+package com.bernardomg.security.password.notification.adapter.outbound.email;
