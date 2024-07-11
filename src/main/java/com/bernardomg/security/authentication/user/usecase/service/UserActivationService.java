@@ -25,7 +25,7 @@
 package com.bernardomg.security.authentication.user.usecase.service;
 
 import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.token.domain.model.UserTokenStatus;
+import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
 /**
  * User activation service.

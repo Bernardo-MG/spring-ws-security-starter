@@ -20,7 +20,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
-import com.bernardomg.security.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 

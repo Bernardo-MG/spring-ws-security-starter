@@ -41,9 +41,9 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.jwt.test.config.Tokens;
-import com.bernardomg.security.token.domain.exception.ConsumedTokenException;
-import com.bernardomg.security.token.domain.model.UserTokenStatus;
-import com.bernardomg.security.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
+import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserActivationService - token validation")

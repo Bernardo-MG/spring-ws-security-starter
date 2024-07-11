@@ -22,7 +22,7 @@ import com.bernardomg.security.authentication.user.domain.repository.UserReposit
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.jwt.test.config.Tokens;
-import com.bernardomg.security.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordResetService - change password")

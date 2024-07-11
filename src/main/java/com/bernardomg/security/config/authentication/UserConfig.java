@@ -51,9 +51,9 @@ import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.event.LogInEvent;
-import com.bernardomg.security.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.token.usecase.store.ScopedUserTokenStore;
-import com.bernardomg.security.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
