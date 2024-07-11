@@ -83,4 +83,40 @@ public final class UserToken {
      */
     private final String        username;
 
+    /**
+     * Creates a copy of the token with the consumed flag active.
+     * 
+     * @return a consumed copy of the token
+     */
+    public final UserToken consume() {
+        return UserToken.builder()
+            .withUsername(username)
+            .withName(name)
+            .withScope(scope)
+            .withToken(token)
+            .withCreationDate(creationDate)
+            .withExpirationDate(expirationDate)
+            .withConsumed(true)
+            .withRevoked(revoked)
+            .build();
+    }
+
+    /**
+     * Creates a copy of the token with the revoked flag active.
+     * 
+     * @return a revoked copy of the token
+     */
+    public final UserToken revoke() {
+        return UserToken.builder()
+            .withUsername(username)
+            .withName(name)
+            .withScope(scope)
+            .withToken(token)
+            .withCreationDate(creationDate)
+            .withExpirationDate(expirationDate)
+            .withConsumed(consumed)
+            .withRevoked(true)
+            .build();
+    }
+
 }

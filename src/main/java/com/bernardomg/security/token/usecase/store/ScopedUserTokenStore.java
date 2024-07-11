@@ -107,7 +107,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             throw new ConsumedTokenException(token);
         }
 
-        updated = copyToConsume(tokenData);
+        updated = tokenData.consume();
         userTokenRepository.save(updated);
         log.debug("Consumed token {}", token);
     }
@@ -182,7 +182,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         // Find all tokens not revoked, and mark them as revoked
         tokens = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
         toRevoke = tokens.stream()
-            .map(t -> copyToRevoke(t))
+            .map(UserToken::revoke)
             .toList();
 
         userTokenRepository.saveAll(toRevoke);
@@ -226,32 +226,6 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             log.warn("Expired token: {}", token);
             throw new ExpiredTokenException(token);
         }
-    }
-
-    private final UserToken copyToConsume(final UserToken existing) {
-        return UserToken.builder()
-            .withUsername(existing.getUsername())
-            .withName(existing.getName())
-            .withScope(existing.getScope())
-            .withToken(existing.getToken())
-            .withCreationDate(existing.getCreationDate())
-            .withExpirationDate(existing.getExpirationDate())
-            .withConsumed(true)
-            .withRevoked(existing.isRevoked())
-            .build();
-    }
-
-    private final UserToken copyToRevoke(final UserToken existing) {
-        return UserToken.builder()
-            .withUsername(existing.getUsername())
-            .withName(existing.getName())
-            .withScope(existing.getScope())
-            .withToken(existing.getToken())
-            .withCreationDate(existing.getCreationDate())
-            .withExpirationDate(existing.getExpirationDate())
-            .withConsumed(existing.isConsumed())
-            .withRevoked(true)
-            .build();
     }
 
 }
