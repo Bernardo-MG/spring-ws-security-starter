@@ -33,6 +33,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.password.reset..")
         .layer("Password change")
         .definedBy("com.bernardomg.security.password.change..")
+        .layer("Password security initializer")
+        .definedBy("com.bernardomg.security.user.initializer..")
 
         .layer("Roles")
         .definedBy("com.bernardomg.security.authorization.role..")
@@ -78,12 +80,14 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Password reset")
         .mayOnlyBeAccessedByLayers("Config")
+        .whereLayer("Password security initializer")
+        .mayOnlyBeAccessedByLayers("Config")
 
         .whereLayer("Roles")
         .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "Initializers", "Config", "Spring")
         .whereLayer("Permissions")
         .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "Roles", "Initializers", "Login", "Access",
-            "Config", "Spring", "User tokens")
+            "Config", "Spring", "User tokens", "Password security initializer")
         .whereLayer("Access")
         .mayOnlyBeAccessedByLayers("Config", "Spring")
         .whereLayer("Login")
