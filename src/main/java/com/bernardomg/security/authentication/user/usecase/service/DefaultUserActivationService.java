@@ -29,9 +29,6 @@ import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
-import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
-import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
@@ -90,9 +87,9 @@ public final class DefaultUserActivationService implements UserActivationService
 
     @Override
     public final User activateUser(final String token, final String password) {
-        final String username;
-        final User   user;
-        final User   saved;
+        final String         username;
+        final Optional<User> user;
+        final User           saved;
 
         // Validate token
         tokenStore.validate(token);
@@ -102,11 +99,19 @@ public final class DefaultUserActivationService implements UserActivationService
 
         log.debug("Activating new user {}", username);
 
-        user = getUserByUsername(username);
+        user = userRepository.findOne(username);
 
-        validateActivation(user);
+        // Validate the user exists
+        if (!user.isPresent()) {
+            log.error("Missing user {}", username);
+            throw new MissingUserException(username);
+        }
 
-        saved = userRepository.activate(user.getUsername(), password);
+        // TODO: validate somehow that it is actually a new user
+        user.get()
+            .checkStatus();
+
+        saved = userRepository.activate(username, password);
         tokenStore.consumeToken(token);
 
         log.debug("Activated new user {}", username);
@@ -164,42 +169,6 @@ public final class DefaultUserActivationService implements UserActivationService
         username = tokenStore.getUsername(token);
 
         return UserTokenStatus.of(username, valid);
-    }
-
-    private final User getUserByUsername(final String username) {
-        final Optional<User> user;
-
-        user = userRepository.findOne(username);
-
-        // Validate the user exists
-        if (!user.isPresent()) {
-            log.error("Missing user {}", username);
-            throw new MissingUserException(username);
-        }
-
-        return user.get();
-    }
-
-    /**
-     * Checks whether the user can be activated. If the user can't be activated, then an exception is thrown.
-     *
-     * @param user
-     *            user to activate
-     */
-    private final void validateActivation(final User user) {
-        // TODO: validate somehow that it is actually new
-        if (user.isExpired()) {
-            log.error("User {} is expired", user.getUsername());
-            throw new ExpiredUserException(user.getUsername());
-        }
-        if (user.isLocked()) {
-            log.error("User {} is locked", user.getUsername());
-            throw new LockedUserException(user.getUsername());
-        }
-        if (user.isEnabled()) {
-            log.error("User {} is already enabled", user.getUsername());
-            throw new EnabledUserException(user.getUsername());
-        }
     }
 
 }

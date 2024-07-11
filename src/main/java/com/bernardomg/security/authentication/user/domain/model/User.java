@@ -28,10 +28,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
+import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
+import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Representation of a user.
@@ -43,6 +47,7 @@ import lombok.Value;
  */
 @Value
 @Builder(setterPrefix = "with")
+@Slf4j
 public final class User {
 
     /**
@@ -113,7 +118,23 @@ public final class User {
         this.locked = locked;
         this.passwordExpired = passwordExpired;
         this.roles = roles;
-
+    }
+    
+    public final void checkStatus() {
+        // TODO: Send a single exception with all the cases
+        // TODO: Test
+        if (expired) {
+            log.error("User {} is expired", username);
+            throw new ExpiredUserException(username);
+        }
+        if (locked) {
+            log.error("User {} is locked", username);
+            throw new LockedUserException(username);
+        }
+        if (enabled) {
+            log.error("User {} is already enabled", username);
+            throw new EnabledUserException(username);
+        }
     }
 
 }
