@@ -35,11 +35,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.authentication.password.domain.exception.InvalidPasswordChangeException;
-import com.bernardomg.security.authentication.user.domain.exception.DisabledUserException;
-import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
-import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
+import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
+import com.bernardomg.security.user.data.domain.exception.LockedUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.validation.domain.exception.FieldFailureException;
 import com.bernardomg.validation.domain.model.FieldFailure;
 

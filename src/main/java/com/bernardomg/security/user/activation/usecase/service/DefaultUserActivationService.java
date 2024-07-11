@@ -29,11 +29,11 @@ import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
-import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.usecase.validation.UserEmailNotExistsRule;
-import com.bernardomg.security.authentication.user.usecase.validation.UserUsernameNotExistsRule;
+import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.model.User;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsRule;
+import com.bernardomg.security.user.data.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;

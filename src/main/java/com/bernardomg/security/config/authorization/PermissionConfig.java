@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.JpaActionRepository;
@@ -46,6 +45,7 @@ import com.bernardomg.security.authorization.role.domain.repository.RolePermissi
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.usecase.service.DefaultRolePermissionService;
 import com.bernardomg.security.authorization.role.usecase.service.RolePermissionService;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
 /**
  * Security configuration.

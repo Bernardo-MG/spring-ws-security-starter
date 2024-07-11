@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.model.UserDataTokenEntity;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.model.UserTokenEntity;
 import com.bernardomg.security.user.token.domain.model.UserToken;

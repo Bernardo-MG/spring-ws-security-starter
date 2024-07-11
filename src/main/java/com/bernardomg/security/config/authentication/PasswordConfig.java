@@ -39,8 +39,8 @@ import com.bernardomg.security.authentication.password.change.usecase.service.Sp
 import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;

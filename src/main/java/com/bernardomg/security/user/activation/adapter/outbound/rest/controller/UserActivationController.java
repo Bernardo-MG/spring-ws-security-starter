@@ -39,12 +39,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
-import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.NewUser;
-import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserActivation;
-import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.user.activation.adapter.outbound.rest.model.UserActivation;
 import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
+import com.bernardomg.security.user.data.adapter.outbound.cache.UserCaches;
+import com.bernardomg.security.user.data.adapter.outbound.rest.model.NewUser;
+import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;

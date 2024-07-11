@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.initializer.adapter.inbound.RolesInitializer;
@@ -38,6 +37,7 @@ import com.bernardomg.security.initializer.usecase.service.DefaultRolesInitializ
 import com.bernardomg.security.initializer.usecase.service.DefaultUsersInitializerService;
 import com.bernardomg.security.initializer.usecase.service.RolesInitializerService;
 import com.bernardomg.security.initializer.usecase.service.UsersInitializerService;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 /**
  * Security data initializer configuration.

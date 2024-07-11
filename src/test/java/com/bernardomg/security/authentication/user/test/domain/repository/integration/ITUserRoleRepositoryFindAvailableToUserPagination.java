@@ -9,11 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserRoleRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @DisplayName("UserRoleRepository - find available to user - pagination")

@@ -30,11 +30,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.access.usecase.validator.RequireResourceAccessInterceptor;
 import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.PersistentUserDetailsService;
 import com.bernardomg.security.springframework.usecase.SpringResourceAccessValidator;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 /**
  * Login configuration.

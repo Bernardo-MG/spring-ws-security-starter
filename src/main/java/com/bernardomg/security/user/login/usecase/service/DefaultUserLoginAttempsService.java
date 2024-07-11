@@ -29,9 +29,9 @@ import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
-import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.model.User;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

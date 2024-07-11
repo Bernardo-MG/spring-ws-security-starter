@@ -68,7 +68,7 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
             // Authenticated user
 
             // Curries the permission check
-            matchesPermission = (a) -> matches(a, resource, action);
+            matchesPermission = a -> matches(a, resource, action);
 
             // It is authorized if any authority matches
             authorized = authentication.getAuthorities()

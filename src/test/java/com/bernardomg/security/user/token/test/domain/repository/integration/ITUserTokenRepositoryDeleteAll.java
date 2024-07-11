@@ -9,8 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.annotation.ValidUserToken;

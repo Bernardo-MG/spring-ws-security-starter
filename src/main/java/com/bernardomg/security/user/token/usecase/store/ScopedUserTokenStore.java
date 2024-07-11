@@ -31,9 +31,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
-import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.model.User;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;

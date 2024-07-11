@@ -15,7 +15,9 @@ public class ModulesArchitectureRulesTest {
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
         // User modules
-        .layer("Users")
+        .layer("Users data")
+        .definedBy("com.bernardomg.security.user.data..")
+        .layer("Users permissions")
         .definedBy("com.bernardomg.security.authentication.user..")
         .layer("User activation")
         .definedBy("com.bernardomg.security.user.activation..")
@@ -49,9 +51,12 @@ public class ModulesArchitectureRulesTest {
         .layer("Spring")
         .definedBy("com.bernardomg.security.springframework..")
 
-        .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Password", "User tokens", "Initializers", "Config", "Login", "Spring", "Account",
-            "User activation", "User login validation")
+        // User modules access
+        .whereLayer("Users data")
+        .mayOnlyBeAccessedByLayers("Users permissions", "User tokens", "Password", "Initializers", "Config", "Login",
+            "Spring", "Account", "User activation", "User login validation")
+        .whereLayer("Users permissions")
+        .mayOnlyBeAccessedByLayers("Config", "Login", "Spring")
         .whereLayer("User tokens")
         .mayOnlyBeAccessedByLayers("Password", "Config", "User activation")
         .whereLayer("User activation")
@@ -60,10 +65,10 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Config")
 
         .whereLayer("Roles")
-        .mayOnlyBeAccessedByLayers("Users", "Initializers", "Config", "Spring")
+        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "Initializers", "Config", "Spring")
         .whereLayer("Permissions")
-        .mayOnlyBeAccessedByLayers("Users", "Roles", "Initializers", "Login", "Access", "Config", "Spring",
-            "User tokens")
+        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "Roles", "Initializers", "Login", "Access",
+            "Config", "Spring", "User tokens")
         .whereLayer("Password")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Access")
