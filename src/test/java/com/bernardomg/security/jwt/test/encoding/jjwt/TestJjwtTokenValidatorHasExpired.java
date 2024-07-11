@@ -10,6 +10,7 @@ import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.jwt.encoding.jjwt.JjwtTokenEncoder;
 import com.bernardomg.security.jwt.encoding.jjwt.JjwtTokenValidator;
 import com.bernardomg.security.jwt.test.config.JwtTokenDatas;
+import com.bernardomg.security.jwt.test.config.JwtTokens;
 import com.bernardomg.security.jwt.test.config.Tokens;
 
 @DisplayName("JjwtTokenValidator - has expired")
@@ -21,18 +22,11 @@ class TestJjwtTokenValidatorHasExpired {
 
     @Test
     @DisplayName("An expired token is identified as such")
-    void testHasExpired_expired() throws InterruptedException {
-        final String       token;
-        final Boolean      expired;
-        final JwtTokenData data;
-
-        // GIVEN
-        data = JwtTokenDatas.withIssuerAndExpired();
-
-        token = encoder.encode(data);
+    void testHasExpired_expired() {
+        final Boolean expired;
 
         // WHEN
-        expired = validator.hasExpired(token);
+        expired = validator.hasExpired(JwtTokens.EXPIRED);
 
         // THEN
         Assertions.assertThat(expired)
@@ -43,17 +37,10 @@ class TestJjwtTokenValidatorHasExpired {
     @Test
     @DisplayName("A token without expiration is not expired")
     void testHasExpired_noExpiration() {
-        final String       token;
-        final Boolean      expired;
-        final JwtTokenData data;
-
-        // GIVEN
-        data = JwtTokenDatas.withIssuer();
-
-        token = encoder.encode(data);
+        final Boolean expired;
 
         // WHEN
-        expired = validator.hasExpired(token);
+        expired = validator.hasExpired(JwtTokens.WITH_ISSUER);
 
         // THEN
         Assertions.assertThat(expired)
