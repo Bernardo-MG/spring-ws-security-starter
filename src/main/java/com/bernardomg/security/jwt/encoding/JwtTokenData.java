@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.domain;
+package com.bernardomg.security.jwt.encoding;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

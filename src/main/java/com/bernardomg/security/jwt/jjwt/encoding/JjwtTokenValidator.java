@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.encoding.jjwt;
+package com.bernardomg.security.jwt.jjwt.encoding;
 
 import javax.crypto.SecretKey;
 

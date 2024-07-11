@@ -1,13 +1,13 @@
 
-package com.bernardomg.security.jwt.test.encoding.jjwt;
+package com.bernardomg.security.jwt.test.jjwt.encoding;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.jwt.domain.JwtTokenData;
+import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
-import com.bernardomg.security.jwt.encoding.jjwt.JjwtTokenEncoder;
+import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.jwt.test.config.JwtTokenDatas;
 import com.bernardomg.security.jwt.test.config.Tokens;
 

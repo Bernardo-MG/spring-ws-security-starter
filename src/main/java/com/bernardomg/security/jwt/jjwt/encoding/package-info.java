@@ -26,4 +26,4 @@
  * JJWT implementation of the JWT token encoding/decoding components.
  */
 
-package com.bernardomg.security.jwt.encoding.jjwt;
+package com.bernardomg.security.jwt.jjwt.encoding;

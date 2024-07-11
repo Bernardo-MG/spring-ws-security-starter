@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.jwt.test.encoding.jjwt;
+package com.bernardomg.security.jwt.test.jjwt.encoding;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.jwt.encoding.jjwt.JjwtTokenDecoder;
+import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenDecoder;
 import com.bernardomg.security.jwt.test.config.JwtTokens;
 import com.bernardomg.security.jwt.test.config.Tokens;
 

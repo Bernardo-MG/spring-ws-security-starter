@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.jwt.encoding;
 
-import com.bernardomg.security.jwt.domain.JwtTokenData;
-
 /**
  * Creates a {@link JwtTokenData} from a JWT token.
  *

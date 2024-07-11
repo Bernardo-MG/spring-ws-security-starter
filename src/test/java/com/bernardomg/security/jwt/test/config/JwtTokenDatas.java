@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.jwt.test.config;
 
-import com.bernardomg.security.jwt.domain.JwtTokenData;
+import com.bernardomg.security.jwt.encoding.JwtTokenData;
 
 public final class JwtTokenDatas {
 
