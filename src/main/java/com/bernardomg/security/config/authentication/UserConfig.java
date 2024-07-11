@@ -65,7 +65,8 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.user.data.adapter.outbound.rest.controller",
         "com.bernardomg.security.user.activation.adapter.outbound.rest.controller",
-        "com.bernardomg.security.user.permission.adapter.outbound.rest.controller" })
+        "com.bernardomg.security.user.permission.adapter.outbound.rest.controller",
+        "com.bernardomg.security.user.token.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.data.adapter.inbound.jpa",
         "com.bernardomg.security.user.permission.adapter.inbound.jpa" })
 @EnableConfigurationProperties({ LoginProperties.class })
