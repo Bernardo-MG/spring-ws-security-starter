@@ -44,11 +44,11 @@ import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpri
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.data.usecase.service.UserService;
+import com.bernardomg.security.user.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.login.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.user.login.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.permission.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.permission.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
