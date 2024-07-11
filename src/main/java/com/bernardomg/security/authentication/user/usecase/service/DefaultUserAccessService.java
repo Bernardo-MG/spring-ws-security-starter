@@ -83,6 +83,9 @@ public final class DefaultUserAccessService implements UserAccessService {
             user = read.get();
             userRepository.lock(user.getUsername());
             log.debug("Locked user {} after {} login attempts", username, attempts);
+        } else {
+            log.debug("User {} had {} login attempts out of a max of {}. Won't be locked", username, attempts,
+                maxAttempts);
         }
     }
 
@@ -96,6 +99,8 @@ public final class DefaultUserAccessService implements UserAccessService {
         if (attempts > 0) {
             log.debug("User {} had {} login attempts. Clearing them", username, attempts);
             userRepository.clearLoginAttempts(username);
+        } else {
+            log.debug("User {} had no login attempts. Nothing to clear", username);
         }
     }
 
