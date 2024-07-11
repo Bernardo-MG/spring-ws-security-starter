@@ -14,8 +14,14 @@ public class ModulesArchitectureRulesTest {
     @ArchTest
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
+        // User modules
         .layer("Users")
         .definedBy("com.bernardomg.security.authentication.user..")
+        .layer("User activation")
+        .definedBy("com.bernardomg.security.user.activation..")
+        .layer("User tokens")
+        .definedBy("com.bernardomg.security.user.token..")
+
         .layer("Password")
         .definedBy("com.bernardomg.security.authentication.password..")
         .layer("Roles")
@@ -32,8 +38,6 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.initializer..")
         .layer("JWT")
         .definedBy("com.bernardomg.security.jwt..")
-        .layer("Tokens")
-        .definedBy("com.bernardomg.security.token..")
         .layer("Config")
         .definedBy("com.bernardomg.security.config..")
         .layer("Spring")
@@ -44,11 +48,13 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.springframework..")
 
         .whereLayer("Users")
-        .mayOnlyBeAccessedByLayers("Password", "Tokens", "Initializers", "Config", "Login", "Spring", "Account")
+        .mayOnlyBeAccessedByLayers("Password", "User tokens", "Initializers", "Config", "Login", "Spring", "Account",
+            "User activation")
         .whereLayer("Roles")
         .mayOnlyBeAccessedByLayers("Users", "Initializers", "Config", "Spring")
         .whereLayer("Permissions")
-        .mayOnlyBeAccessedByLayers("Users", "Roles", "Initializers", "Login", "Access", "Config", "Spring", "Tokens")
+        .mayOnlyBeAccessedByLayers("Users", "Roles", "Initializers", "Login", "Access", "Config", "Spring",
+            "User tokens")
         .whereLayer("Password")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Access")
@@ -59,8 +65,8 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("JWT")
         .mayOnlyBeAccessedByLayers("Login", "Config", "Spring")
-        .whereLayer("Tokens")
-        .mayOnlyBeAccessedByLayers("Users", "Password", "Config")
+        .whereLayer("User tokens")
+        .mayOnlyBeAccessedByLayers("Password", "Config", "User activation")
         .whereLayer("Event")
         .mayOnlyBeAccessedByLayers("Login", "Users", "Config");
 
