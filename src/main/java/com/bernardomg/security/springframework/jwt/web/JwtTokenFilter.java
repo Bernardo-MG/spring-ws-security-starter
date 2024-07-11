@@ -171,7 +171,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private final void loadToken(final String token, final HttpServletRequest request) {
-        final String         subject;
+        final String         username;
         final UserDetails    userDetails;
         final Authentication authentication;
 
@@ -180,9 +180,9 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             // Will load a new authentication from the token
 
             // Takes subject from the token
-            subject = tokenDecoder.decode(token)
+            username = tokenDecoder.decode(token)
                 .getSubject();
-            userDetails = userDetailsService.loadUserByUsername(subject);
+            userDetails = userDetailsService.loadUserByUsername(username);
 
             if (isValid(userDetails)) {
                 // Create and register authentication
@@ -191,10 +191,10 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
                     .setAuthentication(authentication);
 
                 // User valid
-                log.debug("Authenticated {} request for {} to {}", request.getMethod(), subject,
+                log.debug("Authenticated {} request for {} to {}", request.getMethod(), username,
                     request.getServletPath());
             } else {
-                log.debug("Invalid user {}", subject);
+                log.debug("Invalid user {}", username);
             }
         } else {
             log.debug("Invalid token {}", token);

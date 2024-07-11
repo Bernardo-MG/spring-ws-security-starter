@@ -31,6 +31,7 @@ import java.util.Map;
 
 import lombok.Builder;
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Immutable implementation of the JWT token data.
@@ -40,6 +41,7 @@ import lombok.Value;
  */
 @Value
 @Builder(setterPrefix = "with")
+@Slf4j
 public final class JwtTokenData {
 
     /**
@@ -82,5 +84,24 @@ public final class JwtTokenData {
      * Subject.
      */
     private final String                    subject;
+
+    public final boolean isExpired() {
+        final LocalDateTime current;
+        final boolean       expired;
+
+        // TODO: test this
+        if (expiration != null) {
+            // Compare expiration to current date
+            current = LocalDateTime.now();
+            expired = expiration.isBefore(current);
+            log.debug("Expired '{}' as token expires on {}, and the current date is {}.", expired, expiration, current);
+        } else {
+            // No expiration
+            expired = false;
+            log.debug("The token has no expiration date");
+        }
+
+        return expired;
+    }
 
 }
