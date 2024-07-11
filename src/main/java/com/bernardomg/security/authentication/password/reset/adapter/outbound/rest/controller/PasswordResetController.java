@@ -38,7 +38,7 @@ import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.model.PasswordReset;
 import com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.model.PasswordResetChange;
 import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
-import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
+import com.bernardomg.security.token.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

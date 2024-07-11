@@ -42,7 +42,7 @@ import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCa
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserActivation;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
-import com.bernardomg.security.authorization.token.domain.model.UserTokenStatus;
+import com.bernardomg.security.token.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
