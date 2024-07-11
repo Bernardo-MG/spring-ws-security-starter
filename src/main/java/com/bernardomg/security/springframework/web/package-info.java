@@ -26,4 +26,4 @@
  * JWT entry points.
  */
 
-package com.bernardomg.security.authentication.web.entrypoint;
+package com.bernardomg.security.springframework.web;

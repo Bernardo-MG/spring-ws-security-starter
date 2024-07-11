@@ -26,4 +26,4 @@
  * JWT web components for Spring.
  */
 
-package com.bernardomg.security.springframework.jwt.web;
+package com.bernardomg.security.springframework.web.jwt;

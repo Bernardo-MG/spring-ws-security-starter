@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.jwt.web;
+package com.bernardomg.security.springframework.web.jwt;
 
 import java.io.IOException;
 import java.util.Objects;
