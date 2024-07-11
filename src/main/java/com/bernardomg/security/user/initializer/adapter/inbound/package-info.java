@@ -22,24 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.notification.usecase.notification;
-
-import lombok.extern.slf4j.Slf4j;
-
 /**
- * Disabled password notificator. For disabling emailing.
+ * User initializer adapters.
  */
-@Slf4j
-public final class DisabledPasswordNotificator implements PasswordNotificator {
 
-    public DisabledPasswordNotificator() {
-        super();
-    }
-
-    @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
-        // To avoid sending emails
-        log.warn("Disabled email messages");
-    }
-
-}
+package com.bernardomg.security.user.initializer.adapter.inbound;

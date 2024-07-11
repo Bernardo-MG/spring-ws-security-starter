@@ -44,7 +44,7 @@ import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpri
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.data.usecase.service.UserService;
-import com.bernardomg.security.user.initializer.UserPermissionRegister;
+import com.bernardomg.security.user.initializer.adapter.inbound.UserPermissionRegister;
 import com.bernardomg.security.user.login.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.user.login.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
