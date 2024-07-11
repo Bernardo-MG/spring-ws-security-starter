@@ -22,26 +22,50 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.usecase.notification;
+package com.bernardomg.security.user.activation.usecase.service;
+
+import com.bernardomg.security.authentication.user.domain.model.User;
+import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
 /**
- * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
+ * User activation service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserNotificator {
+public interface UserActivationService {
 
     /**
-     * Sends a user registered message to the received email. This is used to activate the new user.
+     * Activates a registered user.
      *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username of the new user
      * @param token
-     *            token to activate the user
+     *            token assigned to the user
+     * @param password
+     *            user password
+     * @return the activated user
      */
-    public void sendUserRegisteredMessage(final String email, final String username, final String token);
+    public User activateUser(final String token, final String password);
+
+    /**
+     * Persists the received user.
+     *
+     * @param username
+     *            username for the user to persist
+     * @param name
+     *            name for the user to persist
+     * @param email
+     *            email for the user to persist
+     * @return the persisted user
+     */
+    public User registerNewUser(final String username, final String name, final String email);
+
+    /**
+     * Validate a user registration token.
+     *
+     * @param token
+     *            token to validate
+     * @return token status
+     */
+    public UserTokenStatus validateToken(final String token);
 
 }

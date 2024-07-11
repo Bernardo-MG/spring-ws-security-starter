@@ -31,26 +31,21 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
-import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.NewUser;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserChange;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserQueryRequest;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.model.UserQuery;
-import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
 import com.bernardomg.security.authentication.user.usecase.service.UserService;
 import com.bernardomg.security.authorization.permission.constant.Actions;
 import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
@@ -71,14 +66,9 @@ import lombok.AllArgsConstructor;
 public class UserController {
 
     /**
-     * Service which handles user activation.
-     */
-    private final UserActivationService userActivationService;
-
-    /**
      * Service which handles user queries.
      */
-    private final UserService           userQueryService;
+    private final UserService userQueryService;
 
     /**
      * Deletes a user by its id.
@@ -135,22 +125,6 @@ public class UserController {
         // TODO: maybe optionals must be unwrapped automatically
         return userQueryService.getOne(username)
             .orElse(null);
-    }
-
-    /**
-     * Creates a user.
-     *
-     * @param request
-     *            user to add
-     * @return the new user
-     */
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
-            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User registerNewUser(@Valid @RequestBody final NewUser request) {
-        return userActivationService.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
     }
 
     /**

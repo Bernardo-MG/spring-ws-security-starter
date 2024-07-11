@@ -22,26 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.adapter.outbound.email;
-
-import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
-
-import lombok.extern.slf4j.Slf4j;
+package com.bernardomg.security.user.notification.usecase.notificator;
 
 /**
- * Disabled user notificator. For disabling emailing.
+ * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-@Slf4j
-public final class DisabledUserNotificator implements UserNotificator {
+public interface UserNotificator {
 
-    public DisabledUserNotificator() {
-        super();
-    }
-
-    @Override
-    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
-        // To avoid sending emails
-        log.warn("Disabled email messages");
-    }
+    /**
+     * Sends a user registered message to the received email. This is used to activate the new user.
+     *
+     * @param email
+     *            email to send the message to
+     * @param username
+     *            username of the new user
+     * @param token
+     *            token to activate the user
+     */
+    public void sendUserRegisteredMessage(final String email, final String username, final String token);
 
 }

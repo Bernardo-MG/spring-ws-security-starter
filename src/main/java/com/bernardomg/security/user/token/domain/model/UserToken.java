@@ -85,7 +85,7 @@ public final class UserToken {
 
     /**
      * Creates a copy of the token with the consumed flag active.
-     * 
+     *
      * @return a consumed copy of the token
      */
     public final UserToken consume() {
@@ -103,7 +103,7 @@ public final class UserToken {
 
     /**
      * Creates a copy of the token with the revoked flag active.
-     * 
+     *
      * @return a revoked copy of the token
      */
     public final UserToken revoke() {

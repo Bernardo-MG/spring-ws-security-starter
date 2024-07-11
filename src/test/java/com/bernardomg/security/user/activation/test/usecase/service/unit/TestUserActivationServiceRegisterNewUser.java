@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.usecase.service.unit;
+package com.bernardomg.security.user.activation.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -18,8 +18,8 @@ import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;

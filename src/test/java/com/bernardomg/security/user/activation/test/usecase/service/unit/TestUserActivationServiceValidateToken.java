@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.test.usecase.service.unit;
+package com.bernardomg.security.user.activation.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -38,9 +38,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;

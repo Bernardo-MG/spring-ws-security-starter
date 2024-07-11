@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.test.notification.unit;
+package com.bernardomg.security.user.notification.test.adapter.outbound.email.unit;
 
 import static org.mockito.Mockito.verify;
 
@@ -14,10 +14,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.authentication.user.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMailUserNotificator;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificator")

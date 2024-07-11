@@ -119,7 +119,7 @@ public final class User {
         this.passwordExpired = passwordExpired;
         this.roles = roles;
     }
-    
+
     public final void checkStatus() {
         // TODO: Send a single exception with all the cases
         // TODO: Test

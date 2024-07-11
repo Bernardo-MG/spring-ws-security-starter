@@ -23,7 +23,7 @@
  */
 
 /**
- * User notifications.
+ * User notification.
  */
 
-package com.bernardomg.security.authentication.user.adapter.outbound.email;
+package com.bernardomg.security.user.activation.usecase.service;

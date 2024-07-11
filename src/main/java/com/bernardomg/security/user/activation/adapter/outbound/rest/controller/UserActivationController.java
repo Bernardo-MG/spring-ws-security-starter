@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.adapter.outbound.rest.controller;
+package com.bernardomg.security.user.activation.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -37,11 +37,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.authentication.user.adapter.outbound.cache.UserCaches;
+import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.NewUser;
 import com.bernardomg.security.authentication.user.adapter.outbound.rest.model.UserActivation;
 import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.usecase.service.UserActivationService;
+import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
@@ -54,7 +57,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user/activate")
+@RequestMapping("/security/user")
 @AllArgsConstructor
 public class UserActivationController {
 
@@ -73,13 +76,29 @@ public class UserActivationController {
      * @return the newly activated user
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/activate/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User activate(@PathVariable("token") final String token, @Valid @RequestBody final UserActivation request) {
         // TODO: return only the necessary data
         return service.activateUser(token, request.getPassword());
+    }
+
+    /**
+     * Creates a user.
+     *
+     * @param request
+     *            user to add
+     * @return the new user
+     */
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
+            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
+    public User registerNewUser(@Valid @RequestBody final NewUser request) {
+        return service.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
     }
 
     /**

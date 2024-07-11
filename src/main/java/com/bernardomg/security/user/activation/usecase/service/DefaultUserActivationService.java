@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.usecase.service;
+package com.bernardomg.security.user.activation.usecase.service;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -32,9 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.model.User;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.validation.UserEmailNotExistsRule;
 import com.bernardomg.security.authentication.user.usecase.validation.UserUsernameNotExistsRule;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
