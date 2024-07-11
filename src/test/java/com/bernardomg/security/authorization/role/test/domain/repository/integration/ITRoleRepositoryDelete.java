@@ -29,14 +29,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authentication.user.test.config.annotation.EnabledUser;
 import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.test.config.annotation.EnabledUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

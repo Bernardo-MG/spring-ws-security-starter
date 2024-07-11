@@ -44,7 +44,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-import com.bernardomg.security.authentication.web.entrypoint.ErrorResponseAuthenticationEntryPoint;
+import com.bernardomg.security.springframework.web.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;

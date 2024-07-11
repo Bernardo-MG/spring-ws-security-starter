@@ -30,15 +30,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authentication.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.initializer.TokenPermissionRegister;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
-import com.bernardomg.security.authorization.token.adapter.inbound.schedule.TokenCleanUpScheduleTask;
-import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
-import com.bernardomg.security.authorization.token.usecase.service.UserTokenService;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.token.adapter.inbound.initializer.TokenPermissionRegister;
+import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
+import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
+import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.user.token.adapter.inbound.schedule.TokenCleanUpScheduleTask;
+import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.token.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.user.token.usecase.service.UserTokenService;
 
 /**
  * User token configuration.
@@ -48,8 +48,8 @@ import com.bernardomg.security.authorization.token.usecase.service.UserTokenServ
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(UserTokenProperties.class)
-@ComponentScan({ "com.bernardomg.security.authorization.token.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.token.adapter.inbound.jpa" })
+@ComponentScan({ "com.bernardomg.security.user.token.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.token.adapter.inbound.jpa" })
 public class UserTokenConfig {
 
     public UserTokenConfig() {

@@ -17,10 +17,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.factory.Authentications;
 import com.bernardomg.test.config.factory.SecurityUsers;
 import com.bernardomg.validation.domain.model.FieldFailure;

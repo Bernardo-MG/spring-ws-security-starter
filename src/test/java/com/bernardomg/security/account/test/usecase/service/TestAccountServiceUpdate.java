@@ -22,7 +22,7 @@ import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.test.config.factory.Accounts;
 import com.bernardomg.security.account.usecase.service.DefaultAccountService;
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.factory.Authentications;
 
 @ExtendWith(MockitoExtension.class)

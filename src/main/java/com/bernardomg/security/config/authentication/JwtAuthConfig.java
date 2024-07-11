@@ -28,18 +28,19 @@ import java.nio.charset.StandardCharsets;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.authentication.jwt.adapter.outbound.web.JwtSecurityConfigurer;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenDecoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenValidator;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenDecoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenValidator;
+import com.bernardomg.security.jwt.encoding.TokenDecoder;
+import com.bernardomg.security.jwt.encoding.TokenEncoder;
+import com.bernardomg.security.jwt.encoding.TokenValidator;
+import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenDecoder;
+import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenEncoder;
+import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenValidator;
+import com.bernardomg.security.springframework.web.jwt.JwtSecurityConfigurer;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +63,7 @@ public class JwtAuthConfig {
         super();
     }
 
-    @Bean
+    @Bean("jwtSecurityConfigurer")
     public JwtSecurityConfigurer getJwtSecurityConfigurer(final TokenDecoder decoder,
             final TokenValidator tokenValidator, final UserDetailsService userDetailsService) {
         return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
@@ -75,7 +76,8 @@ public class JwtAuthConfig {
      *            JWT configuration properties
      * @return the token encoder
      */
-    @Bean("jjwtTokenDecoder")
+    @Bean("jwtTokenDecoder")
+    @ConditionalOnMissingBean({ TokenDecoder.class })
     public TokenDecoder getTokenDecoder(final JwtProperties properties) {
         final SecretKey key;
 
@@ -92,7 +94,8 @@ public class JwtAuthConfig {
      *            JWT configuration properties
      * @return the token encoder
      */
-    @Bean("jjwtTokenEncoder")
+    @Bean("jwtTokenEncoder")
+    @ConditionalOnMissingBean({ TokenEncoder.class })
     public TokenEncoder getTokenEncoder(final JwtProperties properties) {
         final SecretKey key;
 
@@ -112,7 +115,8 @@ public class JwtAuthConfig {
      *            JWT configuration properties
      * @return the token validator
      */
-    @Bean("jjwtTokenValidator")
+    @Bean("jwtTokenValidator")
+    @ConditionalOnMissingBean({ TokenValidator.class })
     public TokenValidator getTokenValidator(final JwtProperties properties) {
         final SecretKey key;
 

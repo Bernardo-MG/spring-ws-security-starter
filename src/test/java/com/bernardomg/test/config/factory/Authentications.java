@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 public final class Authentications {
 
