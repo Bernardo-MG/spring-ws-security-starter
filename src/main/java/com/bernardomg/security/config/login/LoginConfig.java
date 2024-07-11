@@ -35,7 +35,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterListener;
@@ -51,6 +50,7 @@ import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.security.login.usecase.service.LoginService;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**

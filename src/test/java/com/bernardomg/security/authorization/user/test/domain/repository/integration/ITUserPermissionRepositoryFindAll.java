@@ -6,10 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

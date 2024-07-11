@@ -18,7 +18,7 @@ public class ModulesArchitectureRulesTest {
         .layer("Users data")
         .definedBy("com.bernardomg.security.user.data..")
         .layer("Users permissions")
-        .definedBy("com.bernardomg.security.authentication.user..")
+        .definedBy("com.bernardomg.security.user.permission..")
         .layer("User activation")
         .definedBy("com.bernardomg.security.user.activation..")
         .layer("User tokens")
