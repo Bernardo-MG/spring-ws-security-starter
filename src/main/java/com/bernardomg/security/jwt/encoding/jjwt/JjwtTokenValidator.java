@@ -29,7 +29,7 @@ import javax.crypto.SecretKey;
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.jwt.encoding.TokenValidator;
 
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -66,9 +66,9 @@ public final class JjwtTokenValidator implements TokenValidator {
             // Check if token is expired
             expired = tokenDecoder.decode(token)
                 .isExpired();
-        } catch (final ExpiredJwtException e) {
+        } catch (final JwtException e) {
             // Token parsing failed
-            log.debug(e.getLocalizedMessage());
+            log.debug("Failed parsing token", e);
             expired = true;
         }
 
