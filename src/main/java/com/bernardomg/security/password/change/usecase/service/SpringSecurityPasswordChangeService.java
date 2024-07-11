@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.change.usecase.service;
+package com.bernardomg.security.password.change.usecase.service;
 
 import java.util.List;
 import java.util.Objects;

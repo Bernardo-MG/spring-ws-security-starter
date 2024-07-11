@@ -26,4 +26,4 @@
  * Password change service.
  */
 
-package com.bernardomg.security.authentication.password.change.usecase.service;
+package com.bernardomg.security.password.change.usecase.service;

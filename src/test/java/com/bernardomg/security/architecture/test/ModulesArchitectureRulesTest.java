@@ -31,6 +31,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.authentication.password..")
         .layer("Password reset")
         .definedBy("com.bernardomg.security.password.reset..")
+        .layer("Password change")
+        .definedBy("com.bernardomg.security.password.change..")
 
         .layer("Roles")
         .definedBy("com.bernardomg.security.authorization.role..")
@@ -58,7 +60,7 @@ public class ModulesArchitectureRulesTest {
         // User modules access
         .whereLayer("Users data")
         .mayOnlyBeAccessedByLayers("Users permissions", "User tokens", "Password", "Initializers", "Config", "Login",
-            "Spring", "Account", "User activation", "User login validation", "Password reset")
+            "Spring", "Account", "User activation", "User login validation", "Password reset", "Password change")
         .whereLayer("Users permissions")
         .mayOnlyBeAccessedByLayers("Config", "Login", "Spring")
         .whereLayer("User tokens")
@@ -70,7 +72,9 @@ public class ModulesArchitectureRulesTest {
 
         // Password modules access
         .whereLayer("Password")
-        .mayOnlyBeAccessedByLayers("Config", "Password reset")
+        .mayOnlyBeAccessedByLayers("Config", "Password reset", "Password change")
+        .whereLayer("Password change")
+        .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Password reset")
         .mayOnlyBeAccessedByLayers("Config")
 

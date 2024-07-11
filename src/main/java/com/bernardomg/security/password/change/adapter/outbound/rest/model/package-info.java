@@ -23,7 +23,7 @@
  */
 
 /**
- * Password change controller.
+ * Password change controller model.
  */
 
-package com.bernardomg.security.authentication.password.change.adapter.outbound.rest.controller;
+package com.bernardomg.security.password.change.adapter.outbound.rest.model;

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.change.adapter.outbound.rest.controller;
+package com.bernardomg.security.password.change.adapter.outbound.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,8 +33,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.authentication.password.change.adapter.outbound.rest.model.PasswordChange;
-import com.bernardomg.security.authentication.password.change.usecase.service.PasswordChangeService;
+import com.bernardomg.security.password.change.adapter.outbound.rest.model.PasswordChange;
+import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
