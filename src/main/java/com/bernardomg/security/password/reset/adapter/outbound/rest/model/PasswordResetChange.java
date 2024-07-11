@@ -22,8 +22,33 @@
  * SOFTWARE.
  */
 
-/**
- * Password reset service.
- */
+package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
 
-package com.bernardomg.security.authentication.password.reset.usecase.service;
+import com.bernardomg.validation.constraint.StrongPassword;
+
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Data required for changing a password.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class PasswordResetChange {
+
+    /**
+     * The new password.
+     */
+    @NotEmpty
+    @StrongPassword
+    private String password;
+
+}

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.reset.usecase.service;
+package com.bernardomg.security.password.reset.usecase.service;
 
 import java.util.Objects;
 import java.util.Optional;

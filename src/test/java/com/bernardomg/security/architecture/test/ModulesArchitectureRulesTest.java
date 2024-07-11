@@ -26,8 +26,12 @@ public class ModulesArchitectureRulesTest {
         .layer("User login validation")
         .definedBy("com.bernardomg.security.user.login..")
 
+        // Password modules
         .layer("Password")
         .definedBy("com.bernardomg.security.authentication.password..")
+        .layer("Password reset")
+        .definedBy("com.bernardomg.security.password.reset..")
+
         .layer("Roles")
         .definedBy("com.bernardomg.security.authorization.role..")
         .layer("Permissions")
@@ -54,14 +58,20 @@ public class ModulesArchitectureRulesTest {
         // User modules access
         .whereLayer("Users data")
         .mayOnlyBeAccessedByLayers("Users permissions", "User tokens", "Password", "Initializers", "Config", "Login",
-            "Spring", "Account", "User activation", "User login validation")
+            "Spring", "Account", "User activation", "User login validation", "Password reset")
         .whereLayer("Users permissions")
         .mayOnlyBeAccessedByLayers("Config", "Login", "Spring")
         .whereLayer("User tokens")
-        .mayOnlyBeAccessedByLayers("Password", "Config", "User activation")
+        .mayOnlyBeAccessedByLayers("Password", "Config", "User activation", "Password reset")
         .whereLayer("User activation")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("User login validation")
+        .mayOnlyBeAccessedByLayers("Config")
+
+        // Password modules access
+        .whereLayer("Password")
+        .mayOnlyBeAccessedByLayers("Config", "Password reset")
+        .whereLayer("Password reset")
         .mayOnlyBeAccessedByLayers("Config")
 
         .whereLayer("Roles")
@@ -69,8 +79,6 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Permissions")
         .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "Roles", "Initializers", "Login", "Access",
             "Config", "Spring", "User tokens")
-        .whereLayer("Password")
-        .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Access")
         .mayOnlyBeAccessedByLayers("Config", "Spring")
         .whereLayer("Login")

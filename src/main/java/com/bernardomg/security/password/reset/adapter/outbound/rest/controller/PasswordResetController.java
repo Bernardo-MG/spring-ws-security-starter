@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.controller;
+package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.model.PasswordReset;
-import com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.model.PasswordResetChange;
-import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
+import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordResetChange;
+import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;

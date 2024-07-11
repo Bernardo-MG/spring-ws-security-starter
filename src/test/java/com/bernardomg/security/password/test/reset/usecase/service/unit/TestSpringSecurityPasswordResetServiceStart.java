@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.test.reset.usecase.service.unit;
+package com.bernardomg.security.password.test.reset.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -19,9 +19,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;

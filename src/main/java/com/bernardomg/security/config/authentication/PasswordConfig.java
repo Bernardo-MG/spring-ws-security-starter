@@ -36,10 +36,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.authentication.password.change.usecase.service.PasswordChangeService;
 import com.bernardomg.security.authentication.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.authentication.password.reset.usecase.service.PasswordResetService;
-import com.bernardomg.security.authentication.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.authentication.password.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
+import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
@@ -54,7 +54,7 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  */
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.authentication.password.change.adapter.outbound.rest.controller",
-        "com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.controller" })
+        " com.bernardomg.security.password.reset.adapter.outbound.rest.controller" })
 public class PasswordConfig {
 
     public PasswordConfig() {

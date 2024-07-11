@@ -22,8 +22,43 @@
  * SOFTWARE.
  */
 
-/**
- * Password reset controller model.
- */
+package com.bernardomg.security.password.reset.usecase.service;
 
-package com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.model;
+import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
+
+/**
+ * Password reset service. Handles the steps requires to change a password for a user which can't start a session.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface PasswordResetService {
+
+    /**
+     * Change password.
+     *
+     * @param token
+     *            token for the password change
+     * @param newPassword
+     *            new password
+     */
+    public void changePassword(final String token, final String newPassword);
+
+    /**
+     * Starts the password reset for a user, identified by the mail.
+     *
+     * @param email
+     *            email for resetting the user password
+     */
+    public void startPasswordReset(final String email);
+
+    /**
+     * Validate a password recovery token.
+     *
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token is valid, {@code false} otherwise
+     */
+    public UserTokenStatus validateToken(final String token);
+
+}

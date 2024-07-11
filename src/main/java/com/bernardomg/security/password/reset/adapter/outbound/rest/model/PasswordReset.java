@@ -22,8 +22,32 @@
  * SOFTWARE.
  */
 
-/**
- * Password reset controller.
- */
+package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
 
-package com.bernardomg.security.authentication.password.reset.adapter.outbound.rest.controller;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Data required for starting the password reset.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(setterPrefix = "with")
+public final class PasswordReset {
+
+    /**
+     * User email.
+     */
+    @NotEmpty
+    @Email
+    private String email;
+
+}
