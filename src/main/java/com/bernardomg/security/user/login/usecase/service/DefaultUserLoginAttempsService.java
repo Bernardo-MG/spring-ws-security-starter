@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.usecase.service;
+package com.bernardomg.security.user.login.usecase.service;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Transactional
-public final class DefaultUserAccessService implements UserAccessService {
+public final class DefaultUserLoginAttempsService implements UserLoginAttempsService {
 
     /**
      * Max login attempts. Once the user reaches this number, it is locked.
@@ -52,7 +52,7 @@ public final class DefaultUserAccessService implements UserAccessService {
      */
     private final UserRepository userRepository;
 
-    public DefaultUserAccessService(final int maxAttmp, final UserRepository userRepo) {
+    public DefaultUserLoginAttempsService(final int maxAttmp, final UserRepository userRepo) {
         super();
 
         maxAttempts = Objects.requireNonNull(maxAttmp);

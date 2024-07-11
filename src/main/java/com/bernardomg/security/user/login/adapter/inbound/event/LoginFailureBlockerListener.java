@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.adapter.inbound.event;
+package com.bernardomg.security.user.login.adapter.inbound.event;
 
 import java.util.Objects;
 
 import org.springframework.context.ApplicationListener;
 
-import com.bernardomg.security.authentication.user.usecase.service.UserAccessService;
 import com.bernardomg.security.event.LogInEvent;
+import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,22 +41,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class LoginFailureBlockerListener implements ApplicationListener<LogInEvent> {
 
-    private final UserAccessService userAccessService;
+    private final UserLoginAttempsService userLoginAttempsService;
 
-    public LoginFailureBlockerListener(final UserAccessService userAccessServ) {
+    public LoginFailureBlockerListener(final UserLoginAttempsService userLoginAttempsServ) {
         super();
 
-        userAccessService = Objects.requireNonNull(userAccessServ);
+        userLoginAttempsService = Objects.requireNonNull(userLoginAttempsServ);
     }
 
     @Override
     public final void onApplicationEvent(final LogInEvent event) {
         if (event.isLoggedIn()) {
             log.debug("Handling succesful login event attempt for {}", event.getUsername());
-            userAccessService.clearLoginAttempts(event.getUsername());
+            userLoginAttempsService.clearLoginAttempts(event.getUsername());
         } else {
             log.debug("Handling failed login event attempt for {}", event.getUsername());
-            userAccessService.checkForLocking(event.getUsername());
+            userLoginAttempsService.checkForLocking(event.getUsername());
         }
     }
 

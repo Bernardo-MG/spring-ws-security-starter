@@ -26,4 +26,4 @@
  * User event adapters.
  */
 
-package com.bernardomg.security.authentication.user.adapter.inbound.event;
+package com.bernardomg.security.user.login.adapter.inbound.event;

@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.authentication.user.usecase.service;
+package com.bernardomg.security.user.login.usecase.service;
 
 /**
  * User access service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public interface UserAccessService {
+public interface UserLoginAttempsService {
 
     /**
      * Checks if the user should be locked, and locks it if needed.

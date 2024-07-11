@@ -21,6 +21,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.user.activation..")
         .layer("User tokens")
         .definedBy("com.bernardomg.security.user.token..")
+        .layer("User login validation")
+        .definedBy("com.bernardomg.security.user.login..")
 
         .layer("Password")
         .definedBy("com.bernardomg.security.authentication.password..")
@@ -49,7 +51,14 @@ public class ModulesArchitectureRulesTest {
 
         .whereLayer("Users")
         .mayOnlyBeAccessedByLayers("Password", "User tokens", "Initializers", "Config", "Login", "Spring", "Account",
-            "User activation")
+            "User activation", "User login validation")
+        .whereLayer("User tokens")
+        .mayOnlyBeAccessedByLayers("Password", "Config", "User activation")
+        .whereLayer("User activation")
+        .mayOnlyBeAccessedByLayers("Config")
+        .whereLayer("User login validation")
+        .mayOnlyBeAccessedByLayers("Config")
+
         .whereLayer("Roles")
         .mayOnlyBeAccessedByLayers("Users", "Initializers", "Config", "Spring")
         .whereLayer("Permissions")
@@ -65,9 +74,7 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("JWT")
         .mayOnlyBeAccessedByLayers("Login", "Config", "Spring")
-        .whereLayer("User tokens")
-        .mayOnlyBeAccessedByLayers("Password", "Config", "User activation")
         .whereLayer("Event")
-        .mayOnlyBeAccessedByLayers("Login", "Users", "Config");
+        .mayOnlyBeAccessedByLayers("Login", "User login validation", "Config");
 
 }

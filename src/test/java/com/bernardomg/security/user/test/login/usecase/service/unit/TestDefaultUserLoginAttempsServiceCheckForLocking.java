@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.usecase.service.unit;
+package com.bernardomg.security.user.test.login.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -17,25 +17,25 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAccessService;
-import com.bernardomg.security.authentication.user.usecase.service.UserAccessService;
+import com.bernardomg.security.user.login.usecase.service.DefaultUserLoginAttempsService;
+import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserAccessService - check for locking")
-class TestUserAccessServiceCheckForLocking {
+@DisplayName("DefaultUserLoginAttempsService - check for locking")
+class TestDefaultUserLoginAttempsServiceCheckForLocking {
 
-    private UserAccessService service;
+    private UserLoginAttempsService service;
 
     @Mock
-    private UserRepository    userRepository;
+    private UserRepository          userRepository;
 
-    public TestUserAccessServiceCheckForLocking() {
+    public TestDefaultUserLoginAttempsServiceCheckForLocking() {
         super();
     }
 
     @BeforeEach
     public void setupService() {
-        service = new DefaultUserAccessService(UserConstants.MAX_LOGIN_ATTEMPTS, userRepository);
+        service = new DefaultUserLoginAttempsService(UserConstants.MAX_LOGIN_ATTEMPTS, userRepository);
     }
 
     @Test

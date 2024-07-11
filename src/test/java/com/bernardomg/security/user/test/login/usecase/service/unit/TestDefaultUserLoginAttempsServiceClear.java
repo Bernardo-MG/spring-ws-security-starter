@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.user.test.usecase.service.unit;
+package com.bernardomg.security.user.test.login.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -14,24 +14,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
-import com.bernardomg.security.authentication.user.usecase.service.DefaultUserAccessService;
+import com.bernardomg.security.user.login.usecase.service.DefaultUserLoginAttempsService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserAccessService - clear login attempts")
-class TestUserAccessServiceClear {
+@DisplayName("DefaultUserLoginAttempsService - clear login attempts")
+class TestDefaultUserLoginAttempsServiceClear {
 
-    private DefaultUserAccessService service;
+    private DefaultUserLoginAttempsService service;
 
     @Mock
-    private UserRepository           userRepository;
+    private UserRepository                 userRepository;
 
-    public TestUserAccessServiceClear() {
+    public TestDefaultUserLoginAttempsServiceClear() {
         super();
     }
 
     @BeforeEach
     public void setupService() {
-        service = new DefaultUserAccessService(UserConstants.MAX_LOGIN_ATTEMPTS, userRepository);
+        service = new DefaultUserLoginAttempsService(UserConstants.MAX_LOGIN_ATTEMPTS, userRepository);
     }
 
     @Test
