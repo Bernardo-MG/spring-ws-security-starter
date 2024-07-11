@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.authentication.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.authentication.user.domain.exception.LockedUserException;
@@ -29,6 +28,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authentication.user.usecase.notification.UserNotificator;
 import com.bernardomg.security.authentication.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.authorization.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.jwt.test.config.Tokens;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - activate user")

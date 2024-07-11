@@ -35,10 +35,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
 import com.bernardomg.security.authentication.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.config.authentication.JwtProperties;
+import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterListener;
 import com.bernardomg.security.login.adapter.inbound.event.SpringValidLoginPredicate;
 import com.bernardomg.security.login.adapter.inbound.initializer.LoginPermissionRegister;

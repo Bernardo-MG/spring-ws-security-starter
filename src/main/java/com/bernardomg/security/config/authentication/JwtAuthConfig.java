@@ -33,13 +33,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.authentication.jwt.adapter.outbound.web.JwtSecurityConfigurer;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenDecoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenEncoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.JjwtTokenValidator;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenDecoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenEncoder;
-import com.bernardomg.security.authentication.jwt.usecase.encoding.TokenValidator;
+import com.bernardomg.security.jwt.encoding.TokenDecoder;
+import com.bernardomg.security.jwt.encoding.TokenEncoder;
+import com.bernardomg.security.jwt.encoding.TokenValidator;
+import com.bernardomg.security.jwt.encoding.jjwt.JjwtTokenDecoder;
+import com.bernardomg.security.jwt.encoding.jjwt.JjwtTokenEncoder;
+import com.bernardomg.security.jwt.encoding.jjwt.JjwtTokenValidator;
+import com.bernardomg.security.springframework.jwt.web.JwtSecurityConfigurer;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

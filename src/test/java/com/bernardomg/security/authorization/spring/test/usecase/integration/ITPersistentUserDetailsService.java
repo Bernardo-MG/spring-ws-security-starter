@@ -15,7 +15,7 @@ import com.bernardomg.security.authorization.permission.test.config.annotation.A
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutPermissions;
-import com.bernardomg.security.spring.usecase.PersistentUserDetailsService;
+import com.bernardomg.security.springframework.usecase.PersistentUserDetailsService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

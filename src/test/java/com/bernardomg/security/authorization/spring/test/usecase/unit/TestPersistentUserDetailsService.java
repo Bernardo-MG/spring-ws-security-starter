@@ -24,7 +24,7 @@ import com.bernardomg.security.authentication.user.test.config.factory.UserConst
 import com.bernardomg.security.authentication.user.test.config.factory.Users;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.spring.usecase.PersistentUserDetailsService;
+import com.bernardomg.security.springframework.usecase.PersistentUserDetailsService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PersistentUserDetailsService")

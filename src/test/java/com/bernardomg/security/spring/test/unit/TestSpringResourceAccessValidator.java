@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
 import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
-import com.bernardomg.security.spring.usecase.SpringResourceAccessValidator;
+import com.bernardomg.security.springframework.usecase.SpringResourceAccessValidator;
 import com.bernardomg.test.config.factory.Authentications;
 
 @ExtendWith(MockitoExtension.class)

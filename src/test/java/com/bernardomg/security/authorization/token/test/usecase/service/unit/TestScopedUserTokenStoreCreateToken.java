@@ -20,13 +20,13 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.exception.MissingUserException;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.jwt.test.config.Tokens;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ScopedUserTokenStore - create token")

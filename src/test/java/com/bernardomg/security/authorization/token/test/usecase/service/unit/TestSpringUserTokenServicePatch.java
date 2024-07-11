@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authorization.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.authorization.token.domain.model.UserToken;
 import com.bernardomg.security.authorization.token.domain.model.UserTokenPatch;
@@ -25,6 +24,7 @@ import com.bernardomg.security.authorization.token.test.config.factory.UserToken
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokenPatches;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.security.authorization.token.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.jwt.test.config.Tokens;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 

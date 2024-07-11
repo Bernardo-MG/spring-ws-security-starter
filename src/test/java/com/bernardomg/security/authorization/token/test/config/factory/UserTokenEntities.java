@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.authorization.token.test.config.factory;
 
-import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authorization.token.adapter.inbound.jpa.model.UserTokenEntity;
+import com.bernardomg.security.jwt.test.config.Tokens;
 
 public final class UserTokenEntities {
 

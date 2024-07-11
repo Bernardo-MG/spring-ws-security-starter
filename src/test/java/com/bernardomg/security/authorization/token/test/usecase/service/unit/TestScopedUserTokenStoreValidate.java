@@ -15,7 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authentication.jwt.token.test.config.Tokens;
 import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.authorization.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.authorization.token.domain.exception.ExpiredTokenException;
@@ -25,6 +24,7 @@ import com.bernardomg.security.authorization.token.domain.exception.RevokedToken
 import com.bernardomg.security.authorization.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.authorization.token.test.config.factory.UserTokens;
 import com.bernardomg.security.authorization.token.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.jwt.test.config.Tokens;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ScopedUserTokenStore - validate")
