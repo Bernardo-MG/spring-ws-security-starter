@@ -27,7 +27,7 @@ class TestJjwtTokenValidatorHasExpired {
         final JwtTokenData data;
 
         // GIVEN
-        data = JwtTokenDatas.withIssuerExpired();
+        data = JwtTokenDatas.withIssuerAndExpired();
 
         token = encoder.encode(data);
 

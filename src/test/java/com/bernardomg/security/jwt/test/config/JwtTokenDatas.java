@@ -16,7 +16,7 @@ public final class JwtTokenDatas {
             .build();
     }
 
-    public static final JwtTokenData withIssuerExpired() {
+    public static final JwtTokenData withIssuerAndExpired() {
         return JwtTokenData.builder()
             .withIssuer(Tokens.ISSUER)
             .withExpiration(Tokens.EXPIRED_DATE)
