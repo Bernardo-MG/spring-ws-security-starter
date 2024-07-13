@@ -13,9 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -24,6 +22,7 @@ import com.bernardomg.security.jwt.test.config.Tokens;
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
+import com.bernardomg.security.user.data.domain.exception.ExpiredUserCredentialsException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
@@ -32,6 +31,7 @@ import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.test.config.factory.UserDetailsData;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordResetService - change password - authentication")
@@ -59,47 +59,10 @@ class TestSpringSecurityPasswordResetServiceChangeAuth {
         super();
     }
 
-    private final void loadDisabledUser() {
-        final UserDetails user;
-
-        loadUserRepository();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.isEnabled()).willReturn(false);
-        given(user.isAccountNonExpired()).willReturn(true);
-        given(user.isAccountNonLocked()).willReturn(true);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-    }
-
-    private final void loadExpiredUser() {
-        final UserDetails user;
-
-        loadUserRepository();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.isAccountNonExpired()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-    }
-
-    private final void loadLockedUser() {
-        final UserDetails user;
-
-        loadUserRepository();
-
-        user = Mockito.mock(UserDetails.class);
-        given(user.getUsername()).willReturn(UserConstants.USERNAME);
-        given(user.isAccountNonExpired()).willReturn(true);
-        given(user.isAccountNonLocked()).willReturn(false);
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
-    }
-
     private void loadUserRepository() {
         final User user;
 
         user = Users.enabled();
-
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(user));
     }
 
@@ -110,13 +73,37 @@ class TestSpringSecurityPasswordResetServiceChangeAuth {
 
     @Test
     @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Changing password with a user with expired credentials throws an exception")
+    void testChangePassword_CredentialsExpired() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        // GIVEN
+        loadUserRepository();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME))
+            .willReturn(UserDetailsData.credentialsExpired());
+
+        // WHEN
+        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
+
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, ExpiredUserCredentialsException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
+            .isEqualTo("User username credentials are expired");
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a disabled user throws an exception")
     void testChangePassword_Disabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        loadDisabledUser();
+        loadUserRepository();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.disabled());
 
         // WHEN
         executable = () -> service.changePassword(Tokens.TOKEN, "abc");
@@ -137,7 +124,8 @@ class TestSpringSecurityPasswordResetServiceChangeAuth {
         final Exception        exception;
 
         // GIVEN
-        loadExpiredUser();
+        loadUserRepository();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.expired());
 
         // WHEN
         executable = () -> service.changePassword(Tokens.TOKEN, "abc");
@@ -158,7 +146,8 @@ class TestSpringSecurityPasswordResetServiceChangeAuth {
         final Exception        exception;
 
         // GIVEN
-        loadLockedUser();
+        loadUserRepository();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.locked());
 
         // WHEN
         executable = () -> service.changePassword(Tokens.TOKEN, "abc");

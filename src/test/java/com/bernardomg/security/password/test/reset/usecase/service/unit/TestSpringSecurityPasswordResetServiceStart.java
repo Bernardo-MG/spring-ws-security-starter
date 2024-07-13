@@ -15,7 +15,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -27,6 +26,7 @@ import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.test.config.factory.UserDetailsData;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordResetService - change password")
@@ -45,9 +45,6 @@ class TestSpringSecurityPasswordResetServiceStart {
     private UserTokenStore                     tokenStore;
 
     @Mock
-    private UserDetails                        userDetails;
-
-    @Mock
     private UserDetailsService                 userDetailsService;
 
     @Mock
@@ -61,11 +58,7 @@ class TestSpringSecurityPasswordResetServiceStart {
     @DisplayName("When recovering the password the correct message arguments are used")
     void testStartPasswordReset_Message() {
         // GIVEN
-        given(userDetails.isAccountNonExpired()).willReturn(true);
-        given(userDetails.isAccountNonLocked()).willReturn(true);
-        given(userDetails.isEnabled()).willReturn(true);
-
-        given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(userDetails);
+        given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(UserDetailsData.valid());
         given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(Users.enabled()));
         given(tokenStore.createToken(ArgumentMatchers.anyString())).willReturn(Tokens.TOKEN);
 
@@ -81,12 +74,8 @@ class TestSpringSecurityPasswordResetServiceStart {
     @DisplayName("When starting the password reset the token is regenerated")
     void testStartPasswordReset_NewToken() {
         // GIVEN
-        given(userDetails.isAccountNonExpired()).willReturn(true);
-        given(userDetails.isAccountNonLocked()).willReturn(true);
-        given(userDetails.isEnabled()).willReturn(true);
-
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.valid());
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);
@@ -120,12 +109,8 @@ class TestSpringSecurityPasswordResetServiceStart {
     @DisplayName("When starting the password reset a message is sent to the user")
     void testStartPasswordReset_SendMessage() {
         // GIVEN
-        given(userDetails.isAccountNonExpired()).willReturn(true);
-        given(userDetails.isAccountNonLocked()).willReturn(true);
-        given(userDetails.isEnabled()).willReturn(true);
-
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.valid());
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
 
         // WHEN

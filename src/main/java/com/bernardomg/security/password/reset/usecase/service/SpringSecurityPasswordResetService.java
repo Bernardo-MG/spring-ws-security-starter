@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
+import com.bernardomg.security.user.data.domain.exception.ExpiredUserCredentialsException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
@@ -175,13 +176,16 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final void authorizePasswordChange(final String username) {
         final UserDetails userDetails;
 
-        // TODO: Avoid this second query
         userDetails = userDetailsService.loadUserByUsername(username);
 
         // TODO: This should be contained in a common class
         if (!userDetails.isAccountNonExpired()) {
             log.error("Can't reset password. User {} is expired", userDetails.getUsername());
             throw new ExpiredUserException(userDetails.getUsername());
+        }
+        if (!userDetails.isCredentialsNonExpired()) {
+            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
+            throw new ExpiredUserCredentialsException(userDetails.getUsername());
         }
         if (!userDetails.isAccountNonLocked()) {
             log.error("Can't reset password. User {} is locked", userDetails.getUsername());
