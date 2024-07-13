@@ -22,46 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.mvc.error;
+package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import com.bernardomg.web.response.domain.model.ErrorResponse;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Captures and handles security exceptions.
+ * Captures and hides password reset exceptions.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @RestControllerAdvice
 @Slf4j
-public class SecurityExceptionHandler {
+public class PasswordResetExceptionHandler {
 
     /**
      * Default constructor.
      */
-    public SecurityExceptionHandler() {
+    public PasswordResetExceptionHandler() {
         super();
     }
 
-    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
-    public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
-            throws Exception {
-        final ErrorResponse response;
-
+    @ExceptionHandler({ RuntimeException.class })
+    public final ResponseEntity<Object> handleException(final Exception ex, final WebRequest request) throws Exception {
         log.warn(ex.getMessage(), ex);
 
-        response = ErrorResponse.of("Unauthorized");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.ok("");
     }
 
 }
