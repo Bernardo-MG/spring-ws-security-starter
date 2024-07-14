@@ -14,13 +14,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.jwt.test.config.Tokens;
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
+import com.bernardomg.security.user.data.domain.exception.ExpiredUserCredentialsException;
+import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
+import com.bernardomg.security.user.data.domain.exception.LockedUserException;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
@@ -52,6 +58,176 @@ class TestSpringSecurityPasswordResetServiceStart {
 
     public TestSpringSecurityPasswordResetServiceStart() {
         super();
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for an user with expired credentials throws an exception")
+    void testStartPasswordReset_CredentialsExpired_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME))
+            .willReturn(UserDetailsData.credentialsExpired());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, ExpiredUserCredentialsException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
+            .isEqualTo("User username credentials are expired");
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for an user with expired credentials, no token is generated")
+    void testStartPasswordReset_CredentialsExpired_NoToken() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME))
+            .willReturn(UserDetailsData.credentialsExpired());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        Assertions.catchThrowableOfType(executable, ExpiredUserCredentialsException.class);
+
+        verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
+        verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for a disabled user throws an exception")
+    void testStartPasswordReset_Disabled_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.disabled());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
+            .isEqualTo("User username is disabled");
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for a disabled user, no token is generated")
+    void testStartPasswordReset_Disabled_NoToken() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.disabled());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        Assertions.catchThrowableOfType(executable, DisabledUserException.class);
+
+        verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
+        verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for an expired user throws an exception")
+    void testStartPasswordReset_Expired_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.expired());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
+            .isEqualTo("User username is expired");
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for an expired user, no token is generated")
+    void testStartPasswordReset_Expired_NoToken() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.expired());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
+
+        verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
+        verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for a locked user throws an exception")
+    void testStartPasswordReset_Locked_Exception() {
+        final ThrowingCallable executable;
+        final Exception        exception;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.locked());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
+
+        Assertions.assertThat(exception.getMessage())
+            .as("exception message")
+            .isEqualTo("User username is locked");
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Activating a new user for a locked user, no token is generated")
+    void testStartPasswordReset_Locked_NoToken() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(UserDetailsData.locked());
+
+        // WHEN
+        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+
+        // THEN
+        Assertions.catchThrowableOfType(executable, LockedUserException.class);
+
+        verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
+        verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
     }
 
     @Test
