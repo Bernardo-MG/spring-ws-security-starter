@@ -44,8 +44,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 /**
- * Handles password reset for a user which can't start a session. It is divided into two steps: starting the password
- * reset and the password change. All the logic is delegated to a {@link PasswordResetService}.
+ * Handles password reset for a user, usually when it can't start a session. It is divided into two steps:
+ * <p>
+ * <ul>
+ * <li>Starting the password reset</li>
+ * <li>Changing password at end of password reset</li>
+ * </ul>
+ * <p>
+ * All the logic is delegated to a {@link PasswordResetService}.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -68,12 +74,11 @@ public class PasswordResetController {
      * @param request
      *            password change request
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     public void changePassword(@PathVariable("token") final String token,
             @Valid @RequestBody final PasswordResetChange request) {
-        // TODO: return if it was successful
         service.changePassword(token, request.getPassword());
     }
 
@@ -83,12 +88,10 @@ public class PasswordResetController {
      * @param request
      *            password recovery request
      */
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     public void startPasswordReset(@Valid @RequestBody final PasswordReset request) {
-        // TODO: Hide exceptions for invalid user
-        // TODO: return if it was successful
         service.startPasswordReset(request.getEmail());
     }
 

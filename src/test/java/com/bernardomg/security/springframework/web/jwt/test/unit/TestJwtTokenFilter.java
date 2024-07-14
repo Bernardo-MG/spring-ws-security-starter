@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +24,7 @@ import com.bernardomg.security.jwt.encoding.TokenValidator;
 import com.bernardomg.security.jwt.test.config.Tokens;
 import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.test.config.factory.SecurityUsers;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -68,20 +68,6 @@ class TestJwtTokenFilter {
             .setAuthentication(null);
     }
 
-    private final UserDetails getValidUserDetails() {
-        final UserDetails userDetails;
-
-        userDetails = Mockito.mock(UserDetails.class);
-
-        given(userDetails.getUsername()).willReturn(UserConstants.USERNAME);
-        given(userDetails.isAccountNonExpired()).willReturn(true);
-        given(userDetails.isAccountNonLocked()).willReturn(true);
-        given(userDetails.isCredentialsNonExpired()).willReturn(true);
-        given(userDetails.isEnabled()).willReturn(true);
-
-        return userDetails;
-    }
-
     @Test
     @DisplayName("With a valid token the user is stored")
     void testDoFilter() throws ServletException, IOException {
@@ -92,7 +78,7 @@ class TestJwtTokenFilter {
         // GIVEN
         given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
 
-        userDetails = getValidUserDetails();
+        userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenData.builder()

@@ -118,6 +118,9 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
      *            user for which the password is changed
      */
     private final void authorizePasswordChange(final UserDetails user) {
+
+        // Accepts users with expired credentials, as they have an expired password
+
         // TODO: This should be contained in a common class
         if (!user.isAccountNonExpired()) {
             log.error("User {} is expired", user.getUsername());

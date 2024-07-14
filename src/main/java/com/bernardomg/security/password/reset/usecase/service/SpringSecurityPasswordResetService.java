@@ -175,8 +175,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final void authorizePasswordChange(final String username) {
         final UserDetails userDetails;
 
-        // TODO: Avoid this second query
         userDetails = userDetailsService.loadUserByUsername(username);
+
+        // Accepts users with expired credentials, as they have an expired password
 
         // TODO: This should be contained in a common class
         if (!userDetails.isAccountNonExpired()) {

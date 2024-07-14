@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,31 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.test.config.annotation;
+package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
-import com.bernardomg.test.config.TestApplication;
+/**
+ * Captures and hides password reset exceptions.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+@RestControllerAdvice(basePackageClasses = PasswordResetExceptionHandler.class)
+@Slf4j
+public class PasswordResetExceptionHandler {
 
-@SpringJUnitConfig
-@SpringBootTest(classes = TestApplication.class)
-@ActiveProfiles("test")
-@Transactional
-@Rollback
-@AllAuthoritiesMockUser
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Documented
-public @interface MvcIntegrationTest {
+    /**
+     * Default constructor.
+     */
+    public PasswordResetExceptionHandler() {
+        super();
+    }
+
+    @ExceptionHandler({ RuntimeException.class })
+    public final ResponseEntity<Object> handleException(final Exception ex, final WebRequest request) throws Exception {
+        log.warn(ex.getMessage(), ex);
+
+        return ResponseEntity.ok("");
+    }
 
 }
