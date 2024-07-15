@@ -39,9 +39,9 @@ public class ModulesArchitectureRulesTest {
         .layer("Roles")
         .definedBy("com.bernardomg.security.authorization.role..")
         .layer("Permissions")
-        .definedBy("com.bernardomg.security.authorization.permission..")
+        .definedBy("com.bernardomg.security.permission..")
         .layer("Access")
-        .definedBy("com.bernardomg.security.authorization.access..")
+        .definedBy("com.bernardomg.security.access..")
         .layer("Login")
         .definedBy("com.bernardomg.security.login..")
         .layer("Account")
@@ -89,7 +89,8 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "User tokens", "Roles", "Initializers", "Login",
             "Access", "Config", "Spring", "Password security initializer")
         .whereLayer("Access")
-        .mayOnlyBeAccessedByLayers("Config", "Spring")
+        .mayOnlyBeAccessedByLayers("Config", "Spring", "Account", "Roles", "Password reset", "Password change", "Login",
+            "User activation", "Users data", "User tokens", "Users permissions")
         .whereLayer("Login")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Initializers")
