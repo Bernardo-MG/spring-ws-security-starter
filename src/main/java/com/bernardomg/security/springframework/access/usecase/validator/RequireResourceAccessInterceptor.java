@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.access.usecase.validator;
+package com.bernardomg.security.springframework.access.usecase.validator;
 
 import java.lang.reflect.Method;
 
