@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.usecase;
+package com.bernardomg.security.springframework.access.usecase.validator;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -30,7 +30,8 @@ import java.util.function.Predicate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.authorization.access.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.access.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.springframework.usecase.ResourceActionGrantedAuthority;
 
 import lombok.extern.slf4j.Slf4j;
 
