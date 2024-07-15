@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleConstants;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;
+import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @DisplayName("RolePermissionRepository - find available permissions - pagination")

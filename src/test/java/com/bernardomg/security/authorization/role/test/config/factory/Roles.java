@@ -4,9 +4,9 @@ package com.bernardomg.security.authorization.role.test.config.factory;
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 
 public final class Roles {
 

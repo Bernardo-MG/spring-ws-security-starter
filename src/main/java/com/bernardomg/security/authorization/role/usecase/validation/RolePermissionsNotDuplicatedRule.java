@@ -3,8 +3,8 @@ package com.bernardomg.security.authorization.role.usecase.validation;
 
 import java.util.Optional;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 

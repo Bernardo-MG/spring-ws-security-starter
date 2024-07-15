@@ -9,9 +9,9 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;

@@ -29,11 +29,11 @@ import java.util.Objects;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
+import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -42,8 +42,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.authorization.permission.constant.Actions;
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.authorization.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleChange;
 import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.RoleCreate;
@@ -51,6 +49,8 @@ import com.bernardomg.security.authorization.role.adapter.outbound.rest.model.Ro
 import com.bernardomg.security.authorization.role.domain.model.Role;
 import com.bernardomg.security.authorization.role.domain.model.RoleQuery;
 import com.bernardomg.security.authorization.role.usecase.service.RoleService;
+import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

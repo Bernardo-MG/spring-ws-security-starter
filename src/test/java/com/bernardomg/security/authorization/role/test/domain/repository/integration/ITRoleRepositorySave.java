@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.authorization.role.domain.model.Role;
@@ -17,6 +16,7 @@ import com.bernardomg.security.authorization.role.test.config.annotation.RoleWit
 import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
 import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

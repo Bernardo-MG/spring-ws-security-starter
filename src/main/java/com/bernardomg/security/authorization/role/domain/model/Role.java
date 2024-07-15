@@ -27,7 +27,7 @@ package com.bernardomg.security.authorization.role.domain.model;
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 
 import lombok.Builder;
 import lombok.Value;
