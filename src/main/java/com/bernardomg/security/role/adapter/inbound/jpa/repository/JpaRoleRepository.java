@@ -1,0 +1,231 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.security.role.adapter.inbound.jpa.repository;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.permission.domain.comparator.ResourcePermissionComparator;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionId;
+import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.role.domain.model.RoleQuery;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
+
+/**
+ * Role repository based on JPA entities.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+@Transactional
+public final class JpaRoleRepository implements RoleRepository {
+
+    /**
+     * Resource permission repository.
+     */
+    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
+
+    /**
+     * Role repository.
+     */
+    private final RoleSpringRepository               roleSpringRepository;
+
+    /**
+     * User roles repository.
+     */
+    private final UserRoleSpringRepository           userRoleSpringRepository;
+
+    public JpaRoleRepository(final RoleSpringRepository roleSpringRepo,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
+            final UserRoleSpringRepository userRoleSpringRepo) {
+        super();
+
+        roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
+        resourcePermissionSpringRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
+        userRoleSpringRepository = Objects.requireNonNull(userRoleSpringRepo);
+    }
+
+    @Override
+    public final void delete(final String name) {
+        roleSpringRepository.deleteByName(name);
+    }
+
+    @Override
+    public final boolean exists(final String name) {
+        return roleSpringRepository.existsByNameIgnoreCase(name);
+    }
+
+    @Override
+    public final Iterable<Role> findAll(final RoleQuery query, final Pageable page) {
+        final RoleEntity sample;
+
+        sample = toEntity(query);
+
+        return roleSpringRepository.findAll(Example.of(sample), page)
+            .map(this::toDomain);
+    }
+
+    @Override
+    public final Optional<Role> findOne(final String name) {
+        return roleSpringRepository.findByName(name)
+            .map(this::toDomain);
+    }
+
+    @Override
+    public final boolean isLinkedToUser(final String role) {
+        final Optional<RoleEntity> roleEntity;
+        final boolean              exists;
+
+        // TODO: rename, it is not clear what this method is for
+        // TODO: the roles shouldn't know about users
+
+        roleEntity = roleSpringRepository.findByName(role);
+        if (roleEntity.isPresent()) {
+            exists = userRoleSpringRepository.existsByRoleId(roleEntity.get()
+                .getId());
+        } else {
+            exists = false;
+        }
+
+        return exists;
+    }
+
+    @Override
+    public final Role save(final Role role) {
+        final Optional<RoleEntity>             existing;
+        final RoleEntity                       entity;
+        final RoleEntity                       saved;
+        final RoleEntity                       savedAgain;
+        final Collection<RolePermissionEntity> permissions;
+
+        entity = toEntity(role);
+
+        existing = roleSpringRepository.findByName(role.getName());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+        }
+
+        if (entity.getPermissions() == null) {
+            permissions = new ArrayList<>();
+        } else {
+            permissions = new ArrayList<>(entity.getPermissions()
+                .stream()
+                .filter(Objects::nonNull)
+                .toList());
+        }
+        entity.setPermissions(new ArrayList<>());
+        saved = roleSpringRepository.save(entity);
+
+        permissions.forEach(p -> {
+            p.getId()
+                .setRoleId(saved.getId());
+        });
+        saved.setPermissions(permissions);
+        savedAgain = roleSpringRepository.save(saved);
+
+        return toDomain(savedAgain);
+    }
+
+    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
+        return ResourcePermission.of(entity.getResource(), entity.getAction());
+    }
+
+    private final Role toDomain(final RoleEntity role) {
+        final Collection<ResourcePermission> permissions;
+
+        if (role.getPermissions() == null) {
+            permissions = List.of();
+        } else {
+            permissions = role.getPermissions()
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(RolePermissionEntity::getGranted)
+                .map(RolePermissionEntity::getResourcePermission)
+                .map(this::toDomain)
+                .sorted(new ResourcePermissionComparator())
+                .toList();
+        }
+        return Role.of(role.getName(), permissions);
+    }
+
+    private final RolePermissionEntity toEntity(final ResourcePermission permission) {
+        final Optional<ResourcePermissionEntity> read;
+        final ResourcePermissionEntity           resourceEntity;
+        final RolePermissionEntity               entity;
+        final RolePermissionId                   id;
+
+        read = resourcePermissionSpringRepository.findByName(permission.getName());
+
+        if (read.isPresent()) {
+            resourceEntity = read.get();
+            id = RolePermissionId.builder()
+                .withPermission(resourceEntity.getName())
+                .build();
+            entity = RolePermissionEntity.builder()
+                .withGranted(true)
+                .withId(id)
+                .withResourcePermission(resourceEntity)
+                .build();
+        } else {
+            entity = null;
+        }
+
+        return entity;
+    }
+
+    private final RoleEntity toEntity(final Role role) {
+        final Collection<RolePermissionEntity> permissions;
+
+        permissions = role.getPermissions()
+            .stream()
+            .map(this::toEntity)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toCollection(ArrayList::new));
+        return RoleEntity.builder()
+            .withName(role.getName())
+            .withPermissions(permissions)
+            .build();
+    }
+
+    private final RoleEntity toEntity(final RoleQuery role) {
+        return RoleEntity.builder()
+            .withName(role.getName())
+            .build();
+    }
+
+}

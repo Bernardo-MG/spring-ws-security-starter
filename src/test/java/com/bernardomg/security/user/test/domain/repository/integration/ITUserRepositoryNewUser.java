@@ -31,7 +31,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithPermission;
+import com.bernardomg.security.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.data.domain.model.User;

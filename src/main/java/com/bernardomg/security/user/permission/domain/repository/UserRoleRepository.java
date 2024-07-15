@@ -3,7 +3,7 @@ package com.bernardomg.security.user.permission.domain.repository;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.role.domain.model.Role;
 
 public interface UserRoleRepository {
 

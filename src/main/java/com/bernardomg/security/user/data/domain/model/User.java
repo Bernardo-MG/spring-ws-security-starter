@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.data.domain.exception.EnabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;

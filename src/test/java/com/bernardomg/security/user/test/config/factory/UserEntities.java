@@ -3,7 +3,7 @@ package com.bernardomg.security.user.test.config.factory;
 
 import java.util.List;
 
-import com.bernardomg.security.authorization.role.test.config.factory.RoleEntities;
+import com.bernardomg.security.role.test.config.factory.RoleEntities;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 
 public final class UserEntities {

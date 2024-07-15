@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.permission.test.config.factory;
 
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.model.RolePermissionId;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionId;
 
 public final class RolePermissionEntities {
 
