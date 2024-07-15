@@ -54,7 +54,7 @@ import com.bernardomg.security.user.permission.domain.repository.UserPermissionR
  *
  */
 @Configuration(proxyBeanMethods = false)
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.adapter.inbound.jpa.model" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.data.adapter.inbound.jpa.model" })
 public class PermissionConfig {
 
     public PermissionConfig() {
