@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.permission.usecase.service.UserRoleService;

@@ -15,8 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;

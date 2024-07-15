@@ -3,7 +3,7 @@ package com.bernardomg.security.role.usecase.validation;
 
 import java.util.Optional;
 
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;

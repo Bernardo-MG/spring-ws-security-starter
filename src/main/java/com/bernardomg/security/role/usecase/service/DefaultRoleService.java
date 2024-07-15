@@ -30,9 +30,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.permission.domain.exception.MissingResourcePermissionException;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.data.domain.exception.MissingResourcePermissionException;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;

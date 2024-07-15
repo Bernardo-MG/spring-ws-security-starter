@@ -35,7 +35,7 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.login.adapter.outbound.cache.Logins;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
-import com.bernardomg.security.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 
 import lombok.AllArgsConstructor;
 

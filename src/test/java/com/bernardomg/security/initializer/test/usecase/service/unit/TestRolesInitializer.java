@@ -18,8 +18,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.initializer.usecase.service.DefaultRolesInitializerService;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;

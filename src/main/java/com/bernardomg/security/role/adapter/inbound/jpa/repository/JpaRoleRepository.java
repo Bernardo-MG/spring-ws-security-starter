@@ -35,10 +35,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.permission.domain.comparator.ResourcePermissionComparator;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionId;

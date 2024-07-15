@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;

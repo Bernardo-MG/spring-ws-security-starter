@@ -26,7 +26,7 @@ package com.bernardomg.security.role.domain.repository;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 
 /**
  * Role permission repository.

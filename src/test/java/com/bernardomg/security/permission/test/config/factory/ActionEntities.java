@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.permission.test.config.factory;
 
-import com.bernardomg.security.permission.adapter.inbound.jpa.model.ActionEntity;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionEntity;
 
 public final class ActionEntities {
 
