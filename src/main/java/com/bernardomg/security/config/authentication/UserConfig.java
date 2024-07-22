@@ -33,10 +33,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
 import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.event.LogInEvent;
+import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserRepository;

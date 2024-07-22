@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.authorization.permission.constant.Actions;
+import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.user.activation.adapter.outbound.rest.model.UserActivation;
 import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
 import com.bernardomg.security.user.data.adapter.outbound.cache.UserCaches;

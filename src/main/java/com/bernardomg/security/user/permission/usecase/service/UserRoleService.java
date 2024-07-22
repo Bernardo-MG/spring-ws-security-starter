@@ -26,7 +26,7 @@ package com.bernardomg.security.user.permission.usecase.service;
 
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.role.domain.model.Role;
 
 /**
  * User roles service.

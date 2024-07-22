@@ -26,7 +26,7 @@ package com.bernardomg.security.user.permission.domain.repository;
 
 import java.util.Collection;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 
 /**
  * User permissions repository.

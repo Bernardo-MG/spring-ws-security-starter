@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.bernardomg.security.authorization.permission.test.config.annotation.UserWithoutRole;
-import com.bernardomg.security.authorization.role.domain.model.Role;
-import com.bernardomg.security.authorization.role.test.config.annotation.RoleWithoutPermissions;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
+import com.bernardomg.security.permission.test.config.annotation.UserWithoutRole;
+import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
+import com.bernardomg.security.role.test.config.factory.Roles;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.pagination.AbstractPaginationIT;

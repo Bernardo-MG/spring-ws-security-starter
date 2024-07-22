@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.authorization.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenDecoder;
 import com.bernardomg.security.jwt.test.config.JwtTokens;
 import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;

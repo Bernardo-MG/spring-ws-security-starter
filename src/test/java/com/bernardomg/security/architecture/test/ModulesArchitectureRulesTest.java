@@ -25,6 +25,8 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.user.token..")
         .layer("User login validation")
         .definedBy("com.bernardomg.security.user.login..")
+        .layer("User security initializer")
+        .definedBy("com.bernardomg.security.user.initializer..")
 
         // Password modules
         .layer("Password notification")
@@ -33,15 +35,17 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.password.reset..")
         .layer("Password change")
         .definedBy("com.bernardomg.security.password.change..")
-        .layer("Password security initializer")
-        .definedBy("com.bernardomg.security.user.initializer..")
+
+        // Permission modules
+        .layer("Permissions data")
+        .definedBy("com.bernardomg.security.permission.data..")
+        .layer("Permissions initializer")
+        .definedBy("com.bernardomg.security.permission.initializer..")
 
         .layer("Roles")
-        .definedBy("com.bernardomg.security.authorization.role..")
-        .layer("Permissions")
-        .definedBy("com.bernardomg.security.authorization.permission..")
+        .definedBy("com.bernardomg.security.role..")
         .layer("Access")
-        .definedBy("com.bernardomg.security.authorization.access..")
+        .definedBy("com.bernardomg.security.access..")
         .layer("Login")
         .definedBy("com.bernardomg.security.login..")
         .layer("Account")
@@ -72,6 +76,8 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("User login validation")
         .mayOnlyBeAccessedByLayers("Config")
+        .whereLayer("User security initializer")
+        .mayOnlyBeAccessedByLayers("Config")
 
         // Password modules access
         .whereLayer("Password notification")
@@ -80,16 +86,19 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Password reset")
         .mayOnlyBeAccessedByLayers("Config")
-        .whereLayer("Password security initializer")
-        .mayOnlyBeAccessedByLayers("Config")
+
+        // Permission modules access
+        .whereLayer("Permissions data")
+        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "User tokens", "Roles", "Initializers", "Login",
+            "Access", "Config", "Spring", "Permissions initializer")
+        .whereLayer("Permissions initializer")
+        .mayOnlyBeAccessedByLayers("Permissions initializer", "Config", "Login", "Roles", "User security initializer")
 
         .whereLayer("Roles")
         .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "Initializers", "Config", "Spring")
-        .whereLayer("Permissions")
-        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "User tokens", "Roles", "Initializers", "Login",
-            "Access", "Config", "Spring", "Password security initializer")
         .whereLayer("Access")
-        .mayOnlyBeAccessedByLayers("Config", "Spring")
+        .mayOnlyBeAccessedByLayers("Config", "Spring", "Account", "Roles", "Password reset", "Password change", "Login",
+            "User activation", "Users data", "User tokens", "Users permissions")
         .whereLayer("Login")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("Initializers")

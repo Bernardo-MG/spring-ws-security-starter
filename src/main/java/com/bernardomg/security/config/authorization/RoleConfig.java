@@ -29,15 +29,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.authorization.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.initializer.RolePermissionRegister;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.JpaRoleRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.authorization.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.usecase.service.DefaultRoleService;
-import com.bernardomg.security.authorization.role.usecase.service.RoleService;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.role.adapter.inbound.initializer.RolePermissionRegister;
+import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRoleRepository;
+import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
+import com.bernardomg.security.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.role.usecase.service.DefaultRoleService;
+import com.bernardomg.security.role.usecase.service.RoleService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.permission.usecase.service.DefaultUserRoleService;
@@ -50,8 +50,8 @@ import com.bernardomg.security.user.permission.usecase.service.UserRoleService;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.authorization.role.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.authorization.role.adapter.inbound.jpa" })
+@ComponentScan({ "com.bernardomg.security.role.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.role.adapter.inbound.jpa" })
 public class RoleConfig {
 
     public RoleConfig() {

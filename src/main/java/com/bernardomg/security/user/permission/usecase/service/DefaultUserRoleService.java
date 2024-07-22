@@ -29,7 +29,7 @@ import java.util.Objects;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authorization.role.domain.model.Role;
+import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
