@@ -1,3 +1,4 @@
+
 package com.bernardomg.test.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +12,7 @@ public final class JsonUtils {
             throw new RuntimeException(e);
         }
     }
-    
+
     private JsonUtils() {
         super();
     }

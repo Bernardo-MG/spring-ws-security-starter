@@ -70,7 +70,8 @@ class TestPasswordResetController {
         changeRequest = new PasswordResetChange("newPassword");
 
         // GIVEN
-        willThrow(new RuntimeException("Service exception")).given(service).changePassword(anyString(), anyString());
+        willThrow(new RuntimeException("Service exception")).given(service)
+            .changePassword(anyString(), anyString());
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON)
@@ -98,7 +99,8 @@ class TestPasswordResetController {
         final PasswordReset resetRequest = new PasswordReset("test@example.com");
 
         // GIVEN
-        willThrow(new RuntimeException("Service exception")).given(service).startPasswordReset(anyString());
+        willThrow(new RuntimeException("Service exception")).given(service)
+            .startPasswordReset(anyString());
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset").contentType(MediaType.APPLICATION_JSON)
