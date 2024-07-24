@@ -25,6 +25,7 @@
 package com.bernardomg.security.user.activation.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -69,8 +69,7 @@ class TestUserActivationServiceValidateToken {
         final UserTokenStatus status;
 
         // GIVEN
-        Mockito.doThrow(ConsumedTokenException.class)
-            .when(tokenStore)
+        willThrow(ConsumedTokenException.class).given(tokenStore)
             .validate(Tokens.TOKEN);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 

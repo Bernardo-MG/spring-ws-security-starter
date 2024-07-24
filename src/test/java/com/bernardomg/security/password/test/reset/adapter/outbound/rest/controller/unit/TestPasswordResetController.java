@@ -2,8 +2,8 @@
 package com.bernardomg.security.password.test.reset.adapter.outbound.rest.controller.unit;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,8 +70,7 @@ class TestPasswordResetController {
         changeRequest = new PasswordResetChange("newPassword");
 
         // GIVEN
-        doThrow(new RuntimeException("Service exception")).when(service)
-            .changePassword(anyString(), anyString());
+        willThrow(new RuntimeException("Service exception")).given(service).changePassword(anyString(), anyString());
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON)
@@ -99,8 +98,7 @@ class TestPasswordResetController {
         final PasswordReset resetRequest = new PasswordReset("test@example.com");
 
         // GIVEN
-        doThrow(new RuntimeException("Service exception")).when(service)
-            .startPasswordReset(anyString());
+        willThrow(new RuntimeException("Service exception")).given(service).startPasswordReset(anyString());
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset").contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +112,7 @@ class TestPasswordResetController {
         final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
 
         // GIVEN
-        when(service.validateToken(anyString())).thenReturn(tokenStatus);
+        given(service.validateToken(anyString())).willReturn(tokenStatus);
 
         // WHEN + THEN
         mockMvc.perform(get("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON))
@@ -126,7 +124,7 @@ class TestPasswordResetController {
     void testValidateToken_ServiceThrowsException() throws Exception {
 
         // GIVEN
-        when(service.validateToken(anyString())).thenThrow(new RuntimeException("Service exception"));
+        given(service.validateToken(anyString())).willThrow(new RuntimeException("Service exception"));
 
         // WHEN + THEN
         mockMvc.perform(get("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON))
