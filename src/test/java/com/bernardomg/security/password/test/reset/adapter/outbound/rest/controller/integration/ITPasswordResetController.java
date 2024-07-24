@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test.reset.adapter.outbound.rest.controller.unit;
+package com.bernardomg.security.password.test.reset.adapter.outbound.rest.controller.integration;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -8,19 +8,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.bernardomg.TestApplication;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetController;
-import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetExceptionHandler;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordResetChange;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
@@ -28,24 +26,16 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.test.json.JsonUtils;
 
-@ExtendWith(MockitoExtension.class)
+@ContextConfiguration(classes = TestApplication.class)
+@WebMvcTest(controllers = PasswordResetController.class)
 @DisplayName("PasswordResetController")
-class TestPasswordResetController {
+class ITPasswordResetController {
 
-    @InjectMocks
-    private PasswordResetController controller;
+    @Autowired
+    private MockMvc              mockMvc;
 
-    private MockMvc                 mockMvc;
-
-    @Mock
-    private PasswordResetService    service;
-
-    @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(controller)
-            .setControllerAdvice(new PasswordResetExceptionHandler())
-            .build();
-    }
+    @MockBean
+    private PasswordResetService service;
 
     @Test
     @DisplayName("Can change password")
