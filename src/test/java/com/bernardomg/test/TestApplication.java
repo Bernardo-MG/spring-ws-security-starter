@@ -22,19 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg;
+package com.bernardomg.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.security.config.SecurityAutoConfiguration;
-import com.bernardomg.security.config.access.AccessAutoConfiguration;
-import com.bernardomg.security.config.account.AccountAutoConfiguration;
-import com.bernardomg.security.config.authentication.AuthenticationAutoConfiguration;
-import com.bernardomg.security.config.authorization.AuthorizationAutoConfiguration;
-import com.bernardomg.security.config.login.LoginAutoConfiguration;
-import com.bernardomg.security.config.web.WebSecurityAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -43,8 +35,7 @@ import com.bernardomg.security.config.web.WebSecurityAutoConfiguration;
  *
  */
 @SpringBootApplication
-@Import({ WebSecurityAutoConfiguration.class, AuthenticationAutoConfiguration.class, AuthorizationAutoConfiguration.class,
-    AccountAutoConfiguration.class,AccessAutoConfiguration.class,LoginAutoConfiguration.class,SecurityAutoConfiguration.class})
+@ComponentScan({ "com.bernardomg.security.config" })
 public class TestApplication {
 
     /**
