@@ -2,8 +2,8 @@
 package com.bernardomg.security.password.test.reset.adapter.outbound.rest.controller.unit;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,19 +26,11 @@ import com.bernardomg.security.password.reset.adapter.outbound.rest.model.Passwo
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bernardomg.test.json.JsonUtils;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PasswordResetController")
 class TestPasswordResetController {
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (final Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @InjectMocks
     private PasswordResetController controller;
@@ -58,52 +50,61 @@ class TestPasswordResetController {
     @Test
     @DisplayName("Can change password")
     void testChangePassword() throws Exception {
-        final PasswordResetChange changeRequest = new PasswordResetChange("newPassword");
+        final PasswordResetChange changeRequest;
+
+        // GIVEN
+        changeRequest = new PasswordResetChange("newPassword");
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(changeRequest)))
+            .content(JsonUtils.toJson(changeRequest)))
             .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("When changing the password, if the service throws an exception an error is returned")
+    @DisplayName("When changing the password, if the service throws an exception this is hidden")
     void testChangePassword_ServiceThrowsException() throws Exception {
-        final PasswordResetChange changeRequest = new PasswordResetChange("newPassword");
+        final PasswordResetChange changeRequest;
 
         // GIVEN
-        doThrow(new RuntimeException("Service exception")).when(service)
+        changeRequest = new PasswordResetChange("newPassword");
+
+        // GIVEN
+        willThrow(new RuntimeException("Service exception")).given(service)
             .changePassword(anyString(), anyString());
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(changeRequest)))
+            .content(JsonUtils.toJson(changeRequest)))
             .andExpect(status().isOk());
     }
 
     @Test
     @DisplayName("Can start password reset")
     void testStartPasswordReset() throws Exception {
-        final PasswordReset resetRequest = new PasswordReset("test@example.com");
+        final PasswordReset resetRequest;
+
+        // GIVEN
+        resetRequest = new PasswordReset("test@example.com");
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset").contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(resetRequest)))
+            .content(JsonUtils.toJson(resetRequest)))
             .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("When starting the password reset, if the service throws an exception an error is returned")
+    @DisplayName("When starting the password reset, if the service throws an exception this is hidden")
     void testStartPasswordReset_ServiceThrowsException() throws Exception {
         final PasswordReset resetRequest = new PasswordReset("test@example.com");
 
         // GIVEN
-        doThrow(new RuntimeException("Service exception")).when(service)
+        willThrow(new RuntimeException("Service exception")).given(service)
             .startPasswordReset(anyString());
 
         // WHEN + THEN
         mockMvc.perform(post("/password/reset").contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(resetRequest)))
+            .content(JsonUtils.toJson(resetRequest)))
             .andExpect(status().isOk());
     }
 
@@ -113,7 +114,7 @@ class TestPasswordResetController {
         final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
 
         // GIVEN
-        when(service.validateToken(anyString())).thenReturn(tokenStatus);
+        given(service.validateToken(anyString())).willReturn(tokenStatus);
 
         // WHEN + THEN
         mockMvc.perform(get("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON))
@@ -121,9 +122,11 @@ class TestPasswordResetController {
     }
 
     @Test
-    @DisplayName("When validating the token, if the service throws an exception an error is returned")
+    @DisplayName("When validating the token, if the service throws an exception this is hidden")
     void testValidateToken_ServiceThrowsException() throws Exception {
-        when(service.validateToken(anyString())).thenThrow(new RuntimeException("Service exception"));
+
+        // GIVEN
+        given(service.validateToken(anyString())).willThrow(new RuntimeException("Service exception"));
 
         // WHEN + THEN
         mockMvc.perform(get("/password/reset/{token}", "validToken").contentType(MediaType.APPLICATION_JSON))
