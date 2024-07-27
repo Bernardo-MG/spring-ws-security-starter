@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.jwt.config;
 
 import java.nio.charset.StandardCharsets;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
@@ -40,7 +40,6 @@ import com.bernardomg.security.jwt.encoding.TokenValidator;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenDecoder;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenValidator;
-import com.bernardomg.security.springframework.web.jwt.JwtSecurityConfigurer;
 
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -51,22 +50,17 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Martínez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(JwtProperties.class)
 @Slf4j
-public class JwtAuthConfig {
+public class JwtAutoConfiguration {
 
     /**
      * Default constructor.
      */
-    public JwtAuthConfig() {
+    public JwtAutoConfiguration() {
         super();
-    }
-
-    @Bean("jwtSecurityConfigurer")
-    public JwtSecurityConfigurer getJwtSecurityConfigurer(final TokenDecoder decoder,
-            final TokenValidator tokenValidator, final UserDetailsService userDetailsService) {
-        return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
     }
 
     /**

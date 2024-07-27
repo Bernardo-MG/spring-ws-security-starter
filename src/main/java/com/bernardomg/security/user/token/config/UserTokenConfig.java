@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authorization;
+package com.bernardomg.security.user.token.config;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

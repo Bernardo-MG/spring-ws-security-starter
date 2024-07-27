@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authorization;
+package com.bernardomg.security.permission.config;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,11 +54,12 @@ import com.bernardomg.security.user.permission.domain.repository.UserPermissionR
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.data.adapter.inbound.jpa" })
-public class PermissionConfig {
+public class PermissionAutoConfiguration {
 
-    public PermissionConfig() {
+    public PermissionAutoConfiguration() {
         super();
     }
 

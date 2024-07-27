@@ -22,18 +22,21 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.user.config;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -48,13 +51,19 @@ import com.bernardomg.security.user.initializer.adapter.inbound.UserPermissionRe
 import com.bernardomg.security.user.login.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.user.login.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
+import com.bernardomg.security.user.notification.adapter.outbound.email.DisabledUserNotificator;
+import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.permission.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
+import com.bernardomg.security.user.token.config.UserTokenConfig;
+import com.bernardomg.security.user.token.config.UserTokenProperties;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Password handling configuration.
@@ -70,15 +79,26 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.data.adapter.inbound.jpa",
         "com.bernardomg.security.user.permission.adapter.inbound.jpa" })
 @EnableConfigurationProperties({ LoginProperties.class })
-public class UserConfig {
+@Import({ UserTokenConfig.class })
+@Slf4j
+public class UserAutoConfiguration {
 
-    public UserConfig() {
+    public UserAutoConfiguration() {
         super();
     }
 
     @Bean("activateUserWhitelist")
     public WhitelistRoute getActivateUserWhitelist() {
         return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
+    }
+
+    @Bean("userNotificator")
+    // @ConditionalOnMissingBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
+    public UserNotificator getDefaultUserNotificator() {
+        // FIXME: This is not handling correctly the missing bean condition
+        log.debug("Disabled security messages");
+        return new DisabledUserNotificator();
     }
 
     @Bean("loginFailureBlockerListener")
@@ -103,6 +123,20 @@ public class UserConfig {
     public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
             final LoginProperties userAccessProperties) {
         return new DefaultUserLoginAttempsService(userAccessProperties.getMaxLoginAttempts(), userRepo);
+    }
+
+    @Bean("userNotificator")
+    // @ConditionalOnBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
+    public UserNotificator getUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSender,
+            final UserNotificatorProperties properties) {
+        // FIXME: This is not handling correctly the bean condition
+        log.debug("Using email for security messages");
+        log.debug("From mail: {}", properties.getFrom());
+        log.debug("Activate user URL: {}", properties.getActivateUser()
+            .getUrl());
+        return new SpringMailUserNotificator(templateEng, mailSender, properties.getFrom(), properties.getActivateUser()
+            .getUrl());
     }
 
     @Bean("userRepository")

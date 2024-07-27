@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.loader;
+package com.bernardomg.security.permission.initializer.config;
 
 import java.util.Collection;
 

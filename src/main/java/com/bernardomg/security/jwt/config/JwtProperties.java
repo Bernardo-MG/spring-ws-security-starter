@@ -22,23 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authorization;
+package com.bernardomg.security.jwt.config;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import java.time.Duration;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
- * Authorization auto configuration.
+ * JWT configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Import({ PermissionConfig.class, RoleConfig.class, UserTokenConfig.class })
-public class AuthorizationAutoConfiguration {
+@Validated
+@Data
+@ConfigurationProperties(prefix = "security.jwt")
+public final class JwtProperties {
 
-    public AuthorizationAutoConfiguration() {
-        super();
-    }
+    /**
+     * Secret seed for generating JWT tokens.
+     */
+    @NotEmpty
+    private String   secret;
+
+    /**
+     * Validity length, in seconds, for JWT tokens.
+     */
+    @NotNull
+    private Duration validity = Duration.ofHours(1);
 
 }

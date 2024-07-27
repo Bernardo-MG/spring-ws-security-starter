@@ -22,8 +22,33 @@
  * SOFTWARE.
  */
 
-/**
- * Authorization configuration.
- */
+package com.bernardomg.security.password.config;
 
-package com.bernardomg.security.config.authorization;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import lombok.Data;
+
+@Data
+@ConfigurationProperties(prefix = "email.security")
+public final class PasswordNotificatorProperties {
+
+    @Data
+    public final class PasswordRecoveryProperties {
+
+        /**
+         * Password recovery URL.
+         */
+        private String url;
+    }
+
+    /**
+     * Email from field.
+     */
+    private String                     from;
+
+    /**
+     * Password recovery properties.
+     */
+    private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
+
+}

@@ -22,38 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
-
-import java.time.Duration;
+package com.bernardomg.security.user.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * JWT configuration properties.
+ * Login configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Validated
 @Data
-@ConfigurationProperties(prefix = "security.jwt")
-public final class JwtProperties {
+@ConfigurationProperties(prefix = "security.login")
+public final class LoginProperties {
 
     /**
-     * Secret seed for generating JWT tokens.
-     */
-    @NotEmpty
-    private String   secret;
-
-    /**
-     * Validity length, in seconds, for JWT tokens.
+     * Max number of login attempts. Reaching this number locks the user.
      */
     @NotNull
-    private Duration validity = Duration.ofHours(1);
+    private int maxLoginAttempts = 3;
 
 }

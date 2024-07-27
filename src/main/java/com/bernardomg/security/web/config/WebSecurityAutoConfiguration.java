@@ -25,7 +25,13 @@
 package com.bernardomg.security.web.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.bernardomg.security.jwt.encoding.TokenDecoder;
+import com.bernardomg.security.jwt.encoding.TokenValidator;
+import com.bernardomg.security.springframework.web.jwt.JwtSecurityConfigurer;
 
 /**
  * Access auto configuration.
@@ -39,6 +45,12 @@ public class WebSecurityAutoConfiguration {
 
     public WebSecurityAutoConfiguration() {
         super();
+    }
+
+    @Bean("jwtSecurityConfigurer")
+    public JwtSecurityConfigurer getJwtSecurityConfigurer(final TokenDecoder decoder,
+            final TokenValidator tokenValidator, final UserDetailsService userDetailsService) {
+        return new JwtSecurityConfigurer(userDetailsService, tokenValidator, decoder);
     }
 
 }

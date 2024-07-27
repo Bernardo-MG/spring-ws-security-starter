@@ -22,23 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.user.config;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Authentication auto configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@AutoConfiguration
-@Import({ JwtAuthConfig.class, UserConfig.class, PasswordConfig.class, NotificatorConfig.class })
-public class AuthenticationAutoConfiguration {
+import lombok.Data;
 
-    public AuthenticationAutoConfiguration() {
-        super();
+@Data
+@ConfigurationProperties(prefix = "email.security")
+public final class UserNotificatorProperties {
+
+    @Data
+    public final class ActivateUserProperties {
+
+        private String url;
     }
+
+    private ActivateUserProperties activateUser = new ActivateUserProperties();
+
+    private String                 from;
 
 }

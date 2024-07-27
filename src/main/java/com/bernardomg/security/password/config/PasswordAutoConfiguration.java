@@ -22,29 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.password.config;
 
 import java.security.SecureRandom;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.config.authorization.UserTokenProperties;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.password.notification.adapter.outbound.disabled.DisabledPasswordNotificator;
+import com.bernardomg.security.password.notification.adapter.outbound.email.SpringMailPasswordNotificator;
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.token.config.UserTokenProperties;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Password handling configuration.
@@ -52,13 +61,25 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.password.reset.adapter.outbound.rest.controller",
         "com.bernardomg.security.password.change.adapter.outbound.rest.controller" })
-public class PasswordConfig {
+@EnableConfigurationProperties({ PasswordNotificatorProperties.class })
+@Slf4j
+public class PasswordAutoConfiguration {
 
-    public PasswordConfig() {
+    public PasswordAutoConfiguration() {
         super();
+    }
+
+    @Bean("passwordNotificator")
+    // @ConditionalOnMissingBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
+    public PasswordNotificator getDefaultPasswordNotificator() {
+        // FIXME: This is not handling correctly the missing bean condition
+        log.debug("Disabled security messages");
+        return new DisabledPasswordNotificator();
     }
 
     @Bean("passwordChangeService")
@@ -70,6 +91,21 @@ public class PasswordConfig {
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
+    }
+
+    @Bean("passwordNotificator")
+    // @ConditionalOnBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
+    public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
+            final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
+        // FIXME: This is not handling correctly the bean condition
+        log.debug("Using email for security messages");
+        log.debug("From mail: {}", properties.getFrom());
+        log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
+            .getUrl());
+        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.getFrom(),
+            properties.getPasswordRecovery()
+                .getUrl());
     }
 
     @Bean("passwordRecoveryService")

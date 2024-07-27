@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.springframework.config;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,10 +43,11 @@ import com.bernardomg.security.user.permission.domain.repository.UserPermissionR
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-public class SpringConfig {
+public class SpringAutoConfiguration {
 
-    public SpringConfig() {
+    public SpringAutoConfiguration() {
         super();
     }
 

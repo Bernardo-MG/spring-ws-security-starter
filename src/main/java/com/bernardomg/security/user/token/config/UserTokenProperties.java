@@ -22,33 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authentication;
+package com.bernardomg.security.user.token.config;
+
+import java.time.Duration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+/**
+ * Security token configuration properties.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Validated
 @Data
-@ConfigurationProperties(prefix = "email.security")
-public final class PasswordNotificatorProperties {
-
-    @Data
-    public final class PasswordRecoveryProperties {
-
-        /**
-         * Password recovery URL.
-         */
-        private String url;
-    }
+@ConfigurationProperties(prefix = "security.token")
+public final class UserTokenProperties {
 
     /**
-     * Email from field.
+     * Validity length, in seconds, for tokens.
      */
-    private String                     from;
-
-    /**
-     * Password recovery properties.
-     */
-    private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
+    @NotNull
+    private Duration validity = Duration.ofHours(1);
 
 }

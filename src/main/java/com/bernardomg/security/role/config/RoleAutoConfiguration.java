@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.authorization;
+package com.bernardomg.security.role.config;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -49,12 +50,13 @@ import com.bernardomg.security.user.permission.usecase.service.UserRoleService;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.role.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.role.adapter.inbound.jpa" })
-public class RoleConfig {
+public class RoleAutoConfiguration {
 
-    public RoleConfig() {
+    public RoleAutoConfiguration() {
         super();
     }
 
