@@ -23,7 +23,7 @@
  */
 
 /**
- * Initializer configuration.
+ * Web security configuration.
  */
 
-package com.bernardomg.security.config.initializer;
+package com.bernardomg.security.web.config;

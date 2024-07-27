@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.login;
+package com.bernardomg.security.login.config;
 
 import java.util.function.BiPredicate;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -54,19 +55,16 @@ import com.bernardomg.security.user.permission.domain.repository.UserPermissionR
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
- * Login configuration.
+ * Login auto configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.login.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa" })
-public class LoginConfig {
-
-    public LoginConfig() {
-        super();
-    }
+public class LoginAutoConfiguration {
 
     @Bean("loginEventRegisterListener")
     public LoginEventRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {

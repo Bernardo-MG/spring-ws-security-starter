@@ -22,8 +22,23 @@
  * SOFTWARE.
  */
 
-/**
- * Spring Framework components configuration.
- */
+package com.bernardomg.security.web.config;
 
-package com.bernardomg.security.config.spring;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
+
+/**
+ * Access auto configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@AutoConfiguration
+@Import({ WebSecurityConfig.class })
+public class WebSecurityAutoConfiguration {
+
+    public WebSecurityAutoConfiguration() {
+        super();
+    }
+
+}

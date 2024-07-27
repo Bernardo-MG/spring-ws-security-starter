@@ -22,10 +22,18 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.account;
+package com.bernardomg.security.account.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+import com.bernardomg.security.account.adapter.inbound.repository.JpaAccountRepository;
+import com.bernardomg.security.account.domain.repository.AccountRepository;
+import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.account.usecase.service.DefaultAccountService;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 
 /**
  * Account auto configuration.
@@ -34,11 +42,18 @@ import org.springframework.context.annotation.Import;
  *
  */
 @AutoConfiguration
-@Import({ AccountConfig.class })
+@Configuration(proxyBeanMethods = false)
+@ComponentScan({ "com.bernardomg.security.account.adapter.outbound.rest.controller" })
 public class AccountAutoConfiguration {
 
-    public AccountAutoConfiguration() {
-        super();
+    @Bean("accountRepository")
+    public AccountRepository getAccountRepository(final UserSpringRepository userSpringRepository) {
+        return new JpaAccountRepository(userSpringRepository);
+    }
+
+    @Bean("accountService")
+    public AccountService getAccountService(final AccountRepository accountRepository) {
+        return new DefaultAccountService(accountRepository);
     }
 
 }

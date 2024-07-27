@@ -22,23 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.web;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
-
 /**
- * Access auto configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Initializer configuration.
  */
-@AutoConfiguration
-@Import({ WebSecurityConfig.class })
-public class WebSecurityAutoConfiguration {
 
-    public WebSecurityAutoConfiguration() {
-        super();
-    }
-
-}
+package com.bernardomg.security.initializer.config;

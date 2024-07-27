@@ -23,7 +23,7 @@
  */
 
 /**
- * Login configuration.
+ * Account configuration.
  */
 
-package com.bernardomg.security.config.login;
+package com.bernardomg.security.account.config;

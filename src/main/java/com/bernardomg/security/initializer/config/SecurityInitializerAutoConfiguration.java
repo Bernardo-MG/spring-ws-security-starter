@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.initializer;
+package com.bernardomg.security.initializer.config;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,17 +41,14 @@ import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 /**
- * Security data initializer configuration.
+ * Security data initializer auto configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-public class SecurityInitializerConfig {
-
-    public SecurityInitializerConfig() {
-        super();
-    }
+public class SecurityInitializerAutoConfiguration {
 
     @Bean(name = "rolesInitializer", initMethod = "initialize")
     @DependsOn("permissionsLoader")

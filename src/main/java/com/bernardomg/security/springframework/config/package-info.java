@@ -22,21 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.config.access;
-
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-
 /**
- * Access auto configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Spring Framework components configuration.
  */
-@AutoConfiguration
-public class AccessAutoConfiguration {
 
-    public AccessAutoConfiguration() {
-        super();
-    }
-
-}
+package com.bernardomg.security.springframework.config;
