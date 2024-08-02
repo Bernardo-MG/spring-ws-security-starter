@@ -25,10 +25,10 @@
 package com.bernardomg.security.ws.error;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
@@ -53,15 +53,11 @@ public class SecurityExceptionHandler {
     }
 
     @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
-    public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
-            throws Exception {
-        final ErrorResponse response;
-
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public final ErrorResponse handleUnauthorizedException(final Exception ex, final WebRequest request) {
         log.warn(ex.getMessage(), ex);
 
-        response = ErrorResponse.of("Unauthorized");
-
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return ErrorResponse.of("Unauthorized");
     }
 
 }
