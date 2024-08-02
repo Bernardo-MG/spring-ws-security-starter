@@ -23,7 +23,7 @@
  */
 
 /**
- * Security error handling.
+ * MVC error handling.
  */
 
 package com.bernardomg.security.ws.error;

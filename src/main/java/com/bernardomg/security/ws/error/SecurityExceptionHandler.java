@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,10 @@
 package com.bernardomg.security.ws.error;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
@@ -51,13 +52,16 @@ public class SecurityExceptionHandler {
         super();
     }
 
-    @ExceptionHandler({ AccessDeniedException.class })
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public final ErrorResponse handleAccessDeniedException(final Exception ex, final WebRequest request)
+    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
+    public final ResponseEntity<Object> handleUnauthorizedException(final Exception ex, final WebRequest request)
             throws Exception {
+        final ErrorResponse response;
+
         log.warn(ex.getMessage(), ex);
 
-        return ErrorResponse.of("Access denied");
+        response = ErrorResponse.of("Unauthorized");
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
 }
