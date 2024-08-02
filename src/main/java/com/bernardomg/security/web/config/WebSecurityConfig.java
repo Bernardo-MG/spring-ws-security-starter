@@ -49,6 +49,7 @@ import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -74,6 +75,11 @@ public class WebSecurityConfig {
     @Bean("actuatorWhitelist")
     public WhitelistRoute getActuatorWhitelist() {
         return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
+    }
+
+    @Bean("securityExceptionHandler")
+    public SecurityExceptionHandler getSecurityExceptionHandler() {
+        return new SecurityExceptionHandler();
     }
 
     /**

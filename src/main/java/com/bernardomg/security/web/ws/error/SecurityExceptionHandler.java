@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.ws.error;
+package com.bernardomg.security.web.ws.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
