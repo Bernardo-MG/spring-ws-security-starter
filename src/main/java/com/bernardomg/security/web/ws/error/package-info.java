@@ -26,4 +26,4 @@
  * MVC error handling.
  */
 
-package com.bernardomg.security.mvc.error;
+package com.bernardomg.security.web.ws.error;

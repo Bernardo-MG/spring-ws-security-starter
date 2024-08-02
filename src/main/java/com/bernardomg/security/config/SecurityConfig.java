@@ -24,8 +24,11 @@
 
 package com.bernardomg.security.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
+import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
 /**
  * Security configuration.
@@ -39,6 +42,11 @@ public class SecurityConfig {
 
     public SecurityConfig() {
         super();
+    }
+
+    @Bean("securityExceptionHandler")
+    public SecurityExceptionHandler getSecurityExceptionHandler() {
+        return new SecurityExceptionHandler();
     }
 
 }
