@@ -13,7 +13,7 @@ public final class ConfigurationRules {
     static final ArchRule configuration_should_be_in_configuration_package = classes()
         .that(Predicates.areConfigurationClasses())
         .should()
-        .resideInAPackage("..config..");
+        .resideInAPackage("..configuration..");
 
     @ArchTest
     static final ArchRule configuration_should_be_suffixed                 = classes()
