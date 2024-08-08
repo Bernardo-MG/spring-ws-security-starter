@@ -42,6 +42,7 @@ import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRep
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
+import com.bernardomg.security.user.data.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -55,7 +56,6 @@ import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMa
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.permission.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
-import com.bernardomg.security.user.token.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.token.config.UserTokenConfig;
 import com.bernardomg.security.user.token.config.UserTokenProperties;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;

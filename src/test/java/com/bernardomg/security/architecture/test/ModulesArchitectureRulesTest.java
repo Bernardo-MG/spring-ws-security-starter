@@ -25,8 +25,6 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.user.token..")
         .layer("User login validation")
         .definedBy("com.bernardomg.security.user.login..")
-        .layer("User security initializer")
-        .definedBy("com.bernardomg.security.user.initializer..")
 
         // Password modules
         .layer("Password notification")
@@ -39,8 +37,10 @@ public class ModulesArchitectureRulesTest {
         // Permission modules
         .layer("Permissions data")
         .definedBy("com.bernardomg.security.permission.data..")
-        .layer("Permissions initializer")
-        .definedBy("com.bernardomg.security.permission.initializer..")
+
+        // Login
+        .layer("Login")
+        .definedBy("com.bernardomg.security.login..")
 
         // Web modules
         .layer("Web security")
@@ -50,8 +50,6 @@ public class ModulesArchitectureRulesTest {
         .definedBy("com.bernardomg.security.role..")
         .layer("Access")
         .definedBy("com.bernardomg.security.access..")
-        .layer("Login")
-        .definedBy("com.bernardomg.security.login..")
         .layer("Account")
         .definedBy("com.bernardomg.security.account..")
         .layer("Initializers")

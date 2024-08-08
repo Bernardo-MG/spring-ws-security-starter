@@ -22,13 +22,13 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.initializer.config;
+package com.bernardomg.security.permission.config;
 
 import java.util.Collection;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.permission.adapter.inbound.initializer.DefaultPermissionRegister;
 import com.bernardomg.security.permission.adapter.inbound.initializer.PermissionRegister;
@@ -43,11 +43,11 @@ import com.bernardomg.security.permission.data.domain.repository.ResourceReposit
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@Configuration
 @ConditionalOnProperty(name = "initialize.permission", havingValue = "true", matchIfMissing = true)
-public class PermissionLoaderAutoConfiguration {
+public class PermissionLoaderConfiguration {
 
-    public PermissionLoaderAutoConfiguration() {
+    public PermissionLoaderConfiguration() {
         super();
     }
 
