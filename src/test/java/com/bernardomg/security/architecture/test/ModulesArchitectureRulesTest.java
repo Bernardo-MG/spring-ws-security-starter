@@ -42,6 +42,10 @@ public class ModulesArchitectureRulesTest {
         .layer("Permissions initializer")
         .definedBy("com.bernardomg.security.permission.initializer..")
 
+        // Web modules
+        .layer("Web security")
+        .definedBy("com.bernardomg.security.web..")
+
         .layer("Roles")
         .definedBy("com.bernardomg.security.role..")
         .layer("Access")
@@ -104,8 +108,10 @@ public class ModulesArchitectureRulesTest {
         .whereLayer("Initializers")
         .mayOnlyBeAccessedByLayers("Config")
         .whereLayer("JWT")
-        .mayOnlyBeAccessedByLayers("Login", "Config", "Spring")
+        .mayOnlyBeAccessedByLayers("Login", "Config", "Spring", "Web security")
         .whereLayer("Event")
-        .mayOnlyBeAccessedByLayers("Login", "User login validation", "Config");
+        .mayOnlyBeAccessedByLayers("Login", "User login validation", "Config")
+        .whereLayer("Web security")
+        .mayNotBeAccessedByAnyLayer();
 
 }

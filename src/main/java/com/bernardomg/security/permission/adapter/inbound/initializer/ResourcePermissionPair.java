@@ -22,34 +22,42 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.initializer.adapter.inbound;
+package com.bernardomg.security.permission.adapter.inbound.initializer;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.bernardomg.security.permission.initializer.adapter.inbound.PermissionRegister;
-import com.bernardomg.security.permission.initializer.adapter.inbound.ResourcePermissionPair;
+import lombok.Builder;
+import lombok.Value;
 
 /**
- * Default permission register. Contains all the initial permission configuration.
+ * Resource and action pair for the permissions loader. This pair represents a permission which to be loaded.
  */
-public final class TokenPermissionRegister implements PermissionRegister {
+@Value
+@Builder(setterPrefix = "with")
+public final class ResourcePermissionPair {
 
-    @Override
-    public final Collection<String> getActions() {
-        return List.of();
+    /**
+     * Creates a resource permission pair with the received resource and action.
+     *
+     * @param resource
+     *            permission resource
+     * @param action
+     *            permission action
+     * @return resource permission pair for the received resource and action
+     */
+    public static final ResourcePermissionPair of(final String resource, final String action) {
+        return ResourcePermissionPair.builder()
+            .withAction(action)
+            .withResource(resource)
+            .build();
     }
 
-    @Override
-    public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(ResourcePermissionPair.of("USER_TOKEN", "READ"),
-            ResourcePermissionPair.of("USER_TOKEN", "UPDATE"), ResourcePermissionPair.of("USER_TOKEN", "DELETE"),
-            ResourcePermissionPair.of("USER_TOKEN", "VIEW"));
-    }
+    /**
+     * Action name.
+     */
+    private final String action;
 
-    @Override
-    public final Collection<String> getResources() {
-        return List.of("USER_TOKEN");
-    }
+    /**
+     * Resource name.
+     */
+    private final String resource;
 
 }

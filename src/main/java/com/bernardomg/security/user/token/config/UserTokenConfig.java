@@ -31,7 +31,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.initializer.adapter.inbound.TokenPermissionRegister;
+import com.bernardomg.security.user.token.adapter.inbound.initializer.TokenPermissionRegister;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;

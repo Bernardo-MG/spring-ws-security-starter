@@ -22,35 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.initializer.adapter.inbound;
-
-import java.util.Collection;
-
 /**
- * Permission register. Contains permission info to persist. The actions and resources are expected to be new. The
- * permissions are expected to be for existing actions and resources.
+ * User initializer adapters.
  */
-public interface PermissionRegister {
 
-    /**
-     * Returns the actions to register.
-     *
-     * @return the actions to register
-     */
-    public Collection<String> getActions();
-
-    /**
-     * Returns the permissions to register.
-     *
-     * @return the permissions to register
-     */
-    public Collection<ResourcePermissionPair> getPermissions();
-
-    /**
-     * Returns the resources to register.
-     *
-     * @return the resources to register
-     */
-    public Collection<String> getResources();
-
-}
+package com.bernardomg.security.user.token.adapter.inbound.initializer;

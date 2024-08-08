@@ -22,8 +22,29 @@
  * SOFTWARE.
  */
 
-/**
- * User initializer adapters.
- */
+package com.bernardomg.security.permission.adapter.inbound.initializer;
 
-package com.bernardomg.security.user.initializer.adapter.inbound;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * Default permission register. Contains all the initial permission configuration.
+ */
+public final class DefaultPermissionRegister implements PermissionRegister {
+
+    @Override
+    public final Collection<String> getActions() {
+        return List.of("CREATE", "READ", "UPDATE", "DELETE", "VIEW");
+    }
+
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        return List.of();
+    }
+
+    @Override
+    public final Collection<String> getResources() {
+        return List.of();
+    }
+
+}

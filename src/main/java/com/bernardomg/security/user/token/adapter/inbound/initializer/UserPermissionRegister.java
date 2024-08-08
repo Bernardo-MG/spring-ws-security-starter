@@ -22,42 +22,34 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.initializer.adapter.inbound;
+package com.bernardomg.security.user.token.adapter.inbound.initializer;
 
-import lombok.Builder;
-import lombok.Value;
+import java.util.Collection;
+import java.util.List;
+
+import com.bernardomg.security.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.permission.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
- * Resource and action pair for the permissions loader. This pair represents a permission which to be loaded.
+ * Default permission register. Contains all the initial permission configuration.
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class ResourcePermissionPair {
+public final class UserPermissionRegister implements PermissionRegister {
 
-    /**
-     * Creates a resource permission pair with the received resource and action.
-     *
-     * @param resource
-     *            permission resource
-     * @param action
-     *            permission action
-     * @return resource permission pair for the received resource and action
-     */
-    public static final ResourcePermissionPair of(final String resource, final String action) {
-        return ResourcePermissionPair.builder()
-            .withAction(action)
-            .withResource(resource)
-            .build();
+    @Override
+    public final Collection<String> getActions() {
+        return List.of();
     }
 
-    /**
-     * Action name.
-     */
-    private final String action;
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        return List.of(ResourcePermissionPair.of("USER", "CREATE"), ResourcePermissionPair.of("USER", "READ"),
+            ResourcePermissionPair.of("USER", "UPDATE"), ResourcePermissionPair.of("USER", "DELETE"),
+            ResourcePermissionPair.of("USER", "VIEW"));
+    }
 
-    /**
-     * Resource name.
-     */
-    private final String resource;
+    @Override
+    public final Collection<String> getResources() {
+        return List.of("USER");
+    }
 
 }

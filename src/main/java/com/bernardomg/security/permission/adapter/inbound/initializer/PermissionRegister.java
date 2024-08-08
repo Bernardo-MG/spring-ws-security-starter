@@ -22,34 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.initializer.adapter.inbound;
+package com.bernardomg.security.permission.adapter.inbound.initializer;
 
 import java.util.Collection;
-import java.util.List;
-
-import com.bernardomg.security.permission.initializer.adapter.inbound.PermissionRegister;
-import com.bernardomg.security.permission.initializer.adapter.inbound.ResourcePermissionPair;
 
 /**
- * Default permission register. Contains all the initial permission configuration.
+ * Permission register. Contains permission info to persist. The actions and resources are expected to be new. The
+ * permissions are expected to be for existing actions and resources.
  */
-public final class UserPermissionRegister implements PermissionRegister {
+public interface PermissionRegister {
 
-    @Override
-    public final Collection<String> getActions() {
-        return List.of();
-    }
+    /**
+     * Returns the actions to register.
+     *
+     * @return the actions to register
+     */
+    public Collection<String> getActions();
 
-    @Override
-    public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(ResourcePermissionPair.of("USER", "CREATE"), ResourcePermissionPair.of("USER", "READ"),
-            ResourcePermissionPair.of("USER", "UPDATE"), ResourcePermissionPair.of("USER", "DELETE"),
-            ResourcePermissionPair.of("USER", "VIEW"));
-    }
+    /**
+     * Returns the permissions to register.
+     *
+     * @return the permissions to register
+     */
+    public Collection<ResourcePermissionPair> getPermissions();
 
-    @Override
-    public final Collection<String> getResources() {
-        return List.of("USER");
-    }
+    /**
+     * Returns the resources to register.
+     *
+     * @return the resources to register
+     */
+    public Collection<String> getResources();
 
 }

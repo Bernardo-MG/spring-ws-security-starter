@@ -12,12 +12,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.permission.adapter.inbound.initializer.PermissionRegister;
+import com.bernardomg.security.permission.adapter.inbound.initializer.PermissionsLoader;
+import com.bernardomg.security.permission.adapter.inbound.initializer.ResourcePermissionPair;
 import com.bernardomg.security.permission.data.domain.repository.ActionRepository;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
-import com.bernardomg.security.permission.initializer.adapter.inbound.PermissionRegister;
-import com.bernardomg.security.permission.initializer.adapter.inbound.PermissionsLoader;
-import com.bernardomg.security.permission.initializer.adapter.inbound.ResourcePermissionPair;
 import com.bernardomg.security.permission.test.config.factory.Actions;
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
