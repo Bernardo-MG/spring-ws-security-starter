@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Import;
  *
  */
 @AutoConfiguration
-@Import({ WebSecurityConfig.class })
+@Import({ WebSecurityConfiguration.class })
 public class WebSecurityAutoConfiguration {
 
     public WebSecurityAutoConfiguration() {

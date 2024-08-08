@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Import;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@Import({ UserTokenConfig.class })
+@Import({ UserTokenConfiguration.class })
 public class UserTokenAutoConfiguration {
 
     public UserTokenAutoConfiguration() {

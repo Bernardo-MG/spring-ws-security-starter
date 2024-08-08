@@ -69,12 +69,12 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebSecurity
 @EnableConfigurationProperties(CorsProperties.class)
 @Slf4j
-public class WebSecurityConfig {
+public class WebSecurityConfiguration {
 
     /**
      * Default constructor.
      */
-    public WebSecurityConfig() {
+    public WebSecurityConfiguration() {
         super();
     }
 

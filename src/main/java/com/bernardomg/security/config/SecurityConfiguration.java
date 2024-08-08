@@ -35,9 +35,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  */
 @Configuration(proxyBeanMethods = false)
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-public class SecurityConfig {
+public class SecurityConfiguration {
 
-    public SecurityConfig() {
+    public SecurityConfiguration() {
         super();
     }
 

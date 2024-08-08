@@ -50,9 +50,9 @@ import com.bernardomg.security.user.token.usecase.service.UserTokenService;
 @EnableConfigurationProperties(UserTokenProperties.class)
 @ComponentScan({ "com.bernardomg.security.user.token.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.token.adapter.inbound.jpa" })
-public class UserTokenConfig {
+public class UserTokenConfiguration {
 
-    public UserTokenConfig() {
+    public UserTokenConfiguration() {
         super();
     }
 
