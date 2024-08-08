@@ -7,6 +7,6 @@ com.bernardomg.security.password.config.PasswordAutoConfiguration
 com.bernardomg.security.permission.config.PermissionAutoConfiguration
 com.bernardomg.security.permission.initializer.config.PermissionLoaderAutoConfiguration
 com.bernardomg.security.role.config.RoleAutoConfiguration
-com.bernardomg.security.springframework.config.SpringConfig
+com.bernardomg.security.springframework.config.SpringAutoConfiguration
 com.bernardomg.security.user.config.UserAutoConfiguration
 com.bernardomg.security.web.config.WebSecurityAutoConfiguration
