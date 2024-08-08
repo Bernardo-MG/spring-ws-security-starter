@@ -39,18 +39,24 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import com.bernardomg.security.jwt.encoding.TokenDecoder;
+import com.bernardomg.security.jwt.encoding.TokenValidator;
 import com.bernardomg.security.springframework.web.ErrorResponseAuthenticationEntryPoint;
+import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
+import jakarta.servlet.Filter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -95,6 +101,12 @@ public class WebSecurityConfig {
      *            security configurers
      * @param whitelist
      *            routes whitelist
+     * @param decoder
+     *            token decoder
+     * @param tokenValidator
+     *            token validator
+     * @param userDetailsService
+     *            user details service
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
@@ -103,11 +115,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
             final HandlerMappingIntrospector handlerMappingIntrospector, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
-            final Collection<WhitelistRoute> whitelist) throws Exception {
+            final Collection<WhitelistRoute> whitelist, final TokenDecoder decoder, final TokenValidator tokenValidator,
+            final UserDetailsService userDetailsService) throws Exception {
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
+        final Filter                                                                                               jwtTokenFilter;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
+        jwtTokenFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
 
         whitelister = new WhitelistCustomizer(whitelist, handlerMappingIntrospector);
         http
@@ -116,6 +131,7 @@ public class WebSecurityConfig {
             // Authenticate all others
             .authorizeHttpRequests(c -> c.anyRequest()
                 .authenticated())
+            .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter.class)
             // CSRF and CORS
             .csrf(CsrfConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
