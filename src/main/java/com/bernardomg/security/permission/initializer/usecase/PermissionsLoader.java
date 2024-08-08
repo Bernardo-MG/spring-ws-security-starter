@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import com.bernardomg.security.permission.data.adapter.inbound.initializer.ResourcePermissionPair;
 import com.bernardomg.security.permission.data.domain.model.Action;
 import com.bernardomg.security.permission.data.domain.model.Resource;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;

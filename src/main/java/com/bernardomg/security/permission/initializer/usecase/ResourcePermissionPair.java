@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.data.adapter.inbound.initializer;
+package com.bernardomg.security.permission.initializer.usecase;
 
 import lombok.Builder;
 import lombok.Value;

@@ -27,8 +27,6 @@ package com.bernardomg.security.permission.initializer.usecase;
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.security.permission.data.adapter.inbound.initializer.ResourcePermissionPair;
-
 /**
  * Default permission register. Contains all the initial permission configuration.
  */
