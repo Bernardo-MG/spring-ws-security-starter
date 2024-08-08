@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;

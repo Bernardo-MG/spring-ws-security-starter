@@ -26,7 +26,7 @@ public class ModulesArchitectureRulesTest {
         .layer("User login")
         .definedBy("com.bernardomg.security.user.login..")
         .layer("User configuration")
-        .definedBy("com.bernardomg.security.user.config..")
+        .definedBy("com.bernardomg.security.user.configuration..")
 
         // Password modules
         .layer("Password notification")
@@ -38,7 +38,7 @@ public class ModulesArchitectureRulesTest {
         .layer("Password notification")
         .definedBy("com.bernardomg.security.password.notification..")
         .layer("Password configuration")
-        .definedBy("com.bernardomg.security.password.config..")
+        .definedBy("com.bernardomg.security.password.configuration..")
 
         // Permission modules
         .layer("Permissions data")
@@ -46,7 +46,7 @@ public class ModulesArchitectureRulesTest {
         .layer("Permissions initializer")
         .definedBy("com.bernardomg.security.permission.initializer..")
         .layer("Permissions configuration")
-        .definedBy("com.bernardomg.security.permission.config..")
+        .definedBy("com.bernardomg.security.permission.configuration..")
 
         // Login
         .layer("Login")
@@ -67,7 +67,7 @@ public class ModulesArchitectureRulesTest {
         .layer("JWT")
         .definedBy("com.bernardomg.security.jwt..")
         .layer("Config")
-        .definedBy("com.bernardomg.security.config..")
+        .definedBy("com.bernardomg.security.configuration..")
         .layer("Spring")
         .definedBy("com.bernardomg.security.spring..")
         .layer("Event")

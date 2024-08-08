@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.user.token.test.config.factory;
 
-import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.token.domain.model.UserTokenPatch;
 
 public final class UserTokenPatches {

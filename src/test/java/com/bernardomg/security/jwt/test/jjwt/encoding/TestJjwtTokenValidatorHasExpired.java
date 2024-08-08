@@ -9,9 +9,9 @@ import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenValidator;
-import com.bernardomg.security.jwt.test.config.JwtTokenDatas;
-import com.bernardomg.security.jwt.test.config.JwtTokens;
-import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.jwt.test.configuration.JwtTokenDatas;
+import com.bernardomg.security.jwt.test.configuration.JwtTokens;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 
 @DisplayName("JjwtTokenValidator - has expired")
 class TestJjwtTokenValidatorHasExpired {
