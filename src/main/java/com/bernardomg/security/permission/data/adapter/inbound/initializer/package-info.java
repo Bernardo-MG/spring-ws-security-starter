@@ -22,34 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.role.adapter.inbound.initializer;
-
-import java.util.Collection;
-import java.util.List;
-
-import com.bernardomg.security.permission.data.adapter.inbound.initializer.ResourcePermissionPair;
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
-
 /**
- * Default permission register. Contains all the initial permission configuration.
+ * Permission loader.
  */
-public final class RolePermissionRegister implements PermissionRegister {
 
-    @Override
-    public final Collection<String> getActions() {
-        return List.of();
-    }
-
-    @Override
-    public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(ResourcePermissionPair.of("ROLE", "CREATE"), ResourcePermissionPair.of("ROLE", "READ"),
-            ResourcePermissionPair.of("ROLE", "UPDATE"), ResourcePermissionPair.of("ROLE", "DELETE"),
-            ResourcePermissionPair.of("ROLE", "VIEW"));
-    }
-
-    @Override
-    public final Collection<String> getResources() {
-        return List.of("ROLE");
-    }
-
-}
+package com.bernardomg.security.permission.data.adapter.inbound.initializer;

@@ -22,8 +22,23 @@
  * SOFTWARE.
  */
 
-/**
- * Permission loader.
- */
+package com.bernardomg.security.user.token.config;
 
-package com.bernardomg.security.permission.adapter.inbound.initializer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+/**
+ * Password handling configuration.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+@Configuration(proxyBeanMethods = false)
+@Import({ UserTokenConfig.class })
+public class UserTokenAutoConfiguration {
+
+    public UserTokenAutoConfiguration() {
+        super();
+    }
+
+}

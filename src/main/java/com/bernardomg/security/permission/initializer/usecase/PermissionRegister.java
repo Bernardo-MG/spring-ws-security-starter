@@ -22,9 +22,11 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.adapter.inbound.initializer;
+package com.bernardomg.security.permission.initializer.usecase;
 
 import java.util.Collection;
+
+import com.bernardomg.security.permission.data.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
  * Permission register. Contains permission info to persist. The actions and resources are expected to be new. The

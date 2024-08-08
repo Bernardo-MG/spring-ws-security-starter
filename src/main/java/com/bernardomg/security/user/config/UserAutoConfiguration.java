@@ -31,7 +31,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,7 +55,6 @@ import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMa
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.permission.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
-import com.bernardomg.security.user.token.config.UserTokenConfig;
 import com.bernardomg.security.user.token.config.UserTokenProperties;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
@@ -79,7 +77,6 @@ import lombok.extern.slf4j.Slf4j;
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.data.adapter.inbound.jpa",
         "com.bernardomg.security.user.permission.adapter.inbound.jpa" })
 @EnableConfigurationProperties({ LoginProperties.class })
-@Import({ UserTokenConfig.class })
 @Slf4j
 public class UserAutoConfiguration {
 

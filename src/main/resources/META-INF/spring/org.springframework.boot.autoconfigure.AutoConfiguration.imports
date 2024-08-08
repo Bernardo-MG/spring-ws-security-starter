@@ -8,4 +8,5 @@ com.bernardomg.security.permission.config.PermissionAutoConfiguration
 com.bernardomg.security.role.config.RoleAutoConfiguration
 com.bernardomg.security.springframework.config.SpringAutoConfiguration
 com.bernardomg.security.user.config.UserAutoConfiguration
+com.bernardomg.security.user.token.config.UserTokenAutoConfiguration
 com.bernardomg.security.web.config.WebSecurityAutoConfiguration

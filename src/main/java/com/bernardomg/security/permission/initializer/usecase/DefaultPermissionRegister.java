@@ -22,42 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.adapter.inbound.initializer;
+package com.bernardomg.security.permission.initializer.usecase;
 
-import lombok.Builder;
-import lombok.Value;
+import java.util.Collection;
+import java.util.List;
+
+import com.bernardomg.security.permission.data.adapter.inbound.initializer.ResourcePermissionPair;
 
 /**
- * Resource and action pair for the permissions loader. This pair represents a permission which to be loaded.
+ * Default permission register. Contains all the initial permission configuration.
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class ResourcePermissionPair {
+public final class DefaultPermissionRegister implements PermissionRegister {
 
-    /**
-     * Creates a resource permission pair with the received resource and action.
-     *
-     * @param resource
-     *            permission resource
-     * @param action
-     *            permission action
-     * @return resource permission pair for the received resource and action
-     */
-    public static final ResourcePermissionPair of(final String resource, final String action) {
-        return ResourcePermissionPair.builder()
-            .withAction(action)
-            .withResource(resource)
-            .build();
+    @Override
+    public final Collection<String> getActions() {
+        return List.of("CREATE", "READ", "UPDATE", "DELETE", "VIEW");
     }
 
-    /**
-     * Action name.
-     */
-    private final String action;
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        return List.of();
+    }
 
-    /**
-     * Resource name.
-     */
-    private final String resource;
+    @Override
+    public final Collection<String> getResources() {
+        return List.of();
+    }
 
 }
