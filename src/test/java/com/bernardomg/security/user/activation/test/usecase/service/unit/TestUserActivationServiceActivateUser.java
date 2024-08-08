@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
-import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.user.data.domain.exception.EnabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;

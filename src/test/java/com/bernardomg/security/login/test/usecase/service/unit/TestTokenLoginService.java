@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 
-import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;

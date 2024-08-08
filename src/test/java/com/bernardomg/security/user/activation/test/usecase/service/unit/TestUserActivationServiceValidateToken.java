@@ -36,7 +36,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;

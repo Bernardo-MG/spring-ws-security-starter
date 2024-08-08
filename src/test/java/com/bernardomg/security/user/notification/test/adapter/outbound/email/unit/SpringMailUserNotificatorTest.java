@@ -14,7 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.jwt.test.config.Tokens;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
