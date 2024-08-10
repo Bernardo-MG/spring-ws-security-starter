@@ -16,10 +16,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("LoginRegisterService - register log in")

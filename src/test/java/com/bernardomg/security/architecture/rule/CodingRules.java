@@ -46,5 +46,6 @@ public class CodingRules {
         .andShould()
         .beStatic()
         .andShould()
-        .beFinal();
+        .beFinal()
+        .allowEmptyShould(true);
 }

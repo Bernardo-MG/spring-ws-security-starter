@@ -33,11 +33,11 @@ import java.util.regex.Pattern;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.authentication.user.domain.model.User;
-import com.bernardomg.security.authentication.user.domain.repository.UserRepository;
 import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
+import com.bernardomg.security.user.data.domain.model.User;
+import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

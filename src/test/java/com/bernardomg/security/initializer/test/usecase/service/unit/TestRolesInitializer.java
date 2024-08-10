@@ -17,13 +17,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.authorization.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.authorization.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.authorization.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.authorization.role.domain.repository.RolePermissionRepository;
-import com.bernardomg.security.authorization.role.domain.repository.RoleRepository;
-import com.bernardomg.security.authorization.role.test.config.factory.Roles;
 import com.bernardomg.security.initializer.usecase.service.DefaultRolesInitializerService;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.role.test.config.factory.Roles;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("RolesInitializer")

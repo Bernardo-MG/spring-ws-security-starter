@@ -6,9 +6,13 @@ import java.util.List;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 public final class SecurityUsers {
+
+    public static final UserDetails credentialsExpired() {
+        return new User(UserConstants.USERNAME, UserConstants.PASSWORD, true, true, false, true, List.of());
+    }
 
     public static final UserDetails disabled() {
         return new User(UserConstants.USERNAME, UserConstants.PASSWORD, false, true, true, true, List.of());

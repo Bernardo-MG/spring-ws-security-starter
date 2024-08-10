@@ -16,8 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.authentication.user.test.config.factory.UserConstants;
 import com.bernardomg.security.login.adapter.inbound.event.SpringValidLoginPredicate;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringValidLoginPredicate")
