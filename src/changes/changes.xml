@@ -204,7 +204,13 @@
             Updated validation.
          </action>
       </release>
-      <release version="1.0.0" date="2024-06-13" description="">
+      <release version="0.4.0" date="2024-08-10" description="Structure changes">
+         <action dev="bmg" type="fix">
+            Corrected error handling.
+         </action>
+         <action dev="bmg" type="update">
+            Changed code structure.
+         </action>
       </release>
    </body>
 </document>
