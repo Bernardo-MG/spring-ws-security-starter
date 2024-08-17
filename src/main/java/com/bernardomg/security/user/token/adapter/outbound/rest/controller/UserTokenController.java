@@ -78,7 +78,7 @@ public class UserTokenController {
         token = UserTokenPatch.builder()
             .withToken(tokenCode)
             .withExpirationDate(request.getExpirationDate())
-            .withRevoked(request.isRevoked())
+            .withRevoked(request.getRevoked())
             .build();
         return service.patch(token);
     }
