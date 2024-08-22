@@ -84,10 +84,11 @@ public class WebSecurityConfiguration {
 
     @Bean("jwtTokenFilter")
     public FilterRegistrationBean<JwtTokenFilter> getJwtTokenFilter(final TokenDecoder decoder,
-            final TokenValidator tokenValidator, final UserDetailsService userDetailsService) {
+            final TokenValidator tokenValidator, final UserDetailsService userDetailsService,
+            final Collection<WhitelistRoute> whitelist) {
         final FilterRegistrationBean<JwtTokenFilter> registrationBean = new FilterRegistrationBean<>();
 
-        registrationBean.setFilter(new JwtTokenFilter(userDetailsService, tokenValidator, decoder));
+        registrationBean.setFilter(new JwtTokenFilter(userDetailsService, tokenValidator, decoder, whitelist));
         registrationBean.addUrlPatterns("/*");
         registrationBean.setOrder(2);
 
