@@ -94,7 +94,7 @@ public class UserAutoConfiguration {
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
     public UserNotificator getDefaultUserNotificator() {
         // FIXME: This is not handling correctly the missing bean condition
-        log.debug("Disabled security messages");
+        log.debug("Disabled user notificator");
         return new DisabledUserNotificator();
     }
 
@@ -128,8 +128,7 @@ public class UserAutoConfiguration {
     public UserNotificator getUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSender,
             final UserNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
-        log.debug("Using email for security messages");
-        log.debug("From mail: {}", properties.getFrom());
+        log.debug("Using email {} for user notifications", properties.getFrom());
         log.debug("Activate user URL: {}", properties.getActivateUser()
             .getUrl());
         return new SpringMailUserNotificator(templateEng, mailSender, properties.getFrom(), properties.getActivateUser()
