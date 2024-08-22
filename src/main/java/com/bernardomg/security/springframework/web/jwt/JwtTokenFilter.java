@@ -92,8 +92,6 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *            token validator
      * @param decoder
      *            token decoder
-     * @param whitel
-     *            whitelisted routes
      */
     public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator,
             final TokenDecoder decoder) {
@@ -208,23 +206,18 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             final FilterChain chain) throws ServletException, IOException {
         final Optional<String> token;
 
-        if (SecurityContextHolder.getContext()
-            .getAuthentication() != null) {
-            log.debug("Authenticating {} request to {} with JWT", request.getMethod(), request.getServletPath());
+        log.debug("Authenticating {} request to {}", request.getMethod(), request.getServletPath());
 
-            token = getToken(request);
+        token = getToken(request);
 
-            if (token.isEmpty()) {
-                // Missing header
-                log.debug("Missing authorization token");
-            } else {
-                loadToken(token.get(), request);
-            }
-
-            chain.doFilter(request, response);
+        if (token.isEmpty()) {
+            // Missing header
+            log.debug("Missing authorization token");
         } else {
-            log.debug("No authentication, skipping JWT authentication");
+            loadToken(token.get(), request);
         }
+
+        chain.doFilter(request, response);
     }
 
 }
