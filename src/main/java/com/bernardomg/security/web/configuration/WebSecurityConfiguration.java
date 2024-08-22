@@ -53,9 +53,11 @@ import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
+import com.bernardomg.security.web.whitelist.WhitelistFilterWrapper;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
+import jakarta.servlet.Filter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -82,13 +84,17 @@ public class WebSecurityConfiguration {
         return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
     }
 
-    @Bean("jwtTokenFilter")
-    public FilterRegistrationBean<JwtTokenFilter> getJwtTokenFilter(final TokenDecoder decoder,
+    @Bean("jwtTokenFilterRegistrationBean")
+    public FilterRegistrationBean<Filter> getJwtTokenFilterRegistrationBean(final TokenDecoder decoder,
             final TokenValidator tokenValidator, final UserDetailsService userDetailsService,
             final Collection<WhitelistRoute> whitelist) {
-        final FilterRegistrationBean<JwtTokenFilter> registrationBean = new FilterRegistrationBean<>();
+        final FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
+        final JwtTokenFilter                 filter;
+        final WhitelistFilterWrapper         wrappedFilter;
 
-        registrationBean.setFilter(new JwtTokenFilter(userDetailsService, tokenValidator, decoder, whitelist));
+        filter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
+        wrappedFilter = new WhitelistFilterWrapper(filter, whitelist);
+        registrationBean.setFilter(wrappedFilter);
         registrationBean.addUrlPatterns("/*");
         registrationBean.setOrder(2);
 

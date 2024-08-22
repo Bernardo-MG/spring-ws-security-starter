@@ -25,11 +25,9 @@
 package com.bernardomg.security.springframework.web.jwt;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,7 +39,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.jwt.encoding.TokenValidator;
-import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -69,27 +66,22 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the
      * authentication header is valid.
      */
-    private static final String              TOKEN_HEADER_IDENTIFIER = "Bearer";
+    private static final String      TOKEN_HEADER_IDENTIFIER = "Bearer";
 
     /**
      * Token decoder. Required to acquire the subject.
      */
-    private final TokenDecoder               tokenDecoder;
+    private final TokenDecoder       tokenDecoder;
 
     /**
      * Token validator. Expired tokens are rejected.
      */
-    private final TokenValidator             tokenValidator;
+    private final TokenValidator     tokenValidator;
 
     /**
      * User details service. Gives access to the user, to validate the token against it.
      */
-    private final UserDetailsService         userDetailsService;
-
-    /**
-     * Whitelisted routes, these should be ignored.
-     */
-    private final Collection<WhitelistRoute> whitelist;
+    private final UserDetailsService userDetailsService;
 
     /**
      * Constructs a filter with the received arguments.
@@ -104,13 +96,12 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *            whitelisted routes
      */
     public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator,
-            final TokenDecoder decoder, final Collection<WhitelistRoute> whitel) {
+            final TokenDecoder decoder) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);
         tokenValidator = Objects.requireNonNull(validator);
         tokenDecoder = Objects.requireNonNull(decoder);
-        whitelist = Objects.requireNonNull(whitel);
     }
 
     /**
@@ -234,19 +225,6 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         } else {
             log.debug("No authentication, skipping JWT authentication");
         }
-    }
-
-    @Override
-    protected boolean shouldNotFilter(final HttpServletRequest request) throws ServletException {
-        final HttpMethod method;
-
-        method = HttpMethod.valueOf(request.getMethod());
-
-        return whitelist.stream()
-            .anyMatch(w -> w.getRoute()
-                .equals(request.getRequestURI())
-                    && w.getMethods()
-                        .contains(method));
     }
 
 }
