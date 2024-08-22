@@ -119,12 +119,6 @@ public class WebSecurityConfiguration {
      *            security configurers
      * @param whitelist
      *            routes whitelist
-     * @param decoder
-     *            token decoder
-     * @param tokenValidator
-     *            token validator
-     * @param userDetailsService
-     *            user details service
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
