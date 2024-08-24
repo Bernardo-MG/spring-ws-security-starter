@@ -29,14 +29,16 @@ import java.util.Collection;
 import java.util.Objects;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.http.server.PathContainer;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Whitelist filter wrapper. Will ignore any path on the whitelist, otherwise it applies the wrapped filter.
@@ -44,10 +46,17 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class WhitelistFilterWrapper extends OncePerRequestFilter {
 
+    /**
+     * Wrapped filter.
+     */
     private final Filter                     filter;
+
+    /**
+     * Path pattern parser to check the routes against the white list.
+     */
+    private final PathPatternParser          pathPatternParser = new PathPatternParser();
 
     /**
      * Whitelisted routes, these should be ignored.
@@ -69,6 +78,25 @@ public final class WhitelistFilterWrapper extends OncePerRequestFilter {
         whitelist = Objects.requireNonNull(whitel);
     }
 
+    private final boolean match(final String uri, final HttpMethod method, final WhitelistRoute whitelistRoute) {
+        final PathPattern   pathPattern;
+        final PathContainer pathContainer;
+        final boolean       matches;
+
+        pathPattern = pathPatternParser.parse(whitelistRoute.getRoute());
+        pathContainer = PathContainer.parsePath(uri);
+        if (pathPattern.matches(pathContainer)) {
+            // The request URI matches the pattern
+            // Check if the method is allowed
+            matches = whitelistRoute.getMethods()
+                .contains(method);
+        } else {
+            matches = false;
+        }
+
+        return matches;
+    }
+
     @Override
     protected final void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
             final FilterChain chain) throws ServletException, IOException {
@@ -76,16 +104,13 @@ public final class WhitelistFilterWrapper extends OncePerRequestFilter {
     }
 
     @Override
-    protected boolean shouldNotFilter(final HttpServletRequest request) throws ServletException {
+    protected final boolean shouldNotFilter(final HttpServletRequest request) throws ServletException {
         final HttpMethod method;
 
         method = HttpMethod.valueOf(request.getMethod());
 
         return whitelist.stream()
-            .anyMatch(w -> w.getRoute()
-                .equals(request.getRequestURI())
-                    && w.getMethods()
-                        .contains(method));
+            .anyMatch(w -> match(request.getRequestURI(), method, w));
     }
 
 }
