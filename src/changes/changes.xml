@@ -220,5 +220,7 @@
             JWT filter ignores whitelist.
          </action>
       </release>
+      <release version="1.0.0" date="2024-08-24" description="">
+      </release>
    </body>
 </document>
