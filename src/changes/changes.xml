@@ -212,7 +212,13 @@
             Changed code structure.
          </action>
       </release>
-      <release version="1.0.0" date="2024-08-10" description="">
+      <release version="0.4.1" date="2024-08-24" description="Small corrections">
+         <action dev="bmg" type="fix">
+            Allows missing revoked flag.
+         </action>
+         <action dev="bmg" type="fix">
+            JWT filter ignores whitelist.
+         </action>
       </release>
    </body>
 </document>
