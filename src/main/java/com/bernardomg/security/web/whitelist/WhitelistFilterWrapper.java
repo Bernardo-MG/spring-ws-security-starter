@@ -39,6 +39,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Whitelist filter wrapper. Will ignore any path on the whitelist, otherwise it applies the wrapped filter.
@@ -46,6 +47,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Slf4j
 public final class WhitelistFilterWrapper extends OncePerRequestFilter {
 
     /**
@@ -100,15 +102,22 @@ public final class WhitelistFilterWrapper extends OncePerRequestFilter {
     @Override
     protected final void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
             final FilterChain chain) throws ServletException, IOException {
-        final boolean    match;
+        log.debug("{} is not white listed route, applying filter {}", request.getRequestURI(), filter);
+        filter.doFilter(request, response, chain);
+    }
+
+    @Override
+    protected final boolean shouldNotFilter(final HttpServletRequest request) throws ServletException {
         final HttpMethod method;
+        final boolean    matches;
 
         method = HttpMethod.valueOf(request.getMethod());
-        match = whitelist.stream()
+        matches = whitelist.stream()
             .anyMatch(w -> match(request.getRequestURI(), method, w));
-        if (!match) {
-            filter.doFilter(request, response, chain);
-        }
+
+        log.debug("Is the route {} in the whitelist? {}", request.getRequestURI(), matches);
+
+        return matches;
     }
 
 }
