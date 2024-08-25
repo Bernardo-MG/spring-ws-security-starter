@@ -225,5 +225,10 @@
             Fixed white list filter.
          </action>
       </release>
+      <release version="0.4.3" date="2024-08-25" description="Fixed white list filter">
+         <action dev="bmg" type="fix">
+            Fixed white list filter.
+         </action>
+      </release>
    </body>
 </document>
