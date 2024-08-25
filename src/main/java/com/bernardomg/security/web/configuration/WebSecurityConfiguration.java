@@ -53,9 +53,11 @@ import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
+import com.bernardomg.security.web.whitelist.WhitelistFilterWrapper;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
+import jakarta.servlet.Filter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -119,17 +121,19 @@ public class WebSecurityConfiguration {
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
+        final Filter                                                                                               jwtFilterWrapped;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist, handlerMappingIntrospector);
         jwtFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
+        jwtFilterWrapped = new WhitelistFilterWrapper(jwtFilter, whitelist);
         http
             // Whitelist access
             .authorizeHttpRequests(whitelister)
             // Authenticate all others
             .authorizeHttpRequests(c -> c.anyRequest()
                 .authenticated())
-            .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
+            .addFilterBefore(jwtFilterWrapped, BasicAuthenticationFilter.class)
             // CSRF and CORS
             .csrf(CsrfConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
