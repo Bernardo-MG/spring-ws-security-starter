@@ -100,13 +100,13 @@ public final class WhitelistFilterWrapper extends OncePerRequestFilter {
     @Override
     protected final void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
             final FilterChain chain) throws ServletException, IOException {
-        final boolean    apply;
+        final boolean    match;
         final HttpMethod method;
 
         method = HttpMethod.valueOf(request.getMethod());
-        apply = whitelist.stream()
+        match = whitelist.stream()
             .anyMatch(w -> match(request.getRequestURI(), method, w));
-        if (apply) {
+        if (!match) {
             filter.doFilter(request, response, chain);
         }
     }
