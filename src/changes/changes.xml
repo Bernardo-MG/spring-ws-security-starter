@@ -245,7 +245,10 @@
             Fixed white list filter config.
          </action>
       </release>
-      <release version="1.0.0" date="2024-08-25" description="">
+      <release version="0.4.7" date="2024-08-25" description="User activation routes">
+         <action dev="bmg" type="fix">
+            User activation routes no longer match user routes.
+         </action>
       </release>
    </body>
 </document>
