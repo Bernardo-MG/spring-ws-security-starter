@@ -250,5 +250,7 @@
             User activation routes no longer match user routes.
          </action>
       </release>
+      <release version="1.0.0" date="2024-08-25" description="">
+      </release>
    </body>
 </document>
