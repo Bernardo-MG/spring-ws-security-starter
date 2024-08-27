@@ -76,7 +76,7 @@ import lombok.extern.slf4j.Slf4j;
         "com.bernardomg.security.user.token.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.data.adapter.inbound.jpa",
         "com.bernardomg.security.user.permission.adapter.inbound.jpa" })
-@EnableConfigurationProperties({ LoginProperties.class })
+@EnableConfigurationProperties({ LoginProperties.class, UserNotificatorProperties.class })
 @Slf4j
 public class UserAutoConfiguration {
 
