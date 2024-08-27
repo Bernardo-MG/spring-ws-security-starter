@@ -57,7 +57,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @RestController
-@RequestMapping("/security/user")
+@RequestMapping("/security/user/activate")
 @AllArgsConstructor
 public class UserActivationController {
 
@@ -76,7 +76,7 @@ public class UserActivationController {
      * @return the newly activated user
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping(path = "/activate/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
