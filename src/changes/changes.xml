@@ -250,7 +250,10 @@
             User activation routes no longer match user routes.
          </action>
       </release>
-      <release version="1.0.0" date="2024-08-25" description="">
+      <release version="0.4.8" date="2024-08-25" description="Registered missing config">
+         <action dev="bmg" type="fix">
+            Registered missing properties class.
+         </action>
       </release>
    </body>
 </document>
