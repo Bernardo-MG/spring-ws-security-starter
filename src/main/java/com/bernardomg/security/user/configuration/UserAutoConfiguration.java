@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.user.configuration;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -105,15 +106,9 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userActivationService")
-    public UserActivationService getUserActivationService(final UserRepository userSpringRepo,
-            final UserRepository userRepo, final UserNotificator mSender, final UserTokenRepository userTokenRepository,
-            final UserTokenProperties tokenProperties) {
-        final UserTokenStore tokenStore;
-
-        tokenStore = new ScopedUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
-            tokenProperties.getValidity());
-
-        return new DefaultUserActivationService(userRepo, mSender, tokenStore);
+    public UserActivationService getUserActivationService(final UserRepository userRepo,
+            @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
+        return new DefaultUserActivationService(userRepo, tokenStore);
     }
 
     @Bean("userLoginAttempsService")
@@ -147,8 +142,16 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userService")
-    public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
-        return new DefaultUserService(userRepo, roleRepo);
+    public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserNotificator mSender, @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
+        return new DefaultUserService(userRepo, roleRepo, mSender, tokenStore);
+    }
+
+    @Bean("userTokenStore")
+    public UserTokenStore getUserTokenStore(final UserRepository userSpringRepo, final UserNotificator mSender,
+            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
+        return new ScopedUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
+            tokenProperties.getValidity());
     }
 
     @Bean("userPermissionRegister")

@@ -32,14 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsRule;
-import com.bernardomg.security.user.data.usecase.validation.UserUsernameNotExistsRule;
-import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
-import com.bernardomg.validation.validator.FieldRuleValidator;
-import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,33 +51,18 @@ public final class DefaultUserActivationService implements UserActivationService
     /**
      * Token processor.
      */
-    private final UserTokenStore  tokenStore;
-
-    /**
-     * Message sender. Registering new users may require emails, or other kind of messaging.
-     */
-    private final UserNotificator userNotificator;
+    private final UserTokenStore tokenStore;
 
     /**
      * User repository.
      */
-    private final UserRepository  userRepository;
+    private final UserRepository userRepository;
 
-    /**
-     * User registration validator.
-     */
-    private final Validator<User> validatorRegisterUser;
-
-    public DefaultUserActivationService(final UserRepository userRepo, final UserNotificator mSender,
-            final UserTokenStore tStore) {
+    public DefaultUserActivationService(final UserRepository userRepo, final UserTokenStore tStore) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         tokenStore = Objects.requireNonNull(tStore);
-        userNotificator = Objects.requireNonNull(mSender);
-
-        validatorRegisterUser = new FieldRuleValidator<>(new UserEmailNotExistsRule(userRepo),
-            new UserUsernameNotExistsRule(userRepository));
     }
 
     @Override
@@ -117,42 +97,6 @@ public final class DefaultUserActivationService implements UserActivationService
         log.debug("Activated new user {}", username);
 
         return saved;
-    }
-
-    @Override
-    public final User registerNewUser(final String username, final String name, final String email) {
-        final User   user;
-        final User   created;
-        final String token;
-
-        log.debug("Registering new user {} with email {}", username, email);
-
-        user = User.builder()
-            .withUsername(username)
-            .withName(name)
-            .withEmail(email)
-            .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
-            .build();
-
-        validatorRegisterUser.validate(user);
-
-        created = userRepository.newUser(user);
-
-        // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.getUsername());
-
-        // Register new token
-        token = tokenStore.createToken(created.getUsername());
-
-        // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.getEmail(), username, token);
-
-        log.debug("Registered new user {} with email {}", username, email);
-
-        return created;
     }
 
     @Override

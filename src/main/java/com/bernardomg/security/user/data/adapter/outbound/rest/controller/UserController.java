@@ -31,13 +31,16 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -45,6 +48,7 @@ import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.data.adapter.outbound.cache.UserCaches;
+import com.bernardomg.security.user.data.adapter.outbound.rest.model.NewUser;
 import com.bernardomg.security.user.data.adapter.outbound.rest.model.UserChange;
 import com.bernardomg.security.user.data.adapter.outbound.rest.model.UserQueryRequest;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -68,7 +72,7 @@ public class UserController {
     /**
      * Service which handles user queries.
      */
-    private final UserService userService;
+    private final UserService service;
 
     /**
      * Deletes a user by its id.
@@ -81,7 +85,7 @@ public class UserController {
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USER),
             @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
     public void delete(@PathVariable("username") final String username) {
-        userService.delete(username);
+        service.delete(username);
     }
 
     /**
@@ -108,7 +112,7 @@ public class UserController {
             .withPasswordExpired(request.getPasswordExpired())
             .withUsername(request.getUsername())
             .build();
-        return userService.getAll(query, page);
+        return service.getAll(query, page);
     }
 
     /**
@@ -123,8 +127,24 @@ public class UserController {
     @Cacheable(cacheNames = UserCaches.USER)
     public User readOne(@PathVariable("username") final String username) {
         // TODO: maybe optionals must be unwrapped automatically
-        return userService.getOne(username)
+        return service.getOne(username)
             .orElse(null);
+    }
+
+    /**
+     * Creates a user.
+     *
+     * @param request
+     *            user to add
+     * @return the new user
+     */
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
+            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
+    public User registerNewUser(@Valid @RequestBody final NewUser request) {
+        return service.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
     }
 
     /**
@@ -157,7 +177,7 @@ public class UserController {
             .withRoles(roles)
             .build();
 
-        return userService.update(user);
+        return service.update(user);
     }
 
 }
