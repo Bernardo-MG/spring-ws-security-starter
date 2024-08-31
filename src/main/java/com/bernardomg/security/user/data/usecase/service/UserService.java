@@ -69,6 +69,19 @@ public interface UserService {
     public Optional<User> getOne(final String username);
 
     /**
+     * Persists the received user.
+     *
+     * @param username
+     *            username for the user to persist
+     * @param name
+     *            name for the user to persist
+     * @param email
+     *            email for the user to persist
+     * @return the persisted user
+     */
+    public User registerNewUser(final String username, final String name, final String email);
+
+    /**
      * Updates the received user with the received data.
      *
      * @param user

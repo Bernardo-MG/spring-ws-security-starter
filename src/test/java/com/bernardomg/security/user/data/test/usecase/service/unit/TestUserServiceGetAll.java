@@ -13,24 +13,36 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserQueries;
 import com.bernardomg.security.user.test.config.factory.Users;
+import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User service - get all")
 class TestUserServiceGetAll {
 
     @Mock
+    private PasswordEncoder    passwordEncoder;
+
+    @Mock
     private RoleRepository     roleRepository;
 
     @InjectMocks
     private DefaultUserService service;
+
+    @Mock
+    private UserTokenStore     tokenStore;
+
+    @Mock
+    private UserNotificator    userNotificator;
 
     @Mock
     private UserRepository     userRepository;

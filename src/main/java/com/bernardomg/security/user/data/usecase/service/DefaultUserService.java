@@ -38,7 +38,11 @@ import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsForAnotherRule;
+import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsRule;
 import com.bernardomg.security.user.data.usecase.validation.UserRolesNotDuplicatedRule;
+import com.bernardomg.security.user.data.usecase.validation.UserUsernameNotExistsRule;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
+import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -60,21 +64,41 @@ public final class DefaultUserService implements UserService {
     private final RoleRepository  roleRepository;
 
     /**
+     * Token processor.
+     */
+    private final UserTokenStore  tokenStore;
+
+    /**
+     * Message sender. Registering new users may require emails, or other kind of messaging.
+     */
+    private final UserNotificator userNotificator;
+
+    /**
      * User repository.
      */
     private final UserRepository  userRepository;
+
+    /**
+     * User registration validator.
+     */
+    private final Validator<User> validatorRegisterUser;
 
     /**
      * Update user validator.
      */
     private final Validator<User> validatorUpdateUser;
 
-    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
+    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserNotificator userNotf, final UserTokenStore tStore) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
+        userNotificator = Objects.requireNonNull(userNotf);
+        tokenStore = Objects.requireNonNull(tStore);
 
+        validatorRegisterUser = new FieldRuleValidator<>(new UserEmailNotExistsRule(userRepo),
+            new UserUsernameNotExistsRule(userRepository));
         validatorUpdateUser = new FieldRuleValidator<>(new UserEmailNotExistsForAnotherRule(userRepo),
             new UserRolesNotDuplicatedRule());
     }
@@ -114,6 +138,42 @@ public final class DefaultUserService implements UserService {
         }
 
         return userRepository.findOne(username);
+    }
+
+    @Override
+    public final User registerNewUser(final String username, final String name, final String email) {
+        final User   user;
+        final User   created;
+        final String token;
+
+        log.debug("Registering new user {} with email {}", username, email);
+
+        user = User.builder()
+            .withUsername(username)
+            .withName(name)
+            .withEmail(email)
+            .withEnabled(false)
+            .withExpired(false)
+            .withPasswordExpired(true)
+            .withLocked(false)
+            .build();
+
+        validatorRegisterUser.validate(user);
+
+        created = userRepository.newUser(user);
+
+        // Revoke previous tokens
+        tokenStore.revokeExistingTokens(created.getUsername());
+
+        // Register new token
+        token = tokenStore.createToken(created.getUsername());
+
+        // TODO: Handle through events
+        userNotificator.sendUserRegisteredMessage(created.getEmail(), username, token);
+
+        log.debug("Registered new user {} with email {}", username, email);
+
+        return created;
     }
 
     @Override

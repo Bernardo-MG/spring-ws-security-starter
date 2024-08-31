@@ -84,7 +84,7 @@ public class ModulesArchitectureRulesTest {
         .mayOnlyBeAccessedByLayers("Config", "Login", "Spring", "Permissions configuration", "User configuration",
             "Roles")
         .whereLayer("User tokens")
-        .mayOnlyBeAccessedByLayers("Password notification", "Config", "User activation", "Password reset",
+        .mayOnlyBeAccessedByLayers("Password notification", "Config", "Users data", "User activation", "Password reset",
             "Password configuration", "User configuration")
         .whereLayer("User activation")
         .mayOnlyBeAccessedByLayers("Config", "User configuration")

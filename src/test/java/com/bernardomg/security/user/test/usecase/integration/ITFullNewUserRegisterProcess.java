@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.data.usecase.service.UserService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
@@ -36,6 +37,9 @@ class ITFullNewUserRegisterProcess {
 
     @Autowired
     private UserSpringRepository      userRepository;
+
+    @Autowired
+    private UserService               userService;
 
     @Autowired
     private UserTokenSpringRepository userTokenRepository;
@@ -81,7 +85,7 @@ class ITFullNewUserRegisterProcess {
         changeToAdmin();
 
         // Register new user
-        userActivationService.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        userService.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // Validate new token
         token = userTokenRepository.findAll()
