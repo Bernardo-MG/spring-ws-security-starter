@@ -81,7 +81,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
-        final boolean     exists;
         final String      username;
         final UserDetails userDetails;
 
@@ -90,8 +89,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         log.debug("Changing password for user {}", username);
 
         // Validate the user exists
-        exists = repository.exists(username);
-        if (!exists) {
+        if (!repository.exists(username)) {
             // TODO: Is this exception being hid?
             log.error("Missing user {}", username);
             throw new MissingUserException(username);

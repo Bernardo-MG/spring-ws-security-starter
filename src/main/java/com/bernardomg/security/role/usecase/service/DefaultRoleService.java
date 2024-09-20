@@ -107,13 +107,11 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final void delete(final String role) {
-        final boolean exists;
-        final Role    domainRole;
+        final Role domainRole;
 
         log.debug("Deleting role {}", role);
 
-        exists = roleRepository.exists(role);
-        if (!exists) {
+        if (!roleRepository.exists(role)) {
             log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
@@ -135,28 +133,25 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Optional<Role> getOne(final String role) {
-        final boolean exists;
+        final Optional<Role> read;
 
         log.debug("Reading role {}", role);
 
-        exists = roleRepository.exists(role);
-        if (!exists) {
+        read = roleRepository.findOne(role);
+        if (read.isEmpty()) {
             log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
-        return roleRepository.findOne(role);
+        return read;
     }
 
     @Override
     public final Role update(final Role role) {
-        final boolean exists;
-
         log.debug("Updating role {} using data {}", role.getName(), role);
 
         // Verify the role exists
-        exists = roleRepository.exists(role.getName());
-        if (!exists) {
+        if (!roleRepository.exists(role.getName())) {
             log.error("Missing role {}", role.getName());
             throw new MissingRoleException(role.getName());
         }

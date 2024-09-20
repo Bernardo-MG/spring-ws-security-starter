@@ -118,10 +118,8 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         final LocalDateTime creation;
         final LocalDateTime expiration;
         final String        tokenCode;
-        final boolean       exists;
 
-        exists = userRepository.exists(username);
-        if (!exists) {
+        if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
