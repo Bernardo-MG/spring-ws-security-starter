@@ -19,10 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.factory.UserTokenConstants;
-import com.bernardomg.security.user.token.test.config.factory.UserTokenPatches;
 import com.bernardomg.security.user.token.test.config.factory.UserTokens;
 import com.bernardomg.security.user.token.usecase.service.SpringUserTokenService;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -41,10 +39,10 @@ class TestSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching sends the user token to the repository")
     void testPatch_Empty_Persisted() {
-        final UserTokenPatch change;
+        final UserToken change;
 
         // GIVEN
-        change = UserTokenPatches.changeNothing();
+        change = UserTokens.changeNothing();
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
 
         // WHEN
@@ -57,11 +55,11 @@ class TestSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching returns the updated token")
     void testPatch_Empty_Returned() {
-        final UserToken      token;
-        final UserTokenPatch change;
+        final UserToken token;
+        final UserToken change;
 
         // GIVEN
-        change = UserTokenPatches.changeNothing();
+        change = UserTokens.changeNothing();
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
         given(userTokenRepository.save(UserTokens.valid())).willReturn(UserTokens.valid());
 
@@ -77,10 +75,10 @@ class TestSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching the expiration date sends the user token to the repository")
     void testPatch_ExpirationDate_Persisted() {
-        final UserTokenPatch change;
+        final UserToken change;
 
         // GIVEN
-        change = UserTokenPatches.expirationDateFuture();
+        change = UserTokens.expirationDateFuture();
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
 
         // WHEN
@@ -95,10 +93,10 @@ class TestSpringUserTokenServicePatch {
     void testPatch_ExpireBeforeNow() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
-        final UserTokenPatch   change;
+        final UserToken        change;
 
         // GIVEN
-        change = UserTokenPatches.expirationDateYesterday();
+        change = UserTokens.expirationDateYesterday();
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
 
         // WHEN
@@ -114,11 +112,11 @@ class TestSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching a not existing user token throws an exception")
     void testPatch_NotExisting() {
-        final UserTokenPatch   change;
+        final UserToken        change;
         final ThrowingCallable execution;
 
         // GIVEN
-        change = UserTokenPatches.changeNothing();
+        change = UserTokens.changeNothing();
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.empty());
 
         // WHEN
@@ -134,10 +132,10 @@ class TestSpringUserTokenServicePatch {
     void testPatch_RemoveRevoked() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
-        final UserTokenPatch   change;
+        final UserToken        change;
 
         // GIVEN
-        change = UserTokenPatches.notRevoked();
+        change = UserTokens.notRevoked();
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.revoked()));
 
         // WHEN
@@ -152,10 +150,10 @@ class TestSpringUserTokenServicePatch {
     @Test
     @DisplayName("Patching the revoke flag sends the user token to the repository")
     void testPatch_Revoke_Persisted() {
-        final UserTokenPatch change;
+        final UserToken change;
 
         // GIVEN
-        change = UserTokenPatches.revoked();
+        change = UserTokens.revoked();
         given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
 
         // WHEN

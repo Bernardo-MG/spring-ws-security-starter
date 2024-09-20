@@ -102,7 +102,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         }
 
         tokenData = readToken.get();
-        if (tokenData.isConsumed()) {
+        if (tokenData.getConsumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
@@ -200,13 +200,13 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
             throw new OutOfScopeTokenException(token, tokenScope, entity.getScope());
         }
-        if (entity.isConsumed()) {
+        if (entity.getConsumed()) {
             // Consumed
             // It isn't a valid token
             log.warn("Consumed token: {}", token);
             throw new ConsumedTokenException(token);
         }
-        if (entity.isRevoked()) {
+        if (entity.getRevoked()) {
             // Revoked
             // It isn't a valid token
             log.warn("Revoked token: {}", token);

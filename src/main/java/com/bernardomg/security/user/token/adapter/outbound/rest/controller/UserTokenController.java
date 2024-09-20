@@ -37,7 +37,6 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.user.token.adapter.outbound.rest.model.UserTokenPartial;
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 import com.bernardomg.security.user.token.usecase.service.UserTokenService;
 
 import lombok.AllArgsConstructor;
@@ -73,9 +72,9 @@ public class UserTokenController {
     @PatchMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
     public UserToken patch(@PathVariable("token") final String tokenCode, @RequestBody final UserTokenPartial request) {
-        final UserTokenPatch token;
+        final UserToken token;
 
-        token = UserTokenPatch.builder()
+        token = UserToken.builder()
             .withToken(tokenCode)
             .withExpirationDate(request.getExpirationDate())
             .withRevoked(request.getRevoked())

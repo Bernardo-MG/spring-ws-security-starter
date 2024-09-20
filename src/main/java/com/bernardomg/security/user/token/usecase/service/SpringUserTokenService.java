@@ -34,10 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.validation.UserTokenNotExpiredRule;
-import com.bernardomg.security.user.token.usecase.validation.UserTokenNotRevokedRule;
+import com.bernardomg.security.user.token.usecase.validation.UserTokenPatchNotRevokedRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -76,7 +75,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
 
-        validatorPatch = new FieldRuleValidator<>(new UserTokenNotExpiredRule(), new UserTokenNotRevokedRule());
+        validatorPatch = new FieldRuleValidator<>(new UserTokenNotExpiredRule(), new UserTokenPatchNotRevokedRule());
     }
 
     @Override
@@ -118,7 +117,7 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final UserToken patch(final UserTokenPatch token) {
+    public final UserToken patch(final UserToken token) {
         final UserToken readToken;
         final UserToken toSave;
 
@@ -130,14 +129,14 @@ public final class SpringUserTokenService implements UserTokenService {
                 return new MissingUserTokenException(token.getToken());
             });
 
-        toSave = copy(readToken, token);
+        validatorPatch.validate(token);
 
-        validatorPatch.validate(toSave);
+        toSave = copy(readToken, token);
 
         return userTokenRepository.save(toSave);
     }
 
-    private final UserToken copy(final UserToken existing, final UserTokenPatch updated) {
+    private final UserToken copy(final UserToken existing, final UserToken updated) {
         final LocalDateTime expirationDate;
         final Boolean       revoked;
 
@@ -147,7 +146,7 @@ public final class SpringUserTokenService implements UserTokenService {
             expirationDate = updated.getExpirationDate();
         }
         if (updated.getRevoked() == null) {
-            revoked = existing.isRevoked();
+            revoked = existing.getRevoked();
         } else {
             revoked = updated.getRevoked();
         }
@@ -159,7 +158,7 @@ public final class SpringUserTokenService implements UserTokenService {
             .withToken(existing.getToken())
             .withCreationDate(existing.getCreationDate())
             .withExpirationDate(expirationDate)
-            .withConsumed(existing.isConsumed())
+            .withConsumed(existing.getConsumed())
             .withRevoked(revoked)
             .build();
     }

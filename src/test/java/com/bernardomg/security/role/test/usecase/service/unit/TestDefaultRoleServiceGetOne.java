@@ -47,7 +47,6 @@ class TestDefaultRoleServiceGetOne {
 
         // GIVEN
         existing = Optional.of(Roles.withPermissions());
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(existing);
 
         // WHEN
@@ -64,7 +63,7 @@ class TestDefaultRoleServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
+        given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(RoleConstants.NAME);

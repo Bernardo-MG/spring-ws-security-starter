@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 
 /**
  * User token service.
@@ -70,6 +69,6 @@ public interface UserTokenService {
      *            user token to patch
      * @return the updated user token
      */
-    public UserToken patch(final UserTokenPatch token);
+    public UserToken patch(final UserToken token);
 
 }

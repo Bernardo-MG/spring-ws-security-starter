@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
  * Checks the user token is not revoked.
  */
 @Slf4j
-public final class UserTokenNotRevokedRule implements FieldRule<UserToken> {
+public final class UserTokenPatchNotRevokedRule implements FieldRule<UserToken> {
 
-    public UserTokenNotRevokedRule() {
+    public UserTokenPatchNotRevokedRule() {
         super();
     }
 
@@ -25,9 +25,9 @@ public final class UserTokenNotRevokedRule implements FieldRule<UserToken> {
         final FieldFailure           fieldFailure;
 
         // TODO: what if the token is already valid?
-        if (!token.isRevoked()) {
+        if ((token.getRevoked() != null) && (!token.getRevoked())) {
             log.error("Reverting token revocation");
-            fieldFailure = FieldFailure.of("revoked", "invalidValue", token.isRevoked());
+            fieldFailure = FieldFailure.of("revoked", "invalidValue", token.getRevoked());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
