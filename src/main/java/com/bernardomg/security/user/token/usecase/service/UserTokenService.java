@@ -29,7 +29,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.model.UserTokenPatch;
+import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 
 /**
  * User token service.

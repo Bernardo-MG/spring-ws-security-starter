@@ -22,11 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.domain.model;
+package com.bernardomg.security.user.token.domain.patch;
 
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Value;
@@ -44,7 +42,6 @@ public final class UserTokenPatch {
     /**
      * Token expiration date.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime expirationDate;
 
     /**

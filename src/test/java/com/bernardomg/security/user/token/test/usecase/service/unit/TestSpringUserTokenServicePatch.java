@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.model.UserTokenPatch;
+import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.user.token.test.config.factory.UserTokenPatches;

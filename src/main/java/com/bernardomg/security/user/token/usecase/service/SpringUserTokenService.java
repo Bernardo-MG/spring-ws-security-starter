@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.model.UserTokenPatch;
+import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.validation.UserTokenNotExpiredRule;
 import com.bernardomg.security.user.token.usecase.validation.UserTokenNotRevokedRule;
@@ -64,12 +64,12 @@ public final class SpringUserTokenService implements UserTokenService {
     /**
      * User token repository.
      */
-    private final UserTokenRepository       userTokenRepository;
+    private final UserTokenRepository  userTokenRepository;
 
     /**
      * Patch validator.
      */
-    private final Validator<UserTokenPatch> validatorPatch;
+    private final Validator<UserToken> validatorPatch;
 
     public SpringUserTokenService(final UserTokenRepository userTokenRepo) {
         super();
@@ -130,9 +130,9 @@ public final class SpringUserTokenService implements UserTokenService {
                 return new MissingUserTokenException(token.getToken());
             });
 
-        validatorPatch.validate(token);
-
         toSave = copy(readToken, token);
+
+        validatorPatch.validate(toSave);
 
         return userTokenRepository.save(toSave);
     }

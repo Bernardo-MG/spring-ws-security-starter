@@ -37,7 +37,7 @@ import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.user.token.adapter.outbound.rest.model.UserTokenPartial;
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.model.UserTokenPatch;
+import com.bernardomg.security.user.token.domain.patch.UserTokenPatch;
 import com.bernardomg.security.user.token.usecase.service.UserTokenService;
 
 import lombok.AllArgsConstructor;
