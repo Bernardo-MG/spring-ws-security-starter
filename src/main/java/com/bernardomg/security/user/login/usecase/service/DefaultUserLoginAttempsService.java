@@ -25,7 +25,6 @@
 package com.bernardomg.security.user.login.usecase.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,9 +60,8 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
 
     @Override
     public final void checkForLocking(final String username) {
-        final int            attempts;
-        final Optional<User> read;
-        final User           user;
+        final int  attempts;
+        final User user;
 
         log.debug("Checking {} for locking user", username);
 
@@ -75,12 +73,11 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
         // If attempts reached the max
         if (attempts >= maxAttempts) {
             // Then the user is locked
-            read = userRepository.findOne(username);
-            if (read.isEmpty()) {
-                log.error("Missing user {}", username);
-                throw new MissingUserException(username);
-            }
-            user = read.get();
+            user = userRepository.findOne(username)
+                .orElseThrow(() -> {
+                    log.error("Missing user {}", username);
+                    throw new MissingUserException(username);
+                });
             userRepository.lock(user.getUsername());
             log.debug("Locked user {} after {} login attempts", username, attempts);
         } else {

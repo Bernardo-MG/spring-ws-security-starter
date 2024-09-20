@@ -151,17 +151,12 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final String getUsername(final String token) {
-        final Optional<String> username;
-
-        username = userTokenRepository.findOneByScope(token, tokenScope)
-            .map(UserToken::getUsername);
-
-        if (username.isEmpty()) {
-            log.error("Missing user token {}", token);
-            throw new MissingUserTokenException(token);
-        }
-
-        return username.get();
+        return userTokenRepository.findOneByScope(token, tokenScope)
+            .map(UserToken::getUsername)
+            .orElseThrow(() -> {
+                log.error("Missing user token {}", token);
+                throw new MissingUserTokenException(token);
+            });
     }
 
     @Override

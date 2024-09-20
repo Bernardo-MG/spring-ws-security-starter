@@ -74,24 +74,18 @@ public final class DefaultAccountService implements AccountService {
 
     @Override
     public final Account update(final Account account) {
-        final Account           accountData;
-        final Optional<Account> current;
+        final Account accountData;
+        final Account current;
 
         log.debug("Updating account {} using data {}", account.getUsername(), account);
 
-        current = getCurrentUser();
-        if (current.isEmpty()) {
+        current = getCurrentUser().orElseThrow(() -> {
             log.error("Missing account for user in session");
             throw new MissingAccountException();
-        }
+        });
 
         // Can only change name
-        accountData = BasicAccount.of(current.get()
-            .getUsername(),
-            current.get()
-                .getName(),
-            current.get()
-                .getEmail());
+        accountData = BasicAccount.of(current.getUsername(), current.getName(), current.getEmail());
 
         log.debug("Updating account {} using data {}", accountData.getUsername(), accountData);
 

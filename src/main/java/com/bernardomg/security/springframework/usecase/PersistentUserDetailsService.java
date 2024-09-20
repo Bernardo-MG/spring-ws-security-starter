@@ -27,7 +27,6 @@ package com.bernardomg.security.springframework.usecase;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -95,20 +94,18 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
     @Override
     public final UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final Optional<com.bernardomg.security.user.data.domain.model.User> user;
-        final Collection<? extends GrantedAuthority>                        authorities;
-        final UserDetails                                                   details;
-        final String                                                        password;
+        final User                                   user;
+        final Collection<? extends GrantedAuthority> authorities;
+        final UserDetails                            details;
+        final String                                 password;
 
-        user = userRepository.findOne(username.toLowerCase(Locale.getDefault()));
+        user = userRepository.findOne(username.toLowerCase(Locale.getDefault()))
+            .orElseThrow(() -> {
+                log.error("Username {} not found in database", username);
+                throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
+            });
 
-        if (user.isEmpty()) {
-            log.error("Username {} not found in database", username);
-            throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
-        }
-
-        authorities = userPermissionRepository.findAll(user.get()
-            .getUsername())
+        authorities = userPermissionRepository.findAll(user.getUsername())
             .stream()
             .map(this::toAuthority)
             .toList();
@@ -120,7 +117,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
 
         password = userRepository.findPassword(username)
             .get();
-        details = toUserDetails(user.get(), password, authorities);
+        details = toUserDetails(user, password, authorities);
 
         log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}", username,
             details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),

@@ -178,17 +178,17 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final User update(final User user) {
-        final Optional<User> existing;
-        final User           toSave;
+        final User existing;
+        final User toSave;
 
         log.debug("Updating user {} using data {}", user.getUsername(), user);
 
         // Verify the user exists
-        existing = userRepository.findOne(user.getUsername());
-        if (existing.isEmpty()) {
-            log.error("Missing user {}", user.getUsername());
-            throw new MissingUserException(user.getUsername());
-        }
+        existing = userRepository.findOne(user.getUsername())
+            .orElseThrow(() -> {
+                log.error("Missing user {}", user.getUsername());
+                throw new MissingUserException(user.getUsername());
+            });
 
         // Verify the roles exists
         for (final Role role : user.getRoles()) {
@@ -202,12 +202,9 @@ public final class DefaultUserService implements UserService {
 
         toSave = User.builder()
             // Can't change these fields
-            .withUsername(existing.get()
-                .getUsername())
-            .withExpired(existing.get()
-                .isExpired())
-            .withLocked(existing.get()
-                .isLocked())
+            .withUsername(existing.getUsername())
+            .withExpired(existing.isExpired())
+            .withLocked(existing.isLocked())
             // These fields are allowed to change
             .withName(user.getName())
             .withEmail(user.getEmail())
