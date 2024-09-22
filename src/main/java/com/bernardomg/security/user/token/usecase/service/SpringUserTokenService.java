@@ -118,12 +118,12 @@ public final class SpringUserTokenService implements UserTokenService {
 
     @Override
     public final UserToken patch(final UserToken token) {
-        final UserToken readToken;
+        final UserToken existing;
         final UserToken toSave;
 
         log.debug("Patching token {}", token.getToken());
 
-        readToken = userTokenRepository.findOne(token.getToken())
+        existing = userTokenRepository.findOne(token.getToken())
             .orElseThrow(() -> {
                 log.error("Missing user token {}", token.getToken());
                 return new MissingUserTokenException(token.getToken());
@@ -131,7 +131,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         validatorPatch.validate(token);
 
-        toSave = copy(readToken, token);
+        toSave = copy(existing, token);
 
         return userTokenRepository.save(toSave);
     }
