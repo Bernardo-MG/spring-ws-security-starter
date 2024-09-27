@@ -26,8 +26,6 @@ package com.bernardomg.security.user.token.domain.model;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Builder;
 import lombok.Value;
 
@@ -49,13 +47,11 @@ public final class UserToken {
     /**
      * Token creation date.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime creationDate;
 
     /**
      * Token expiration date.
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime expirationDate;
 
     /**
