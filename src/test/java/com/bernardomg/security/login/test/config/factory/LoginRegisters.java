@@ -6,19 +6,11 @@ import com.bernardomg.security.login.domain.model.LoginRegister;
 public final class LoginRegisters {
 
     public static final LoginRegister loggedIn() {
-        return LoginRegister.builder()
-            .withUsername(LoginConstants.USERNAME)
-            .withLoggedIn(true)
-            .withDate(LoginConstants.DATE)
-            .build();
+        return new LoginRegister(LoginConstants.USERNAME,true,LoginConstants.DATE);
     }
 
     public static final LoginRegister notLoggedIn() {
-        return LoginRegister.builder()
-            .withUsername(LoginConstants.USERNAME)
-            .withLoggedIn(false)
-            .withDate(LoginConstants.DATE)
-            .build();
+        return new LoginRegister(LoginConstants.USERNAME,false,LoginConstants.DATE);
     }
 
     private LoginRegisters() {
