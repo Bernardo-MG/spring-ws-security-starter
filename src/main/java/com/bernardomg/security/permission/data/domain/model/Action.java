@@ -24,28 +24,12 @@
 
 package com.bernardomg.security.permission.data.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
-
 /**
  * Action.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class Action {
-
-    public static final Action of(final String nm) {
-        return Action.builder()
-            .withName(nm)
-            .build();
-    }
-
-    /**
-     * Action name.
-     */
-    private final String name;
+public record Action(String name) {
 
 }

@@ -67,7 +67,7 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return ResourcePermission.of(entity.getResource(), entity.getAction());
+        return new ResourcePermission(entity.getResource(), entity.getAction());
     }
 
     private final Role toDomain(final RoleEntity role) {

@@ -155,7 +155,7 @@ public class RoleController {
 
         permissions = request.getPermissions()
             .stream()
-            .map(p -> ResourcePermission.of(p.getResource(), p.getAction()))
+            .map(p -> new ResourcePermission(p.getResource(), p.getAction()))
             .toList();
         role = Role.of(roleName, permissions);
 

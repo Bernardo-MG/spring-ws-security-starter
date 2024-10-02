@@ -6,31 +6,19 @@ import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 public final class ResourcePermissions {
 
     public static final ResourcePermission create() {
-        return ResourcePermission.builder()
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.CREATE)
-            .build();
+        return new ResourcePermission(PermissionConstants.DATA, PermissionConstants.CREATE);
     }
 
     public static final ResourcePermission delete() {
-        return ResourcePermission.builder()
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.DELETE)
-            .build();
+        return new ResourcePermission(PermissionConstants.DATA, PermissionConstants.DELETE);
     }
 
     public static final ResourcePermission read() {
-        return ResourcePermission.builder()
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.READ)
-            .build();
+        return new ResourcePermission(PermissionConstants.DATA, PermissionConstants.READ);
     }
 
     public static final ResourcePermission update() {
-        return ResourcePermission.builder()
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.UPDATE)
-            .build();
+        return new ResourcePermission(PermissionConstants.DATA, PermissionConstants.UPDATE);
     }
 
     private ResourcePermissions() {

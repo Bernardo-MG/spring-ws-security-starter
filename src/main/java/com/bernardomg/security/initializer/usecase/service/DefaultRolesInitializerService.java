@@ -77,7 +77,7 @@ public final class DefaultRolesInitializerService implements RolesInitializerSer
         final Collection<ResourcePermission> rolePermissions;
 
         rolePermissions = permissions.stream()
-            .filter(p -> ((Actions.READ.equals(p.getAction())) || (Actions.VIEW.equals(p.getAction()))))
+            .filter(p -> ((Actions.READ.equals(p.action())) || (Actions.VIEW.equals(p.action()))))
             .toList();
         return Role.of("READ", rolePermissions);
     }

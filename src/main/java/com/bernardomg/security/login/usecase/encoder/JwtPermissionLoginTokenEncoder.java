@@ -92,11 +92,11 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
         Function<ResourcePermission, String> actionMapper;
 
         // Resource name in lower case
-        resourceMapper = ResourcePermission::getResource;
+        resourceMapper = ResourcePermission::resource;
         resourceMapper = resourceMapper.andThen(String::toLowerCase);
 
         // Action name in lower case
-        actionMapper = ResourcePermission::getAction;
+        actionMapper = ResourcePermission::action;
         actionMapper = actionMapper.andThen(String::toLowerCase);
 
         // Transform into a map, with the resource as key, and the list of actions as value
