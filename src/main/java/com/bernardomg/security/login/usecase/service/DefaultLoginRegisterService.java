@@ -65,7 +65,7 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
         log.debug("Registering log in attempt for user {} and status {}", username, logged);
 
         now = LocalDateTime.now();
-        entity = LoginRegister.of(username, logged, now);
+        entity = new LoginRegister(username, logged, now);
 
         loginRegisterRepository.save(entity);
     }
