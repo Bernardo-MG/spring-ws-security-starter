@@ -24,13 +24,13 @@ public final class Users {
     }
 
     public static final User addRole() {
+        final Role role1;
+        final Role role2;
+
+        role1 = new Role(RoleConstants.NAME, List.of());
+        role2 = new Role(RoleConstants.ALTERNATIVE_NAME, List.of());
         return User.builder()
-            .withRoles(List.of(Role.builder()
-                .withName(RoleConstants.NAME)
-                .build(),
-                Role.builder()
-                    .withName(RoleConstants.ALTERNATIVE_NAME)
-                    .build()))
+            .withRoles(List.of(role1, role2))
             .withName(UserConstants.NAME)
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)

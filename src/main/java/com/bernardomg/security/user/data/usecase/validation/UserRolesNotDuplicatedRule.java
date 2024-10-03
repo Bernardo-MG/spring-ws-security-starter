@@ -30,7 +30,7 @@ public final class UserRolesNotDuplicatedRule implements FieldRule<User> {
 
         uniqueRoles = user.getRoles()
             .stream()
-            .map(Role::getName)
+            .map(Role::name)
             .distinct()
             .count();
         totalRoles = user.getRoles()

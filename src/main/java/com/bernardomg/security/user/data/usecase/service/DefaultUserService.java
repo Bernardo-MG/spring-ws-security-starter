@@ -189,9 +189,9 @@ public final class DefaultUserService implements UserService {
 
         // Verify the roles exists
         for (final Role role : user.getRoles()) {
-            if (!roleRepository.exists(role.getName())) {
-                log.error("Missing role {}", role.getName());
-                throw new MissingRoleException(role.getName());
+            if (!roleRepository.exists(role.name())) {
+                log.error("Missing role {}", role.name());
+                throw new MissingRoleException(role.name());
             }
         }
 

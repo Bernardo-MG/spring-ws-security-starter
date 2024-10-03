@@ -157,7 +157,7 @@ public class RoleController {
             .stream()
             .map(p -> new ResourcePermission(p.getResource(), p.getAction()))
             .toList();
-        role = Role.of(roleName, permissions);
+        role = new Role(roleName, permissions);
 
         return service.update(role);
     }

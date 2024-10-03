@@ -85,7 +85,7 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
                 .sorted(new ResourcePermissionComparator())
                 .toList();
         }
-        return Role.of(role.getName(), permissions);
+        return new Role(role.getName(), permissions);
     }
 
 }

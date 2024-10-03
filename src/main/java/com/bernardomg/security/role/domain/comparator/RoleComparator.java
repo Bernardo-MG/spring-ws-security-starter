@@ -35,8 +35,8 @@ public final class RoleComparator implements Comparator<Role> {
 
     @Override
     public final int compare(final Role left, final Role right) {
-        return left.getName()
-            .compareTo(right.getName());
+        return left.name()
+            .compareTo(right.name());
     }
 
 }

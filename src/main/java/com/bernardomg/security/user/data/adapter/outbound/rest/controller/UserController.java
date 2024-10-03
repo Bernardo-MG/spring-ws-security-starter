@@ -25,6 +25,7 @@
 package com.bernardomg.security.user.data.adapter.outbound.rest.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -166,7 +167,7 @@ public class UserController {
 
         roles = request.getRoles()
             .stream()
-            .map(Role::of)
+            .map(r -> new Role(r, List.of()))
             .toList();
         user = User.builder()
             .withUsername(request.getUsername())
