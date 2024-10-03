@@ -27,6 +27,6 @@ package com.bernardomg.security.permission.initializer.usecase;
 /**
  * Resource and action pair for the permissions loader. This pair represents a permission which to be loaded.
  */
-public record ResourcePermissionPair(String action, String resource) {
+public record ResourcePermissionPair(String resource, String action) {
 
 }
