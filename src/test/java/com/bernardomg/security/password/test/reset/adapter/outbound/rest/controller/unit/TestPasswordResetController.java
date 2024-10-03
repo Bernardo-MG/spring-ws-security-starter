@@ -9,24 +9,21 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetController;
-import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetExceptionHandler;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordResetChange;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
@@ -56,8 +53,8 @@ class TestPasswordResetController {
         changeRequest = new PasswordResetChange(UserConstants.NEW_PASSWORD);
 
         // WHEN + THEN
-        mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN)
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
             .content(JsonUtils.toJson(changeRequest)))
             .andExpect(status().isOk());
     }
@@ -71,8 +68,8 @@ class TestPasswordResetController {
         changeRequest = new PasswordResetChange(UserConstants.NEW_PASSWORD);
 
         // WHEN
-        mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN)
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
             .content(JsonUtils.toJson(changeRequest)));
 
         // THEN
@@ -92,8 +89,8 @@ class TestPasswordResetController {
             .changePassword(anyString(), anyString());
 
         // WHEN + THEN
-        mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN)
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
             .content(JsonUtils.toJson(changeRequest)))
             .andExpect(status().isOk());
     }
@@ -107,8 +104,8 @@ class TestPasswordResetController {
         resetRequest = new PasswordReset(UserConstants.EMAIL);
 
         // WHEN + THEN
-        mockMvc.perform(post("/password/reset")
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/password/reset").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
             .content(JsonUtils.toJson(resetRequest)))
             .andExpect(status().isOk());
     }
@@ -122,8 +119,8 @@ class TestPasswordResetController {
         resetRequest = new PasswordReset(UserConstants.EMAIL);
 
         // WHEN
-        mockMvc.perform(post("/password/reset")
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/password/reset").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
             .content(JsonUtils.toJson(resetRequest)));
 
         // THEN
@@ -140,8 +137,8 @@ class TestPasswordResetController {
             .startPasswordReset(anyString());
 
         // WHEN + THEN
-        mockMvc.perform(post("/password/reset")
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/password/reset").with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
             .content(JsonUtils.toJson(resetRequest)))
             .andExpect(status().isOk());
     }
@@ -155,11 +152,12 @@ class TestPasswordResetController {
         given(service.validateToken(anyString())).willReturn(tokenStatus);
 
         // WHEN + THEN
-        mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN)
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(content().json(JsonUtils.toJson(tokenStatus)));
+            .andExpect(jsonPath("$.content.username").value(tokenStatus.getUsername()))
+            .andExpect(jsonPath("$.content.valid").value(tokenStatus.isValid()));
     }
 
     @Test
@@ -171,8 +169,8 @@ class TestPasswordResetController {
         given(service.validateToken(anyString())).willReturn(tokenStatus);
 
         // WHEN
-        mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN)
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON));
+        mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON));
 
         // THEN
         verify(service).validateToken(Tokens.TOKEN);
@@ -186,8 +184,8 @@ class TestPasswordResetController {
         given(service.validateToken(anyString())).willThrow(new RuntimeException("Service exception"));
 
         // WHEN + THEN
-        mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN)
-            .with(csrf()).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
 
