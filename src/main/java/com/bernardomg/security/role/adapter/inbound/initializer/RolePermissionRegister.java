@@ -42,9 +42,9 @@ public final class RolePermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(ResourcePermissionPair.of("ROLE", "CREATE"), ResourcePermissionPair.of("ROLE", "READ"),
-            ResourcePermissionPair.of("ROLE", "UPDATE"), ResourcePermissionPair.of("ROLE", "DELETE"),
-            ResourcePermissionPair.of("ROLE", "VIEW"));
+        return List.of(new ResourcePermissionPair("ROLE", "CREATE"), new ResourcePermissionPair("ROLE", "READ"),
+            new ResourcePermissionPair("ROLE", "UPDATE"), new ResourcePermissionPair("ROLE", "DELETE"),
+            new ResourcePermissionPair("ROLE", "VIEW"));
     }
 
     @Override

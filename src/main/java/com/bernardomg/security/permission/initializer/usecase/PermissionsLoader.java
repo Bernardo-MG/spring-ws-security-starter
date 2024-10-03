@@ -127,15 +127,15 @@ public final class PermissionsLoader {
     }
 
     private final Action toAction(final String name) {
-        return Action.of(name);
+        return new Action(name);
     }
 
     private final Resource toResource(final String name) {
-        return Resource.of(name);
+        return new Resource(name);
     }
 
     private final ResourcePermission toResourcePermission(final ResourcePermissionPair pair) {
-        return ResourcePermission.of(pair.getResource(), pair.getAction());
+        return new ResourcePermission(pair.resource(), pair.action());
     }
 
 }

@@ -45,7 +45,7 @@ public class TestPermissionsLoader {
         given(permissionRegister.getActions()).willReturn(List.of(PermissionConstants.CREATE));
         given(permissionRegister.getResources()).willReturn(List.of(PermissionConstants.DATA));
         given(permissionRegister.getPermissions())
-            .willReturn(List.of(ResourcePermissionPair.of(PermissionConstants.DATA, PermissionConstants.CREATE)));
+            .willReturn(List.of(new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE)));
 
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
 

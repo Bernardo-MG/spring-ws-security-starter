@@ -85,12 +85,12 @@ public final class WhitelistFilterWrapper extends OncePerRequestFilter {
         final PathContainer pathContainer;
         final boolean       matches;
 
-        pathPattern = pathPatternParser.parse(whitelistRoute.getRoute());
+        pathPattern = pathPatternParser.parse(whitelistRoute.route());
         pathContainer = PathContainer.parsePath(uri);
         if (pathPattern.matches(pathContainer)) {
             // The request URI matches the pattern
             // Check if the method is allowed
-            matches = whitelistRoute.getMethods()
+            matches = whitelistRoute.methods()
                 .contains(method);
         } else {
             matches = false;

@@ -288,7 +288,7 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return ResourcePermission.of(entity.getResource(), entity.getAction());
+        return new ResourcePermission(entity.getResource(), entity.getAction());
     }
 
     private final Role toDomain(final RoleEntity role) {
@@ -302,7 +302,7 @@ public final class JpaUserRepository implements UserRepository {
             .map(this::toDomain)
             .sorted(new ResourcePermissionComparator())
             .toList();
-        return Role.of(role.getName(), permissions);
+        return new Role(role.getName(), permissions);
     }
 
     private final User toDomain(final UserEntity user) {
@@ -329,7 +329,7 @@ public final class JpaUserRepository implements UserRepository {
     private final RoleEntity toEntity(final Role role) {
         final Optional<RoleEntity> read;
 
-        read = roleSpringRepository.findByName(role.getName());
+        read = roleSpringRepository.findByName(role.name());
 
         return read.orElse(null);
     }

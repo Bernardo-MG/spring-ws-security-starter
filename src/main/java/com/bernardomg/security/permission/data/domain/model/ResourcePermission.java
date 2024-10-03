@@ -24,8 +24,7 @@
 
 package com.bernardomg.security.permission.data.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Immutable resource permission.
@@ -33,32 +32,14 @@ import lombok.Value;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class ResourcePermission {
-
-    public static final ResourcePermission of(final String rsc, final String act) {
-        return ResourcePermission.builder()
-            .withResource(rsc)
-            .withAction(act)
-            .build();
-    }
-
-    /**
-     * Action applied to the resource.
-     */
-    private final String action;
-
-    /**
-     * Permission resource.
-     */
-    private final String resource;
+public record ResourcePermission(String resource, String action) {
 
     /**
      * Permission name.
      *
      * @return resource name
      */
+    @JsonProperty("name")
     public final String getName() {
         return String.format("%s:%s", action, resource);
     }
