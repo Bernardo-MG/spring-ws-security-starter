@@ -22,28 +22,35 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
+package com.bernardomg.test.config.annotation;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-/**
- * Data required for changing a password.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class PasswordResetChange {
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
-    /**
-     * The new password.
-     */
-    private String password;
+import com.bernardomg.test.TestApplication;
+import com.bernardomg.test.testcontainer.PostgresDbExtension;
+
+@SpringJUnitConfig
+@SpringBootTest(classes = TestApplication.class)
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+@ExtendWith(PostgresDbExtension.class)
+@Transactional
+@Rollback
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+public @interface MvcIntegrationTest {
 
 }

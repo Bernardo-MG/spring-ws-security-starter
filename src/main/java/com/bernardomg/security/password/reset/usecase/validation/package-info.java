@@ -22,28 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
- * Data required for changing a password.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Password reset validation.
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class PasswordResetChange {
 
-    /**
-     * The new password.
-     */
-    private String password;
-
-}
+package com.bernardomg.security.password.reset.usecase.validation;

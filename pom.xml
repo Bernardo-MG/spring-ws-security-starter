@@ -509,8 +509,12 @@
          <scope>test</scope>
          <exclusions>
             <exclusion>
-               <groupId>org.junit.vintage</groupId>
-               <artifactId>junit-vintage-engine</artifactId>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
             </exclusion>
          </exclusions>
       </dependency>
