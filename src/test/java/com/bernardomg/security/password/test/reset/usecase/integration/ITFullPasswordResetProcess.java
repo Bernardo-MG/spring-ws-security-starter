@@ -62,14 +62,14 @@ class ITFullPasswordResetProcess {
             .isEqualTo(UserConstants.USERNAME);
 
         // Change password
-        service.changePassword(token, "abc");
+        service.changePassword(token, UserConstants.NEW_PASSWORD);
 
         user = userRepository.findAll()
             .stream()
             .findFirst()
             .get();
 
-        Assertions.assertThat(passwordEncoder.matches("abc", user.getPassword()))
+        Assertions.assertThat(passwordEncoder.matches(UserConstants.NEW_PASSWORD, user.getPassword()))
             .isTrue();
     }
 

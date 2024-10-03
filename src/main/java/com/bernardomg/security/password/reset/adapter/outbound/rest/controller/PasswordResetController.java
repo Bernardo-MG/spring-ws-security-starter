@@ -78,7 +78,7 @@ public class PasswordResetController {
     @PostMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     public void changePassword(@PathVariable("token") final String token,
-            @Valid @RequestBody final PasswordResetChange request) {
+            @RequestBody final PasswordResetChange request) {
         service.changePassword(token, request.getPassword());
     }
 
