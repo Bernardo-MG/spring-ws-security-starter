@@ -13,16 +13,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
@@ -30,17 +24,11 @@ import com.bernardomg.security.password.reset.adapter.outbound.rest.model.Passwo
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
-import com.bernardomg.test.TestApplication;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
+import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.test.json.JsonUtils;
-import com.bernardomg.test.testcontainer.PostgresDbExtension;
 
-@SpringBootTest(classes = TestApplication.class)
-@ActiveProfiles("test")
-@ExtendWith(PostgresDbExtension.class)
-@Transactional
-@Rollback
-@AutoConfigureMockMvc
+@MvcIntegrationTest
 @DisplayName("PasswordResetController")
 @AllAuthoritiesMockUser
 class TestPasswordResetController {
