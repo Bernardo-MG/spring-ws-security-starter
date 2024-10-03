@@ -26,43 +26,21 @@ package com.bernardomg.security.web.whitelist;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.http.HttpMethod;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
-
 /**
  * Route to whitelist.
  */
-@Value
-@Builder(setterPrefix = "with")
-@EqualsAndHashCode
-public final class WhitelistRoute {
+public record WhitelistRoute(String route, Collection<HttpMethod> methods) {
 
     public static WhitelistRoute of(final String route, final HttpMethod... methods) {
         for (final HttpMethod method : methods) {
             Objects.requireNonNull(method);
         }
 
-        return WhitelistRoute.builder()
-            .withRoute(route)
-            .withMethods(Arrays.asList(methods))
-            .build();
+        return new WhitelistRoute(route, Arrays.asList(methods));
     }
-
-    /**
-     * Methods to whitelist.
-     */
-    @Builder.Default
-    private final Collection<HttpMethod> methods = List.of();
-
-    /**
-     * Route to whitelist.
-     */
-    private final String                 route;
 
 }
