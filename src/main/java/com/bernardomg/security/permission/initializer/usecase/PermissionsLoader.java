@@ -135,7 +135,7 @@ public final class PermissionsLoader {
     }
 
     private final ResourcePermission toResourcePermission(final ResourcePermissionPair pair) {
-        return new ResourcePermission(pair.getResource(), pair.getAction());
+        return new ResourcePermission(pair.resource(), pair.action());
     }
 
 }

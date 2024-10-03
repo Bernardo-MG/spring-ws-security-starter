@@ -24,40 +24,9 @@
 
 package com.bernardomg.security.permission.initializer.usecase;
 
-import lombok.Builder;
-import lombok.Value;
-
 /**
  * Resource and action pair for the permissions loader. This pair represents a permission which to be loaded.
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class ResourcePermissionPair {
-
-    /**
-     * Creates a resource permission pair with the received resource and action.
-     *
-     * @param resource
-     *            permission resource
-     * @param action
-     *            permission action
-     * @return resource permission pair for the received resource and action
-     */
-    public static final ResourcePermissionPair of(final String resource, final String action) {
-        return ResourcePermissionPair.builder()
-            .withAction(action)
-            .withResource(resource)
-            .build();
-    }
-
-    /**
-     * Action name.
-     */
-    private final String action;
-
-    /**
-     * Resource name.
-     */
-    private final String resource;
+public record ResourcePermissionPair(String action, String resource) {
 
 }

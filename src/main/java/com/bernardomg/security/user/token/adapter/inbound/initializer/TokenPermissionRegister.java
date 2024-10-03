@@ -42,9 +42,9 @@ public final class TokenPermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(ResourcePermissionPair.of("USER_TOKEN", "READ"),
-            ResourcePermissionPair.of("USER_TOKEN", "UPDATE"), ResourcePermissionPair.of("USER_TOKEN", "DELETE"),
-            ResourcePermissionPair.of("USER_TOKEN", "VIEW"));
+        return List.of(new ResourcePermissionPair("USER_TOKEN", "READ"),
+            new ResourcePermissionPair("USER_TOKEN", "UPDATE"), new ResourcePermissionPair("USER_TOKEN", "DELETE"),
+            new ResourcePermissionPair("USER_TOKEN", "VIEW"));
     }
 
     @Override
