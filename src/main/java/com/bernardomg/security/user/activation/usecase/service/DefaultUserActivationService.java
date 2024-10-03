@@ -112,7 +112,7 @@ public final class DefaultUserActivationService implements UserActivationService
         }
         username = tokenStore.getUsername(token);
 
-        return UserTokenStatus.of(username, valid);
+        return new UserTokenStatus(username, valid);
     }
 
 }

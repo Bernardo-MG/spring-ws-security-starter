@@ -6,15 +6,11 @@ import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 public final class UserTokenStatuses {
 
     public static final UserTokenStatus invalid() {
-        return UserTokenStatus.builder()
-            .withValid(false)
-            .build();
+        return new UserTokenStatus("", false);
     }
 
     public static final UserTokenStatus valid() {
-        return UserTokenStatus.builder()
-            .withValid(true)
-            .build();
+        return new UserTokenStatus("", true);
     }
 
     private UserTokenStatuses() {

@@ -175,7 +175,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             username = "";
         }
 
-        return UserTokenStatus.of(username, valid);
+        return new UserTokenStatus(username, valid);
     }
 
     /**

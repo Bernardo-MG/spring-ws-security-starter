@@ -106,7 +106,7 @@ class TestPasswordResetController {
     @Test
     @DisplayName("Can validate the token")
     void testValidateToken() throws Exception {
-        final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
+        final UserTokenStatus tokenStatus = new UserTokenStatus(UserConstants.USERNAME, true);
 
         // GIVEN
         given(service.validateToken(anyString())).willReturn(tokenStatus);
@@ -116,14 +116,14 @@ class TestPasswordResetController {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.username").value(tokenStatus.getUsername()))
-            .andExpect(jsonPath("$.content.valid").value(tokenStatus.isValid()));
+            .andExpect(jsonPath("$.content.username").value(tokenStatus.username()))
+            .andExpect(jsonPath("$.content.valid").value(tokenStatus.valid()));
     }
 
     @Test
     @DisplayName("When validating the token, the data is sent to the service")
     void testValidateToken_CallsService() throws Exception {
-        final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
+        final UserTokenStatus tokenStatus = new UserTokenStatus(UserConstants.USERNAME, true);
 
         // GIVEN
         given(service.validateToken(anyString())).willReturn(tokenStatus);
