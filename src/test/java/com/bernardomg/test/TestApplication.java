@@ -26,6 +26,7 @@ package com.bernardomg.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -34,6 +35,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
+@ComponentScan({ "com.bernardomg.ws" })
 public class TestApplication {
 
     /**

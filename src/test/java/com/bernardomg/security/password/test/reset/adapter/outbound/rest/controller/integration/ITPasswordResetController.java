@@ -15,10 +15,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetController;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordResetChange;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
@@ -29,6 +31,7 @@ import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.test.json.JsonUtils;
 
 @MvcIntegrationTest
+@ComponentScan(basePackageClasses = PasswordResetController.class)
 @DisplayName("PasswordResetController")
 @AllAuthoritiesMockUser
 class ITPasswordResetController {
