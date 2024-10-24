@@ -36,8 +36,8 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@RestControllerAdvice(basePackageClasses = PasswordResetExceptionHandler.class)
 @Slf4j
+@RestControllerAdvice(basePackageClasses = PasswordResetExceptionHandler.class)
 public class PasswordResetExceptionHandler {
 
     /**

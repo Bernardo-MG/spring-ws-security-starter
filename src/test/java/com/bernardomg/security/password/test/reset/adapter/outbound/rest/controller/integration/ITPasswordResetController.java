@@ -33,8 +33,8 @@ import com.bernardomg.web.response.domain.model.Response;
 
 @MvcIntegrationTest
 @ComponentScan(basePackageClasses = PasswordResetController.class)
-@DisplayName("PasswordResetController")
 @AllAuthoritiesMockUser
+@DisplayName("PasswordResetController")
 class ITPasswordResetController {
 
     @Autowired
@@ -119,9 +119,8 @@ class ITPasswordResetController {
         final UserTokenStatus tokenStatus;
         final ResultActions   resultActions;
 
-        tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
-
         // GIVEN
+        tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
         given(service.validateToken(anyString())).willReturn(tokenStatus);
 
         // WHEN
