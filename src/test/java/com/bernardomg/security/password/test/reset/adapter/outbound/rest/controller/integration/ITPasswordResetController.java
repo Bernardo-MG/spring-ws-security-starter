@@ -109,7 +109,8 @@ class ITPasswordResetController {
     @Test
     @DisplayName("Can validate the token")
     void testValidateToken() throws Exception {
-        final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
+        final boolean         valid       = true;
+        final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, valid);
 
         // GIVEN
         given(service.validateToken(anyString())).willReturn(tokenStatus);
@@ -119,8 +120,8 @@ class ITPasswordResetController {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.username").value(tokenStatus.getUsername()))
-            .andExpect(jsonPath("$.content.valid").value(tokenStatus.isValid()));
+            .andExpect(jsonPath("$.content.username").value(UserConstants.USERNAME))
+            .andExpect(jsonPath("$.content.valid").value(valid));
     }
 
     @Test
