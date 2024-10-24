@@ -26,6 +26,7 @@ package com.bernardomg.security.springframework.web;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -65,7 +66,7 @@ public final class ErrorResponseAuthenticationEntryPoint implements Authenticati
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        resp = ErrorResponse.of("Unauthorized");
+        resp = new ErrorResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "Unauthorized");
 
         mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), resp);

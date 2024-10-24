@@ -116,7 +116,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         execution = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
-        failure = FieldFailure.of("password.invalid", "password", "invalid", "");
+        failure = new FieldFailure("invalid", "password.invalid", "password", "");
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
