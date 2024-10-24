@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.test.reset.adapter.outbound.rest.controller.unit;
+package com.bernardomg.security.password.test.reset.adapter.outbound.rest.controller.integration;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -31,7 +31,7 @@ import com.bernardomg.test.json.JsonUtils;
 @MvcIntegrationTest
 @DisplayName("PasswordResetController")
 @AllAuthoritiesMockUser
-class TestPasswordResetController {
+class ITPasswordResetController {
 
     @Autowired
     private MockMvc              mockMvc;
