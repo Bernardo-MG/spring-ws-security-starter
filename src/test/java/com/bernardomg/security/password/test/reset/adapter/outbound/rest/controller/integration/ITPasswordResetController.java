@@ -8,7 +8,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetController;
@@ -29,6 +29,7 @@ import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.test.json.JsonUtils;
+import com.bernardomg.web.response.domain.model.Response;
 
 @MvcIntegrationTest
 @ComponentScan(basePackageClasses = PasswordResetController.class)
@@ -46,15 +47,18 @@ class ITPasswordResetController {
     @DisplayName("Can change password")
     void testChangePassword() throws Exception {
         final PasswordResetChange changeRequest;
+        final ResultActions       resultActions;
 
         // GIVEN
         changeRequest = new PasswordResetChange(UserConstants.NEW_PASSWORD);
 
-        // WHEN + THEN
-        mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+        // WHEN
+        resultActions = mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN).with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtils.toJson(changeRequest)))
-            .andExpect(status().isOk());
+            .content(JsonUtils.toJson(changeRequest)));
+
+        // THEN
+        resultActions.andExpect(status().isOk());
     }
 
     @Test
@@ -78,15 +82,18 @@ class ITPasswordResetController {
     @DisplayName("Can start password reset")
     void testStartPasswordReset() throws Exception {
         final PasswordReset resetRequest;
+        final ResultActions resultActions;
 
         // GIVEN
         resetRequest = new PasswordReset(UserConstants.EMAIL);
 
-        // WHEN + THEN
-        mockMvc.perform(post("/password/reset").with(csrf())
+        // WHEN
+        resultActions = mockMvc.perform(post("/password/reset").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtils.toJson(resetRequest)))
-            .andExpect(status().isOk());
+            .content(JsonUtils.toJson(resetRequest)));
+
+        // THEN
+        resultActions.andExpect(status().isOk());
     }
 
     @Test
@@ -109,19 +116,22 @@ class ITPasswordResetController {
     @Test
     @DisplayName("Can validate the token")
     void testValidateToken() throws Exception {
-        final boolean         valid       = true;
-        final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, valid);
+        final UserTokenStatus tokenStatus;
+        final ResultActions   resultActions;
+
+        tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
 
         // GIVEN
         given(service.validateToken(anyString())).willReturn(tokenStatus);
 
-        // WHEN + THEN
-        mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN).with(csrf())
+        // WHEN
+        resultActions = mockMvc.perform(get("/password/reset/{token}", Tokens.TOKEN).with(csrf())
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.content.username").value(UserConstants.USERNAME))
-            .andExpect(jsonPath("$.content.valid").value(valid));
+            .andExpect(status().isOk());
+
+        // THEN
+        resultActions.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().json(JsonUtils.toJson(Response.of(tokenStatus))));
     }
 
     @Test
