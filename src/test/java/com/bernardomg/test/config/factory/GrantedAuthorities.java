@@ -9,24 +9,15 @@ import com.bernardomg.security.springframework.domain.model.ResourceActionGrante
 public final class GrantedAuthorities {
 
     public static ResourceActionGrantedAuthority alternativeResourceCreate() {
-        return ResourceActionGrantedAuthority.builder()
-            .withResource(PermissionConstants.ALTERNATIVE_RESOURCE)
-            .withAction(PermissionConstants.CREATE)
-            .build();
+        return new ResourceActionGrantedAuthority(PermissionConstants.ALTERNATIVE_RESOURCE, PermissionConstants.CREATE);
     }
 
     public static ResourceActionGrantedAuthority resourceCreate() {
-        return ResourceActionGrantedAuthority.builder()
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.CREATE)
-            .build();
+        return new ResourceActionGrantedAuthority(PermissionConstants.DATA, PermissionConstants.CREATE);
     }
 
     public static ResourceActionGrantedAuthority resourceRead() {
-        return ResourceActionGrantedAuthority.builder()
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.READ)
-            .build();
+        return new ResourceActionGrantedAuthority(PermissionConstants.DATA, PermissionConstants.READ);
     }
 
     public static SimpleGrantedAuthority simpleCreate() {

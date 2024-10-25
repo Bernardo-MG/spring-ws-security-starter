@@ -26,7 +26,6 @@ package com.bernardomg.security.springframework.domain.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import lombok.Builder;
 import lombok.Value;
 
 /**
@@ -36,7 +35,6 @@ import lombok.Value;
  *
  */
 @Value
-@Builder(setterPrefix = "with")
 public final class ResourceActionGrantedAuthority implements GrantedAuthority {
 
     /**
@@ -53,6 +51,13 @@ public final class ResourceActionGrantedAuthority implements GrantedAuthority {
      * Resource to authorize.
      */
     private final String      resource;
+
+    public ResourceActionGrantedAuthority(final String resource, final String action) {
+        super();
+
+        this.resource = resource;
+        this.action = action;
+    }
 
     @Override
     public final String getAuthority() {

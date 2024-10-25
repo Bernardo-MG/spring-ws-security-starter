@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Checks the role is not linked to a user.
+ * <p>
+ * TODO: instead of this, use on delete cascade
  */
 @Slf4j
 public final class RoleHasNoUserRule implements FieldRule<Role> {

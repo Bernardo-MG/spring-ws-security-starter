@@ -25,6 +25,7 @@
 package com.bernardomg.security.user.data.domain.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import com.bernardomg.security.role.domain.model.Role;
@@ -75,6 +76,10 @@ public record User(String email, boolean enabled, boolean expired, boolean locke
         this.locked = locked;
         this.passwordExpired = passwordExpired;
         this.roles = roles;
+    }
+
+    public static final User newUser(final String username, final String email, final String name) {
+        return new User(email, false, false, false, name, true, List.of(), username);
     }
 
     public final void checkStatus() {

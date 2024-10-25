@@ -129,10 +129,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     }
 
     private final GrantedAuthority toAuthority(final ResourcePermission permission) {
-        return ResourceActionGrantedAuthority.builder()
-            .withResource(permission.resource())
-            .withAction(permission.action())
-            .build();
+        return new ResourceActionGrantedAuthority(permission.resource(), permission.action());
     }
 
     /**

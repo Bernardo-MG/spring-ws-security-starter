@@ -53,6 +53,8 @@ public interface UserTokenStore {
 
     /**
      * Returns the username for the token.
+     * <p>
+     * TODO: maybe return an optional
      *
      * @param token
      *            token to decode as the object

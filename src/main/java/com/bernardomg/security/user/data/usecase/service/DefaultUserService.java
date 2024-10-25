@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.user.data.usecase.service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -146,16 +145,7 @@ public final class DefaultUserService implements UserService {
 
         log.debug("Registering new user {} with email {}", username, email);
 
-        user = User.builder()
-            .withUsername(username)
-            .withName(name)
-            .withEmail(email)
-            .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
-            .withRoles(List.of())
-            .build();
+        user = User.newUser(username, email, name);
 
         validatorRegisterUser.validate(user);
 

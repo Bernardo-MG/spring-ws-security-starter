@@ -25,7 +25,6 @@
 package com.bernardomg.security.user.activation.usecase.service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,9 +66,9 @@ public final class DefaultUserActivationService implements UserActivationService
 
     @Override
     public final User activateUser(final String token, final String password) {
-        final String         username;
-        final Optional<User> user;
-        final User           saved;
+        final String username;
+        final User   user;
+        final User   saved;
 
         // Validate token
         tokenStore.validate(token);
@@ -79,17 +78,14 @@ public final class DefaultUserActivationService implements UserActivationService
 
         log.debug("Activating new user {}", username);
 
-        user = userRepository.findOne(username);
-
-        // Validate the user exists
-        if (!user.isPresent()) {
-            log.error("Missing user {}", username);
-            throw new MissingUserException(username);
-        }
+        user = userRepository.findOne(username)
+            .orElseThrow(() -> {
+                log.error("Missing user {}", username);
+                throw new MissingUserException(username);
+            });
 
         // TODO: validate somehow that it is actually a new user
-        user.get()
-            .checkStatus();
+        user.checkStatus();
 
         saved = userRepository.activate(username, password);
         tokenStore.consumeToken(token);
@@ -105,6 +101,7 @@ public final class DefaultUserActivationService implements UserActivationService
         boolean      valid;
 
         try {
+            // TODO: maybe return a boolean instead of throwing an exception
             tokenStore.validate(token);
             valid = true;
         } catch (final InvalidTokenException ex) {
