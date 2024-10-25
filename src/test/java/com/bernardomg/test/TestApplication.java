@@ -35,7 +35,7 @@ import org.springframework.context.annotation.ComponentScan;
  *
  */
 @SpringBootApplication
-@ComponentScan({ "com.bernardomg.security.config" })
+@ComponentScan({ "com.bernardomg.ws" })
 public class TestApplication {
 
     /**
