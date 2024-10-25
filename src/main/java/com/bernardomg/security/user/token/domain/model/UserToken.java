@@ -24,9 +24,17 @@
 
 package com.bernardomg.security.user.token.domain.model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.UUID;
+
+import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.user.token.domain.exception.ExpiredTokenException;
+import com.bernardomg.security.user.token.domain.exception.OutOfScopeTokenException;
+import com.bernardomg.security.user.token.domain.exception.RevokedTokenException;
 
 import lombok.Builder;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Immutable implementation of the user token.
@@ -35,6 +43,7 @@ import lombok.Builder;
  *
  */
 @Builder(setterPrefix = "with")
+@Slf4j
 public record UserToken(String username, String name, String scope, String token, LocalDateTime creationDate,
         LocalDateTime expirationDate, Boolean consumed, Boolean revoked) {
 
@@ -56,6 +65,27 @@ public record UserToken(String username, String name, String scope, String token
             .build();
     }
 
+    public static final UserToken create(final String usrname, final String scpe, final Duration validity) {
+        final String        tokenCode;
+        final LocalDateTime creation;
+        final LocalDateTime expiration;
+
+        creation = LocalDateTime.now();
+        expiration = creation.plus(validity);
+
+        tokenCode = UUID.randomUUID()
+            .toString();
+        return UserToken.builder()
+            .withUsername(usrname)
+            .withScope(scpe)
+            .withToken(tokenCode)
+            .withCreationDate(creation)
+            .withExpirationDate(expiration)
+            .withConsumed(false)
+            .withRevoked(false)
+            .build();
+    }
+
     /**
      * Creates a copy of the token with the revoked flag active.
      *
@@ -72,6 +102,33 @@ public record UserToken(String username, String name, String scope, String token
             .withConsumed(consumed)
             .withRevoked(true)
             .build();
+    }
+
+    public final void checkStatus(final String tokenScope) {
+        if (!tokenScope.equals(scope)) {
+            // Scope mismatch
+            log.warn("Expected scope {}, but the token is for {}", tokenScope, scope);
+            throw new OutOfScopeTokenException(token, tokenScope, scope);
+        }
+        if (consumed) {
+            // Consumed
+            // It isn't a valid token
+            log.warn("Consumed token: {}", token);
+            throw new ConsumedTokenException(token);
+        }
+        if (revoked) {
+            // Revoked
+            // It isn't a valid token
+            log.warn("Revoked token: {}", token);
+            throw new RevokedTokenException(token);
+        }
+        if (LocalDateTime.now()
+            .isAfter(expirationDate)) {
+            // Expired
+            // It isn't a valid token
+            log.warn("Expired token: {}", token);
+            throw new ExpiredTokenException(token);
+        }
     }
 
 }
