@@ -33,10 +33,10 @@ public final class UserEmailNotExistsRule implements FieldRule<User> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            log.error("A user already exists with the email {}", user.getEmail());
+        if (userRepository.existsByEmail(user.email())) {
+            log.error("A user already exists with the email {}", user.email());
             // TODO: Is the code exists or is it existing? Make sure all use the same
-            fieldFailure = FieldFailure.of("email", "existing", user.getEmail());
+            fieldFailure = FieldFailure.of("email", "existing", user.email());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

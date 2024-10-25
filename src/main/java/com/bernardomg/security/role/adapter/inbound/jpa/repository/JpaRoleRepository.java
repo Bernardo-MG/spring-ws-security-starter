@@ -224,7 +224,7 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final RoleEntity toEntity(final RoleQuery role) {
         return RoleEntity.builder()
-            .withName(role.getName())
+            .withName(role.name())
             .build();
     }
 

@@ -25,7 +25,6 @@
 package com.bernardomg.security.user.data.domain.model;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 import com.bernardomg.security.role.domain.model.Role;
@@ -34,7 +33,6 @@ import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
 
 import lombok.Builder;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -45,67 +43,26 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
 @Builder(setterPrefix = "with")
 @Slf4j
-public final class User {
-
-    /**
-     * User email.
-     */
-    private final String           email;
-
-    /**
-     * User enabled flag.
-     */
-    private final boolean          enabled;
-
-    /**
-     * User expired flag.
-     */
-    private final boolean          expired;
-
-    /**
-     * User locked flag.
-     */
-    private final boolean          locked;
-
-    /**
-     * User name.
-     */
-    private final String           name;
-
-    /**
-     * Password expired flag.
-     */
-    private final boolean          passwordExpired;
-
-    /**
-     * User roles.
-     */
-    @Builder.Default
-    private final Collection<Role> roles = List.of();
-
-    /**
-     * User username.
-     */
-    private String                 username;
+public record User(String email, boolean enabled, boolean expired, boolean locked, String name, boolean passwordExpired,
+        Collection<Role> roles, String username) {
 
     public User(final String email, final boolean enabled, final boolean expired, final boolean locked,
             final String name, final boolean passwordExpired, final Collection<Role> roles, final String username) {
-        super();
-
         if (Objects.nonNull(name)) {
             this.name = name.trim();
         } else {
             this.name = null;
         }
+
         if (Objects.nonNull(username)) {
             this.username = username.trim()
                 .toLowerCase();
         } else {
             this.username = null;
         }
+
         if (Objects.nonNull(email)) {
             this.email = email.trim()
                 .toLowerCase();

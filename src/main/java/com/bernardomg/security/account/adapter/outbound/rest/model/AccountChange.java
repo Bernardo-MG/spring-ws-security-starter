@@ -25,10 +25,7 @@
 package com.bernardomg.security.account.adapter.outbound.rest.model;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Data which can be changed for a user.
@@ -37,9 +34,6 @@ import lombok.NoArgsConstructor;
  *
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public final class AccountChange {
 
     /**

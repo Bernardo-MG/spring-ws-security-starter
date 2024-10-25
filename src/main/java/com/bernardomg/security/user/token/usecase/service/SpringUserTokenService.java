@@ -91,7 +91,7 @@ public final class SpringUserTokenService implements UserTokenService {
         log.info("Removing {} finished tokens", tokens.size());
 
         tokenCodes = tokens.stream()
-            .map(UserToken::getToken)
+            .map(UserToken::token)
             .toList();
         userTokenRepository.deleteAll(tokenCodes);
     }
@@ -121,12 +121,12 @@ public final class SpringUserTokenService implements UserTokenService {
         final UserToken existing;
         final UserToken toSave;
 
-        log.debug("Patching token {}", token.getToken());
+        log.debug("Patching token {}", token.token());
 
-        existing = userTokenRepository.findOne(token.getToken())
+        existing = userTokenRepository.findOne(token.token())
             .orElseThrow(() -> {
-                log.error("Missing user token {}", token.getToken());
-                return new MissingUserTokenException(token.getToken());
+                log.error("Missing user token {}", token.token());
+                return new MissingUserTokenException(token.token());
             });
 
         validatorPatch.validate(token);
@@ -140,25 +140,25 @@ public final class SpringUserTokenService implements UserTokenService {
         final LocalDateTime expirationDate;
         final Boolean       revoked;
 
-        if (updated.getExpirationDate() == null) {
-            expirationDate = existing.getExpirationDate();
+        if (updated.expirationDate() == null) {
+            expirationDate = existing.expirationDate();
         } else {
-            expirationDate = updated.getExpirationDate();
+            expirationDate = updated.expirationDate();
         }
-        if (updated.getRevoked() == null) {
-            revoked = existing.getRevoked();
+        if (updated.revoked() == null) {
+            revoked = existing.revoked();
         } else {
-            revoked = updated.getRevoked();
+            revoked = updated.revoked();
         }
 
         return UserToken.builder()
-            .withUsername(existing.getUsername())
-            .withName(existing.getName())
-            .withScope(existing.getScope())
-            .withToken(existing.getToken())
-            .withCreationDate(existing.getCreationDate())
+            .withUsername(existing.username())
+            .withName(existing.name())
+            .withScope(existing.scope())
+            .withToken(existing.token())
+            .withCreationDate(existing.creationDate())
             .withExpirationDate(expirationDate)
-            .withConsumed(existing.getConsumed())
+            .withConsumed(existing.consumed())
             .withRevoked(revoked)
             .build();
     }

@@ -105,7 +105,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
                 throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
             });
 
-        authorities = userPermissionRepository.findAll(user.getUsername())
+        authorities = userPermissionRepository.findAll(user.username())
             .stream()
             .map(this::toAuthority)
             .toList();
@@ -153,12 +153,12 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         final Boolean accountNonLocked;
 
         // Loads status
-        enabled = user.isEnabled();
-        accountNonExpired = !user.isExpired();
-        credentialsNonExpired = !user.isPasswordExpired();
-        accountNonLocked = !user.isLocked();
+        enabled = user.enabled();
+        accountNonExpired = !user.expired();
+        credentialsNonExpired = !user.passwordExpired();
+        accountNonLocked = !user.locked();
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), password, enabled,
+        return new org.springframework.security.core.userdetails.User(user.username(), password, enabled,
             accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 

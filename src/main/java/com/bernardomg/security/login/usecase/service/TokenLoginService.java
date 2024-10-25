@@ -123,7 +123,7 @@ public final class TokenLoginService implements LoginService {
             if (readUser.isPresent()) {
                 // Get the actual username and continue
                 validUsername = readUser.get()
-                    .getUsername();
+                    .username();
             } else {
                 log.debug("No user found for email {}", username);
                 validUsername = username.toLowerCase();

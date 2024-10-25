@@ -27,7 +27,6 @@ package com.bernardomg.security.user.token.domain.model;
 import java.time.LocalDateTime;
 
 import lombok.Builder;
-import lombok.Value;
 
 /**
  * Immutable implementation of the user token.
@@ -35,49 +34,9 @@ import lombok.Value;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
 @Builder(setterPrefix = "with")
-public final class UserToken {
-
-    /**
-     * Token consumed flag.
-     */
-    private final Boolean       consumed;
-
-    /**
-     * Token creation date.
-     */
-    private final LocalDateTime creationDate;
-
-    /**
-     * Token expiration date.
-     */
-    private final LocalDateTime expirationDate;
-
-    /**
-     * User name.
-     */
-    private final String        name;
-
-    /**
-     * Token revoked flag.
-     */
-    private final Boolean       revoked;
-
-    /**
-     * Token scope.
-     */
-    private final String        scope;
-
-    /**
-     * Token code.
-     */
-    private final String        token;
-
-    /**
-     * Token username.
-     */
-    private final String        username;
+public record UserToken(String username, String name, String scope, String token, LocalDateTime creationDate,
+        LocalDateTime expirationDate, Boolean consumed, Boolean revoked) {
 
     /**
      * Creates a copy of the token with the consumed flag active.

@@ -102,7 +102,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         }
 
         tokenData = readToken.get();
-        if (tokenData.getConsumed()) {
+        if (tokenData.consumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
@@ -150,7 +150,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     @Override
     public final String getUsername(final String token) {
         return userTokenRepository.findOneByScope(token, tokenScope)
-            .map(UserToken::getUsername)
+            .map(UserToken::username)
             .orElseThrow(() -> {
                 log.error("Missing user token {}", token);
                 throw new MissingUserTokenException(token);
@@ -173,14 +173,14 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         user = readUser.get();
 
         // Find all tokens not revoked, and mark them as revoked
-        tokens = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
+        tokens = userTokenRepository.findAllNotRevoked(user.username(), tokenScope);
         toRevoke = tokens.stream()
             .map(UserToken::revoke)
             .toList();
 
         userTokenRepository.saveAll(toRevoke);
 
-        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.getUsername());
+        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.username());
     }
 
     @Override
@@ -195,25 +195,25 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         }
 
         entity = read.get();
-        if (!tokenScope.equals(entity.getScope())) {
+        if (!tokenScope.equals(entity.scope())) {
             // Scope mismatch
-            log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
-            throw new OutOfScopeTokenException(token, tokenScope, entity.getScope());
+            log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.scope());
+            throw new OutOfScopeTokenException(token, tokenScope, entity.scope());
         }
-        if (entity.getConsumed()) {
+        if (entity.consumed()) {
             // Consumed
             // It isn't a valid token
             log.warn("Consumed token: {}", token);
             throw new ConsumedTokenException(token);
         }
-        if (entity.getRevoked()) {
+        if (entity.revoked()) {
             // Revoked
             // It isn't a valid token
             log.warn("Revoked token: {}", token);
             throw new RevokedTokenException(token);
         }
         if (LocalDateTime.now()
-            .isAfter(entity.getExpirationDate())) {
+            .isAfter(entity.expirationDate())) {
             // Expired
             // It isn't a valid token
             log.warn("Expired token: {}", token);
