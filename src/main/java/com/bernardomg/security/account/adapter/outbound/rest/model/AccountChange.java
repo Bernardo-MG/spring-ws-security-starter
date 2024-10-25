@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.account.adapter.outbound.rest.model;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -39,7 +38,6 @@ public final class AccountChange {
     /**
      * User name.
      */
-    @NotNull
     private String name;
 
 }
