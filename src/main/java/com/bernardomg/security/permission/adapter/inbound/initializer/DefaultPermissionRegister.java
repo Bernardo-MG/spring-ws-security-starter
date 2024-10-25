@@ -22,10 +22,13 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.initializer.usecase;
+package com.bernardomg.security.permission.adapter.inbound.initializer;
 
 import java.util.Collection;
 import java.util.List;
+
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
  * Default permission register. Contains all the initial permission configuration.
