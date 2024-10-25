@@ -27,7 +27,6 @@ package com.bernardomg.security.user.token.usecase.store;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
 
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -85,24 +84,21 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final void consumeToken(final String token) {
-        final Optional<UserToken> readToken;
-        final UserToken           tokenData;
-        final UserToken           updated;
+        final UserToken readToken;
+        final UserToken updated;
 
-        readToken = userTokenRepository.findOneByScope(token, tokenScope);
+        readToken = userTokenRepository.findOneByScope(token, tokenScope)
+            .orElseThrow(() -> {
+                log.error("Token missing: {}", token);
+                throw new MissingUserTokenException(token);
+            });
 
-        if (!readToken.isPresent()) {
-            log.error("Token missing: {}", token);
-            throw new MissingUserTokenException(token);
-        }
-
-        tokenData = readToken.get();
-        if (tokenData.consumed()) {
+        if (readToken.consumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
 
-        updated = tokenData.consume();
+        updated = readToken.consume();
         userTokenRepository.save(updated);
         log.debug("Consumed token {}", token);
     }
@@ -138,41 +134,37 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     @Override
     public final void revokeExistingTokens(final String username) {
         final Collection<UserToken> tokens;
-        final Collection<UserToken> toRevoke;
-        final Optional<User>        readUser;
-        final User                  user;
+        final Collection<UserToken> revoked;
+        final User                  readUser;
 
-        readUser = userRepository.findOne(username);
-        if (!readUser.isPresent()) {
-            log.error("Missing user {}", username);
-            throw new MissingUserException(username);
-        }
-
-        user = readUser.get();
+        readUser = userRepository.findOne(username)
+            .orElseThrow(() -> {
+                log.error("Missing user {}", username);
+                throw new MissingUserException(username);
+            });
 
         // Find all tokens not revoked, and mark them as revoked
-        tokens = userTokenRepository.findAllNotRevoked(user.username(), tokenScope);
-        toRevoke = tokens.stream()
+        tokens = userTokenRepository.findAllNotRevoked(readUser.username(), tokenScope);
+        revoked = tokens.stream()
             .map(UserToken::revoke)
             .toList();
 
-        userTokenRepository.saveAll(toRevoke);
+        userTokenRepository.saveAll(revoked);
 
-        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.username());
+        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, readUser.username());
     }
 
     @Override
     public final void validate(final String token) {
-        final Optional<UserToken> read;
+        final UserToken read;
 
-        read = userTokenRepository.findOne(token);
-        if (!read.isPresent()) {
-            log.warn("Token not registered: {}", token);
-            throw new MissingUserTokenException(token);
-        }
+        read = userTokenRepository.findOne(token)
+            .orElseThrow(() -> {
+                log.warn("Token not registered: {}", token);
+                throw new MissingUserTokenException(token);
+            });
 
-        read.get()
-            .checkStatus(tokenScope);
+        read.checkStatus(tokenScope);
     }
 
 }
