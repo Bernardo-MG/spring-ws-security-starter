@@ -28,12 +28,12 @@ public final class RolePermissionsNotDuplicatedRule implements FieldRule<Role> {
         final int                    totalPermissions;
         final long                   duplicates;
 
-        uniquePermissions = role.getPermissions()
+        uniquePermissions = role.permissions()
             .stream()
             .map(ResourcePermission::getName)
             .distinct()
             .count();
-        totalPermissions = role.getPermissions()
+        totalPermissions = role.permissions()
             .size();
         if (uniquePermissions < totalPermissions) {
             // TODO: is this really an error? It can be corrected easily

@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Builder;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,51 +38,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
 @Builder(setterPrefix = "with")
 @Slf4j
-public final class JwtTokenData {
-
-    /**
-     * Audience.
-     */
-    private final Collection<String>        audience;
-
-    /**
-     * Expiration date.
-     */
-    private final LocalDateTime             expiration;
-
-    /**
-     * Id.
-     */
-    private final String                    id;
-
-    /**
-     * Issued at date.
-     */
-    private final LocalDateTime             issuedAt;
-
-    /**
-     * Issuer.
-     */
-    private final String                    issuer;
-
-    /**
-     * Not before date.
-     */
-    private final LocalDateTime             notBefore;
-
-    /**
-     * Permissions.
-     */
-    @Builder.Default
-    private final Map<String, List<String>> permissions = Map.of();
-
-    /**
-     * Subject.
-     */
-    private final String                    subject;
+public record JwtTokenData(String id, String subject, String issuer, LocalDateTime issuedAt, LocalDateTime notBefore,
+        LocalDateTime expiration, Collection<String> audience, Map<String, List<String>> permissions) {
 
     public final boolean isExpired() {
         final LocalDateTime current;

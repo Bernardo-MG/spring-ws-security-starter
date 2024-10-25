@@ -42,7 +42,7 @@ public final class LoginPermissionRegister implements PermissionRegister {
 
     @Override
     public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of(ResourcePermissionPair.of("LOGIN_REGISTER", "READ"));
+        return List.of(new ResourcePermissionPair("LOGIN_REGISTER", "READ"));
     }
 
     @Override

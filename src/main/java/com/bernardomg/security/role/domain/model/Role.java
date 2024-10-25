@@ -25,12 +25,8 @@
 package com.bernardomg.security.role.domain.model;
 
 import java.util.Collection;
-import java.util.List;
 
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
-
-import lombok.Builder;
-import lombok.Value;
 
 /**
  * Role.
@@ -38,32 +34,6 @@ import lombok.Value;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class Role {
-
-    public static final Role of(final String nm) {
-        return Role.builder()
-            .withName(nm)
-            .build();
-    }
-
-    public static final Role of(final String nm, final Collection<ResourcePermission> perms) {
-        return Role.builder()
-            .withName(nm)
-            .withPermissions(perms)
-            .build();
-    }
-
-    /**
-     * Role name.
-     */
-    private final String                         name;
-
-    /**
-     * Role permissions.
-     */
-    @Builder.Default
-    private final Collection<ResourcePermission> permissions = List.of();
+public record Role(String name, Collection<ResourcePermission> permissions) {
 
 }

@@ -124,13 +124,13 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         entity = toSimpleEntity(token);
 
-        existing = userDataTokenSpringRepository.findByToken(token.getToken());
+        existing = userDataTokenSpringRepository.findByToken(token.token());
         // TODO: Else exception
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
         }
-        existingUser = userSpringRepository.findByUsername(token.getUsername());
+        existingUser = userSpringRepository.findByUsername(token.username());
         // TODO: Else exception
         if (existingUser.isPresent()) {
             entity.setUserId(existingUser.get()
@@ -162,7 +162,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         // Load id
         tokenCodes = tokens.stream()
-            .map(UserToken::getToken)
+            .map(UserToken::token)
             .distinct()
             .toList();
         existing = userTokenSpringRepository.findAllByTokenIn(tokenCodes);
@@ -217,12 +217,12 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     private final UserTokenEntity toSimpleEntity(final UserToken dataToken) {
         return UserTokenEntity.builder()
-            .withToken(dataToken.getToken())
-            .withScope(dataToken.getScope())
-            .withCreationDate(dataToken.getCreationDate())
-            .withExpirationDate(dataToken.getExpirationDate())
-            .withConsumed(dataToken.getConsumed())
-            .withRevoked(dataToken.getRevoked())
+            .withToken(dataToken.token())
+            .withScope(dataToken.scope())
+            .withCreationDate(dataToken.creationDate())
+            .withExpirationDate(dataToken.expirationDate())
+            .withConsumed(dataToken.consumed())
+            .withRevoked(dataToken.revoked())
             .build();
     }
 
@@ -230,17 +230,17 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Optional<UserEntity> user;
         final Long                 userId;
 
-        user = userSpringRepository.findByUsername(dataToken.getUsername());
+        user = userSpringRepository.findByUsername(dataToken.username());
         userId = user.map(UserEntity::getId)
             .orElse(null);
         return UserTokenEntity.builder()
             .withUserId(userId)
-            .withToken(dataToken.getToken())
-            .withScope(dataToken.getScope())
-            .withCreationDate(dataToken.getCreationDate())
-            .withExpirationDate(dataToken.getExpirationDate())
-            .withConsumed(dataToken.getConsumed())
-            .withRevoked(dataToken.getRevoked())
+            .withToken(dataToken.token())
+            .withScope(dataToken.scope())
+            .withCreationDate(dataToken.creationDate())
+            .withExpirationDate(dataToken.expirationDate())
+            .withConsumed(dataToken.consumed())
+            .withRevoked(dataToken.revoked())
             .build();
     }
 

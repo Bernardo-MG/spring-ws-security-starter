@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.permission.data.domain.repository.ActionRepository;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
-import com.bernardomg.security.permission.initializer.usecase.DefaultPermissionRegister;
+import com.bernardomg.security.permission.initializer.adapter.inbound.initializer.DefaultPermissionRegister;
 import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
 import com.bernardomg.security.permission.initializer.usecase.PermissionsLoader;
 

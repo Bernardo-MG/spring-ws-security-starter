@@ -55,14 +55,14 @@ class TestLoginRegisterServiceRegister {
         register = loginRegisterCaptor.getValue();
 
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(register.isLoggedIn())
+            softly.assertThat(register.loggedIn())
                 .as("logged in")
                 .isTrue();
-            softly.assertThat(register.getUsername())
+            softly.assertThat(register.username())
                 .as("username")
                 .isEqualTo(UserConstants.USERNAME);
 
-            softly.assertThat(register.getDate())
+            softly.assertThat(register.date())
                 .as("date")
                 .isBetween(dayStart, dayEnd);
         });
@@ -82,14 +82,14 @@ class TestLoginRegisterServiceRegister {
         register = loginRegisterCaptor.getValue();
 
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(register.isLoggedIn())
+            softly.assertThat(register.loggedIn())
                 .as("logged in")
                 .isFalse();
-            softly.assertThat(register.getUsername())
+            softly.assertThat(register.username())
                 .as("username")
                 .isEqualTo(UserConstants.USERNAME);
 
-            softly.assertThat(register.getDate())
+            softly.assertThat(register.date())
                 .as("date")
                 .isBetween(dayStart, dayEnd);
         });

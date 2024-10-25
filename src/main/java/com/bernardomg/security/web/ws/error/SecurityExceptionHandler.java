@@ -57,7 +57,7 @@ public class SecurityExceptionHandler {
     public final ErrorResponse handleUnauthorizedException(final Exception ex, final WebRequest request) {
         log.warn(ex.getMessage(), ex);
 
-        return ErrorResponse.of("Unauthorized");
+        return new ErrorResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "Unauthorized");
     }
 
 }

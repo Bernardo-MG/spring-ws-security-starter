@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,46 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.usecase;
+package com.bernardomg.security.permission.initializer.adapter.inbound.initializer;
 
-import org.springframework.security.core.GrantedAuthority;
+import java.util.Collection;
+import java.util.List;
 
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
- * Granted authority for resource based access.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Default permission register. Contains all the initial permission configuration.
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class ResourceActionGrantedAuthority implements GrantedAuthority {
-
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 2121524436657408632L;
-
-    /**
-     * Action to authorize in the resource.
-     */
-    private final String      action;
-
-    /**
-     * Resource to authorize.
-     */
-    private final String      resource;
+public final class DefaultPermissionRegister implements PermissionRegister {
 
     @Override
-    public final String getAuthority() {
-        return String.format("%s:%s", resource, action);
+    public final Collection<String> getActions() {
+        return List.of("CREATE", "READ", "UPDATE", "DELETE", "VIEW");
     }
 
     @Override
-    public String toString() {
-        return getAuthority();
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        return List.of();
+    }
+
+    @Override
+    public final Collection<String> getResources() {
+        return List.of();
     }
 
 }

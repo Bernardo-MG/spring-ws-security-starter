@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,29 +22,51 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.initializer.usecase;
+package com.bernardomg.security.springframework.domain.model;
 
-import java.util.Collection;
-import java.util.List;
+import org.springframework.security.core.GrantedAuthority;
+
+import lombok.Value;
 
 /**
- * Default permission register. Contains all the initial permission configuration.
+ * Granted authority for resource based access.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-public final class DefaultPermissionRegister implements PermissionRegister {
+@Value
+public final class ResourceActionGrantedAuthority implements GrantedAuthority {
 
-    @Override
-    public final Collection<String> getActions() {
-        return List.of("CREATE", "READ", "UPDATE", "DELETE", "VIEW");
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = 2121524436657408632L;
+
+    /**
+     * Action to authorize in the resource.
+     */
+    private final String      action;
+
+    /**
+     * Resource to authorize.
+     */
+    private final String      resource;
+
+    public ResourceActionGrantedAuthority(final String resource, final String action) {
+        super();
+
+        this.resource = resource;
+        this.action = action;
     }
 
     @Override
-    public final Collection<ResourcePermissionPair> getPermissions() {
-        return List.of();
+    public final String getAuthority() {
+        return String.format("%s:%s", resource, action);
     }
 
     @Override
-    public final Collection<String> getResources() {
-        return List.of();
+    public String toString() {
+        return getAuthority();
     }
 
 }

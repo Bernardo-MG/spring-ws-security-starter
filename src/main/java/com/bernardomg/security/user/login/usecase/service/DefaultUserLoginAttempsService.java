@@ -78,7 +78,8 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
                     log.error("Missing user {}", username);
                     throw new MissingUserException(username);
                 });
-            userRepository.lock(user.getUsername());
+            // TODO: then, read just the username
+            userRepository.lock(user.username());
             log.debug("Locked user {} after {} login attempts", username, attempts);
         } else {
             log.debug("User {} had {} login attempts out of a max of {}. Won't be locked", username, attempts,

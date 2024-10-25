@@ -24,57 +24,12 @@
 
 package com.bernardomg.security.login.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
-
 /**
- * Immutable implementation of {@link TokenLoginStatus}.
+ * Token login status.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class TokenLoginStatus {
-
-    /**
-     * Creates a {@code TokenLoginStatus} with the logged in flag.
-     *
-     * @param lgd
-     *            logged in flag
-     * @return a {@code TokenLoginStatus}
-     */
-    public static final TokenLoginStatus of(final boolean lgd) {
-        return TokenLoginStatus.builder()
-            .withLogged(lgd)
-            .withToken("")
-            .build();
-    }
-
-    /**
-     * Creates a {@code TokenLoginStatus} with the logged in flag and token.
-     *
-     * @param lgd
-     *            logged in flag
-     * @param tkn
-     *            user token
-     * @return a {@code TokenLoginStatus}
-     */
-    public static final TokenLoginStatus of(final boolean lgd, final String tkn) {
-        return TokenLoginStatus.builder()
-            .withLogged(lgd)
-            .withToken(tkn)
-            .build();
-    }
-
-    /**
-     * Flag telling if the login was successful.
-     */
-    private final boolean logged;
-
-    /**
-     * Security token.
-     */
-    private final String  token;
+public record TokenLoginStatus(Boolean logged, String token) {
 
 }

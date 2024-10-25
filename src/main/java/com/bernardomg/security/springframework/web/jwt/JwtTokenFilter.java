@@ -181,7 +181,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
 
             // Takes subject from the token
             username = tokenDecoder.decode(token)
-                .getSubject();
+                .subject();
             userDetails = userDetailsService.loadUserByUsername(username);
 
             if (isValid(userDetails)) {

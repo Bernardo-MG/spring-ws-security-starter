@@ -78,9 +78,9 @@ class TestUserActivationServiceValidateToken {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(status.isValid())
+            softly.assertThat(status.valid())
                 .isFalse();
-            softly.assertThat(status.getUsername())
+            softly.assertThat(status.username())
                 .isEqualTo(UserConstants.USERNAME);
         });
     }
@@ -97,9 +97,9 @@ class TestUserActivationServiceValidateToken {
 
         // THEN
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(status.isValid())
+            softly.assertThat(status.valid())
                 .isTrue();
-            softly.assertThat(status.getUsername())
+            softly.assertThat(status.username())
                 .isEqualTo(UserConstants.USERNAME);
         });
     }

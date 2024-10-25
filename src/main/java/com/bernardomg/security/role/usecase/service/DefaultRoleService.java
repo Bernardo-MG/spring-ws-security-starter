@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.role.usecase.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -98,7 +99,7 @@ public final class DefaultRoleService implements RoleService {
 
         log.debug("Creating role {}", name);
 
-        role = Role.of(name);
+        role = new Role(name, List.of());
 
         validatorCreate.validate(role);
 
@@ -116,9 +117,7 @@ public final class DefaultRoleService implements RoleService {
             throw new MissingRoleException(role);
         }
 
-        domainRole = Role.builder()
-            .withName(role)
-            .build();
+        domainRole = new Role(role, List.of());
         validatorDelete.validate(domainRole);
 
         roleRepository.delete(role);
@@ -148,19 +147,19 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Role update(final Role role) {
-        log.debug("Updating role {} using data {}", role.getName(), role);
+        log.debug("Updating role {} using data {}", role.name(), role);
 
         // Verify the role exists
-        if (!roleRepository.exists(role.getName())) {
-            log.error("Missing role {}", role.getName());
-            throw new MissingRoleException(role.getName());
+        if (!roleRepository.exists(role.name())) {
+            log.error("Missing role {}", role.name());
+            throw new MissingRoleException(role.name());
         }
 
         // Verify the permissions exists
-        for (final ResourcePermission permission : role.getPermissions()) {
+        for (final ResourcePermission permission : role.permissions()) {
             if (!resourcePermissionRepository.exists(permission.getName())) {
                 // TODO: send all missing in a single exception
-                throw new MissingResourcePermissionException(role.getName());
+                throw new MissingResourcePermissionException(role.name());
             }
         }
 

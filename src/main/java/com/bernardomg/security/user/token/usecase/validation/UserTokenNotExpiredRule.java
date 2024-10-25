@@ -28,10 +28,10 @@ public final class UserTokenNotExpiredRule implements FieldRule<UserToken> {
 
         today = LocalDateTime.now()
             .minusMinutes(2);
-        if ((token.getExpirationDate() != null) && (token.getExpirationDate()
+        if ((token.expirationDate() != null) && (token.expirationDate()
             .isBefore(today))) {
-            log.error("Token expiration date {} expired when checked at {}", token.getExpirationDate(), today);
-            fieldFailure = FieldFailure.of("expirationDate", "beforeToday", token.getExpirationDate());
+            log.error("Token expiration date {} expired when checked at {}", token.expirationDate(), today);
+            fieldFailure = FieldFailure.of("expirationDate", "beforeToday", token.expirationDate());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -109,7 +109,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
         // Add read user
         readUser = getReadUser();
         userRepository.newUser(readUser);
-        userRepository.resetPassword(readUser.getUsername(), "1234");
+        userRepository.resetPassword(readUser.username(), "1234");
     }
 
     private final void initializeRootUser() {
@@ -118,7 +118,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
         // Add root user
         rootUser = getRootUser();
         userRepository.newUser(rootUser);
-        userRepository.resetPassword(rootUser.getUsername(), "1234");
+        userRepository.resetPassword(rootUser.username(), "1234");
     }
 
     private final void runIfNotExists(final Runnable runnable, final String name) {

@@ -30,7 +30,7 @@ import java.util.function.Predicate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.springframework.usecase.ResourceActionGrantedAuthority;
+import com.bernardomg.security.springframework.domain.model.ResourceActionGrantedAuthority;
 
 import lombok.extern.slf4j.Slf4j;
 

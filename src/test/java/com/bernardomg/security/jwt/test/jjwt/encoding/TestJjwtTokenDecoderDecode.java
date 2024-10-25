@@ -37,7 +37,7 @@ class TestJjwtTokenDecoderDecode {
 
         // WHEN
         audience = decoder.decode(token)
-            .getAudience();
+            .audience();
 
         // THEN
         Assertions.assertThat(audience)
@@ -92,7 +92,7 @@ class TestJjwtTokenDecoderDecode {
 
         // WHEN
         issuedAt = decoder.decode(token)
-            .getIssuedAt();
+            .issuedAt();
 
         // THEN
         Assertions.assertThat(issuedAt)
@@ -111,7 +111,7 @@ class TestJjwtTokenDecoderDecode {
 
         // WHEN
         subject = decoder.decode(token)
-            .getIssuer();
+            .issuer();
 
         // THEN
         Assertions.assertThat(subject)
@@ -131,7 +131,7 @@ class TestJjwtTokenDecoderDecode {
 
         // WHEN
         notBefore = decoder.decode(token)
-            .getNotBefore();
+            .notBefore();
 
         // THEN
         Assertions.assertThat(notBefore)
@@ -150,7 +150,7 @@ class TestJjwtTokenDecoderDecode {
 
         // WHEN
         permissions = decoder.decode(token)
-            .getPermissions();
+            .permissions();
 
         // THEN
         Assertions.assertThat(permissions)
@@ -170,7 +170,7 @@ class TestJjwtTokenDecoderDecode {
 
         // WHEN
         subject = decoder.decode(token)
-            .getSubject();
+            .subject();
 
         // THEN
         Assertions.assertThat(subject)

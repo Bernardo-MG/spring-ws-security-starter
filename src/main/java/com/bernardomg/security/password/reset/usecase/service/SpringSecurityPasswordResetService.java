@@ -123,9 +123,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         user = getUserByUsername(username);
 
-        authorizePasswordChange(user.getUsername());
+        authorizePasswordChange(user.username());
 
-        userRepository.resetPassword(user.getUsername(), password);
+        userRepository.resetPassword(user.username(), password);
         tokenStore.consumeToken(token);
 
         log.debug("Finished password change for {}", username);
@@ -143,16 +143,16 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: Reject authenticated users? Allow only password recovery for the anonymous user
 
         // Make sure the user can change the password
-        authorizePasswordChange(user.getUsername());
+        authorizePasswordChange(user.username());
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(user.getUsername());
+        tokenStore.revokeExistingTokens(user.username());
 
         // Register new token
-        token = tokenStore.createToken(user.getUsername());
+        token = tokenStore.createToken(user.username());
 
         // TODO: Handle through events
-        passwordNotificator.sendPasswordRecoveryMessage(user.getEmail(), user.getUsername(), token);
+        passwordNotificator.sendPasswordRecoveryMessage(user.email(), user.username(), token);
 
         log.debug("Finished password recovery request for {}", email);
     }
@@ -175,7 +175,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             username = "";
         }
 
-        return UserTokenStatus.of(username, valid);
+        return new UserTokenStatus(username, valid);
     }
 
     /**

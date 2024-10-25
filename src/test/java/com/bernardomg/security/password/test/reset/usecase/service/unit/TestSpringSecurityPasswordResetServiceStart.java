@@ -111,7 +111,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
+        exception = Assertions.catchThrowableOfType(DisabledUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -132,7 +132,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        Assertions.catchThrowableOfType(executable, DisabledUserException.class);
+        Assertions.catchThrowableOfType(DisabledUserException.class, executable);
 
         verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
         verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
@@ -153,7 +153,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -174,7 +174,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
+        Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
 
         verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
         verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
@@ -195,7 +195,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -216,7 +216,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        Assertions.catchThrowableOfType(executable, LockedUserException.class);
+        Assertions.catchThrowableOfType(LockedUserException.class, executable);
 
         verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
         verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
@@ -266,7 +266,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         executable = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserException.class);
+        exception = Assertions.catchThrowableOfType(MissingUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

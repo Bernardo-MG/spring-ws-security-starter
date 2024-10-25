@@ -56,9 +56,9 @@ class ITFullPasswordResetProcess {
 
         validTokenStatus = service.validateToken(token);
 
-        Assertions.assertThat(validTokenStatus.isValid())
+        Assertions.assertThat(validTokenStatus.valid())
             .isTrue();
-        Assertions.assertThat(validTokenStatus.getUsername())
+        Assertions.assertThat(validTokenStatus.username())
             .isEqualTo(UserConstants.USERNAME);
 
         // Change password

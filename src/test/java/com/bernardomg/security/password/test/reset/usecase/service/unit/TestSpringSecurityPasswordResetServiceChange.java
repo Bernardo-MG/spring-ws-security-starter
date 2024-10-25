@@ -75,7 +75,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(execution, DisabledUserException.class);
+        exception = Assertions.catchThrowableOfType(DisabledUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -98,7 +98,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(execution, ExpiredUserException.class);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -116,7 +116,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         execution = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
-        failure = FieldFailure.of("password.invalid", "password", "invalid", "");
+        failure = new FieldFailure("invalid", "password.invalid", "password", "");
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }
@@ -137,7 +137,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(execution, LockedUserException.class);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -158,7 +158,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(execution, MissingUserException.class);
+        exception = Assertions.catchThrowableOfType(MissingUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

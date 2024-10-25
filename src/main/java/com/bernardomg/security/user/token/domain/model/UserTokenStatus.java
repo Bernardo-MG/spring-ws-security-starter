@@ -24,36 +24,14 @@
 
 package com.bernardomg.security.user.token.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
-
 /**
  * Immutable implementation of the user token status.
+ * <p>
+ * TODO: avoid returning the username
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class UserTokenStatus {
-
-    public static final UserTokenStatus of(final String usnm, final boolean vld) {
-        return UserTokenStatus.builder()
-            .withUsername(usnm)
-            .withValid(vld)
-            .build();
-    }
-
-    /**
-     * Username.
-     * <p>
-     * TODO: avoid returning the username
-     */
-    private final String  username;
-
-    /**
-     * Token status.
-     */
-    private final boolean valid;
+public record UserTokenStatus(String username, Boolean valid) {
 
 }

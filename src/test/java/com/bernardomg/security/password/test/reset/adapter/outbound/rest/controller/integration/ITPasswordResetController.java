@@ -120,7 +120,7 @@ class ITPasswordResetController {
         final ResultActions   resultActions;
 
         // GIVEN
-        tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
+        tokenStatus = new UserTokenStatus(UserConstants.USERNAME, true);
         given(service.validateToken(anyString())).willReturn(tokenStatus);
 
         // WHEN
@@ -136,7 +136,7 @@ class ITPasswordResetController {
     @Test
     @DisplayName("When validating the token, the data is sent to the service")
     void testValidateToken_CallsService() throws Exception {
-        final UserTokenStatus tokenStatus = UserTokenStatus.of(UserConstants.USERNAME, true);
+        final UserTokenStatus tokenStatus = new UserTokenStatus(UserConstants.USERNAME, true);
 
         // GIVEN
         given(service.validateToken(anyString())).willReturn(tokenStatus);

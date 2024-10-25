@@ -145,28 +145,20 @@ public final class DefaultUserService implements UserService {
 
         log.debug("Registering new user {} with email {}", username, email);
 
-        user = User.builder()
-            .withUsername(username)
-            .withName(name)
-            .withEmail(email)
-            .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
-            .build();
+        user = User.newUser(username, email, name);
 
         validatorRegisterUser.validate(user);
 
         created = userRepository.newUser(user);
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.getUsername());
+        tokenStore.revokeExistingTokens(created.username());
 
         // Register new token
-        token = tokenStore.createToken(created.getUsername());
+        token = tokenStore.createToken(created.username());
 
         // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.getEmail(), username, token);
+        userNotificator.sendUserRegisteredMessage(created.email(), username, token);
 
         log.debug("Registered new user {} with email {}", username, email);
 
@@ -178,20 +170,20 @@ public final class DefaultUserService implements UserService {
         final User existing;
         final User toSave;
 
-        log.debug("Updating user {} using data {}", user.getUsername(), user);
+        log.debug("Updating user {} using data {}", user.username(), user);
 
         // Verify the user exists
-        existing = userRepository.findOne(user.getUsername())
+        existing = userRepository.findOne(user.username())
             .orElseThrow(() -> {
-                log.error("Missing user {}", user.getUsername());
-                throw new MissingUserException(user.getUsername());
+                log.error("Missing user {}", user.username());
+                throw new MissingUserException(user.username());
             });
 
         // Verify the roles exists
-        for (final Role role : user.getRoles()) {
-            if (!roleRepository.exists(role.getName())) {
-                log.error("Missing role {}", role.getName());
-                throw new MissingRoleException(role.getName());
+        for (final Role role : user.roles()) {
+            if (!roleRepository.exists(role.name())) {
+                log.error("Missing role {}", role.name());
+                throw new MissingRoleException(role.name());
             }
         }
 
@@ -199,15 +191,15 @@ public final class DefaultUserService implements UserService {
 
         toSave = User.builder()
             // Can't change these fields
-            .withUsername(existing.getUsername())
-            .withExpired(existing.isExpired())
-            .withLocked(existing.isLocked())
+            .withUsername(existing.username())
+            .withExpired(existing.expired())
+            .withLocked(existing.locked())
             // These fields are allowed to change
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.isEnabled())
-            .withPasswordExpired(user.isPasswordExpired())
-            .withRoles(user.getRoles())
+            .withName(user.name())
+            .withEmail(user.email())
+            .withEnabled(user.enabled())
+            .withPasswordExpired(user.passwordExpired())
+            .withRoles(user.roles())
             .build();
 
         return userRepository.save(toSave);

@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Checks the role is not linked to a user.
+ * <p>
+ * TODO: instead of this, use on delete cascade
  */
 @Slf4j
 public final class RoleHasNoUserRule implements FieldRule<Role> {
@@ -33,7 +35,7 @@ public final class RoleHasNoUserRule implements FieldRule<Role> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (roleRepository.isLinkedToUser(role.getName())) {
+        if (roleRepository.isLinkedToUser(role.name())) {
             log.error("Role with id {} has a relationship with a user", role);
             // TODO: Is the code exists or is it existing? Make sure all use the same
             fieldFailure = FieldFailure.of("user", "existing", role);

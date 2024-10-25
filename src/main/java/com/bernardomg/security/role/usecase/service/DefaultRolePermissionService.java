@@ -74,12 +74,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
 
     @Override
     public final Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable pageable) {
-        final boolean roleExists;
-
         log.debug("Reading available permissions for {}", role);
 
-        roleExists = roleRepository.exists(role);
-        if (!roleExists) {
+        if (!roleRepository.exists(role)) {
             log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }

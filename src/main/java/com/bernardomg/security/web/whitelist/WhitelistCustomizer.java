@@ -89,16 +89,16 @@ public final class WhitelistCustomizer implements
     private final void logRoute(final WhitelistRoute route) {
         final String methods;
 
-        if (route.getMethods()
+        if (route.methods()
             .isEmpty()) {
             methods = "*";
         } else {
-            methods = route.getMethods()
+            methods = route.methods()
                 .stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(", "));
         }
-        log.debug("Whitelisting route {} for methods {}", route.getRoute(), methods);
+        log.debug("Whitelisting route {} for methods {}", route.route(), methods);
     }
 
     /**
@@ -114,13 +114,13 @@ public final class WhitelistCustomizer implements
             final WhitelistRoute route) {
         final Collection<MvcRequestMatcher> matchers;
 
-        if (route.getMethods()
+        if (route.methods()
             .isEmpty()) {
-            matchers = List.of(requestBuilder.pattern(route.getRoute()));
+            matchers = List.of(requestBuilder.pattern(route.route()));
         } else {
-            matchers = route.getMethods()
+            matchers = route.methods()
                 .stream()
-                .map(m -> requestBuilder.pattern(m, route.getRoute()))
+                .map(m -> requestBuilder.pattern(m, route.route()))
                 .toList();
         }
 
