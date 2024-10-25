@@ -121,6 +121,7 @@ public final class Users {
 
     public static final User newlyCreated() {
         return User.builder()
+            .withRoles(List.of())
             .withName(UserConstants.NAME)
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
@@ -198,6 +199,7 @@ public final class Users {
 
     public static final User withoutRoles() {
         return User.builder()
+            .withRoles(List.of())
             .withName(UserConstants.NAME)
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
