@@ -248,6 +248,7 @@ public final class JpaUserRepository implements UserRepository {
             user = read.get();
 
             // Encode password
+            // TODO: shouldn't be encoded in the service?
             encodedPassword = passwordEncoder.encode(password);
             user.setPassword(encodedPassword);
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.usecase;
+package com.bernardomg.security.springframework.domain.model;
 
 import org.springframework.security.core.GrantedAuthority;
 

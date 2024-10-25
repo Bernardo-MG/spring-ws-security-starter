@@ -80,12 +80,13 @@ public final class TokenLoginService implements LoginService {
 
         log.debug("Log in attempt for {}", username);
 
-        validUsername = loadLoginName(username).toLowerCase();
+        validUsername = loadLoginName(username);
 
         valid = isValid.test(validUsername, password);
 
         status = buildStatus(validUsername, valid);
 
+        // FIXME: the event root should be an object
         event = new LogInEvent(this, validUsername, valid);
         eventPublisher.publishEvent(event);
 
