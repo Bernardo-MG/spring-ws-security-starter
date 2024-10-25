@@ -76,7 +76,7 @@ class ITPersistentUserDetailsService {
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");
@@ -94,7 +94,7 @@ class ITPersistentUserDetailsService {
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");
@@ -111,7 +111,7 @@ class ITPersistentUserDetailsService {
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, UsernameNotFoundException.class);
+        exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");

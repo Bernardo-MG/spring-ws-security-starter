@@ -96,7 +96,7 @@ class TestPasswordChangeServiceChangePassword {
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
+        exception = Assertions.catchThrowableOfType(DisabledUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User " + UserConstants.USERNAME + " is disabled");
@@ -120,7 +120,7 @@ class TestPasswordChangeServiceChangePassword {
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User " + UserConstants.USERNAME + " is expired");
@@ -144,7 +144,7 @@ class TestPasswordChangeServiceChangePassword {
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User " + UserConstants.USERNAME + " is locked");
@@ -164,7 +164,7 @@ class TestPasswordChangeServiceChangePassword {
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+        exception = Assertions.catchThrowableOfType(InvalidPasswordChangeException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("No user authenticated");
@@ -184,7 +184,7 @@ class TestPasswordChangeServiceChangePassword {
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, InvalidPasswordChangeException.class);
+        exception = Assertions.catchThrowableOfType(InvalidPasswordChangeException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("No user authenticated");
@@ -206,7 +206,7 @@ class TestPasswordChangeServiceChangePassword {
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserException.class);
+        exception = Assertions.catchThrowableOfType(MissingUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing id username for user");

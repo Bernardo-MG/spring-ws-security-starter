@@ -99,7 +99,7 @@ class TestUserActivationServiceActivateUser {
         executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, EnabledUserException.class);
+        exception = Assertions.catchThrowableOfType(EnabledUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User " + UserConstants.USERNAME + " is enabled");
@@ -119,7 +119,7 @@ class TestUserActivationServiceActivateUser {
         executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User " + UserConstants.USERNAME + " is expired");
@@ -152,7 +152,7 @@ class TestUserActivationServiceActivateUser {
         executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User " + UserConstants.USERNAME + " is locked");
@@ -185,7 +185,7 @@ class TestUserActivationServiceActivateUser {
         executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserException.class);
+        exception = Assertions.catchThrowableOfType(MissingUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing id username for user");
