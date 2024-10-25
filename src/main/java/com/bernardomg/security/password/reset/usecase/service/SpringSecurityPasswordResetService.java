@@ -32,6 +32,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.password.reset.usecase.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
@@ -41,6 +42,8 @@ import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,6 +90,11 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      */
     private final UserRepository      userRepository;
 
+    /**
+     * Change password validator.
+     */
+    private final Validator<String>   validatorChange;
+
     public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
             final PasswordNotificator notif, final UserTokenStore tStore) {
         super();
@@ -95,6 +103,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         userDetailsService = Objects.requireNonNull(userDetsService);
         passwordNotificator = Objects.requireNonNull(notif);
         tokenStore = Objects.requireNonNull(tStore);
+
+        validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
     }
 
     @Override
@@ -105,15 +115,17 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         tokenStore.validate(token);
 
+        validatorChange.validate(password);
+
         username = tokenStore.getUsername(token);
 
         log.debug("Applying requested password change for {}", username);
 
         user = getUserByUsername(username);
 
-        authorizePasswordChange(user.getUsername());
+        authorizePasswordChange(user.username());
 
-        userRepository.resetPassword(user.getUsername(), password);
+        userRepository.resetPassword(user.username(), password);
         tokenStore.consumeToken(token);
 
         log.debug("Finished password change for {}", username);
@@ -131,16 +143,16 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: Reject authenticated users? Allow only password recovery for the anonymous user
 
         // Make sure the user can change the password
-        authorizePasswordChange(user.getUsername());
+        authorizePasswordChange(user.username());
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(user.getUsername());
+        tokenStore.revokeExistingTokens(user.username());
 
         // Register new token
-        token = tokenStore.createToken(user.getUsername());
+        token = tokenStore.createToken(user.username());
 
         // TODO: Handle through events
-        passwordNotificator.sendPasswordRecoveryMessage(user.getEmail(), user.getUsername(), token);
+        passwordNotificator.sendPasswordRecoveryMessage(user.email(), user.username(), token);
 
         log.debug("Finished password recovery request for {}", email);
     }
@@ -163,7 +175,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             username = "";
         }
 
-        return UserTokenStatus.of(username, valid);
+        return new UserTokenStatus(username, valid);
     }
 
     /**

@@ -80,12 +80,13 @@ public final class TokenLoginService implements LoginService {
 
         log.debug("Log in attempt for {}", username);
 
-        validUsername = loadLoginName(username).toLowerCase();
+        validUsername = loadLoginName(username);
 
         valid = isValid.test(validUsername, password);
 
         status = buildStatus(validUsername, valid);
 
+        // FIXME: the event root should be an object
         event = new LogInEvent(this, validUsername, valid);
         eventPublisher.publishEvent(event);
 
@@ -100,9 +101,9 @@ public final class TokenLoginService implements LoginService {
 
         if (logged) {
             token = loginTokenEncoder.encode(username);
-            status = TokenLoginStatus.of(logged, token);
+            status = new TokenLoginStatus(logged, token);
         } else {
-            status = TokenLoginStatus.of(logged);
+            status = new TokenLoginStatus(logged, "");
         }
 
         return status;
@@ -123,7 +124,7 @@ public final class TokenLoginService implements LoginService {
             if (readUser.isPresent()) {
                 // Get the actual username and continue
                 validUsername = readUser.get()
-                    .getUsername();
+                    .username();
             } else {
                 log.debug("No user found for email {}", username);
                 validUsername = username.toLowerCase();

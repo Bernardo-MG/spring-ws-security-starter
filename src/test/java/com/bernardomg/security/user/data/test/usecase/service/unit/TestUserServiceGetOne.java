@@ -57,7 +57,6 @@ class TestUserServiceGetOne {
         final Optional<User> user;
 
         // GIVEN
-        given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
@@ -75,7 +74,7 @@ class TestUserServiceGetOne {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(userRepository.exists(UserConstants.USERNAME)).willReturn(false);
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.getOne(UserConstants.USERNAME);

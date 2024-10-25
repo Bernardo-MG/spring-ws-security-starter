@@ -115,9 +115,7 @@ public class RoleController {
     public Iterable<Role> readAll(@Valid final RoleQueryRequest request, final Pageable page) {
         final RoleQuery query;
 
-        query = RoleQuery.builder()
-            .withName(request.getName())
-            .build();
+        query = new RoleQuery(request.getName());
         return service.getAll(query, page);
     }
 
@@ -155,9 +153,9 @@ public class RoleController {
 
         permissions = request.getPermissions()
             .stream()
-            .map(p -> ResourcePermission.of(p.getResource(), p.getAction()))
+            .map(p -> new ResourcePermission(p.getResource(), p.getAction()))
             .toList();
-        role = Role.of(roleName, permissions);
+        role = new Role(roleName, permissions);
 
         return service.update(role);
     }

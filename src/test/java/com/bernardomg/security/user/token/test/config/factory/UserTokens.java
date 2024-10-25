@@ -20,6 +20,12 @@ public final class UserTokens {
             .build();
     }
 
+    public static final UserToken changeNothing() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
+            .build();
+    }
+
     public static final UserToken consumed() {
         return UserToken.builder()
             .withUsername(UserConstants.USERNAME)
@@ -30,6 +36,20 @@ public final class UserTokens {
             .withExpirationDate(UserTokenConstants.DATE_FUTURE)
             .withConsumed(true)
             .withRevoked(false)
+            .build();
+    }
+
+    public static final UserToken expirationDateFuture() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
+            .withExpirationDate(UserTokenConstants.DATE_MORE_FUTURE)
+            .build();
+    }
+
+    public static final UserToken expirationDateYesterday() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
+            .withExpirationDate(UserTokenConstants.DATE_YESTERDAY)
             .build();
     }
 
@@ -55,6 +75,13 @@ public final class UserTokens {
             .withCreationDate(UserTokenConstants.DATE)
             .withExpirationDate(UserTokenConstants.DATE_MORE_FUTURE)
             .withConsumed(false)
+            .withRevoked(false)
+            .build();
+    }
+
+    public static final UserToken notRevoked() {
+        return UserToken.builder()
+            .withToken(Tokens.TOKEN)
             .withRevoked(false)
             .build();
     }

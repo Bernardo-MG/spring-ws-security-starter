@@ -24,9 +24,6 @@
 
 package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
 
-import com.bernardomg.validation.constraint.StrongPassword;
-
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,8 +44,6 @@ public final class PasswordResetChange {
     /**
      * The new password.
      */
-    @NotEmpty
-    @StrongPassword
     private String password;
 
 }

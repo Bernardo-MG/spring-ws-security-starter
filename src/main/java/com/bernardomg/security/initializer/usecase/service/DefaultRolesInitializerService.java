@@ -77,13 +77,13 @@ public final class DefaultRolesInitializerService implements RolesInitializerSer
         final Collection<ResourcePermission> rolePermissions;
 
         rolePermissions = permissions.stream()
-            .filter(p -> ((Actions.READ.equals(p.getAction())) || (Actions.VIEW.equals(p.getAction()))))
+            .filter(p -> ((Actions.READ.equals(p.action())) || (Actions.VIEW.equals(p.action()))))
             .toList();
-        return Role.of("READ", rolePermissions);
+        return new Role("READ", rolePermissions);
     }
 
     private final Role getRootRole(final Collection<ResourcePermission> permissions) {
-        return Role.of("ADMIN", permissions);
+        return new Role("ADMIN", permissions);
     }
 
     private final void initializeAdminRole(final Collection<ResourcePermission> permissions) {

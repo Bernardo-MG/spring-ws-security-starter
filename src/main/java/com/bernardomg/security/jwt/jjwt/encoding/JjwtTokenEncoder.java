@@ -72,38 +72,38 @@ public final class JjwtTokenEncoder implements TokenEncoder {
         final JwtBuilder jwtBuilder;
 
         jwtBuilder = Jwts.builder()
-            .id(data.getId())
-            .issuer(data.getIssuer())
-            .subject(data.getSubject());
+            .id(data.id())
+            .issuer(data.issuer())
+            .subject(data.subject());
 
-        if (!data.getPermissions()
+        if (!data.permissions()
             .isEmpty()) {
-            jwtBuilder.claim("permissions", data.getPermissions());
+            jwtBuilder.claim("permissions", data.permissions());
         }
 
         jwtBuilder.audience()
-            .add(data.getAudience());
+            .add(data.audience());
 
         // TODO: Use optional
         // Issued at
-        if (data.getIssuedAt() != null) {
-            issuedAt = java.util.Date.from(data.getIssuedAt()
+        if (data.issuedAt() != null) {
+            issuedAt = java.util.Date.from(data.issuedAt()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
             jwtBuilder.issuedAt(issuedAt);
         }
 
         // Expiration
-        if (data.getExpiration() != null) {
-            expiration = java.util.Date.from(data.getExpiration()
+        if (data.expiration() != null) {
+            expiration = java.util.Date.from(data.expiration()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
             jwtBuilder.expiration(expiration);
         }
 
         // Not before
-        if (data.getNotBefore() != null) {
-            notBefore = java.util.Date.from(data.getNotBefore()
+        if (data.notBefore() != null) {
+            notBefore = java.util.Date.from(data.notBefore()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
             jwtBuilder.notBefore(notBefore);

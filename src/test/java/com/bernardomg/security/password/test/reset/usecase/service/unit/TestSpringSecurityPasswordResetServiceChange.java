@@ -30,6 +30,8 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.test.config.factory.SecurityUsers;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordResetService - change password")
@@ -61,7 +63,7 @@ class TestSpringSecurityPasswordResetServiceChange {
     @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a disabled user throws an exception")
     void testChangePassword_Disabled() {
-        final ThrowingCallable executable;
+        final ThrowingCallable execution;
         final Exception        exception;
 
         // GIVEN
@@ -70,10 +72,10 @@ class TestSpringSecurityPasswordResetServiceChange {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.disabled());
 
         // WHEN
-        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
+        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, DisabledUserException.class);
+        exception = Assertions.catchThrowableOfType(DisabledUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -84,7 +86,7 @@ class TestSpringSecurityPasswordResetServiceChange {
     @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a expired user throws an exception")
     void testChangePassword_Expired() {
-        final ThrowingCallable executable;
+        final ThrowingCallable execution;
         final Exception        exception;
 
         // GIVEN
@@ -93,10 +95,10 @@ class TestSpringSecurityPasswordResetServiceChange {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.expired());
 
         // WHEN
-        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
+        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, ExpiredUserException.class);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -105,9 +107,25 @@ class TestSpringSecurityPasswordResetServiceChange {
 
     @Test
     @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Changing password for a not existing user throws an exception")
+    void testChangePassword_InvalidPassword() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // WHEN
+        execution = () -> service.changePassword(Tokens.TOKEN, "abc");
+
+        // THEN
+        failure = new FieldFailure("invalid", "password.invalid", "password", "");
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a locked user throws an exception")
     void testChangePassword_Locked() {
-        final ThrowingCallable executable;
+        final ThrowingCallable execution;
         final Exception        exception;
 
         // GIVEN
@@ -116,10 +134,10 @@ class TestSpringSecurityPasswordResetServiceChange {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.locked());
 
         // WHEN
-        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
+        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, LockedUserException.class);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -130,17 +148,17 @@ class TestSpringSecurityPasswordResetServiceChange {
     @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password for a not existing user throws an exception")
     void testChangePassword_NotExistingUser() {
-        final ThrowingCallable executable;
+        final ThrowingCallable execution;
         final Exception        exception;
 
         // GIVEN
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN
-        executable = () -> service.changePassword(Tokens.TOKEN, "abc");
+        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserException.class);
+        exception = Assertions.catchThrowableOfType(MissingUserException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

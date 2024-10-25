@@ -78,21 +78,21 @@ class TestScopedUserTokenStoreCreateToken {
             // TODO: then this field is not required for creation
             // softly.assertThat(token.getName())
             // .isEqualTo(UserConstants.NAME);
-            softly.assertThat(token.getUsername())
+            softly.assertThat(token.username())
                 .isEqualTo(UserConstants.USERNAME);
-            softly.assertThat(token.getScope())
+            softly.assertThat(token.scope())
                 .isEqualTo(Tokens.SCOPE);
-            softly.assertThat(token.getToken())
+            softly.assertThat(token.token())
                 .isNotNull();
-            softly.assertThat(token.isConsumed())
+            softly.assertThat(token.consumed())
                 .isFalse();
-            softly.assertThat(token.isRevoked())
+            softly.assertThat(token.revoked())
                 .isFalse();
 
-            softly.assertThat(token.getCreationDate())
+            softly.assertThat(token.creationDate())
                 .as("date")
                 .isBetween(dayStart, dayEnd);
-            softly.assertThat(token.getExpirationDate())
+            softly.assertThat(token.expirationDate())
                 .as("date")
                 .isBetween(dayStart, dayEnd);
         });

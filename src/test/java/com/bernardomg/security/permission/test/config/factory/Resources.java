@@ -6,9 +6,7 @@ import com.bernardomg.security.permission.data.domain.model.Resource;
 public final class Resources {
 
     public static final Resource data() {
-        return Resource.builder()
-            .withName(PermissionConstants.DATA)
-            .build();
+        return new Resource(PermissionConstants.DATA);
     }
 
     private Resources() {

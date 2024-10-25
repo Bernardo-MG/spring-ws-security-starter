@@ -105,12 +105,9 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final void delete(final String username) {
-        final boolean exists;
-
         log.debug("Deleting user {}", username);
 
-        exists = userRepository.exists(username);
-        if (!exists) {
+        if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
@@ -127,17 +124,17 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final Optional<User> getOne(final String username) {
-        final boolean exists;
+        final Optional<User> user;
 
         log.debug("Reading user {}", username);
 
-        exists = userRepository.exists(username);
-        if (!exists) {
+        user = userRepository.findOne(username);
+        if (user.isEmpty()) {
             log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
-        return userRepository.findOne(username);
+        return user;
     }
 
     @Override
@@ -148,28 +145,20 @@ public final class DefaultUserService implements UserService {
 
         log.debug("Registering new user {} with email {}", username, email);
 
-        user = User.builder()
-            .withUsername(username)
-            .withName(name)
-            .withEmail(email)
-            .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
-            .build();
+        user = User.newUser(username, email, name);
 
         validatorRegisterUser.validate(user);
 
         created = userRepository.newUser(user);
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.getUsername());
+        tokenStore.revokeExistingTokens(created.username());
 
         // Register new token
-        token = tokenStore.createToken(created.getUsername());
+        token = tokenStore.createToken(created.username());
 
         // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.getEmail(), username, token);
+        userNotificator.sendUserRegisteredMessage(created.email(), username, token);
 
         log.debug("Registered new user {} with email {}", username, email);
 
@@ -178,23 +167,23 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final User update(final User user) {
-        final Optional<User> existing;
-        final User           toSave;
+        final User existing;
+        final User toSave;
 
-        log.debug("Updating user {} using data {}", user.getUsername(), user);
+        log.debug("Updating user {} using data {}", user.username(), user);
 
         // Verify the user exists
-        existing = userRepository.findOne(user.getUsername());
-        if (existing.isEmpty()) {
-            log.error("Missing user {}", user.getUsername());
-            throw new MissingUserException(user.getUsername());
-        }
+        existing = userRepository.findOne(user.username())
+            .orElseThrow(() -> {
+                log.error("Missing user {}", user.username());
+                throw new MissingUserException(user.username());
+            });
 
         // Verify the roles exists
-        for (final Role role : user.getRoles()) {
-            if (!roleRepository.exists(role.getName())) {
-                log.error("Missing role {}", role.getName());
-                throw new MissingRoleException(role.getName());
+        for (final Role role : user.roles()) {
+            if (!roleRepository.exists(role.name())) {
+                log.error("Missing role {}", role.name());
+                throw new MissingRoleException(role.name());
             }
         }
 
@@ -202,18 +191,15 @@ public final class DefaultUserService implements UserService {
 
         toSave = User.builder()
             // Can't change these fields
-            .withUsername(existing.get()
-                .getUsername())
-            .withExpired(existing.get()
-                .isExpired())
-            .withLocked(existing.get()
-                .isLocked())
+            .withUsername(existing.username())
+            .withExpired(existing.expired())
+            .withLocked(existing.locked())
             // These fields are allowed to change
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.isEnabled())
-            .withPasswordExpired(user.isPasswordExpired())
-            .withRoles(user.getRoles())
+            .withName(user.name())
+            .withEmail(user.email())
+            .withEnabled(user.enabled())
+            .withPasswordExpired(user.passwordExpired())
+            .withRoles(user.roles())
             .build();
 
         return userRepository.save(toSave);

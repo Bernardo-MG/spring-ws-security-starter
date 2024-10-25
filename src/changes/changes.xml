@@ -260,5 +260,16 @@
             Secured user creation endpoint.
          </action>
       </release>
+      <release version="0.4.10" date="2024-10-25" description="Cleaned up code">
+         <action dev="bmg" type="update">
+            Moved to record.
+         </action>
+         <action dev="bmg" type="add">
+            MVC integration tests.
+         </action>
+         <action dev="bmg" type="fix">
+            Cleaned up code.
+         </action>
+      </release>
    </body>
 </document>

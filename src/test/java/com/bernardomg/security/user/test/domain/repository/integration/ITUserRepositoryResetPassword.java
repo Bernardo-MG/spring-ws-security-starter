@@ -65,7 +65,7 @@ class ITUserRepositoryResetPassword {
         updated = repository.resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
 
         // THEN
-        Assertions.assertThat(updated.getUsername())
+        Assertions.assertThat(updated.username())
             .as("user")
             .isNull();
     }

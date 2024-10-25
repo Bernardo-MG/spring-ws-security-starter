@@ -33,10 +33,10 @@ public final class UserUsernameNotExistsRule implements FieldRule<User> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (userRepository.exists(user.getUsername())) {
-            log.error("A user already exists with the username {}", user.getUsername());
+        if (userRepository.exists(user.username())) {
+            log.error("A user already exists with the username {}", user.username());
             // TODO: Is the code exists or is it existing? Make sure all use the same
-            fieldFailure = FieldFailure.of("username", "existing", user.getUsername());
+            fieldFailure = FieldFailure.of("username", "existing", user.username());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

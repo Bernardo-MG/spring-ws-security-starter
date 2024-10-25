@@ -22,39 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.token.domain.model;
+package com.bernardomg.security.permission.initializer.adapter.inbound.initializer;
 
-import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import lombok.Builder;
-import lombok.Value;
+import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
+import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 
 /**
- * Immutable implementation of the user token.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Default permission register. Contains all the initial permission configuration.
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class UserTokenPatch {
+public final class DefaultPermissionRegister implements PermissionRegister {
 
-    /**
-     * Token expiration date.
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final LocalDateTime expirationDate;
+    @Override
+    public final Collection<String> getActions() {
+        return List.of("CREATE", "READ", "UPDATE", "DELETE", "VIEW");
+    }
 
-    /**
-     * Token revoked flag.
-     */
-    private final Boolean       revoked;
+    @Override
+    public final Collection<ResourcePermissionPair> getPermissions() {
+        return List.of();
+    }
 
-    /**
-     * Token code.
-     */
-    private final String        token;
+    @Override
+    public final Collection<String> getResources() {
+        return List.of();
+    }
 
 }

@@ -28,12 +28,12 @@ public final class UserRolesNotDuplicatedRule implements FieldRule<User> {
         final int                    totalRoles;
         final long                   duplicates;
 
-        uniqueRoles = user.getRoles()
+        uniqueRoles = user.roles()
             .stream()
-            .map(Role::getName)
+            .map(Role::name)
             .distinct()
             .count();
-        totalRoles = user.getRoles()
+        totalRoles = user.roles()
             .size();
         if (uniqueRoles < totalRoles) {
             // TODO: is this really an error? It can be corrected easily

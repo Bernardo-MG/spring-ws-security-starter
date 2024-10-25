@@ -33,10 +33,10 @@ public final class RoleNameNotExistsRule implements FieldRule<Role> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (roleRepository.exists(role.getName())) {
-            log.error("A role already exists with the name {}", role.getName());
+        if (roleRepository.exists(role.name())) {
+            log.error("A role already exists with the name {}", role.name());
             // TODO: Is the code exists or is it existing? Make sure all use the same
-            fieldFailure = FieldFailure.of("name", "existing", role.getName());
+            fieldFailure = FieldFailure.of("name", "existing", role.name());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

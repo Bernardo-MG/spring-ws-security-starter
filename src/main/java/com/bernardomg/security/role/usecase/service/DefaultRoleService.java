@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.role.usecase.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -98,7 +99,7 @@ public final class DefaultRoleService implements RoleService {
 
         log.debug("Creating role {}", name);
 
-        role = Role.of(name);
+        role = new Role(name, List.of());
 
         validatorCreate.validate(role);
 
@@ -107,20 +108,16 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final void delete(final String role) {
-        final boolean exists;
-        final Role    domainRole;
+        final Role domainRole;
 
         log.debug("Deleting role {}", role);
 
-        exists = roleRepository.exists(role);
-        if (!exists) {
+        if (!roleRepository.exists(role)) {
             log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
-        domainRole = Role.builder()
-            .withName(role)
-            .build();
+        domainRole = new Role(role, List.of());
         validatorDelete.validate(domainRole);
 
         roleRepository.delete(role);
@@ -135,37 +132,34 @@ public final class DefaultRoleService implements RoleService {
 
     @Override
     public final Optional<Role> getOne(final String role) {
-        final boolean exists;
+        final Optional<Role> read;
 
         log.debug("Reading role {}", role);
 
-        exists = roleRepository.exists(role);
-        if (!exists) {
+        read = roleRepository.findOne(role);
+        if (read.isEmpty()) {
             log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
-        return roleRepository.findOne(role);
+        return read;
     }
 
     @Override
     public final Role update(final Role role) {
-        final boolean exists;
-
-        log.debug("Updating role {} using data {}", role.getName(), role);
+        log.debug("Updating role {} using data {}", role.name(), role);
 
         // Verify the role exists
-        exists = roleRepository.exists(role.getName());
-        if (!exists) {
-            log.error("Missing role {}", role.getName());
-            throw new MissingRoleException(role.getName());
+        if (!roleRepository.exists(role.name())) {
+            log.error("Missing role {}", role.name());
+            throw new MissingRoleException(role.name());
         }
 
         // Verify the permissions exists
-        for (final ResourcePermission permission : role.getPermissions()) {
+        for (final ResourcePermission permission : role.permissions()) {
             if (!resourcePermissionRepository.exists(permission.getName())) {
                 // TODO: send all missing in a single exception
-                throw new MissingResourcePermissionException(role.getName());
+                throw new MissingResourcePermissionException(role.name());
             }
         }
 

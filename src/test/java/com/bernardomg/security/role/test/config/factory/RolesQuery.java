@@ -6,20 +6,15 @@ import com.bernardomg.security.role.domain.model.RoleQuery;
 public final class RolesQuery {
 
     public static final RoleQuery byName() {
-        return RoleQuery.builder()
-            .withName(RoleConstants.NAME)
-            .build();
+        return new RoleQuery(RoleConstants.NAME);
     }
 
     public static final RoleQuery byNameNotExisting() {
-        return RoleQuery.builder()
-            .withName(RoleConstants.ALTERNATIVE_NAME)
-            .build();
+        return new RoleQuery(RoleConstants.ALTERNATIVE_NAME);
     }
 
     public static final RoleQuery empty() {
-        return RoleQuery.builder()
-            .build();
+        return new RoleQuery(null);
     }
 
 }

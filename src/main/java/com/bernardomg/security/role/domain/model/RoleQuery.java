@@ -24,16 +24,6 @@
 
 package com.bernardomg.security.role.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
-
-@Value
-@Builder(setterPrefix = "with")
-public final class RoleQuery {
-
-    /**
-     * Role name.
-     */
-    private final String name;
+public record RoleQuery(String name) {
 
 }

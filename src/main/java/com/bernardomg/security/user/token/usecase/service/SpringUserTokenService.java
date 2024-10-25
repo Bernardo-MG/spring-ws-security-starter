@@ -34,10 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.model.UserTokenPatch;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.validation.UserTokenNotExpiredRule;
-import com.bernardomg.security.user.token.usecase.validation.UserTokenNotRevokedRule;
+import com.bernardomg.security.user.token.usecase.validation.UserTokenPatchNotRevokedRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -64,19 +63,19 @@ public final class SpringUserTokenService implements UserTokenService {
     /**
      * User token repository.
      */
-    private final UserTokenRepository       userTokenRepository;
+    private final UserTokenRepository  userTokenRepository;
 
     /**
      * Patch validator.
      */
-    private final Validator<UserTokenPatch> validatorPatch;
+    private final Validator<UserToken> validatorPatch;
 
     public SpringUserTokenService(final UserTokenRepository userTokenRepo) {
         super();
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
 
-        validatorPatch = new FieldRuleValidator<>(new UserTokenNotExpiredRule(), new UserTokenNotRevokedRule());
+        validatorPatch = new FieldRuleValidator<>(new UserTokenNotExpiredRule(), new UserTokenPatchNotRevokedRule());
     }
 
     @Override
@@ -92,7 +91,7 @@ public final class SpringUserTokenService implements UserTokenService {
         log.info("Removing {} finished tokens", tokens.size());
 
         tokenCodes = tokens.stream()
-            .map(UserToken::getToken)
+            .map(UserToken::token)
             .toList();
         userTokenRepository.deleteAll(tokenCodes);
     }
@@ -118,48 +117,48 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final UserToken patch(final UserTokenPatch token) {
-        final Optional<UserToken> readToken;
-        final UserToken           toSave;
+    public final UserToken patch(final UserToken token) {
+        final UserToken existing;
+        final UserToken toSave;
 
-        log.debug("Patching token {}", token.getToken());
+        log.debug("Patching token {}", token.token());
 
-        readToken = userTokenRepository.findOne(token.getToken());
-        if (readToken.isEmpty()) {
-            log.error("Missing user token {}", token.getToken());
-            throw new MissingUserTokenException(token.getToken());
-        }
+        existing = userTokenRepository.findOne(token.token())
+            .orElseThrow(() -> {
+                log.error("Missing user token {}", token.token());
+                return new MissingUserTokenException(token.token());
+            });
 
         validatorPatch.validate(token);
 
-        toSave = copy(readToken.get(), token);
+        toSave = copy(existing, token);
 
         return userTokenRepository.save(toSave);
     }
 
-    private final UserToken copy(final UserToken existing, final UserTokenPatch updated) {
+    private final UserToken copy(final UserToken existing, final UserToken updated) {
         final LocalDateTime expirationDate;
         final Boolean       revoked;
 
-        if (updated.getExpirationDate() == null) {
-            expirationDate = existing.getExpirationDate();
+        if (updated.expirationDate() == null) {
+            expirationDate = existing.expirationDate();
         } else {
-            expirationDate = updated.getExpirationDate();
+            expirationDate = updated.expirationDate();
         }
-        if (updated.getRevoked() == null) {
-            revoked = existing.isRevoked();
+        if (updated.revoked() == null) {
+            revoked = existing.revoked();
         } else {
-            revoked = updated.getRevoked();
+            revoked = updated.revoked();
         }
 
         return UserToken.builder()
-            .withUsername(existing.getUsername())
-            .withName(existing.getName())
-            .withScope(existing.getScope())
-            .withToken(existing.getToken())
-            .withCreationDate(existing.getCreationDate())
+            .withUsername(existing.username())
+            .withName(existing.name())
+            .withScope(existing.scope())
+            .withToken(existing.token())
+            .withCreationDate(existing.creationDate())
             .withExpirationDate(expirationDate)
-            .withConsumed(existing.isConsumed())
+            .withConsumed(existing.consumed())
             .withRevoked(revoked)
             .build();
     }

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,46 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.usecase;
-
-import org.springframework.security.core.GrantedAuthority;
-
-import lombok.Builder;
-import lombok.Value;
-
 /**
- * Granted authority for resource based access.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Password reset validation.
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class ResourceActionGrantedAuthority implements GrantedAuthority {
 
-    /**
-     * Serialization id.
-     */
-    private static final long serialVersionUID = 2121524436657408632L;
-
-    /**
-     * Action to authorize in the resource.
-     */
-    private final String      action;
-
-    /**
-     * Resource to authorize.
-     */
-    private final String      resource;
-
-    @Override
-    public final String getAuthority() {
-        return String.format("%s:%s", resource, action);
-    }
-
-    @Override
-    public String toString() {
-        return getAuthority();
-    }
-
-}
+package com.bernardomg.security.password.reset.usecase.validation;

@@ -134,7 +134,7 @@ public final class JpaRoleRepository implements RoleRepository {
 
         entity = toEntity(role);
 
-        existing = roleSpringRepository.findByName(role.getName());
+        existing = roleSpringRepository.findByName(role.name());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -162,7 +162,7 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return ResourcePermission.of(entity.getResource(), entity.getAction());
+        return new ResourcePermission(entity.getResource(), entity.getAction());
     }
 
     private final Role toDomain(final RoleEntity role) {
@@ -180,7 +180,8 @@ public final class JpaRoleRepository implements RoleRepository {
                 .sorted(new ResourcePermissionComparator())
                 .toList();
         }
-        return Role.of(role.getName(), permissions);
+
+        return new Role(role.getName(), permissions);
     }
 
     private final RolePermissionEntity toEntity(final ResourcePermission permission) {
@@ -211,20 +212,20 @@ public final class JpaRoleRepository implements RoleRepository {
     private final RoleEntity toEntity(final Role role) {
         final Collection<RolePermissionEntity> permissions;
 
-        permissions = role.getPermissions()
+        permissions = role.permissions()
             .stream()
             .map(this::toEntity)
             .filter(Objects::nonNull)
             .collect(Collectors.toCollection(ArrayList::new));
         return RoleEntity.builder()
-            .withName(role.getName())
+            .withName(role.name())
             .withPermissions(permissions)
             .build();
     }
 
     private final RoleEntity toEntity(final RoleQuery role) {
         return RoleEntity.builder()
-            .withName(role.getName())
+            .withName(role.name())
             .build();
     }
 
