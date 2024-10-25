@@ -25,20 +25,14 @@
 package com.bernardomg.security.user.token.usecase.store;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
-import com.bernardomg.security.user.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
-import com.bernardomg.security.user.token.domain.exception.OutOfScopeTokenException;
-import com.bernardomg.security.user.token.domain.exception.RevokedTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 
@@ -90,67 +84,47 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final void consumeToken(final String token) {
-        final Optional<UserToken> readToken;
-        final UserToken           tokenData;
-        final UserToken           updated;
+        final UserToken readToken;
+        final UserToken updated;
 
-        readToken = userTokenRepository.findOneByScope(token, tokenScope);
+        readToken = userTokenRepository.findOneByScope(token, tokenScope)
+            .orElseThrow(() -> {
+                log.error("Token missing: {}", token);
+                throw new MissingUserTokenException(token);
+            });
 
-        if (!readToken.isPresent()) {
-            log.error("Token missing: {}", token);
-            throw new MissingUserTokenException(token);
-        }
-
-        tokenData = readToken.get();
-        if (tokenData.getConsumed()) {
+        if (readToken.consumed()) {
             log.warn("Token already consumed: {}", token);
             throw new ConsumedTokenException(token);
         }
 
-        updated = tokenData.consume();
+        updated = readToken.consume();
         userTokenRepository.save(updated);
         log.debug("Consumed token {}", token);
     }
 
     @Override
     public final String createToken(final String username) {
-        final UserToken     token;
-        final LocalDateTime creation;
-        final LocalDateTime expiration;
-        final String        tokenCode;
+        final UserToken token;
 
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
 
-        creation = LocalDateTime.now();
-        expiration = creation.plus(validity);
-
-        tokenCode = UUID.randomUUID()
-            .toString();
-
-        token = UserToken.builder()
-            .withUsername(username)
-            .withScope(tokenScope)
-            .withCreationDate(creation)
-            .withToken(tokenCode)
-            .withConsumed(false)
-            .withRevoked(false)
-            .withExpirationDate(expiration)
-            .build();
+        token = UserToken.create(username, tokenScope, validity);
 
         userTokenRepository.save(token);
 
         log.debug("Created token for {} with scope {}", username, tokenScope);
 
-        return tokenCode;
+        return token.token();
     }
 
     @Override
     public final String getUsername(final String token) {
         return userTokenRepository.findOneByScope(token, tokenScope)
-            .map(UserToken::getUsername)
+            .map(UserToken::username)
             .orElseThrow(() -> {
                 log.error("Missing user token {}", token);
                 throw new MissingUserTokenException(token);
@@ -160,65 +134,37 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     @Override
     public final void revokeExistingTokens(final String username) {
         final Collection<UserToken> tokens;
-        final Collection<UserToken> toRevoke;
-        final Optional<User>        readUser;
-        final User                  user;
+        final Collection<UserToken> revoked;
+        final User                  readUser;
 
-        readUser = userRepository.findOne(username);
-        if (!readUser.isPresent()) {
-            log.error("Missing user {}", username);
-            throw new MissingUserException(username);
-        }
-
-        user = readUser.get();
+        readUser = userRepository.findOne(username)
+            .orElseThrow(() -> {
+                log.error("Missing user {}", username);
+                throw new MissingUserException(username);
+            });
 
         // Find all tokens not revoked, and mark them as revoked
-        tokens = userTokenRepository.findAllNotRevoked(user.getUsername(), tokenScope);
-        toRevoke = tokens.stream()
+        tokens = userTokenRepository.findAllNotRevoked(readUser.username(), tokenScope);
+        revoked = tokens.stream()
             .map(UserToken::revoke)
             .toList();
 
-        userTokenRepository.saveAll(toRevoke);
+        userTokenRepository.saveAll(revoked);
 
-        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, user.getUsername());
+        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, readUser.username());
     }
 
     @Override
     public final void validate(final String token) {
-        final Optional<UserToken> read;
-        final UserToken           entity;
+        final UserToken read;
 
-        read = userTokenRepository.findOne(token);
-        if (!read.isPresent()) {
-            log.warn("Token not registered: {}", token);
-            throw new MissingUserTokenException(token);
-        }
+        read = userTokenRepository.findOne(token)
+            .orElseThrow(() -> {
+                log.warn("Token not registered: {}", token);
+                throw new MissingUserTokenException(token);
+            });
 
-        entity = read.get();
-        if (!tokenScope.equals(entity.getScope())) {
-            // Scope mismatch
-            log.warn("Expected scope {}, but the token is for {}", tokenScope, entity.getScope());
-            throw new OutOfScopeTokenException(token, tokenScope, entity.getScope());
-        }
-        if (entity.getConsumed()) {
-            // Consumed
-            // It isn't a valid token
-            log.warn("Consumed token: {}", token);
-            throw new ConsumedTokenException(token);
-        }
-        if (entity.getRevoked()) {
-            // Revoked
-            // It isn't a valid token
-            log.warn("Revoked token: {}", token);
-            throw new RevokedTokenException(token);
-        }
-        if (LocalDateTime.now()
-            .isAfter(entity.getExpirationDate())) {
-            // Expired
-            // It isn't a valid token
-            log.warn("Expired token: {}", token);
-            throw new ExpiredTokenException(token);
-        }
+        read.checkStatus(tokenScope);
     }
 
 }

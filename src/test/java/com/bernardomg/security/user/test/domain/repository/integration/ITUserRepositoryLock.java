@@ -64,7 +64,7 @@ class ITUserRepositoryLock {
         updated = repository.lock(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThat(updated.getUsername())
+        Assertions.assertThat(updated.username())
             .as("user")
             .isNull();
     }

@@ -35,6 +35,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.springframework.domain.model.ResourceActionGrantedAuthority;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
@@ -105,7 +106,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
                 throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
             });
 
-        authorities = userPermissionRepository.findAll(user.getUsername())
+        authorities = userPermissionRepository.findAll(user.username())
             .stream()
             .map(this::toAuthority)
             .toList();
@@ -128,10 +129,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
     }
 
     private final GrantedAuthority toAuthority(final ResourcePermission permission) {
-        return ResourceActionGrantedAuthority.builder()
-            .withResource(permission.resource())
-            .withAction(permission.action())
-            .build();
+        return new ResourceActionGrantedAuthority(permission.resource(), permission.action());
     }
 
     /**
@@ -153,12 +151,12 @@ public final class PersistentUserDetailsService implements UserDetailsService {
         final Boolean accountNonLocked;
 
         // Loads status
-        enabled = user.isEnabled();
-        accountNonExpired = !user.isExpired();
-        credentialsNonExpired = !user.isPasswordExpired();
-        accountNonLocked = !user.isLocked();
+        enabled = user.enabled();
+        accountNonExpired = !user.expired();
+        credentialsNonExpired = !user.passwordExpired();
+        accountNonLocked = !user.locked();
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), password, enabled,
+        return new org.springframework.security.core.userdetails.User(user.username(), password, enabled,
             accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
     }
 

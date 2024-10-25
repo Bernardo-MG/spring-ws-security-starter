@@ -248,6 +248,7 @@ public final class JpaUserRepository implements UserRepository {
             user = read.get();
 
             // Encode password
+            // TODO: shouldn't be encoded in the service?
             encodedPassword = passwordEncoder.encode(password);
             user.setPassword(encodedPassword);
 
@@ -271,7 +272,7 @@ public final class JpaUserRepository implements UserRepository {
 
         entity = toEntity(user);
 
-        existing = userSpringRepository.findByUsername(user.getUsername());
+        existing = userSpringRepository.findByUsername(user.username());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
@@ -337,19 +338,19 @@ public final class JpaUserRepository implements UserRepository {
     private final UserEntity toEntity(final User user) {
         final Collection<RoleEntity> roles;
 
-        roles = user.getRoles()
+        roles = user.roles()
             .stream()
             .map(this::toEntity)
             .filter(Objects::nonNull)
             .collect(Collectors.toCollection(ArrayList::new));
         return UserEntity.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.isEnabled())
-            .withExpired(user.isExpired())
-            .withLocked(user.isLocked())
-            .withPasswordExpired(user.isPasswordExpired())
+            .withUsername(user.username())
+            .withName(user.name())
+            .withEmail(user.email())
+            .withEnabled(user.enabled())
+            .withExpired(user.expired())
+            .withLocked(user.locked())
+            .withPasswordExpired(user.passwordExpired())
             .withRoles(roles)
             .withLoginAttempts(0)
             .build();
@@ -357,13 +358,13 @@ public final class JpaUserRepository implements UserRepository {
 
     private final UserEntity toEntity(final UserQuery user) {
         return UserEntity.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
-            .withExpired(user.getExpired())
-            .withLocked(user.getLocked())
-            .withPasswordExpired(user.getPasswordExpired())
+            .withUsername(user.username())
+            .withName(user.name())
+            .withEmail(user.email())
+            .withEnabled(user.enabled())
+            .withExpired(user.expired())
+            .withLocked(user.locked())
+            .withPasswordExpired(user.passwordExpired())
             .build();
     }
 

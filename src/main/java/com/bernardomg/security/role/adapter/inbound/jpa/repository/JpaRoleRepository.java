@@ -180,6 +180,7 @@ public final class JpaRoleRepository implements RoleRepository {
                 .sorted(new ResourcePermissionComparator())
                 .toList();
         }
+
         return new Role(role.getName(), permissions);
     }
 
@@ -224,7 +225,7 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final RoleEntity toEntity(final RoleQuery role) {
         return RoleEntity.builder()
-            .withName(role.getName())
+            .withName(role.name())
             .build();
     }
 

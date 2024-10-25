@@ -115,9 +115,7 @@ public class RoleController {
     public Iterable<Role> readAll(@Valid final RoleQueryRequest request, final Pageable page) {
         final RoleQuery query;
 
-        query = RoleQuery.builder()
-            .withName(request.getName())
-            .build();
+        query = new RoleQuery(request.getName());
         return service.getAll(query, page);
     }
 

@@ -95,7 +95,7 @@ public final class PermissionsLoader {
             .map(PermissionRegister::getActions)
             .flatMap(Collection::stream)
             .filter(Predicate.not(actionRepository::exists))
-            .map(this::toAction)
+            .map(Action::new)
             .toList();
         actionRepository.save(actions);
         log.debug("Saved actions");
@@ -106,7 +106,7 @@ public final class PermissionsLoader {
             .map(PermissionRegister::getResources)
             .flatMap(Collection::stream)
             .filter(Predicate.not(resourceRepository::exists))
-            .map(this::toResource)
+            .map(Resource::new)
             .toList();
         resourceRepository.save(resources);
         log.debug("Saved resources");
@@ -124,14 +124,6 @@ public final class PermissionsLoader {
         log.debug("Saved permissions");
 
         log.debug("Finished loading permissions");
-    }
-
-    private final Action toAction(final String name) {
-        return new Action(name);
-    }
-
-    private final Resource toResource(final String name) {
-        return new Resource(name);
     }
 
     private final ResourcePermission toResourcePermission(final ResourcePermissionPair pair) {

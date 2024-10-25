@@ -73,7 +73,7 @@ class TestScopedUserTokenStoreGetUsername {
         executable = () -> store.getUsername(Tokens.TOKEN);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(executable, MissingUserTokenException.class);
+        exception = Assertions.catchThrowableOfType(MissingUserTokenException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing id " + Tokens.TOKEN + " for token");
