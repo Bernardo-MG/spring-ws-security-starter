@@ -26,6 +26,8 @@ package com.bernardomg.security.account.domain.model;
 
 /**
  * Representation of an account.
+ * <p>
+ * TODO: should be no need for an interface
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
