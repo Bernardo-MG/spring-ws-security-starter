@@ -90,7 +90,7 @@ public class LoginAutoConfiguration {
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final UserPermissionRepository userPermissionRepository, final JwtProperties properties,
+            final UserPermissionRepository userPermissionRepository, final JwtProperties jwtProperties,
             final ApplicationEventPublisher publisher) {
         final Predicate<Credentials> valid;
         final LoginTokenEncoder      loginTokenEncoder;
@@ -98,7 +98,7 @@ public class LoginAutoConfiguration {
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userPermissionRepository,
-            properties.getValidity());
+            jwtProperties.getValidity());
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, publisher);
     }
