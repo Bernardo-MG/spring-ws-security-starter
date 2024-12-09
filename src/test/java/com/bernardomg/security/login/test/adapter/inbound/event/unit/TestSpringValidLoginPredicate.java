@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.springframework.usecase.service.SpringValidLoginPredicate;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 
@@ -49,7 +50,8 @@ class TestSpringValidLoginPredicate {
         given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // WHEN
-        status = validator.test(UserConstants.USERNAME, UserConstants.PASSWORD);
+        // TODO: use constants
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status)
@@ -70,7 +72,7 @@ class TestSpringValidLoginPredicate {
         given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // WHEN
-        status = validator.test(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status)
@@ -91,7 +93,7 @@ class TestSpringValidLoginPredicate {
         given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // WHEN
-        status = validator.test(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status)
@@ -112,7 +114,7 @@ class TestSpringValidLoginPredicate {
         given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // WHEN
-        status = validator.test(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status)
@@ -129,7 +131,7 @@ class TestSpringValidLoginPredicate {
             .willThrow(UsernameNotFoundException.class);
 
         // WHEN
-        status = validator.test(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status)
@@ -145,7 +147,7 @@ class TestSpringValidLoginPredicate {
         given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(null);
 
         // WHEN
-        status = validator.test(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status)
@@ -169,7 +171,7 @@ class TestSpringValidLoginPredicate {
         given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
 
         // WHEN
-        status = validator.test(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status)

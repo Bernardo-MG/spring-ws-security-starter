@@ -30,7 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.login.adapter.outbound.rest.model.Login;
+import com.bernardomg.security.login.adapter.outbound.rest.model.LoginRequest;
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.LoginService;
 
@@ -55,14 +56,17 @@ public class LoginController {
     /**
      * Attempts to log in a user, returning the login status.
      *
-     * @param request
+     * @param login
      *            login request
      * @return the login status after the login attempt
      */
     @PostMapping
     @Unsecured
-    public TokenLoginStatus login(@RequestBody final Login request) {
-        return service.login(request.getUsername(), request.getPassword());
+    public TokenLoginStatus login(@RequestBody final LoginRequest login) {
+        final Credentials credentials;
+
+        credentials = new Credentials(login.username(), login.password());
+        return service.login(credentials);
     }
 
 }

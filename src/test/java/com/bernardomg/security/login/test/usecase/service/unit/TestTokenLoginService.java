@@ -4,7 +4,7 @@ package com.bernardomg.security.login.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.util.Optional;
-import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
@@ -27,23 +28,24 @@ import com.bernardomg.security.user.test.config.factory.Users;
 class TestTokenLoginService {
 
     @Mock
-    private ApplicationEventPublisher   eventPublisher;
+    private ApplicationEventPublisher eventPublisher;
 
     @Mock
-    private LoginTokenEncoder           loginTokenEncoder;
+    private LoginTokenEncoder         loginTokenEncoder;
 
     @Mock
-    private UserRepository              userRepository;
+    private UserRepository            userRepository;
 
     @Mock
-    private BiPredicate<String, String> valid;
+    private Predicate<Credentials>    valid;
 
     public TestTokenLoginService() {
         super();
     }
 
     private final TokenLoginService getService(final Boolean passwordMatches) {
-        given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(passwordMatches);
+        // TODO: use constants
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(passwordMatches);
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
     }
@@ -57,7 +59,7 @@ class TestTokenLoginService {
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
-        status = getService(false).login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        status = getService(false).login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status.logged())
@@ -75,7 +77,7 @@ class TestTokenLoginService {
         given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
 
         // WHEN
-        status = getService(true).login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        status = getService(true).login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status.logged())
@@ -88,7 +90,7 @@ class TestTokenLoginService {
         final TokenLoginStatus status;
 
         // WHEN
-        status = getService(false).login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = getService(false).login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status.logged())
@@ -104,7 +106,7 @@ class TestTokenLoginService {
         given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
 
         // WHEN
-        status = getService(true).login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        status = getService(true).login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status.logged())

@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.login.usecase.service;
 
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 
 /**
@@ -38,12 +39,10 @@ public interface LoginService {
     /**
      * Receives credentials, attempts a login and returns the resulting status.
      *
-     * @param username
-     *            username for login
-     * @param password
-     *            password for login
+     * @param credentials
+     *            login credentials
      * @return login status
      */
-    public TokenLoginStatus login(final String username, final String password);
+    public TokenLoginStatus login(final Credentials credentials);
 
 }

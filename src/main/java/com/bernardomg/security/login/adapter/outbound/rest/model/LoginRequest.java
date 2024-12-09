@@ -24,31 +24,12 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
- * All the data required for a login attempt.
+ * Request for login.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder(setterPrefix = "with")
-public class Login {
-
-    /**
-     * User password.
-     */
-    private String password;
-
-    /**
-     * User username.
-     */
-    private String username;
+public record LoginRequest(String username, String password) {
 
 }

@@ -20,6 +20,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -63,7 +64,8 @@ class TestTokenLoginServiceEvent {
         given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(false);
 
         // WHEN
-        service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        // TODO: use constants
+        service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -90,7 +92,7 @@ class TestTokenLoginServiceEvent {
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.empty());
 
         // WHEN
-        service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -120,7 +122,7 @@ class TestTokenLoginServiceEvent {
         given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
 
         // WHEN
-        service.login(UserConstants.EMAIL, UserConstants.PASSWORD);
+        service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -146,7 +148,7 @@ class TestTokenLoginServiceEvent {
         given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(false);
 
         // WHEN
-        service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Mockito.verify(eventPublisher)
@@ -174,7 +176,7 @@ class TestTokenLoginServiceEvent {
         given(valid.test(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(true);
 
         // WHEN
-        service.login(UserConstants.USERNAME, UserConstants.PASSWORD);
+        service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
         Mockito.verify(eventPublisher)

@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.login.configuration;
 
-import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -42,6 +42,7 @@ import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterLis
 import com.bernardomg.security.login.adapter.inbound.initializer.LoginPermissionRegister;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.springframework.usecase.service.SpringValidLoginPredicate;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
@@ -91,8 +92,8 @@ public class LoginAutoConfiguration {
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
             final UserPermissionRepository userPermissionRepository, final JwtProperties properties,
             final ApplicationEventPublisher publisher) {
-        final BiPredicate<String, String> valid;
-        final LoginTokenEncoder           loginTokenEncoder;
+        final Predicate<Credentials> valid;
+        final LoginTokenEncoder      loginTokenEncoder;
 
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
