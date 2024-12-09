@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.adapter.inbound.event;
+package com.bernardomg.security.login.springframework.usecase.service;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -24,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
  * <li>Received password matchs the one encrypted for the user</li>
  * <li>User should be enabled, and valid</li>
  * </ul>
+ * <p>
+ * TODO: test this
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

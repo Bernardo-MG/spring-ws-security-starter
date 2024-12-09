@@ -18,6 +18,9 @@ import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
+/**
+ * TODO: why this test class? The unit test seem to cover everything
+ */
 @IntegrationTest
 @DisplayName("UserDomainDetailsService - integration")
 class ITUserDomainDetailsService {
