@@ -27,7 +27,7 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PersistentUserDetailsService")
+@DisplayName("UserDomainDetailsService")
 class TestUserDomainDetailsService {
 
     @InjectMocks
