@@ -33,7 +33,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.bernardomg.security.springframework.access.usecase.validator.RequireResourceAccessInterceptor;
 import com.bernardomg.security.springframework.access.usecase.validator.ResourceAccessValidator;
 import com.bernardomg.security.springframework.access.usecase.validator.SpringResourceAccessValidator;
-import com.bernardomg.security.springframework.usecase.PersistentUserDetailsService;
+import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
 
@@ -63,7 +63,7 @@ public class SpringAutoConfiguration {
     @Bean("userDetailsService")
     public UserDetailsService getUserDetailsService(final UserRepository userRepository,
             final UserPermissionRepository userPermissionRepository) {
-        return new PersistentUserDetailsService(userRepository, userPermissionRepository);
+        return new UserDomainDetailsService(userRepository, userPermissionRepository);
     }
 
 }

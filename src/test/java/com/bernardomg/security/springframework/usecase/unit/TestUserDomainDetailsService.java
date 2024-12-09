@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.springframework.usecase.PersistentUserDetailsService;
+import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
@@ -28,18 +28,18 @@ import com.bernardomg.security.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("PersistentUserDetailsService")
-class TestPersistentUserDetailsService {
+class TestUserDomainDetailsService {
 
     @InjectMocks
-    private PersistentUserDetailsService service;
+    private UserDomainDetailsService service;
 
     @Mock
-    private UserPermissionRepository     userPermissionRepository;
+    private UserPermissionRepository userPermissionRepository;
 
     @Mock
-    private UserRepository               userRepository;
+    private UserRepository           userRepository;
 
-    public TestPersistentUserDetailsService() {
+    public TestUserDomainDetailsService() {
         super();
     }
 

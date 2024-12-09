@@ -43,7 +43,7 @@ import com.bernardomg.security.user.permission.domain.repository.UserPermissionR
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * User details service which takes the user data from the persistence layer.
+ * User details service which takes the user data from the domain layer.
  * <h2>User names</h2>
  * <p>
  * Users are located through the username, with a case insensitive search. The persisted user details are expected to
@@ -64,7 +64,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public final class PersistentUserDetailsService implements UserDetailsService {
+public final class UserDomainDetailsService implements UserDetailsService {
 
     /**
      * User permissions repository.
@@ -84,8 +84,7 @@ public final class PersistentUserDetailsService implements UserDetailsService {
      * @param userPermissionRepo
      *            user permissions repository
      */
-    public PersistentUserDetailsService(final UserRepository userRepo,
-            final UserPermissionRepository userPermissionRepo) {
+    public UserDomainDetailsService(final UserRepository userRepo, final UserPermissionRepository userPermissionRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");

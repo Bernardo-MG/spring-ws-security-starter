@@ -14,18 +14,18 @@ import com.bernardomg.security.permission.test.config.annotation.AlternativeUser
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.UserWithoutPermissions;
-import com.bernardomg.security.springframework.usecase.PersistentUserDetailsService;
+import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("PersistentUserDetailsService - load by username")
-class ITPersistentUserDetailsService {
+@DisplayName("UserDomainDetailsService - integration")
+class ITUserDomainDetailsService {
 
     @Autowired
-    private PersistentUserDetailsService service;
+    private UserDomainDetailsService service;
 
-    public ITPersistentUserDetailsService() {
+    public ITUserDomainDetailsService() {
         super();
     }
 
