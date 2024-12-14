@@ -133,6 +133,7 @@ public class WebSecurityConfiguration {
             // Authenticate all others
             .authorizeHttpRequests(c -> c.anyRequest()
                 .authenticated())
+            // TODO: why is it using the basic auth filter?
             .addFilterBefore(jwtFilterWrapped, BasicAuthenticationFilter.class)
             // CSRF and CORS
             .csrf(CsrfConfigurer::disable)

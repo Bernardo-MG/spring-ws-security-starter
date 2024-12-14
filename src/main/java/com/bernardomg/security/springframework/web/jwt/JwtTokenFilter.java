@@ -194,9 +194,11 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
                 log.debug("Authenticated {} request for {} to {}", request.getMethod(), username,
                     request.getServletPath());
             } else {
+                // TODO: shouldn't set anonymous auth?
                 log.debug("Invalid user {}", username);
             }
         } else {
+            // TODO: shouldn't set anonymous auth?
             log.debug("Invalid token {}", token);
         }
     }
