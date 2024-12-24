@@ -29,7 +29,7 @@ import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.test.json.JsonUtils;
-import com.bernardomg.web.response.domain.model.Response;
+import com.bernardomg.ws.response.domain.model.Response;
 
 @MvcIntegrationTest
 @ComponentScan(basePackageClasses = PasswordResetController.class)
@@ -130,7 +130,7 @@ class ITPasswordResetController {
 
         // THEN
         resultActions.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(content().json(JsonUtils.toJson(Response.of(tokenStatus))));
+            .andExpect(content().json(JsonUtils.toJson(new Response<>(tokenStatus))));
     }
 
     @Test

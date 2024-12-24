@@ -5,9 +5,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.test.config.annotation.LoggedInLoginRegister;
@@ -29,7 +30,12 @@ class ITLoginRegisterRepositoryFindAllPagination extends AbstractPaginationIT<Lo
 
     @Override
     protected final Iterable<LoginRegister> read(final Pageable pageable) {
-        return repository.findAll(pageable);
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = Sorting.unsorted();
+        return repository.findAll(pagination, sorting);
     }
 
     @Test
@@ -42,13 +48,15 @@ class ITLoginRegisterRepositoryFindAllPagination extends AbstractPaginationIT<Lo
     @DisplayName("Returns all the data for the second page")
     void testGetAll_Page2() {
         final Iterable<LoginRegister> logins;
-        final Pageable                pageable;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
-        pageable = PageRequest.of(1, 1);
+        pagination = new Pagination(1, 1);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        logins = repository.findAll(pageable);
+        logins = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(logins)

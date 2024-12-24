@@ -5,8 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.test.config.annotation.LoggedInLoginRegister;
@@ -29,13 +30,15 @@ class ITLoginRegisterRepositoryFindAll {
     @LoggedInLoginRegister
     void testGetAll_Data() {
         final Iterable<LoginRegister> logins;
-        final Pageable                pageable;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        logins = repository.findAll(pageable);
+        logins = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(logins)
@@ -47,13 +50,15 @@ class ITLoginRegisterRepositoryFindAll {
     @DisplayName("With no data it returns nothing")
     void testGetAll_Empty_Count() {
         final Iterable<LoginRegister> logins;
-        final Pageable                pageable;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        logins = repository.findAll(pageable);
+        logins = repository.findAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(logins)

@@ -12,8 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
@@ -38,16 +39,18 @@ class TestLoginRegisterServiceGetAll {
     void testGetAll_Data() {
         final Iterable<LoginRegister> readLogins;
         final Iterable<LoginRegister> logins;
-        final Pageable                pageable;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         readLogins = List.of(LoginRegisters.loggedIn());
-        given(loginRegisterRepository.findAll(pageable)).willReturn(readLogins);
+        given(loginRegisterRepository.findAll(pagination, sorting)).willReturn(readLogins);
 
         // WHEN
-        logins = service.getAll(pageable);
+        logins = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(logins)
@@ -60,16 +63,18 @@ class TestLoginRegisterServiceGetAll {
     void testGetAll_Empty_Count() {
         final Iterable<LoginRegister> readLogins;
         final Iterable<LoginRegister> logins;
-        final Pageable                pageable;
+        final Pagination              pagination;
+        final Sorting                 sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         readLogins = List.of();
-        given(loginRegisterRepository.findAll(pageable)).willReturn(readLogins);
+        given(loginRegisterRepository.findAll(pagination, sorting)).willReturn(readLogins);
 
         // WHEN
-        logins = service.getAll(pageable);
+        logins = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(logins)

@@ -46,11 +46,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Builder(setterPrefix = "with")
 @Slf4j
-public record User(String email, String username, String name, boolean enabled, boolean expired, boolean locked, boolean passwordExpired,
-        Collection<Role> roles) {
+public record User(String email, String username, String name, boolean enabled, boolean expired, boolean locked,
+        boolean passwordExpired, Collection<Role> roles) {
 
-    public User(final String email, final String username, final String name, final boolean enabled, final boolean expired, final boolean locked,
-            final boolean passwordExpired, final Collection<Role> roles) {
+    public User(final String email, final String username, final String name, final boolean enabled,
+            final boolean expired, final boolean locked, final boolean passwordExpired, final Collection<Role> roles) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
         } else {
@@ -79,7 +79,7 @@ public record User(String email, String username, String name, boolean enabled, 
     }
 
     public static final User newUser(final String username, final String email, final String name) {
-        return new User(email, username, name,false, false, false,  true, List.of());
+        return new User(email, username, name, false, false, false, true, List.of());
     }
 
     public final void checkStatus() {

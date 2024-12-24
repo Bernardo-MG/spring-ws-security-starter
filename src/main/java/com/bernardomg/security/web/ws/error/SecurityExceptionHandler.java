@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import com.bernardomg.web.response.domain.model.ErrorResponse;
+import com.bernardomg.ws.response.domain.model.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

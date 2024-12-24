@@ -27,9 +27,10 @@ package com.bernardomg.security.login.usecase.service;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 
@@ -51,10 +52,10 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
     }
 
     @Override
-    public final Iterable<LoginRegister> getAll(final Pageable page) {
-        log.debug("Reading login registers with pagination {}", page);
+    public final Iterable<LoginRegister> getAll(final Pagination pagination, final Sorting sorting) {
+        log.debug("Reading login registers with pagination {} and sorting {}", pagination, sorting);
 
-        return loginRegisterRepository.findAll(page);
+        return loginRegisterRepository.findAll(pagination, sorting);
     }
 
     @Override

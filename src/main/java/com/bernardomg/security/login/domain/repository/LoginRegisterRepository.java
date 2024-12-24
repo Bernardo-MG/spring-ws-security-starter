@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.login.domain.repository;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 
 /**
@@ -38,11 +38,13 @@ public interface LoginRegisterRepository {
     /**
      * Returns all login registers.
      *
-     * @param page
-     *            pagination data
+     * @param pagination
+     *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all login registers
      */
-    public Iterable<LoginRegister> findAll(final Pageable page);
+    public Iterable<LoginRegister> findAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Saves a login register.
