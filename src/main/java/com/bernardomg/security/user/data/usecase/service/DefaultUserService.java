@@ -27,9 +27,10 @@ package com.bernardomg.security.user.data.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -116,10 +117,10 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Iterable<User> getAll(final UserQuery query, final Pageable page) {
-        log.debug("Reading users with sample {} and pagination {}", query, page);
+    public final Iterable<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
+        log.debug("Reading users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
-        return userRepository.findAll(query, page);
+        return userRepository.findAll(query, pagination, sorting);
     }
 
     @Override

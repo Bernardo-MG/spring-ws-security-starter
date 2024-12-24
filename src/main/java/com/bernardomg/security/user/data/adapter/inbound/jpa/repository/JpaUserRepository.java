@@ -35,6 +35,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -144,11 +147,13 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final Iterable<User> findAll(final UserQuery query, final Pageable page) {
+    public final Iterable<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
         final UserEntity entity;
+        final Pageable   pageable;
 
         entity = toEntity(query);
-        return userSpringRepository.findAll(Example.of(entity), page)
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return userSpringRepository.findAll(Example.of(entity), pageable)
             .map(this::toDomain);
     }
 

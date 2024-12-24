@@ -5,9 +5,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -29,7 +30,12 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
 
     @Override
     protected final Iterable<User> read(final Pageable pageable) {
-        return repository.findAll(UserQueries.empty(), pageable);
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = Sorting.unsorted();
+        return repository.findAll(UserQueries.empty(), pagination, sorting);
     }
 
     @Test
@@ -43,14 +49,19 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
     void testGetAll_Page2_Data() {
         final UserQuery      sample;
         final Iterable<User> users;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = PageRequest.of(1, 1);
+        // GIVEN
+        pagination = new Pagination(1, 1);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.empty();
 
-        users = repository.findAll(sample, pageable);
+        // WHEN
+        users = repository.findAll(sample, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(users)
             .isEmpty();
     }
