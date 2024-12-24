@@ -35,6 +35,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
@@ -90,12 +93,14 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     @Override
-    public final Iterable<Role> findAll(final RoleQuery query, final Pageable page) {
+    public final Iterable<Role> findAll(final RoleQuery query, final Pagination pagination, final Sorting sorting) {
         final RoleEntity sample;
+        final Pageable   pageable;
 
         sample = toEntity(query);
 
-        return roleSpringRepository.findAll(Example.of(sample), page)
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return roleSpringRepository.findAll(Example.of(sample), pageable)
             .map(this::toDomain);
     }
 

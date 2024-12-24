@@ -26,8 +26,8 @@ package com.bernardomg.security.role.domain.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 
@@ -60,11 +60,13 @@ public interface RoleRepository {
      *
      * @param query
      *            query to filter the roles
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the roles for the received query
      */
-    public Iterable<Role> findAll(final RoleQuery query, final Pageable page);
+    public Iterable<Role> findAll(final RoleQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the role for the received name.

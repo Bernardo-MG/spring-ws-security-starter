@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.role.usecase.service;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 
 /**
@@ -41,10 +41,13 @@ public interface RolePermissionService {
      *
      * @param role
      *            role name
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return permissions the role doesn't have
      */
-    public Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable page);
+    public Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
+            final Sorting sorting);
 
 }

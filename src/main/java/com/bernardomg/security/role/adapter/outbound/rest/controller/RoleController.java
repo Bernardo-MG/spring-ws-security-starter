@@ -30,7 +30,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +40,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -105,18 +106,21 @@ public class RoleController {
      *
      * @param request
      *            query to filter roles
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return a page for the roles matching the sample
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
-    public Iterable<Role> readAll(@Valid final RoleQueryRequest request, final Pageable page) {
+    public Iterable<Role> readAll(@Valid final RoleQueryRequest request, final Pagination pagination,
+            final Sorting sorting) {
         final RoleQuery query;
 
         query = new RoleQuery(request.getName());
-        return service.getAll(query, page);
+        return service.getAll(query, pagination, sorting);
     }
 
     /**

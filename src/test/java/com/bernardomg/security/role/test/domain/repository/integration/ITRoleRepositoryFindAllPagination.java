@@ -5,9 +5,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -29,7 +30,12 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
 
     @Override
     protected final Iterable<Role> read(final Pageable pageable) {
-        return repository.findAll(RolesQuery.empty(), pageable);
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
+        sorting = Sorting.unsorted();
+        return repository.findAll(RolesQuery.empty(), pagination, sorting);
     }
 
     @Test
@@ -43,15 +49,17 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     void testFindAll_Page2_Data() {
         final RoleQuery      sample;
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = PageRequest.of(1, 1);
+        pagination = new Pagination(1, 1);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)

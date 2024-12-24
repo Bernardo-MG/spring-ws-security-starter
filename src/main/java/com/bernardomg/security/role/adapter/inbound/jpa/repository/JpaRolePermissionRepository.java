@@ -31,6 +31,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -67,10 +70,12 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     @Override
-    public final Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable) {
+    public final Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pagination pagination,
+            final Sorting sorting) {
         final Optional<RoleEntity>         readRole;
         final RoleEntity                   roleEntity;
         final Iterable<ResourcePermission> permissions;
+        final Pageable                     pageable;
 
         log.debug("Reading available permissions for {}", role);
 
@@ -78,6 +83,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
 
         if (readRole.isPresent()) {
             roleEntity = readRole.get();
+            pageable = SpringPagination.toPageable(pagination, sorting);
             permissions = resourcePermissionSpringRepository.findAllAvailableToRole(roleEntity.getId(), pageable)
                 .map(this::toDomain);
         } else {

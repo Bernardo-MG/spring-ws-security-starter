@@ -28,9 +28,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.exception.MissingResourcePermissionException;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
@@ -124,10 +125,10 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable) {
-        log.debug("Reading roles with sample {} and pagination {}", sample, pageable);
+    public final Iterable<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting) {
+        log.debug("Reading roles with sample {} and pagination {} and sorting {}", sample, pagination, sorting);
 
-        return roleRepository.findAll(sample, pageable);
+        return roleRepository.findAll(sample, pagination, sorting);
     }
 
     @Override

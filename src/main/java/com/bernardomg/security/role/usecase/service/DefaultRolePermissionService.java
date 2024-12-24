@@ -26,9 +26,10 @@ package com.bernardomg.security.role.usecase.service;
 
 import java.util.Objects;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
@@ -73,15 +74,16 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pageable pageable) {
-        log.debug("Reading available permissions for {}", role);
+    public final Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
+            final Sorting sorting) {
+        log.debug("Reading available permissions for {} with pagination {} and sorting {}", role, pagination, sorting);
 
         if (!roleRepository.exists(role)) {
             log.error("Missing role {}", role);
             throw new MissingRoleException(role);
         }
 
-        return rolePermissionRepository.findAvailablePermissions(role, pageable);
+        return rolePermissionRepository.findAvailablePermissions(role, pagination, sorting);
     }
 
 }
