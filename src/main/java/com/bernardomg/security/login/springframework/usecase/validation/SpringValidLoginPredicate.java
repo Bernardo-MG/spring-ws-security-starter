@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.login.springframework.usecase.service;
+package com.bernardomg.security.login.springframework.usecase.validation;
 
 import java.util.Locale;
 import java.util.Objects;
