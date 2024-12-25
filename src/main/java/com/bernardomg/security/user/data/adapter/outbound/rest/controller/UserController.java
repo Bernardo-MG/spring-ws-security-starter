@@ -114,7 +114,7 @@ public class UserController {
             .withExpired(request.getExpired())
             .withLocked(request.getLocked())
             .withName(request.getName())
-            .withPasswordExpired(request.getPasswordExpired())
+            .withPasswordNotExpired(request.getPasswordNotExpired())
             .withUsername(request.getUsername())
             .build();
         return service.getAll(query, pagination, sorting);
@@ -178,7 +178,7 @@ public class UserController {
             .withName(request.getName())
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
-            .withPasswordExpired(request.getPasswordExpired())
+            .withPasswordNotExpired(request.getPasswordNotExpired())
             .withRoles(roles)
             .build();
 

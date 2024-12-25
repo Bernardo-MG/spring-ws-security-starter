@@ -49,7 +49,7 @@ databaseChangeLog:
                     nullable: false
                   defaultValue: ''
               - column:
-                  name: password_expired
+                  name: password_not_expired
                   type: boolean
                   constraints:
                     nullable: false

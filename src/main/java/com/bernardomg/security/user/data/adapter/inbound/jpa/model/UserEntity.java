@@ -115,10 +115,10 @@ public class UserEntity implements Serializable {
     private String                 password;
 
     /**
-     * User expired flag.
+     * User not expired flag.
      */
-    @Column(name = "password_expired", nullable = false)
-    private Boolean                passwordExpired;
+    @Column(name = "password_not_expired", nullable = false)
+    private Boolean                passwordNotExpired;
 
     /**
      * User roles.

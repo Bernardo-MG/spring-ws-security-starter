@@ -67,9 +67,9 @@ public final class UserQueryRequest {
     private String  name;
 
     /**
-     * Password expired flag.
+     * Password not expired flag.
      */
-    private Boolean passwordExpired;
+    private Boolean passwordNotExpired;
 
     /**
      * User username.

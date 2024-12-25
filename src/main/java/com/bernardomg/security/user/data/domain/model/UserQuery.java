@@ -36,10 +36,10 @@ import lombok.Builder;
  */
 @Builder(setterPrefix = "with")
 public record UserQuery(String email, Boolean enabled, Boolean expired, Boolean locked, String name,
-        Boolean passwordExpired, String username) {
+        Boolean passwordNotExpired, String username) {
 
     public UserQuery(final String email, final Boolean enabled, final Boolean expired, final Boolean locked,
-            final String name, final Boolean passwordExpired, final String username) {
+            final String name, final Boolean passwordNotExpired, final String username) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
         } else {
@@ -61,7 +61,7 @@ public record UserQuery(String email, Boolean enabled, Boolean expired, Boolean 
         this.enabled = enabled;
         this.expired = expired;
         this.locked = locked;
-        this.passwordExpired = passwordExpired;
+        this.passwordNotExpired = passwordNotExpired;
     }
 
 }

@@ -152,7 +152,7 @@ public final class UserDomainDetailsService implements UserDetailsService {
         // Loads status
         enabled = user.enabled();
         accountNonExpired = !user.expired();
-        credentialsNonExpired = !user.passwordExpired();
+        credentialsNonExpired = user.passwordNotExpired();
         accountNonLocked = !user.locked();
 
         return new org.springframework.security.core.userdetails.User(user.username(), password, enabled,

@@ -199,7 +199,7 @@ public final class DefaultUserService implements UserService {
             .withName(user.name())
             .withEmail(user.email())
             .withEnabled(user.enabled())
-            .withPasswordExpired(user.passwordExpired())
+            .withPasswordNotExpired(user.passwordNotExpired())
             .withRoles(user.roles())
             .build();
 

@@ -80,7 +80,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withEnabled(true)
             .withLocked(false)
             .withExpired(false)
-            .withPasswordExpired(false)
+            .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();
     }
@@ -98,7 +98,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withEnabled(true)
             .withLocked(false)
             .withExpired(false)
-            .withPasswordExpired(false)
+            .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();
     }

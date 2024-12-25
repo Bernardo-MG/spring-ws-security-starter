@@ -100,7 +100,7 @@ public final class JpaUserRepository implements UserRepository {
             user.setPassword(encodedPassword);
 
             user.setEnabled(true);
-            user.setPasswordExpired(false);
+            user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);
             result = toDomain(updated);
         } else {
@@ -257,7 +257,7 @@ public final class JpaUserRepository implements UserRepository {
             encodedPassword = passwordEncoder.encode(password);
             user.setPassword(encodedPassword);
 
-            user.setPasswordExpired(false);
+            user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);
             result = toDomain(updated);
         } else {
@@ -327,7 +327,7 @@ public final class JpaUserRepository implements UserRepository {
             .withEnabled(user.getEnabled())
             .withExpired(user.getExpired())
             .withLocked(user.getLocked())
-            .withPasswordExpired(user.getPasswordExpired())
+            .withPasswordNotExpired(user.getPasswordNotExpired())
             .withRoles(roles)
             .build();
     }
@@ -355,7 +355,7 @@ public final class JpaUserRepository implements UserRepository {
             .withEnabled(user.enabled())
             .withExpired(user.expired())
             .withLocked(user.locked())
-            .withPasswordExpired(user.passwordExpired())
+            .withPasswordNotExpired(user.passwordNotExpired())
             .withRoles(roles)
             .withLoginAttempts(0)
             .build();
@@ -369,7 +369,7 @@ public final class JpaUserRepository implements UserRepository {
             .withEnabled(user.enabled())
             .withExpired(user.expired())
             .withLocked(user.locked())
-            .withPasswordExpired(user.passwordExpired())
+            .withPasswordNotExpired(user.passwordNotExpired())
             .build();
     }
 
