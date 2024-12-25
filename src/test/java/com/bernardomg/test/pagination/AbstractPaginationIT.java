@@ -84,7 +84,7 @@ public abstract class AbstractPaginationIT<T> {
                 .isEqualTo(totalElements);
             softly.assertThat(data.getNumber())
                 .as("page number")
-                .isEqualTo(page);
+                .isEqualTo(page - 1);
             softly.assertThat(data.getTotalPages())
                 .as("total number of pages")
                 .isEqualTo(totalElements);

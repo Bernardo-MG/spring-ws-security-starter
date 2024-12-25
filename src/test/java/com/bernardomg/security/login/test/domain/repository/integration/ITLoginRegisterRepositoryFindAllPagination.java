@@ -38,7 +38,7 @@ class ITLoginRegisterRepositoryFindAllPagination extends AbstractPaginationIT<Lo
     @Test
     @DisplayName("Returns all the data for the first page")
     void testGetAll_Page1() {
-        testPageData(0, LoginRegisters.loggedIn());
+        testPageData(1, LoginRegisters.loggedIn());
     }
 
     @Test
@@ -49,7 +49,7 @@ class ITLoginRegisterRepositoryFindAllPagination extends AbstractPaginationIT<Lo
         final Sorting                 sorting;
 
         // GIVEN
-        pagination = new Pagination(1, 1);
+        pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
         // WHEN

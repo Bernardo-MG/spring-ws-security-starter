@@ -38,7 +38,7 @@ class ITUserTokenRepositoryFindAllPagination extends AbstractPaginationIT<UserTo
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAll_Page1() {
-        testPageData(0, UserTokens.valid());
+        testPageData(1, UserTokens.valid());
     }
 
     @Test
@@ -49,7 +49,7 @@ class ITUserTokenRepositoryFindAllPagination extends AbstractPaginationIT<UserTo
         final Sorting             sorting;
 
         // GIVEN
-        pagination = new Pagination(1, 1);
+        pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
         // WHEN

@@ -38,7 +38,7 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAll_Page1_Data() {
-        testPageData(0, Roles.withoutPermissions());
+        testPageData(1, Roles.withoutPermissions());
     }
 
     @Test
@@ -50,7 +50,7 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
         final Sorting        sorting;
 
         // GIVEN
-        pagination = new Pagination(1, 1);
+        pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();

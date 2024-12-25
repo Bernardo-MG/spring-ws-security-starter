@@ -38,13 +38,13 @@ class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends Abstr
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAvailablePermissions_Page1_Data() {
-        testPageData(0, ResourcePermissions.create());
+        testPageData(1, ResourcePermissions.create());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
     void testFindAvailablePermissions_Page2_Data() {
-        testPageData(1, ResourcePermissions.delete());
+        testPageData(2, ResourcePermissions.delete());
     }
 
 }
