@@ -4,8 +4,9 @@ package com.bernardomg.security.role.test.domain.repository.integration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
@@ -23,24 +24,27 @@ class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends Abstr
     private RolePermissionRepository repository;
 
     public ITRolePermissionRepositoryFindAvailablePermissionsPagination() {
-        super(4, "name");
+        super(4);
     }
 
     @Override
-    protected final Iterable<ResourcePermission> read(final Pageable pageable) {
-        return repository.findAvailablePermissions(RoleConstants.NAME, pageable);
+    protected final Iterable<ResourcePermission> read(final Pagination pagination) {
+        final Sorting sorting;
+
+        sorting = Sorting.asc("name");
+        return repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAvailablePermissions_Page1_Data() {
-        testPageData(0, ResourcePermissions.create());
+        testPageData(1, ResourcePermissions.create());
     }
 
     @Test
     @DisplayName("Returns all the data for the second page")
     void testFindAvailablePermissions_Page2_Data() {
-        testPageData(1, ResourcePermissions.delete());
+        testPageData(2, ResourcePermissions.delete());
     }
 
 }

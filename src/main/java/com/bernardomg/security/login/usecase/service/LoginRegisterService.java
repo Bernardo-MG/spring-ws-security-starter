@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.login.usecase.service;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 
 /**
@@ -36,11 +36,13 @@ public interface LoginRegisterService {
     /**
      * Returns all the log in registers in a paginated form.
      *
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return a page for the log in registers
      */
-    public Iterable<LoginRegister> getAll(final Pageable page);
+    public Iterable<LoginRegister> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Register a log in attempt.

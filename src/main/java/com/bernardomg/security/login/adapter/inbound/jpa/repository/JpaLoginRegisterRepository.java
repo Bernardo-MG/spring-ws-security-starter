@@ -27,6 +27,9 @@ package com.bernardomg.security.login.adapter.inbound.jpa.repository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
@@ -51,8 +54,11 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
     }
 
     @Override
-    public final Iterable<LoginRegister> findAll(final Pageable page) {
-        return loginRegisterSpringRepository.findAll(page)
+    public final Iterable<LoginRegister> findAll(final Pagination pagination, final Sorting sorting) {
+        final Pageable pageable;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return loginRegisterSpringRepository.findAll(pageable)
             .map(this::toDomain);
     }
 

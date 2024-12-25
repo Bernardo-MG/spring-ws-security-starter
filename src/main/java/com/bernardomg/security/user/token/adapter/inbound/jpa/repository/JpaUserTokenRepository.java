@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,9 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.token.adapter.inbound.jpa.model.UserDataTokenEntity;
@@ -79,8 +82,11 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     @Override
-    public final Iterable<UserToken> findAll(final Pageable pagination) {
-        return userDataTokenSpringRepository.findAll(pagination)
+    public final Iterable<UserToken> findAll(final Pagination pagination, final Sorting sorting) {
+        final Pageable pageable;
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return userDataTokenSpringRepository.findAll(pageable)
             .map(this::toDomain);
     }
 

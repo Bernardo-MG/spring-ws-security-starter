@@ -5,8 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -32,15 +33,17 @@ class ITRoleRepositoryFindAllFilter {
     void testFindAll_FilterByName() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.byName();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
@@ -53,15 +56,17 @@ class ITRoleRepositoryFindAllFilter {
     void testFindAll_FilterByName_NotExiting() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.byNameNotExisting();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
@@ -73,15 +78,17 @@ class ITRoleRepositoryFindAllFilter {
     void testFindAll_NoData() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.byName();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)

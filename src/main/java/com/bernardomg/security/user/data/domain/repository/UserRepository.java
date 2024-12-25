@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ package com.bernardomg.security.user.data.domain.repository;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 
@@ -99,11 +99,13 @@ public interface UserRepository {
      *
      * @param query
      *            query to filter the users
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the user for the received query
      */
-    public Iterable<User> findAll(final UserQuery query, final Pageable page);
+    public Iterable<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the user for the received username.

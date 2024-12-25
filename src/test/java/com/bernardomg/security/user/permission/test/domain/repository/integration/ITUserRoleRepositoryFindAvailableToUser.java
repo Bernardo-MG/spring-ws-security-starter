@@ -5,8 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeUserWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.UserWithPermission;
 import com.bernardomg.security.permission.test.config.annotation.UserWithoutRole;
@@ -35,12 +36,17 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @UserWithPermission
     void testFindAvailableToUser_AllAssigned() {
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(roles)
             .isEmpty();
     }
@@ -52,12 +58,17 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @AlternativeUserWithCrudPermissions
     void testFindAvailableToUser_Alternative() {
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(roles)
             .containsExactly(Roles.withoutPermissions());
     }
@@ -68,12 +79,17 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @AlternativeRole
     void testFindAvailableToUser_Assigned() {
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(roles)
             .containsExactly(Roles.alternative());
     }
@@ -82,12 +98,17 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @DisplayName("Returns no available roles for a not existing user")
     void testFindAvailableToUser_NoRoles() {
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(roles)
             .isEmpty();
     }
@@ -97,12 +118,17 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @RoleWithoutPermissions
     void testFindAvailableToUser_NoUser() {
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(roles)
             .isEmpty();
     }
@@ -113,12 +139,17 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @RoleWithoutPermissions
     void testFindAvailableToUser_WithoutPermissions() {
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(roles)
             .containsExactly(Roles.withoutPermissions());
     }
@@ -129,12 +160,17 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @RoleWithPermission
     void testFindAvailableToUser_WithPermissions() {
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
-        roles = repository.findAvailableToUser(UserConstants.USERNAME, pageable);
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(roles)
             .containsExactly(Roles.withSinglePermission());
     }

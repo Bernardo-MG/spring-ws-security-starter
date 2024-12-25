@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,13 @@
 package com.bernardomg.security.login.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.login.adapter.outbound.cache.Logins;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -58,15 +59,17 @@ public class LoginRegisterController {
     /**
      * Returns all the log in registers in a paginated form.
      *
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return a page for the log in registers
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "LOGIN_REGISTER", action = Actions.READ)
     @Cacheable(cacheNames = Logins.LOGIN_REGISTERS)
-    public Iterable<LoginRegister> readAll(final Pageable page) {
-        return service.getAll(page);
+    public Iterable<LoginRegister> readAll(final Pagination pagination, final Sorting sorting) {
+        return service.getAll(pagination, sorting);
     }
 
 }

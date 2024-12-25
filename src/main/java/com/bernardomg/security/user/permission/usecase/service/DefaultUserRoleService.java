@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,10 @@ package com.bernardomg.security.user.permission.usecase.service;
 
 import java.util.Objects;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -64,7 +65,8 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    public final Iterable<Role> getAvailableRoles(final String username, final Pageable pageable) {
+    public final Iterable<Role> getAvailableRoles(final String username, final Pagination pagination,
+            final Sorting sorting) {
         log.debug("Reading available roles for {}", username);
 
         if (!userRepository.exists(username)) {
@@ -72,7 +74,7 @@ public final class DefaultUserRoleService implements UserRoleService {
             throw new MissingUserException(username);
         }
 
-        return userRoleRepository.findAvailableToUser(username, pageable);
+        return userRoleRepository.findAvailableToUser(username, pagination, sorting);
     }
 
 }
