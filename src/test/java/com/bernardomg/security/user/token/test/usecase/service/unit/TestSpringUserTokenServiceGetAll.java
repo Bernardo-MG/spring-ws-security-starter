@@ -13,8 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.factory.UserTokens;
@@ -33,18 +34,20 @@ class TestSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("When there are tokens they are returned")
     void testGetAll() {
-        final Pageable            pageable;
+        final Pagination          pagination;
+        final Sorting             sorting;
         final Iterable<UserToken> tokens;
         final Iterable<UserToken> existing;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         existing = List.of(UserTokens.valid());
-        given(userTokenRepository.findAll(pageable)).willReturn(existing);
+        given(userTokenRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        tokens = service.getAll(pageable);
+        tokens = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -55,18 +58,20 @@ class TestSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("When there are no tokens nothing is returned")
     void testGetAll_NoData() {
-        final Pageable            pageable;
+        final Pagination          pagination;
+        final Sorting             sorting;
         final Iterable<UserToken> tokens;
         final Iterable<UserToken> existing;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         existing = List.of();
-        given(userTokenRepository.findAll(pageable)).willReturn(existing);
+        given(userTokenRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        tokens = service.getAll(pageable);
+        tokens = service.getAll(pagination, sorting);
 
         // THEN
         Assertions.assertThat(tokens)
@@ -77,20 +82,22 @@ class TestSpringUserTokenServiceGetAll {
     @Test
     @DisplayName("The pagination data is sent to the repository")
     void testGetAll_Pagination() {
-        final Pageable            pageable;
+        final Pagination          pagination;
+        final Sorting             sorting;
         final Iterable<UserToken> existing;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         existing = List.of(UserTokens.valid());
-        given(userTokenRepository.findAll(pageable)).willReturn(existing);
+        given(userTokenRepository.findAll(pagination, sorting)).willReturn(existing);
 
         // WHEN
-        service.getAll(pageable);
+        service.getAll(pagination, sorting);
 
         // THEN
-        verify(userTokenRepository).findAll(pageable);
+        verify(userTokenRepository).findAll(pagination, sorting);
     }
 
 }

@@ -29,9 +29,10 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
@@ -97,8 +98,8 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final Iterable<UserToken> getAll(final Pageable pagination) {
-        return userTokenRepository.findAll(pagination);
+    public final Iterable<UserToken> getAll(final Pagination pagination, final Sorting sorting) {
+        return userTokenRepository.findAll(pagination, sorting);
     }
 
     @Override
