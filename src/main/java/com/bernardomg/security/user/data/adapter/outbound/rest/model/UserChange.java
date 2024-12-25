@@ -68,7 +68,7 @@ public final class UserChange {
      * Password expired flag.
      */
     @NotNull
-    private Boolean            passwordExpired;
+    private Boolean            passwordNotExpired;
 
     /**
      * User roles.

@@ -49,11 +49,11 @@ databaseChangeLog:
                     nullable: false
                   defaultValue: ''
               - column:
-                  name: password_expired
+                  name: password_not_expired
                   type: boolean
                   constraints:
                     nullable: false
-                  defaultValueBoolean: false
+                  defaultValueBoolean: true
               - column:
                   name: enabled
                   type: boolean
@@ -61,17 +61,17 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: true
               - column:
-                  name: expired
+                  name: not_expired
                   type: boolean
                   constraints:
                     nullable: false
-                  defaultValueBoolean: false
+                  defaultValueBoolean: true
               - column:
-                  name: locked
+                  name: not_locked
                   type: boolean
                   constraints:
                     nullable: false
-                  defaultValueBoolean: false
+                  defaultValueBoolean: true
               - column:
                   name: login_attempts
                   type: int

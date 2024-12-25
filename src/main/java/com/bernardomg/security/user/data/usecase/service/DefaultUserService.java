@@ -193,13 +193,13 @@ public final class DefaultUserService implements UserService {
         toSave = User.builder()
             // Can't change these fields
             .withUsername(existing.username())
-            .withExpired(existing.expired())
-            .withLocked(existing.locked())
+            .withNotExpired(existing.notExpired())
+            .withNotLocked(existing.notLocked())
             // These fields are allowed to change
             .withName(user.name())
             .withEmail(user.email())
             .withEnabled(user.enabled())
-            .withPasswordExpired(user.passwordExpired())
+            .withPasswordNotExpired(user.passwordNotExpired())
             .withRoles(user.roles())
             .build();
 

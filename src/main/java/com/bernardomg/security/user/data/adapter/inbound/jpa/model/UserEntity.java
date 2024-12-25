@@ -77,24 +77,12 @@ public class UserEntity implements Serializable {
     private Boolean                enabled;
 
     /**
-     * User expired flag.
-     */
-    @Column(name = "expired", nullable = false)
-    private Boolean                expired;
-
-    /**
      * Entity id.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long                   id;
-
-    /**
-     * User locked flag.
-     */
-    @Column(name = "locked", nullable = false)
-    private Boolean                locked;
 
     /**
      * Number of failed login attempts.
@@ -109,16 +97,28 @@ public class UserEntity implements Serializable {
     private String                 name;
 
     /**
+     * User not expired flag.
+     */
+    @Column(name = "not_expired", nullable = false)
+    private Boolean                notExpired;
+
+    /**
+     * User locked flag.
+     */
+    @Column(name = "not_locked", nullable = false)
+    private Boolean                notLocked;
+
+    /**
      * User password.
      */
     @Column(name = "password", nullable = false, length = 60)
     private String                 password;
 
     /**
-     * User expired flag.
+     * User password not expired flag.
      */
-    @Column(name = "password_expired", nullable = false)
-    private Boolean                passwordExpired;
+    @Column(name = "password_not_expired", nullable = false)
+    private Boolean                passwordNotExpired;
 
     /**
      * User roles.

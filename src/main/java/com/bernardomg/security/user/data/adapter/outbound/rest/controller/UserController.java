@@ -111,10 +111,10 @@ public class UserController {
         query = UserQuery.builder()
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
-            .withExpired(request.getExpired())
-            .withLocked(request.getLocked())
+            .withNotExpired(request.getNotExpired())
+            .withNotLocked(request.getNotLocked())
             .withName(request.getName())
-            .withPasswordExpired(request.getPasswordExpired())
+            .withPasswordNotExpired(request.getPasswordNotExpired())
             .withUsername(request.getUsername())
             .build();
         return service.getAll(query, pagination, sorting);
@@ -178,7 +178,7 @@ public class UserController {
             .withName(request.getName())
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
-            .withPasswordExpired(request.getPasswordExpired())
+            .withPasswordNotExpired(request.getPasswordNotExpired())
             .withRoles(roles)
             .build();
 

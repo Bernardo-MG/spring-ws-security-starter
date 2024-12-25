@@ -38,19 +38,18 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Representation of a user.
- * <p>
- * FIXME: this should be immutable
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Builder(setterPrefix = "with")
 @Slf4j
-public record User(String email, String username, String name, boolean enabled, boolean expired, boolean locked,
-        boolean passwordExpired, Collection<Role> roles) {
+public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean notLocked,
+        boolean passwordNotExpired, Collection<Role> roles) {
 
     public User(final String email, final String username, final String name, final boolean enabled,
-            final boolean expired, final boolean locked, final boolean passwordExpired, final Collection<Role> roles) {
+            final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,
+            final Collection<Role> roles) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
         } else {
@@ -72,24 +71,24 @@ public record User(String email, String username, String name, boolean enabled, 
         }
 
         this.enabled = enabled;
-        this.expired = expired;
-        this.locked = locked;
-        this.passwordExpired = passwordExpired;
+        this.notExpired = notExpired;
+        this.notLocked = notLocked;
+        this.passwordNotExpired = passwordNotExpired;
         this.roles = roles;
     }
 
     public static final User newUser(final String username, final String email, final String name) {
-        return new User(email, username, name, false, false, false, true, List.of());
+        return new User(email, username, name, false, true, true, false, List.of());
     }
 
     public final void checkStatus() {
         // TODO: Send a single exception with all the cases
         // TODO: Test
-        if (expired) {
+        if (!notExpired) {
             log.error("User {} is expired", username);
             throw new ExpiredUserException(username);
         }
-        if (locked) {
+        if (!notLocked) {
             log.error("User {} is locked", username);
             throw new LockedUserException(username);
         }

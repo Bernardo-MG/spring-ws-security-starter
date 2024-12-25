@@ -17,9 +17,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -35,9 +35,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -48,9 +48,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -61,9 +61,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -74,9 +74,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.ALTERNATIVE_EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -87,9 +87,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -100,9 +100,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(true)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(false)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -113,9 +113,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(true)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(false)
             .build();
     }
 
@@ -126,9 +126,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -139,9 +139,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -152,9 +152,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -165,9 +165,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -178,9 +178,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -191,9 +191,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 
@@ -204,9 +204,9 @@ public final class Users {
             .withUsername(UserConstants.USERNAME)
             .withEmail(UserConstants.EMAIL)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .build();
     }
 

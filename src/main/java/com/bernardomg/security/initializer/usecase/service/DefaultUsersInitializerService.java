@@ -78,9 +78,9 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withName("read")
             .withEmail("email2@nowhere.com")
             .withEnabled(true)
-            .withLocked(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
+            .withNotLocked(true)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();
     }
@@ -96,9 +96,9 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withName("root")
             .withEmail("email1@nowhere.com")
             .withEnabled(true)
-            .withLocked(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
+            .withNotLocked(true)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();
     }
