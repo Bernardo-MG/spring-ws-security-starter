@@ -55,11 +55,10 @@ class TestTokenLoginService {
     void testLogIn_Email_InvalidPassword() {
         final TokenLoginStatus status;
 
-        // GIVEN
+        // WHEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
 
-        // WHEN
-        status = getService(false).login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
+        status = getService(false).login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status.logged())
@@ -77,7 +76,7 @@ class TestTokenLoginService {
         given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
 
         // WHEN
-        status = getService(true).login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
+        status = getService(true).login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
 
         // THEN
         Assertions.assertThat(status.logged())

@@ -44,7 +44,7 @@ import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegi
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.springframework.usecase.service.SpringValidLoginPredicate;
+import com.bernardomg.security.login.springframework.usecase.validation.SpringValidLoginPredicate;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
