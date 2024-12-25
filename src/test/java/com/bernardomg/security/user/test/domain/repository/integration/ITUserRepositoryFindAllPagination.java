@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
@@ -29,11 +28,9 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
     }
 
     @Override
-    protected final Iterable<User> read(final Pageable pageable) {
-        final Pagination pagination;
-        final Sorting    sorting;
+    protected final Iterable<User> read(final Pagination pagination) {
+        final Sorting sorting;
 
-        pagination = new Pagination(pageable.getPageNumber(), pageable.getPageSize());
         sorting = Sorting.unsorted();
         return repository.findAll(UserQueries.empty(), pagination, sorting);
     }
