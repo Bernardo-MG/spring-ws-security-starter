@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.role.domain.repository;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 
 /**
@@ -40,10 +40,13 @@ public interface RolePermissionRepository {
      *
      * @param role
      *            role to search for the available permissions
-     * @param pageable
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the resource permissions available to a role
      */
-    public Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pageable pageable);
+    public Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pagination pagination,
+            final Sorting sorting);
 
 }

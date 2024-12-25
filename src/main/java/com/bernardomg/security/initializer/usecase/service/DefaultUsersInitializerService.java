@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -78,9 +78,9 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withName("read")
             .withEmail("email2@nowhere.com")
             .withEnabled(true)
-            .withLocked(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
+            .withNotLocked(true)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();
     }
@@ -96,9 +96,9 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withName("root")
             .withEmail("email1@nowhere.com")
             .withEnabled(true)
-            .withLocked(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
+            .withNotLocked(true)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();
     }

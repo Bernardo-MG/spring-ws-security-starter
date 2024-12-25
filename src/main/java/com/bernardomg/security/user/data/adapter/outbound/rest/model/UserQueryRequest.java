@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,24 +52,24 @@ public final class UserQueryRequest {
     private Boolean enabled;
 
     /**
-     * User expired flag.
-     */
-    private Boolean expired;
-
-    /**
-     * User locked flag.
-     */
-    private Boolean locked;
-
-    /**
      * User name.
      */
     private String  name;
 
     /**
-     * Password expired flag.
+     * User expired flag.
      */
-    private Boolean passwordExpired;
+    private Boolean notExpired;
+
+    /**
+     * User not locked flag.
+     */
+    private Boolean notLocked;
+
+    /**
+     * Password not expired flag.
+     */
+    private Boolean passwordNotExpired;
 
     /**
      * User username.

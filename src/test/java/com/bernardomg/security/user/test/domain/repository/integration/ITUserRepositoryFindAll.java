@@ -5,8 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -34,15 +35,17 @@ class ITUserRepositoryFindAll {
     void testFindAll() {
         final Iterable<User> users;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.empty();
 
         // WHEN
-        users = repository.findAll(sample, pageable);
+        users = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(users)
@@ -55,15 +58,17 @@ class ITUserRepositoryFindAll {
     void testFindAll_NoData() {
         final Iterable<User> users;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.empty();
 
         // WHEN
-        users = repository.findAll(sample, pageable);
+        users = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(users)
@@ -77,15 +82,17 @@ class ITUserRepositoryFindAll {
     void testFindAll_WithoutPermissions() {
         final Iterable<User> users;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.empty();
 
         // WHEN
-        users = repository.findAll(sample, pageable);
+        users = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(users)
@@ -99,15 +106,17 @@ class ITUserRepositoryFindAll {
     void testFindAll_WithoutRole() {
         final Iterable<User> users;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.empty();
 
         // WHEN
-        users = repository.findAll(sample, pageable);
+        users = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(users)

@@ -12,9 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
@@ -56,17 +57,19 @@ class TestUserServiceGetAll {
     void testGetAll() {
         final Iterable<User> users;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.empty();
 
-        given(userRepository.findAll(sample, pageable)).willReturn(List.of(Users.enabled()));
+        given(userRepository.findAll(sample, pagination, sorting)).willReturn(List.of(Users.enabled()));
 
         // WHEN
-        users = service.getAll(sample, pageable);
+        users = service.getAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(users)
@@ -79,17 +82,19 @@ class TestUserServiceGetAll {
     void testGetAll_NoData() {
         final Iterable<User> users;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.empty();
 
-        given(userRepository.findAll(sample, pageable)).willReturn(List.of());
+        given(userRepository.findAll(sample, pagination, sorting)).willReturn(List.of());
 
         // WHEN
-        users = service.getAll(sample, pageable);
+        users = service.getAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(users)

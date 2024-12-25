@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.user.permission.domain.repository;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 
 public interface UserRoleRepository {
@@ -12,10 +12,13 @@ public interface UserRoleRepository {
      *
      * @param username
      *            user to search for
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the roles available to the user
      */
-    public Iterable<Role> findAvailableToUser(final String username, final Pageable page);
+    public Iterable<Role> findAvailableToUser(final String username, final Pagination pagination,
+            final Sorting sorting);
 
 }

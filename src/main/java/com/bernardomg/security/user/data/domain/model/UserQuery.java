@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,11 +35,11 @@ import lombok.Builder;
  *
  */
 @Builder(setterPrefix = "with")
-public record UserQuery(String email, Boolean enabled, Boolean expired, Boolean locked, String name,
-        Boolean passwordExpired, String username) {
+public record UserQuery(String email, Boolean enabled, Boolean notExpired, Boolean notLocked, String name,
+        Boolean passwordNotExpired, String username) {
 
-    public UserQuery(final String email, final Boolean enabled, final Boolean expired, final Boolean locked,
-            final String name, final Boolean passwordExpired, final String username) {
+    public UserQuery(final String email, final Boolean enabled, final Boolean notExpired, final Boolean notLocked,
+            final String name, final Boolean passwordNotExpired, final String username) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
         } else {
@@ -59,9 +59,9 @@ public record UserQuery(String email, Boolean enabled, Boolean expired, Boolean 
         }
 
         this.enabled = enabled;
-        this.expired = expired;
-        this.locked = locked;
-        this.passwordExpired = passwordExpired;
+        this.notExpired = notExpired;
+        this.notLocked = notLocked;
+        this.passwordNotExpired = passwordNotExpired;
     }
 
 }

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -68,7 +68,7 @@ public final class UserChange {
      * Password expired flag.
      */
     @NotNull
-    private Boolean            passwordExpired;
+    private Boolean            passwordNotExpired;
 
     /**
      * User roles.

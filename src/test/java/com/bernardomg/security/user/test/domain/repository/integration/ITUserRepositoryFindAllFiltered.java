@@ -5,8 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -31,14 +32,19 @@ class ITUserRepositoryFindAllFiltered {
     void testFindAll_Name() {
         final Iterable<User> result;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.name();
 
-        result = repository.findAll(sample, pageable);
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(result)
             .hasSize(1);
     }
@@ -49,14 +55,19 @@ class ITUserRepositoryFindAllFiltered {
     void testFindAll_NameNotExisting() {
         final Iterable<User> result;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.invalidName();
 
-        result = repository.findAll(sample, pageable);
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(result)
             .isEmpty();
     }
@@ -67,14 +78,19 @@ class ITUserRepositoryFindAllFiltered {
     void testFindAll_Username() {
         final Iterable<User> result;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.username();
 
-        result = repository.findAll(sample, pageable);
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(result)
             .hasSize(1);
     }
@@ -85,14 +101,19 @@ class ITUserRepositoryFindAllFiltered {
     void testFindAll_UsernameNotExisting() {
         final Iterable<User> result;
         final UserQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
-        pageable = Pageable.unpaged();
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = UserQueries.invalidUsername();
 
-        result = repository.findAll(sample, pageable);
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
 
+        // THEN
         Assertions.assertThat(result)
             .isEmpty();
     }

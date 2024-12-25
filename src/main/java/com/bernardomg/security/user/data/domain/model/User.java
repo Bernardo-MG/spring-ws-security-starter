@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,19 +38,18 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Representation of a user.
- * <p>
- * FIXME: this should be immutable
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Builder(setterPrefix = "with")
 @Slf4j
-public record User(String email, boolean enabled, boolean expired, boolean locked, String name, boolean passwordExpired,
-        Collection<Role> roles, String username) {
+public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean notLocked,
+        boolean passwordNotExpired, Collection<Role> roles) {
 
-    public User(final String email, final boolean enabled, final boolean expired, final boolean locked,
-            final String name, final boolean passwordExpired, final Collection<Role> roles, final String username) {
+    public User(final String email, final String username, final String name, final boolean enabled,
+            final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,
+            final Collection<Role> roles) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
         } else {
@@ -72,24 +71,24 @@ public record User(String email, boolean enabled, boolean expired, boolean locke
         }
 
         this.enabled = enabled;
-        this.expired = expired;
-        this.locked = locked;
-        this.passwordExpired = passwordExpired;
+        this.notExpired = notExpired;
+        this.notLocked = notLocked;
+        this.passwordNotExpired = passwordNotExpired;
         this.roles = roles;
     }
 
     public static final User newUser(final String username, final String email, final String name) {
-        return new User(email, false, false, false, name, true, List.of(), username);
+        return new User(email, username, name, false, true, true, false, List.of());
     }
 
     public final void checkStatus() {
         // TODO: Send a single exception with all the cases
         // TODO: Test
-        if (expired) {
+        if (!notExpired) {
             log.error("User {} is expired", username);
             throw new ExpiredUserException(username);
         }
-        if (locked) {
+        if (!notLocked) {
             log.error("User {} is locked", username);
             throw new LockedUserException(username);
         }

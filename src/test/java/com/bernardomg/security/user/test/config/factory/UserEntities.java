@@ -16,9 +16,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withRoles(List.of(RoleEntities.withPermission(), RoleEntities.alternative()))
             .withLoginAttempts(0)
             .build();
@@ -32,9 +32,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withLoginAttempts(0)
             .build();
     }
@@ -47,9 +47,9 @@ public final class UserEntities {
             .withEmail(UserConstants.ALTERNATIVE_EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withLoginAttempts(0)
             .build();
     }
@@ -62,9 +62,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withRoles(List.of(RoleEntities.withPermission()))
             .withLoginAttempts(0)
             .build();
@@ -78,9 +78,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(true)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(false)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withLoginAttempts(0)
             .build();
     }
@@ -93,9 +93,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(true)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(false)
             .withLoginAttempts(0)
             .build();
     }
@@ -108,9 +108,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withRoles(List.of(RoleEntities.withPermission()))
             .withLoginAttempts(0)
             .build();
@@ -124,9 +124,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword("")
             .withEnabled(false)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(false)
+            .withNotLocked(true)
             .withLoginAttempts(0)
             .build();
     }
@@ -139,9 +139,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(true)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(false)
+            .withNotLocked(true)
             .withLoginAttempts(0)
             .build();
     }
@@ -155,9 +155,9 @@ public final class UserEntities {
             // FIXME: this is not the newly encoded password
             .withPassword(UserConstants.ENCODED_NEW_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withRoles(List.of(RoleEntities.withPermission()))
             .withLoginAttempts(0)
             .build();
@@ -171,9 +171,9 @@ public final class UserEntities {
             .withEmail(UserConstants.EMAIL)
             .withPassword(UserConstants.ENCODED_PASSWORD)
             .withEnabled(true)
-            .withExpired(false)
-            .withPasswordExpired(false)
-            .withLocked(false)
+            .withNotExpired(true)
+            .withPasswordNotExpired(true)
+            .withNotLocked(true)
             .withRoles(List.of())
             .withLoginAttempts(0)
             .build();

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +43,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
@@ -94,26 +95,29 @@ public class UserController {
      *
      * @param request
      *            query to filter users
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return a page for the users matching the sample
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public Iterable<User> readAll(@Valid final UserQueryRequest request, final Pageable page) {
+    public Iterable<User> readAll(@Valid final UserQueryRequest request, final Pagination pagination,
+            final Sorting sorting) {
         final UserQuery query;
 
         query = UserQuery.builder()
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
-            .withExpired(request.getExpired())
-            .withLocked(request.getLocked())
+            .withNotExpired(request.getNotExpired())
+            .withNotLocked(request.getNotLocked())
             .withName(request.getName())
-            .withPasswordExpired(request.getPasswordExpired())
+            .withPasswordNotExpired(request.getPasswordNotExpired())
             .withUsername(request.getUsername())
             .build();
-        return service.getAll(query, page);
+        return service.getAll(query, pagination, sorting);
     }
 
     /**
@@ -174,7 +178,7 @@ public class UserController {
             .withName(request.getName())
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
-            .withPasswordExpired(request.getPasswordExpired())
+            .withPasswordNotExpired(request.getPasswordNotExpired())
             .withRoles(roles)
             .build();
 

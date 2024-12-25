@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.4.10</version>
+   <version>1.0.0-SNAPSHOT</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -185,7 +185,7 @@
       <archunit.version>1.3.0</archunit.version>
       <assertj.version>3.26.3</assertj.version>
       <bernardomg.framework.validation.version>0.2.2</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.1.5</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.version>0.2.0</bernardomg.framework.ws.version>
       <jjwt.version>0.12.5</jjwt.version>
       <spring.boot.version>3.3.4</spring.boot.version>
       <spring.data.version>2024.0.5</spring.data.version>

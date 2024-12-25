@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,9 @@ import java.util.Objects;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -60,9 +63,13 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
     }
 
     @Override
-    public final Iterable<Role> findAvailableToUser(final String username, final Pageable page) {
+    public final Iterable<Role> findAvailableToUser(final String username, final Pagination pagination,
+            final Sorting sorting) {
+        final Pageable pageable;
+
         // TODO: this doesn't need the full role model, just the names
-        return roleSpringRepository.findAllByUser(username, page)
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        return roleSpringRepository.findAllByUser(username, pageable)
             .map(this::toDomain);
     }
 

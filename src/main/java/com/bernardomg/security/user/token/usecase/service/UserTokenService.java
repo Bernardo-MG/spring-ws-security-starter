@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ package com.bernardomg.security.user.token.usecase.service;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.token.domain.model.UserToken;
 
 /**
@@ -48,9 +48,11 @@ public interface UserTokenService {
      *
      * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the user tokens paged
      */
-    public Iterable<UserToken> getAll(final Pageable pagination);
+    public Iterable<UserToken> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the user token for the received id, if it exists. Otherwise it is expected to throw an

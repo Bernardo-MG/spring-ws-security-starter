@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@ package com.bernardomg.security.user.token.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.token.domain.model.UserToken;
 
 /**
@@ -51,9 +51,11 @@ public interface UserTokenRepository {
      *
      * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return all the tokens paginated
      */
-    public Iterable<UserToken> findAll(final Pageable pagination);
+    public Iterable<UserToken> findAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns all the finished tokens. This means all tokens which are at least one of the following states:

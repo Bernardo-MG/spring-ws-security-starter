@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,31 +24,12 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
- * All the data required for a login attempt.
+ * Request for login.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder(setterPrefix = "with")
-public class Login {
-
-    /**
-     * User password.
-     */
-    private String password;
-
-    /**
-     * User username.
-     */
-    private String username;
+public record LoginRequest(String username, String password) {
 
 }

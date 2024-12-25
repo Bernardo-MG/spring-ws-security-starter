@@ -5,8 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -35,15 +36,17 @@ class ITRoleRepositoryFindAll {
     void testFindAll() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
@@ -55,15 +58,17 @@ class ITRoleRepositoryFindAll {
     void testFindAll_NoData() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
@@ -76,15 +81,17 @@ class ITRoleRepositoryFindAll {
     void testFindAll_WithNotGrantedPermission() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
@@ -97,15 +104,17 @@ class ITRoleRepositoryFindAll {
     void testFindAll_WithPermissions() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
@@ -118,15 +127,17 @@ class ITRoleRepositoryFindAll {
     void testFindAll_WithSinglePermission() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)

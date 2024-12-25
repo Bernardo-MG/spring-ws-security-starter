@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ package com.bernardomg.security.login.usecase.service;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +34,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.event.LogInEvent;
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -51,17 +52,17 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public final class TokenLoginService implements LoginService {
 
-    private final Pattern                     emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final Pattern                   emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-    private final ApplicationEventPublisher   eventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
 
-    private final BiPredicate<String, String> isValid;
+    private final Predicate<Credentials>    isValid;
 
-    private final LoginTokenEncoder           loginTokenEncoder;
+    private final LoginTokenEncoder         loginTokenEncoder;
 
-    private final UserRepository              userRepository;
+    private final UserRepository            userRepository;
 
-    public TokenLoginService(final BiPredicate<String, String> valid, final UserRepository userRepo,
+    public TokenLoginService(final Predicate<Credentials> valid, final UserRepository userRepo,
             final LoginTokenEncoder loginTokenEnc, final ApplicationEventPublisher publisher) {
         super();
 
@@ -72,17 +73,19 @@ public final class TokenLoginService implements LoginService {
     }
 
     @Override
-    public final TokenLoginStatus login(final String username, final String password) {
+    public final TokenLoginStatus login(final Credentials credentials) {
         final Boolean          valid;
         final String           validUsername;
         final TokenLoginStatus status;
         final LogInEvent       event;
+        final Credentials      validCredentials;
 
-        log.debug("Log in attempt for {}", username);
+        log.debug("Log in attempt for {}", credentials.username());
 
-        validUsername = loadLoginName(username);
+        validUsername = loadLoginName(credentials.username());
 
-        valid = isValid.test(validUsername, password);
+        validCredentials = new Credentials(validUsername, credentials.password());
+        valid = isValid.test(validCredentials);
 
         status = buildStatus(validUsername, valid);
 
@@ -90,7 +93,7 @@ public final class TokenLoginService implements LoginService {
         event = new LogInEvent(this, validUsername, valid);
         eventPublisher.publishEvent(event);
 
-        log.debug("Log in result for {}: {}", username, status);
+        log.debug("Log in result for {}: {}", credentials.username(), status);
 
         return status;
     }

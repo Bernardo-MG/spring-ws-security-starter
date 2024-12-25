@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ package com.bernardomg.security.role.usecase.service;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Pageable;
-
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 
@@ -61,11 +61,13 @@ public interface RoleService {
      *
      * @param sample
      *            sample for filtering
-     * @param pageable
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return a page for the roles matching the sample
      */
-    public Iterable<Role> getAll(final RoleQuery sample, final Pageable pageable);
+    public Iterable<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the role for the received name, if it exists. Otherwise an empty {@code Optional} is returned.

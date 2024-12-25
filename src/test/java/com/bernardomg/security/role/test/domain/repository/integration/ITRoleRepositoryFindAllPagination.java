@@ -5,9 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -28,14 +28,17 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     }
 
     @Override
-    protected final Iterable<Role> read(final Pageable pageable) {
-        return repository.findAll(RolesQuery.empty(), pageable);
+    protected final Iterable<Role> read(final Pagination pagination) {
+        final Sorting sorting;
+
+        sorting = Sorting.unsorted();
+        return repository.findAll(RolesQuery.empty(), pagination, sorting);
     }
 
     @Test
     @DisplayName("Returns all the data for the first page")
     void testFindAll_Page1_Data() {
-        testPageData(0, Roles.withoutPermissions());
+        testPageData(1, Roles.withoutPermissions());
     }
 
     @Test
@@ -43,15 +46,17 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     void testFindAll_Page2_Data() {
         final RoleQuery      sample;
         final Iterable<Role> roles;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
 
         // GIVEN
-        pageable = PageRequest.of(1, 1);
+        pagination = new Pagination(2, 1);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         // WHEN
-        roles = repository.findAll(sample, pageable);
+        roles = repository.findAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)

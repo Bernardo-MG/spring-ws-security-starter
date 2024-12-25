@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.login.configuration;
 
-import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -39,11 +39,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.jwt.configuration.JwtProperties;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterListener;
-import com.bernardomg.security.login.adapter.inbound.event.SpringValidLoginPredicate;
 import com.bernardomg.security.login.adapter.inbound.initializer.LoginPermissionRegister;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
+import com.bernardomg.security.login.springframework.usecase.validation.SpringValidLoginPredicate;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
@@ -89,15 +90,15 @@ public class LoginAutoConfiguration {
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final UserPermissionRepository userPermissionRepository, final JwtProperties properties,
+            final UserPermissionRepository userPermissionRepository, final JwtProperties jwtProperties,
             final ApplicationEventPublisher publisher) {
-        final BiPredicate<String, String> valid;
-        final LoginTokenEncoder           loginTokenEncoder;
+        final Predicate<Credentials> valid;
+        final LoginTokenEncoder      loginTokenEncoder;
 
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userPermissionRepository,
-            properties.getValidity());
+            jwtProperties.getValidity());
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, publisher);
     }

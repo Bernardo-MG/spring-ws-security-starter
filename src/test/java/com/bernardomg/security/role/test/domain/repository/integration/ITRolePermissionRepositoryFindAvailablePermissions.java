@@ -5,8 +5,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissionsNotGranted;
@@ -36,13 +37,15 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @RoleWithPermission
     void testFindAvailablePermissions() {
         final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+        final Pagination                   pagination;
+        final Sorting                      sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -55,13 +58,15 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @RoleWithCrudPermissions
     void testFindAvailablePermissions_AllAssigned() {
         final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+        final Pagination                   pagination;
+        final Sorting                      sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -75,13 +80,15 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @AlternativeRoleWithCrudPermissionsNotGranted
     void testFindAvailablePermissions_AllAssigned_AlternativeRole() {
         final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+        final Pagination                   pagination;
+        final Sorting                      sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -95,13 +102,15 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @RoleWithoutPermissions
     void testFindAvailablePermissions_NoPermissions() {
         final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+        final Pagination                   pagination;
+        final Sorting                      sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -117,13 +126,15 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @AlternativeRoleWithCrudPermissions
     void testFindAvailablePermissions_NoPermissions_AlternativeRole() {
         final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+        final Pagination                   pagination;
+        final Sorting                      sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
 
         // THEN
         Assertions.assertThat(permissions)
@@ -137,13 +148,15 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @RoleWithCrudPermissionsNotGranted
     void testFindAvailablePermissions_NotGranted() {
         final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+        final Pagination                   pagination;
+        final Sorting                      sorting;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pageable);
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
 
         // THEN
         Assertions.assertThat(permissions)

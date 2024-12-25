@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.login.adapter.outbound.rest.model.Login;
+import com.bernardomg.security.login.adapter.outbound.rest.model.LoginRequest;
+import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.LoginService;
 
@@ -55,14 +56,17 @@ public class LoginController {
     /**
      * Attempts to log in a user, returning the login status.
      *
-     * @param request
+     * @param login
      *            login request
      * @return the login status after the login attempt
      */
     @PostMapping
     @Unsecured
-    public TokenLoginStatus login(@RequestBody final Login request) {
-        return service.login(request.getUsername(), request.getPassword());
+    public TokenLoginStatus login(@RequestBody final LoginRequest login) {
+        final Credentials credentials;
+
+        credentials = new Credentials(login.username(), login.password());
+        return service.login(credentials);
     }
 
 }

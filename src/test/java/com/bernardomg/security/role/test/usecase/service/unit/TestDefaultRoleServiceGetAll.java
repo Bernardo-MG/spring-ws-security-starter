@@ -12,8 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
@@ -40,19 +41,21 @@ class TestDefaultRoleServiceGetAll {
     void testGetAll() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
         final Iterable<Role> existing;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         existing = List.of(Roles.withPermissions());
-        given(roleRepository.findAll(sample, pageable)).willReturn(existing);
+        given(roleRepository.findAll(sample, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        roles = service.getAll(sample, pageable);
+        roles = service.getAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
@@ -64,19 +67,21 @@ class TestDefaultRoleServiceGetAll {
     void testGetAll_NoData() {
         final Iterable<Role> roles;
         final RoleQuery      sample;
-        final Pageable       pageable;
+        final Pagination     pagination;
+        final Sorting        sorting;
         final Iterable<Role> existing;
 
         // GIVEN
-        pageable = Pageable.unpaged();
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
 
         sample = RolesQuery.empty();
 
         existing = List.of();
-        given(roleRepository.findAll(sample, pageable)).willReturn(existing);
+        given(roleRepository.findAll(sample, pagination, sorting)).willReturn(existing);
 
         // WHEN
-        roles = service.getAll(sample, pageable);
+        roles = service.getAll(sample, pagination, sorting);
 
         // THEN
         Assertions.assertThat(roles)
