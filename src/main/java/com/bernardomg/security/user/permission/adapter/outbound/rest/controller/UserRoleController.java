@@ -25,13 +25,14 @@
 package com.bernardomg.security.user.permission.adapter.outbound.rest.controller;
 
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
@@ -61,15 +62,18 @@ public class UserRoleController {
      *
      * @param username
      *            user username
-     * @param page
+     * @param pagination
      *            pagination to apply
+     * @param sorting
+     *            sorting to apply
      * @return a page with the available roles
      */
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.USER_AVAILABLE_ROLES)
-    public Iterable<Role> readAvailable(@PathVariable("username") final String username, final Pageable page) {
-        return service.getAvailableRoles(username, page);
+    public Iterable<Role> readAvailable(@PathVariable("username") final String username, final Pagination pagination,
+            final Sorting sorting) {
+        return service.getAvailableRoles(username, pagination, sorting);
     }
 
 }
