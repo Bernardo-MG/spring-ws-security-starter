@@ -112,7 +112,7 @@ public class UserController {
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
             .withNotExpired(request.getNotExpired())
-            .withLocked(request.getLocked())
+            .withNotLocked(request.getNotLocked())
             .withName(request.getName())
             .withPasswordNotExpired(request.getPasswordNotExpired())
             .withUsername(request.getUsername())

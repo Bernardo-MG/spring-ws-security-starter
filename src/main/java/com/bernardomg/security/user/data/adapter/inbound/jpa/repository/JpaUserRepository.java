@@ -212,7 +212,7 @@ public final class JpaUserRepository implements UserRepository {
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
-            user.setLocked(true);
+            user.setNotLocked(false);
             updated = userSpringRepository.save(user);
             result = toDomain(updated);
         } else {
@@ -326,7 +326,7 @@ public final class JpaUserRepository implements UserRepository {
             .withEmail(user.getEmail())
             .withEnabled(user.getEnabled())
             .withNotExpired(user.getNotExpired())
-            .withLocked(user.getLocked())
+            .withNotLocked(user.getNotLocked())
             .withPasswordNotExpired(user.getPasswordNotExpired())
             .withRoles(roles)
             .build();
@@ -354,7 +354,7 @@ public final class JpaUserRepository implements UserRepository {
             .withEmail(user.email())
             .withEnabled(user.enabled())
             .withNotExpired(user.notExpired())
-            .withLocked(user.locked())
+            .withNotLocked(user.notLocked())
             .withPasswordNotExpired(user.passwordNotExpired())
             .withRoles(roles)
             .withLoginAttempts(0)
@@ -368,7 +368,7 @@ public final class JpaUserRepository implements UserRepository {
             .withEmail(user.email())
             .withEnabled(user.enabled())
             .withNotExpired(user.notExpired())
-            .withLocked(user.locked())
+            .withNotLocked(user.notLocked())
             .withPasswordNotExpired(user.passwordNotExpired())
             .build();
     }

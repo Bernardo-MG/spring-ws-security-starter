@@ -44,11 +44,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Builder(setterPrefix = "with")
 @Slf4j
-public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean locked,
+public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean notLocked,
         boolean passwordNotExpired, Collection<Role> roles) {
 
     public User(final String email, final String username, final String name, final boolean enabled,
-            final boolean notExpired, final boolean locked, final boolean passwordNotExpired,
+            final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,
             final Collection<Role> roles) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
@@ -72,13 +72,13 @@ public record User(String email, String username, String name, boolean enabled, 
 
         this.enabled = enabled;
         this.notExpired = notExpired;
-        this.locked = locked;
+        this.notLocked = notLocked;
         this.passwordNotExpired = passwordNotExpired;
         this.roles = roles;
     }
 
     public static final User newUser(final String username, final String email, final String name) {
-        return new User(email, username, name, false, true, false, false, List.of());
+        return new User(email, username, name, false, true, true, false, List.of());
     }
 
     public final void checkStatus() {
@@ -88,7 +88,7 @@ public record User(String email, String username, String name, boolean enabled, 
             log.error("User {} is expired", username);
             throw new ExpiredUserException(username);
         }
-        if (locked) {
+        if (!notLocked) {
             log.error("User {} is locked", username);
             throw new LockedUserException(username);
         }

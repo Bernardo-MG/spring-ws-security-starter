@@ -19,7 +19,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -37,7 +37,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -50,7 +50,7 @@ public final class Users {
             .withEnabled(false)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -63,7 +63,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -76,7 +76,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -89,7 +89,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -102,7 +102,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(false)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -115,7 +115,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(true)
+            .withNotLocked(false)
             .build();
     }
 
@@ -128,7 +128,7 @@ public final class Users {
             .withEnabled(false)
             .withNotExpired(true)
             .withPasswordNotExpired(false)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -141,7 +141,7 @@ public final class Users {
             .withEnabled(false)
             .withNotExpired(true)
             .withPasswordNotExpired(false)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -154,7 +154,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -167,7 +167,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(false)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -180,7 +180,7 @@ public final class Users {
             .withEnabled(false)
             .withNotExpired(true)
             .withPasswordNotExpired(false)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -193,7 +193,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 
@@ -206,7 +206,7 @@ public final class Users {
             .withEnabled(true)
             .withNotExpired(true)
             .withPasswordNotExpired(true)
-            .withLocked(false)
+            .withNotLocked(true)
             .build();
     }
 

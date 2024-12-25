@@ -52,19 +52,19 @@ public final class UserQueryRequest {
     private Boolean enabled;
 
     /**
+     * User name.
+     */
+    private String  name;
+
+    /**
      * User expired flag.
      */
     private Boolean notExpired;
 
     /**
-     * User locked flag.
+     * User not locked flag.
      */
-    private Boolean locked;
-
-    /**
-     * User name.
-     */
-    private String  name;
+    private Boolean notLocked;
 
     /**
      * Password not expired flag.

@@ -194,7 +194,7 @@ public final class DefaultUserService implements UserService {
             // Can't change these fields
             .withUsername(existing.username())
             .withNotExpired(existing.notExpired())
-            .withLocked(existing.locked())
+            .withNotLocked(existing.notLocked())
             // These fields are allowed to change
             .withName(user.name())
             .withEmail(user.email())

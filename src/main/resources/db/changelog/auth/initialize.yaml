@@ -67,11 +67,11 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: true
               - column:
-                  name: locked
+                  name: not_locked
                   type: boolean
                   constraints:
                     nullable: false
-                  defaultValueBoolean: false
+                  defaultValueBoolean: true
               - column:
                   name: login_attempts
                   type: int
