@@ -79,7 +79,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withEmail("email2@nowhere.com")
             .withEnabled(true)
             .withLocked(false)
-            .withExpired(false)
+            .withNotExpired(true)
             .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();
@@ -97,7 +97,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
             .withEmail("email1@nowhere.com")
             .withEnabled(true)
             .withLocked(false)
-            .withExpired(false)
+            .withNotExpired(true)
             .withPasswordNotExpired(true)
             .withRoles(List.of(role))
             .build();

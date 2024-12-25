@@ -77,10 +77,10 @@ public class UserEntity implements Serializable {
     private Boolean                enabled;
 
     /**
-     * User expired flag.
+     * User not expired flag.
      */
-    @Column(name = "expired", nullable = false)
-    private Boolean                expired;
+    @Column(name = "not_expired", nullable = false)
+    private Boolean                notExpired;
 
     /**
      * Entity id.
@@ -115,7 +115,7 @@ public class UserEntity implements Serializable {
     private String                 password;
 
     /**
-     * User not expired flag.
+     * User password not expired flag.
      */
     @Column(name = "password_not_expired", nullable = false)
     private Boolean                passwordNotExpired;

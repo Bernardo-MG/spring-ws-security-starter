@@ -111,7 +111,7 @@ public class UserController {
         query = UserQuery.builder()
             .withEmail(request.getEmail())
             .withEnabled(request.getEnabled())
-            .withExpired(request.getExpired())
+            .withNotExpired(request.getNotExpired())
             .withLocked(request.getLocked())
             .withName(request.getName())
             .withPasswordNotExpired(request.getPasswordNotExpired())

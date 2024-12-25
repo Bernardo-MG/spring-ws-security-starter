@@ -53,7 +53,7 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
-                  defaultValueBoolean: false
+                  defaultValueBoolean: true
               - column:
                   name: enabled
                   type: boolean
@@ -61,11 +61,11 @@ databaseChangeLog:
                     nullable: false
                   defaultValueBoolean: true
               - column:
-                  name: expired
+                  name: not_expired
                   type: boolean
                   constraints:
                     nullable: false
-                  defaultValueBoolean: false
+                  defaultValueBoolean: true
               - column:
                   name: locked
                   type: boolean

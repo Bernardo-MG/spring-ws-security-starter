@@ -44,11 +44,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Builder(setterPrefix = "with")
 @Slf4j
-public record User(String email, String username, String name, boolean enabled, boolean expired, boolean locked,
+public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean locked,
         boolean passwordNotExpired, Collection<Role> roles) {
 
     public User(final String email, final String username, final String name, final boolean enabled,
-            final boolean expired, final boolean locked, final boolean passwordNotExpired,
+            final boolean notExpired, final boolean locked, final boolean passwordNotExpired,
             final Collection<Role> roles) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
@@ -71,20 +71,20 @@ public record User(String email, String username, String name, boolean enabled, 
         }
 
         this.enabled = enabled;
-        this.expired = expired;
+        this.notExpired = notExpired;
         this.locked = locked;
         this.passwordNotExpired = passwordNotExpired;
         this.roles = roles;
     }
 
     public static final User newUser(final String username, final String email, final String name) {
-        return new User(email, username, name, false, false, false, false, List.of());
+        return new User(email, username, name, false, true, false, false, List.of());
     }
 
     public final void checkStatus() {
         // TODO: Send a single exception with all the cases
         // TODO: Test
-        if (expired) {
+        if (!notExpired) {
             log.error("User {} is expired", username);
             throw new ExpiredUserException(username);
         }

@@ -151,7 +151,7 @@ public final class UserDomainDetailsService implements UserDetailsService {
 
         // Loads status
         enabled = user.enabled();
-        accountNonExpired = !user.expired();
+        accountNonExpired = user.notExpired();
         credentialsNonExpired = user.passwordNotExpired();
         accountNonLocked = !user.locked();
 

@@ -54,7 +54,7 @@ public final class UserQueryRequest {
     /**
      * User expired flag.
      */
-    private Boolean expired;
+    private Boolean notExpired;
 
     /**
      * User locked flag.
