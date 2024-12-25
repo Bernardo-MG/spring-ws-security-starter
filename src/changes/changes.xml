@@ -271,7 +271,13 @@
             Cleaned up code.
          </action>
       </release>
-      <release version="1.0.0" date="2024-10-25" description="">
+      <release version="0.4.11" date="2024-12-25" description="New pagination">
+         <action dev="bmg" type="update">
+            Using new pagination model.
+         </action>
+         <action dev="bmg" type="update">
+            Positive user flags.
+         </action>
       </release>
    </body>
 </document>
