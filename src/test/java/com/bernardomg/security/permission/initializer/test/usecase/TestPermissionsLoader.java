@@ -64,8 +64,25 @@ public class TestPermissionsLoader {
             List.of(permissionRegister));
     }
 
+    private final PermissionsLoader getPermissionsLoaderWithDuplicates() {
+
+        // GIVEN
+        given(permissionRegister.getActions())
+            .willReturn(List.of(PermissionConstants.CREATE, PermissionConstants.CREATE));
+        given(permissionRegister.getResources())
+            .willReturn(List.of(PermissionConstants.DATA, PermissionConstants.DATA));
+        given(permissionRegister.getPermissions())
+            .willReturn(List.of(new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE),
+                new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE)));
+
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
+            List.of(permissionRegister));
+    }
+
     @Test
-    @DisplayName("When loading the permissions are stored")
+    @DisplayName("When loading the permissions are saved")
     void testLoad() {
 
         // GIVEN
@@ -83,7 +100,25 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is stored")
+    @DisplayName("When loading the permissions duplicates are removed")
+    void testLoad_Duplicates() {
+
+        // GIVEN
+        given(actionRepository.exists(PermissionConstants.CREATE)).willReturn(false);
+        given(resourceRepository.exists(PermissionConstants.DATA)).willReturn(false);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+
+        // WHEN
+        getPermissionsLoaderWithDuplicates().load();
+
+        // THEN
+        verify(actionRepository).save(List.of(Actions.create()));
+        verify(resourceRepository).save(List.of(Resources.data()));
+        verify(resourcePermissionRepository).save(List.of(ResourcePermissions.create()));
+    }
+
+    @Test
+    @DisplayName("When there is no data nothing is saved")
     void testLoad_NoData() {
         // WHEN
         getPermissionsLoaderNoData().load();

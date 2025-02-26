@@ -94,6 +94,7 @@ public final class PermissionsLoader {
         actions = permissionRegisters.stream()
             .map(PermissionRegister::getActions)
             .flatMap(Collection::stream)
+            .distinct()
             .filter(Predicate.not(actionRepository::exists))
             .map(Action::new)
             .toList();
@@ -105,6 +106,7 @@ public final class PermissionsLoader {
         resources = permissionRegisters.stream()
             .map(PermissionRegister::getResources)
             .flatMap(Collection::stream)
+            .distinct()
             .filter(Predicate.not(resourceRepository::exists))
             .map(Resource::new)
             .toList();
@@ -118,6 +120,7 @@ public final class PermissionsLoader {
             .map(PermissionRegister::getPermissions)
             .flatMap(Collection::stream)
             .map(this::toResourcePermission)
+            .distinct()
             .filter(Predicate.not(p -> resourcePermissionRepository.exists(p.getName())))
             .toList();
         resourcePermissionRepository.save(permissions);
