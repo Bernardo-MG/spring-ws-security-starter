@@ -58,10 +58,8 @@ public final class JpaActionRepository implements ActionRepository {
     }
 
     @Override
-    public final boolean exists(final String name) {
-        log.debug("Checking if action {} exists", name);
-
-        return actionSpringRepository.existsByName(name);
+    public final Collection<String> findAllNames() {
+        return actionSpringRepository.findAllNames();
     }
 
     @Override
