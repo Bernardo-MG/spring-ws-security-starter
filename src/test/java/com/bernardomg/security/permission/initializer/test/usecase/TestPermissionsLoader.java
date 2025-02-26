@@ -47,8 +47,6 @@ public class TestPermissionsLoader {
         given(permissionRegister.getPermissions())
             .willReturn(List.of(new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE)));
 
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
-
         return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
             List.of(permissionRegister));
     }
