@@ -24,9 +24,11 @@
 
 package com.bernardomg.security.permission.data.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionEntity;
 
@@ -46,6 +48,12 @@ public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long
      * @return {@code true} if the action exists, {@code false} otherwise
      */
     public boolean existsByName(final String name);
+
+    @Query("""
+               SELECT a.name
+               FROM Action a
+            """)
+    public Collection<String> findAllNames();
 
     /**
      * Finds the action with the given name.

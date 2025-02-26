@@ -35,14 +35,7 @@ import com.bernardomg.security.permission.data.domain.model.Action;
  */
 public interface ActionRepository {
 
-    /**
-     * Checks if an action exists with the given name.
-     *
-     * @param name
-     *            name of the action to check
-     * @return {@code true} if the action exists, {@code false} otherwise
-     */
-    public boolean exists(final String name);
+    public Collection<String> findAllNames();
 
     /**
      * Saves the received actions. If they exist these are updated, otherwise they are created.

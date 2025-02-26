@@ -86,7 +86,7 @@ public class TestPermissionsLoader {
     void testLoad() {
 
         // GIVEN
-        given(actionRepository.exists(PermissionConstants.CREATE)).willReturn(false);
+        given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.exists(PermissionConstants.DATA)).willReturn(false);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
 
@@ -104,7 +104,7 @@ public class TestPermissionsLoader {
     void testLoad_Duplicates() {
 
         // GIVEN
-        given(actionRepository.exists(PermissionConstants.CREATE)).willReturn(false);
+        given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.exists(PermissionConstants.DATA)).willReturn(false);
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
 
