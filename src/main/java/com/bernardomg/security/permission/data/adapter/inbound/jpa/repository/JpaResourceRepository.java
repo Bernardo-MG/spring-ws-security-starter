@@ -58,9 +58,8 @@ public final class JpaResourceRepository implements ResourceRepository {
     }
 
     @Override
-    public Collection<String> findAllNames() {
-        // TODO Auto-generated method stub
-        return null;
+    public final Collection<String> findAllNames() {
+        return resourceSpringRepository.findAllNames();
     }
 
     @Override

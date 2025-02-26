@@ -8,21 +8,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
-import com.bernardomg.security.permission.test.config.annotation.SingleResource;
+import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.test.config.annotation.SinglePermission;
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourceRepository - find all names")
-class ITResourceRepositoryFindAllNames {
+@DisplayName("ResourcePermissionRepository - find all names")
+class ITResourcePermissionRepositoryFindAllNames {
 
     @Autowired
-    private ResourceRepository repository;
+    private ResourcePermissionRepository repository;
 
     @Test
-    @DisplayName("When there is an resource its name is returned")
-    @SingleResource
+    @DisplayName("When there is a permission its name is returned")
+    @SinglePermission
     void testFindAllNames() {
         final Collection<String> names;
 
@@ -31,8 +31,8 @@ class ITResourceRepositoryFindAllNames {
 
         // THEN
         Assertions.assertThat(names)
-            .as("resource names")
-            .containsOnly(PermissionConstants.DATA);
+            .as("permission names")
+            .containsOnly(PermissionConstants.DATA_CREATE);
     }
 
     @Test
@@ -45,7 +45,7 @@ class ITResourceRepositoryFindAllNames {
 
         // THEN
         Assertions.assertThat(names)
-            .as("resource names")
+            .as("permission names")
             .isEmpty();
     }
 

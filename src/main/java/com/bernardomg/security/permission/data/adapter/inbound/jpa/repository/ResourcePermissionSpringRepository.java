@@ -106,6 +106,17 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
 
     /**
+     * Returns the names of all permissions.
+     *
+     * @return the names of all permissions
+     */
+    @Query("""
+               SELECT p.name
+               FROM ResourcePermission p
+            """)
+    public Collection<String> findAllNames();
+
+    /**
      * Returns the resource permission for the received name.
      *
      * @param name

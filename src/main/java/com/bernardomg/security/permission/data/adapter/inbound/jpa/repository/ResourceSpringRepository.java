@@ -41,15 +41,6 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.Resourc
 public interface ResourceSpringRepository extends JpaRepository<ResourceEntity, Long> {
 
     /**
-     * Checks if a resource exists for the received name.
-     *
-     * @param name
-     *            resource name
-     * @return {@code true} if the resource exists, {@code false} otherwise
-     */
-    public boolean existsByName(final String name);
-
-    /**
      * Returns the names of all resources.
      *
      * @return the names of all resources

@@ -85,6 +85,7 @@ public final class PermissionsLoader {
         final List<ResourcePermission> permissions;
         final Collection<String>       actionNames;
         final Collection<String>       resourceNames;
+        final Collection<String>       permissionNames;
 
         log.debug("Begins loading permissions");
 
@@ -120,12 +121,13 @@ public final class PermissionsLoader {
         // TODO: Verify the resources and actions exist
         // Load permissions
         log.debug("Saving permissions");
+        permissionNames = resourceRepository.findAllNames();
         permissions = permissionRegisters.stream()
             .map(PermissionRegister::getPermissions)
             .flatMap(Collection::stream)
             .map(this::toResourcePermission)
             .distinct()
-            .filter(Predicate.not(p -> resourcePermissionRepository.exists(p.getName())))
+            .filter(p -> !permissionNames.contains(p.getName()))
             .toList();
         resourcePermissionRepository.save(permissions);
         log.debug("Saved permissions");

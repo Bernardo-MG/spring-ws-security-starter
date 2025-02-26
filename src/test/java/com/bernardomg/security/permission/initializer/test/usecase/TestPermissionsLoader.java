@@ -47,7 +47,7 @@ public class TestPermissionsLoader {
         given(permissionRegister.getPermissions())
             .willReturn(List.of(new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE)));
 
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
 
         return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
             List.of(permissionRegister));
@@ -75,7 +75,7 @@ public class TestPermissionsLoader {
             .willReturn(List.of(new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE),
                 new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE)));
 
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
 
         return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
             List.of(permissionRegister));
@@ -88,7 +88,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoader().load();
@@ -96,7 +96,7 @@ public class TestPermissionsLoader {
         // THEN
         verify(actionRepository).save(List.of(Actions.create()));
         verify(resourceRepository).save(List.of(Resources.data()));
-        verify(resourcePermissionRepository).save(List.of(ResourcePermissions.create()));
+        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoaderWithDuplicates().load();

@@ -41,15 +41,6 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionE
 public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long> {
 
     /**
-     * Checks if an action exists with the given name.
-     *
-     * @param name
-     *            name of the action to check
-     * @return {@code true} if the action exists, {@code false} otherwise
-     */
-    public boolean existsByName(final String name);
-
-    /**
      * Returns the names of all actions.
      *
      * @return the names of all actions
