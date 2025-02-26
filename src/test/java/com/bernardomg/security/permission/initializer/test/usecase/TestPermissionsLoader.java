@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.adapter.inbound.initializer.unit;
+package com.bernardomg.security.permission.initializer.test.usecase;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
