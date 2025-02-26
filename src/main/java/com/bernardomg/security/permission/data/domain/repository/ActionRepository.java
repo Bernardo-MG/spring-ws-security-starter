@@ -35,6 +35,11 @@ import com.bernardomg.security.permission.data.domain.model.Action;
  */
 public interface ActionRepository {
 
+    /**
+     * Returns the names of all the actions.
+     *
+     * @return the names of all the actions
+     */
     public Collection<String> findAllNames();
 
     /**

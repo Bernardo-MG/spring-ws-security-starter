@@ -24,9 +24,11 @@
 
 package com.bernardomg.security.permission.data.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourceEntity;
 
@@ -46,6 +48,17 @@ public interface ResourceSpringRepository extends JpaRepository<ResourceEntity, 
      * @return {@code true} if the resource exists, {@code false} otherwise
      */
     public boolean existsByName(final String name);
+
+    /**
+     * Returns the names of all resources.
+     *
+     * @return the names of all resources
+     */
+    @Query("""
+               SELECT r.name
+               FROM Resource r
+            """)
+    public Collection<String> findAllNames();
 
     /**
      * Returns the resource for the received name.

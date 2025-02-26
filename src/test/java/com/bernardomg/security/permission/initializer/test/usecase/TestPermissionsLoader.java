@@ -87,7 +87,7 @@ public class TestPermissionsLoader {
 
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
-        given(resourceRepository.exists(PermissionConstants.DATA)).willReturn(false);
+        given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
 
         // WHEN
@@ -105,7 +105,7 @@ public class TestPermissionsLoader {
 
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
-        given(resourceRepository.exists(PermissionConstants.DATA)).willReturn(false);
+        given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
 
         // WHEN

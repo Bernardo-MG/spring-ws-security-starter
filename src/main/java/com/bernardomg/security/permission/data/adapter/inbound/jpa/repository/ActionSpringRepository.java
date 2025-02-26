@@ -49,6 +49,11 @@ public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long
      */
     public boolean existsByName(final String name);
 
+    /**
+     * Returns the names of all actions.
+     *
+     * @return the names of all actions
+     */
     @Query("""
                SELECT a.name
                FROM Action a
