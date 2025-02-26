@@ -121,7 +121,7 @@ public final class PermissionsLoader {
         // TODO: Verify the resources and actions exist
         // Load permissions
         log.debug("Saving permissions");
-        permissionNames = resourceRepository.findAllNames();
+        permissionNames = resourcePermissionRepository.findAllNames();
         permissions = permissionRegisters.stream()
             .map(PermissionRegister::getPermissions)
             .flatMap(Collection::stream)
