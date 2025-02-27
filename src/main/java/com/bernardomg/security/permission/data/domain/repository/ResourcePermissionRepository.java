@@ -52,6 +52,13 @@ public interface ResourcePermissionRepository {
     public Collection<ResourcePermission> findAll();
 
     /**
+     * Returns the names of all the resources.
+     *
+     * @return the names of all the resources
+     */
+    public Collection<String> findAllNames();
+
+    /**
      * Saves the received permissions. If they exist these are updated, otherwise they are created.
      *
      * @param permissions
