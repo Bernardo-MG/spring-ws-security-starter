@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeUserWithCrudPermissions;
+import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.UserWithPermission;
 import com.bernardomg.security.permission.test.config.annotation.UserWithoutRole;
 import com.bernardomg.security.role.domain.model.Role;
@@ -95,7 +96,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
     }
 
     @Test
-    @DisplayName("Returns no available roles for a not existing user")
+    @DisplayName("When the user has no roles and no role exists, nothing is returned")
+    @UserWithoutRole
     void testFindAvailableToUser_NoRoles() {
         final Iterable<Role> roles;
         final Pagination     pagination;
@@ -117,6 +119,26 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @DisplayName("When the user doesn't exist nothing is returned")
     @RoleWithoutPermissions
     void testFindAvailableToUser_NoUser() {
+        final Iterable<Role> roles;
+        final Pagination     pagination;
+        final Sorting        sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        roles = repository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(roles)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user has a role with not granted permissions, it is not returned")
+    @UserWithCrudPermissionsNotGranted
+    void testFindAvailableToUser_WithNotGranted() {
         final Iterable<Role> roles;
         final Pagination     pagination;
         final Sorting        sorting;
