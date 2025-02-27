@@ -26,7 +26,7 @@ package com.bernardomg.security.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
-import com.bernardomg.framework.testing.architecture.predicates.Predicates;
+import com.bernardomg.framework.testing.architecture.predicates.IsInServicePackage;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
@@ -39,7 +39,7 @@ public final class LayerDependencyRules {
      * Log4j utils are not imported.
      */
     @ArchTest
-    static final ArchRule services_not_import_spring_data = noClasses().that(Predicates.areServiceClasses())
+    static final ArchRule services_not_import_spring_data = noClasses().that(new IsInServicePackage())
         .should()
         .dependOnClassesThat()
         .resideInAnyPackage("org.springframework.data..");

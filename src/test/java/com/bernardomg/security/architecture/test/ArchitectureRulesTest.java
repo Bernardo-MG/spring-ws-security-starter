@@ -2,14 +2,14 @@
 package com.bernardomg.security.architecture.test;
 
 import com.bernardomg.framework.testing.architecture.rule.CodingRules;
-import com.bernardomg.framework.testing.architecture.rule.ConfigurationRules;
-import com.bernardomg.framework.testing.architecture.rule.ControllerRules;
 import com.bernardomg.framework.testing.architecture.rule.DependencyRules;
 import com.bernardomg.framework.testing.architecture.rule.JpaEntityRules;
 import com.bernardomg.framework.testing.architecture.rule.RepositoryRules;
 import com.bernardomg.framework.testing.architecture.rule.ServiceRules;
 import com.bernardomg.framework.testing.architecture.rule.TransactionalRules;
 import com.bernardomg.framework.testing.architecture.rule.ValidationRules;
+import com.bernardomg.framework.testing.architecture.rule.springframework.SpringControllerRules;
+import com.bernardomg.framework.testing.architecture.rule.springframework.SpringRules;
 import com.bernardomg.security.architecture.rule.CacheRules;
 import com.bernardomg.security.architecture.rule.LayerDependencyRules;
 import com.bernardomg.security.architecture.rule.SecurityRules;
@@ -28,10 +28,10 @@ public class ArchitectureRulesTest {
     static final ArchTests codingRules          = ArchTests.in(CodingRules.class);
 
     @ArchTest
-    static final ArchTests configurationRules   = ArchTests.in(ConfigurationRules.class);
+    static final ArchTests configurationRules   = ArchTests.in(SpringRules.class);
 
     @ArchTest
-    static final ArchTests controllerRules      = ArchTests.in(ControllerRules.class);
+    static final ArchTests controllerRules      = ArchTests.in(SpringControllerRules.class);
 
     @ArchTest
     static final ArchTests dependencyRules      = ArchTests.in(DependencyRules.class);
