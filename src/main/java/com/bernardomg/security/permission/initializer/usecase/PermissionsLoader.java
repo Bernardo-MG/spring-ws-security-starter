@@ -83,6 +83,9 @@ public final class PermissionsLoader {
         final List<Action>             actions;
         final List<Resource>           resources;
         final List<ResourcePermission> permissions;
+        final Collection<String>       actionNames;
+        final Collection<String>       resourceNames;
+        final Collection<String>       permissionNames;
 
         log.debug("Begins loading permissions");
 
@@ -91,10 +94,12 @@ public final class PermissionsLoader {
 
         // Load actions
         log.debug("Saving actions");
+        actionNames = actionRepository.findAllNames();
         actions = permissionRegisters.stream()
             .map(PermissionRegister::getActions)
             .flatMap(Collection::stream)
-            .filter(Predicate.not(actionRepository::exists))
+            .distinct()
+            .filter(Predicate.not(actionNames::contains))
             .map(Action::new)
             .toList();
         actionRepository.save(actions);
@@ -102,10 +107,12 @@ public final class PermissionsLoader {
 
         // Load resources
         log.debug("Saving resources");
+        resourceNames = resourceRepository.findAllNames();
         resources = permissionRegisters.stream()
             .map(PermissionRegister::getResources)
             .flatMap(Collection::stream)
-            .filter(Predicate.not(resourceRepository::exists))
+            .distinct()
+            .filter(Predicate.not(resourceNames::contains))
             .map(Resource::new)
             .toList();
         resourceRepository.save(resources);
@@ -114,11 +121,13 @@ public final class PermissionsLoader {
         // TODO: Verify the resources and actions exist
         // Load permissions
         log.debug("Saving permissions");
+        permissionNames = resourcePermissionRepository.findAllNames();
         permissions = permissionRegisters.stream()
             .map(PermissionRegister::getPermissions)
             .flatMap(Collection::stream)
             .map(this::toResourcePermission)
-            .filter(Predicate.not(p -> resourcePermissionRepository.exists(p.getName())))
+            .distinct()
+            .filter(p -> !permissionNames.contains(p.getName()))
             .toList();
         resourcePermissionRepository.save(permissions);
         log.debug("Saved permissions");

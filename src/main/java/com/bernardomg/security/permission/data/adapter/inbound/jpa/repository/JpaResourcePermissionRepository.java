@@ -74,6 +74,11 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
+    public final Collection<String> findAllNames() {
+        return resourcePermissionSpringRepository.findAllNames();
+    }
+
+    @Override
     public final Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions) {
         final List<ResourcePermissionEntity> entities;
         final List<ResourcePermissionEntity> created;

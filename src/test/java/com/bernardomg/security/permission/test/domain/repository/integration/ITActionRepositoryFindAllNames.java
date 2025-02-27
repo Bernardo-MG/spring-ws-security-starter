@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.permission.test.domain.repository.integration;
 
+import java.util.Collection;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,39 +14,39 @@ import com.bernardomg.security.permission.test.config.factory.PermissionConstant
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ActionRepository - exists")
-class ITActionRepositoryExists {
+@DisplayName("ActionRepository - find all names")
+class ITActionRepositoryFindAllNames {
 
     @Autowired
     private ActionRepository repository;
 
     @Test
-    @DisplayName("When the permission exists it is returned as such")
+    @DisplayName("When there is an action its name is returned")
     @SingleAction
-    void testExists() {
-        final boolean exists;
+    void testFindAllNames() {
+        final Collection<String> names;
 
         // WHEN
-        exists = repository.exists(PermissionConstants.CREATE);
+        names = repository.findAllNames();
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isTrue();
+        Assertions.assertThat(names)
+            .as("action names")
+            .containsOnly(PermissionConstants.CREATE);
     }
 
     @Test
-    @DisplayName("When there is no data it is returned as not existing")
-    void testExists_noData() {
-        final boolean exists;
+    @DisplayName("When there is no data an empty list is returned")
+    void testFindAllNames_NoData() {
+        final Collection<String> names;
 
         // WHEN
-        exists = repository.exists(PermissionConstants.CREATE);
+        names = repository.findAllNames();
 
         // THEN
-        Assertions.assertThat(exists)
-            .as("exists")
-            .isFalse();
+        Assertions.assertThat(names)
+            .as("action names")
+            .isEmpty();
     }
 
 }

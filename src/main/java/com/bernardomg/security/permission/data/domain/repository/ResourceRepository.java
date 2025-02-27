@@ -36,13 +36,11 @@ import com.bernardomg.security.permission.data.domain.model.Resource;
 public interface ResourceRepository {
 
     /**
-     * Checks if a resource exists with the given name.
+     * Returns the names of all the resources.
      *
-     * @param name
-     *            name of the resource to check
-     * @return {@code true} if the resource exists, {@code false} otherwise
+     * @return the names of all the resources
      */
-    public boolean exists(final String name);
+    public Collection<String> findAllNames();
 
     /**
      * Saves the received resources. If they exist these are updated, otherwise they are created.
