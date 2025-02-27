@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.architecture.test;
 
+import com.bernardomg.framework.testing.architecture.rule.CodingRules;
 import com.bernardomg.framework.testing.architecture.rule.ConfigurationRules;
 import com.bernardomg.framework.testing.architecture.rule.ControllerRules;
 import com.bernardomg.framework.testing.architecture.rule.DependencyRules;
@@ -10,7 +11,6 @@ import com.bernardomg.framework.testing.architecture.rule.ServiceRules;
 import com.bernardomg.framework.testing.architecture.rule.TransactionalRules;
 import com.bernardomg.framework.testing.architecture.rule.ValidationRules;
 import com.bernardomg.security.architecture.rule.CacheRules;
-import com.bernardomg.security.architecture.rule.CodingRules;
 import com.bernardomg.security.architecture.rule.LayerDependencyRules;
 import com.bernardomg.security.architecture.rule.SecurityRules;
 import com.tngtech.archunit.core.importer.ImportOption;
