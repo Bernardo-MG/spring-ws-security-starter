@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissions;
-import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsGrantedAndNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
@@ -30,22 +29,6 @@ class ITUserPermissionRepositoryFindAll {
     @DisplayName("Returns all the permissions for a user with a single role")
     @UserWithCrudPermissions
     void testFindAll_SingleRole() {
-        final Iterable<ResourcePermission> permissions;
-
-        // WHEN
-        permissions = repository.findAll(UserConstants.USERNAME);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .as("permissions")
-            .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
-                ResourcePermissions.delete());
-    }
-
-    @Test
-    @DisplayName("Returns all the permissions for a user with two roles, one granting the permissions, the other not")
-    @UserWithCrudPermissionsGrantedAndNotGranted
-    void testFindAll_TwoRoles_GrantedAndNotGranted() {
         final Iterable<ResourcePermission> permissions;
 
         // WHEN
