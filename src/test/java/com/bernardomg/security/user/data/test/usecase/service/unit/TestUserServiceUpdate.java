@@ -94,7 +94,7 @@ class TestUserServiceUpdate {
         executable = () -> service.update(Users.duplicatedRole());
 
         // THEN
-        failure = new FieldFailure("duplicated", "roles[].duplicated", "roles[]", 1L);
+        failure = new FieldFailure("duplicated", "roles[]", "roles[].duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
@@ -115,7 +115,7 @@ class TestUserServiceUpdate {
         executable = () -> service.update(Users.emailChange());
 
         // THEN
-        failure = new FieldFailure("existing", "email.existing", "email", UserConstants.ALTERNATIVE_EMAIL);
+        failure = new FieldFailure("existing", "email", "email.existing", UserConstants.ALTERNATIVE_EMAIL);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

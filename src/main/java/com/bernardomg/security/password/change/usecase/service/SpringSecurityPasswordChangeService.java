@@ -155,7 +155,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         if (!passwordEncoder.matches(oldPassword, userDetails.getPassword())) {
             log.warn("Received a password which doesn't match the one stored for username {}",
                 userDetails.getUsername());
-            failure = FieldFailure.of("oldPassword", "notMatch", oldPassword);
+            failure = new FieldFailure("notMatch", "oldPassword", oldPassword);
             throw new FieldFailureException(userDetails, List.of(failure));
         }
     }

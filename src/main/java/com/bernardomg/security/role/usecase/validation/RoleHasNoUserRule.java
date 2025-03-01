@@ -38,7 +38,7 @@ public final class RoleHasNoUserRule implements FieldRule<Role> {
         if (roleRepository.isLinkedToUser(role.name())) {
             log.error("Role with id {} has a relationship with a user", role);
             // TODO: Is the code exists or is it existing? Make sure all use the same
-            fieldFailure = FieldFailure.of("user", "existing", role);
+            fieldFailure = new FieldFailure("existing", "user", role);
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

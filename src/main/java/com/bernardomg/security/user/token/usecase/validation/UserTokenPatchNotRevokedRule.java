@@ -27,7 +27,7 @@ public final class UserTokenPatchNotRevokedRule implements FieldRule<UserToken> 
         // TODO: what if the token is already valid?
         if ((token.revoked() != null) && (!token.revoked())) {
             log.error("Reverting token revocation");
-            fieldFailure = FieldFailure.of("revoked", "invalidValue", token.revoked());
+            fieldFailure = new FieldFailure("invalidValue", "revoked", token.revoked());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
