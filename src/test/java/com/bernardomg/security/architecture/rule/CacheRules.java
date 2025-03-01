@@ -3,7 +3,8 @@ package com.bernardomg.security.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-import com.bernardomg.security.architecture.predicate.Predicates;
+import com.bernardomg.framework.testing.architecture.predicates.IsInServicePackage;
+import com.bernardomg.framework.testing.architecture.predicates.springframework.IsSpringCacheAnnotation;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
@@ -29,10 +30,10 @@ public final class CacheRules {
     // are(Predicates.areCachedMethod()));
 
     @ArchTest
-    static final ArchRule services_should_not_be_cached          = classes().that(Predicates.areServiceClasses())
+    static final ArchRule services_should_not_be_cached          = classes().that(new IsInServicePackage())
         .and()
         .areNotInterfaces()
         .should()
-        .notBeAnnotatedWith(Predicates.areCachingAnnotation());
+        .notBeAnnotatedWith(new IsSpringCacheAnnotation());
 
 }

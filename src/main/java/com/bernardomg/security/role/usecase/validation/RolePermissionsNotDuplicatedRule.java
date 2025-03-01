@@ -39,7 +39,7 @@ public final class RolePermissionsNotDuplicatedRule implements FieldRule<Role> {
             // TODO: is this really an error? It can be corrected easily
             duplicates = (totalPermissions - uniquePermissions);
             log.error("Received {} permissions, but {} are duplicates", totalPermissions, duplicates);
-            fieldFailure = FieldFailure.of("permissions[]", "duplicated", duplicates);
+            fieldFailure = new FieldFailure("duplicated", "permissions[]", duplicates);
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

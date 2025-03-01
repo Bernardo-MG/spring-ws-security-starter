@@ -64,7 +64,7 @@ public final class PasswordResetHasStrongPasswordRule implements FieldRule<Strin
         result = validator.validate(new PasswordData(password));
         if (!result.isValid()) {
             log.error("The password doesn't fit security constraints");
-            fieldFailure = FieldFailure.of("password", "invalid", "");
+            fieldFailure = new FieldFailure("invalid", "password", "");
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

@@ -12,7 +12,7 @@
    <parent>
       <groupId>com.bernardomg.maven</groupId>
       <artifactId>base-pom</artifactId>
-      <version>1.5.6</version>
+      <version>1.5.8</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.4.11</version>
+   <version>0.4.12</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -172,10 +172,6 @@
 
    <properties>
       <!-- ============================================== -->
-      <!-- ================ JAVA VERSION ================ -->
-      <!-- ============================================== -->
-      <java.version>17</java.version>
-      <!-- ============================================== -->
       <!-- =============== MANIFEST DATA ================ -->
       <!-- ============================================== -->
       <manifest.name>com/bernardomg/spring-ws-security-starter</manifest.name>
@@ -183,13 +179,16 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <archunit.version>1.3.0</archunit.version>
-      <assertj.version>3.26.3</assertj.version>
-      <bernardomg.framework.validation.version>0.2.2</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.2.0</bernardomg.framework.ws.version>
-      <jjwt.version>0.12.5</jjwt.version>
-      <spring.boot.version>3.3.4</spring.boot.version>
-      <spring.data.version>2024.0.5</spring.data.version>
-      <spring.version>6.1.14</spring.version>
+      <assertj.version>3.27.3</assertj.version>
+      <bernardomg.framework.test.architecture>1.0.4</bernardomg.framework.test.architecture>
+      <bernardomg.framework.validation.version>0.2.4</bernardomg.framework.validation.version>
+      <bernardomg.framework.ws.version>0.2.1</bernardomg.framework.ws.version>
+      <jakarta.validation.version>3.1.1</jakarta.validation.version>
+      <jjwt.version>0.12.6</jjwt.version>
+      <slf4j.version>2.0.17</slf4j.version>
+      <spring.boot.version>3.4.3</spring.boot.version>
+      <spring.data.version>2024.1.3</spring.data.version>
+      <spring.version>6.2.3</spring.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
@@ -368,6 +367,7 @@
          <!-- SL4J API -->
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
+         <version>${slf4j.version}</version>
       </dependency>
       <dependency>
          <!-- Log4j SLF4J Bridge -->
@@ -426,10 +426,14 @@
          <groupId>org.eclipse.angus</groupId>
          <artifactId>jakarta.mail</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================ VALIDATION ================== -->
+      <!-- ============================================== -->
       <dependency>
-          <!-- Jakarta Validation -->
+         <!-- Jakarta validation -->
          <groupId>jakarta.validation</groupId>
          <artifactId>jakarta.validation-api</artifactId>
+         <version>${jakarta.validation.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ================= ASPECTJ ==================== -->
@@ -605,6 +609,13 @@
                <artifactId>logback-classic</artifactId>
             </exclusion>
          </exclusions>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Architecture Tests -->
+         <groupId>com.bernardomg.framework.testing</groupId>
+         <artifactId>architecture-tests</artifactId>
+         <version>${bernardomg.framework.test.architecture}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

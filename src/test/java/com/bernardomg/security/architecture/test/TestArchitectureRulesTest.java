@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.architecture.test;
 
-import com.bernardomg.security.architecture.rule.ImportRules;
+import com.bernardomg.framework.testing.architecture.rule.DependencyRules;
 import com.bernardomg.security.architecture.rule.TestImportRules;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
@@ -16,7 +16,7 @@ public class TestArchitectureRulesTest {
     // static final ArchTests codingRules = ArchTests.in(CodingRules.class);
 
     @ArchTest
-    static final ArchTests importRules     = ArchTests.in(ImportRules.class);
+    static final ArchTests dependencyRules = ArchTests.in(DependencyRules.class);
 
     @ArchTest
     static final ArchTests testImportRules = ArchTests.in(TestImportRules.class);

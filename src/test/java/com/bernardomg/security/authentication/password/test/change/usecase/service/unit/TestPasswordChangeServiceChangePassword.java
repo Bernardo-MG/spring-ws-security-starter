@@ -227,7 +227,7 @@ class TestPasswordChangeServiceChangePassword {
         execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        failure = new FieldFailure("notMatch", "oldPassword.notMatch", "oldPassword", UserConstants.PASSWORD);
+        failure = new FieldFailure("notMatch", "oldPassword", "oldPassword.notMatch", UserConstants.PASSWORD);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

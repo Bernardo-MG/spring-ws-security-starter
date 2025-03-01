@@ -39,7 +39,7 @@ public final class UserRolesNotDuplicatedRule implements FieldRule<User> {
             // TODO: is this really an error? It can be corrected easily
             duplicates = (totalRoles - uniqueRoles);
             log.error("Received {} roles, but {} are duplicates", totalRoles, duplicates);
-            fieldFailure = FieldFailure.of("roles[]", "duplicated", duplicates);
+            fieldFailure = new FieldFailure("duplicated", "roles[]", duplicates);
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

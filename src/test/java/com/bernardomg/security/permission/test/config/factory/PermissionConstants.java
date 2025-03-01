@@ -9,6 +9,8 @@ public final class PermissionConstants {
 
     public static final String DATA                 = "DATA";
 
+    public static final String DATA_2               = "DATA2";
+
     public static final String DATA_CREATE          = "CREATE:DATA";
 
     public static final String DATA_DELETE          = "DELETE:DATA";

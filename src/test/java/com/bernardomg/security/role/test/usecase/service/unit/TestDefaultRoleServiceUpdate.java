@@ -83,7 +83,7 @@ class TestDefaultRoleServiceUpdate {
         executable = () -> service.update(data);
 
         // THEN
-        failure = new FieldFailure("duplicated", "permissions[].duplicated", "permissions[]", 1L);
+        failure = new FieldFailure("duplicated", "permissions[]", "permissions[].duplicated", 1L);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

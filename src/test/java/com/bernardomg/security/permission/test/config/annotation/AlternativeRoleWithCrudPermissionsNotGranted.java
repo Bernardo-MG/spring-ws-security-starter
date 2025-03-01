@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 import org.springframework.test.context.jdbc.Sql;
 
 @Sql({ "/db/queries/security/role/alternative.sql",
-        "/db/queries/security/relationship/role_alternative_permission_crud_not_granted.sql" })
+        "/db/queries/security/relationship/role_alternative_permissions_crud_not_granted.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023-2025 the original author or authors.
+ * Copyright (c) 2024-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,42 +22,30 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.data.adapter.inbound.jpa.repository;
+package com.bernardomg.security.architecture.rule;
 
-import java.util.Collection;
-import java.util.Optional;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionEntity;
+import com.bernardomg.framework.testing.architecture.predicates.IsInServicePackage;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
 
 /**
- * Action repository based on Spring Data repositories.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Dependency rules.
  */
-public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long> {
+public final class LayerDependencyRules {
 
     /**
-     * Returns the names of all actions.
-     *
-     * @return the names of all actions
+     * Log4j utils are not imported.
      */
-    @Query("""
-               SELECT a.name
-               FROM Action a
-            """)
-    public Collection<String> findAllNames();
+    @ArchTest
+    static final ArchRule services_not_import_spring_data = noClasses().that(new IsInServicePackage())
+        .should()
+        .dependOnClassesThat()
+        .resideInAnyPackage("org.springframework.data..");
 
-    /**
-     * Finds the action with the given name.
-     *
-     * @param name
-     *            name of the action to find
-     * @return an {@code Optional} with the action if it exists, or an empty {@code Optional} otherwise
-     */
-    public Optional<ActionEntity> findByName(final String name);
+    private LayerDependencyRules() {
+        super();
+    }
 
 }

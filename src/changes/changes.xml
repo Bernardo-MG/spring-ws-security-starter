@@ -279,5 +279,13 @@
             Positive user flags.
          </action>
       </release>
+      <release version="0.4.12" date="2025-02-27" description="">
+         <action dev="bmg" type="update">
+            Updated dependencies.
+         </action>
+         <action dev="bmg" type="update">
+            Cleaned up permission initializer.
+         </action>
+      </release>
    </body>
 </document>

@@ -36,7 +36,7 @@ public final class UserUsernameNotExistsRule implements FieldRule<User> {
         if (userRepository.exists(user.username())) {
             log.error("A user already exists with the username {}", user.username());
             // TODO: Is the code exists or is it existing? Make sure all use the same
-            fieldFailure = FieldFailure.of("username", "existing", user.username());
+            fieldFailure = new FieldFailure("existing", "username", user.username());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();
