@@ -91,7 +91,7 @@ class TestUserServiceRegisterNewUser {
         executable = () -> service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
-        failure = new FieldFailure("existing", "email.existing", "email", UserConstants.EMAIL);
+        failure = new FieldFailure("existing", "email", "email.existing", UserConstants.EMAIL);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
@@ -109,7 +109,7 @@ class TestUserServiceRegisterNewUser {
         executable = () -> service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
-        failure = new FieldFailure("existing", "username.existing", "username", UserConstants.USERNAME);
+        failure = new FieldFailure("existing", "username", "username.existing", UserConstants.USERNAME);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }

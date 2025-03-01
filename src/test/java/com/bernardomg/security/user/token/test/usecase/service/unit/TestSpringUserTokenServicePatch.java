@@ -103,7 +103,7 @@ class TestSpringUserTokenServicePatch {
         execution = () -> service.patch(change);
 
         // THEN
-        failure = new FieldFailure("beforeToday", "expirationDate.beforeToday", "expirationDate",
+        failure = new FieldFailure("beforeToday", "expirationDate", "expirationDate.beforeToday",
             UserTokenConstants.DATE_YESTERDAY);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
@@ -142,7 +142,7 @@ class TestSpringUserTokenServicePatch {
         execution = () -> service.patch(change);
 
         // THEN
-        failure = new FieldFailure("invalidValue", "revoked.invalidValue", "revoked", false);
+        failure = new FieldFailure("invalidValue", "revoked", "revoked.invalidValue", false);
 
         ValidationAssertions.assertThatFieldFails(execution, failure);
     }

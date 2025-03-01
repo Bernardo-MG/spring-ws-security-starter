@@ -53,7 +53,7 @@ class TestDefaultRoleServiceCreate {
         executable = () -> service.create(RoleConstants.NAME);
 
         // THEN
-        failure = new FieldFailure("existing", "name.existing", "name", RoleConstants.NAME);
+        failure = new FieldFailure("existing", "name", "name.existing", RoleConstants.NAME);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
