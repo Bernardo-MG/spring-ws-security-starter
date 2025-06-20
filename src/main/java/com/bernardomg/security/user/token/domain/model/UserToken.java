@@ -33,7 +33,6 @@ import com.bernardomg.security.user.token.domain.exception.ExpiredTokenException
 import com.bernardomg.security.user.token.domain.exception.OutOfScopeTokenException;
 import com.bernardomg.security.user.token.domain.exception.RevokedTokenException;
 
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -42,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Builder(setterPrefix = "with")
 @Slf4j
 public record UserToken(String username, String name, String scope, String token, LocalDateTime creationDate,
         LocalDateTime expirationDate, Boolean consumed, Boolean revoked) {
@@ -53,16 +51,7 @@ public record UserToken(String username, String name, String scope, String token
      * @return a consumed copy of the token
      */
     public final UserToken consume() {
-        return UserToken.builder()
-            .withUsername(username)
-            .withName(name)
-            .withScope(scope)
-            .withToken(token)
-            .withCreationDate(creationDate)
-            .withExpirationDate(expirationDate)
-            .withConsumed(true)
-            .withRevoked(revoked)
-            .build();
+        return new UserToken(username, name, scope, token, creationDate, expirationDate, true, revoked);
     }
 
     public static final UserToken create(final String usrname, final String scpe, final Duration validity) {
@@ -75,15 +64,7 @@ public record UserToken(String username, String name, String scope, String token
 
         tokenCode = UUID.randomUUID()
             .toString();
-        return UserToken.builder()
-            .withUsername(usrname)
-            .withScope(scpe)
-            .withToken(tokenCode)
-            .withCreationDate(creation)
-            .withExpirationDate(expiration)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        return new UserToken(usrname, "", scpe, tokenCode, creation, expiration, false, false);
     }
 
     /**
@@ -92,16 +73,7 @@ public record UserToken(String username, String name, String scope, String token
      * @return a revoked copy of the token
      */
     public final UserToken revoke() {
-        return UserToken.builder()
-            .withUsername(username)
-            .withName(name)
-            .withScope(scope)
-            .withToken(token)
-            .withCreationDate(creationDate)
-            .withExpirationDate(expirationDate)
-            .withConsumed(consumed)
-            .withRevoked(true)
-            .build();
+        return new UserToken(username, name, scope, token, creationDate, expirationDate, consumed, true);
     }
 
     public final void checkStatus(final String tokenScope) {

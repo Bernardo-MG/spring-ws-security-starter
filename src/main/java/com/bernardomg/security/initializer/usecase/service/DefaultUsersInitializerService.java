@@ -73,16 +73,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
         role = roleRepository.findOne("READ")
             .get();
 
-        return User.builder()
-            .withUsername("read")
-            .withName("read")
-            .withEmail("email2@nowhere.com")
-            .withEnabled(true)
-            .withNotLocked(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withRoles(List.of(role))
-            .build();
+        return new User("email2@nowhere.com", "read", "read", true, true, true, true, List.of(role));
     }
 
     private final User getRootUser() {
@@ -91,16 +82,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
         role = roleRepository.findOne("ADMIN")
             .get();
 
-        return User.builder()
-            .withUsername("root")
-            .withName("root")
-            .withEmail("email1@nowhere.com")
-            .withEnabled(true)
-            .withNotLocked(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withRoles(List.of(role))
-            .build();
+        return new User("email1@nowhere.com", "root", "root", true, true, true, true, List.of(role));
     }
 
     private final void initializeReadUser() {

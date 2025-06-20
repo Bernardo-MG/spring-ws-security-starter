@@ -152,16 +152,8 @@ public final class SpringUserTokenService implements UserTokenService {
             revoked = updated.revoked();
         }
 
-        return UserToken.builder()
-            .withUsername(existing.username())
-            .withName(existing.name())
-            .withScope(existing.scope())
-            .withToken(existing.token())
-            .withCreationDate(existing.creationDate())
-            .withExpirationDate(expirationDate)
-            .withConsumed(existing.consumed())
-            .withRevoked(revoked)
-            .build();
+        return new UserToken(existing.username(), existing.name(), existing.scope(), existing.token(),
+            existing.creationDate(), expirationDate, existing.consumed(), revoked);
     }
 
 }

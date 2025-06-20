@@ -81,9 +81,7 @@ class TestJwtTokenFilter {
         userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
-        jwtTokenData = JwtTokenData.builder()
-            .withSubject(UserConstants.USERNAME)
-            .build();
+        jwtTokenData = new JwtTokenData(null, UserConstants.USERNAME, null, null, null, null, null, null);
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
         given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);

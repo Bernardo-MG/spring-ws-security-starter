@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Builder(setterPrefix = "with")
 @Slf4j
 public record JwtTokenData(String id, String subject, String issuer, LocalDateTime issuedAt, LocalDateTime notBefore,
         LocalDateTime expiration, Collection<String> audience, Map<String, List<String>> permissions) {

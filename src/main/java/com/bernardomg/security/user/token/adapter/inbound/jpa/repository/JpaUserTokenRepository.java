@@ -196,29 +196,13 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     private final UserToken toDomain(final UserDataTokenEntity data) {
-        return UserToken.builder()
-            .withUsername(data.getUsername())
-            .withName(data.getName())
-            .withScope(data.getScope())
-            .withToken(data.getToken())
-            .withCreationDate(data.getCreationDate())
-            .withExpirationDate(data.getExpirationDate())
-            .withConsumed(data.isConsumed())
-            .withRevoked(data.isRevoked())
-            .build();
+        return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
+            data.getCreationDate(), data.getExpirationDate(), data.isConsumed(), data.isRevoked());
     }
 
     private final UserToken toDomain(final UserDataTokenEntity data, final UserTokenEntity created) {
-        return UserToken.builder()
-            .withUsername(data.getUsername())
-            .withName(data.getName())
-            .withScope(data.getScope())
-            .withToken(data.getToken())
-            .withCreationDate(data.getCreationDate())
-            .withExpirationDate(created.getExpirationDate())
-            .withConsumed(data.isConsumed())
-            .withRevoked(created.isRevoked())
-            .build();
+        return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
+            data.getCreationDate(), created.getExpirationDate(), data.isConsumed(), created.isRevoked());
     }
 
     private final UserTokenEntity toSimpleEntity(final UserToken dataToken) {

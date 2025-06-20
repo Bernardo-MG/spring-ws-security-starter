@@ -71,14 +71,8 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
             .plus(validity);
 
         // Build token data for the wrapped encoder
-        data = JwtTokenData.builder()
-            .withSubject(subject)
-            .withIssuedAt(issuedAt)
-            .withNotBefore(issuedAt)
-            .withExpiration(expiration)
-            // TODO: Test that permissions are added
-            .withPermissions(permissions)
-            .build();
+        // TODO: Test that permissions are added
+        data = new JwtTokenData("", subject, "", issuedAt, issuedAt, expiration, List.of(), permissions);
 
         token = tokenEncoder.encode(data);
 

@@ -190,18 +190,8 @@ public final class DefaultUserService implements UserService {
 
         validatorUpdateUser.validate(user);
 
-        toSave = User.builder()
-            // Can't change these fields
-            .withUsername(existing.username())
-            .withNotExpired(existing.notExpired())
-            .withNotLocked(existing.notLocked())
-            // These fields are allowed to change
-            .withName(user.name())
-            .withEmail(user.email())
-            .withEnabled(user.enabled())
-            .withPasswordNotExpired(user.passwordNotExpired())
-            .withRoles(user.roles())
-            .build();
+        toSave = new User(user.email(), existing.username(), user.name(), user.enabled(), existing.notExpired(),
+            existing.notLocked(), user.passwordNotExpired(), user.roles());
 
         return userRepository.save(toSave);
     }

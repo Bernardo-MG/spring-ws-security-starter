@@ -108,15 +108,8 @@ public class UserController {
             final Sorting sorting) {
         final UserQuery query;
 
-        query = UserQuery.builder()
-            .withEmail(request.getEmail())
-            .withEnabled(request.getEnabled())
-            .withNotExpired(request.getNotExpired())
-            .withNotLocked(request.getNotLocked())
-            .withName(request.getName())
-            .withPasswordNotExpired(request.getPasswordNotExpired())
-            .withUsername(request.getUsername())
-            .build();
+        query = new UserQuery(request.getEmail(), request.getUsername(), request.getName(), request.getEnabled(),
+            request.getNotExpired(), request.getNotLocked(), request.getPasswordNotExpired());
         return service.getAll(query, pagination, sorting);
     }
 
@@ -173,14 +166,8 @@ public class UserController {
             .stream()
             .map(r -> new Role(r, List.of()))
             .toList();
-        user = User.builder()
-            .withUsername(request.getUsername())
-            .withName(request.getName())
-            .withEmail(request.getEmail())
-            .withEnabled(request.getEnabled())
-            .withPasswordNotExpired(request.getPasswordNotExpired())
-            .withRoles(roles)
-            .build();
+        user = new User(request.getEmail(), username, request.getName(), request.getEnabled(),
+            request.getPasswordNotExpired(), false, false, roles);
 
         return service.update(user);
     }

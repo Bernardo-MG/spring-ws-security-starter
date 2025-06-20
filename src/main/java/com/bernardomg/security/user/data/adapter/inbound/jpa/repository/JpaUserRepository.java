@@ -105,8 +105,7 @@ public final class JpaUserRepository implements UserRepository {
             result = toDomain(updated);
         } else {
             // TODO: Maybe return an optional
-            result = User.builder()
-                .build();
+            result = new User(null, null, null, false, false, false, false, null);
         }
 
         return result;
@@ -217,8 +216,7 @@ public final class JpaUserRepository implements UserRepository {
             result = toDomain(updated);
         } else {
             // TODO: Maybe return an optional
-            result = User.builder()
-                .build();
+            result = new User(null, null, null, false, false, false, false, null);
         }
 
         return result;
@@ -262,8 +260,7 @@ public final class JpaUserRepository implements UserRepository {
             result = toDomain(updated);
         } else {
             // TODO: Maybe return an optional
-            result = User.builder()
-                .build();
+            result = new User(null, null, null, false, false, false, false, null);
         }
 
         return result;
@@ -320,16 +317,8 @@ public final class JpaUserRepository implements UserRepository {
             .map(this::toDomain)
             .sorted(new RoleComparator())
             .toList();
-        return User.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
-            .withNotExpired(user.getNotExpired())
-            .withNotLocked(user.getNotLocked())
-            .withPasswordNotExpired(user.getPasswordNotExpired())
-            .withRoles(roles)
-            .build();
+        return new User(user.getEmail(), user.getUsername(), user.getName(), user.getEnabled(), user.getNotExpired(),
+            user.getNotLocked(), user.getPasswordNotExpired(), roles);
     }
 
     private final RoleEntity toEntity(final Role role) {

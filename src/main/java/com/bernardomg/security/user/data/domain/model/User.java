@@ -33,7 +33,6 @@ import com.bernardomg.security.user.data.domain.exception.EnabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
 
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -42,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Builder(setterPrefix = "with")
 @Slf4j
 public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean notLocked,
         boolean passwordNotExpired, Collection<Role> roles) {
