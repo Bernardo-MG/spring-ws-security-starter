@@ -9,174 +9,208 @@ import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
 public final class UserEntities {
 
     public static final UserEntity additionalRole() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withRoles(List.of(RoleEntities.withPermission(), RoleEntities.alternative()))
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setRoles(List.of(RoleEntities.withPermission(), RoleEntities.alternative()));
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity disabled() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(false)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(false);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity emailChange() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.ALTERNATIVE_EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.ALTERNATIVE_EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity enabled() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withRoles(List.of(RoleEntities.withPermission()))
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setRoles(List.of(RoleEntities.withPermission()));
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity expired() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(false)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(false);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity locked() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(false)
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(false);
+        entity.setRoles(List.of(RoleEntities.withPermission()));
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity nameChange() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.ALTERNATIVE_NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withRoles(List.of(RoleEntities.withPermission()))
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.ALTERNATIVE_NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setRoles(List.of(RoleEntities.withPermission()));
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity newlyCreated() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword("")
-            .withEnabled(false)
-            .withNotExpired(true)
-            .withPasswordNotExpired(false)
-            .withNotLocked(true)
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword("");
+        entity.setEnabled(false);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(false);
+        entity.setNotLocked(true);
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity passwordExpired() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(false)
-            .withNotLocked(true)
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(false);
+        entity.setNotLocked(true);
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity updatedPassword() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            // FIXME: this is not the newly encoded password
-            .withPassword(UserConstants.ENCODED_NEW_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withRoles(List.of(RoleEntities.withPermission()))
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        // FIXME: this is not the newly encoded password
+        entity.setPassword(UserConstants.ENCODED_NEW_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setRoles(List.of(RoleEntities.withPermission()));
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     public static final UserEntity withoutRoles() {
-        return UserEntity.builder()
-            .withId(1L)
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withPassword(UserConstants.ENCODED_PASSWORD)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .withRoles(List.of())
-            .withLoginAttempts(0)
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setId(1L);
+        entity.setName(UserConstants.NAME);
+        entity.setUsername(UserConstants.USERNAME);
+        entity.setEmail(UserConstants.EMAIL);
+        entity.setPassword(UserConstants.ENCODED_PASSWORD);
+        entity.setEnabled(true);
+        entity.setNotExpired(true);
+        entity.setPasswordNotExpired(true);
+        entity.setNotLocked(true);
+        entity.setRoles(List.of());
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     private UserEntities() {

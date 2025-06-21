@@ -116,12 +116,15 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         return new ResourcePermission(entity.getResource(), entity.getAction());
     }
 
-    private final ResourcePermissionEntity toEntity(final ResourcePermission entity) {
-        return ResourcePermissionEntity.builder()
-            .withName(entity.getName())
-            .withResource(entity.resource())
-            .withAction(entity.action())
-            .build();
+    private final ResourcePermissionEntity toEntity(final ResourcePermission permission) {
+        final ResourcePermissionEntity entity;
+
+        entity = new ResourcePermissionEntity();
+        entity.setName(permission.getName());
+        entity.setResource(permission.resource());
+        entity.setAction(permission.action());
+
+        return entity;
     }
 
 }

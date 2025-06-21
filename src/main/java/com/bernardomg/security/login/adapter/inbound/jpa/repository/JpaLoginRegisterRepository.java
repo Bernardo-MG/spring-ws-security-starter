@@ -79,11 +79,14 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
     }
 
     private final LoginRegisterEntity toEntity(final LoginRegister login) {
-        return LoginRegisterEntity.builder()
-            .withUsername(login.username())
-            .withLoggedIn(login.loggedIn())
-            .withDate(login.date())
-            .build();
+        final LoginRegisterEntity entity;
+
+        entity = new LoginRegisterEntity();
+        entity.setUsername(login.username());
+        entity.setLoggedIn(login.loggedIn());
+        entity.setDate(login.date());
+
+        return entity;
     }
 
 }

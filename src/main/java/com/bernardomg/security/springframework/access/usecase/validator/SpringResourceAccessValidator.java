@@ -104,9 +104,9 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
      */
     private final boolean matches(final ResourceActionGrantedAuthority authority, final String resource,
             final String action) {
-        return authority.getResource()
+        return authority.resource()
             .equals(resource)
-                && authority.getAction()
+                && authority.action()
                     .equals(action);
     }
 

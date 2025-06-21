@@ -34,10 +34,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * User token entity.
@@ -45,12 +41,8 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
 @Entity(name = "UserToken")
 @Table(schema = "security", name = "user_tokens")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class UserTokenEntity implements Serializable {
 
     @Transient
@@ -84,5 +76,69 @@ public class UserTokenEntity implements Serializable {
 
     @Column(name = "user_id", nullable = false)
     private Long              userId;
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public boolean isConsumed() {
+        return consumed;
+    }
+
+    public boolean isRevoked() {
+        return revoked;
+    }
+
+    public void setConsumed(final boolean consumed) {
+        this.consumed = consumed;
+    }
+
+    public void setCreationDate(final LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setExpirationDate(final LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setRevoked(final boolean revoked) {
+        this.revoked = revoked;
+    }
+
+    public void setScope(final String scope) {
+        this.scope = scope;
+    }
+
+    public void setToken(final String token) {
+        this.token = token;
+    }
+
+    public void setUserId(final Long userId) {
+        this.userId = userId;
+    }
 
 }

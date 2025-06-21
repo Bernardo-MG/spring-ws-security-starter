@@ -37,10 +37,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Role entity.
@@ -50,10 +46,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "Role")
 @Table(schema = "security", name = "roles")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class RoleEntity implements Serializable {
 
     /**
@@ -82,5 +74,29 @@ public class RoleEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Collection<RolePermissionEntity> permissions;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection<RolePermissionEntity> getPermissions() {
+        return permissions;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setPermissions(final Collection<RolePermissionEntity> permissions) {
+        this.permissions = permissions;
+    }
 
 }

@@ -210,32 +210,38 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     private final UserTokenEntity toSimpleEntity(final UserToken dataToken) {
-        return UserTokenEntity.builder()
-            .withToken(dataToken.token())
-            .withScope(dataToken.scope())
-            .withCreationDate(dataToken.creationDate())
-            .withExpirationDate(dataToken.expirationDate())
-            .withConsumed(dataToken.consumed())
-            .withRevoked(dataToken.revoked())
-            .build();
+        final UserTokenEntity entity;
+
+        entity = new UserTokenEntity();
+        entity.setToken(dataToken.token());
+        entity.setScope(dataToken.scope());
+        entity.setCreationDate(dataToken.creationDate());
+        entity.setExpirationDate(dataToken.expirationDate());
+        entity.setConsumed(dataToken.consumed());
+        entity.setRevoked(dataToken.revoked());
+
+        return entity;
     }
 
     private final UserTokenEntity toSimpleEntityLoadUsername(final UserToken dataToken) {
         final Optional<UserEntity> user;
         final Long                 userId;
+        final UserTokenEntity      entity;
 
         user = userSpringRepository.findByUsername(dataToken.username());
         userId = user.map(UserEntity::getId)
             .orElse(null);
-        return UserTokenEntity.builder()
-            .withUserId(userId)
-            .withToken(dataToken.token())
-            .withScope(dataToken.scope())
-            .withCreationDate(dataToken.creationDate())
-            .withExpirationDate(dataToken.expirationDate())
-            .withConsumed(dataToken.consumed())
-            .withRevoked(dataToken.revoked())
-            .build();
+
+        entity = new UserTokenEntity();
+        entity.setUserId(userId);
+        entity.setToken(dataToken.token());
+        entity.setScope(dataToken.scope());
+        entity.setCreationDate(dataToken.creationDate());
+        entity.setExpirationDate(dataToken.expirationDate());
+        entity.setConsumed(dataToken.consumed());
+        entity.setRevoked(dataToken.revoked());
+
+        return entity;
     }
 
 }

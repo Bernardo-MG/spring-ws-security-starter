@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.role.test.config.factory;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.bernardomg.security.permission.test.config.factory.RolePermissionEntities;
@@ -11,44 +10,50 @@ import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEnti
 public final class RoleEntities {
 
     public static final RoleEntity alternative() {
-        return RoleEntity.builder()
-            .withId(2L)
-            .withName(RoleConstants.ALTERNATIVE_NAME)
-            .withPermissions(List.of())
-            .build();
+        final RoleEntity entity;
+
+        entity = new RoleEntity();
+        entity.setId(2L);
+        entity.setName(RoleConstants.ALTERNATIVE_NAME);
+        entity.setPermissions(List.of());
+
+        return entity;
     }
 
     public static final RoleEntity withoutPermissions() {
-        return RoleEntity.builder()
-            .withId(1L)
-            .withName(RoleConstants.NAME)
-            .withPermissions(List.of())
-            .build();
+        final RoleEntity entity;
+
+        entity = new RoleEntity();
+        entity.setId(1L);
+        entity.setName(RoleConstants.NAME);
+        entity.setPermissions(List.of());
+
+        return entity;
     }
 
     public static final RoleEntity withPermission() {
-        final Collection<RolePermissionEntity> permissions;
-        final RolePermissionEntity             create;
+        final RolePermissionEntity create;
+        final RoleEntity           entity;
 
         create = RolePermissionEntities.create();
 
         create.getResourcePermission()
             .setId(1L);
 
-        permissions = List.of(create);
-        return RoleEntity.builder()
-            .withId(1L)
-            .withName(RoleConstants.NAME)
-            .withPermissions(permissions)
-            .build();
+        entity = new RoleEntity();
+        entity.setId(1L);
+        entity.setName(RoleConstants.NAME);
+        entity.setPermissions(List.of(create));
+
+        return entity;
     }
 
     public static final RoleEntity withPermissions() {
-        final Collection<RolePermissionEntity> permissions;
-        final RolePermissionEntity             create;
-        final RolePermissionEntity             read;
-        final RolePermissionEntity             update;
-        final RolePermissionEntity             delete;
+        final RolePermissionEntity create;
+        final RolePermissionEntity read;
+        final RolePermissionEntity update;
+        final RolePermissionEntity delete;
+        final RoleEntity           entity;
 
         create = RolePermissionEntities.create();
         read = RolePermissionEntities.read();
@@ -64,12 +69,12 @@ public final class RoleEntities {
         delete.getResourcePermission()
             .setId(4L);
 
-        permissions = List.of(create, delete, read, update);
-        return RoleEntity.builder()
-            .withId(1L)
-            .withName(RoleConstants.NAME)
-            .withPermissions(permissions)
-            .build();
+        entity = new RoleEntity();
+        entity.setId(1L);
+        entity.setName(RoleConstants.NAME);
+        entity.setPermissions(List.of(create, delete, read, update));
+
+        return entity;
     }
 
     private RoleEntities() {

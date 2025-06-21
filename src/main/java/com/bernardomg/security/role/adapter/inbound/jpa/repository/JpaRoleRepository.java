@@ -199,14 +199,12 @@ public final class JpaRoleRepository implements RoleRepository {
 
         if (read.isPresent()) {
             resourceEntity = read.get();
-            id = RolePermissionId.builder()
-                .withPermission(resourceEntity.getName())
-                .build();
-            entity = RolePermissionEntity.builder()
-                .withGranted(true)
-                .withId(id)
-                .withResourcePermission(resourceEntity)
-                .build();
+            id = new RolePermissionId();
+            id.setPermission(resourceEntity.getName());
+            entity = new RolePermissionEntity();
+            entity.setId(id);
+            entity.setGranted(true);
+            entity.setResourcePermission(resourceEntity);
         } else {
             entity = null;
         }
@@ -216,22 +214,27 @@ public final class JpaRoleRepository implements RoleRepository {
 
     private final RoleEntity toEntity(final Role role) {
         final Collection<RolePermissionEntity> permissions;
+        final RoleEntity                       entity;
 
         permissions = role.permissions()
             .stream()
             .map(this::toEntity)
             .filter(Objects::nonNull)
             .collect(Collectors.toCollection(ArrayList::new));
-        return RoleEntity.builder()
-            .withName(role.name())
-            .withPermissions(permissions)
-            .build();
+        entity = new RoleEntity();
+        entity.setName(role.name());
+        entity.setPermissions(permissions);
+
+        return entity;
     }
 
     private final RoleEntity toEntity(final RoleQuery role) {
-        return RoleEntity.builder()
-            .withName(role.name())
-            .build();
+        final RoleEntity entity;
+
+        entity = new RoleEntity();
+        entity.setName(role.name());
+
+        return entity;
     }
 
 }

@@ -100,9 +100,12 @@ public final class JpaActionRepository implements ActionRepository {
     }
 
     private final ActionEntity toEntity(final Action action) {
-        return ActionEntity.builder()
-            .withName(action.name())
-            .build();
+        final ActionEntity entity;
+
+        entity = new ActionEntity();
+        entity.setName(action.name());
+
+        return entity;
     }
 
 }

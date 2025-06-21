@@ -32,10 +32,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * User role entity.
@@ -46,10 +42,6 @@ import lombok.NoArgsConstructor;
 @Entity(name = "UserRole")
 @Table(schema = "security", name = "user_roles")
 @IdClass(UserRoleKey.class)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class UserRoleEntity implements Serializable {
 
     /**
@@ -71,5 +63,21 @@ public class UserRoleEntity implements Serializable {
     @Id
     @Column(name = "user_id", nullable = false, unique = true)
     private Long              userId;
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setRoleId(final Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public void setUserId(final Long userId) {
+        this.userId = userId;
+    }
 
 }

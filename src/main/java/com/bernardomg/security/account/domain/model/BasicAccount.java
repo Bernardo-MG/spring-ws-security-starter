@@ -24,46 +24,35 @@
 
 package com.bernardomg.security.account.domain.model;
 
-import lombok.Builder;
-import lombok.Value;
-
 /**
  * Representation of an account.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-@Builder(setterPrefix = "with")
-public final class BasicAccount implements Account {
+public final record BasicAccount(String email, String username, String name) implements Account {
 
     public static final BasicAccount of(final String nam) {
-        return BasicAccount.builder()
-            .withName(nam)
-            .build();
+        return new BasicAccount(null, null, nam);
     }
 
     public static final BasicAccount of(final String usrnm, final String nm, final String eml) {
-        return BasicAccount.builder()
-            .withUsername(usrnm)
-            .withName(nm)
-            .withEmail(eml)
-            .build();
+        return new BasicAccount(eml, usrnm, nm);
     }
 
-    /**
-     * User email.
-     */
-    private final String email;
+    @Override
+    public String getEmail() {
+        return email;
+    }
 
-    /**
-     * User name.
-     */
-    private final String name;
+    @Override
+    public String getName() {
+        return name;
+    }
 
-    /**
-     * User username.
-     */
-    private final String username;
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
 }

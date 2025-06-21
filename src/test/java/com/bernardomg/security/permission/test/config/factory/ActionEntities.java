@@ -6,9 +6,12 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionE
 public final class ActionEntities {
 
     public static final ActionEntity create() {
-        return ActionEntity.builder()
-            .withName(PermissionConstants.CREATE)
-            .build();
+        final ActionEntity entity;
+
+        entity = new ActionEntity();
+        entity.setName(PermissionConstants.CREATE);
+
+        return entity;
     }
 
     private ActionEntities() {
