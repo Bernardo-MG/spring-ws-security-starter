@@ -26,20 +26,24 @@ package com.bernardomg.security.user.login.usecase.service;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the user service.
  */
-@Slf4j
 @Transactional
 public final class DefaultUserLoginAttempsService implements UserLoginAttempsService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger  log = LoggerFactory.getLogger(DefaultUserLoginAttempsService.class);
 
     /**
      * Max login attempts. Once the user reaches this number, it is locked.

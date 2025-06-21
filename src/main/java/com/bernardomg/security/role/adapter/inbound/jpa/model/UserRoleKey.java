@@ -26,21 +26,12 @@ package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * User role key.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class UserRoleKey implements Serializable {
 
     /**
@@ -57,5 +48,21 @@ public class UserRoleKey implements Serializable {
      * User id.
      */
     private Long              userId;
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setRoleId(final Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public void setUserId(final Long userId) {
+        this.userId = userId;
+    }
 
 }

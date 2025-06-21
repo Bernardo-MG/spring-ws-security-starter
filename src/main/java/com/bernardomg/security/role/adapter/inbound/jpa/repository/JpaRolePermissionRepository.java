@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,16 +42,18 @@ import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Role permission repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Transactional
 public final class JpaRolePermissionRepository implements RolePermissionRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                      log = LoggerFactory.getLogger(JpaRolePermissionRepository.class);
 
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.

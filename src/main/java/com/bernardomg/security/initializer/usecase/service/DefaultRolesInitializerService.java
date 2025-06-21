@@ -27,6 +27,8 @@ package com.bernardomg.security.initializer.usecase.service;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.data.constant.Actions;
@@ -35,17 +37,19 @@ import com.bernardomg.security.permission.data.domain.repository.ResourcePermiss
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Creates initial test roles on app start. These are meant to help local development.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class DefaultRolesInitializerService implements RolesInitializerService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                log = LoggerFactory.getLogger(DefaultRolesInitializerService.class);
 
     private final ResourcePermissionRepository resourcePermissionRepository;
 

@@ -30,6 +30,8 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,17 +42,19 @@ import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Login service which generates a token for the logged in user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class TokenLoginService implements LoginService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger             log          = LoggerFactory.getLogger(TokenLoginService.class);
 
     private final Pattern                   emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 

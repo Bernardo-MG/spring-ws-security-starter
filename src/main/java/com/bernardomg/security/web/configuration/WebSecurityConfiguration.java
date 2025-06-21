@@ -26,6 +26,8 @@ package com.bernardomg.security.web.configuration;
 
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,7 +60,6 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
 import jakarta.servlet.Filter;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Web security configuration.
@@ -69,8 +70,12 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 @EnableConfigurationProperties(CorsProperties.class)
-@Slf4j
 public class WebSecurityConfiguration {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(WebSecurityConfiguration.class);
 
     /**
      * Default constructor.

@@ -29,10 +29,6 @@ import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Role permission key.
@@ -41,10 +37,6 @@ import lombok.NoArgsConstructor;
  *
  */
 @Embeddable
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class RolePermissionId implements Serializable {
 
     /**
@@ -64,5 +56,21 @@ public class RolePermissionId implements Serializable {
      */
     @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Long              roleId;
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setPermission(final String permission) {
+        this.permission = permission;
+    }
+
+    public void setRoleId(final Long roleId) {
+        this.roleId = roleId;
+    }
 
 }

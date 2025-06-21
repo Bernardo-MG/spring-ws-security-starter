@@ -6,32 +6,23 @@ import com.bernardomg.security.user.data.domain.model.UserQuery;
 public final class UserQueries {
 
     public static final UserQuery empty() {
-        return UserQuery.builder()
-            .build();
+        return new UserQuery(null, null, null, null, null, null, null);
     }
 
     public static final UserQuery invalidName() {
-        return UserQuery.builder()
-            .withName("abc")
-            .build();
+        return new UserQuery(null, null, "abc", null, null, null, null);
     }
 
     public static final UserQuery invalidUsername() {
-        return UserQuery.builder()
-            .withName("abc")
-            .build();
+        return new UserQuery(null, "abc", null, null, null, null, null);
     }
 
     public static final UserQuery name() {
-        return UserQuery.builder()
-            .withUsername(UserConstants.USERNAME)
-            .build();
+        return new UserQuery(null, null, UserConstants.NAME, null, null, null, null);
     }
 
     public static final UserQuery username() {
-        return UserQuery.builder()
-            .withName(UserConstants.NAME)
-            .build();
+        return new UserQuery(null, UserConstants.USERNAME, null, null, null, null, null);
     }
 
 }

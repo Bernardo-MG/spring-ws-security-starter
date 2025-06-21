@@ -39,8 +39,6 @@ import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.permission.usecase.service.UserRoleService;
 
-import lombok.AllArgsConstructor;
-
 /**
  * User role REST controller.
  *
@@ -49,13 +47,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/user/{username}/role")
-@AllArgsConstructor
 public class UserRoleController {
 
     /**
      * User role service.
      */
     private final UserRoleService service;
+
+    public UserRoleController(final UserRoleService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Returns all the roles available to a user. That is, those which haven't been assigned to the role.

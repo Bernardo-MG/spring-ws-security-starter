@@ -26,20 +26,17 @@ package com.bernardomg.security.user.data.domain.model;
 
 import java.util.Objects;
 
-import lombok.Builder;
-
 /**
  * Data for querying users.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Builder(setterPrefix = "with")
-public record UserQuery(String email, Boolean enabled, Boolean notExpired, Boolean notLocked, String name,
-        Boolean passwordNotExpired, String username) {
+public record UserQuery(String email, String username, String name, Boolean enabled, Boolean notExpired,
+        Boolean notLocked, Boolean passwordNotExpired) {
 
-    public UserQuery(final String email, final Boolean enabled, final Boolean notExpired, final Boolean notLocked,
-            final String name, final Boolean passwordNotExpired, final String username) {
+    public UserQuery(final String email, final String username, final String name, final Boolean enabled,
+            final Boolean notExpired, final Boolean notLocked, final Boolean passwordNotExpired) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();
         } else {

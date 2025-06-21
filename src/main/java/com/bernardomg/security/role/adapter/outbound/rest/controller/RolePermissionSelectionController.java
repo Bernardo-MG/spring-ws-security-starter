@@ -39,8 +39,6 @@ import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.role.usecase.service.RolePermissionService;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Role permission REST controller.
  *
@@ -49,13 +47,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/role/{role}/permission")
-@AllArgsConstructor
 public class RolePermissionSelectionController {
 
     /**
      * Role permission service.
      */
     private final RolePermissionService service;
+
+    public RolePermissionSelectionController(final RolePermissionService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Returns all the permissions available to a role. That is, those which haven't been assigned to the role.

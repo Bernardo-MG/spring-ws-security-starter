@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Pagination;
@@ -40,8 +42,6 @@ import com.bernardomg.security.user.token.usecase.validation.UserTokenNotExpired
 import com.bernardomg.security.user.token.usecase.validation.UserTokenPatchNotRevokedRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Spring-based implementation of the user token service.
@@ -57,9 +57,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class SpringUserTokenService implements UserTokenService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(SpringUserTokenService.class);
 
     /**
      * User token repository.
@@ -152,16 +156,8 @@ public final class SpringUserTokenService implements UserTokenService {
             revoked = updated.revoked();
         }
 
-        return UserToken.builder()
-            .withUsername(existing.username())
-            .withName(existing.name())
-            .withScope(existing.scope())
-            .withToken(existing.token())
-            .withCreationDate(existing.creationDate())
-            .withExpirationDate(expirationDate)
-            .withConsumed(existing.consumed())
-            .withRevoked(revoked)
-            .build();
+        return new UserToken(existing.username(), existing.name(), existing.scope(), existing.token(),
+            existing.creationDate(), expirationDate, existing.consumed(), revoked);
     }
 
 }

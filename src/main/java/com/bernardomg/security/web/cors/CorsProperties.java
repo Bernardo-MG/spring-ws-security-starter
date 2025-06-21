@@ -28,38 +28,40 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import lombok.Data;
-
 /**
  * CORS configuration properties.
  */
-@Data
 @ConfigurationProperties(prefix = "cors")
-public final class CorsProperties {
+public final record CorsProperties(String pattern, List<String> allowedHeaders, List<String> allowedMethods,
+        List<String> allowedOrigins, List<String> exposedHeaders) {
 
-    /**
-     * Allowed headers.
-     */
-    private List<String> allowedHeaders = List.of("*");
-
-    /**
-     * Allowed methods.
-     */
-    private List<String> allowedMethods = List.of("*");
-
-    /**
-     * Allowed origins.
-     */
-    private List<String> allowedOrigins = List.of("*");
-
-    /**
-     * Exposed headers.
-     */
-    private List<String> exposedHeaders = List.of("*");
-
-    /**
-     * Valid pattern.
-     */
-    private String       pattern        = "/**";
+    public CorsProperties(final String pattern, final List<String> allowedHeaders, final List<String> allowedMethods,
+            final List<String> allowedOrigins, final List<String> exposedHeaders) {
+        if (pattern == null) {
+            this.pattern = "/**";
+        } else {
+            this.pattern = pattern;
+        }
+        if (allowedHeaders == null) {
+            this.allowedHeaders = List.of("*");
+        } else {
+            this.allowedHeaders = allowedHeaders;
+        }
+        if (allowedMethods == null) {
+            this.allowedMethods = List.of("*");
+        } else {
+            this.allowedMethods = allowedMethods;
+        }
+        if (allowedOrigins == null) {
+            this.allowedOrigins = List.of("*");
+        } else {
+            this.allowedOrigins = allowedOrigins;
+        }
+        if (exposedHeaders == null) {
+            this.exposedHeaders = List.of("*");
+        } else {
+            this.exposedHeaders = exposedHeaders;
+        }
+    }
 
 }

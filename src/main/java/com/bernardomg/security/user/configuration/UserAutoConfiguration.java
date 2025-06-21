@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.user.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -62,8 +64,6 @@ import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Password handling configuration.
  *
@@ -78,8 +78,12 @@ import lombok.extern.slf4j.Slf4j;
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.data.adapter.inbound.jpa",
         "com.bernardomg.security.user.permission.adapter.inbound.jpa" })
 @EnableConfigurationProperties({ LoginProperties.class, UserNotificatorProperties.class })
-@Slf4j
 public class UserAutoConfiguration {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(UserAutoConfiguration.class);
 
     public UserAutoConfiguration() {
         super();
@@ -114,7 +118,7 @@ public class UserAutoConfiguration {
     @Bean("userLoginAttempsService")
     public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
             final LoginProperties userAccessProperties) {
-        return new DefaultUserLoginAttempsService(userAccessProperties.getMaxLoginAttempts(), userRepo);
+        return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepo);
     }
 
     @Bean("userNotificator")
@@ -123,11 +127,11 @@ public class UserAutoConfiguration {
     public UserNotificator getUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSender,
             final UserNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
-        log.debug("Using email {} for user notifications", properties.getFrom());
-        log.debug("Activate user URL: {}", properties.getActivateUser()
-            .getUrl());
-        return new SpringMailUserNotificator(templateEng, mailSender, properties.getFrom(), properties.getActivateUser()
-            .getUrl());
+        log.debug("Using email {} for user notifications", properties.from());
+        log.debug("Activate user URL: {}", properties.activateUser()
+            .url());
+        return new SpringMailUserNotificator(templateEng, mailSender, properties.from(), properties.activateUser()
+            .url());
     }
 
     @Bean("userRepository")
@@ -151,7 +155,7 @@ public class UserAutoConfiguration {
     public UserTokenStore getUserTokenStore(final UserRepository userSpringRepo, final UserNotificator mSender,
             final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
         return new ScopedUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
-            tokenProperties.getValidity());
+            tokenProperties.validity());
     }
 
     @Bean("userPermissionRegister")

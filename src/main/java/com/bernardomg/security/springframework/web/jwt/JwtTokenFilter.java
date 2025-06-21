@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,7 +46,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * JWT token filter. Takes the JWT token from the request, validates it and initializes the authentication.
@@ -59,8 +60,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class JwtTokenFilter extends OncePerRequestFilter {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger      log                     = LoggerFactory.getLogger(JwtTokenFilter.class);
 
     /**
      * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the

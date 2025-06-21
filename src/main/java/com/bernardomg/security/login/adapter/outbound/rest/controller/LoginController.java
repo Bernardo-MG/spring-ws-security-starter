@@ -35,8 +35,6 @@ import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.LoginService;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Handles login requests. All the logic is delegated to a {@link LoginService}.
  *
@@ -45,13 +43,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/login")
-@AllArgsConstructor
 public class LoginController {
 
     /**
      * Login service.
      */
     private final LoginService service;
+
+    public LoginController(final LoginService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Attempts to log in a user, returning the login status.

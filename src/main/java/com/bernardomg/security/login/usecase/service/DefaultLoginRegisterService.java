@@ -27,6 +27,8 @@ package com.bernardomg.security.login.usecase.service;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Pagination;
@@ -34,14 +36,16 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default implementation of the log in service.
  */
-@Slf4j
 @Transactional
 public final class DefaultLoginRegisterService implements LoginRegisterService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger           log = LoggerFactory.getLogger(DefaultLoginRegisterService.class);
 
     private final LoginRegisterRepository loginRegisterRepository;
 

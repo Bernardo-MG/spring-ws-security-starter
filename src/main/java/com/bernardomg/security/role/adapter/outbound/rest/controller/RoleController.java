@@ -54,7 +54,6 @@ import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.usecase.service.RoleService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Role REST controller.
@@ -64,13 +63,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/role")
-@AllArgsConstructor
 public class RoleController {
 
     /**
      * Role service.
      */
     private final RoleService service;
+
+    public RoleController(final RoleService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Creates a role.
@@ -84,7 +88,7 @@ public class RoleController {
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public Role create(@Valid @RequestBody final RoleCreate request) {
-        return service.create(request.getName());
+        return service.create(request.name());
     }
 
     /**
@@ -119,7 +123,7 @@ public class RoleController {
             final Sorting sorting) {
         final RoleQuery query;
 
-        query = new RoleQuery(request.getName());
+        query = new RoleQuery(request.name());
         return service.getAll(query, pagination, sorting);
     }
 
@@ -155,9 +159,9 @@ public class RoleController {
         final Role                           role;
         final Collection<ResourcePermission> permissions;
 
-        permissions = request.getPermissions()
+        permissions = request.permissions()
             .stream()
-            .map(p -> new ResourcePermission(p.getResource(), p.getAction()))
+            .map(p -> new ResourcePermission(p.resource(), p.action()))
             .toList();
         role = new Role(roleName, permissions);
 

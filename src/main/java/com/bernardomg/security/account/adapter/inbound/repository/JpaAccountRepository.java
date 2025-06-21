@@ -88,8 +88,7 @@ public final class JpaAccountRepository implements AccountRepository {
             updated = userSpringRepository.save(user);
             result = BasicAccount.of(updated.getUsername(), updated.getName(), updated.getEmail());
         } else {
-            result = BasicAccount.builder()
-                .build();
+            result = new BasicAccount(null, null, null);
         }
 
         return result;

@@ -26,6 +26,8 @@ package com.bernardomg.security.password.configuration;
 
 import java.security.SecureRandom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -53,8 +55,6 @@ import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Password handling configuration.
  *
@@ -66,8 +66,12 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan({ "com.bernardomg.security.password.reset.adapter.outbound.rest.controller",
         "com.bernardomg.security.password.change.adapter.outbound.rest.controller" })
 @EnableConfigurationProperties({ PasswordNotificatorProperties.class })
-@Slf4j
 public class PasswordAutoConfiguration {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(PasswordAutoConfiguration.class);
 
     public PasswordAutoConfiguration() {
         super();
@@ -99,12 +103,12 @@ public class PasswordAutoConfiguration {
     public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
-        log.debug("Using email {} for password notifications", properties.getFrom());
-        log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
-            .getUrl());
-        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.getFrom(),
-            properties.getPasswordRecovery()
-                .getUrl());
+        log.debug("Using email {} for password notifications", properties.from());
+        log.debug("Password recovery URL: {}", properties.passwordRecovery()
+            .url());
+        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.from(),
+            properties.passwordRecovery()
+                .url());
     }
 
     @Bean("passwordRecoveryService")
@@ -115,7 +119,7 @@ public class PasswordAutoConfiguration {
         final UserTokenStore tokenStore;
 
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
-            tokenProperties.getValidity());
+            tokenProperties.validity());
 
         return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore);
     }

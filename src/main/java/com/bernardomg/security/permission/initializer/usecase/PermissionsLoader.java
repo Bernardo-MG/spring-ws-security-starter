@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.permission.data.domain.model.Action;
 import com.bernardomg.security.permission.data.domain.model.Resource;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -36,15 +39,17 @@ import com.bernardomg.security.permission.data.domain.repository.ActionRepositor
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionRegister}.
  * <p>
  * The {@link #load()} method takes care of persisting all the data.
  */
-@Slf4j
 public final class PermissionsLoader {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                  log = LoggerFactory.getLogger(PermissionsLoader.class);
 
     /**
      * Actions repository.

@@ -36,10 +36,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Role permission entity.
@@ -49,10 +45,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "RolePermission")
 @Table(schema = "security", name = "role_permissions")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class RolePermissionEntity implements Serializable {
 
     /**
@@ -80,5 +72,29 @@ public class RolePermissionEntity implements Serializable {
     @JoinColumn(name = "permission", referencedColumnName = "name", insertable = false, updatable = false)
     // @MapsId("permission")
     private ResourcePermissionEntity resourcePermission;
+
+    public Boolean getGranted() {
+        return granted;
+    }
+
+    public RolePermissionId getId() {
+        return id;
+    }
+
+    public ResourcePermissionEntity getResourcePermission() {
+        return resourcePermission;
+    }
+
+    public void setGranted(final Boolean granted) {
+        this.granted = granted;
+    }
+
+    public void setId(final RolePermissionId id) {
+        this.id = id;
+    }
+
+    public void setResourcePermission(final ResourcePermissionEntity resourcePermission) {
+        this.resourcePermission = resourcePermission;
+    }
 
 }

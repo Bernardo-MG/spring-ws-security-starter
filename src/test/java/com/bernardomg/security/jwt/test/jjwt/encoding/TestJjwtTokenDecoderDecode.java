@@ -42,8 +42,7 @@ class TestJjwtTokenDecoderDecode {
         // THEN
         Assertions.assertThat(audience)
             .as("audience")
-            .usingRecursiveComparison()
-            .isEqualTo(List.of(Tokens.AUDIENCE));
+            .containsExactly(Tokens.AUDIENCE);
     }
 
     @Test
@@ -155,8 +154,7 @@ class TestJjwtTokenDecoderDecode {
         // THEN
         Assertions.assertThat(permissions)
             .as("permissions")
-            .usingRecursiveComparison()
-            .isEqualTo(Map.of(PermissionConstants.DATA, List.of(PermissionConstants.READ)));
+            .containsExactlyEntriesOf(Map.of(PermissionConstants.DATA, List.of(PermissionConstants.READ)));
     }
 
     @Test

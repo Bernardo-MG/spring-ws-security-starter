@@ -3,17 +3,22 @@ package com.bernardomg.security.user.token.usecase.validation;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Checks the user token is not revoked.
  */
-@Slf4j
 public final class UserTokenPatchNotRevokedRule implements FieldRule<UserToken> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(UserTokenPatchNotRevokedRule.class);
 
     public UserTokenPatchNotRevokedRule() {
         super();

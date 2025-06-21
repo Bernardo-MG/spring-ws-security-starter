@@ -8,19 +8,11 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 public final class Accounts {
 
     public static final Account nameChange() {
-        return BasicAccount.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.ALTERNATIVE_NAME)
-            .withEmail(UserConstants.EMAIL)
-            .build();
+        return new BasicAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.ALTERNATIVE_NAME);
     }
 
     public static final Account valid() {
-        return BasicAccount.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withEmail(UserConstants.EMAIL)
-            .build();
+        return new BasicAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME);
     }
 
 }

@@ -17,10 +17,10 @@ public final class CorsConfigurationPropertiesSource implements CorsConfiguratio
         // FIXME: remove dependency to properties object
 
         configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(corsProperties.getAllowedOrigins());
-        configuration.setAllowedMethods(corsProperties.getAllowedMethods());
-        configuration.setAllowedHeaders(corsProperties.getAllowedHeaders());
-        configuration.setExposedHeaders(corsProperties.getExposedHeaders());
+        configuration.setAllowedOrigins(corsProperties.allowedOrigins());
+        configuration.setAllowedMethods(corsProperties.allowedMethods());
+        configuration.setAllowedHeaders(corsProperties.allowedHeaders());
+        configuration.setExposedHeaders(corsProperties.exposedHeaders());
 
         wrapped = new UrlBasedCorsConfigurationSource();
         wrapped.registerCorsConfiguration("/**", configuration);

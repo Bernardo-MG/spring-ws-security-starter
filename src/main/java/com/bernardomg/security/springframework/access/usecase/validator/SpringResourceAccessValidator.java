@@ -27,12 +27,12 @@ package com.bernardomg.security.springframework.access.usecase.validator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.springframework.domain.model.ResourceActionGrantedAuthority;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Validates permissions over a resource with the help of Spring. Permissions are checked through the user authorities,
@@ -43,8 +43,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class SpringResourceAccessValidator implements ResourceAccessValidator {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(SpringResourceAccessValidator.class);
 
     public SpringResourceAccessValidator() {
         super();
@@ -100,9 +104,9 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
      */
     private final boolean matches(final ResourceActionGrantedAuthority authority, final String resource,
             final String action) {
-        return authority.getResource()
+        return authority.resource()
             .equals(resource)
-                && authority.getAction()
+                && authority.action()
                     .equals(action);
     }
 

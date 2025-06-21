@@ -105,8 +105,7 @@ public final class JpaUserRepository implements UserRepository {
             result = toDomain(updated);
         } else {
             // TODO: Maybe return an optional
-            result = User.builder()
-                .build();
+            result = new User(null, null, null, false, false, false, false, null);
         }
 
         return result;
@@ -217,8 +216,7 @@ public final class JpaUserRepository implements UserRepository {
             result = toDomain(updated);
         } else {
             // TODO: Maybe return an optional
-            result = User.builder()
-                .build();
+            result = new User(null, null, null, false, false, false, false, null);
         }
 
         return result;
@@ -262,8 +260,7 @@ public final class JpaUserRepository implements UserRepository {
             result = toDomain(updated);
         } else {
             // TODO: Maybe return an optional
-            result = User.builder()
-                .build();
+            result = new User(null, null, null, false, false, false, false, null);
         }
 
         return result;
@@ -320,16 +317,8 @@ public final class JpaUserRepository implements UserRepository {
             .map(this::toDomain)
             .sorted(new RoleComparator())
             .toList();
-        return User.builder()
-            .withUsername(user.getUsername())
-            .withName(user.getName())
-            .withEmail(user.getEmail())
-            .withEnabled(user.getEnabled())
-            .withNotExpired(user.getNotExpired())
-            .withNotLocked(user.getNotLocked())
-            .withPasswordNotExpired(user.getPasswordNotExpired())
-            .withRoles(roles)
-            .build();
+        return new User(user.getEmail(), user.getUsername(), user.getName(), user.getEnabled(), user.getNotExpired(),
+            user.getNotLocked(), user.getPasswordNotExpired(), roles);
     }
 
     private final RoleEntity toEntity(final Role role) {
@@ -342,35 +331,41 @@ public final class JpaUserRepository implements UserRepository {
 
     private final UserEntity toEntity(final User user) {
         final Collection<RoleEntity> roles;
+        final UserEntity             entity;
 
         roles = user.roles()
             .stream()
             .map(this::toEntity)
             .filter(Objects::nonNull)
             .collect(Collectors.toCollection(ArrayList::new));
-        return UserEntity.builder()
-            .withUsername(user.username())
-            .withName(user.name())
-            .withEmail(user.email())
-            .withEnabled(user.enabled())
-            .withNotExpired(user.notExpired())
-            .withNotLocked(user.notLocked())
-            .withPasswordNotExpired(user.passwordNotExpired())
-            .withRoles(roles)
-            .withLoginAttempts(0)
-            .build();
+
+        entity = new UserEntity();
+        entity.setUsername(user.username());
+        entity.setName(user.name());
+        entity.setEmail(user.email());
+        entity.setEnabled(user.enabled());
+        entity.setNotExpired(user.notExpired());
+        entity.setNotLocked(user.notLocked());
+        entity.setPasswordNotExpired(user.passwordNotExpired());
+        entity.setRoles(roles);
+        entity.setLoginAttempts(0);
+
+        return entity;
     }
 
     private final UserEntity toEntity(final UserQuery user) {
-        return UserEntity.builder()
-            .withUsername(user.username())
-            .withName(user.name())
-            .withEmail(user.email())
-            .withEnabled(user.enabled())
-            .withNotExpired(user.notExpired())
-            .withNotLocked(user.notLocked())
-            .withPasswordNotExpired(user.passwordNotExpired())
-            .build();
+        final UserEntity entity;
+
+        entity = new UserEntity();
+        entity.setUsername(user.username());
+        entity.setName(user.name());
+        entity.setEmail(user.email());
+        entity.setEnabled(user.enabled());
+        entity.setNotExpired(user.notExpired());
+        entity.setNotLocked(user.notLocked());
+        entity.setPasswordNotExpired(user.passwordNotExpired());
+
+        return entity;
     }
 
 }

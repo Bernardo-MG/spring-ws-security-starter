@@ -27,6 +27,8 @@ package com.bernardomg.security.password.change.usecase.service;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,17 +45,19 @@ import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.validation.domain.exception.FieldFailureException;
 import com.bernardomg.validation.domain.model.FieldFailure;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Password change service based on Spring security.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class SpringSecurityPasswordChangeService implements PasswordChangeService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger      log = LoggerFactory.getLogger(SpringSecurityPasswordChangeService.class);
 
     /**
      * Password encoder, for validating passwords.

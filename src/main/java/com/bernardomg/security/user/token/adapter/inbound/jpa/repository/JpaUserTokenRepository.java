@@ -31,6 +31,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,16 +46,18 @@ import com.bernardomg.security.user.token.adapter.inbound.jpa.model.UserTokenEnt
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * User token repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Transactional
 public final class JpaUserTokenRepository implements UserTokenRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                 log = LoggerFactory.getLogger(JpaUserTokenRepository.class);
 
     /**
      * User data token repository. This queries a view joining user tokens with their users.
@@ -196,58 +200,48 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     private final UserToken toDomain(final UserDataTokenEntity data) {
-        return UserToken.builder()
-            .withUsername(data.getUsername())
-            .withName(data.getName())
-            .withScope(data.getScope())
-            .withToken(data.getToken())
-            .withCreationDate(data.getCreationDate())
-            .withExpirationDate(data.getExpirationDate())
-            .withConsumed(data.isConsumed())
-            .withRevoked(data.isRevoked())
-            .build();
+        return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
+            data.getCreationDate(), data.getExpirationDate(), data.isConsumed(), data.isRevoked());
     }
 
     private final UserToken toDomain(final UserDataTokenEntity data, final UserTokenEntity created) {
-        return UserToken.builder()
-            .withUsername(data.getUsername())
-            .withName(data.getName())
-            .withScope(data.getScope())
-            .withToken(data.getToken())
-            .withCreationDate(data.getCreationDate())
-            .withExpirationDate(created.getExpirationDate())
-            .withConsumed(data.isConsumed())
-            .withRevoked(created.isRevoked())
-            .build();
+        return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
+            data.getCreationDate(), created.getExpirationDate(), data.isConsumed(), created.isRevoked());
     }
 
     private final UserTokenEntity toSimpleEntity(final UserToken dataToken) {
-        return UserTokenEntity.builder()
-            .withToken(dataToken.token())
-            .withScope(dataToken.scope())
-            .withCreationDate(dataToken.creationDate())
-            .withExpirationDate(dataToken.expirationDate())
-            .withConsumed(dataToken.consumed())
-            .withRevoked(dataToken.revoked())
-            .build();
+        final UserTokenEntity entity;
+
+        entity = new UserTokenEntity();
+        entity.setToken(dataToken.token());
+        entity.setScope(dataToken.scope());
+        entity.setCreationDate(dataToken.creationDate());
+        entity.setExpirationDate(dataToken.expirationDate());
+        entity.setConsumed(dataToken.consumed());
+        entity.setRevoked(dataToken.revoked());
+
+        return entity;
     }
 
     private final UserTokenEntity toSimpleEntityLoadUsername(final UserToken dataToken) {
         final Optional<UserEntity> user;
         final Long                 userId;
+        final UserTokenEntity      entity;
 
         user = userSpringRepository.findByUsername(dataToken.username());
         userId = user.map(UserEntity::getId)
             .orElse(null);
-        return UserTokenEntity.builder()
-            .withUserId(userId)
-            .withToken(dataToken.token())
-            .withScope(dataToken.scope())
-            .withCreationDate(dataToken.creationDate())
-            .withExpirationDate(dataToken.expirationDate())
-            .withConsumed(dataToken.consumed())
-            .withRevoked(dataToken.revoked())
-            .build();
+
+        entity = new UserTokenEntity();
+        entity.setUserId(userId);
+        entity.setToken(dataToken.token());
+        entity.setScope(dataToken.scope());
+        entity.setCreationDate(dataToken.creationDate());
+        entity.setExpirationDate(dataToken.expirationDate());
+        entity.setConsumed(dataToken.consumed());
+        entity.setRevoked(dataToken.revoked());
+
+        return entity;
     }
 
 }

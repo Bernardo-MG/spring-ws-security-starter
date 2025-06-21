@@ -24,21 +24,25 @@
 
 package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Captures and hides password reset exceptions.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @RestControllerAdvice(basePackageClasses = PasswordResetExceptionHandler.class)
 public class PasswordResetExceptionHandler {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(PasswordResetExceptionHandler.class);
 
     /**
      * Default constructor.

@@ -27,10 +27,6 @@ package com.bernardomg.security.password.change.adapter.outbound.rest.model;
 import com.bernardomg.validation.constraint.StrongPassword;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Data required for changing a password.
@@ -38,23 +34,6 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class PasswordChange {
-
-    /**
-     * The new password.
-     */
-    @NotEmpty
-    @StrongPassword
-    private String newPassword;
-
-    /**
-     * The previous password.
-     */
-    @NotEmpty
-    private String oldPassword;
+public final record PasswordChange(@NotEmpty @StrongPassword String newPassword, @NotEmpty String oldPassword) {
 
 }

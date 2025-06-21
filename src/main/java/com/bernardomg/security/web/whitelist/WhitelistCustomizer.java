@@ -30,6 +30,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -37,14 +39,16 @@ import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Whitelist customizer. Registers a list of {@code WhitelistRoute} as request mappers.
  */
-@Slf4j
 public final class WhitelistCustomizer implements
         Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger              log = LoggerFactory.getLogger(WhitelistCustomizer.class);
 
     private final HandlerMappingIntrospector handlerMappingIntrospector;
 

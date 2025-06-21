@@ -29,8 +29,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import lombok.Builder;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Immutable implementation of the JWT token data.
@@ -38,10 +38,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Builder(setterPrefix = "with")
-@Slf4j
 public record JwtTokenData(String id, String subject, String issuer, LocalDateTime issuedAt, LocalDateTime notBefore,
         LocalDateTime expiration, Collection<String> audience, Map<String, List<String>> permissions) {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(JwtTokenData.class);
 
     public final boolean isExpired() {
         final LocalDateTime current;

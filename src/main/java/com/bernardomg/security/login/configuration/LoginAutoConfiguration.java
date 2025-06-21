@@ -98,7 +98,7 @@ public class LoginAutoConfiguration {
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userPermissionRepository,
-            jwtProperties.getValidity());
+            jwtProperties.validity());
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, publisher);
     }

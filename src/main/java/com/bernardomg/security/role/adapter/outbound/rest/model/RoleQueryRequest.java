@@ -24,20 +24,9 @@
 
 package com.bernardomg.security.role.adapter.outbound.rest.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class RoleQueryRequest {
-
-    /**
-     * Role name.
-     */
-    private String name;
+@Validated
+public final record RoleQueryRequest(String name) {
 
 }
