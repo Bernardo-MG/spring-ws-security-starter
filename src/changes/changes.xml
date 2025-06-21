@@ -287,7 +287,13 @@
             Cleaned up permission initializer.
          </action>
       </release>
-      <release version="1.0.0" date="2025-02-27" description="">
+      <release version="0.4.13" date="2025-06-21" description="Updated dependencies">
+         <action dev="bmg" type="update">
+            Updated dependencies.
+         </action>
+         <action dev="bmg" type="remove">
+            Removed Lombok.
+         </action>
       </release>
    </body>
 </document>
