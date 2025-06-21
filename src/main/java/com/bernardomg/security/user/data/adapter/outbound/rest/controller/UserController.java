@@ -108,8 +108,8 @@ public class UserController {
             final Sorting sorting) {
         final UserQuery query;
 
-        query = new UserQuery(request.getEmail(), request.getUsername(), request.getName(), request.getEnabled(),
-            request.getNotExpired(), request.getNotLocked(), request.getPasswordNotExpired());
+        query = new UserQuery(request.email(), request.username(), request.name(), request.enabled(),
+            request.notExpired(), request.notLocked(), request.passwordNotExpired());
         return service.getAll(query, pagination, sorting);
     }
 
@@ -142,7 +142,7 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User registerNewUser(@Valid @RequestBody final NewUser request) {
-        return service.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
+        return service.registerNewUser(request.username(), request.name(), request.email());
     }
 
     /**
@@ -162,12 +162,12 @@ public class UserController {
         final User             user;
         final Collection<Role> roles;
 
-        roles = request.getRoles()
+        roles = request.roles()
             .stream()
             .map(r -> new Role(r, List.of()))
             .toList();
-        user = new User(request.getEmail(), username, request.getName(), request.getEnabled(),
-            request.getPasswordNotExpired(), false, false, roles);
+        user = new User(request.email(), username, request.name(), request.enabled(), request.passwordNotExpired(),
+            false, false, roles);
 
         return service.update(user);
     }

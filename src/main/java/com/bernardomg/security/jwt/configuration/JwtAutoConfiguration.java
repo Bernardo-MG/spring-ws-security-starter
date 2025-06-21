@@ -81,7 +81,7 @@ public class JwtAutoConfiguration {
         final SecretKey key;
 
         // TODO: Shouldn't the key be unique?
-        key = Keys.hmacShaKeyFor(properties.getSecret()
+        key = Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));
         return new JjwtTokenDecoder(key);
     }
@@ -99,10 +99,10 @@ public class JwtAutoConfiguration {
         final SecretKey key;
 
         // TODO: Shouldn't the key be unique?
-        key = Keys.hmacShaKeyFor(properties.getSecret()
+        key = Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));
 
-        log.info("Security tokens will have a validity of {}", properties.getValidity());
+        log.info("Security tokens will have a validity of {}", properties.validity());
 
         return new JjwtTokenEncoder(key);
     }
@@ -120,7 +120,7 @@ public class JwtAutoConfiguration {
         final SecretKey key;
 
         // TODO: Shouldn't the key be unique?
-        key = Keys.hmacShaKeyFor(properties.getSecret()
+        key = Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));
 
         return new JjwtTokenValidator(key);

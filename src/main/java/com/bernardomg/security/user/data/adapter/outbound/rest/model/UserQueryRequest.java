@@ -24,10 +24,9 @@
 
 package com.bernardomg.security.user.data.adapter.outbound.rest.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Collection;
+
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Data for querying users.
@@ -35,45 +34,8 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class UserQueryRequest {
-
-    /**
-     * User email.
-     */
-    private String  email;
-
-    /**
-     * User enabled flag.
-     */
-    private Boolean enabled;
-
-    /**
-     * User name.
-     */
-    private String  name;
-
-    /**
-     * User expired flag.
-     */
-    private Boolean notExpired;
-
-    /**
-     * User not locked flag.
-     */
-    private Boolean notLocked;
-
-    /**
-     * Password not expired flag.
-     */
-    private Boolean passwordNotExpired;
-
-    /**
-     * User username.
-     */
-    private String  username;
+@Validated
+public final record UserQueryRequest(String email, String username, String name, Boolean enabled, Boolean notLocked,
+        Boolean notExpired, Boolean passwordNotExpired, Collection<String> roles) {
 
 }

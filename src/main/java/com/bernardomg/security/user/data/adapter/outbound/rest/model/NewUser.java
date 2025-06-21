@@ -24,12 +24,10 @@
 
 package com.bernardomg.security.user.data.adapter.outbound.rest.model;
 
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Data required for creating a new user.
@@ -37,29 +35,7 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class NewUser {
-
-    /**
-     * User email.
-     */
-    @NotNull
-    @Email
-    private String email;
-
-    /**
-     * User name.
-     */
-    @NotNull
-    private String name;
-
-    /**
-     * User username.
-     */
-    @NotNull
-    private String username;
+@Validated
+public final record NewUser(@NotNull @Email String email, @NotNull String username, @NotNull String name) {
 
 }

@@ -103,12 +103,12 @@ public class PasswordAutoConfiguration {
     public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
-        log.debug("Using email {} for password notifications", properties.getFrom());
-        log.debug("Password recovery URL: {}", properties.getPasswordRecovery()
-            .getUrl());
-        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.getFrom(),
-            properties.getPasswordRecovery()
-                .getUrl());
+        log.debug("Using email {} for password notifications", properties.from());
+        log.debug("Password recovery URL: {}", properties.passwordRecovery()
+            .url());
+        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.from(),
+            properties.passwordRecovery()
+                .url());
     }
 
     @Bean("passwordRecoveryService")
@@ -119,7 +119,7 @@ public class PasswordAutoConfiguration {
         final UserTokenStore tokenStore;
 
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
-            tokenProperties.getValidity());
+            tokenProperties.validity());
 
         return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore);
     }

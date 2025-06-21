@@ -26,20 +26,20 @@ package com.bernardomg.security.user.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import lombok.Data;
-
-@Data
 @ConfigurationProperties(prefix = "email.security")
-public final class UserNotificatorProperties {
+public final record UserNotificatorProperties(String from, ActivateUserProperties activateUser) {
 
-    @Data
-    public final class ActivateUserProperties {
-
-        private String url;
+    public UserNotificatorProperties(final String from, final ActivateUserProperties activateUser) {
+        this.from = from;
+        if (activateUser == null) {
+            this.activateUser = new ActivateUserProperties("");
+        } else {
+            this.activateUser = activateUser;
+        }
     }
 
-    private ActivateUserProperties activateUser = new ActivateUserProperties();
+    public final record ActivateUserProperties(String url) {
 
-    private String                 from;
+    }
 
 }

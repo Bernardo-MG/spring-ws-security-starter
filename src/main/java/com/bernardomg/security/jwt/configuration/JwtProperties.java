@@ -30,8 +30,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 
 /**
  * JWT configuration properties.
@@ -40,20 +38,16 @@ import lombok.Data;
  *
  */
 @Validated
-@Data
 @ConfigurationProperties(prefix = "security.jwt")
-public final class JwtProperties {
+public final record JwtProperties(@NotEmpty String secret, Duration validity) {
 
-    /**
-     * Secret seed for generating JWT tokens.
-     */
-    @NotEmpty
-    private String   secret;
-
-    /**
-     * Validity length, in seconds, for JWT tokens.
-     */
-    @NotNull
-    private Duration validity = Duration.ofHours(1);
+    public JwtProperties(final String secret, final Duration validity) {
+        this.secret = secret;
+        if (validity == null) {
+            this.validity = Duration.ofHours(1);
+        } else {
+            this.validity = validity;
+        }
+    }
 
 }

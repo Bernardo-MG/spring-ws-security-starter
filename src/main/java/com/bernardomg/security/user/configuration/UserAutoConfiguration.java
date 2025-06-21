@@ -118,7 +118,7 @@ public class UserAutoConfiguration {
     @Bean("userLoginAttempsService")
     public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
             final LoginProperties userAccessProperties) {
-        return new DefaultUserLoginAttempsService(userAccessProperties.getMaxLoginAttempts(), userRepo);
+        return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepo);
     }
 
     @Bean("userNotificator")
@@ -127,11 +127,11 @@ public class UserAutoConfiguration {
     public UserNotificator getUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSender,
             final UserNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
-        log.debug("Using email {} for user notifications", properties.getFrom());
-        log.debug("Activate user URL: {}", properties.getActivateUser()
-            .getUrl());
-        return new SpringMailUserNotificator(templateEng, mailSender, properties.getFrom(), properties.getActivateUser()
-            .getUrl());
+        log.debug("Using email {} for user notifications", properties.from());
+        log.debug("Activate user URL: {}", properties.activateUser()
+            .url());
+        return new SpringMailUserNotificator(templateEng, mailSender, properties.from(), properties.activateUser()
+            .url());
     }
 
     @Bean("userRepository")
@@ -155,7 +155,7 @@ public class UserAutoConfiguration {
     public UserTokenStore getUserTokenStore(final UserRepository userSpringRepo, final UserNotificator mSender,
             final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
         return new ScopedUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
-            tokenProperties.getValidity());
+            tokenProperties.validity());
     }
 
     @Bean("userPermissionRegister")
