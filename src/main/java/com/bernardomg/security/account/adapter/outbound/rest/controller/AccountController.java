@@ -80,7 +80,7 @@ public class AccountController {
     public Account updateForCurrentUser(@Valid @RequestBody final AccountChange request) {
         final Account account;
 
-        account = BasicAccount.of(request.getName());
+        account = BasicAccount.of(request.name());
 
         return service.update(account);
     }

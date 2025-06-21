@@ -75,7 +75,7 @@ public class UserTokenController {
     public UserToken patch(@PathVariable("token") final String tokenCode, @RequestBody final UserTokenPartial request) {
         final UserToken token;
 
-        token = new UserToken("", "", "", tokenCode, null, request.getExpirationDate(), null, request.getRevoked());
+        token = new UserToken("", "", "", tokenCode, null, request.expirationDate(), null, request.revoked());
         return service.patch(token);
     }
 

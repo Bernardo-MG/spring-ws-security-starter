@@ -26,10 +26,6 @@ package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Data required for starting the password reset.
@@ -37,17 +33,6 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class PasswordReset {
-
-    /**
-     * User email.
-     */
-    @NotEmpty
-    @Email
-    private String email;
+public final record PasswordReset(@NotEmpty @Email String email) {
 
 }

@@ -66,7 +66,7 @@ public class PasswordChangeController {
     @Unsecured
     public void changePassword(@Valid @RequestBody final PasswordChange request) {
         // TODO: return if it was successful
-        service.changePasswordForUserInSession(request.getOldPassword(), request.getNewPassword());
+        service.changePasswordForUserInSession(request.oldPassword(), request.newPassword());
     }
 
 }

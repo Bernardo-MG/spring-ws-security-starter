@@ -79,7 +79,7 @@ public class PasswordResetController {
     @Unsecured
     public void changePassword(@PathVariable("token") final String token,
             @RequestBody final PasswordResetChange request) {
-        service.changePassword(token, request.getPassword());
+        service.changePassword(token, request.password());
     }
 
     /**
@@ -92,7 +92,7 @@ public class PasswordResetController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     public void startPasswordReset(@Valid @RequestBody final PasswordReset request) {
-        service.startPasswordReset(request.getEmail());
+        service.startPasswordReset(request.email());
     }
 
     /**
