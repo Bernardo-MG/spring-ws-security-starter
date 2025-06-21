@@ -29,22 +29,26 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionEntity;
 import com.bernardomg.security.permission.data.domain.model.Action;
 import com.bernardomg.security.permission.data.domain.repository.ActionRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Action repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Transactional
 public final class JpaActionRepository implements ActionRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger          log = LoggerFactory.getLogger(JpaActionRepository.class);
 
     /**
      * Action repository.
@@ -96,9 +100,12 @@ public final class JpaActionRepository implements ActionRepository {
     }
 
     private final ActionEntity toEntity(final Action action) {
-        return ActionEntity.builder()
-            .withName(action.name())
-            .build();
+        final ActionEntity entity;
+
+        entity = new ActionEntity();
+        entity.setName(action.name());
+
+        return entity;
     }
 
 }

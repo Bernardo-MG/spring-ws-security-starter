@@ -26,11 +26,6 @@ package com.bernardomg.security.user.token.adapter.outbound.rest.model;
 
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * Partial user token. All the fields are expected to be nullable, as this allows knowing which one will actually
  * change.
@@ -38,20 +33,6 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class UserTokenPartial {
-
-    /**
-     * The date at which the token will expire.
-     */
-    private LocalDateTime expirationDate;
-
-    /**
-     * Indicates if the token is revoked.
-     */
-    private Boolean       revoked;
+public final record UserTokenPartial(LocalDateTime expirationDate, Boolean revoked) {
 
 }

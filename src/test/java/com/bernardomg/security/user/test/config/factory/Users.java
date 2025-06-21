@@ -11,16 +11,8 @@ import com.bernardomg.security.user.data.domain.model.User;
 public final class Users {
 
     public static final User additionalRole() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission(), Roles.alternative()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of(Roles.withSinglePermission(), Roles.alternative()));
     }
 
     public static final User addRole() {
@@ -29,185 +21,73 @@ public final class Users {
 
         role1 = new Role(RoleConstants.NAME, List.of());
         role2 = new Role(RoleConstants.ALTERNATIVE_NAME, List.of());
-        return User.builder()
-            .withRoles(List.of(role1, role2))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of(role1, role2));
     }
 
     public static final User disabled() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(false)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, true,
+            List.of(Roles.withSinglePermission()));
     }
 
     public static final User duplicatedRole() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission(), Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of(Roles.withSinglePermission(), Roles.withSinglePermission()));
     }
 
     public static final User emailChange() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.ALTERNATIVE_EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.ALTERNATIVE_EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true,
+            true, List.of(Roles.withSinglePermission()));
     }
 
     public static final User enabled() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of(Roles.withSinglePermission()));
     }
 
     public static final User expired() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(false)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, false, true, true,
+            List.of(Roles.withSinglePermission()));
     }
 
     public static final User locked() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(false)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, false, true,
+            List.of(Roles.withSinglePermission()));
     }
 
     public static final User newlyCreated() {
-        return User.builder()
-            .withRoles(List.of())
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(false)
-            .withNotExpired(true)
-            .withPasswordNotExpired(false)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, false,
+            List.of());
     }
 
     public static final User newlyCreatedWithRole() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(false)
-            .withNotExpired(true)
-            .withPasswordNotExpired(false)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, false,
+            List.of(Roles.withSinglePermission()));
     }
 
     public static final User noRoles() {
-        return User.builder()
-            .withRoles(List.of())
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of());
     }
 
     public static final User passwordExpired() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(false)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, false,
+            List.of(Roles.withSinglePermission()));
     }
 
     public static final User passwordExpiredAndDisabled() {
-        return User.builder()
-            .withRoles(List.of(Roles.withSinglePermission()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(false)
-            .withNotExpired(true)
-            .withPasswordNotExpired(false)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, false,
+            List.of(Roles.withSinglePermission()));
     }
 
     public static final User withoutPermissions() {
-        return User.builder()
-            .withRoles(List.of(Roles.withoutPermissions()))
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of(Roles.withoutPermissions()));
     }
 
     public static final User withoutRoles() {
-        return User.builder()
-            .withRoles(List.of())
-            .withName(UserConstants.NAME)
-            .withUsername(UserConstants.USERNAME)
-            .withEmail(UserConstants.EMAIL)
-            .withEnabled(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withNotLocked(true)
-            .build();
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of());
     }
 
 }

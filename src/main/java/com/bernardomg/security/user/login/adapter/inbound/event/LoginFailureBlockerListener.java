@@ -26,20 +26,24 @@ package com.bernardomg.security.user.login.adapter.inbound.event;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 
 import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Listens for login failure events, and blocks the user after a number of failures.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 public final class LoginFailureBlockerListener implements ApplicationListener<LogInEvent> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger           log = LoggerFactory.getLogger(LoginFailureBlockerListener.class);
 
     private final UserLoginAttempsService userLoginAttempsService;
 

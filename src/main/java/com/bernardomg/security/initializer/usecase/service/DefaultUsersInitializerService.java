@@ -27,6 +27,8 @@ package com.bernardomg.security.initializer.usecase.service;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.role.domain.model.Role;
@@ -34,17 +36,19 @@ import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Creates initial test users on app start. These are meant to help local development.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class DefaultUsersInitializerService implements UsersInitializerService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger  log = LoggerFactory.getLogger(DefaultUsersInitializerService.class);
 
     private final RoleRepository roleRepository;
 
@@ -73,16 +77,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
         role = roleRepository.findOne("READ")
             .get();
 
-        return User.builder()
-            .withUsername("read")
-            .withName("read")
-            .withEmail("email2@nowhere.com")
-            .withEnabled(true)
-            .withNotLocked(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withRoles(List.of(role))
-            .build();
+        return new User("email2@nowhere.com", "read", "read", true, true, true, true, List.of(role));
     }
 
     private final User getRootUser() {
@@ -91,16 +86,7 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
         role = roleRepository.findOne("ADMIN")
             .get();
 
-        return User.builder()
-            .withUsername("root")
-            .withName("root")
-            .withEmail("email1@nowhere.com")
-            .withEnabled(true)
-            .withNotLocked(true)
-            .withNotExpired(true)
-            .withPasswordNotExpired(true)
-            .withRoles(List.of(role))
-            .build();
+        return new User("email1@nowhere.com", "root", "root", true, true, true, true, List.of(role));
     }
 
     private final void initializeReadUser() {

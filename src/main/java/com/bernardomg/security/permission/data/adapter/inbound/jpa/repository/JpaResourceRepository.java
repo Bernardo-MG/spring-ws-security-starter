@@ -29,22 +29,26 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourceEntity;
 import com.bernardomg.security.permission.data.domain.model.Resource;
 import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Resource repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Transactional
 public final class JpaResourceRepository implements ResourceRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger            log = LoggerFactory.getLogger(JpaResourceRepository.class);
 
     /**
      * Resource repository.
@@ -95,10 +99,13 @@ public final class JpaResourceRepository implements ResourceRepository {
         return new Resource(entity.getName());
     }
 
-    private final ResourceEntity toEntity(final Resource entity) {
-        return ResourceEntity.builder()
-            .withName(entity.name())
-            .build();
+    private final ResourceEntity toEntity(final Resource resource) {
+        final ResourceEntity entity;
+
+        entity = new ResourceEntity();
+        entity.setName(resource.name());
+
+        return entity;
     }
 
 }

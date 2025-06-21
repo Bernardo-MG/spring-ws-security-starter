@@ -28,16 +28,9 @@ import java.util.Objects;
 
 import org.springframework.context.ApplicationEvent;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-
 /**
  * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-@ToString
-@EqualsAndHashCode(callSuper = true)
-@Getter
 public final class LogInEvent extends ApplicationEvent {
 
     private static final long serialVersionUID = 4486597593510214141L;
@@ -57,6 +50,32 @@ public final class LogInEvent extends ApplicationEvent {
 
         username = Objects.requireNonNull(user);
         loggedIn = logged;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof final LogInEvent that) || !super.equals(o)) {
+            return false;
+        }
+
+        return (loggedIn == that.loggedIn) && Objects.equals(username, that.username)
+                && Objects.equals(getSource(), that.getSource());
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), username, loggedIn);
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
     }
 
 }

@@ -27,9 +27,6 @@ package com.bernardomg.security.user.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
 /**
  * Login configuration properties.
  *
@@ -37,14 +34,15 @@ import lombok.Data;
  *
  */
 @Validated
-@Data
 @ConfigurationProperties(prefix = "security.login")
-public final class LoginProperties {
+public final record LoginProperties(Integer maxLoginAttempts) {
 
-    /**
-     * Max number of login attempts. Reaching this number locks the user.
-     */
-    @NotNull
-    private int maxLoginAttempts = 3;
+    public LoginProperties(final Integer maxLoginAttempts) {
+        if (maxLoginAttempts == null) {
+            this.maxLoginAttempts = 3;
+        } else {
+            this.maxLoginAttempts = maxLoginAttempts;
+        }
+    }
 
 }

@@ -26,12 +26,12 @@ package com.bernardomg.security.user.token.adapter.inbound.schedule;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.bernardomg.security.user.token.usecase.service.UserTokenService;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Token clean up scheduled task. It delegates the actual clean up to {@link UserTokenService}.
@@ -41,8 +41,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public class TokenCleanUpScheduleTask {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger    log = LoggerFactory.getLogger(TokenCleanUpScheduleTask.class);
 
     /**
      * Token clean up service.

@@ -38,7 +38,6 @@ import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.usecase.service.AccountService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Handles account requests. All the logic is delegated to a {@link AccountService}.
@@ -48,13 +47,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/account")
-@AllArgsConstructor
 public class AccountController {
 
     /**
      * Account service.
      */
     private final AccountService service;
+
+    public AccountController(final AccountService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Attempts to acquire the current user account. If the user is not authenticated, then it returns null.
@@ -80,7 +84,7 @@ public class AccountController {
     public Account updateForCurrentUser(@Valid @RequestBody final AccountChange request) {
         final Account account;
 
-        account = BasicAccount.of(request.getName());
+        account = BasicAccount.of(request.name());
 
         return service.update(account);
     }

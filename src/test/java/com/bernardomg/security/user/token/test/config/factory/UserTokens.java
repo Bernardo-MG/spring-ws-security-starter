@@ -8,121 +8,54 @@ import com.bernardomg.security.user.token.domain.model.UserToken;
 public final class UserTokens {
 
     public static final UserToken alternative() {
-        return UserToken.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.ALTERNATIVE_TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        return new UserToken(UserConstants.USERNAME, UserConstants.NAME, Tokens.SCOPE, Tokens.ALTERNATIVE_TOKEN,
+            UserTokenConstants.DATE, UserTokenConstants.DATE_FUTURE, false, false);
     }
 
     public static final UserToken changeNothing() {
-        return UserToken.builder()
-            .withToken(Tokens.TOKEN)
-            .build();
+        return new UserToken(null, null, null, Tokens.TOKEN, null, null, null, null);
     }
 
     public static final UserToken consumed() {
-        return UserToken.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(true)
-            .withRevoked(false)
-            .build();
+        return new UserToken(UserConstants.USERNAME, UserConstants.NAME, Tokens.SCOPE, Tokens.TOKEN,
+            UserTokenConstants.DATE, UserTokenConstants.DATE_FUTURE, true, false);
     }
 
     public static final UserToken expirationDateFuture() {
-        return UserToken.builder()
-            .withToken(Tokens.TOKEN)
-            .withExpirationDate(UserTokenConstants.DATE_MORE_FUTURE)
-            .build();
+        return new UserToken(null, null, null, Tokens.TOKEN, null, UserTokenConstants.DATE_MORE_FUTURE, null, null);
     }
 
     public static final UserToken expirationDateYesterday() {
-        return UserToken.builder()
-            .withToken(Tokens.TOKEN)
-            .withExpirationDate(UserTokenConstants.DATE_YESTERDAY)
-            .build();
+        return new UserToken(null, null, null, Tokens.TOKEN, null, UserTokenConstants.DATE_YESTERDAY, null, null);
     }
 
     public static final UserToken expired() {
-        return UserToken.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_PAST)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        return new UserToken(UserConstants.USERNAME, UserConstants.NAME, Tokens.SCOPE, Tokens.TOKEN,
+            UserTokenConstants.DATE, UserTokenConstants.DATE_PAST, false, false);
     }
 
     public static final UserToken future() {
-        return UserToken.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_MORE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        return new UserToken(UserConstants.USERNAME, UserConstants.NAME, Tokens.SCOPE, Tokens.TOKEN,
+            UserTokenConstants.DATE, UserTokenConstants.DATE_MORE_FUTURE, false, false);
     }
 
     public static final UserToken notRevoked() {
-        return UserToken.builder()
-            .withToken(Tokens.TOKEN)
-            .withRevoked(false)
-            .build();
+        return new UserToken(null, null, null, Tokens.TOKEN, null, null, false, false);
     }
 
     public static final UserToken outOfScope() {
-        return UserToken.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withScope(Tokens.ALTERNATIVE_SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        return new UserToken(UserConstants.USERNAME, UserConstants.NAME, Tokens.ALTERNATIVE_SCOPE, Tokens.TOKEN,
+            UserTokenConstants.DATE, UserTokenConstants.DATE_FUTURE, false, false);
     }
 
     public static final UserToken revoked() {
-        return UserToken.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(true)
-            .build();
+        return new UserToken(UserConstants.USERNAME, UserConstants.NAME, Tokens.SCOPE, Tokens.TOKEN,
+            UserTokenConstants.DATE, UserTokenConstants.DATE_FUTURE, false, true);
     }
 
     public static final UserToken valid() {
-        return UserToken.builder()
-            .withUsername(UserConstants.USERNAME)
-            .withName(UserConstants.NAME)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        return new UserToken(UserConstants.USERNAME, UserConstants.NAME, Tokens.SCOPE, Tokens.TOKEN,
+            UserTokenConstants.DATE, UserTokenConstants.DATE_FUTURE, false, false);
     }
 
     private UserTokens() {

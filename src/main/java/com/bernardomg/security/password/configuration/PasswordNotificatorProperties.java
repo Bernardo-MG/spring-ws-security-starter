@@ -26,29 +26,20 @@ package com.bernardomg.security.password.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import lombok.Data;
-
-@Data
 @ConfigurationProperties(prefix = "email.security")
-public final class PasswordNotificatorProperties {
+public final record PasswordNotificatorProperties(String from, PasswordRecoveryProperties passwordRecovery) {
 
-    @Data
-    public final class PasswordRecoveryProperties {
-
-        /**
-         * Password recovery URL.
-         */
-        private String url;
+    public PasswordNotificatorProperties(final String from, final PasswordRecoveryProperties passwordRecovery) {
+        this.from = from;
+        if (passwordRecovery == null) {
+            this.passwordRecovery = new PasswordRecoveryProperties("");
+        } else {
+            this.passwordRecovery = passwordRecovery;
+        }
     }
 
-    /**
-     * Email from field.
-     */
-    private String                     from;
+    public final record PasswordRecoveryProperties(String url) {
 
-    /**
-     * Password recovery properties.
-     */
-    private PasswordRecoveryProperties passwordRecovery = new PasswordRecoveryProperties();
+    }
 
 }

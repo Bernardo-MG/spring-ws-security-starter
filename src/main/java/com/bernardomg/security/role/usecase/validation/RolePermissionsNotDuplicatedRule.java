@@ -3,18 +3,23 @@ package com.bernardomg.security.role.usecase.validation;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Checks the role's permission are not duplicated.
  */
-@Slf4j
 public final class RolePermissionsNotDuplicatedRule implements FieldRule<Role> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(RolePermissionsNotDuplicatedRule.class);
 
     public RolePermissionsNotDuplicatedRule() {
         super();

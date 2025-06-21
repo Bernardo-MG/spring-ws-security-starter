@@ -29,9 +29,6 @@ import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
 /**
  * Security token configuration properties.
  *
@@ -39,14 +36,15 @@ import lombok.Data;
  *
  */
 @Validated
-@Data
 @ConfigurationProperties(prefix = "security.token")
-public final class UserTokenProperties {
+public final record UserTokenProperties(Duration validity) {
 
-    /**
-     * Validity length, in seconds, for tokens.
-     */
-    @NotNull
-    private Duration validity = Duration.ofHours(1);
+    public UserTokenProperties(final Duration validity) {
+        if (validity == null) {
+            this.validity = Duration.ofHours(1);
+        } else {
+            this.validity = validity;
+        }
+    }
 
 }

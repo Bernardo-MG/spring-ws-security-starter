@@ -33,10 +33,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Resource permission entity.
@@ -46,10 +42,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "ResourcePermission")
 @Table(schema = "security", name = "permissions")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class ResourcePermissionEntity implements Serializable {
 
     /**
@@ -83,5 +75,37 @@ public class ResourcePermissionEntity implements Serializable {
      */
     @Column(name = "resource", nullable = false)
     private String            resource;
+
+    public String getAction() {
+        return action;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getResource() {
+        return resource;
+    }
+
+    public void setAction(final String action) {
+        this.action = action;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setResource(final String resource) {
+        this.resource = resource;
+    }
 
 }

@@ -26,12 +26,10 @@ package com.bernardomg.security.user.data.adapter.outbound.rest.model;
 
 import java.util.Collection;
 
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Data which can be changed for a user.
@@ -39,47 +37,8 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class UserChange {
-
-    /**
-     * User email.
-     */
-    @NotNull
-    @Email
-    private String             email;
-
-    /**
-     * User enabled flag.
-     */
-    @NotNull
-    private Boolean            enabled;
-
-    /**
-     * User name.
-     */
-    @NotNull
-    private String             name;
-
-    /**
-     * Password expired flag.
-     */
-    @NotNull
-    private Boolean            passwordNotExpired;
-
-    /**
-     * User roles.
-     */
-    @NotNull
-    private Collection<String> roles;
-
-    /**
-     * User username.
-     */
-    @NotNull
-    private String             username;
+@Validated
+public final record UserChange(@NotNull @Email String email, @NotNull String username, @NotNull String name,
+        @NotNull Boolean enabled, @NotNull Boolean passwordNotExpired, @NotNull Collection<String> roles) {
 
 }

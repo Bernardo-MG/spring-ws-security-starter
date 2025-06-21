@@ -26,6 +26,8 @@ package com.bernardomg.security.login.adapter.inbound.event;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.ApplicationListener;
@@ -34,15 +36,17 @@ import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.login.adapter.outbound.cache.Logins;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Listens for login events and registers them.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 public final class LoginEventRegisterListener implements ApplicationListener<LogInEvent> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(LoginEventRegisterListener.class);
 
     private final LoginRegisterService loginRegisterService;
 

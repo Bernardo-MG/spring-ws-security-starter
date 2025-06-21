@@ -33,10 +33,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Action entity.
@@ -46,10 +42,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "Action")
 @Table(schema = "security", name = "actions")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class ActionEntity implements Serializable {
 
     /**
@@ -71,5 +63,21 @@ public class ActionEntity implements Serializable {
      */
     @Column(name = "name", nullable = false, unique = true, length = 60)
     private String            name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
 
 }

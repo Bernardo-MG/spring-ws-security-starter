@@ -26,6 +26,8 @@ package com.bernardomg.security.role.usecase.service;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Pagination;
@@ -34,8 +36,6 @@ import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Default role permissions service.
@@ -51,9 +51,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class DefaultRolePermissionService implements RolePermissionService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger            log = LoggerFactory.getLogger(DefaultRolePermissionService.class);
 
     /**
      * Role permissions repository. Used to modify permissions for the roles.

@@ -58,7 +58,6 @@ import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.usecase.service.UserService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * User REST controller.
@@ -68,13 +67,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/user")
-@AllArgsConstructor
 public class UserController {
 
     /**
      * Service which handles user queries.
      */
     private final UserService service;
+
+    public UserController(final UserService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Deletes a user by its id.
@@ -108,15 +112,8 @@ public class UserController {
             final Sorting sorting) {
         final UserQuery query;
 
-        query = UserQuery.builder()
-            .withEmail(request.getEmail())
-            .withEnabled(request.getEnabled())
-            .withNotExpired(request.getNotExpired())
-            .withNotLocked(request.getNotLocked())
-            .withName(request.getName())
-            .withPasswordNotExpired(request.getPasswordNotExpired())
-            .withUsername(request.getUsername())
-            .build();
+        query = new UserQuery(request.email(), request.username(), request.name(), request.enabled(),
+            request.notExpired(), request.notLocked(), request.passwordNotExpired());
         return service.getAll(query, pagination, sorting);
     }
 
@@ -149,7 +146,7 @@ public class UserController {
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public User registerNewUser(@Valid @RequestBody final NewUser request) {
-        return service.registerNewUser(request.getUsername(), request.getName(), request.getEmail());
+        return service.registerNewUser(request.username(), request.name(), request.email());
     }
 
     /**
@@ -169,18 +166,12 @@ public class UserController {
         final User             user;
         final Collection<Role> roles;
 
-        roles = request.getRoles()
+        roles = request.roles()
             .stream()
             .map(r -> new Role(r, List.of()))
             .toList();
-        user = User.builder()
-            .withUsername(request.getUsername())
-            .withName(request.getName())
-            .withEmail(request.getEmail())
-            .withEnabled(request.getEnabled())
-            .withPasswordNotExpired(request.getPasswordNotExpired())
-            .withRoles(roles)
-            .build();
+        user = new User(request.email(), username, request.name(), request.enabled(), request.passwordNotExpired(),
+            false, false, roles);
 
         return service.update(user);
     }

@@ -24,20 +24,12 @@
 
 package com.bernardomg.security.account.adapter.outbound.rest.model;
 
-import lombok.Data;
-
 /**
  * Data which can be changed for a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-public final class AccountChange {
-
-    /**
-     * User name.
-     */
-    private String name;
+public final record AccountChange(String name) {
 
 }

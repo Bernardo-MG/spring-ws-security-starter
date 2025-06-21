@@ -26,6 +26,8 @@ package com.bernardomg.security.user.notification.adapter.outbound.email;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -36,7 +38,6 @@ import com.bernardomg.security.user.notification.usecase.notificator.UserNotific
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * User notificator based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
@@ -44,8 +45,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class SpringMailUserNotificator implements UserNotificator {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log                   = LoggerFactory.getLogger(SpringMailUserNotificator.class);
 
     /**
      * Email for the from field.

@@ -6,9 +6,12 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.Resourc
 public final class ResourceEntities {
 
     public static final ResourceEntity data() {
-        return ResourceEntity.builder()
-            .withName(PermissionConstants.DATA)
-            .build();
+        final ResourceEntity entity;
+
+        entity = new ResourceEntity();
+        entity.setName(PermissionConstants.DATA);
+
+        return entity;
     }
 
     private ResourceEntities() {

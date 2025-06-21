@@ -34,10 +34,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * User token entity with additional data from the user. This is mapped to a view joining the user tokens with their
@@ -46,12 +42,8 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
 @Entity(name = "UserDataToken")
 @Table(schema = "security", name = "user_data_tokens")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class UserDataTokenEntity implements Serializable {
 
     @Transient
@@ -91,5 +83,85 @@ public class UserDataTokenEntity implements Serializable {
 
     @Column(name = "username", nullable = false, unique = true, length = 300)
     private String            username;
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public boolean isConsumed() {
+        return consumed;
+    }
+
+    public boolean isRevoked() {
+        return revoked;
+    }
+
+    public void setConsumed(final boolean consumed) {
+        this.consumed = consumed;
+    }
+
+    public void setCreationDate(final LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setExpirationDate(final LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public void setRevoked(final boolean revoked) {
+        this.revoked = revoked;
+    }
+
+    public void setScope(final String scope) {
+        this.scope = scope;
+    }
+
+    public void setToken(final String token) {
+        this.token = token;
+    }
+
+    public void setUserId(final Long userId) {
+        this.userId = userId;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
 
 }

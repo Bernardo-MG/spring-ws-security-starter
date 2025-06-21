@@ -40,8 +40,6 @@ import com.bernardomg.security.user.token.adapter.outbound.rest.model.UserTokenP
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.usecase.service.UserTokenService;
 
-import lombok.AllArgsConstructor;
-
 /**
  * User token REST controller. Supports reading and patching, as the token are generated there is little which the user
  * can modify.
@@ -53,13 +51,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/user/token")
-@AllArgsConstructor
 public class UserTokenController {
 
     /**
      * User token service.
      */
     private final UserTokenService service;
+
+    public UserTokenController(final UserTokenService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Applies a partial change into a user token.
@@ -75,11 +78,7 @@ public class UserTokenController {
     public UserToken patch(@PathVariable("token") final String tokenCode, @RequestBody final UserTokenPartial request) {
         final UserToken token;
 
-        token = UserToken.builder()
-            .withToken(tokenCode)
-            .withExpirationDate(request.getExpirationDate())
-            .withRevoked(request.getRevoked())
-            .build();
+        token = new UserToken("", "", "", tokenCode, null, request.expirationDate(), null, request.revoked());
         return service.patch(token);
     }
 

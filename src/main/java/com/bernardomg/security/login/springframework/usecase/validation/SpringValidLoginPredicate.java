@@ -6,14 +6,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.login.domain.model.Credentials;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Login validator which integrates with Spring Security. It makes use of {@link UserDetailsService} to find the user
@@ -30,8 +30,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class SpringValidLoginPredicate implements Predicate<Credentials> {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger      log = LoggerFactory.getLogger(SpringValidLoginPredicate.class);
 
     /**
      * Password encoder, for validating passwords.

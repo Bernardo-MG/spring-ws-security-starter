@@ -30,12 +30,14 @@ import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * JWT token encoder based on the JJWT library.
@@ -43,13 +45,17 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class JjwtTokenEncoder implements TokenEncoder {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(JjwtTokenEncoder.class);
 
     /**
      * Secret key for generating tokens.
      */
-    private final SecretKey key;
+    private final SecretKey     key;
 
     /**
      * Constructs an encoder with the received arguments.

@@ -26,6 +26,8 @@ package com.bernardomg.security.user.permission.usecase.service;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Pagination;
@@ -35,17 +37,19 @@ import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default user role service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class DefaultUserRoleService implements UserRoleService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger      log = LoggerFactory.getLogger(DefaultUserRoleService.class);
 
     /**
      * User repository.

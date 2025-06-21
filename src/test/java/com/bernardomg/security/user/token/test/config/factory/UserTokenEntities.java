@@ -7,42 +7,51 @@ import com.bernardomg.security.user.token.adapter.inbound.jpa.model.UserTokenEnt
 public final class UserTokenEntities {
 
     public static final UserTokenEntity alternative() {
-        return UserTokenEntity.builder()
-            .withId(1L)
-            .withUserId(1L)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.ALTERNATIVE_TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        final UserTokenEntity entity;
+
+        entity = new UserTokenEntity();
+        entity.setId(1L);
+        entity.setUserId(1L);
+        entity.setScope(Tokens.SCOPE);
+        entity.setToken(Tokens.ALTERNATIVE_TOKEN);
+        entity.setCreationDate(UserTokenConstants.DATE);
+        entity.setExpirationDate(UserTokenConstants.DATE_FUTURE);
+        entity.setConsumed(false);
+        entity.setRevoked(false);
+
+        return entity;
     }
 
     public static final UserTokenEntity revoked() {
-        return UserTokenEntity.builder()
-            .withId(1L)
-            .withUserId(1L)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(true)
-            .build();
+        final UserTokenEntity entity;
+
+        entity = new UserTokenEntity();
+        entity.setId(1L);
+        entity.setUserId(1L);
+        entity.setScope(Tokens.SCOPE);
+        entity.setToken(Tokens.TOKEN);
+        entity.setCreationDate(UserTokenConstants.DATE);
+        entity.setExpirationDate(UserTokenConstants.DATE_FUTURE);
+        entity.setConsumed(false);
+        entity.setRevoked(true);
+
+        return entity;
     }
 
     public static final UserTokenEntity valid() {
-        return UserTokenEntity.builder()
-            .withId(1L)
-            .withUserId(1L)
-            .withScope(Tokens.SCOPE)
-            .withToken(Tokens.TOKEN)
-            .withCreationDate(UserTokenConstants.DATE)
-            .withExpirationDate(UserTokenConstants.DATE_FUTURE)
-            .withConsumed(false)
-            .withRevoked(false)
-            .build();
+        final UserTokenEntity entity;
+
+        entity = new UserTokenEntity();
+        entity.setId(1L);
+        entity.setUserId(1L);
+        entity.setScope(Tokens.SCOPE);
+        entity.setToken(Tokens.TOKEN);
+        entity.setCreationDate(UserTokenConstants.DATE);
+        entity.setExpirationDate(UserTokenConstants.DATE_FUTURE);
+        entity.setConsumed(false);
+        entity.setRevoked(false);
+
+        return entity;
     }
 
     private UserTokenEntities() {

@@ -34,10 +34,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Login register entity.
@@ -47,10 +43,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity(name = "LoginRegister")
 @Table(schema = "security", name = "login_registers")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
 public class LoginRegisterEntity implements Serializable {
 
     /**
@@ -84,5 +76,37 @@ public class LoginRegisterEntity implements Serializable {
      */
     @Column(name = "username", nullable = false, unique = true, length = 60)
     private String            username;
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Boolean getLoggedIn() {
+        return loggedIn;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setDate(final LocalDateTime date) {
+        this.date = date;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    public void setLoggedIn(final Boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
 
 }

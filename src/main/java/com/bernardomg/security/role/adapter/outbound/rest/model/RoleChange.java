@@ -26,11 +26,9 @@ package com.bernardomg.security.role.adapter.outbound.rest.model;
 
 import java.util.Collection;
 
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Data which can be changed for a role.
@@ -38,16 +36,7 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public class RoleChange {
-
-    /**
-     * Role permissions.
-     */
-    @NotNull
-    private Collection<RolePermission> permissions;
+@Validated
+public record RoleChange(@NotNull Collection<RolePermission> permissions) {
 
 }

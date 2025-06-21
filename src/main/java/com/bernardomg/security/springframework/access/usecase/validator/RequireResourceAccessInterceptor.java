@@ -30,11 +30,11 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 
 import com.bernardomg.security.access.RequireResourceAccess;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Intercepts calls to any method marked by {@code AuthorizedResource} and applies resource-based authentication. This
@@ -44,8 +44,12 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Aspect
-@Slf4j
 public final class RequireResourceAccessInterceptor {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger           log = LoggerFactory.getLogger(RequireResourceAccessInterceptor.class);
 
     /**
      * Authorization validator. Makes sure the user in session has the required authorities.

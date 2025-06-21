@@ -130,16 +130,8 @@ public final class JjwtTokenDecoder implements TokenDecoder {
             permissions = null;
         }
 
-        return JwtTokenData.builder()
-            .withId(claims.getId())
-            .withSubject(claims.getSubject())
-            .withAudience(claims.getAudience())
-            .withIssuer(claims.getIssuer())
-            .withIssuedAt(issuedAt)
-            .withExpiration(expiration)
-            .withNotBefore(notBefore)
-            .withPermissions(permissions)
-            .build();
+        return new JwtTokenData(claims.getId(), claims.getSubject(), claims.getIssuer(), issuedAt, notBefore,
+            expiration, claims.getAudience(), permissions);
     }
 
 }

@@ -26,38 +26,18 @@ package com.bernardomg.security.springframework.domain.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import lombok.Value;
-
 /**
  * Granted authority for resource based access.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Value
-public final class ResourceActionGrantedAuthority implements GrantedAuthority {
+public final record ResourceActionGrantedAuthority(String resource, String action) implements GrantedAuthority {
 
     /**
      * Serialization id.
      */
     private static final long serialVersionUID = 2121524436657408632L;
-
-    /**
-     * Action to authorize in the resource.
-     */
-    private final String      action;
-
-    /**
-     * Resource to authorize.
-     */
-    private final String      resource;
-
-    public ResourceActionGrantedAuthority(final String resource, final String action) {
-        super();
-
-        this.resource = resource;
-        this.action = action;
-    }
 
     @Override
     public final String getAuthority() {

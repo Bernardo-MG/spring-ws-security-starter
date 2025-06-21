@@ -24,10 +24,7 @@
 
 package com.bernardomg.security.role.adapter.outbound.rest.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * A role permission.
@@ -35,25 +32,7 @@ import lombok.NoArgsConstructor;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder(setterPrefix = "with")
-public final class RolePermission {
-
-    /**
-     * Action applied to the resource.
-     */
-    private String action;
-
-    /**
-     * Permission name.
-     */
-    private String name;
-
-    /**
-     * Permission resource.
-     */
-    private String resource;
+@Validated
+public final record RolePermission(String name, String resource, String action) {
 
 }

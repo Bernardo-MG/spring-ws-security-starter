@@ -28,6 +28,8 @@ import java.nio.charset.StandardCharsets;
 
 import javax.crypto.SecretKey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -42,7 +44,6 @@ import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenEncoder;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenValidator;
 
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * JWT authentication configuration.
@@ -53,8 +54,12 @@ import lombok.extern.slf4j.Slf4j;
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(JwtProperties.class)
-@Slf4j
 public class JwtAutoConfiguration {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(JwtAutoConfiguration.class);
 
     /**
      * Default constructor.
@@ -76,7 +81,7 @@ public class JwtAutoConfiguration {
         final SecretKey key;
 
         // TODO: Shouldn't the key be unique?
-        key = Keys.hmacShaKeyFor(properties.getSecret()
+        key = Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));
         return new JjwtTokenDecoder(key);
     }
@@ -94,10 +99,10 @@ public class JwtAutoConfiguration {
         final SecretKey key;
 
         // TODO: Shouldn't the key be unique?
-        key = Keys.hmacShaKeyFor(properties.getSecret()
+        key = Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));
 
-        log.info("Security tokens will have a validity of {}", properties.getValidity());
+        log.info("Security tokens will have a validity of {}", properties.validity());
 
         return new JjwtTokenEncoder(key);
     }
@@ -115,7 +120,7 @@ public class JwtAutoConfiguration {
         final SecretKey key;
 
         // TODO: Shouldn't the key be unique?
-        key = Keys.hmacShaKeyFor(properties.getSecret()
+        key = Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));
 
         return new JjwtTokenValidator(key);

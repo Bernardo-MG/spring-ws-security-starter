@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.PathContainer;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -39,7 +41,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Whitelist filter wrapper. Will ignore any path on the whitelist, otherwise it applies the wrapped filter.
@@ -47,8 +48,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class WhitelistFilterWrapper extends OncePerRequestFilter {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger              log               = LoggerFactory.getLogger(WhitelistFilterWrapper.class);
 
     /**
      * Wrapped filter.

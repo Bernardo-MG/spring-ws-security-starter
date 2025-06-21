@@ -6,35 +6,47 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.Resourc
 public final class ResourcePermissionEntities {
 
     public static final ResourcePermissionEntity create() {
-        return ResourcePermissionEntity.builder()
-            .withName(PermissionConstants.DATA_CREATE)
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.CREATE)
-            .build();
+        final ResourcePermissionEntity entity;
+
+        entity = new ResourcePermissionEntity();
+        entity.setName(PermissionConstants.DATA_CREATE);
+        entity.setResource(PermissionConstants.DATA);
+        entity.setAction(PermissionConstants.CREATE);
+
+        return entity;
     }
 
     public static final ResourcePermissionEntity delete() {
-        return ResourcePermissionEntity.builder()
-            .withName(PermissionConstants.DATA_DELETE)
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.DELETE)
-            .build();
+        final ResourcePermissionEntity entity;
+
+        entity = new ResourcePermissionEntity();
+        entity.setName(PermissionConstants.DATA_DELETE);
+        entity.setResource(PermissionConstants.DATA);
+        entity.setAction(PermissionConstants.DELETE);
+
+        return entity;
     }
 
     public static final ResourcePermissionEntity read() {
-        return ResourcePermissionEntity.builder()
-            .withName(PermissionConstants.DATA_READ)
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.READ)
-            .build();
+        final ResourcePermissionEntity entity;
+
+        entity = new ResourcePermissionEntity();
+        entity.setName(PermissionConstants.DATA_READ);
+        entity.setResource(PermissionConstants.DATA);
+        entity.setAction(PermissionConstants.READ);
+
+        return entity;
     }
 
     public static final ResourcePermissionEntity update() {
-        return ResourcePermissionEntity.builder()
-            .withName(PermissionConstants.DATA_UPDATE)
-            .withResource(PermissionConstants.DATA)
-            .withAction(PermissionConstants.UPDATE)
-            .build();
+        final ResourcePermissionEntity entity;
+
+        entity = new ResourcePermissionEntity();
+        entity.setName(PermissionConstants.DATA_UPDATE);
+        entity.setResource(PermissionConstants.DATA);
+        entity.setAction(PermissionConstants.UPDATE);
+
+        return entity;
     }
 
     private ResourcePermissionEntities() {
