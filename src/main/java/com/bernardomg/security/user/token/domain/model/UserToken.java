@@ -28,12 +28,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.user.token.domain.exception.ExpiredTokenException;
 import com.bernardomg.security.user.token.domain.exception.OutOfScopeTokenException;
 import com.bernardomg.security.user.token.domain.exception.RevokedTokenException;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Immutable implementation of the user token.
@@ -41,9 +42,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public record UserToken(String username, String name, String scope, String token, LocalDateTime creationDate,
         LocalDateTime expirationDate, Boolean consumed, Boolean revoked) {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(UserToken.class);
 
     /**
      * Creates a copy of the token with the consumed flag active.

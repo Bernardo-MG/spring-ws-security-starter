@@ -27,6 +27,8 @@ package com.bernardomg.security.password.reset.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,8 +46,6 @@ import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Password recovery service which integrates with Spring Security.
@@ -66,9 +66,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class SpringSecurityPasswordResetService implements PasswordResetService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger       log = LoggerFactory.getLogger(SpringSecurityPasswordResetService.class);
 
     /**
      * Notificator. Recovery steps may require emails, or other kind of messaging.

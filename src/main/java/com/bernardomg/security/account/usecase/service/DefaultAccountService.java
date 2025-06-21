@@ -4,6 +4,8 @@ package com.bernardomg.security.account.usecase.service;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,17 +16,19 @@ import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default account service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class DefaultAccountService implements AccountService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger     log = LoggerFactory.getLogger(DefaultAccountService.class);
 
     private final AccountRepository accountRepository;
 

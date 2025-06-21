@@ -26,6 +26,8 @@ package com.bernardomg.security.user.activation.usecase.service;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
@@ -35,17 +37,19 @@ import com.bernardomg.security.user.token.domain.exception.InvalidTokenException
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Default user activation service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 @Transactional
 public final class DefaultUserActivationService implements UserActivationService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger  log = LoggerFactory.getLogger(DefaultUserActivationService.class);
 
     /**
      * Token processor.

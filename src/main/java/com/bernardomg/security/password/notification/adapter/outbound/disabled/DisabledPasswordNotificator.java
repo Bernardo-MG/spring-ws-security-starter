@@ -24,15 +24,20 @@
 
 package com.bernardomg.security.password.notification.adapter.outbound.disabled;
 
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 
 /**
  * Disabled password notificator. For disabling emailing.
  */
-@Slf4j
 public final class DisabledPasswordNotificator implements PasswordNotificator {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(DisabledPasswordNotificator.class);
 
     public DisabledPasswordNotificator() {
         super();

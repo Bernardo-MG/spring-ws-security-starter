@@ -31,6 +31,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,16 +46,18 @@ import com.bernardomg.security.user.token.adapter.inbound.jpa.model.UserTokenEnt
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * User token repository based on JPA entities.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Slf4j
 @Transactional
 public final class JpaUserTokenRepository implements UserTokenRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                 log = LoggerFactory.getLogger(JpaUserTokenRepository.class);
 
     /**
      * User data token repository. This queries a view joining user tokens with their users.

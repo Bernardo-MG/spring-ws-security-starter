@@ -9,12 +9,13 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Encodes a JWT token including the permissions for the user.
@@ -22,8 +23,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger            log = LoggerFactory.getLogger(JwtPermissionLoginTokenEncoder.class);
 
     /**
      * Token encoder for creating authentication tokens.

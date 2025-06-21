@@ -28,12 +28,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.data.domain.exception.EnabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Representation of a user.
@@ -41,9 +42,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean notLocked,
         boolean passwordNotExpired, Collection<Role> roles) {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(User.class);
 
     public User(final String email, final String username, final String name, final boolean enabled,
             final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,

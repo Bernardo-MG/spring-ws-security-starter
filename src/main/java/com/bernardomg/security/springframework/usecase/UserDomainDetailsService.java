@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,8 +41,6 @@ import com.bernardomg.security.springframework.domain.model.ResourceActionGrante
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * User details service which takes the user data from the domain layer.
@@ -63,8 +63,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class UserDomainDetailsService implements UserDetailsService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger            log = LoggerFactory.getLogger(UserDomainDetailsService.class);
 
     /**
      * User permissions repository.

@@ -24,15 +24,20 @@
 
 package com.bernardomg.security.user.notification.adapter.outbound.email;
 
-import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 
 /**
  * Disabled user notificator. For disabling emailing.
  */
-@Slf4j
 public final class DisabledUserNotificator implements UserNotificator {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(DisabledUserNotificator.class);
 
     public DisabledUserNotificator() {
         super();

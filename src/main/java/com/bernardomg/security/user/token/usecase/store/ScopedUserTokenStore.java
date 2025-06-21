@@ -28,6 +28,9 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bernardomg.security.user.data.domain.exception.MissingUserException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -35,8 +38,6 @@ import com.bernardomg.security.user.token.domain.exception.ConsumedTokenExceptio
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * User token store which handles a scope for the tokens. This scope allows keeping a single table for all the tokens,
@@ -49,8 +50,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Slf4j
 public final class ScopedUserTokenStore implements UserTokenStore {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger       log = LoggerFactory.getLogger(ScopedUserTokenStore.class);
 
     /**
      * Token scope.
