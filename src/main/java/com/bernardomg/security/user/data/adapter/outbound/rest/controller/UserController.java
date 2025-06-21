@@ -58,7 +58,6 @@ import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.usecase.service.UserService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * User REST controller.
@@ -68,13 +67,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/user")
-@AllArgsConstructor
 public class UserController {
 
     /**
      * Service which handles user queries.
      */
     private final UserService service;
+
+    public UserController(final UserService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Deletes a user by its id.

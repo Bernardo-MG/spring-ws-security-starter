@@ -41,7 +41,6 @@ import com.bernardomg.security.password.reset.usecase.service.PasswordResetServi
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Handles password reset for a user, usually when it can't start a session. It is divided into two steps:
@@ -58,13 +57,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/password/reset")
-@AllArgsConstructor
 public class PasswordResetController {
 
     /**
      * Password reset service.
      */
     private final PasswordResetService service;
+
+    public PasswordResetController(final PasswordResetService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Change password at the end of a password recovery.

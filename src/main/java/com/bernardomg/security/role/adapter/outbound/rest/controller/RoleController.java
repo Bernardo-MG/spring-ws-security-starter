@@ -54,7 +54,6 @@ import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.usecase.service.RoleService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Role REST controller.
@@ -64,13 +63,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/role")
-@AllArgsConstructor
 public class RoleController {
 
     /**
      * Role service.
      */
     private final RoleService service;
+
+    public RoleController(final RoleService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Creates a role.

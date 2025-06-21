@@ -38,8 +38,6 @@ import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.security.permission.data.constant.Actions;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Login register controller.
  *
@@ -48,13 +46,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/login/register")
-@AllArgsConstructor
 public class LoginRegisterController {
 
     /**
      * Login register service.
      */
     private final LoginRegisterService service;
+
+    public LoginRegisterController(final LoginRegisterService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Returns all the log in registers in a paginated form.

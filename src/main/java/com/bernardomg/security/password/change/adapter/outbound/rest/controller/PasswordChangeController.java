@@ -37,7 +37,6 @@ import com.bernardomg.security.password.change.adapter.outbound.rest.model.Passw
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * Handles changing the password for a user in session. All the logic is delegated to a {@link PasswordChangeService}.
@@ -47,13 +46,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/password/change")
-@AllArgsConstructor
 public class PasswordChangeController {
 
     /**
      * Password recovery service.
      */
     private final PasswordChangeService service;
+
+    public PasswordChangeController(final PasswordChangeService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Change password at the end of a password recovery.

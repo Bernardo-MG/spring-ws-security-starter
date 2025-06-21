@@ -45,7 +45,6 @@ import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 /**
  * User activation REST controller. This requires a token, given to the new user when he registers.
@@ -55,13 +54,18 @@ import lombok.AllArgsConstructor;
  */
 @RestController
 @RequestMapping("/security/user/activate")
-@AllArgsConstructor
 public class UserActivationController {
 
     /**
      * Service which handles user activation.
      */
     private final UserActivationService service;
+
+    public UserActivationController(final UserActivationService service) {
+        super();
+
+        this.service = service;
+    }
 
     /**
      * Activates a new user.
