@@ -24,15 +24,12 @@
 
 package com.bernardomg.security.password.change.domain.exception;
 
-import lombok.Getter;
-
 /**
  * Invalid password change exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Getter
 public final class InvalidPasswordChangeException extends RuntimeException {
 
     /**
@@ -49,6 +46,10 @@ public final class InvalidPasswordChangeException extends RuntimeException {
         super(message);
 
         username = user;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
 }
