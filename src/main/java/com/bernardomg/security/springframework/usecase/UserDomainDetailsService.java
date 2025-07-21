@@ -103,6 +103,8 @@ public final class UserDomainDetailsService implements UserDetailsService {
         final UserDetails                            details;
         final String                                 password;
 
+        log.debug("Loading user {}", username);
+
         user = userRepository.findOne(username.toLowerCase(Locale.getDefault()))
             .orElseThrow(() -> {
                 log.error("Username {} not found in database", username);
