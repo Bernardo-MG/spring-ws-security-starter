@@ -148,7 +148,7 @@ public interface UserRepository {
      *
      * @param username
      *            user to increase the login attempts
-     * @return number of login attempts for the user
+     * @return number of login attempts for the user, if it doesn't exist then the value is negative
      */
     public int increaseLoginAttempts(final String username);
 
