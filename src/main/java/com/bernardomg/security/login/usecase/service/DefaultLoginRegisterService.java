@@ -57,9 +57,15 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
 
     @Override
     public final Iterable<LoginRegister> getAll(final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading login registers with pagination {} and sorting {}", pagination, sorting);
+        final Iterable<LoginRegister> registers;
 
-        return loginRegisterRepository.findAll(pagination, sorting);
+        log.trace("Reading login registers with pagination {} and sorting {}", pagination, sorting);
+
+        registers = loginRegisterRepository.findAll(pagination, sorting);
+
+        log.trace("Read login registers with pagination {} and sorting {}", pagination, sorting);
+
+        return registers;
     }
 
     @Override
@@ -67,12 +73,14 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
         final LoginRegister entity;
         final LocalDateTime now;
 
-        log.debug("Registering log in attempt for user {} and status {}", username, logged);
+        log.trace("Registering log in attempt for user {} and status {}", username, logged);
 
         now = LocalDateTime.now();
         entity = new LoginRegister(username, logged, now);
 
         loginRegisterRepository.save(entity);
+
+        log.trace("Registered log in attempt for user {} and status {}", username, logged);
     }
 
 }

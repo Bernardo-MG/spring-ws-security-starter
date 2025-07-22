@@ -67,7 +67,7 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
         final int  attempts;
         final User user;
 
-        log.debug("Checking user {} for locking", username);
+        log.trace("Checking user {} for locking", username);
 
         // Get number of attempts
         attempts = userRepository.increaseLoginAttempts(username);
@@ -90,13 +90,15 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
             log.debug("User {} had {} login attempts out of a max of {}. Won't be locked", username, attempts,
                 maxAttempts);
         }
+
+        log.trace("Checked user {} for locking", username);
     }
 
     @Override
     public final void clearLoginAttempts(final String username) {
         final int attempts;
 
-        log.debug("Clearing login attempts for {}", username);
+        log.trace("Clearing login attempts for {}", username);
 
         attempts = userRepository.getLoginAttempts(username);
         if (attempts > 0) {
@@ -105,6 +107,8 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
         } else {
             log.debug("User {} had no login attempts. Nothing to clear", username);
         }
+
+        log.trace("Cleared login attempts for {}", username);
     }
 
 }
