@@ -32,7 +32,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import com.bernardomg.ws.response.domain.model.ErrorResponse;
 
@@ -58,7 +57,7 @@ public class SecurityExceptionHandler {
 
     @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public final ErrorResponse handleUnauthorizedException(final Exception ex, final WebRequest request) {
+    public final ErrorResponse handleUnauthorizedException(final Exception ex) {
         log.warn(ex.getMessage(), ex);
 
         // TODO: the response is ignored
