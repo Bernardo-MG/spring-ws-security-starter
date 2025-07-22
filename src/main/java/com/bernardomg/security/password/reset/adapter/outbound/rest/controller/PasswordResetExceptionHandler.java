@@ -27,8 +27,8 @@ package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 /**
@@ -36,7 +36,7 @@ import org.springframework.web.context.request.WebRequest;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@RestControllerAdvice(basePackageClasses = PasswordResetExceptionHandler.class)
+@ControllerAdvice(basePackageClasses = PasswordResetController.class)
 public class PasswordResetExceptionHandler {
 
     /**

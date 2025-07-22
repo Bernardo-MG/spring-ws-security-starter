@@ -88,6 +88,8 @@ public final class SpringUserTokenService implements UserTokenService {
         final Collection<UserToken> tokens;
         final Collection<String>    tokenCodes;
 
+        log.trace("Cleaning up tokens");
+
         // Expiration date before now
         // Revoked
         // Consumed
@@ -99,24 +101,36 @@ public final class SpringUserTokenService implements UserTokenService {
             .map(UserToken::token)
             .toList();
         userTokenRepository.deleteAll(tokenCodes);
+
+        log.trace("Cleaned up tokens");
     }
 
     @Override
     public final Iterable<UserToken> getAll(final Pagination pagination, final Sorting sorting) {
-        return userTokenRepository.findAll(pagination, sorting);
+        final Iterable<UserToken> tokens;
+
+        log.trace("Reading tokens with pagination {} and sorting {}", pagination, sorting);
+
+        tokens = userTokenRepository.findAll(pagination, sorting);
+
+        log.trace("Read tokens with pagination {} and sorting {}", pagination, sorting);
+
+        return tokens;
     }
 
     @Override
     public final Optional<UserToken> getOne(final String token) {
         final Optional<UserToken> userToken;
 
-        log.debug("Reading token {}", token);
+        log.trace("Reading token {}", token);
 
         userToken = userTokenRepository.findOne(token);
         if (userToken.isEmpty()) {
             log.error("Missing user token {}", token);
             throw new MissingUserTokenException(token);
         }
+
+        log.trace("Read token {}", token);
 
         return userToken;
     }

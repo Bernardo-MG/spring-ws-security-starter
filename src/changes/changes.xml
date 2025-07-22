@@ -295,5 +295,10 @@
             Removed Lombok.
          </action>
       </release>
+      <release version="0.4.14" date="2025-07-22" description="Log changes">
+         <action dev="bmg" type="update">
+            Updated logs.
+         </action>
+      </release>
    </body>
 </document>

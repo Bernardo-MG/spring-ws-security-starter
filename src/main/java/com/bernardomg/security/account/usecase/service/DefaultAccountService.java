@@ -44,7 +44,7 @@ public final class DefaultAccountService implements AccountService {
         final Optional<Account> account;
         final UserDetails       userDetails;
 
-        log.debug("Getting account for user in session");
+        log.trace("Getting account for user in session");
 
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();
@@ -73,6 +73,8 @@ public final class DefaultAccountService implements AccountService {
             account = Optional.empty();
         }
 
+        log.trace("Got account for user in session");
+
         return account;
     }
 
@@ -80,8 +82,9 @@ public final class DefaultAccountService implements AccountService {
     public final Account update(final Account account) {
         final Account accountData;
         final Account current;
+        final Account updated;
 
-        log.debug("Updating account {} using data {}", account.getUsername(), account);
+        log.trace("Updating account {} using data {}", account.getUsername(), account);
 
         current = getCurrentUser().orElseThrow(() -> {
             log.error("Missing account for user in session");
@@ -91,9 +94,11 @@ public final class DefaultAccountService implements AccountService {
         // Can only change name
         accountData = BasicAccount.of(current.getUsername(), current.getName(), current.getEmail());
 
-        log.debug("Updating account {} using data {}", accountData.getUsername(), accountData);
+        updated = accountRepository.save(accountData);
 
-        return accountRepository.save(accountData);
+        log.debug("Updated account {} using data {}", accountData.getUsername(), accountData);
+
+        return updated;
     }
 
 }

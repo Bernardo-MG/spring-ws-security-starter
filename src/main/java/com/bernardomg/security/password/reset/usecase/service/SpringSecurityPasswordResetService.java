@@ -117,13 +117,16 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final String username;
         final User   user;
 
+        log.trace("Changing password from token");
+
         tokenStore.validate(token);
 
+        log.debug("Validating new password");
         validatorChange.validate(password);
 
         username = tokenStore.getUsername(token);
 
-        log.debug("Applying requested password change for {}", username);
+        log.debug("Applying requested password change to {}", username);
 
         user = getUserByUsername(username);
 
@@ -132,7 +135,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         userRepository.resetPassword(user.username(), password);
         tokenStore.consumeToken(token);
 
-        log.debug("Finished password change for {}", username);
+        log.trace("Changed password for {}", username);
     }
 
     @Override
@@ -140,7 +143,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final User   user;
         final String token;
 
-        log.debug("Requested password recovery for {}", email);
+        log.trace("Requested password recovery for {}", email);
 
         user = getUserByEmail(email);
 
@@ -158,13 +161,16 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: Handle through events
         passwordNotificator.sendPasswordRecoveryMessage(user.email(), user.username(), token);
 
-        log.debug("Finished password recovery request for {}", email);
+        log.trace("Finished password recovery request for {}", email);
     }
 
     @Override
     public final UserTokenStatus validateToken(final String token) {
-        boolean valid;
-        String  username;
+        final UserTokenStatus status;
+        boolean               valid;
+        String                username;
+
+        log.trace("Validating password change token");
 
         try {
             tokenStore.validate(token);
@@ -179,7 +185,11 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             username = "";
         }
 
-        return new UserTokenStatus(username, valid);
+        status = new UserTokenStatus(username, valid);
+
+        log.trace("Validated password change token with status {}", status);
+
+        return status;
     }
 
     /**

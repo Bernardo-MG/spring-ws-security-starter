@@ -110,7 +110,7 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final void delete(final String username) {
-        log.debug("Deleting user {}", username);
+        log.trace("Deleting user {}", username);
 
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
@@ -118,26 +118,36 @@ public final class DefaultUserService implements UserService {
         }
 
         userRepository.delete(username);
+
+        log.trace("Deleted user {}", username);
     }
 
     @Override
     public final Iterable<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
+        final Iterable<User> users;
 
-        return userRepository.findAll(query, pagination, sorting);
+        log.trace("Reading users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
+
+        users = userRepository.findAll(query, pagination, sorting);
+
+        log.trace("Read users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
+
+        return users;
     }
 
     @Override
     public final Optional<User> getOne(final String username) {
         final Optional<User> user;
 
-        log.debug("Reading user {}", username);
+        log.trace("Reading user {}", username);
 
         user = userRepository.findOne(username);
         if (user.isEmpty()) {
             log.error("Missing user {}", username);
             throw new MissingUserException(username);
         }
+
+        log.trace("Read user {}", username);
 
         return user;
     }
@@ -148,7 +158,7 @@ public final class DefaultUserService implements UserService {
         final User   created;
         final String token;
 
-        log.debug("Registering new user {} with email {}", username, email);
+        log.trace("Registering new user {} with email {}", username, email);
 
         user = User.newUser(username, email, name);
 
@@ -165,7 +175,7 @@ public final class DefaultUserService implements UserService {
         // TODO: Handle through events
         userNotificator.sendUserRegisteredMessage(created.email(), username, token);
 
-        log.debug("Registered new user {} with email {}", username, email);
+        log.trace("Registered new user {} with email {}", username, email);
 
         return created;
     }
@@ -174,8 +184,9 @@ public final class DefaultUserService implements UserService {
     public final User update(final User user) {
         final User existing;
         final User toSave;
+        final User updated;
 
-        log.debug("Updating user {} using data {}", user.username(), user);
+        log.trace("Updating user {} using data {}", user.username(), user);
 
         // Verify the user exists
         existing = userRepository.findOne(user.username())
@@ -197,7 +208,11 @@ public final class DefaultUserService implements UserService {
         toSave = new User(user.email(), existing.username(), user.name(), user.enabled(), existing.notExpired(),
             existing.notLocked(), user.passwordNotExpired(), user.roles());
 
-        return userRepository.save(toSave);
+        updated = userRepository.save(toSave);
+
+        log.trace("Updated user {} using data {}", user.username(), user);
+
+        return updated;
     }
 
 }

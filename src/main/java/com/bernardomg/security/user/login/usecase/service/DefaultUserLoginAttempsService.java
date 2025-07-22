@@ -67,15 +67,15 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
         final int  attempts;
         final User user;
 
-        log.debug("Checking {} for locking user", username);
+        log.trace("Checking user {} for locking", username);
 
         // Get number of attempts
         attempts = userRepository.increaseLoginAttempts(username);
 
-        log.debug("User {} had {} login attempts, out of a max of {}", username, attempts, maxAttempts);
-
         // If attempts reached the max
-        if (attempts >= maxAttempts) {
+        if (attempts < 0) {
+            log.debug("User {} doesn't exist, can't be locked", username);
+        } else if (attempts >= maxAttempts) {
             // Then the user is locked
             user = userRepository.findOne(username)
                 .orElseThrow(() -> {
@@ -84,18 +84,21 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
                 });
             // TODO: then, read just the username
             userRepository.lock(user.username());
-            log.debug("Locked user {} after {} login attempts", username, attempts);
+            log.debug("User {} had {} login attempts out of a max of {}. Has been locked", username, attempts,
+                maxAttempts);
         } else {
             log.debug("User {} had {} login attempts out of a max of {}. Won't be locked", username, attempts,
                 maxAttempts);
         }
+
+        log.trace("Checked user {} for locking", username);
     }
 
     @Override
     public final void clearLoginAttempts(final String username) {
         final int attempts;
 
-        log.debug("Clearing login attempts for {}", username);
+        log.trace("Clearing login attempts for {}", username);
 
         attempts = userRepository.getLoginAttempts(username);
         if (attempts > 0) {
@@ -104,6 +107,8 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
         } else {
             log.debug("User {} had no login attempts. Nothing to clear", username);
         }
+
+        log.trace("Cleared login attempts for {}", username);
     }
 
 }

@@ -101,21 +101,26 @@ public final class DefaultRoleService implements RoleService {
     @Override
     public final Role create(final String name) {
         final Role role;
+        final Role created;
 
-        log.debug("Creating role {}", name);
+        log.trace("Creating role {}", name);
 
         role = new Role(name, List.of());
 
         validatorCreate.validate(role);
 
-        return roleRepository.save(role);
+        created = roleRepository.save(role);
+
+        log.trace("Created role {}", name);
+
+        return created;
     }
 
     @Override
     public final void delete(final String role) {
         final Role domainRole;
 
-        log.debug("Deleting role {}", role);
+        log.trace("Deleting role {}", role);
 
         if (!roleRepository.exists(role)) {
             log.error("Missing role {}", role);
@@ -126,20 +131,28 @@ public final class DefaultRoleService implements RoleService {
         validatorDelete.validate(domainRole);
 
         roleRepository.delete(role);
+
+        log.trace("Deleted role {}", role);
     }
 
     @Override
     public final Iterable<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting) {
-        log.debug("Reading roles with sample {} and pagination {} and sorting {}", sample, pagination, sorting);
+        final Iterable<Role> roles;
 
-        return roleRepository.findAll(sample, pagination, sorting);
+        log.trace("Reading roles with sample {} and pagination {} and sorting {}", sample, pagination, sorting);
+
+        roles = roleRepository.findAll(sample, pagination, sorting);
+
+        log.trace("Read roles with sample {} and pagination {} and sorting {}", sample, pagination, sorting);
+
+        return roles;
     }
 
     @Override
     public final Optional<Role> getOne(final String role) {
         final Optional<Role> read;
 
-        log.debug("Reading role {}", role);
+        log.trace("Reading role {}", role);
 
         read = roleRepository.findOne(role);
         if (read.isEmpty()) {
@@ -147,12 +160,16 @@ public final class DefaultRoleService implements RoleService {
             throw new MissingRoleException(role);
         }
 
+        log.trace("Read role {}", role);
+
         return read;
     }
 
     @Override
     public final Role update(final Role role) {
-        log.debug("Updating role {} using data {}", role.name(), role);
+        final Role updated;
+
+        log.trace("Updating role {} using data {}", role.name(), role);
 
         // Verify the role exists
         if (!roleRepository.exists(role.name())) {
@@ -172,7 +189,11 @@ public final class DefaultRoleService implements RoleService {
 
         validatorUpdate.validate(role);
 
-        return roleRepository.save(role);
+        updated = roleRepository.save(role);
+
+        log.trace("Updated role {} using data {}", role.name(), role);
+
+        return updated;
     }
 
 }

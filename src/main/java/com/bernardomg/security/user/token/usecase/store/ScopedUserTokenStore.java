@@ -92,6 +92,8 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         final UserToken readToken;
         final UserToken updated;
 
+        log.debug("Consuming token");
+
         readToken = userTokenRepository.findOneByScope(token, tokenScope)
             .orElseThrow(() -> {
                 log.error("Token missing: {}", token);
@@ -112,6 +114,8 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     public final String createToken(final String username) {
         final UserToken token;
 
+        log.debug("Creating token for {}", username);
+
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
             throw new MissingUserException(username);
@@ -128,6 +132,9 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final String getUsername(final String token) {
+
+        log.debug("Getting username from token");
+
         return userTokenRepository.findOneByScope(token, tokenScope)
             .map(UserToken::username)
             .orElseThrow(() -> {
@@ -141,6 +148,8 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         final Collection<UserToken> tokens;
         final Collection<UserToken> revoked;
         final User                  readUser;
+
+        log.debug("Revoking tokens for {}", username);
 
         readUser = userRepository.findOne(username)
             .orElseThrow(() -> {
@@ -162,6 +171,8 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     @Override
     public final void validate(final String token) {
         final UserToken read;
+
+        log.debug("Validating token");
 
         read = userTokenRepository.findOne(token)
             .orElseThrow(() -> {

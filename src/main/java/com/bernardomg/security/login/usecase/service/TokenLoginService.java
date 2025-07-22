@@ -84,7 +84,7 @@ public final class TokenLoginService implements LoginService {
         final LogInEvent       event;
         final Credentials      validCredentials;
 
-        log.debug("Log in attempt for {}", credentials.username());
+        log.trace("Log in attempt for {}", credentials.username());
 
         validUsername = loadLoginName(credentials.username());
 
@@ -93,11 +93,13 @@ public final class TokenLoginService implements LoginService {
 
         status = buildStatus(validUsername, valid);
 
+        log.debug("Log in for {} with status {}", credentials.username(), status);
+
         // FIXME: the event root should be an object
         event = new LogInEvent(this, validUsername, valid);
         eventPublisher.publishEvent(event);
 
-        log.debug("Log in result for {}: {}", credentials.username(), status);
+        log.trace("Finished log in attempt for {}", credentials.username());
 
         return status;
     }

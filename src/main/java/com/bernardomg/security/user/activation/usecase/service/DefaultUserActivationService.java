@@ -74,6 +74,8 @@ public final class DefaultUserActivationService implements UserActivationService
         final User   user;
         final User   saved;
 
+        log.trace("Activating new user");
+
         // Validate token
         tokenStore.validate(token);
 
@@ -94,15 +96,18 @@ public final class DefaultUserActivationService implements UserActivationService
         saved = userRepository.activate(username, password);
         tokenStore.consumeToken(token);
 
-        log.debug("Activated new user {}", username);
+        log.trace("Activated new user {}", username);
 
         return saved;
     }
 
     @Override
     public final UserTokenStatus validateToken(final String token) {
-        final String username;
-        boolean      valid;
+        final UserTokenStatus status;
+        final String          username;
+        boolean               valid;
+
+        log.trace("Validating user activation token");
 
         try {
             // TODO: maybe return a boolean instead of throwing an exception
@@ -113,7 +118,11 @@ public final class DefaultUserActivationService implements UserActivationService
         }
         username = tokenStore.getUsername(token);
 
-        return new UserTokenStatus(username, valid);
+        status = new UserTokenStatus(username, valid);
+
+        log.trace("Validated user activation token with status {}", status);
+
+        return status;
     }
 
 }

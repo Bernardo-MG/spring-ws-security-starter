@@ -60,6 +60,7 @@ public final class SpringValidLoginPredicate implements Predicate<Credentials> {
         Optional<UserDetails> details;
 
         // TODO: Throw exceptions
+        log.debug("Validating login for user {}", credentials.username());
 
         // Find the user
         try {
@@ -76,12 +77,15 @@ public final class SpringValidLoginPredicate implements Predicate<Credentials> {
         } else if (isValid(details.get())) {
             // User exists
             // Validate password
+            log.debug("User {} exists, validating password", credentials.username());
             valid = passwordEncoder.matches(credentials.password(), details.get()
                 .getPassword());
             if (!valid) {
                 log.debug(
                     "Received a password which doesn't match the one stored for credentials.username() {}. Failed login",
                     credentials.username());
+            } else {
+                log.debug("Received valid password for user {}", credentials.username());
             }
         } else {
             // Invalid user
