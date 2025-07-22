@@ -82,7 +82,7 @@ public class PasswordAutoConfiguration {
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
     public PasswordNotificator getDefaultPasswordNotificator() {
         // FIXME: This is not handling correctly the missing bean condition
-        log.debug("Disabled password notificator");
+        log.info("Disabled password notificator");
         return new DisabledPasswordNotificator();
     }
 
@@ -103,8 +103,8 @@ public class PasswordAutoConfiguration {
     public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
-        log.debug("Using email {} for password notifications", properties.from());
-        log.debug("Password recovery URL: {}", properties.passwordRecovery()
+        log.info("Using email {} for password notifications", properties.from());
+        log.info("Password recovery URL: {}", properties.passwordRecovery()
             .url());
         return new SpringMailPasswordNotificator(templateEng, mailSender, properties.from(),
             properties.passwordRecovery()
