@@ -80,8 +80,8 @@ public final class WhitelistCustomizer implements
             .flatMap(Collection::stream)
             .toList();
 
-        if(!matchers.isEmpty()) {
-            
+        if (!matchers.isEmpty()) {
+
         }
         registry.requestMatchers(matchers.toArray(new RequestMatcher[matchers.size()]))
             .permitAll();
