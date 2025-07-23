@@ -144,6 +144,27 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     }
 
     @Test
+    @DisplayName("When the role doesn't exist no permissions are returned")
+    @CrudPermissions
+    void testFindAvailablePermissions_NoRole() {
+        final Iterable<ResourcePermission> permissions;
+        final Pagination                   pagination;
+        final Sorting                      sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .isEmpty();
+    }
+
+    @Test
     @DisplayName("When there are no permissions granted all are returned")
     @RoleWithCrudPermissionsNotGranted
     void testFindAvailablePermissions_NotGranted() {

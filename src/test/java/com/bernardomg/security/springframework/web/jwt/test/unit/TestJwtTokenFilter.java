@@ -97,12 +97,124 @@ class TestJwtTokenFilter {
     }
 
     @Test
+    @DisplayName("When the user has expired credentials, it is not stored")
+    void testDoFilter_CredentialsExpired() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+
+        // GIVEN
+        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
+
+        userDetails = SecurityUsers.credentialsExpired();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = new JwtTokenData(null, UserConstants.USERNAME, null, null, null, null, null, null);
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("When the user is disabled, it is not stored")
+    void testDoFilter_Disabled() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+
+        // GIVEN
+        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
+
+        userDetails = SecurityUsers.disabled();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = new JwtTokenData(null, UserConstants.USERNAME, null, null, null, null, null, null);
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("When the user is expired, it is not stored")
+    void testDoFilter_Expired() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+
+        // GIVEN
+        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
+
+        userDetails = SecurityUsers.expired();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = new JwtTokenData(null, UserConstants.USERNAME, null, null, null, null, null, null);
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isNull();
+    }
+
+    @Test
     @DisplayName("With a expired token no user is stored")
     void testDoFilter_ExpiredToken() throws ServletException, IOException {
         final Authentication authentication;
 
         // GIVEN
         given(validator.hasExpired(Tokens.TOKEN)).willReturn(true);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("When the user is locked, it is not stored")
+    void testDoFilter_Locked() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+
+        // GIVEN
+        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
+
+        userDetails = SecurityUsers.locked();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = new JwtTokenData(null, UserConstants.USERNAME, null, null, null, null, null, null);
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
         given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
 

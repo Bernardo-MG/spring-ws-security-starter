@@ -62,8 +62,8 @@ public final class WhitelistCustomizer implements
     }
 
     @Override
-    public void customize(
-            final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry t) {
+    public final void customize(
+            final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
         final MvcRequestMatcher.Builder                               requestBuilder;
         final Collection<MvcRequestMatcher>                           matchers;
         final Function<WhitelistRoute, Collection<MvcRequestMatcher>> matcherMapper;
@@ -80,7 +80,10 @@ public final class WhitelistCustomizer implements
             .flatMap(Collection::stream)
             .toList();
 
-        t.requestMatchers(matchers.toArray(new RequestMatcher[matchers.size()]))
+        if (!matchers.isEmpty()) {
+
+        }
+        registry.requestMatchers(matchers.toArray(new RequestMatcher[matchers.size()]))
             .permitAll();
     }
 
