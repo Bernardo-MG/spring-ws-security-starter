@@ -95,14 +95,14 @@ public final class SpringMailPasswordNotificator implements PasswordNotificator 
         final String recoveryUrl;
         final String passwordRecoveryEmailText;
 
-        log.debug("Sending password recovery email to {} for {}", email, username);
+        log.trace("Sending password recovery email for {} to {}", username, email);
 
         recoveryUrl = generateUrl(passwordRecoveryUrl, token);
         passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
 
         sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
-        log.debug("Sent password recovery email to {} for {}", email, username);
+        log.info("Sent password recovery email for {} to {}", username, email);
     }
 
     private final String generateEmailContent(final String templateName, final String url, final String username) {
@@ -140,12 +140,16 @@ public final class SpringMailPasswordNotificator implements PasswordNotificator 
     private final void sendEmail(final String recipient, final String subject, final String content) {
         final MimeMessagePreparator messagePreparator;
 
+        log.debug("Sending password recovery message to {}, with subject {} and content:\n{}", recipient, subject,
+            content);
+
         messagePreparator = mimeMessage -> prepareMessage(mimeMessage, recipient, subject, content);
 
         try {
             mailSender.send(messagePreparator);
         } catch (final Exception e) {
-            log.error("Error sending email", e);
+            log.error("Error sending password recovery email to {}", recipient);
+            log.error("Error sending password recovery email", e);
         }
     }
 

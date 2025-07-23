@@ -23,7 +23,7 @@ import com.bernardomg.security.password.change.usecase.service.SpringSecurityPas
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.factory.Authentications;
@@ -206,7 +206,7 @@ class TestPasswordChangeServiceChangePassword {
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
-        exception = Assertions.catchThrowableOfType(MissingUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("Missing id username for user");
@@ -245,7 +245,7 @@ class TestPasswordChangeServiceChangePassword {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserException.class);
+            .isInstanceOf(MissingUsernameException.class);
     }
 
     @Test

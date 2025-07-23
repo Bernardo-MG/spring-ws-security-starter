@@ -24,7 +24,7 @@ import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPass
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
@@ -158,7 +158,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(MissingUserException.class, execution);
+        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, execution);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

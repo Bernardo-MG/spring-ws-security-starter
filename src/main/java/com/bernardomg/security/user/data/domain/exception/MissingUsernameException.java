@@ -32,11 +32,11 @@ import com.bernardomg.exception.MissingIdException;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingUserException extends MissingIdException {
+public final class MissingUsernameException extends MissingIdException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
-    public MissingUserException(final String username) {
+    public MissingUsernameException(final String username) {
         super("user", username);
     }
 

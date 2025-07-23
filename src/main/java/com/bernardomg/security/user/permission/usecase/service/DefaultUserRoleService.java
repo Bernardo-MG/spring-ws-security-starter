@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
 
@@ -77,7 +77,7 @@ public final class DefaultUserRoleService implements UserRoleService {
 
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
-            throw new MissingUserException(username);
+            throw new MissingUsernameException(username);
         }
 
         roles = userRoleRepository.findAvailableToUser(username, pagination, sorting);

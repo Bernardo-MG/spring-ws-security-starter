@@ -18,7 +18,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.test.config.factory.Roles;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.permission.usecase.service.DefaultUserRoleService;
@@ -105,7 +105,7 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserException.class);
+            .isInstanceOf(MissingUsernameException.class);
     }
 
 }
