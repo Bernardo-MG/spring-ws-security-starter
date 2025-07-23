@@ -32,6 +32,44 @@ class ITAccountRepositorySave {
     }
 
     @Test
+    @DisplayName("When the user doesn't exist, the account is not persisted")
+    void testSave_NoUser_PersistedData() {
+        final List<UserEntity> users;
+        final Account          account;
+
+        // GIVEN
+        account = Accounts.nameChange();
+
+        // WHEN
+        repository.save(account);
+
+        // THEN
+        users = userSpringRepository.findAll();
+
+        Assertions.assertThat(users)
+            .as("users")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exist, an empty account is returned")
+    void testSave_NoUser_ReturnedData() {
+        final Account saved;
+        final Account account;
+
+        // GIVEN
+        account = Accounts.nameChange();
+
+        // WHEN
+        saved = repository.save(account);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("account")
+            .isEqualTo(Accounts.empty());
+    }
+
+    @Test
     @DisplayName("Persists an account")
     @ValidUser
     void testSave_PersistedData() {
