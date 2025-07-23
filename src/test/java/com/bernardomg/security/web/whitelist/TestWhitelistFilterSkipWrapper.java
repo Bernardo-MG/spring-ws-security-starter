@@ -117,4 +117,21 @@ public class TestWhitelistFilterSkipWrapper {
         verify(filter).doFilter(request, response, filterChain);
     }
 
+    @Test
+    @DisplayName("Calls the wrapped filter when applying the filter and the path method is whitelisted but has no methods")
+    void testDoFilter_WhiteListedPath_WithoutMethod() throws ServletException, IOException {
+        final Filter                     wrapper;
+        final Collection<WhitelistRoute> whitelist;
+
+        // GIVEN
+        whitelist = List.of(WhitelistRoute.of(PATH));
+        wrapper = new WhitelistFilterSkipWrapper(filter, whitelist);
+
+        // WHEN
+        wrapper.doFilter(request, response, filterChain);
+
+        // THEN
+        verify(filter, never()).doFilter(request, response, filterChain);
+    }
+
 }

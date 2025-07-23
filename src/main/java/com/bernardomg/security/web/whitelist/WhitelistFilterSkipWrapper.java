@@ -96,8 +96,13 @@ public final class WhitelistFilterSkipWrapper extends OncePerRequestFilter {
         if (pathPattern.matches(pathContainer)) {
             // The request URI matches the pattern
             // Check if the method is allowed
-            matches = whitelistRoute.methods()
-                .contains(method);
+            if (whitelistRoute.methods()
+                .isEmpty()) {
+                matches = true;
+            } else {
+                matches = whitelistRoute.methods()
+                    .contains(method);
+            }
         } else {
             matches = false;
         }
