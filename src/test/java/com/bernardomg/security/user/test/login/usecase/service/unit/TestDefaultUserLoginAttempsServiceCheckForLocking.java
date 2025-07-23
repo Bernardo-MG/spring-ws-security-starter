@@ -80,4 +80,17 @@ class TestDefaultUserLoginAttempsServiceCheckForLocking {
         verify(userRepository).lock(UserConstants.USERNAME);
     }
 
+    @Test
+    @DisplayName("When the user doesn't exist it is not locked")
+    void testCheckForLocking_NoUser() {
+        // GIVEN
+        given(userRepository.increaseLoginAttempts(UserConstants.USERNAME)).willReturn(0);
+
+        // WHEN
+        service.checkForLocking(UserConstants.USERNAME);
+
+        // THEN
+        verify(userRepository, Mockito.never()).lock(UserConstants.USERNAME);
+    }
+
 }
