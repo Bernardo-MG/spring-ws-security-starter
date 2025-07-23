@@ -55,7 +55,7 @@ import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
-import com.bernardomg.security.web.whitelist.WhitelistFilterWrapper;
+import com.bernardomg.security.web.whitelist.WhitelistFilterSkipWrapper;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
@@ -131,7 +131,7 @@ public class WebSecurityConfiguration {
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist, handlerMappingIntrospector);
         jwtFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
-        jwtFilterWrapped = new WhitelistFilterWrapper(jwtFilter, whitelist);
+        jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
         http
             // Whitelist access
             .authorizeHttpRequests(whitelister)

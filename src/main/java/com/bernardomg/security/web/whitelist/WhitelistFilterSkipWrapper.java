@@ -43,17 +43,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Whitelist filter wrapper. Will ignore any path on the whitelist, otherwise it applies the wrapped filter.
+ * Whitelist filter wrapper, which skips the wrapped filter for the whitelisted paths.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class WhitelistFilterWrapper extends OncePerRequestFilter {
+public final class WhitelistFilterSkipWrapper extends OncePerRequestFilter {
 
     /**
      * Logger for the class.
      */
-    private static final Logger              log               = LoggerFactory.getLogger(WhitelistFilterWrapper.class);
+    private static final Logger              log               = LoggerFactory
+        .getLogger(WhitelistFilterSkipWrapper.class);
 
     /**
      * Wrapped filter.
@@ -78,7 +79,7 @@ public final class WhitelistFilterWrapper extends OncePerRequestFilter {
      * @param whitel
      *            whitelisted routes
      */
-    public WhitelistFilterWrapper(final Filter fltr, final Collection<WhitelistRoute> whitel) {
+    public WhitelistFilterSkipWrapper(final Filter fltr, final Collection<WhitelistRoute> whitel) {
         super();
 
         filter = Objects.requireNonNull(fltr);
