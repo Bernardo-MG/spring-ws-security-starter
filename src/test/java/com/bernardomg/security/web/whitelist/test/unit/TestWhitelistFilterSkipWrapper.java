@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.web.whitelist;
+package com.bernardomg.security.web.whitelist.test.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
@@ -16,6 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpMethod;
+
+import com.bernardomg.security.web.whitelist.WhitelistFilterSkipWrapper;
+import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.web.ws.error.integration;
+package com.bernardomg.security.web.ws.error.test.integration;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,9 +38,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import com.bernardomg.security.web.ws.error.config.SecurityExceptionHandlerTestConfig;
-import com.bernardomg.security.web.ws.error.config.controller.SecurityExceptionController;
-import com.bernardomg.security.web.ws.error.config.controller.TestSecurityExceptionRequest;
+import com.bernardomg.security.web.ws.error.test.config.SecurityExceptionHandlerTestConfig;
+import com.bernardomg.security.web.ws.error.test.config.controller.SecurityExceptionController;
+import com.bernardomg.security.web.ws.error.test.config.controller.TestSecurityExceptionRequest;
 import com.bernardomg.test.TestApplication;
 
 @WebMvcTest(SecurityExceptionController.class)

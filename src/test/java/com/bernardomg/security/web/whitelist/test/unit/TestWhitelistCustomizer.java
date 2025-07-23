@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.web.whitelist;
+package com.bernardomg.security.web.whitelist.test.unit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -21,6 +21,9 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
+import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("WhitelistCustomizer")
