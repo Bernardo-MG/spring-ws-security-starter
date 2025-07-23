@@ -300,7 +300,10 @@
             Updated logs.
          </action>
       </release>
-      <release version="1.0.0" date="2025-07-22" description="">
+      <release version="0.4.15" date="2025-07-22" description="Corrected error handlers">
+         <action dev="bmg" type="fix">
+            Corrected password reset error handler.
+         </action>
       </release>
    </body>
 </document>
