@@ -26,17 +26,17 @@ package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * Captures and hides password reset exceptions.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@ControllerAdvice(basePackageClasses = PasswordResetController.class)
+@RestControllerAdvice(assignableTypes = PasswordResetController.class)
 public class PasswordResetExceptionHandler {
 
     /**
@@ -52,10 +52,9 @@ public class PasswordResetExceptionHandler {
     }
 
     @ExceptionHandler({ RuntimeException.class })
-    public final ResponseEntity<Object> handleException(final Exception ex, final WebRequest request) throws Exception {
+    @ResponseStatus(HttpStatus.OK)
+    public final void handleRuntimeException(final Exception ex) {
         log.warn(ex.getMessage(), ex);
-
-        return ResponseEntity.ok("");
     }
 
 }

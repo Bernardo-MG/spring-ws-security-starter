@@ -106,6 +106,7 @@ public class PasswordResetController {
      *            token to validate
      * @return {@code true} if the token is valid, {@code false} otherwise
      */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
     public UserTokenStatus validateToken(@PathVariable("token") final String token) {

@@ -25,13 +25,13 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 class TestSpringValidLoginPredicate {
 
     @Mock
-    private PasswordEncoder           passEncoder;
+    private PasswordEncoder           passwordEncoder;
 
     @Mock
     private UserDetails               user;
 
     @Mock
-    private UserDetailsService        userDetService;
+    private UserDetailsService        userDetailsService;
 
     @InjectMocks
     private SpringValidLoginPredicate validator;
@@ -47,7 +47,7 @@ class TestSpringValidLoginPredicate {
         given(user.isCredentialsNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
 
-        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // WHEN
         // TODO: use constants
@@ -69,7 +69,7 @@ class TestSpringValidLoginPredicate {
         given(user.isCredentialsNonExpired()).willReturn(false);
         given(user.isAccountNonLocked()).willReturn(true);
 
-        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // WHEN
         status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
@@ -90,7 +90,31 @@ class TestSpringValidLoginPredicate {
         given(user.isCredentialsNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(true);
 
-        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+
+        // WHEN
+        status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
+
+        // THEN
+        Assertions.assertThat(status)
+            .isFalse();
+    }
+
+    @Test
+    @DisplayName("Doesn't validate an invalid password")
+    void tesValidate_InvalidPassword() {
+        final boolean status;
+
+        // GIVEN
+        given(user.isEnabled()).willReturn(true);
+        given(user.isAccountNonExpired()).willReturn(true);
+        given(user.isCredentialsNonExpired()).willReturn(true);
+        given(user.isAccountNonLocked()).willReturn(true);
+        given(user.getPassword()).willReturn(UserConstants.ENCODED_PASSWORD);
+
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+
+        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(false);
 
         // WHEN
         status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
@@ -111,7 +135,7 @@ class TestSpringValidLoginPredicate {
         given(user.isCredentialsNonExpired()).willReturn(true);
         given(user.isAccountNonLocked()).willReturn(false);
 
-        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
         // WHEN
         status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
@@ -127,7 +151,7 @@ class TestSpringValidLoginPredicate {
         final boolean status;
 
         // GIVEN
-        given(userDetService.loadUserByUsername(ArgumentMatchers.anyString()))
+        given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString()))
             .willThrow(UsernameNotFoundException.class);
 
         // WHEN
@@ -144,7 +168,7 @@ class TestSpringValidLoginPredicate {
         final boolean status;
 
         // GIVEN
-        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(null);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(null);
 
         // WHEN
         status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
@@ -166,9 +190,9 @@ class TestSpringValidLoginPredicate {
         given(user.isAccountNonLocked()).willReturn(true);
         given(user.getPassword()).willReturn(UserConstants.ENCODED_PASSWORD);
 
-        given(userDetService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(user);
 
-        given(passEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
+        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.ENCODED_PASSWORD)).willReturn(true);
 
         // WHEN
         status = validator.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));

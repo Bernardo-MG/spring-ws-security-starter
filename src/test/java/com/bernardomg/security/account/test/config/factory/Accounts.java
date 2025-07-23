@@ -7,6 +7,10 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 public final class Accounts {
 
+    public static final Account empty() {
+        return new BasicAccount(null, null, null);
+    }
+
     public static final Account nameChange() {
         return new BasicAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.ALTERNATIVE_NAME);
     }

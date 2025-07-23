@@ -21,19 +21,19 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetController;
-import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetExceptionHandler;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordResetChange;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.test.TestApplication;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.test.json.JsonUtils;
 
 @MvcIntegrationTest
-@ContextConfiguration(classes = { PasswordResetExceptionHandler.class })
 @ComponentScan(basePackageClasses = PasswordResetController.class)
 @AllAuthoritiesMockUser
+@ContextConfiguration(classes = TestApplication.class)
 @DisplayName("PasswordResetController - Exceptions")
 class ITPasswordResetControllerException {
 
