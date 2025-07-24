@@ -36,7 +36,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
@@ -114,7 +114,7 @@ public final class DefaultUserService implements UserService {
 
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
-            throw new MissingUserException(username);
+            throw new MissingUsernameException(username);
         }
 
         userRepository.delete(username);
@@ -144,7 +144,7 @@ public final class DefaultUserService implements UserService {
         user = userRepository.findOne(username);
         if (user.isEmpty()) {
             log.error("Missing user {}", username);
-            throw new MissingUserException(username);
+            throw new MissingUsernameException(username);
         }
 
         log.trace("Read user {}", username);
@@ -192,7 +192,7 @@ public final class DefaultUserService implements UserService {
         existing = userRepository.findOne(user.username())
             .orElseThrow(() -> {
                 log.error("Missing user {}", user.username());
-                throw new MissingUserException(user.username());
+                throw new MissingUsernameException(user.username());
             });
 
         // Verify the roles exists

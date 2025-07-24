@@ -22,14 +22,22 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
+package com.bernardomg.security.user.data.domain.exception;
+
+import com.bernardomg.exception.MissingIdException;
 
 /**
- * Data required for changing a password.
+ * Missing user by username exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record PasswordResetChange(String password) {
+public final class MissingUsernameException extends MissingIdException {
+
+    private static final long serialVersionUID = 2786821546505029631L;
+
+    public MissingUsernameException(final String username) {
+        super("user", username);
+    }
 
 }

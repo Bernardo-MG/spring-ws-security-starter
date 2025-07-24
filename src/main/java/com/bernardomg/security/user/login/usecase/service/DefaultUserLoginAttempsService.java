@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 
@@ -80,7 +80,7 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
             user = userRepository.findOne(username)
                 .orElseThrow(() -> {
                     log.error("Missing user {}", username);
-                    throw new MissingUserException(username);
+                    throw new MissingUsernameException(username);
                 });
             // TODO: then, read just the username
             userRepository.lock(user.username());

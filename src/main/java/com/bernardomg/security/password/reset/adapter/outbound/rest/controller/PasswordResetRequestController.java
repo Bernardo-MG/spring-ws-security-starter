@@ -26,8 +26,6 @@ package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +33,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
+import com.bernardomg.security.password.reset.adapter.outbound.rest.model.RequestPasswordReset;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
-import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
+
+import jakarta.validation.Valid;
 
 /**
  * Handles password reset for a user, usually when it can't start a session. It is divided into two steps:
@@ -53,49 +52,31 @@ import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
  *
  */
 @RestController
-@RequestMapping("/password/reset/{token}")
-public class PasswordResetController {
+@RequestMapping("/password/reset")
+public class PasswordResetRequestController {
 
     /**
      * Password reset service.
      */
     private final PasswordResetService service;
 
-    public PasswordResetController(final PasswordResetService service) {
+    public PasswordResetRequestController(final PasswordResetService service) {
         super();
 
         this.service = service;
     }
 
     /**
-     * Change password at the end of a password recovery.
+     * Start a password reset.
      *
-     * @param token
-     *            token for password change
-     * @param change
-     *            password reset
+     * @param request
+     *            password recovery request
      */
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
-    public void changePassword(@PathVariable("token") final String token, @RequestBody final PasswordReset change) {
-        service.changePassword(token, change.password());
-    }
-
-    /**
-     * Validates a token.
-     *
-     * @param token
-     *            token to validate
-     * @return {@code true} if the token is valid, {@code false} otherwise
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @Unsecured
-    public UserTokenStatus validateToken(@PathVariable("token") final String token) {
-        // TODO: Use a generic token controller
-        // TODO: Use cache
-        return service.validateToken(token);
+    public void requestPasswordReset(@Valid @RequestBody final RequestPasswordReset request) {
+        service.startPasswordReset(request.email());
     }
 
 }

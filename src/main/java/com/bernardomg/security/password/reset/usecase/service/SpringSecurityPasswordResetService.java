@@ -38,7 +38,7 @@ import com.bernardomg.security.password.reset.usecase.validation.PasswordResetHa
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.exception.InvalidTokenException;
@@ -80,9 +80,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final PasswordNotificator passwordNotificator;
 
     /**
-     * Token processor.
+     * Token store for password reset tokens.
      */
-    private final UserTokenStore      tokenStore;
+    private final UserTokenStore      passwordResetTokenStore;
 
     /**
      * User details service, to find and validate users.
@@ -106,7 +106,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         userRepository = Objects.requireNonNull(repo);
         userDetailsService = Objects.requireNonNull(userDetsService);
         passwordNotificator = Objects.requireNonNull(notif);
-        tokenStore = Objects.requireNonNull(tStore);
+        passwordResetTokenStore = Objects.requireNonNull(tStore);
 
         validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
     }
@@ -119,12 +119,12 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         log.trace("Changing password from token");
 
-        tokenStore.validate(token);
+        passwordResetTokenStore.validate(token);
 
         log.debug("Validating new password");
         validatorChange.validate(password);
 
-        username = tokenStore.getUsername(token);
+        username = passwordResetTokenStore.getUsername(token);
 
         log.debug("Applying requested password change to {}", username);
 
@@ -133,7 +133,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         authorizePasswordChange(user.username());
 
         userRepository.resetPassword(user.username(), password);
-        tokenStore.consumeToken(token);
+        passwordResetTokenStore.consumeToken(token);
 
         log.trace("Changed password for {}", username);
     }
@@ -153,10 +153,12 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         authorizePasswordChange(user.username());
 
         // Revoke previous tokens
-        tokenStore.revokeExistingTokens(user.username());
+        log.debug("Revoking existing password reset tokens for {}", user.username());
+        passwordResetTokenStore.revokeExistingTokens(user.username());
 
         // Register new token
-        token = tokenStore.createToken(user.username());
+        log.debug("Generating new token to reset password for {}", user.username());
+        token = passwordResetTokenStore.createToken(user.username());
 
         // TODO: Handle through events
         passwordNotificator.sendPasswordRecoveryMessage(user.email(), user.username(), token);
@@ -173,14 +175,14 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         log.trace("Validating password change token");
 
         try {
-            tokenStore.validate(token);
+            passwordResetTokenStore.validate(token);
             valid = true;
         } catch (final InvalidTokenException ex) {
             valid = false;
         }
 
         try {
-            username = tokenStore.getUsername(token);
+            username = passwordResetTokenStore.getUsername(token);
         } catch (final InvalidTokenException ex) {
             username = "";
         }
@@ -218,6 +220,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
             log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
             throw new DisabledUserException(userDetails.getUsername());
         }
+
+        log.debug("Can reset password for user {}", username);
     }
 
     private final User getUserByEmail(final String email) {
@@ -228,7 +232,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for email {}, as no user exists for it", email);
-            throw new MissingUserException(email);
+            throw new MissingUsernameException(email);
         }
 
         return user.get();
@@ -242,7 +246,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // Validate the user exists
         if (!user.isPresent()) {
             log.error("Couldn't change password for user {}, as it doesn't exist", username);
-            throw new MissingUserException(username);
+            throw new MissingUsernameException(username);
         }
 
         return user.get();

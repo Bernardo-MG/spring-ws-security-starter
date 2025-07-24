@@ -31,7 +31,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
@@ -92,40 +92,40 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         final UserToken readToken;
         final UserToken updated;
 
-        log.debug("Consuming token");
+        log.trace("Consuming token with scope {}", tokenScope);
 
         readToken = userTokenRepository.findOneByScope(token, tokenScope)
             .orElseThrow(() -> {
-                log.error("Token missing: {}", token);
+                log.error("Token missing with scope {}: {}", tokenScope, token);
                 throw new MissingUserTokenException(token);
             });
 
         if (readToken.consumed()) {
-            log.warn("Token already consumed: {}", token);
+            log.warn("Token already consumed with scope {}: {}", tokenScope, token);
             throw new ConsumedTokenException(token);
         }
 
         updated = readToken.consume();
         userTokenRepository.save(updated);
-        log.debug("Consumed token {}", token);
+        log.trace("Consumed token {} with scope {}", token, tokenScope);
     }
 
     @Override
     public final String createToken(final String username) {
         final UserToken token;
 
-        log.debug("Creating token for {}", username);
+        log.trace("Creating token with scope {} for {}", tokenScope, username);
 
         if (!userRepository.exists(username)) {
             log.error("Missing user {}", username);
-            throw new MissingUserException(username);
+            throw new MissingUsernameException(username);
         }
 
         token = UserToken.create(username, tokenScope, validity);
 
         userTokenRepository.save(token);
 
-        log.debug("Created token for {} with scope {}", username, tokenScope);
+        log.trace("Created token with scope {} for {}", tokenScope, username);
 
         return token.token();
     }
@@ -133,7 +133,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     @Override
     public final String getUsername(final String token) {
 
-        log.debug("Getting username from token");
+        log.trace("Getting username from token with scope {}", tokenScope);
 
         return userTokenRepository.findOneByScope(token, tokenScope)
             .map(UserToken::username)
@@ -149,12 +149,12 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         final Collection<UserToken> revoked;
         final User                  readUser;
 
-        log.debug("Revoking tokens for {}", username);
+        log.trace("Revoking tokens with scope {} for {}", tokenScope, username);
 
         readUser = userRepository.findOne(username)
             .orElseThrow(() -> {
                 log.error("Missing user {}", username);
-                throw new MissingUserException(username);
+                throw new MissingUsernameException(username);
             });
 
         // Find all tokens not revoked, and mark them as revoked
@@ -163,20 +163,22 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             .map(UserToken::revoke)
             .toList();
 
+        log.debug("Found {} tokens to revoke with scope {}", revoked.size(), tokenScope);
+
         userTokenRepository.saveAll(revoked);
 
-        log.debug("Revoked all existing tokens with scope {} for {}", tokenScope, readUser.username());
+        log.trace("Revoked all existing tokens with scope {} for {}", tokenScope, readUser.username());
     }
 
     @Override
     public final void validate(final String token) {
         final UserToken read;
 
-        log.debug("Validating token");
+        log.trace("Validating token with scope {}", tokenScope);
 
         read = userTokenRepository.findOne(token)
             .orElseThrow(() -> {
-                log.warn("Token not registered: {}", token);
+                log.warn("Token not registered with scope {}: {}", tokenScope, token);
                 throw new MissingUserTokenException(token);
             });
 

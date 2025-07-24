@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 
 /**
- * Disabled password notificator. For disabling emailing.
+ * Disabled password notificator. For disabling messages.
  */
 public final class DisabledPasswordNotificator implements PasswordNotificator {
 
@@ -46,7 +46,7 @@ public final class DisabledPasswordNotificator implements PasswordNotificator {
     @Override
     public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
         // To avoid sending emails
-        log.warn("Disabled email messages");
+        log.warn("Password recovery message is disabled");
     }
 
 }

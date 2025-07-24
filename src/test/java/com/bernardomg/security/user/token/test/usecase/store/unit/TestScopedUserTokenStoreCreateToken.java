@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.token.domain.model.UserToken;
@@ -130,7 +130,7 @@ class TestScopedUserTokenStoreCreateToken {
         // THEN
         // TODO: Does this make sense? Throw a custom exception
         Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(MissingUserException.class);
+            .isInstanceOf(MissingUsernameException.class);
     }
 
 }

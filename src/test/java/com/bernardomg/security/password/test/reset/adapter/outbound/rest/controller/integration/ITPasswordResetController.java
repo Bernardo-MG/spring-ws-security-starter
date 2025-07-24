@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetController;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordReset;
-import com.bernardomg.security.password.reset.adapter.outbound.rest.model.PasswordResetChange;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
@@ -46,11 +45,11 @@ class ITPasswordResetController {
     @Test
     @DisplayName("Can change password")
     void testChangePassword() throws Exception {
-        final PasswordResetChange changeRequest;
-        final ResultActions       resultActions;
+        final PasswordReset changeRequest;
+        final ResultActions resultActions;
 
         // GIVEN
-        changeRequest = new PasswordResetChange(UserConstants.NEW_PASSWORD);
+        changeRequest = new PasswordReset(UserConstants.NEW_PASSWORD);
 
         // WHEN
         resultActions = mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN).with(csrf())
@@ -64,10 +63,10 @@ class ITPasswordResetController {
     @Test
     @DisplayName("When changing the password, the data is sent to the service")
     void testChangePassword_CallsService() throws Exception {
-        final PasswordResetChange changeRequest;
+        final PasswordReset changeRequest;
 
         // GIVEN
-        changeRequest = new PasswordResetChange(UserConstants.NEW_PASSWORD);
+        changeRequest = new PasswordReset(UserConstants.NEW_PASSWORD);
 
         // WHEN
         mockMvc.perform(post("/password/reset/{token}", Tokens.TOKEN).with(csrf())
@@ -76,41 +75,6 @@ class ITPasswordResetController {
 
         // THEN
         verify(service).changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
-    }
-
-    @Test
-    @DisplayName("Can start password reset")
-    void testStartPasswordReset() throws Exception {
-        final PasswordReset resetRequest;
-        final ResultActions resultActions;
-
-        // GIVEN
-        resetRequest = new PasswordReset(UserConstants.EMAIL);
-
-        // WHEN
-        resultActions = mockMvc.perform(post("/password/reset").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtils.toJson(resetRequest)));
-
-        // THEN
-        resultActions.andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("When starting the password reset, the data is sent to the service")
-    void testStartPasswordReset_CallsService() throws Exception {
-        final PasswordReset resetRequest;
-
-        // GIVEN
-        resetRequest = new PasswordReset(UserConstants.EMAIL);
-
-        // WHEN
-        mockMvc.perform(post("/password/reset").with(csrf())
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(JsonUtils.toJson(resetRequest)));
-
-        // THEN
-        verify(service).startPasswordReset(UserConstants.EMAIL);
     }
 
     @Test

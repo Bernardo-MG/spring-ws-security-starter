@@ -43,7 +43,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
-import com.bernardomg.security.user.data.domain.exception.MissingUserException;
+import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
@@ -181,7 +181,7 @@ class TestUserServiceUpdate {
 
         // THEN
         Assertions.assertThatThrownBy(execution)
-            .isInstanceOf(MissingUserException.class);
+            .isInstanceOf(MissingUsernameException.class);
     }
 
     @Test

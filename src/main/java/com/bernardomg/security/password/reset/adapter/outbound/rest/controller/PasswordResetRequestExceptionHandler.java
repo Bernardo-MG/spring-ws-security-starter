@@ -36,18 +36,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@RestControllerAdvice(assignableTypes = PasswordResetController.class)
-public class PasswordResetExceptionHandler {
+@RestControllerAdvice(assignableTypes = PasswordResetRequestController.class)
+public class PasswordResetRequestExceptionHandler {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(PasswordResetExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(PasswordResetRequestExceptionHandler.class);
 
     /**
      * Default constructor.
      */
-    public PasswordResetExceptionHandler() {
+    public PasswordResetRequestExceptionHandler() {
         super();
     }
 
