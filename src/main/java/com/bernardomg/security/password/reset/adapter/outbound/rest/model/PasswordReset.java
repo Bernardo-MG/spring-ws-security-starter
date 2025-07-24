@@ -24,15 +24,12 @@
 
 package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-
 /**
- * Data required for starting the password reset.
+ * Data required for changing a password.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record PasswordReset(@NotEmpty @Email String email) {
+public final record PasswordReset(String password) {
 
 }
