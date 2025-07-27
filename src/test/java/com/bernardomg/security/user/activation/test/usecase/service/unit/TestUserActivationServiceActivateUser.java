@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +28,8 @@ import com.bernardomg.security.user.notification.usecase.notificator.UserNotific
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - activate user")
@@ -53,20 +54,16 @@ class TestUserActivationServiceActivateUser {
         super();
     }
 
-    @BeforeEach
-    public void initializeToken() {
-        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
-    }
-
     @Test
     @DisplayName("Activating a new user consumes the token")
     void testActivateUser_ConsumesToken() {
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN
-        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
         verify(tokenStore).consumeToken(Tokens.TOKEN);
@@ -76,13 +73,14 @@ class TestUserActivationServiceActivateUser {
     @DisplayName("Activating a disabled user saves it as enabled")
     void testActivateUser_Disabled() {
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
 
         // WHEN
-        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
     @Test
@@ -93,10 +91,11 @@ class TestUserActivationServiceActivateUser {
         final Exception        exception;
 
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(EnabledUserException.class, executable);
@@ -113,10 +112,11 @@ class TestUserActivationServiceActivateUser {
         final Exception        exception;
 
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
@@ -126,16 +126,32 @@ class TestUserActivationServiceActivateUser {
     }
 
     @Test
+    @DisplayName("Activating a user with an invalid password throws an exception")
+    void testActivateUser_InvalidPassword() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // WHEN
+        execution = () -> service.activateUser(Tokens.TOKEN, "abc");
+
+        // THEN
+        failure = new FieldFailure("invalid", "password", "password.invalid", "");
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("Activating a new user keeps its roles")
     void testActivateUser_KeepsRoles() {
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreatedWithRole()));
 
         // WHEN
-        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
     @Test
@@ -146,10 +162,11 @@ class TestUserActivationServiceActivateUser {
         final Exception        exception;
 
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
@@ -162,13 +179,14 @@ class TestUserActivationServiceActivateUser {
     @DisplayName("Activating a new user saves it as enabled")
     void testActivateUser_NewlyCreated() {
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
 
         // WHEN
-        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
     @Test
@@ -179,10 +197,11 @@ class TestUserActivationServiceActivateUser {
         final Exception        exception;
 
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(MissingUsernameException.class, executable);
@@ -195,13 +214,14 @@ class TestUserActivationServiceActivateUser {
     @DisplayName("Activating a user with password expired saves it as enabled")
     void testActivateUser_PasswordExpired() {
         // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpiredAndDisabled()));
 
         // WHEN
-        service.activateUser(Tokens.TOKEN, UserConstants.PASSWORD);
+        service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
 }

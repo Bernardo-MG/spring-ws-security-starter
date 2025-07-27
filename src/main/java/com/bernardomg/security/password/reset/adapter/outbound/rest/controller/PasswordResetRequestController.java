@@ -36,8 +36,6 @@ import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.model.RequestPasswordReset;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 
-import jakarta.validation.Valid;
-
 /**
  * Handles password reset for a user, usually when it can't start a session. It is divided into two steps:
  * <p>
@@ -75,7 +73,7 @@ public class PasswordResetRequestController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
-    public void requestPasswordReset(@Valid @RequestBody final RequestPasswordReset request) {
+    public void requestPasswordReset(@RequestBody final RequestPasswordReset request) {
         service.startPasswordReset(request.email());
     }
 

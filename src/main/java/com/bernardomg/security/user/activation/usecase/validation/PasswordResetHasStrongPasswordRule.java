@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.reset.usecase.validation;
+package com.bernardomg.security.user.activation.usecase.validation;
 
 import java.util.ArrayList;
 import java.util.List;
