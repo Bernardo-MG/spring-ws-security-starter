@@ -142,6 +142,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     public final void startPasswordReset(final String email) {
         final User   user;
         final String token;
+        
+        // TODO: run async
 
         log.trace("Requested password recovery for {}", email);
 
