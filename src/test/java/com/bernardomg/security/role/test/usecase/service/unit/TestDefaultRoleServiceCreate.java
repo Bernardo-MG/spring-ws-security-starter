@@ -41,6 +41,21 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
+    @DisplayName("When the role name is empty, an exception is thrown")
+    void testCreate_NameEmpty() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+
+        // WHEN
+        executable = () -> service.create("");
+
+        // THEN
+        failure = new FieldFailure("empty", "name", "name.empty", "");
+
+        ValidationAssertions.assertThatFieldFails(executable, failure);
+    }
+
+    @Test
     @DisplayName("When the role name already exists, an exception is thrown")
     void testCreate_NameExists() {
         final ThrowingCallable executable;
@@ -56,16 +71,6 @@ class TestDefaultRoleServiceCreate {
         failure = new FieldFailure("existing", "name", "name.existing", RoleConstants.NAME);
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Sends a role without name to the repository")
-    void testCreate_NoName_PersistedData() {
-        // WHEN
-        service.create("");
-
-        // THEN
-        verify(roleRepository).save(Roles.noName());
     }
 
     @Test

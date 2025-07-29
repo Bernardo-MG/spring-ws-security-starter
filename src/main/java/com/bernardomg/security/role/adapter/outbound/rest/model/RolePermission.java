@@ -24,15 +24,12 @@
 
 package com.bernardomg.security.role.adapter.outbound.rest.model;
 
-import org.springframework.validation.annotation.Validated;
-
 /**
  * A role permission.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Validated
 public final record RolePermission(String name, String resource, String action) {
 
 }

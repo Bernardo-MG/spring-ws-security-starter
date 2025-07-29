@@ -71,11 +71,11 @@ class TestPasswordChangeServiceChangePassword {
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         Mockito.verify(repository)
-            .resetPassword(UserConstants.USERNAME, "abc");
+            .resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
     @Test
@@ -93,7 +93,7 @@ class TestPasswordChangeServiceChangePassword {
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(DisabledUserException.class, executable);
@@ -117,13 +117,34 @@ class TestPasswordChangeServiceChangePassword {
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
             .isEqualTo("User " + UserConstants.USERNAME + " is expired");
+    }
+
+    @Test
+    @WithMockUser(username = UserConstants.USERNAME)
+    @DisplayName("Changing password with an invalid password throws an exception")
+    void testChangePasswordForUserInSession_InvalidPassword() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(repository.exists(UserConstants.USERNAME)).willReturn(true);
+        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
+
+        // WHEN
+        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+
+        // THEN
+        failure = new FieldFailure("invalid", "password", "password.invalid", "");
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test
@@ -141,7 +162,7 @@ class TestPasswordChangeServiceChangePassword {
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
@@ -161,7 +182,7 @@ class TestPasswordChangeServiceChangePassword {
             .setAuthentication(null);
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(InvalidPasswordChangeException.class, executable);
@@ -181,7 +202,7 @@ class TestPasswordChangeServiceChangePassword {
             .setAuthentication(Authentications.notAuthenticated());
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(InvalidPasswordChangeException.class, executable);
@@ -203,7 +224,7 @@ class TestPasswordChangeServiceChangePassword {
         given(repository.exists(UserConstants.USERNAME)).willReturn(false);
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         exception = Assertions.catchThrowableOfType(MissingUsernameException.class, executable);
@@ -224,7 +245,7 @@ class TestPasswordChangeServiceChangePassword {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
 
         // WHEN
-        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         failure = new FieldFailure("notMatch", "oldPassword", "oldPassword.notMatch", UserConstants.PASSWORD);
@@ -241,7 +262,7 @@ class TestPasswordChangeServiceChangePassword {
         given(repository.exists(UserConstants.USERNAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         Assertions.assertThatThrownBy(execution)
@@ -258,11 +279,11 @@ class TestPasswordChangeServiceChangePassword {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
 
         // WHEN
-        service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         Mockito.verify(repository)
-            .resetPassword(UserConstants.USERNAME, "abc");
+            .resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
     }
 
 }

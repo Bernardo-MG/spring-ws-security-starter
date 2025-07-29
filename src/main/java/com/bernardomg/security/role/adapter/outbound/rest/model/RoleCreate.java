@@ -24,16 +24,11 @@
 
 package com.bernardomg.security.role.adapter.outbound.rest.model;
 
-import org.springframework.validation.annotation.Validated;
-
-import jakarta.validation.constraints.NotNull;
-
 /**
  * Data required for creating a role.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-@Validated
-public final record RoleCreate(@NotNull String name) {
+public final record RoleCreate(String name) {
 
 }

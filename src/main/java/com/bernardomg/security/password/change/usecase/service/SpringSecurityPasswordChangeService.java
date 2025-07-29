@@ -37,6 +37,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.password.change.domain.exception.InvalidPasswordChangeException;
+import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
@@ -44,6 +45,8 @@ import com.bernardomg.security.user.data.domain.exception.MissingUsernameExcepti
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.validation.domain.exception.FieldFailureException;
 import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Password change service based on Spring security.
@@ -74,6 +77,11 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
      */
     private final UserDetailsService userDetailsService;
 
+    /**
+     * Change password validator.
+     */
+    private final Validator<String>  validatorChange;
+
     public SpringSecurityPasswordChangeService(final UserRepository userRepo, final UserDetailsService userDetsService,
             final PasswordEncoder passEncoder) {
         super();
@@ -81,6 +89,8 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         repository = Objects.requireNonNull(userRepo);
         userDetailsService = Objects.requireNonNull(userDetsService);
         passwordEncoder = Objects.requireNonNull(passEncoder);
+
+        validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
     }
 
     @Override
@@ -104,6 +114,9 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         // TODO: Move to validator
         validatePassword(userDetails, oldPassword);
+
+        log.debug("Validating new password");
+        validatorChange.validate(newPassword);
 
         // Make sure the user can change the password
         authorizePasswordChange(userDetails);

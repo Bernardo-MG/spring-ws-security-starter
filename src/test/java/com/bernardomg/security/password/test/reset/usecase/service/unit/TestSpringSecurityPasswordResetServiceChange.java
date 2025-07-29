@@ -107,7 +107,7 @@ class TestSpringSecurityPasswordResetServiceChange {
 
     @Test
     @WithMockUser(username = UserConstants.USERNAME)
-    @DisplayName("Changing password for a not existing user throws an exception")
+    @DisplayName("Changing password with an invalid password throws an exception")
     void testChangePassword_InvalidPassword() {
         final ThrowingCallable execution;
         final FieldFailure     failure;

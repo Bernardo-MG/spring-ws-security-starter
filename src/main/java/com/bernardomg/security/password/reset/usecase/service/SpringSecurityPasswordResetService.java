@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.password.reset.usecase.validation.EmailFormatRule;
-import com.bernardomg.security.password.reset.usecase.validation.PasswordResetHasStrongPasswordRule;
+import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;

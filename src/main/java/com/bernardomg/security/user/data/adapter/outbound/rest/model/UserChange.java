@@ -26,19 +26,13 @@ package com.bernardomg.security.user.data.adapter.outbound.rest.model;
 
 import java.util.Collection;
 
-import org.springframework.validation.annotation.Validated;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-
 /**
  * Data which can be changed for a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Validated
-public final record UserChange(@NotNull @Email String email, @NotNull String username, @NotNull String name,
-        @NotNull Boolean enabled, @NotNull Boolean passwordNotExpired, @NotNull Collection<String> roles) {
+public final record UserChange(String email, String username, String name, Boolean enabled, Boolean passwordNotExpired,
+        Collection<String> roles) {
 
 }

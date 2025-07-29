@@ -42,6 +42,7 @@ import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.usecase.validation.RoleHasNoUserRule;
+import com.bernardomg.security.role.usecase.validation.RoleNameNotEmptyRule;
 import com.bernardomg.security.role.usecase.validation.RoleNameNotExistsRule;
 import com.bernardomg.security.role.usecase.validation.RolePermissionsNotDuplicatedRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
@@ -93,9 +94,9 @@ public final class DefaultRoleService implements RoleService {
         roleRepository = Objects.requireNonNull(roleRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
 
-        validatorCreate = new FieldRuleValidator<>(new RoleNameNotExistsRule(roleRepo));
+        validatorCreate = new FieldRuleValidator<>(new RoleNameNotEmptyRule(), new RoleNameNotExistsRule(roleRepo));
         validatorDelete = new FieldRuleValidator<>(new RoleHasNoUserRule(roleRepo));
-        validatorUpdate = new FieldRuleValidator<>(new RolePermissionsNotDuplicatedRule());
+        validatorUpdate = new FieldRuleValidator<>( new RolePermissionsNotDuplicatedRule());
     }
 
     @Override

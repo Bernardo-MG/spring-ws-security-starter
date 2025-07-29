@@ -24,9 +24,6 @@
 
 package com.bernardomg.security.role.adapter.outbound.rest.model;
 
-import org.springframework.validation.annotation.Validated;
-
-@Validated
 public final record RoleQueryRequest(String name) {
 
 }
