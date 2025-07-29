@@ -86,9 +86,11 @@ public final class TokenLoginService implements LoginService {
 
         log.trace("Log in attempt for {}", credentials.username());
 
-        validUsername = loadLoginName(credentials.username());
+        validUsername = loadLoginName(credentials.username()
+            .trim());
 
-        validCredentials = new Credentials(validUsername, credentials.password());
+        validCredentials = new Credentials(validUsername, credentials.password()
+            .trim());
         valid = isValid.test(validCredentials);
 
         status = buildStatus(validUsername, valid);

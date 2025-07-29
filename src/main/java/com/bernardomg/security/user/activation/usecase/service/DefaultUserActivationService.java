@@ -90,7 +90,7 @@ public final class DefaultUserActivationService implements UserActivationService
         tokenStore.validate(token);
 
         // Validate password
-        validatorActivate.validate(password);
+        validatorActivate.validate(password.trim());
 
         // Acquire username
         username = tokenStore.getUsername(token);
@@ -106,7 +106,7 @@ public final class DefaultUserActivationService implements UserActivationService
         // TODO: validate somehow that it is actually a new user
         user.checkStatus();
 
-        saved = userRepository.activate(username, password);
+        saved = userRepository.activate(username, password.trim());
         tokenStore.consumeToken(token);
 
         log.trace("Activated new user {}", username);

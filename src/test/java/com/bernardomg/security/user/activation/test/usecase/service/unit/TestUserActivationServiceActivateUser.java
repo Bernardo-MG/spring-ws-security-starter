@@ -211,6 +211,20 @@ class TestUserActivationServiceActivateUser {
     }
 
     @Test
+    @DisplayName("Activating a new user with a padded password saves it as enabled")
+    void testActivateUser_PaddedPassword() {
+        // GIVEN
+        given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
+        given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
+
+        // WHEN
+        service.activateUser(Tokens.TOKEN, " " + UserConstants.NEW_PASSWORD + " ");
+
+        // THEN
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+    }
+
+    @Test
     @DisplayName("Activating a user with password expired saves it as enabled")
     void testActivateUser_PasswordExpired() {
         // GIVEN

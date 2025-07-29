@@ -96,7 +96,7 @@ public final class DefaultRoleService implements RoleService {
 
         validatorCreate = new FieldRuleValidator<>(new RoleNameNotEmptyRule(), new RoleNameNotExistsRule(roleRepo));
         validatorDelete = new FieldRuleValidator<>(new RoleHasNoUserRule(roleRepo));
-        validatorUpdate = new FieldRuleValidator<>( new RolePermissionsNotDuplicatedRule());
+        validatorUpdate = new FieldRuleValidator<>(new RolePermissionsNotDuplicatedRule());
     }
 
     @Override

@@ -40,12 +40,6 @@ public final class Users {
             true, List.of(Roles.withSinglePermission()));
     }
 
-    public static final User invalidEmail() {
-        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true,
-            true, List.of(Roles.withSinglePermission()));
-    }
-
-
     public static final User enabled() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
             List.of(Roles.withSinglePermission()));
@@ -53,6 +47,11 @@ public final class Users {
 
     public static final User expired() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, false, true, true,
+            List.of(Roles.withSinglePermission()));
+    }
+
+    public static final User invalidEmail() {
+        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
             List.of(Roles.withSinglePermission()));
     }
 

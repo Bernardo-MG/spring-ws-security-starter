@@ -66,6 +66,24 @@ class TestTokenLoginService {
     }
 
     @Test
+    @DisplayName("Logs in using a padded email")
+    void testLogIn_Email_Padded() {
+        final TokenLoginStatus status;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        // WHEN
+        status = getService(true).login(new Credentials(" " + UserConstants.EMAIL + " ", UserConstants.PASSWORD));
+
+        // THEN
+        Assertions.assertThat(status.logged())
+            .isTrue();
+    }
+
+    @Test
     @DisplayName("Logs in using the email and with a valid password")
     void testLogIn_Email_ValidPassword() {
         final TokenLoginStatus status;
@@ -84,6 +102,22 @@ class TestTokenLoginService {
     }
 
     @Test
+    @DisplayName("Logs in using a padded password")
+    void testLogIn_PaddedPassword() {
+        final TokenLoginStatus status;
+
+        // GIVEN
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        // WHEN
+        status = getService(true).login(new Credentials(" " + UserConstants.USERNAME + " ", UserConstants.PASSWORD));
+
+        // THEN
+        Assertions.assertThat(status.logged())
+            .isTrue();
+    }
+
+    @Test
     @DisplayName("Doesn't log in using the username and with an invalid password")
     void testLogIn_Username_InvalidPassword() {
         final TokenLoginStatus status;
@@ -94,6 +128,22 @@ class TestTokenLoginService {
         // THEN
         Assertions.assertThat(status.logged())
             .isFalse();
+    }
+
+    @Test
+    @DisplayName("Logs in using a padded username")
+    void testLogIn_Username_Padded() {
+        final TokenLoginStatus status;
+
+        // GIVEN
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        // WHEN
+        status = getService(true).login(new Credentials(" " + UserConstants.USERNAME + " ", UserConstants.PASSWORD));
+
+        // THEN
+        Assertions.assertThat(status.logged())
+            .isTrue();
     }
 
     @Test
