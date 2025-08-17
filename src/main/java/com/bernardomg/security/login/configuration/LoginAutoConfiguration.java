@@ -28,7 +28,6 @@ import java.util.function.Predicate;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +35,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.configuration.JwtProperties;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterListener;
@@ -91,7 +91,7 @@ public class LoginAutoConfiguration {
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
             final UserPermissionRepository userPermissionRepository, final JwtProperties jwtProperties,
-            final ApplicationEventPublisher publisher) {
+            final EventEmitter eventEmitter) {
         final Predicate<Credentials> valid;
         final LoginTokenEncoder      loginTokenEncoder;
 
@@ -100,7 +100,7 @@ public class LoginAutoConfiguration {
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userPermissionRepository,
             jwtProperties.validity());
 
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder, publisher);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventEmitter);
     }
 
     @Bean("loginWhitelist")

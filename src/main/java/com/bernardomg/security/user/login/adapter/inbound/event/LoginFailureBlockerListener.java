@@ -28,8 +28,8 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationListener;
 
+import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
 
@@ -38,7 +38,7 @@ import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsServic
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class LoginFailureBlockerListener implements ApplicationListener<LogInEvent> {
+public final class LoginFailureBlockerListener implements EventListener<LogInEvent> {
 
     /**
      * Logger for the class.
@@ -54,7 +54,12 @@ public final class LoginFailureBlockerListener implements ApplicationListener<Lo
     }
 
     @Override
-    public final void onApplicationEvent(final LogInEvent event) {
+    public final Class<LogInEvent> getEventType() {
+        return LogInEvent.class;
+    }
+
+    @Override
+    public final void handle(final LogInEvent event) {
         if (event.isLoggedIn()) {
             log.debug("Handling succesful login event attempt for {}", event.getUsername());
             userLoginAttempsService.clearLoginAttempts(event.getUsername());

@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
@@ -28,16 +28,16 @@ import com.bernardomg.security.user.test.config.factory.Users;
 class TestTokenLoginService {
 
     @Mock
-    private ApplicationEventPublisher eventPublisher;
+    private EventEmitter           eventEmitter;
 
     @Mock
-    private LoginTokenEncoder         loginTokenEncoder;
+    private LoginTokenEncoder      loginTokenEncoder;
 
     @Mock
-    private UserRepository            userRepository;
+    private UserRepository         userRepository;
 
     @Mock
-    private Predicate<Credentials>    valid;
+    private Predicate<Credentials> valid;
 
     public TestTokenLoginService() {
         super();
@@ -47,7 +47,7 @@ class TestTokenLoginService {
         // TODO: use constants
         given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(passwordMatches);
 
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventPublisher);
+        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventEmitter);
     }
 
     @Test

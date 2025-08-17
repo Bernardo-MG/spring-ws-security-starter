@@ -26,12 +26,12 @@ package com.bernardomg.security.event;
 
 import java.util.Objects;
 
-import org.springframework.context.ApplicationEvent;
+import com.bernardomg.event.domain.AbstractEvent;
 
 /**
  * Log in attempt event. It is created no matter if the attempt was succesful or not.
  */
-public final class LogInEvent extends ApplicationEvent {
+public final class LogInEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 4486597593510214141L;
 
@@ -76,6 +76,11 @@ public final class LogInEvent extends ApplicationEvent {
 
     public boolean isLoggedIn() {
         return loggedIn;
+    }
+
+    @Override
+    public String toString() {
+        return "LogInEvent [username=" + username + ", loggedIn=" + loggedIn + "]";
     }
 
 }

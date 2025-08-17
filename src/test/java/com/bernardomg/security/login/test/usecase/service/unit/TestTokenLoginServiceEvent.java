@@ -16,8 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.ApplicationEventPublisher;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.login.domain.model.Credentials;
@@ -35,7 +35,7 @@ class TestTokenLoginServiceEvent {
     private ArgumentCaptor<LogInEvent> eventCaptor;
 
     @Mock
-    private ApplicationEventPublisher  eventPublisher;
+    private EventEmitter               eventEmitter;
 
     @Mock
     private LoginTokenEncoder          loginTokenEncoder;
@@ -68,8 +68,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
 
@@ -95,8 +95,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
@@ -125,8 +125,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
@@ -155,8 +155,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(" " + UserConstants.EMAIL + " ", UserConstants.PASSWORD));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
@@ -183,8 +183,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(UserConstants.USERNAME, " " + UserConstants.PASSWORD + " "));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
@@ -209,8 +209,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
@@ -237,8 +237,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
@@ -265,8 +265,8 @@ class TestTokenLoginServiceEvent {
         service.login(new Credentials(" " + UserConstants.USERNAME + " ", UserConstants.PASSWORD));
 
         // THEN
-        Mockito.verify(eventPublisher)
-            .publishEvent(eventCaptor.capture());
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
 
         event = eventCaptor.getValue();
         SoftAssertions.assertSoftly(softly -> {
