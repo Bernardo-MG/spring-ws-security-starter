@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
@@ -44,16 +46,17 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
     @Test
     @DisplayName("When the user has available ones they are returned")
     void testGetAvailableRoles() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Page<Role> existing;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        given(userRoleRepository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting))
-            .willReturn(List.of(Roles.withoutPermissions()));
+        existing = new Page<>(List.of(Roles.withoutPermissions()), 0, 0, 0, 0, 0, false, false, sorting);
+        given(userRoleRepository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting)).willReturn(existing);
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
@@ -61,22 +64,25 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withoutPermissions());
     }
 
     @Test
     @DisplayName("When the user has no available ones nothing is returned")
     void testGetAvailableRoles_NoData() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Page<Role> existing;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        given(userRoleRepository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting))
-            .willReturn(List.of());
+        existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
+        given(userRoleRepository.findAvailableToUser(UserConstants.USERNAME, pagination, sorting)).willReturn(existing);
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
@@ -84,6 +90,8 @@ class TestDefaultUserRoleServiceGetAvailableRoles {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.login.domain.repository;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -44,7 +45,7 @@ public interface LoginRegisterRepository {
      *            sorting to apply
      * @return all login registers
      */
-    public Iterable<LoginRegister> findAll(final Pagination pagination, final Sorting sorting);
+    public Page<LoginRegister> findAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Saves a login register.

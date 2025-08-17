@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -106,7 +107,7 @@ public class UserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public Iterable<User> readAll(final UserQueryRequest request, final Pagination pagination, final Sorting sorting) {
+    public Page<User> readAll(final UserQueryRequest request, final Pagination pagination, final Sorting sorting) {
         final UserQuery query;
 
         query = new UserQuery(request.email(), request.username(), request.name(), request.enabled(),

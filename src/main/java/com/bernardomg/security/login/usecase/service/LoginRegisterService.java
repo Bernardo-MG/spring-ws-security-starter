@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.login.usecase.service;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -42,7 +43,7 @@ public interface LoginRegisterService {
      *            sorting to apply
      * @return a page for the log in registers
      */
-    public Iterable<LoginRegister> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<LoginRegister> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Register a log in attempt.

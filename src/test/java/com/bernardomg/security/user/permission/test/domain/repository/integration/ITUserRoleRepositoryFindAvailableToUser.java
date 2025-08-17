@@ -2,10 +2,12 @@
 package com.bernardomg.security.user.permission.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeUserWithCrudPermissions;
@@ -36,9 +38,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @DisplayName("Returns no available roles when a user has all the roles")
     @UserWithPermission
     void testFindAvailableToUser_AllAssigned() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -49,6 +51,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -58,9 +62,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @RoleWithoutPermissions
     @AlternativeUserWithCrudPermissions
     void testFindAvailableToUser_Alternative() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -71,6 +75,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withoutPermissions());
     }
 
@@ -79,9 +85,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @UserWithPermission
     @AlternativeRole
     void testFindAvailableToUser_Assigned() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -92,6 +98,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.alternative());
     }
 
@@ -99,9 +107,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @DisplayName("When the user has no roles and no role exists, nothing is returned")
     @UserWithoutRole
     void testFindAvailableToUser_NoRoles() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -112,6 +120,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -119,9 +129,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @DisplayName("When the user doesn't exist nothing is returned")
     @RoleWithoutPermissions
     void testFindAvailableToUser_NoUser() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -132,6 +142,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -139,9 +151,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @DisplayName("When the user has a role with not granted permissions, it is not returned")
     @UserWithCrudPermissionsNotGranted
     void testFindAvailableToUser_WithNotGranted() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -152,6 +164,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -160,9 +174,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @UserWithoutRole
     @RoleWithoutPermissions
     void testFindAvailableToUser_WithoutPermissions() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -173,6 +187,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withoutPermissions());
     }
 
@@ -181,9 +197,9 @@ class ITUserRoleRepositoryFindAvailableToUser {
     @UserWithoutRole
     @RoleWithPermission
     void testFindAvailableToUser_WithPermissions() {
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -194,6 +210,8 @@ class ITUserRoleRepositoryFindAvailableToUser {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withSinglePermission());
     }
 

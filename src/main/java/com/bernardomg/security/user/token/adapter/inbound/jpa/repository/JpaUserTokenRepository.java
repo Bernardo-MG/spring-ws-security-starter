@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -86,12 +87,16 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     @Override
-    public final Iterable<UserToken> findAll(final Pagination pagination, final Sorting sorting) {
-        final Pageable pageable;
+    public final Page<UserToken> findAll(final Pagination pagination, final Sorting sorting) {
+        final Pageable                                        pageable;
+        final org.springframework.data.domain.Page<UserToken> page;
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        return userDataTokenSpringRepository.findAll(pageable)
+        page = userDataTokenSpringRepository.findAll(pageable)
             .map(this::toDomain);
+
+        return new Page<>(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements(),
+            page.getTotalPages(), page.getNumberOfElements(), page.isFirst(), page.isLast(), sorting);
     }
 
     @Override

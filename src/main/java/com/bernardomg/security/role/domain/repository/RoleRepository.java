@@ -26,6 +26,7 @@ package com.bernardomg.security.role.domain.repository;
 
 import java.util.Optional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
@@ -66,7 +67,7 @@ public interface RoleRepository {
      *            sorting to apply
      * @return all the roles for the received query
      */
-    public Iterable<Role> findAll(final RoleQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Role> findAll(final RoleQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the role for the received name.

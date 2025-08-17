@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -78,9 +79,9 @@ public final class DefaultRolePermissionService implements RolePermissionService
     }
 
     @Override
-    public final Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
+    public final Page<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
             final Sorting sorting) {
-        final Iterable<ResourcePermission> permissions;
+        final Page<ResourcePermission> permissions;
 
         log.trace("Reading available permissions for {} with pagination {} and sorting {}", role, pagination, sorting);
 

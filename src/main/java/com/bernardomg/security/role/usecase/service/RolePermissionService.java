@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.role.usecase.service;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -47,7 +48,7 @@ public interface RolePermissionService {
      *            sorting to apply
      * @return permissions the role doesn't have
      */
-    public Iterable<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
+    public Page<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
             final Sorting sorting);
 
 }

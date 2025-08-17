@@ -2,10 +2,12 @@
 package com.bernardomg.security.user.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -28,7 +30,7 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
     }
 
     @Override
-    protected final Iterable<User> read(final Pagination pagination) {
+    protected final Page<User> read(final Pagination pagination) {
         final Sorting sorting;
 
         sorting = Sorting.unsorted();
@@ -44,10 +46,10 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
     @Test
     @DisplayName("Returns all the data for the second page")
     void testGetAll_Page2_Data() {
-        final UserQuery      sample;
-        final Iterable<User> users;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final UserQuery  sample;
+        final Page<User> users;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(2, 1);
@@ -60,6 +62,8 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
 
         // THEN
         Assertions.assertThat(users)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

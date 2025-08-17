@@ -26,6 +26,7 @@ package com.bernardomg.security.user.data.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -59,7 +60,7 @@ public interface UserService {
      *            sorting to apply
      * @return a page for the users matching the sample
      */
-    public Iterable<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the user for the received username, if it exists. Otherwise an empty {@code Optional} is returned.

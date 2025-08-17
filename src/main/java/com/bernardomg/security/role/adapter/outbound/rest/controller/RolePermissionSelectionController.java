@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -74,8 +75,8 @@ public class RolePermissionSelectionController {
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLE_AVAILABLE_PERMISSIONS)
-    public Iterable<ResourcePermission> readAvailable(@PathVariable("role") final String role,
-            final Pagination pagination, final Sorting sorting) {
+    public Page<ResourcePermission> readAvailable(@PathVariable("role") final String role, final Pagination pagination,
+            final Sorting sorting) {
         return service.getAvailablePermissions(role, pagination, sorting);
     }
 

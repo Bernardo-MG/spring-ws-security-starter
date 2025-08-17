@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.exception.MissingResourcePermissionException;
@@ -137,8 +138,8 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Iterable<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting) {
-        final Iterable<Role> roles;
+    public final Page<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting) {
+        final Page<Role> roles;
 
         log.trace("Reading roles with sample {} and pagination {} and sorting {}", sample, pagination, sorting);
 

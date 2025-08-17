@@ -2,10 +2,12 @@
 package com.bernardomg.security.user.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -30,10 +32,10 @@ class ITUserRepositoryFindAllFiltered {
     @DisplayName("Filters by name")
     @OnlyUser
     void testFindAll_Name() {
-        final Iterable<User> result;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -46,6 +48,8 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .hasSize(1);
     }
 
@@ -53,10 +57,10 @@ class ITUserRepositoryFindAllFiltered {
     @DisplayName("Filtering by an invalid name returns nothing")
     @OnlyUser
     void testFindAll_NameNotExisting() {
-        final Iterable<User> result;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -69,6 +73,8 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -76,10 +82,10 @@ class ITUserRepositoryFindAllFiltered {
     @DisplayName("Filters by username")
     @OnlyUser
     void testFindAll_Username() {
-        final Iterable<User> result;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -92,6 +98,8 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .hasSize(1);
     }
 
@@ -99,10 +107,10 @@ class ITUserRepositoryFindAllFiltered {
     @DisplayName("Filtering by an invalid username returns nothing")
     @OnlyUser
     void testFindAll_UsernameNotExisting() {
-        final Iterable<User> result;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -115,6 +123,8 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

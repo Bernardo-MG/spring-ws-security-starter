@@ -26,6 +26,7 @@ package com.bernardomg.security.user.data.domain.repository;
 
 import java.util.Optional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -105,7 +106,7 @@ public interface UserRepository {
      *            sorting to apply
      * @return all the user for the received query
      */
-    public Iterable<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the user for the received username.

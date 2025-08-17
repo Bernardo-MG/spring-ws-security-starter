@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -37,16 +39,16 @@ class TestLoginRegisterServiceGetAll {
     @Test
     @DisplayName("Returns all data")
     void testGetAll_Data() {
-        final Iterable<LoginRegister> readLogins;
-        final Iterable<LoginRegister> logins;
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Page<LoginRegister> readLogins;
+        final Page<LoginRegister> logins;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        readLogins = List.of(LoginRegisters.loggedIn());
+        readLogins = new Page<>(List.of(LoginRegisters.loggedIn()), 0, 0, 0, 0, 0, false, false, sorting);
         given(loginRegisterRepository.findAll(pagination, sorting)).willReturn(readLogins);
 
         // WHEN
@@ -54,6 +56,8 @@ class TestLoginRegisterServiceGetAll {
 
         // THEN
         Assertions.assertThat(logins)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("logins")
             .containsExactly(LoginRegisters.loggedIn());
     }
@@ -61,16 +65,16 @@ class TestLoginRegisterServiceGetAll {
     @Test
     @DisplayName("With no data it returns nothing")
     void testGetAll_Empty_Count() {
-        final Iterable<LoginRegister> readLogins;
-        final Iterable<LoginRegister> logins;
-        final Pagination              pagination;
-        final Sorting                 sorting;
+        final Page<LoginRegister> readLogins;
+        final Page<LoginRegister> logins;
+        final Pagination          pagination;
+        final Sorting             sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        readLogins = List.of();
+        readLogins = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(loginRegisterRepository.findAll(pagination, sorting)).willReturn(readLogins);
 
         // WHEN
@@ -78,6 +82,8 @@ class TestLoginRegisterServiceGetAll {
 
         // THEN
         Assertions.assertThat(logins)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("logins")
             .isEmpty();
     }

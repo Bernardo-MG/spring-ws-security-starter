@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.user.permission.usecase.service;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
@@ -47,6 +48,6 @@ public interface UserRoleService {
      *            sorting to apply
      * @return a page with the available roles
      */
-    public Iterable<Role> getAvailableRoles(final String username, final Pagination pagination, final Sorting sorting);
+    public Page<Role> getAvailableRoles(final String username, final Pagination pagination, final Sorting sorting);
 
 }

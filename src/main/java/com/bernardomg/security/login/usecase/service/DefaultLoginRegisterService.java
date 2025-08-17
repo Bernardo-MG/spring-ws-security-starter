@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -56,8 +57,8 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
     }
 
     @Override
-    public final Iterable<LoginRegister> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<LoginRegister> registers;
+    public final Page<LoginRegister> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<LoginRegister> registers;
 
         log.trace("Reading login registers with pagination {} and sorting {}", pagination, sorting);
 

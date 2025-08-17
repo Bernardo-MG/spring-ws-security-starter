@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -74,7 +75,7 @@ public class UserRoleController {
     @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.USER_AVAILABLE_ROLES)
-    public Iterable<Role> readAvailable(@PathVariable("username") final String username, final Pagination pagination,
+    public Page<Role> readAvailable(@PathVariable("username") final String username, final Pagination pagination,
             final Sorting sorting) {
         return service.getAvailableRoles(username, pagination, sorting);
     }
