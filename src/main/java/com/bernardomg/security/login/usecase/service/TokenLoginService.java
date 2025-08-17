@@ -32,9 +32,9 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
@@ -54,26 +54,26 @@ public final class TokenLoginService implements LoginService {
     /**
      * Logger for the class.
      */
-    private static final Logger             log          = LoggerFactory.getLogger(TokenLoginService.class);
+    private static final Logger          log          = LoggerFactory.getLogger(TokenLoginService.class);
 
-    private final Pattern                   emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final Pattern                emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
-    private final ApplicationEventPublisher eventPublisher;
+    private final EventEmitter           eventEmitter;
 
-    private final Predicate<Credentials>    isValid;
+    private final Predicate<Credentials> isValid;
 
-    private final LoginTokenEncoder         loginTokenEncoder;
+    private final LoginTokenEncoder      loginTokenEncoder;
 
-    private final UserRepository            userRepository;
+    private final UserRepository         userRepository;
 
     public TokenLoginService(final Predicate<Credentials> valid, final UserRepository userRepo,
-            final LoginTokenEncoder loginTokenEnc, final ApplicationEventPublisher publisher) {
+            final LoginTokenEncoder loginTokenEnc, final EventEmitter emitter) {
         super();
 
         isValid = Objects.requireNonNull(valid);
         userRepository = Objects.requireNonNull(userRepo);
         loginTokenEncoder = Objects.requireNonNull(loginTokenEnc);
-        eventPublisher = Objects.requireNonNull(publisher);
+        eventEmitter = Objects.requireNonNull(emitter);
     }
 
     @Override
@@ -86,9 +86,11 @@ public final class TokenLoginService implements LoginService {
 
         log.trace("Log in attempt for {}", credentials.username());
 
-        validUsername = loadLoginName(credentials.username());
+        validUsername = loadLoginName(credentials.username()
+            .trim());
 
-        validCredentials = new Credentials(validUsername, credentials.password());
+        validCredentials = new Credentials(validUsername, credentials.password()
+            .trim());
         valid = isValid.test(validCredentials);
 
         status = buildStatus(validUsername, valid);
@@ -97,7 +99,7 @@ public final class TokenLoginService implements LoginService {
 
         // FIXME: the event root should be an object
         event = new LogInEvent(this, validUsername, valid);
-        eventPublisher.publishEvent(event);
+        eventEmitter.emit(event);
 
         log.trace("Finished log in attempt for {}", credentials.username());
 

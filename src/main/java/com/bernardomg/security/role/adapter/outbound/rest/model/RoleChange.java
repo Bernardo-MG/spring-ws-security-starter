@@ -26,17 +26,12 @@ package com.bernardomg.security.role.adapter.outbound.rest.model;
 
 import java.util.Collection;
 
-import org.springframework.validation.annotation.Validated;
-
-import jakarta.validation.constraints.NotNull;
-
 /**
  * Data which can be changed for a role.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Validated
-public record RoleChange(@NotNull Collection<RolePermission> permissions) {
+public record RoleChange(Collection<RolePermission> permissions) {
 
 }

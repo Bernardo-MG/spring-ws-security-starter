@@ -57,8 +57,6 @@ import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.usecase.service.UserService;
 
-import jakarta.validation.Valid;
-
 /**
  * User REST controller.
  *
@@ -108,8 +106,7 @@ public class UserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public Iterable<User> readAll(@Valid final UserQueryRequest request, final Pagination pagination,
-            final Sorting sorting) {
+    public Iterable<User> readAll(final UserQueryRequest request, final Pagination pagination, final Sorting sorting) {
         final UserQuery query;
 
         query = new UserQuery(request.email(), request.username(), request.name(), request.enabled(),
@@ -145,7 +142,7 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User registerNewUser(@Valid @RequestBody final NewUser request) {
+    public User registerNewUser(@RequestBody final NewUser request) {
         return service.registerNewUser(request.username(), request.name(), request.email());
     }
 
@@ -162,14 +159,18 @@ public class UserController {
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") }, evict = {
             @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
-    public User update(@PathVariable("username") final String username, @Valid @RequestBody final UserChange request) {
+    public User update(@PathVariable("username") final String username, @RequestBody final UserChange request) {
         final User             user;
         final Collection<Role> roles;
 
-        roles = request.roles()
-            .stream()
-            .map(r -> new Role(r, List.of()))
-            .toList();
+        if (request.roles() == null) {
+            roles = List.of();
+        } else {
+            roles = request.roles()
+                .stream()
+                .map(r -> new Role(r, List.of()))
+                .toList();
+        }
         user = new User(request.email(), username, request.name(), request.enabled(), request.passwordNotExpired(),
             false, false, roles);
 

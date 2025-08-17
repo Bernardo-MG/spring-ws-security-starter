@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.jwt.encoding;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +38,8 @@ import org.slf4j.LoggerFactory;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public record JwtTokenData(String id, String subject, String issuer, LocalDateTime issuedAt, LocalDateTime notBefore,
-        LocalDateTime expiration, Collection<String> audience, Map<String, List<String>> permissions) {
+public record JwtTokenData(String id, String subject, String issuer, Instant issuedAt, Instant notBefore,
+        Instant expiration, Collection<String> audience, Map<String, List<String>> permissions) {
 
     /**
      * Logger for the class.
@@ -47,13 +47,13 @@ public record JwtTokenData(String id, String subject, String issuer, LocalDateTi
     private static final Logger log = LoggerFactory.getLogger(JwtTokenData.class);
 
     public final boolean isExpired() {
-        final LocalDateTime current;
-        final boolean       expired;
+        final Instant current;
+        final boolean expired;
 
         // TODO: test this
         if (expiration != null) {
             // Compare expiration to current date
-            current = LocalDateTime.now();
+            current = Instant.now();
             expired = expiration.isBefore(current);
             log.debug("Expired '{}' as token expires on {}, and the current date is {}.", expired, expiration, current);
         } else {

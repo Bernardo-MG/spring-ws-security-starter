@@ -25,7 +25,7 @@
 package com.bernardomg.security.user.token.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,10 +52,10 @@ public class UserTokenEntity implements Serializable {
     private boolean           consumed;
 
     @Column(name = "creation_date", nullable = false)
-    private LocalDateTime     creationDate;
+    private Instant           creationDate;
 
     @Column(name = "expiration_date", nullable = false)
-    private LocalDateTime     expirationDate;
+    private Instant           expirationDate;
 
     /**
      * Entity id.
@@ -77,11 +77,11 @@ public class UserTokenEntity implements Serializable {
     @Column(name = "user_id", nullable = false)
     private Long              userId;
 
-    public LocalDateTime getCreationDate() {
+    public Instant getCreationDate() {
         return creationDate;
     }
 
-    public LocalDateTime getExpirationDate() {
+    public Instant getExpirationDate() {
         return expirationDate;
     }
 
@@ -113,11 +113,11 @@ public class UserTokenEntity implements Serializable {
         this.consumed = consumed;
     }
 
-    public void setCreationDate(final LocalDateTime creationDate) {
+    public void setCreationDate(final Instant creationDate) {
         this.creationDate = creationDate;
     }
 
-    public void setExpirationDate(final LocalDateTime expirationDate) {
+    public void setExpirationDate(final Instant expirationDate) {
         this.expirationDate = expirationDate;
     }
 

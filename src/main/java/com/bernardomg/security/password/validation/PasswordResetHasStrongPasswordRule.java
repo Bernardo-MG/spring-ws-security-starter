@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.password.reset.usecase.validation;
+package com.bernardomg.security.password.validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the role is not linked to a user.
+ * Checks the password is strong.
  */
 public final class PasswordResetHasStrongPasswordRule implements FieldRule<String> {
 

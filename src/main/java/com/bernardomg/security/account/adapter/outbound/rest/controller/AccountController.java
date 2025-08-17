@@ -37,8 +37,6 @@ import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.usecase.service.AccountService;
 
-import jakarta.validation.Valid;
-
 /**
  * Handles account requests. All the logic is delegated to a {@link AccountService}.
  *
@@ -81,7 +79,7 @@ public class AccountController {
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @Unsecured
-    public Account updateForCurrentUser(@Valid @RequestBody final AccountChange request) {
+    public Account updateForCurrentUser(@RequestBody final AccountChange request) {
         final Account account;
 
         account = BasicAccount.of(request.name());

@@ -36,8 +36,6 @@ import com.bernardomg.security.access.Unsecured;
 import com.bernardomg.security.password.change.adapter.outbound.rest.model.PasswordChange;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 
-import jakarta.validation.Valid;
-
 /**
  * Handles changing the password for a user in session. All the logic is delegated to a {@link PasswordChangeService}.
  *
@@ -68,7 +66,7 @@ public class PasswordChangeController {
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Unsecured
-    public void changePassword(@Valid @RequestBody final PasswordChange request) {
+    public void changePassword(@RequestBody final PasswordChange request) {
         // TODO: return if it was successful
         service.changePasswordForUserInSession(request.oldPassword(), request.newPassword());
     }

@@ -32,6 +32,8 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.test.config.factory.SecurityUsers;
+import com.bernardomg.validation.domain.model.FieldFailure;
+import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityPasswordResetService - change password")
@@ -178,6 +180,21 @@ class TestSpringSecurityPasswordResetServiceStart {
 
         verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
         verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
+    }
+
+    @Test
+    @DisplayName("Activating a new user with an invalid email throws an exception")
+    void testStartPasswordReset_InvalidEmail() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+
+        // WHEN
+        execution = () -> service.startPasswordReset("abc");
+
+        // THEN
+        failure = new FieldFailure("invalid", "email", "email.invalid", "");
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
     @Test

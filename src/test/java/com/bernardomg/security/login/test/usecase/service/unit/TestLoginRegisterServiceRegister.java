@@ -3,8 +3,9 @@ package com.bernardomg.security.login.test.usecase.service.unit;
 
 import static org.mockito.Mockito.verify;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,12 +26,14 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 @DisplayName("LoginRegisterService - register log in")
 class TestLoginRegisterServiceRegister {
 
-    private final LocalDateTime           dayEnd   = LocalDate.now()
-        .atStartOfDay()
-        .plusDays(1);
+    private final Instant                 dayEnd   = LocalDate.now()
+        .plusDays(1)
+        .atStartOfDay(ZoneId.systemDefault())
+        .toInstant();
 
-    private final LocalDateTime           dayStart = LocalDate.now()
-        .atStartOfDay();
+    private final Instant                 dayStart = LocalDate.now()
+        .atStartOfDay(ZoneId.systemDefault())
+        .toInstant();
 
     @Captor
     private ArgumentCaptor<LoginRegister> loginRegisterCaptor;

@@ -310,5 +310,13 @@
             Split password reset controller.
          </action>
       </release>
+      <release version="0.4.17" date="2025-08-17" description="Instant for dates">
+         <action dev="bmg" type="update">
+            Using Instant for dates.
+         </action>
+         <action dev="bmg" type="update">
+            Prepared for common event emitter.
+         </action>
+      </release>
    </body>
 </document>

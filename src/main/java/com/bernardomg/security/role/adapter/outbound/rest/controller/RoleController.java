@@ -25,6 +25,7 @@
 package com.bernardomg.security.role.adapter.outbound.rest.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -52,8 +53,6 @@ import com.bernardomg.security.role.adapter.outbound.rest.model.RoleQueryRequest
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.usecase.service.RoleService;
-
-import jakarta.validation.Valid;
 
 /**
  * Role REST controller.
@@ -87,7 +86,7 @@ public class RoleController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
-    public Role create(@Valid @RequestBody final RoleCreate request) {
+    public Role create(@RequestBody final RoleCreate request) {
         return service.create(request.name());
     }
 
@@ -119,8 +118,7 @@ public class RoleController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
-    public Iterable<Role> readAll(@Valid final RoleQueryRequest request, final Pagination pagination,
-            final Sorting sorting) {
+    public Iterable<Role> readAll(final RoleQueryRequest request, final Pagination pagination, final Sorting sorting) {
         final RoleQuery query;
 
         query = new RoleQuery(request.name());
@@ -155,14 +153,18 @@ public class RoleController {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.name") }, evict = {
             @CacheEvict(cacheNames = { RoleCaches.ROLES, RoleCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true) })
-    public Role update(@PathVariable("role") final String roleName, @Valid @RequestBody final RoleChange request) {
+    public Role update(@PathVariable("role") final String roleName, @RequestBody final RoleChange request) {
         final Role                           role;
         final Collection<ResourcePermission> permissions;
 
-        permissions = request.permissions()
-            .stream()
-            .map(p -> new ResourcePermission(p.resource(), p.action()))
-            .toList();
+        if (request.permissions() == null) {
+            permissions = List.of();
+        } else {
+            permissions = request.permissions()
+                .stream()
+                .map(p -> new ResourcePermission(p.resource(), p.action()))
+                .toList();
+        }
         role = new Role(roleName, permissions);
 
         return service.update(role);

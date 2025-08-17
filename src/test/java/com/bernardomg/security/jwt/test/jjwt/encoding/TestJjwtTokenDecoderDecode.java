@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.jwt.test.jjwt.encoding;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -83,8 +83,8 @@ class TestJjwtTokenDecoderDecode {
     @DisplayName("Recovers the issued at from a token")
     @Disabled("The date check is failing due to timezones")
     void testDecode_IssuedAt() {
-        final String        token;
-        final LocalDateTime issuedAt;
+        final String  token;
+        final Instant issuedAt;
 
         // GIVEN
         token = JwtTokens.WITH_ISSUED_AT;
@@ -122,8 +122,8 @@ class TestJjwtTokenDecoderDecode {
     @DisplayName("Recovers the not before date from a token")
     @Disabled("The date check is failing due to timezones")
     void testDecode_NotBefore() {
-        final String        token;
-        final LocalDateTime notBefore;
+        final String  token;
+        final Instant notBefore;
 
         // GIVEN
         token = JwtTokens.WITH_NOT_BEFORE;

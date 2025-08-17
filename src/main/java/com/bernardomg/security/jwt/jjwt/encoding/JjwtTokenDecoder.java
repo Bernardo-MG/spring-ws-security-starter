@@ -24,8 +24,7 @@
 
 package com.bernardomg.security.jwt.jjwt.encoding;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -84,9 +83,9 @@ public final class JjwtTokenDecoder implements TokenDecoder {
     @Override
     public final JwtTokenData decode(final String token) {
         final Claims                    claims;
-        final LocalDateTime             issuedAt;
-        final LocalDateTime             expiration;
-        final LocalDateTime             notBefore;
+        final Instant                   issuedAt;
+        final Instant                   expiration;
+        final Instant                   notBefore;
         final Map<String, List<String>> permissions;
 
         // Acquire claims
@@ -96,9 +95,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         // Issued at
         if (claims.getIssuedAt() != null) {
             issuedAt = claims.getIssuedAt()
-                .toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+                .toInstant();
         } else {
             issuedAt = null;
         }
@@ -106,9 +103,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         // Expiration
         if (claims.getExpiration() != null) {
             expiration = claims.getExpiration()
-                .toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+                .toInstant();
         } else {
             expiration = null;
         }
@@ -116,9 +111,7 @@ public final class JjwtTokenDecoder implements TokenDecoder {
         // Not before
         if (claims.getNotBefore() != null) {
             notBefore = claims.getNotBefore()
-                .toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+                .toInstant();
         } else {
             notBefore = null;
         }

@@ -105,7 +105,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        userActivationService.activateUser(token, UserConstants.PASSWORD);
+        userActivationService.activateUser(token, UserConstants.NEW_PASSWORD);
 
         user = userRepository.findAll()
             .stream()
@@ -120,7 +120,7 @@ class ITFullNewUserRegisterProcess {
             .isEqualTo(UserConstants.NAME);
         Assertions.assertThat(user.getEnabled())
             .isTrue();
-        Assertions.assertThat(passwordEncoder.matches(UserConstants.PASSWORD, user.getPassword()))
+        Assertions.assertThat(passwordEncoder.matches(UserConstants.NEW_PASSWORD, user.getPassword()))
             .isTrue();
     }
 

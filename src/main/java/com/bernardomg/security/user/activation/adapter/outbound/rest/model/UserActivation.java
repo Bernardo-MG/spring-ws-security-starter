@@ -24,16 +24,12 @@
 
 package com.bernardomg.security.user.activation.adapter.outbound.rest.model;
 
-import com.bernardomg.validation.constraint.StrongPassword;
-
-import jakarta.validation.constraints.NotEmpty;
-
 /**
  * Data required for activating a user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public record UserActivation(@NotEmpty @StrongPassword String password) {
+public record UserActivation(String password) {
 
 }

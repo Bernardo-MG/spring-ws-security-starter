@@ -24,18 +24,12 @@
 
 package com.bernardomg.security.user.data.adapter.outbound.rest.model;
 
-import org.springframework.validation.annotation.Validated;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-
 /**
  * Data required for creating a new user.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Validated
-public final record NewUser(@NotNull @Email String email, @NotNull String username, @NotNull String name) {
+public final record NewUser(String email, String username, String name) {
 
 }

@@ -44,8 +44,6 @@ import com.bernardomg.security.user.data.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 
-import jakarta.validation.Valid;
-
 /**
  * User activation REST controller. This requires a token, given to the new user when he registers.
  *
@@ -81,7 +79,7 @@ public class UserActivationController {
     @Unsecured
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public User activate(@PathVariable("token") final String token, @Valid @RequestBody final UserActivation request) {
+    public User activate(@PathVariable("token") final String token, @RequestBody final UserActivation request) {
         // TODO: return only the necessary data
         return service.activateUser(token, request.password());
     }

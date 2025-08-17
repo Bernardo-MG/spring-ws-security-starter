@@ -34,7 +34,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.password.reset.usecase.validation.PasswordResetHasStrongPasswordRule;
+import com.bernardomg.security.password.reset.usecase.validation.EmailFormatRule;
+import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
@@ -99,6 +100,11 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      */
     private final Validator<String>   validatorChange;
 
+    /**
+     * Start password change validator.
+     */
+    private final Validator<String>   validatorStart;
+
     public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
             final PasswordNotificator notif, final UserTokenStore tStore) {
         super();
@@ -109,6 +115,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         passwordResetTokenStore = Objects.requireNonNull(tStore);
 
         validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
+        validatorStart = new FieldRuleValidator<>(new EmailFormatRule());
     }
 
     @Override
@@ -143,7 +150,11 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         final User   user;
         final String token;
 
+        // TODO: run async
+
         log.trace("Requested password recovery for {}", email);
+
+        validatorStart.validate(email);
 
         user = getUserByEmail(email);
 

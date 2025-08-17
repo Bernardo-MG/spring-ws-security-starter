@@ -30,12 +30,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.token.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.validation.validator.FieldRuleValidator;
+import com.bernardomg.validation.validator.Validator;
 
 /**
  * Default user activation service.
@@ -49,23 +52,30 @@ public final class DefaultUserActivationService implements UserActivationService
     /**
      * Logger for the class.
      */
-    private static final Logger  log = LoggerFactory.getLogger(DefaultUserActivationService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultUserActivationService.class);
 
     /**
      * Token processor.
      */
-    private final UserTokenStore tokenStore;
+    private final UserTokenStore    tokenStore;
 
     /**
      * User repository.
      */
-    private final UserRepository userRepository;
+    private final UserRepository    userRepository;
+
+    /**
+     * User activation validator.
+     */
+    private final Validator<String> validatorActivate;
 
     public DefaultUserActivationService(final UserRepository userRepo, final UserTokenStore tStore) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         tokenStore = Objects.requireNonNull(tStore);
+
+        validatorActivate = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
     }
 
     @Override
@@ -78,6 +88,9 @@ public final class DefaultUserActivationService implements UserActivationService
 
         // Validate token
         tokenStore.validate(token);
+
+        // Validate password
+        validatorActivate.validate(password.trim());
 
         // Acquire username
         username = tokenStore.getUsername(token);
@@ -93,7 +106,7 @@ public final class DefaultUserActivationService implements UserActivationService
         // TODO: validate somehow that it is actually a new user
         user.checkStatus();
 
-        saved = userRepository.activate(username, password);
+        saved = userRepository.activate(username, password.trim());
         tokenStore.consumeToken(token);
 
         log.trace("Activated new user {}", username);

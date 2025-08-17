@@ -26,15 +26,12 @@ package com.bernardomg.security.user.data.adapter.outbound.rest.model;
 
 import java.util.Collection;
 
-import org.springframework.validation.annotation.Validated;
-
 /**
  * Data for querying users.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Validated
 public final record UserQueryRequest(String email, String username, String name, Boolean enabled, Boolean notLocked,
         Boolean notExpired, Boolean passwordNotExpired, Collection<String> roles) {
 

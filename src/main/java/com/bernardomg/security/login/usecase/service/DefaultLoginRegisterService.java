@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.login.usecase.service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -71,11 +71,11 @@ public final class DefaultLoginRegisterService implements LoginRegisterService {
     @Override
     public final void register(final String username, final boolean logged) {
         final LoginRegister entity;
-        final LocalDateTime now;
+        final Instant       now;
 
         log.trace("Registering log in attempt for user {} and status {}", username, logged);
 
-        now = LocalDateTime.now();
+        now = Instant.now();
         entity = new LoginRegister(username, logged, now);
 
         loginRegisterRepository.save(entity);

@@ -24,16 +24,12 @@
 
 package com.bernardomg.security.password.change.adapter.outbound.rest.model;
 
-import com.bernardomg.validation.constraint.StrongPassword;
-
-import jakarta.validation.constraints.NotEmpty;
-
 /**
  * Data required for changing a password.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record PasswordChange(@NotEmpty @StrongPassword String newPassword, @NotEmpty String oldPassword) {
+public final record PasswordChange(String newPassword, String oldPassword) {
 
 }
