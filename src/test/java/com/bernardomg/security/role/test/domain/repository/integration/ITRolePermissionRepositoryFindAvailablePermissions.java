@@ -2,10 +2,12 @@
 package com.bernardomg.security.role.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -36,9 +38,9 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @DisplayName("Returns the permissions not assigned")
     @RoleWithPermission
     void testFindAvailablePermissions() {
-        final Iterable<ResourcePermission> permissions;
-        final Pagination                   pagination;
-        final Sorting                      sorting;
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+        final Sorting                  sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -49,6 +51,8 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
 
         // THEN
         Assertions.assertThat(permissions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .containsOnly(ResourcePermissions.read(), ResourcePermissions.update(), ResourcePermissions.delete());
     }
@@ -57,9 +61,9 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @DisplayName("When all the permission have been assigned nothing is returned")
     @RoleWithCrudPermissions
     void testFindAvailablePermissions_AllAssigned() {
-        final Iterable<ResourcePermission> permissions;
-        final Pagination                   pagination;
-        final Sorting                      sorting;
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+        final Sorting                  sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -70,6 +74,8 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
 
         // THEN
         Assertions.assertThat(permissions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .isEmpty();
     }
@@ -79,9 +85,9 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @RoleWithCrudPermissions
     @AlternativeRoleWithCrudPermissionsNotGranted
     void testFindAvailablePermissions_AllAssigned_AlternativeRole() {
-        final Iterable<ResourcePermission> permissions;
-        final Pagination                   pagination;
-        final Sorting                      sorting;
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+        final Sorting                  sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -92,6 +98,8 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
 
         // THEN
         Assertions.assertThat(permissions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .isEmpty();
     }
@@ -101,9 +109,9 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @CrudPermissions
     @RoleWithoutPermissions
     void testFindAvailablePermissions_NoPermissions() {
-        final Iterable<ResourcePermission> permissions;
-        final Pagination                   pagination;
-        final Sorting                      sorting;
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+        final Sorting                  sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -114,6 +122,8 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
 
         // THEN
         Assertions.assertThat(permissions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
                 ResourcePermissions.delete());
@@ -125,9 +135,9 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @RoleWithoutPermissions
     @AlternativeRoleWithCrudPermissions
     void testFindAvailablePermissions_NoPermissions_AlternativeRole() {
-        final Iterable<ResourcePermission> permissions;
-        final Pagination                   pagination;
-        final Sorting                      sorting;
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+        final Sorting                  sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -138,6 +148,8 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
 
         // THEN
         Assertions.assertThat(permissions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
                 ResourcePermissions.delete());
@@ -147,9 +159,9 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @DisplayName("When the role doesn't exist no permissions are returned")
     @CrudPermissions
     void testFindAvailablePermissions_NoRole() {
-        final Iterable<ResourcePermission> permissions;
-        final Pagination                   pagination;
-        final Sorting                      sorting;
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+        final Sorting                  sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -160,6 +172,8 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
 
         // THEN
         Assertions.assertThat(permissions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .isEmpty();
     }
@@ -168,9 +182,9 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @DisplayName("When there are no permissions granted all are returned")
     @RoleWithCrudPermissionsNotGranted
     void testFindAvailablePermissions_NotGranted() {
-        final Iterable<ResourcePermission> permissions;
-        final Pagination                   pagination;
-        final Sorting                      sorting;
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+        final Sorting                  sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -181,6 +195,8 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
 
         // THEN
         Assertions.assertThat(permissions)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
                 ResourcePermissions.delete());

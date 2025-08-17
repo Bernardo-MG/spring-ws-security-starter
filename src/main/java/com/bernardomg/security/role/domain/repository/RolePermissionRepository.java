@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.role.domain.repository;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -46,7 +47,7 @@ public interface RolePermissionRepository {
      *            sorting to apply
      * @return all the resource permissions available to a role
      */
-    public Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pagination pagination,
+    public Page<ResourcePermission> findAvailablePermissions(final String role, final Pagination pagination,
             final Sorting sorting);
 
 }

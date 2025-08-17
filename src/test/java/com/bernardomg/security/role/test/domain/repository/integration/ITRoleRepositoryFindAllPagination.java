@@ -2,10 +2,12 @@
 package com.bernardomg.security.role.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
@@ -28,7 +30,7 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     }
 
     @Override
-    protected final Iterable<Role> read(final Pagination pagination) {
+    protected final Page<Role> read(final Pagination pagination) {
         final Sorting sorting;
 
         sorting = Sorting.unsorted();
@@ -44,10 +46,10 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     @Test
     @DisplayName("Returns all the data for the second page")
     void testFindAll_Page2_Data() {
-        final RoleQuery      sample;
-        final Iterable<Role> roles;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final RoleQuery  sample;
+        final Page<Role> roles;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(2, 1);
@@ -60,6 +62,8 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 

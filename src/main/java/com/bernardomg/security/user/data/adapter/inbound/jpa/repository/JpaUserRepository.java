@@ -35,6 +35,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -146,14 +147,18 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final Iterable<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
-        final UserEntity entity;
-        final Pageable   pageable;
+    public final Page<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
+        final UserEntity                                 entity;
+        final Pageable                                   pageable;
+        final org.springframework.data.domain.Page<User> page;
 
         entity = toEntity(query);
         pageable = SpringPagination.toPageable(pagination, sorting);
-        return userSpringRepository.findAll(Example.of(entity), pageable)
+        page = userSpringRepository.findAll(Example.of(entity), pageable)
             .map(this::toDomain);
+
+        return new Page<>(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements(),
+            page.getTotalPages(), page.getNumberOfElements(), page.isFirst(), page.isLast(), sorting);
     }
 
     @Override

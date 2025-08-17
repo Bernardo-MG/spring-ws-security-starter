@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
@@ -106,8 +107,8 @@ public final class SpringUserTokenService implements UserTokenService {
     }
 
     @Override
-    public final Iterable<UserToken> getAll(final Pagination pagination, final Sorting sorting) {
-        final Iterable<UserToken> tokens;
+    public final Page<UserToken> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<UserToken> tokens;
 
         log.trace("Reading tokens with pagination {} and sorting {}", pagination, sorting);
 

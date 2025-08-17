@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -74,12 +75,13 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
     }
 
     @Override
-    public final Iterable<ResourcePermission> findAvailablePermissions(final String role, final Pagination pagination,
+    public final Page<ResourcePermission> findAvailablePermissions(final String role, final Pagination pagination,
             final Sorting sorting) {
-        final Optional<RoleEntity>         readRole;
-        final RoleEntity                   roleEntity;
-        final Iterable<ResourcePermission> permissions;
-        final Pageable                     pageable;
+        final Optional<RoleEntity>                                     readRole;
+        final RoleEntity                                               roleEntity;
+        final org.springframework.data.domain.Page<ResourcePermission> permissionsPage;
+        final Page<ResourcePermission>                                 permissions;
+        final Pageable                                                 pageable;
 
         log.debug("Reading available permissions for {}", role);
 
@@ -88,11 +90,14 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         if (readRole.isPresent()) {
             roleEntity = readRole.get();
             pageable = SpringPagination.toPageable(pagination, sorting);
-            permissions = resourcePermissionSpringRepository.findAllAvailableToRole(roleEntity.getId(), pageable)
+            permissionsPage = resourcePermissionSpringRepository.findAllAvailableToRole(roleEntity.getId(), pageable)
                 .map(this::toDomain);
+            permissions = new Page<>(permissionsPage.getContent(), permissionsPage.getSize(),
+                permissionsPage.getNumber(), permissionsPage.getTotalElements(), permissionsPage.getTotalPages(),
+                permissionsPage.getNumberOfElements(), permissionsPage.isFirst(), permissionsPage.isLast(), sorting);
         } else {
             log.warn("Role {} doesn't exist. Can't find available permissions", role);
-            permissions = List.of();
+            permissions = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         }
 
         return permissions;

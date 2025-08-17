@@ -2,10 +2,12 @@
 package com.bernardomg.security.user.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.data.domain.model.User;
@@ -33,10 +35,10 @@ class ITUserRepositoryFindAll {
     @DisplayName("When there is a user, it is returned")
     @EnabledUser
     void testFindAll() {
-        final Iterable<User> users;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> users;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -49,6 +51,8 @@ class ITUserRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(users)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("users")
             .containsExactly(Users.enabled());
     }
@@ -56,10 +60,10 @@ class ITUserRepositoryFindAll {
     @Test
     @DisplayName("With no data it returns nothing")
     void testFindAll_NoData() {
-        final Iterable<User> users;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> users;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -72,6 +76,8 @@ class ITUserRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(users)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("users")
             .isEmpty();
     }
@@ -80,10 +86,10 @@ class ITUserRepositoryFindAll {
     @DisplayName("When there is a user without permissions, it is returned")
     @EnabledUserWithoutPermissions
     void testFindAll_WithoutPermissions() {
-        final Iterable<User> users;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> users;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -96,6 +102,8 @@ class ITUserRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(users)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("users")
             .containsExactly(Users.withoutPermissions());
     }
@@ -104,10 +112,10 @@ class ITUserRepositoryFindAll {
     @DisplayName("When there is a user without roles, it is returned")
     @OnlyUser
     void testFindAll_WithoutRole() {
-        final Iterable<User> users;
-        final UserQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<User> users;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -120,6 +128,8 @@ class ITUserRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(users)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("users")
             .containsExactly(Users.withoutRoles());
     }

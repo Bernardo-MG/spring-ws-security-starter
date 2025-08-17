@@ -26,6 +26,7 @@ package com.bernardomg.security.user.token.usecase.service;
 
 import java.util.Optional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.token.domain.model.UserToken;
@@ -52,7 +53,7 @@ public interface UserTokenService {
      *            sorting to apply
      * @return all the user tokens paged
      */
-    public Iterable<UserToken> getAll(final Pagination pagination, final Sorting sorting);
+    public Page<UserToken> getAll(final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the user token for the received id, if it exists. Otherwise it is expected to throw an

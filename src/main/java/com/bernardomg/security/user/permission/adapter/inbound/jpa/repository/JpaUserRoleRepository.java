@@ -31,6 +31,7 @@ import java.util.Objects;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
@@ -63,14 +64,18 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
     }
 
     @Override
-    public final Iterable<Role> findAvailableToUser(final String username, final Pagination pagination,
+    public final Page<Role> findAvailableToUser(final String username, final Pagination pagination,
             final Sorting sorting) {
-        final Pageable pageable;
+        final Pageable                                   pageable;
+        final org.springframework.data.domain.Page<Role> page;
 
         // TODO: this doesn't need the full role model, just the names
         pageable = SpringPagination.toPageable(pagination, sorting);
-        return roleSpringRepository.findAllByUser(username, pageable)
+        page = roleSpringRepository.findAllByUser(username, pageable)
             .map(this::toDomain);
+
+        return new Page<>(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements(),
+            page.getTotalPages(), page.getNumberOfElements(), page.isFirst(), page.isLast(), sorting);
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {

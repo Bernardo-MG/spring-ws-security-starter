@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -28,7 +29,7 @@ class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends Abstr
     }
 
     @Override
-    protected final Iterable<ResourcePermission> read(final Pagination pagination) {
+    protected final Page<ResourcePermission> read(final Pagination pagination) {
         final Sorting sorting;
 
         sorting = Sorting.asc("name");

@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
@@ -127,8 +128,8 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Iterable<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
-        final Iterable<User> users;
+    public final Page<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
+        final Page<User> users;
 
         log.trace("Reading users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 

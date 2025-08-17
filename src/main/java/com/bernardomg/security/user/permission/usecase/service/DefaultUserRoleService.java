@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
@@ -69,9 +70,9 @@ public final class DefaultUserRoleService implements UserRoleService {
     }
 
     @Override
-    public final Iterable<Role> getAvailableRoles(final String username, final Pagination pagination,
+    public final Page<Role> getAvailableRoles(final String username, final Pagination pagination,
             final Sorting sorting) {
-        final Iterable<Role> roles;
+        final Page<Role> roles;
 
         log.trace("Reading available roles for {}", username);
 

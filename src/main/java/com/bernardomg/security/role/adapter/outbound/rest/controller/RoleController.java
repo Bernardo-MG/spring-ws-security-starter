@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -118,7 +119,7 @@ public class RoleController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
-    public Iterable<Role> readAll(final RoleQueryRequest request, final Pagination pagination, final Sorting sorting) {
+    public Page<Role> readAll(final RoleQueryRequest request, final Pagination pagination, final Sorting sorting) {
         final RoleQuery query;
 
         query = new RoleQuery(request.name());

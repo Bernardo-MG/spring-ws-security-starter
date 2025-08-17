@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.access.RequireResourceAccess;
@@ -93,7 +94,7 @@ public class UserTokenController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
-    public Iterable<UserToken> readAll(final Pagination pagination, final Sorting sorting) {
+    public Page<UserToken> readAll(final Pagination pagination, final Sorting sorting) {
         return service.getAll(pagination, sorting);
     }
 

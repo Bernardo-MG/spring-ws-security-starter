@@ -2,10 +2,12 @@
 package com.bernardomg.security.user.token.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.test.config.annotation.OnlyUser;
@@ -30,9 +32,9 @@ class ITUserTokenRepositoryFindAll {
     @OnlyUser
     @ConsumedUserToken
     void testFindAll_Consumed() {
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final Iterable<UserToken> tokens;
+        final Pagination      pagination;
+        final Sorting         sorting;
+        final Page<UserToken> tokens;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -43,6 +45,8 @@ class ITUserTokenRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(tokens)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("tokens")
             .containsExactly(UserTokens.consumed());
     }
@@ -52,9 +56,9 @@ class ITUserTokenRepositoryFindAll {
     @OnlyUser
     @ExpiredUserToken
     void testFindAll_Expired() {
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final Iterable<UserToken> tokens;
+        final Pagination      pagination;
+        final Sorting         sorting;
+        final Page<UserToken> tokens;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -65,6 +69,8 @@ class ITUserTokenRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(tokens)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("tokens")
             .containsExactly(UserTokens.expired());
     }
@@ -73,9 +79,9 @@ class ITUserTokenRepositoryFindAll {
     @DisplayName("Doesn't return anything when there is no data")
     @OnlyUser
     void testFindAll_NoData() {
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final Iterable<UserToken> tokens;
+        final Pagination      pagination;
+        final Sorting         sorting;
+        final Page<UserToken> tokens;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -86,6 +92,8 @@ class ITUserTokenRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(tokens)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("tokens")
             .isEmpty();
     }
@@ -95,9 +103,9 @@ class ITUserTokenRepositoryFindAll {
     @OnlyUser
     @RevokedUserToken
     void testFindAll_Revoked() {
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final Iterable<UserToken> tokens;
+        final Pagination      pagination;
+        final Sorting         sorting;
+        final Page<UserToken> tokens;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -108,6 +116,8 @@ class ITUserTokenRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(tokens)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("tokens")
             .containsExactly(UserTokens.revoked());
     }
@@ -117,9 +127,9 @@ class ITUserTokenRepositoryFindAll {
     @OnlyUser
     @ValidUserToken
     void testFindAll_Valid() {
-        final Pagination          pagination;
-        final Sorting             sorting;
-        final Iterable<UserToken> tokens;
+        final Pagination      pagination;
+        final Sorting         sorting;
+        final Page<UserToken> tokens;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -130,6 +140,8 @@ class ITUserTokenRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(tokens)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("tokens")
             .containsExactly(UserTokens.valid());
     }

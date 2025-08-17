@@ -2,10 +2,12 @@
 package com.bernardomg.security.role.test.domain.repository.integration;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
@@ -34,10 +36,10 @@ class ITRoleRepositoryFindAll {
     @DisplayName("When there are roles they are returned")
     @RoleWithoutPermissions
     void testFindAll() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final RoleQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -50,16 +52,18 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withoutPermissions());
     }
 
     @Test
     @DisplayName("When there are no roles nothing is returned")
     void testFindAll_NoData() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final RoleQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -72,6 +76,8 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
     }
 
@@ -79,10 +85,10 @@ class ITRoleRepositoryFindAll {
     @DisplayName("When there are roles with no granted permissions they are returned")
     @RoleWithCrudPermissionsNotGranted
     void testFindAll_WithNotGrantedPermission() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final RoleQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -95,6 +101,8 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withoutPermissions());
     }
 
@@ -102,10 +110,10 @@ class ITRoleRepositoryFindAll {
     @DisplayName("When there are roles with permissions they are returned")
     @RoleWithCrudPermissions
     void testFindAll_WithPermissions() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final RoleQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -118,6 +126,8 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withPermissions());
     }
 
@@ -125,10 +135,10 @@ class ITRoleRepositoryFindAll {
     @DisplayName("When there are roles with a single permission they are returned")
     @RoleWithPermission
     void testFindAll_WithSinglePermission() {
-        final Iterable<Role> roles;
-        final RoleQuery      sample;
-        final Pagination     pagination;
-        final Sorting        sorting;
+        final Page<Role> roles;
+        final RoleQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
 
         // GIVEN
         pagination = new Pagination(1, 10);
@@ -141,6 +151,8 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withSinglePermission());
     }
 
