@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.user.token.usecase.validation;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -29,10 +29,9 @@ public final class UserTokenNotExpiredRule implements FieldRule<UserToken> {
     public final Optional<FieldFailure> check(final UserToken token) {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
-        final LocalDateTime          today;
+        final Instant                today;
 
-        today = LocalDateTime.now()
-            .minusMinutes(2);
+        today = Instant.now();
         if ((token.expirationDate() != null) && (token.expirationDate()
             .isBefore(today))) {
             log.error("Token expiration date {} expired when checked at {}", token.expirationDate(), today);

@@ -5,8 +5,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -32,12 +33,14 @@ import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
 @DisplayName("ScopedUserTokenStore - create token")
 class TestScopedUserTokenStoreCreateToken {
 
-    private final LocalDateTime       dayEnd   = LocalDate.now()
-        .atStartOfDay()
-        .plusDays(1);
+    private final Instant             dayEnd   = LocalDate.now()
+        .plusDays(1)
+        .atStartOfDay(ZoneId.systemDefault())
+        .toInstant();
 
-    private final LocalDateTime       dayStart = LocalDate.now()
-        .atStartOfDay();
+    private final Instant             dayStart = LocalDate.now()
+        .atStartOfDay(ZoneId.systemDefault())
+        .toInstant();
 
     private ScopedUserTokenStore      store;
 
@@ -90,10 +93,10 @@ class TestScopedUserTokenStoreCreateToken {
                 .isFalse();
 
             softly.assertThat(token.creationDate())
-                .as("date")
+                .as("creation date")
                 .isBetween(dayStart, dayEnd);
             softly.assertThat(token.expirationDate())
-                .as("date")
+                .as("expiration date")
                 .isBetween(dayStart, dayEnd);
         });
     }

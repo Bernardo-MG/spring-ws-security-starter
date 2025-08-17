@@ -2,7 +2,7 @@
 package com.bernardomg.security.login.usecase.encoder;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -63,16 +63,16 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     }
 
     private final String encode(final String subject, final Map<String, List<String>> permissions) {
-        final LocalDateTime expiration;
-        final LocalDateTime issuedAt;
-        final String        token;
-        final JwtTokenData  data;
+        final Instant      expiration;
+        final Instant      issuedAt;
+        final String       token;
+        final JwtTokenData data;
 
         // Issued right now
-        issuedAt = LocalDateTime.now();
+        issuedAt = Instant.now();
         // Expires in a number of seconds equal to validity
         // TODO: handle validity in the encoder
-        expiration = LocalDateTime.now()
+        expiration = Instant.now()
             .plus(validity);
 
         // Build token data for the wrapped encoder

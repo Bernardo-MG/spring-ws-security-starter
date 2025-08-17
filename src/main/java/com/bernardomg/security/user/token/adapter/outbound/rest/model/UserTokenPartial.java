@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.token.adapter.outbound.rest.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Partial user token. All the fields are expected to be nullable, as this allows knowing which one will actually
@@ -33,6 +33,6 @@ import java.time.LocalDateTime;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final record UserTokenPartial(LocalDateTime expirationDate, Boolean revoked) {
+public final record UserTokenPartial(Instant expirationDate, Boolean revoked) {
 
 }

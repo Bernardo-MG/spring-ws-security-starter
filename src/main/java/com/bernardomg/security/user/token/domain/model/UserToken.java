@@ -25,7 +25,7 @@
 package com.bernardomg.security.user.token.domain.model;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -42,8 +42,8 @@ import com.bernardomg.security.user.token.domain.exception.RevokedTokenException
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public record UserToken(String username, String name, String scope, String token, LocalDateTime creationDate,
-        LocalDateTime expirationDate, Boolean consumed, Boolean revoked) {
+public record UserToken(String username, String name, String scope, String token, Instant creationDate,
+        Instant expirationDate, Boolean consumed, Boolean revoked) {
 
     /**
      * Logger for the class.
@@ -60,11 +60,11 @@ public record UserToken(String username, String name, String scope, String token
     }
 
     public static final UserToken create(final String usrname, final String scpe, final Duration validity) {
-        final String        tokenCode;
-        final LocalDateTime creation;
-        final LocalDateTime expiration;
+        final String  tokenCode;
+        final Instant creation;
+        final Instant expiration;
 
-        creation = LocalDateTime.now();
+        creation = Instant.now();
         expiration = creation.plus(validity);
 
         tokenCode = UUID.randomUUID()
@@ -99,7 +99,7 @@ public record UserToken(String username, String name, String scope, String token
             log.warn("Revoked token: {}", token);
             throw new RevokedTokenException(token);
         }
-        if (LocalDateTime.now()
+        if (Instant.now()
             .isAfter(expirationDate)) {
             // Expired
             // It isn't a valid token

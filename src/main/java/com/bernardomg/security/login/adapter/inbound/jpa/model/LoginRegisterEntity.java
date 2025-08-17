@@ -25,7 +25,7 @@
 package com.bernardomg.security.login.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,7 +55,7 @@ public class LoginRegisterEntity implements Serializable {
      * Logging attempt date.
      */
     @Column(name = "date", nullable = false)
-    private LocalDateTime     date;
+    private Instant           date;
 
     /**
      * Entity id.
@@ -77,7 +77,7 @@ public class LoginRegisterEntity implements Serializable {
     @Column(name = "username", nullable = false, unique = true, length = 60)
     private String            username;
 
-    public LocalDateTime getDate() {
+    public Instant getDate() {
         return date;
     }
 
@@ -93,7 +93,7 @@ public class LoginRegisterEntity implements Serializable {
         return username;
     }
 
-    public void setDate(final LocalDateTime date) {
+    public void setDate(final Instant date) {
         this.date = date;
     }
 
