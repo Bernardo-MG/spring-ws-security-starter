@@ -55,6 +55,7 @@ public final class DefaultAccountService implements AccountService {
             if (authentication.getPrincipal() instanceof UserDetails) {
                 userDetails = (UserDetails) authentication.getPrincipal();
                 account = accountRepository.findOne(userDetails.getUsername());
+                log.trace("Found account for {}", userDetails.getUsername());
             } else {
                 // Invalid principal
                 final Object className;
@@ -96,7 +97,7 @@ public final class DefaultAccountService implements AccountService {
 
         updated = accountRepository.save(accountData);
 
-        log.debug("Updated account {} using data {}", accountData.getUsername(), accountData);
+        log.trace("Updated account {} using data {}", accountData.getUsername(), updated);
 
         return updated;
     }

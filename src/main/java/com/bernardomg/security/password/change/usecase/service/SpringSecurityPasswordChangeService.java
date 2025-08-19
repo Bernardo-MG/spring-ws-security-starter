@@ -100,7 +100,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         username = getCurrentUsername();
 
-        log.debug("Changing password for user {}", username);
+        log.trace("Changing password for user {}", username);
 
         // Validate the user exists
         if (!repository.exists(username)) {
@@ -115,7 +115,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // TODO: Move to validator
         validatePassword(userDetails, oldPassword);
 
-        log.debug("Validating new password");
+        log.trace("Validating new password");
         validatorChange.validate(newPassword);
 
         // Make sure the user can change the password
@@ -123,7 +123,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         repository.resetPassword(username, newPassword);
 
-        log.debug("Changed password for user {}", username);
+        log.trace("Changed password for user {}", username);
     }
 
     /**
@@ -170,7 +170,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
         // Verify the current password matches the original one
         if (!passwordEncoder.matches(oldPassword, userDetails.getPassword())) {
-            log.warn("Received a password which doesn't match the one stored for username {}",
+            log.error("Received a password which doesn't match the one stored for username {}",
                 userDetails.getUsername());
             failure = new FieldFailure("notMatch", "oldPassword", oldPassword);
             throw new FieldFailureException(userDetails, List.of(failure));

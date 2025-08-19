@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +55,11 @@ import com.bernardomg.security.user.permission.domain.repository.UserRoleReposit
 public final class JpaUserRoleRepository implements UserRoleRepository {
 
     /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(JpaUserRoleRepository.class);
+
+    /**
      * Role repository.
      */
     private final RoleSpringRepository roleSpringRepository;
@@ -68,6 +75,8 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
             final Sorting sorting) {
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<Role> page;
+
+        log.trace("Finding roles available to user {}", username);
 
         // TODO: this doesn't need the full role model, just the names
         pageable = SpringPagination.toPageable(pagination, sorting);

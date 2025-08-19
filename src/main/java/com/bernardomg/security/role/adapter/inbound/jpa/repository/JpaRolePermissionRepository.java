@@ -83,7 +83,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         final Page<ResourcePermission>                                 permissions;
         final Pageable                                                 pageable;
 
-        log.debug("Reading available permissions for {}", role);
+        log.debug("Finding available permissions for {} with pagination {} and sorting {}", role, pagination, sorting);
 
         readRole = roleSpringRepository.findByName(role);
 

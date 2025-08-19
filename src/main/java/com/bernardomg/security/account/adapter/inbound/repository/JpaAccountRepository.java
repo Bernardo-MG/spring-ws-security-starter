@@ -27,6 +27,8 @@ package com.bernardomg.security.account.adapter.inbound.repository;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.account.domain.model.Account;
@@ -44,6 +46,11 @@ import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpri
 public final class JpaAccountRepository implements AccountRepository {
 
     /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(JpaAccountRepository.class);
+
+    /**
      * User repository.
      */
     private final UserSpringRepository userSpringRepository;
@@ -58,19 +65,22 @@ public final class JpaAccountRepository implements AccountRepository {
     public final Optional<Account> findOne(final String username) {
         final Optional<UserEntity> read;
         final UserEntity           user;
-        final Optional<Account>    result;
-        final Account              account;
+        final Optional<Account>    account;
+
+        log.trace("Finding account for username {}", username);
 
         read = userSpringRepository.findByUsername(username);
-        if (read.isEmpty()) {
-            result = Optional.empty();
-        } else {
+        if (read.isPresent()) {
             user = read.get();
-            account = BasicAccount.of(user.getUsername(), user.getName(), user.getEmail());
-            result = Optional.of(account);
+            account = Optional.of(BasicAccount.of(user.getUsername(), user.getName(), user.getEmail()));
+        } else {
+            log.warn("No user for username {}", username);
+            account = Optional.empty();
         }
 
-        return result;
+        log.trace("Found account for username {}: {}", username, account);
+
+        return account;
     }
 
     @Override
@@ -80,6 +90,8 @@ public final class JpaAccountRepository implements AccountRepository {
         final UserEntity           updated;
         final Account              result;
 
+        log.trace("Saving account {}", account);
+
         read = userSpringRepository.findByUsername(account.getUsername());
         if (read.isPresent()) {
             user = read.get();
@@ -88,8 +100,11 @@ public final class JpaAccountRepository implements AccountRepository {
             updated = userSpringRepository.save(user);
             result = BasicAccount.of(updated.getUsername(), updated.getName(), updated.getEmail());
         } else {
+            log.warn("No user for username {}", account.getUsername());
             result = new BasicAccount(null, null, null);
         }
+
+        log.trace("Saved account {}", result);
 
         return result;
     }

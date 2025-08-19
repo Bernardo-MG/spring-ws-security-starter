@@ -81,11 +81,11 @@ public interface RoleRepository {
     /**
      * Checks if a role exists with the given name for any user.
      *
-     * @param role
+     * @param name
      *            name of the role to check
      * @return {@code true} if the role exists for any user, {@code false} otherwise
      */
-    public boolean isLinkedToUser(final String role);
+    public boolean isLinkedToUser(final String name);
 
     /**
      * Saves the received role. If it exists it is updated, otherwise it is created.

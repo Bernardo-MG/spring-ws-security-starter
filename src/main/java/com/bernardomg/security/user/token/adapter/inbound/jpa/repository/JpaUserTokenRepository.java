@@ -83,6 +83,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final void deleteAll(final Collection<String> tokens) {
+        log.trace("Deleting multiple tokens");
+
         userTokenSpringRepository.deleteByTokenIn(tokens);
     }
 
@@ -90,6 +92,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     public final Page<UserToken> findAll(final Pagination pagination, final Sorting sorting) {
         final Pageable                                        pageable;
         final org.springframework.data.domain.Page<UserToken> page;
+
+        log.trace("Finding all tokens with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = userDataTokenSpringRepository.findAll(pageable)
@@ -101,6 +105,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Collection<UserToken> findAllFinished() {
+        log.trace("Finding all finished tokens");
+
         return userDataTokenSpringRepository.findAllFinished()
             .stream()
             .map(this::toDomain)
@@ -109,6 +115,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Collection<UserToken> findAllNotRevoked(final String username, final String scope) {
+        log.trace("Finding all tokens not revoked for {} in scope {}", username, scope);
+
         return userDataTokenSpringRepository.findAllByRevokedFalseAndUsernameAndScope(username, scope)
             .stream()
             .map(this::toDomain)
@@ -117,12 +125,16 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Optional<UserToken> findOne(final String token) {
+        log.trace("Finding token");
+
         return userDataTokenSpringRepository.findByToken(token)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<UserToken> findOneByScope(final String token, final String scope) {
+        log.trace("Finding token in scope {}", scope);
+
         return userDataTokenSpringRepository.findByTokenAndScope(token, scope)
             .map(this::toDomain);
     }
@@ -135,7 +147,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final UserTokenEntity               created;
         final UserDataTokenEntity           data;
 
-        log.debug("Saving token {}", token);
+        log.trace("Saving token");
 
         entity = toSimpleEntity(token);
 
@@ -169,6 +181,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Collection<UserTokenEntity>  saved;
         final Collection<Long>             savedIds;
 
+        log.trace("Saving multiple tokens");
         // TODO: Reject duplicated tokens
 
         toSave = tokens.stream()

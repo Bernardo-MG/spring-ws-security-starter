@@ -41,8 +41,8 @@ import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User repository - new user")
-class ITUserRepositoryNewUser {
+@DisplayName("User repository - save new user")
+class ITUserRepositorySaveNewUser {
 
     @Autowired
     private UserRepository       repository;
@@ -50,14 +50,14 @@ class ITUserRepositoryNewUser {
     @Autowired
     private UserSpringRepository userSpringRepository;
 
-    public ITUserRepositoryNewUser() {
+    public ITUserRepositorySaveNewUser() {
         super();
     }
 
     @Test
     @DisplayName("When the user doesn't exists, it is created")
     @RoleWithPermission
-    void testSave_PersistedData() {
+    void testSaveNewUser_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -65,7 +65,7 @@ class ITUserRepositoryNewUser {
         user = Users.enabled();
 
         // WHEN
-        repository.newUser(user);
+        repository.saveNewUser(user);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -79,7 +79,7 @@ class ITUserRepositoryNewUser {
     @Test
     @DisplayName("When the user it is created, it is returned")
     @RoleWithPermission
-    void testSave_ReturnedData() {
+    void testSaveNewUser_ReturnedData() {
         final User user;
         final User created;
 
@@ -87,7 +87,7 @@ class ITUserRepositoryNewUser {
         user = Users.enabled();
 
         // WHEN
-        created = repository.newUser(user);
+        created = repository.saveNewUser(user);
 
         // THEN
         Assertions.assertThat(created)

@@ -38,7 +38,7 @@ class TestUsersInitializer {
     @BeforeEach
     public final void initializeMocks() {
         given(roleRepository.findOne(ArgumentMatchers.any())).willReturn(Optional.of(Roles.withoutPermissions()));
-        given(userRepository.newUser(ArgumentMatchers.any())).willReturn(Users.enabled());
+        given(userRepository.saveNewUser(ArgumentMatchers.any())).willReturn(Users.enabled());
     }
 
     @Test
@@ -48,7 +48,7 @@ class TestUsersInitializer {
         usersInitializerService.initialize();
 
         // THEN
-        verify(userRepository, atLeastOnce()).newUser(ArgumentMatchers.any());
+        verify(userRepository, atLeastOnce()).saveNewUser(ArgumentMatchers.any());
     }
 
 }

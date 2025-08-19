@@ -30,6 +30,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -59,6 +61,11 @@ import com.bernardomg.security.user.data.domain.repository.UserRepository;
  */
 @Transactional
 public final class JpaUserRepository implements UserRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger        log = LoggerFactory.getLogger(JpaUserRepository.class);
 
     /**
      * Password encoder, for validating passwords.
@@ -92,6 +99,8 @@ public final class JpaUserRepository implements UserRepository {
         final User                 result;
         final String               encodedPassword;
 
+        log.trace("Activating {}", username);
+
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
@@ -106,6 +115,7 @@ public final class JpaUserRepository implements UserRepository {
             result = toDomain(updated);
         } else {
             // TODO: Maybe return an optional
+            log.warn("User {} not found", username);
             result = new User(null, null, null, false, false, false, false, null);
         }
 
@@ -117,32 +127,44 @@ public final class JpaUserRepository implements UserRepository {
         final Optional<UserEntity> existing;
         final UserEntity           toSave;
 
+        log.trace("Clearing login attempts for {}", username);
+
         existing = userSpringRepository.findByUsername(username);
         if (existing.isPresent()) {
             toSave = existing.get();
             toSave.setLoginAttempts(0);
 
             userSpringRepository.save(toSave);
+        } else {
+            log.warn("User {} not found", username);
         }
     }
 
     @Override
     public final void delete(final String username) {
+        log.trace("Deleting user {}", username);
+
         userSpringRepository.deleteByUsername(username);
     }
 
     @Override
     public final boolean exists(final String username) {
+        log.trace("Checking if user {} exists", username);
+
         return userSpringRepository.existsByUsername(username);
     }
 
     @Override
     public final boolean existsByEmail(final String email) {
+        log.trace("Checking if user exists by email {}", email);
+
         return userSpringRepository.existsByEmail(email);
     }
 
     @Override
     public final boolean existsEmailForAnotherUser(final String username, final String email) {
+        log.trace("Checking if email {} is assigned to a user who is not {}", email, username);
+
         return userSpringRepository.existsByUsernameNotAndEmail(username, email);
     }
 
@@ -151,6 +173,8 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity                                 entity;
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<User> page;
+
+        log.trace("Finding users for query {} with pagination {} and sorting {}", query, pagination, sorting);
 
         entity = toEntity(query);
         pageable = SpringPagination.toPageable(pagination, sorting);
@@ -162,28 +186,36 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final int findLoginAttempts(final String username) {
+        log.trace("Finding login attempts for user {}", username);
+
+        return userSpringRepository.findByUsername(username)
+            .map(UserEntity::getLoginAttempts)
+            .orElse(0);
+    }
+
+    @Override
     public final Optional<User> findOne(final String username) {
+        log.trace("Finding user {}", username);
+
         return userSpringRepository.findByUsername(username)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<User> findOneByEmail(final String email) {
+        log.trace("Finding user by email {}", email);
+
         return userSpringRepository.findByEmail(email)
             .map(this::toDomain);
     }
 
     @Override
     public final Optional<String> findPassword(final String username) {
+        log.trace("Finding password for user {}", username);
+
         return userSpringRepository.findByUsername(username)
             .map(UserEntity::getPassword);
-    }
-
-    @Override
-    public final int getLoginAttempts(final String username) {
-        return userSpringRepository.findByUsername(username)
-            .map(UserEntity::getLoginAttempts)
-            .orElse(0);
     }
 
     @Override
@@ -192,6 +224,9 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity           toSave;
         final int                  attempts;
 
+        log.trace("Increasing login attempts for user {}", username);
+
+        // TODO: maybe this should be done by the service
         existing = userSpringRepository.findByUsername(username);
         if (existing.isPresent()) {
             toSave = existing.get();
@@ -213,6 +248,9 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity           updated;
         final User                 result;
 
+        log.trace("Locking user {}", username);
+
+        // TODO: maybe this should be done by the service
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
@@ -228,22 +266,6 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final User newUser(final User user) {
-        final String     encodedPassword;
-        final UserEntity entity;
-        final UserEntity saved;
-
-        entity = toEntity(user);
-
-        encodedPassword = passwordEncoder.encode("");
-        entity.setPassword(encodedPassword);
-
-        saved = userSpringRepository.save(entity);
-
-        return toDomain(saved);
-    }
-
-    @Override
     public final User resetPassword(final String username, final String password) {
         final Optional<UserEntity> read;
         final UserEntity           user;
@@ -251,6 +273,9 @@ public final class JpaUserRepository implements UserRepository {
         final User                 result;
         final String               encodedPassword;
 
+        log.trace("Resetting pasword for {}", username);
+
+        // TODO: maybe this should be done by the service
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
@@ -277,6 +302,8 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity           entity;
         final UserEntity           saved;
 
+        log.trace("Saving user");
+
         entity = toEntity(user);
 
         existing = userSpringRepository.findByUsername(user.username());
@@ -292,6 +319,25 @@ public final class JpaUserRepository implements UserRepository {
         }
 
         saved = userSpringRepository.save(entity);
+        return toDomain(saved);
+    }
+
+    @Override
+    public final User saveNewUser(final User user) {
+        final String     encodedPassword;
+        final UserEntity entity;
+        final UserEntity saved;
+
+        log.trace("Saving new user");
+
+        // TODO: seems to be a business usecase
+        entity = toEntity(user);
+
+        encodedPassword = passwordEncoder.encode("");
+        entity.setPassword(encodedPassword);
+
+        saved = userSpringRepository.save(entity);
+
         return toDomain(saved);
     }
 

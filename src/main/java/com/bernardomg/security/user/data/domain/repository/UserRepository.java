@@ -109,6 +109,15 @@ public interface UserRepository {
     public Page<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
 
     /**
+     * Returns the number of login attempts which the user has done.
+     *
+     * @param username
+     *            user to search for the login attempts
+     * @return number of login attempts for the user
+     */
+    public int findLoginAttempts(final String username);
+
+    /**
      * Returns the user for the received username.
      *
      * @param username
@@ -136,15 +145,6 @@ public interface UserRepository {
     public Optional<String> findPassword(final String username);
 
     /**
-     * Returns the number of login attempts which the user has done.
-     *
-     * @param username
-     *            user to search for the login attempts
-     * @return number of login attempts for the user
-     */
-    public int getLoginAttempts(final String username);
-
-    /**
      * Increases the number of login attempts and returns the new number.
      *
      * @param username
@@ -161,15 +161,6 @@ public interface UserRepository {
      * @return the locked user
      */
     public User lock(final String username);
-
-    /**
-     * Creates a new user. It won't have a password, and will have the password expired flag active.
-     *
-     * @param user
-     *            user to save
-     * @return the saved user
-     */
-    public User newUser(final User user);
 
     /**
      * Resets the password for the user, this includes disabling the password expired flag.
@@ -190,5 +181,14 @@ public interface UserRepository {
      * @return the updated user
      */
     public User save(final User user);
+
+    /**
+     * Creates a new user. It won't have a password, and will have the password expired flag active.
+     *
+     * @param user
+     *            user to save
+     * @return the saved user
+     */
+    public User saveNewUser(final User user);
 
 }

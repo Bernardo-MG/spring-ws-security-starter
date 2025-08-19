@@ -51,14 +51,14 @@ class TestUserServiceRegisterNewUser {
     @DisplayName("Sends the user to the repository, ignoring case")
     void testRegisterNewUser_Case_AddsEntity() {
         // GIVEN
-        given(userRepository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
             UserConstants.EMAIL.toUpperCase());
 
         // THEN
-        verify(userRepository).newUser(Users.newlyCreated());
+        verify(userRepository).saveNewUser(Users.newlyCreated());
     }
 
     @Test
@@ -67,7 +67,7 @@ class TestUserServiceRegisterNewUser {
         final User user;
 
         // GIVEN
-        given(userRepository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
@@ -163,14 +163,14 @@ class TestUserServiceRegisterNewUser {
     @DisplayName("Sends the user to the repository, padded with whitespace")
     void testRegisterNewUser_Padded_AddsEntity() {
         // GIVEN
-        given(userRepository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.registerNewUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
             " " + UserConstants.EMAIL + " ");
 
         // THEN
-        verify(userRepository).newUser(Users.newlyCreated());
+        verify(userRepository).saveNewUser(Users.newlyCreated());
     }
 
     @Test
@@ -179,7 +179,7 @@ class TestUserServiceRegisterNewUser {
         final User user;
 
         // GIVEN
-        given(userRepository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.registerNewUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
@@ -194,13 +194,13 @@ class TestUserServiceRegisterNewUser {
     @DisplayName("Sends the user to the repository")
     void testRegisterNewUser_PersistedData() {
         // GIVEN
-        given(userRepository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
-        verify(userRepository).newUser(Users.newlyCreated());
+        verify(userRepository).saveNewUser(Users.newlyCreated());
     }
 
     @Test
@@ -209,7 +209,7 @@ class TestUserServiceRegisterNewUser {
         final User user;
 
         // GIVEN
-        given(userRepository.newUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
