@@ -66,7 +66,7 @@ public final class RequireResourceAccessInterceptor {
         authorized = authValidator.isAuthorized(annotation.resource(), annotation.action());
 
         if (!authorized) {
-            log.debug("User is not authorized with action {} for resource {}", annotation.action(),
+            log.error("User is not authorized with action {} for resource {}", annotation.action(),
                 annotation.resource());
             // TODO: Use a better exception, unrelated to Spring
             throw new AccessDeniedException("Missing authentication");

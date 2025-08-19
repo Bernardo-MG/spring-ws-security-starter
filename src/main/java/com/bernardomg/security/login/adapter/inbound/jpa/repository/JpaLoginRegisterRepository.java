@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.login.adapter.inbound.jpa.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,11 @@ import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 public final class JpaLoginRegisterRepository implements LoginRegisterRepository {
 
     /**
+     * Logger for the class.
+     */
+    private static final Logger                 log = LoggerFactory.getLogger(JpaLoginRegisterRepository.class);
+
+    /**
      * Login register Spring repository.
      */
     private final LoginRegisterSpringRepository loginRegisterSpringRepository;
@@ -59,6 +66,8 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
         final Pageable                                            pageable;
         final org.springframework.data.domain.Page<LoginRegister> page;
 
+        log.trace("Finding login registers with pagination {} and sorting {}", pagination, sorting);
+
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = loginRegisterSpringRepository.findAll(pageable)
             .map(this::toDomain);
@@ -71,6 +80,8 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
     public final LoginRegister save(final LoginRegister register) {
         final LoginRegisterEntity entity;
         final LoginRegisterEntity saved;
+
+        log.trace("Saving login register {}", register);
 
         entity = toEntity(register);
 

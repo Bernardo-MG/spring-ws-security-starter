@@ -169,7 +169,7 @@ public final class DefaultUserService implements UserService {
 
         validatorRegisterUser.validate(user);
 
-        created = userRepository.newUser(user);
+        created = userRepository.saveNewUser(user);
 
         // Revoke previous tokens
         tokenStore.revokeExistingTokens(created.username());

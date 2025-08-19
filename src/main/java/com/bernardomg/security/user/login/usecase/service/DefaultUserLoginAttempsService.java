@@ -100,7 +100,7 @@ public final class DefaultUserLoginAttempsService implements UserLoginAttempsSer
 
         log.trace("Clearing login attempts for {}", username);
 
-        attempts = userRepository.getLoginAttempts(username);
+        attempts = userRepository.findLoginAttempts(username);
         if (attempts > 0) {
             log.debug("User {} had {} login attempts. Clearing them", username, attempts);
             userRepository.clearLoginAttempts(username);

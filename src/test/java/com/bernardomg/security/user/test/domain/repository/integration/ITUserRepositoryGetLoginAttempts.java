@@ -36,7 +36,7 @@ import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User repository - get login attempts")
+@DisplayName("User repository - find login attempts")
 class ITUserRepositoryGetLoginAttempts {
 
     @Autowired
@@ -49,11 +49,11 @@ class ITUserRepositoryGetLoginAttempts {
     @Test
     @DisplayName("When the user has login attempts, these are returned")
     @MaxLoginAttemptsUser
-    void testLoginAttempts_MaxAttempts() {
+    void testFindLoginAttempts_MaxAttempts() {
         final int attempts;
 
         // WHEN
-        attempts = userRepository.getLoginAttempts(UserConstants.USERNAME);
+        attempts = userRepository.findLoginAttempts(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(attempts)
@@ -64,11 +64,11 @@ class ITUserRepositoryGetLoginAttempts {
     @Test
     @DisplayName("When the user has no login attempts, zero attempts are returned")
     @ValidUser
-    void testLoginAttempts_NoAttempts() {
+    void testFindLoginAttempts_NoAttempts() {
         final int attempts;
 
         // WHEN
-        attempts = userRepository.getLoginAttempts(UserConstants.USERNAME);
+        attempts = userRepository.findLoginAttempts(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(attempts)
@@ -78,11 +78,11 @@ class ITUserRepositoryGetLoginAttempts {
 
     @Test
     @DisplayName("When there is no data, zero attempts are returned")
-    void testLoginAttempts_NoData() {
+    void testFindLoginAttempts_NoData() {
         final int attempts;
 
         // WHEN
-        attempts = userRepository.getLoginAttempts(UserConstants.USERNAME);
+        attempts = userRepository.findLoginAttempts(UserConstants.USERNAME);
 
         // THEN
         Assertions.assertThat(attempts)

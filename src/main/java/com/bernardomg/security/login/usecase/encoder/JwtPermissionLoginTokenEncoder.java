@@ -57,16 +57,12 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     @Override
     public final String encode(final String username) {
         final Map<String, List<String>> permissions;
+        final Instant                   expiration;
+        final Instant                   issuedAt;
+        final String                    token;
+        final JwtTokenData              data;
 
         permissions = getPermissionsMap(username);
-        return encode(username, permissions);
-    }
-
-    private final String encode(final String subject, final Map<String, List<String>> permissions) {
-        final Instant      expiration;
-        final Instant      issuedAt;
-        final String       token;
-        final JwtTokenData data;
 
         // Issued right now
         issuedAt = Instant.now();
@@ -77,11 +73,11 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
         // Build token data for the wrapped encoder
         // TODO: Test that permissions are added
-        data = new JwtTokenData("", subject, "", issuedAt, issuedAt, expiration, List.of(), permissions);
+        data = new JwtTokenData("", username, "", issuedAt, issuedAt, expiration, List.of(), permissions);
 
         token = tokenEncoder.encode(data);
 
-        log.debug("Created token for subject {} with expiration date {}", subject, expiration);
+        log.debug("Created token for subject {} with expiration date {}", username, expiration);
 
         return token;
     }

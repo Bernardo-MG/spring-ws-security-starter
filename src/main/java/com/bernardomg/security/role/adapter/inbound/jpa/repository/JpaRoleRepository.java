@@ -31,6 +31,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
+import com.bernardomg.security.account.adapter.inbound.repository.JpaAccountRepository;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
@@ -57,6 +60,11 @@ import com.bernardomg.security.role.domain.repository.RoleRepository;
  */
 @Transactional
 public final class JpaRoleRepository implements RoleRepository {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger                      log = LoggerFactory.getLogger(JpaAccountRepository.class);
 
     /**
      * Resource permission repository.
@@ -85,11 +93,15 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final void delete(final String name) {
+        log.trace("Deleting role {}", name);
+
         roleSpringRepository.deleteByName(name);
     }
 
     @Override
     public final boolean exists(final String name) {
+        log.trace("Checking role {} exists", name);
+
         return roleSpringRepository.existsByNameIgnoreCase(name);
     }
 
@@ -98,6 +110,9 @@ public final class JpaRoleRepository implements RoleRepository {
         final RoleEntity                                 sample;
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<Role> page;
+
+        log.debug("Finding available permissions for query {} with pagination {} and sorting {}", query, pagination,
+            sorting);
 
         sample = toEntity(query);
 
@@ -111,19 +126,23 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final Optional<Role> findOne(final String name) {
+        log.trace("Finding role {}", name);
+
         return roleSpringRepository.findByName(name)
             .map(this::toDomain);
     }
 
     @Override
-    public final boolean isLinkedToUser(final String role) {
+    public final boolean isLinkedToUser(final String name) {
         final Optional<RoleEntity> roleEntity;
         final boolean              exists;
+
+        log.trace("Checking if role {} is linked to user", name);
 
         // TODO: rename, it is not clear what this method is for
         // TODO: the roles shouldn't know about users
 
-        roleEntity = roleSpringRepository.findByName(role);
+        roleEntity = roleSpringRepository.findByName(name);
         if (roleEntity.isPresent()) {
             exists = userRoleSpringRepository.existsByRoleId(roleEntity.get()
                 .getId());
@@ -141,6 +160,8 @@ public final class JpaRoleRepository implements RoleRepository {
         final RoleEntity                       saved;
         final RoleEntity                       savedAgain;
         final Collection<RolePermissionEntity> permissions;
+
+        log.trace("Saving role {}", role);
 
         entity = toEntity(role);
 
