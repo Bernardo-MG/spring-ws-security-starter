@@ -24,12 +24,9 @@
 
 package com.bernardomg.security.springframework.access.usecase.validator;
 
-import java.lang.reflect.Method;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -62,17 +59,10 @@ public final class RequireResourceAccessInterceptor {
         authValidator = validator;
     }
 
-    @Before("@annotation(com.bernardomg.security.access.RequireResourceAccess)")
-    public final void before(final JoinPoint call) {
-        final MethodSignature       signature;
-        final Method                method;
-        final RequireResourceAccess annotation;
-        final boolean               authorized;
+    @Before("@annotation(RequireResourceAccess)")
+    public final void before(final JoinPoint call, final RequireResourceAccess annotation) {
+        final boolean authorized;
 
-        signature = (MethodSignature) call.getSignature();
-        method = signature.getMethod();
-
-        annotation = method.getAnnotation(RequireResourceAccess.class);
         authorized = authValidator.isAuthorized(annotation.resource(), annotation.action());
 
         if (!authorized) {
