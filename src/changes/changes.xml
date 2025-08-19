@@ -318,7 +318,10 @@
             Prepared for common event emitter.
          </action>
       </release>
-      <release version="1.0.0" date="2025-08-17" description="">
+      <release version="0.4.18" date="2025-08-17" description="Page in repositories">
+         <action dev="bmg" type="update">
+            Repositories return a page for paginated queries.
+         </action>
       </release>
    </body>
 </document>
