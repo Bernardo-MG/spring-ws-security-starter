@@ -119,15 +119,17 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final void delete(final String role) {
+    public final Role delete(final String role) {
         final Role domainRole;
+        final Role existing;
 
         log.trace("Deleting role {}", role);
 
-        if (!roleRepository.exists(role)) {
-            log.error("Missing role {}", role);
-            throw new MissingRoleException(role);
-        }
+        existing = roleRepository.findOne(role)
+            .orElseThrow(() -> {
+                log.error("Missing role {}", role);
+                throw new MissingRoleException(role);
+            });
 
         domainRole = new Role(role, List.of());
         validatorDelete.validate(domainRole);
@@ -135,6 +137,8 @@ public final class DefaultRoleService implements RoleService {
         roleRepository.delete(role);
 
         log.trace("Deleted role {}", role);
+
+        return existing;
     }
 
     @Override

@@ -54,8 +54,9 @@ public interface RoleService {
      *
      * @param role
      *            name of the role to delete
+     * @return the deleted role
      */
-    public void delete(final String role);
+    public Role delete(final String role);
 
     /**
      * Returns all the roles matching the sample. If the sample fields are empty, then all the roles are returned.

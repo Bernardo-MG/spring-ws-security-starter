@@ -1,0 +1,53 @@
+post:
+  summary: Create a role.
+  operationId: createRole
+  tags: [Role]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/roles.yml#/components/schemas/RoleCreation'
+  responses:
+    '201':
+      description: Role created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/roles.yml#/components/schemas/RoleResponse'
+
+get:
+  summary: Get all roles.
+  operationId: getAllRoles
+  tags: [Role]
+  parameters:
+    - name: name
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: Roles page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/roles.yml#/components/schemas/RolePageResponse'

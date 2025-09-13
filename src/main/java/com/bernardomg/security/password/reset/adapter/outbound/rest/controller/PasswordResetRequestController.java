@@ -64,7 +64,7 @@ public class PasswordResetRequestController implements PasswordResetRequestApi {
 
     @Override
     @Unsecured
-    public void requestPasswordReset(@Valid RequestPasswordResetDto requestPasswordResetDto) {
+    public void requestPasswordReset(@Valid final RequestPasswordResetDto requestPasswordResetDto) {
         service.startPasswordReset(requestPasswordResetDto.getEmail());
     }
 

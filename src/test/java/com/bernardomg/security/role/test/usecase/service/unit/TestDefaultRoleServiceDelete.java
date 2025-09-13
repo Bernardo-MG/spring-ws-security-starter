@@ -27,6 +27,8 @@ package com.bernardomg.security.role.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -40,6 +42,7 @@ import com.bernardomg.security.permission.data.domain.repository.ResourcePermiss
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
+import com.bernardomg.security.role.test.config.factory.Roles;
 import com.bernardomg.security.role.usecase.service.DefaultRoleService;
 import com.bernardomg.security.user.test.config.annotation.ValidUser;
 
@@ -65,7 +68,7 @@ class TestDefaultRoleServiceDelete {
     void testDelete() {
 
         // GIVEN
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.of(Roles.withSinglePermission()));
 
         // WHEN
         service.delete(RoleConstants.NAME);
@@ -81,7 +84,7 @@ class TestDefaultRoleServiceDelete {
         final ThrowingCallable executable;
 
         // GIVEN
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
+        given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
         executable = () -> service.delete(RoleConstants.NAME);

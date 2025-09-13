@@ -1,0 +1,63 @@
+components:
+  schemas:
+    ResourcePermission:
+      type: object
+      required: [resource, action]
+      properties:
+        resource:
+          type: string
+          description: Name of the secured resource.
+        action:
+          type: string
+          description: Action permitted on the resource (e.g., READ, UPDATE).
+        name:
+          type: string
+          readOnly: true
+          description: Computed permission name (`action:resource`).
+    Role:
+      type: object
+      required: [name, permissions]
+      properties:
+        name:
+          type: string
+          description: Unique name of the role.
+        permissions:
+          type: array
+          description: List of resource permissions.
+          items:
+            $ref: '#/components/schemas/ResourcePermission'
+    RoleCreation:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: Name for the new role.
+    RoleChange:
+      type: object
+      properties:
+        permissions:
+          type: array
+          description: Updated permissions for the role.
+          items:
+            $ref: '#/components/schemas/ResourcePermission'
+    RoleQueryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Filter roles by name.
+    RolePageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/Role'
+    RoleResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Role'
