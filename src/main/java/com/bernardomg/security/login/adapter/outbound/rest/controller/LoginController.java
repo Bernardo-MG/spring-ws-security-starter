@@ -59,7 +59,7 @@ public class LoginController implements LoginApi {
 
     @Override
     @Unsecured
-    public TokenLoginStatusResponseDto login(@Valid LoginRequestDto loginRequestDto) {
+    public TokenLoginStatusResponseDto login(@Valid final LoginRequestDto loginRequestDto) {
         final Credentials      credentials;
         final TokenLoginStatus status;
 

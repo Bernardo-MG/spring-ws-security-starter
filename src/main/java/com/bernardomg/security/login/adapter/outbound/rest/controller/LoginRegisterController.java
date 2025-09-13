@@ -24,20 +24,26 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.controller;
 
+import java.util.List;
+
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.login.adapter.outbound.cache.Logins;
+import com.bernardomg.security.login.adapter.outbound.rest.model.LoginRegisterDtoMapper;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.ucronia.openapi.api.LoginRegisterApi;
+import com.bernardomg.ucronia.openapi.model.LoginRegisterPageResponseDto;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * Login register controller.
@@ -46,8 +52,7 @@ import com.bernardomg.security.permission.data.constant.Actions;
  *
  */
 @RestController
-@RequestMapping("/security/login/register")
-public class LoginRegisterController {
+public class LoginRegisterController implements LoginRegisterApi {
 
     /**
      * Login register service.
@@ -60,20 +65,19 @@ public class LoginRegisterController {
         this.service = service;
     }
 
-    /**
-     * Returns all the log in registers in a paginated form.
-     *
-     * @param pagination
-     *            pagination to apply
-     * @param sorting
-     *            sorting to apply
-     * @return a page for the log in registers
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "LOGIN_REGISTER", action = Actions.READ)
     @Cacheable(cacheNames = Logins.LOGIN_REGISTERS)
-    public Page<LoginRegister> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
+    public LoginRegisterPageResponseDto getAllLoginRegisters(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        final Pagination    pagination;
+        final Sorting       sorting;
+        Page<LoginRegister> loginRegisters;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        loginRegisters = service.getAll(pagination, sorting);
+        return LoginRegisterDtoMapper.toResponseDto(loginRegisters);
     }
 
 }
