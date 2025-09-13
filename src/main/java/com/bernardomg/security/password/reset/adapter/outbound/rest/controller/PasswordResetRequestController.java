@@ -24,17 +24,15 @@
 
 package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.password.reset.adapter.outbound.rest.model.RequestPasswordReset;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.ucronia.openapi.api.PasswordResetRequestApi;
+import com.bernardomg.ucronia.openapi.model.RequestPasswordResetDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Handles password reset for a user, usually when it can't start a session. It is divided into two steps:
@@ -51,7 +49,7 @@ import com.bernardomg.security.password.reset.usecase.service.PasswordResetServi
  */
 @RestController
 @RequestMapping("/password/reset")
-public class PasswordResetRequestController {
+public class PasswordResetRequestController implements PasswordResetRequestApi {
 
     /**
      * Password reset service.
@@ -64,17 +62,10 @@ public class PasswordResetRequestController {
         this.service = service;
     }
 
-    /**
-     * Start a password reset.
-     *
-     * @param request
-     *            password recovery request
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @Unsecured
-    public void requestPasswordReset(@RequestBody final RequestPasswordReset request) {
-        service.startPasswordReset(request.email());
+    public void requestPasswordReset(@Valid RequestPasswordResetDto requestPasswordResetDto) {
+        service.startPasswordReset(requestPasswordResetDto.getEmail());
     }
 
 }

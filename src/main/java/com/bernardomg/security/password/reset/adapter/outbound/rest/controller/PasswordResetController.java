@@ -65,13 +65,13 @@ public class PasswordResetController implements PasswordResetApi {
 
     @Override
     @Unsecured
-    public void changePasswordWithToken(String token, @Valid PasswordResetDto passwordResetDto) {
+    public void changePasswordWithToken(final String token, @Valid final PasswordResetDto passwordResetDto) {
         service.changePassword(token, passwordResetDto.getPassword());
     }
 
     @Override
     @Unsecured
-    public UserTokenStatusResponseDto validatePasswordResetToken(String token) {
+    public UserTokenStatusResponseDto validatePasswordResetToken(final String token) {
         UserTokenStatus userTokenStatus;
 
         userTokenStatus = service.validateToken(token);
