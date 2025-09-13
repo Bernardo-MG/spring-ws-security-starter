@@ -106,7 +106,7 @@ public final class RoleDtoMapper {
             .action(permission.action());
     }
 
-    private static final RoleDto toDto(final Role role) {
+    public static final RoleDto toDto(final Role role) {
         final List<ResourcePermissionDto> permissions;
 
         permissions = role.permissions()

@@ -1,0 +1,55 @@
+components:
+  schemas:
+    User:
+      type: object
+      description: Represents a system user and their account status.
+      required:
+        - email
+        - username
+        - name
+        - enabled
+        - notExpired
+        - notLocked
+        - passwordNotExpired
+        - roles
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email address.
+        username:
+          type: string
+          description: Unique username for the user.
+        name:
+          type: string
+          description: Display name of the user.
+        enabled:
+          type: boolean
+          description: Indicates if the account is currently enabled.
+        notExpired:
+          type: boolean
+          description: True if the account is not expired.
+        notLocked:
+          type: boolean
+          description: True if the account is not locked.
+        passwordNotExpired:
+          type: boolean
+          description: True if the password is still valid (not expired).
+        roles:
+          type: array
+          description: Roles assigned to the user.
+          items:
+            $ref: 'roles.yml#/components/schemas/Role'
+    UserActivation:
+      type: object
+      required: [password]
+      properties:
+        password:
+          type: string
+          format: password
+          description: Password to set for the new user.
+    UserResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/User'

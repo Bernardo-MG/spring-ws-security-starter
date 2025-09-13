@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.activation.adapter.outbound.rest.model;
-
 /**
- * Data required for activating a user.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * User activation REST model.
  */
-public record UserActivation(String password) {
 
-}
+package com.bernardomg.security.user.activation.adapter.outbound.rest.model;
