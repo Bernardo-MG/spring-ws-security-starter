@@ -36,6 +36,17 @@ public final class RoleDtoMapper {
         return new Role(roleName, permissions);
     }
 
+    public static final RoleDto toDto(final Role role) {
+        final List<ResourcePermissionDto> permissions;
+
+        permissions = role.permissions()
+            .stream()
+            .map(RoleDtoMapper::toDto)
+            .toList();
+        return new RoleDto().name(role.name())
+            .permissions(permissions);
+    }
+
     public static final ResourcePermissionPageResponseDto toPermissionResponseDto(final Page<ResourcePermission> page) {
         final SortingDto sortingResponse;
 
@@ -104,17 +115,6 @@ public final class RoleDtoMapper {
     private static final ResourcePermissionDto toDto(final ResourcePermission permission) {
         return new ResourcePermissionDto().resource(permission.resource())
             .action(permission.action());
-    }
-
-    public static final RoleDto toDto(final Role role) {
-        final List<ResourcePermissionDto> permissions;
-
-        permissions = role.permissions()
-            .stream()
-            .map(RoleDtoMapper::toDto)
-            .toList();
-        return new RoleDto().name(role.name())
-            .permissions(permissions);
     }
 
     private RoleDtoMapper() {

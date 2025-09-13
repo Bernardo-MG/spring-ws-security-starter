@@ -67,18 +67,18 @@ public class UserActivationController implements UserActivationApi {
     @Unsecured
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public UserResponseDto activateUser(String token, @Valid UserActivationDto userActivationDto) {
+    public UserResponseDto activateUser(final String token, @Valid final UserActivationDto userActivationDto) {
         final User user;
-        
+
         user = service.activateUser(token, userActivationDto.getPassword());
         return UserActivationDtoMapper.toResponseDto(user);
     }
 
     @Override
     @Unsecured
-    public UserTokenStatusResponseDto validateActivationToken(String token) {
+    public UserTokenStatusResponseDto validateActivationToken(final String token) {
         final UserTokenStatus userToken;
-        
+
         userToken = service.validateToken(token);
         return UserTokenDtoMapper.toResponseDto(userToken);
     }

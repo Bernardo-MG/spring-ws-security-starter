@@ -27,6 +27,8 @@ package com.bernardomg.security.user.data.test.usecase.service.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +45,7 @@ import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,7 +78,7 @@ class TestUserServiceDelete {
     @DisplayName("Deletes a user")
     void testDelete() {
         // GIVEN
-        given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
         service.delete(UserConstants.USERNAME);
@@ -90,7 +93,7 @@ class TestUserServiceDelete {
         final ThrowingCallable execution;
 
         // GIVEN
-        given(userRepository.exists(UserConstants.USERNAME)).willReturn(false);
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
         execution = () -> service.delete(UserConstants.USERNAME);

@@ -114,17 +114,22 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final void delete(final String username) {
+    public final User delete(final String username) {
+        final User user;
+
         log.trace("Deleting user {}", username);
 
-        if (!userRepository.exists(username)) {
-            log.error("Missing user {}", username);
-            throw new MissingUsernameException(username);
-        }
+        user = userRepository.findOne(username)
+            .orElseThrow(() -> {
+                log.error("Missing user {}", username);
+                throw new MissingUsernameException(username);
+            });
 
         userRepository.delete(username);
 
         log.trace("Deleted user {}", username);
+
+        return user;
     }
 
     @Override

@@ -48,6 +48,55 @@ components:
           type: string
           format: password
           description: Password to set for the new user.
+    UserCreation:
+      type: object
+      required: [password]
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        name:
+          type: string
+    UserChange:
+      type: object
+      description: Data for updating an existing user.
+      required:
+        - email
+        - name
+        - enabled
+        - passwordNotExpired
+      properties:
+        email:
+          type: string
+          format: email
+          description: New email address for the user.
+        username:
+          type: string
+          description: Optional username (usually taken from the path, not updated).
+        name:
+          type: string
+          description: Display name of the user.
+        enabled:
+          type: boolean
+          description: Whether the user account is active.
+        passwordNotExpired:
+          type: boolean
+          description: Whether the user's password is not expired.
+        roles:
+          type: array
+          description: List of role names to assign to the user.
+          items:
+            type: string
+    UserPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/User'
     UserResponse:
       type: object
       properties:
