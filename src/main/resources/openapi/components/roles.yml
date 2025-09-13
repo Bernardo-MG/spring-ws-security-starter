@@ -1,19 +1,5 @@
 components:
   schemas:
-    ResourcePermission:
-      type: object
-      required: [resource, action]
-      properties:
-        resource:
-          type: string
-          description: Name of the secured resource.
-        action:
-          type: string
-          description: Action permitted on the resource (e.g., READ, UPDATE).
-        name:
-          type: string
-          readOnly: true
-          description: Computed permission name (`action:resource`).
     Role:
       type: object
       required: [name, permissions]
@@ -25,7 +11,7 @@ components:
           type: array
           description: List of resource permissions.
           items:
-            $ref: '#/components/schemas/ResourcePermission'
+            $ref: 'permissions.yml/#/components/schemas/ResourcePermission'
     RoleCreation:
       type: object
       required: [name]
@@ -40,7 +26,7 @@ components:
           type: array
           description: Updated permissions for the role.
           items:
-            $ref: '#/components/schemas/ResourcePermission'
+            $ref: 'permissions.yml/#/components/schemas/ResourcePermission'
     RoleQueryRequest:
       type: object
       properties:

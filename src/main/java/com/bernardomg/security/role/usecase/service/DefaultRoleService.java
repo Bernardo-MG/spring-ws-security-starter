@@ -41,6 +41,7 @@ import com.bernardomg.security.permission.data.domain.repository.ResourcePermiss
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
+import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.usecase.validation.RoleHasNoUserRule;
 import com.bernardomg.security.role.usecase.validation.RoleNameNotEmptyRule;
@@ -69,6 +70,11 @@ public final class DefaultRoleService implements RoleService {
     private final ResourcePermissionRepository resourcePermissionRepository;
 
     /**
+     * Role permissions repository. Used to modify permissions for the roles.
+     */
+    private final RolePermissionRepository     rolePermissionRepository;
+
+    /**
      * Role repository.
      */
     private final RoleRepository               roleRepository;
@@ -88,11 +94,12 @@ public final class DefaultRoleService implements RoleService {
      */
     private final Validator<Role>              validatorUpdate;
 
-    public DefaultRoleService(final RoleRepository roleRepo,
+    public DefaultRoleService(final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo,
             final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 
         roleRepository = Objects.requireNonNull(roleRepo);
+        rolePermissionRepository = Objects.requireNonNull(rolePermissionRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
 
         validatorCreate = new FieldRuleValidator<>(new RoleNameNotEmptyRule(), new RoleNameNotExistsRule(roleRepo));
@@ -152,6 +159,25 @@ public final class DefaultRoleService implements RoleService {
         log.trace("Read roles with sample {} and pagination {} and sorting {}", sample, pagination, sorting);
 
         return roles;
+    }
+
+    @Override
+    public final Page<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
+            final Sorting sorting) {
+        final Page<ResourcePermission> permissions;
+
+        log.trace("Reading available permissions for {} with pagination {} and sorting {}", role, pagination, sorting);
+
+        if (!roleRepository.exists(role)) {
+            log.error("Missing role {}", role);
+            throw new MissingRoleException(role);
+        }
+
+        permissions = rolePermissionRepository.findAvailablePermissions(role, pagination, sorting);
+
+        log.trace("Read available permissions for {} with pagination {} and sorting {}", role, pagination, sorting);
+
+        return permissions;
     }
 
     @Override

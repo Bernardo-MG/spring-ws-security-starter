@@ -23,3 +23,5 @@ paths:
     $ref: paths/roles.yml
   /security/role/{role}:
     $ref: paths/roles_by_id.yml
+  /security/role/{role}/permission:
+    $ref: paths/roles_permissions.yml

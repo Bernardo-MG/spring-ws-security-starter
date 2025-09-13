@@ -15,7 +15,6 @@ post:
         application/json:
           schema:
             $ref: '../components/roles.yml#/components/schemas/RoleResponse'
-
 get:
   summary: Get all roles.
   operationId: getAllRoles

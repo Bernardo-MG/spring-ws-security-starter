@@ -13,6 +13,7 @@ import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.ucronia.openapi.model.PropertyDto;
 import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.ResourcePermissionDto;
+import com.bernardomg.ucronia.openapi.model.ResourcePermissionPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.RoleChangeDto;
 import com.bernardomg.ucronia.openapi.model.RoleDto;
 import com.bernardomg.ucronia.openapi.model.RolePageResponseDto;
@@ -33,6 +34,28 @@ public final class RoleDtoMapper {
                 .toList();
         }
         return new Role(roleName, permissions);
+    }
+
+    public static final ResourcePermissionPageResponseDto toPermissionResponseDto(final Page<ResourcePermission> page) {
+        final SortingDto sortingResponse;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(RoleDtoMapper::toDto)
+            .toList());
+        return new ResourcePermissionPageResponseDto().content(page.content()
+            .stream()
+            .map(RoleDtoMapper::toDto)
+            .toList())
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
     }
 
     public static final RoleResponseDto toResponseDto(final Optional<Role> role) {

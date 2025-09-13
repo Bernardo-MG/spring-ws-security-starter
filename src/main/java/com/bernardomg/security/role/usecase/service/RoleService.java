@@ -29,6 +29,7 @@ import java.util.Optional;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 
@@ -70,6 +71,20 @@ public interface RoleService {
      * @return a page for the roles matching the sample
      */
     public Page<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting);
+
+    /**
+     * Returns all permissions available to a role in a paginated form.
+     *
+     * @param role
+     *            role name
+     * @param pagination
+     *            pagination to apply
+     * @param sorting
+     *            sorting to apply
+     * @return permissions the role doesn't have
+     */
+    public Page<ResourcePermission> getAvailablePermissions(final String role, final Pagination pagination,
+            final Sorting sorting);
 
     /**
      * Returns the role for the received name, if it exists. Otherwise an empty {@code Optional} is returned.
