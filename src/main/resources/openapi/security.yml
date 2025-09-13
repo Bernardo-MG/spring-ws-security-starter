@@ -9,7 +9,9 @@ servers:
 paths:
   /login:
     $ref: paths/login.yml
-  /security/login/register:
-    $ref: paths/login_register.yml
+  /password/change:
+    $ref: paths/password_change.yml
   /account:
     $ref: paths/accounts.yml
+  /security/login/register:
+    $ref: paths/login_register.yml

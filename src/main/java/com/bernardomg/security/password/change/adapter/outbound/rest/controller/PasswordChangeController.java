@@ -24,17 +24,15 @@
 
 package com.bernardomg.security.password.change.adapter.outbound.rest.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.password.change.adapter.outbound.rest.model.PasswordChange;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
+import com.bernardomg.ucronia.openapi.api.PasswordChangeApi;
+import com.bernardomg.ucronia.openapi.model.PasswordChangeDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Handles changing the password for a user in session. All the logic is delegated to a {@link PasswordChangeService}.
@@ -44,7 +42,7 @@ import com.bernardomg.security.password.change.usecase.service.PasswordChangeSer
  */
 @RestController
 @RequestMapping("/password/change")
-public class PasswordChangeController {
+public class PasswordChangeController implements PasswordChangeApi {
 
     /**
      * Password recovery service.
@@ -57,18 +55,12 @@ public class PasswordChangeController {
         this.service = service;
     }
 
-    /**
-     * Change password at the end of a password recovery.
-     *
-     * @param request
-     *            password change request
-     */
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Override
     @Unsecured
-    public void changePassword(@RequestBody final PasswordChange request) {
+    public void changePassword(@Valid final PasswordChangeDto passwordChangeDto) {
         // TODO: return if it was successful
-        service.changePasswordForUserInSession(request.oldPassword(), request.newPassword());
+        service.changePasswordForUserInSession(passwordChangeDto.getOldPassword(), passwordChangeDto.getNewPassword());
+
     }
 
 }
