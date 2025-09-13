@@ -7,5 +7,7 @@ servers:
   - url: https://localhost
     description: Local development
 paths:
+  /login:
+    $ref: paths/login.yml
   /account:
     $ref: paths/accounts.yml

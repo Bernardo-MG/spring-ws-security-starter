@@ -1,0 +1,23 @@
+components:
+  schemas:
+    TokenLoginStatus:
+      type: object
+      required: [logged, token]
+      properties:
+        logged:
+          type: boolean
+        token:
+          type: string
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    TokenLoginStatusResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/TokenLoginStatus'

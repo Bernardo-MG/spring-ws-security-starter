@@ -63,22 +63,22 @@ public class AccountController implements AccountApi {
     @Unsecured
     public AccountResponseDto getCurrentUserAccount() {
         final Optional<Account> account;
-        
+
         account = service.getCurrentUser();
-        
+
         return AccountDtoMapper.toResponseDto(account);
     }
 
     @Override
     @Unsecured
-    public AccountResponseDto updateCurrentUserAccount(@Valid AccountChangeDto accountChangeDto) {
+    public AccountResponseDto updateCurrentUserAccount(@Valid final AccountChangeDto accountChangeDto) {
         final Account account;
         final Account updated;
 
         account = BasicAccount.of(accountChangeDto.getName());
 
         updated = service.update(account);
-        
+
         return AccountDtoMapper.toResponseDto(updated);
     }
 
