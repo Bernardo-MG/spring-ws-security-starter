@@ -1,0 +1,32 @@
+components:
+  schemas:
+    Response:
+      type: object
+      properties:
+        content:
+          type: object
+    PageResponse:
+          type: object
+          properties:
+            content:
+              type: array
+              items:
+                type: object
+            size:
+              type: integer
+            page:
+              type: integer
+            totalElements:
+              type: integer
+              format: int64
+            totalPages:
+              type: integer
+              format: int64
+            elementsInPage:
+              type: integer
+            first:
+              type: boolean
+            last:
+              type: boolean
+            sort:
+              $ref: 'pagination.yml#/components/schemas/Sorting'

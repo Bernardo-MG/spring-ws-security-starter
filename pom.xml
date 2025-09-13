@@ -183,15 +183,19 @@
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jjwt.version>0.12.6</jjwt.version>
       <micrometer.version>1.14.8</micrometer.version>
+      <openapitools.jackson>0.2.6</openapitools.jackson>
       <slf4j.version>2.0.17</slf4j.version>
+      <springdoc.version>2.8.5</springdoc.version>
       <spring.boot.version>3.4.6</spring.boot.version>
       <spring.data.version>2024.1.7</spring.data.version>
       <spring.version>6.2.8</spring.version>
+      <swagger.version>2.2.35</swagger.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
       <!-- Checkstyle customized rules file -->
       <checkstyle.config.location>${project.basedir}/src/config/checkstyle/checkstyle-rules.xml</checkstyle.config.location>
+      <plugin.openapi.version>7.14.0</plugin.openapi.version>
       <!-- ============================================== -->
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
@@ -340,6 +344,24 @@
          <groupId>io.jsonwebtoken</groupId>
          <artifactId>jjwt-jackson</artifactId>
          <version>${jjwt.version}</version>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== OpenAPI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+        <version>${openapitools.jackson}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>${swagger.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        <version>${springdoc.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ============== JPA DEPENDENCIES ============== -->
@@ -669,6 +691,48 @@
                   <version>${site.skin.version}</version>
                </dependency>
             </dependencies>
+         </plugin>
+         <plugin>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+            <version>${plugin.openapi.version}</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>generate</goal>
+                  </goals>
+                  <configuration>
+                     <inputSpec>${project.basedir}/src/main/resources/openapi/security.yml</inputSpec>
+                     <generatorName>spring</generatorName>
+                     <library>spring-boot</library>
+                     <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
+                     <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                     <modelNameSuffix>Dto</modelNameSuffix>
+                     <typeMappings>
+                       <typeMapping>string+date-time=Instant</typeMapping>
+                       <typeMapping>string+month=YearMonth</typeMapping>
+                       <typeMapping>InstantDto=Instant</typeMapping>
+                       <typeMapping>YearMonthDto=YearMonth</typeMapping>
+                     </typeMappings>
+                     <importMappings>
+                       <importMapping>InstantDto=java.time.Instant</importMapping>
+                       <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
+                     </importMappings>
+                     <configOptions>
+                        <interfaceOnly>true</interfaceOnly>
+                        <skipDefaultInterface>true</skipDefaultInterface>
+                        <requestMappingMode>api_interface</requestMappingMode>
+                        <useTags>true</useTags>
+                        <dateLibrary>java8</dateLibrary>
+                        <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                        <useSpringBoot3>true</useSpringBoot3>
+                        <useSpringBuiltInValidation>true</useSpringBuiltInValidation>
+                        <useSpringController>true</useSpringController>
+                        <useResponseEntity>false</useResponseEntity>
+                     </configOptions>
+                  </configuration>
+               </execution>
+            </executions>
          </plugin>
       </plugins>
    </build>

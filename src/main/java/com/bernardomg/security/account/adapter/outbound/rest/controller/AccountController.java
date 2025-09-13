@@ -24,18 +24,20 @@
 
 package com.bernardomg.security.account.adapter.outbound.rest.controller;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.account.adapter.outbound.rest.model.AccountChange;
+import com.bernardomg.security.account.adapter.outbound.rest.model.AccountDtoMapper;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.ucronia.openapi.api.AccountApi;
+import com.bernardomg.ucronia.openapi.model.AccountChangeDto;
+import com.bernardomg.ucronia.openapi.model.AccountResponseDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Handles account requests. All the logic is delegated to a {@link AccountService}.
@@ -44,8 +46,7 @@ import com.bernardomg.security.account.usecase.service.AccountService;
  *
  */
 @RestController
-@RequestMapping("/account")
-public class AccountController {
+public class AccountController implements AccountApi {
 
     /**
      * Account service.
@@ -58,33 +59,27 @@ public class AccountController {
         this.service = service;
     }
 
-    /**
-     * Attempts to acquire the current user account. If the user is not authenticated, then it returns null.
-     *
-     * @return the current user account
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @Unsecured
-    public Account currentUser() {
-        return service.getCurrentUser()
-            .orElse(null);
+    public AccountResponseDto getCurrentUserAccount() {
+        final Optional<Account> account;
+        
+        account = service.getCurrentUser();
+        
+        return AccountDtoMapper.toResponseDto(account);
     }
 
-    /**
-     * Updates an account.
-     *
-     * @param request
-     *            updated account data
-     * @return the updated account
-     */
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @Unsecured
-    public Account updateForCurrentUser(@RequestBody final AccountChange request) {
+    public AccountResponseDto updateCurrentUserAccount(@Valid AccountChangeDto accountChangeDto) {
         final Account account;
+        final Account updated;
 
-        account = BasicAccount.of(request.name());
+        account = BasicAccount.of(accountChangeDto.getName());
 
-        return service.update(account);
+        updated = service.update(account);
+        
+        return AccountDtoMapper.toResponseDto(updated);
     }
 
 }
