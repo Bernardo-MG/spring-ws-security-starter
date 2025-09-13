@@ -11,6 +11,8 @@ paths:
     $ref: paths/login.yml
   /password/change:
     $ref: paths/password_change.yml
+  /password/reset/{token}:
+    $ref: paths/password_reset.yml
   /account:
     $ref: paths/accounts.yml
   /security/login/register:

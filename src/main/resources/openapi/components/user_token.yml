@@ -1,0 +1,17 @@
+components:
+  schemas:
+    UserTokenStatus:
+      type: object
+      required: [username, valid]
+      properties:
+        username:
+          type: string
+          description: Username associated with the token.
+        valid:
+          type: boolean
+          description: Indicates if the token is valid.
+    UserTokenStatusResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/UserTokenStatus'
