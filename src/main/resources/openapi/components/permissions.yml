@@ -1,0 +1,25 @@
+components:
+  schemas:
+    ResourcePermission:
+      type: object
+      required: [resource, action]
+      properties:
+        resource:
+          type: string
+          description: Name of the secured resource.
+        action:
+          type: string
+          description: Action permitted on the resource (e.g., READ, UPDATE).
+        name:
+          type: string
+          readOnly: true
+          description: Computed permission name (`action:resource`).
+    ResourcePermissionPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResourcePermission'

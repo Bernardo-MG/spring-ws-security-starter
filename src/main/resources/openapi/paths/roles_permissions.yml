@@ -1,0 +1,35 @@
+get:
+  summary: Get all role permissions.
+  operationId: getAllRolePermissions
+  tags: [Role]
+  parameters:
+    - name: role
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: Roles page
+      content:
+        application/json:
+          schema:
+            $ref: '../components/permissions.yml#/components/schemas/ResourcePermissionPageResponse'
