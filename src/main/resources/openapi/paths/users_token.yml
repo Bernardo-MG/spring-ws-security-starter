@@ -2,8 +2,7 @@ get:
   summary: Get all user tokens
   description: Returns a paginated list of all user tokens.
   operationId: getAllUserTokens
-  tags:
-    - User Tokens
+  tags: [User Tokens]
   parameters:
     - name: page
       description: Page to return.
