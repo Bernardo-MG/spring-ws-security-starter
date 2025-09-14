@@ -4,8 +4,8 @@ get:
   tags: [Role]
   parameters:
     - name: role
-      in: query
-      required: false
+      in: path
+      required: true
       schema:
         type: string
     - name: page
