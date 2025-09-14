@@ -37,13 +37,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.data.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.user.data.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.data.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
-import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
-import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
-import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserActivationService - token validation")

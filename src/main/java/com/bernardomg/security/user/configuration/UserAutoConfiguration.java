@@ -40,26 +40,25 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
-import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
-import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
 import com.bernardomg.security.user.data.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
+import com.bernardomg.security.user.data.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.data.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
+import com.bernardomg.security.user.data.usecase.service.UserActivationService;
 import com.bernardomg.security.user.data.usecase.service.UserService;
+import com.bernardomg.security.user.data.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.user.data.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.login.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.user.login.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
 import com.bernardomg.security.user.notification.adapter.outbound.email.DisabledUserNotificator;
 import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.token.configuration.UserTokenProperties;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
-import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**

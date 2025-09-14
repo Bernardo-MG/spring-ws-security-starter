@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
-import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.data.domain.exception.MissingUserTokenException;
+import com.bernardomg.security.user.data.domain.model.UserToken;
+import com.bernardomg.security.user.data.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.data.usecase.service.SpringUserTokenService;
 import com.bernardomg.security.user.token.test.config.factory.UserTokens;
-import com.bernardomg.security.user.token.usecase.service.SpringUserTokenService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringUserTokenService - get one")

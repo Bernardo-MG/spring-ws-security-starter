@@ -24,10 +24,10 @@ import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
+import com.bernardomg.security.user.data.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserQueries;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User service - get all")

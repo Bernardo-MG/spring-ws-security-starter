@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.user.data.domain.model.UserToken;
+import com.bernardomg.security.user.data.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.test.config.annotation.OnlyUser;
-import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.annotation.ConsumedUserToken;
 import com.bernardomg.security.user.token.test.config.annotation.ExpiredUserToken;
 import com.bernardomg.security.user.token.test.config.annotation.RevokedUserToken;

@@ -48,11 +48,11 @@ import com.bernardomg.security.password.notification.adapter.outbound.email.Spri
 import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.user.configuration.UserTokenProperties;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.token.configuration.UserTokenProperties;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
-import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.data.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.data.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.user.data.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**

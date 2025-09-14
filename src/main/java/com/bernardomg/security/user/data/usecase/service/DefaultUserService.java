@@ -42,6 +42,7 @@ import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
+import com.bernardomg.security.user.data.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.data.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsRule;
@@ -50,7 +51,6 @@ import com.bernardomg.security.user.data.usecase.validation.UserRolesNotDuplicat
 import com.bernardomg.security.user.data.usecase.validation.UserUsernameNotEmptyRule;
 import com.bernardomg.security.user.data.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.password.reset.usecase.service;
 
-import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
+import com.bernardomg.security.user.data.domain.model.UserTokenStatus;
 
 /**
  * Password reset service. Handles the steps requires to change a password for a user which can't start a session.

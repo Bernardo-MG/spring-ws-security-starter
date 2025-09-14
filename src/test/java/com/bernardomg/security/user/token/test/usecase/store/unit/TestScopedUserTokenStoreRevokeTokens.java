@@ -20,11 +20,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.data.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.factory.UserTokens;
-import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ScopedUserTokenStore - revoke existing tokens")

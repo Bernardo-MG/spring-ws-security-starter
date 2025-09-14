@@ -38,13 +38,13 @@ import com.bernardomg.security.password.reset.usecase.validation.EmailFormatRule
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
+import com.bernardomg.security.user.data.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.data.domain.exception.LockedUserException;
 import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
+import com.bernardomg.security.user.data.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.token.domain.exception.InvalidTokenException;
-import com.bernardomg.security.user.token.domain.model.UserTokenStatus;
-import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.data.usecase.store.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
