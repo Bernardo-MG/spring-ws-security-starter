@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
@@ -48,7 +47,6 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/password/reset")
 public class PasswordResetRequestController implements PasswordResetRequestApi {
 
     /**
