@@ -44,8 +44,10 @@ import com.bernardomg.security.user.activation.usecase.service.DefaultUserActiva
 import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
 import com.bernardomg.security.user.data.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserRepository;
+import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.data.usecase.service.UserService;
 import com.bernardomg.security.user.login.adapter.inbound.event.LoginFailureBlockerListener;
@@ -54,8 +56,6 @@ import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsServic
 import com.bernardomg.security.user.notification.adapter.outbound.email.DisabledUserNotificator;
 import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.permission.adapter.inbound.jpa.repository.JpaUserRoleRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.token.configuration.UserTokenProperties;
 import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
@@ -144,8 +144,9 @@ public class UserAutoConfiguration {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserNotificator mSender, @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
-        return new DefaultUserService(userRepo, roleRepo, mSender, tokenStore);
+            final UserRoleRepository userRoleRepo, final UserNotificator mSender,
+            @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
+        return new DefaultUserService(userRepo, roleRepo, userRoleRepo, mSender, tokenStore);
     }
 
     @Bean("userTokenStore")

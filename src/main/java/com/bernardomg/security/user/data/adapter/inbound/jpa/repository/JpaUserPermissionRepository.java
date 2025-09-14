@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.permission.adapter.inbound.jpa.repository;
+package com.bernardomg.security.user.data.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,8 +37,7 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.Resourc
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.user.data.domain.repository.UserPermissionRepository;
 
 /**
  * Resource permissions repository based on JPA entities.

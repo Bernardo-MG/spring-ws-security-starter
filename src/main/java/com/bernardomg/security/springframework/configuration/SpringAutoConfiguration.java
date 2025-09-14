@@ -34,8 +34,8 @@ import com.bernardomg.security.springframework.access.usecase.validator.RequireR
 import com.bernardomg.security.springframework.access.usecase.validator.ResourceAccessValidator;
 import com.bernardomg.security.springframework.access.usecase.validator.SpringResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
+import com.bernardomg.security.user.data.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
 
 /**
  * Login configuration.

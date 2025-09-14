@@ -22,8 +22,26 @@
  * SOFTWARE.
  */
 
-/**
- * User repositories.
- */
+package com.bernardomg.security.user.data.domain.repository;
 
-package com.bernardomg.security.user.permission.domain.repository;
+import java.util.Collection;
+
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+
+/**
+ * User permissions repository.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ */
+public interface UserPermissionRepository {
+
+    /**
+     * Returns all the resource permissions for a user.
+     *
+     * @param username
+     *            user to search for the permissions
+     * @return all the resource permissions for the user
+     */
+    public Collection<ResourcePermission> findAll(final String username);
+
+}

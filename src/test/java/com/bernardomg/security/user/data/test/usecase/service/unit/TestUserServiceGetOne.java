@@ -19,6 +19,7 @@ import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
@@ -46,6 +47,9 @@ class TestUserServiceGetOne {
 
     @Mock
     private UserRepository     userRepository;
+
+    @Mock
+    private UserRoleRepository userRoleRepository;
 
     public TestUserServiceGetOne() {
         super();

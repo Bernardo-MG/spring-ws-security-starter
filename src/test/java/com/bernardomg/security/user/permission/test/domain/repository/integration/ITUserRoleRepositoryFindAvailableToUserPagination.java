@@ -14,7 +14,7 @@ import com.bernardomg.security.permission.test.config.annotation.UserWithoutRole
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.role.test.config.factory.Roles;
-import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
+import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 

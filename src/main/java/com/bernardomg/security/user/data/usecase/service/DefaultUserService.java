@@ -41,6 +41,7 @@ import com.bernardomg.security.user.data.domain.exception.MissingUsernameExcepti
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.data.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.user.data.usecase.validation.UserEmailNotExistsRule;
@@ -65,44 +66,50 @@ public final class DefaultUserService implements UserService {
     /**
      * Logger for the class.
      */
-    private static final Logger   log = LoggerFactory.getLogger(DefaultUserService.class);
+    private static final Logger      log = LoggerFactory.getLogger(DefaultUserService.class);
 
     /**
      * Role repository.
      */
-    private final RoleRepository  roleRepository;
+    private final RoleRepository     roleRepository;
 
     /**
      * Token processor.
      */
-    private final UserTokenStore  tokenStore;
+    private final UserTokenStore     tokenStore;
 
     /**
      * Message sender. Registering new users may require emails, or other kind of messaging.
      */
-    private final UserNotificator userNotificator;
+    private final UserNotificator    userNotificator;
 
     /**
      * User repository.
      */
-    private final UserRepository  userRepository;
+    private final UserRepository     userRepository;
+
+    /**
+     * User role repository.
+     */
+    private final UserRoleRepository userRoleRepository;
 
     /**
      * User registration validator.
      */
-    private final Validator<User> validatorRegisterUser;
+    private final Validator<User>    validatorRegisterUser;
 
     /**
      * Update user validator.
      */
-    private final Validator<User> validatorUpdateUser;
+    private final Validator<User>    validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserNotificator userNotf, final UserTokenStore tStore) {
+            final UserRoleRepository userRoleRepo, final UserNotificator userNotf, final UserTokenStore tStore) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
+        userRoleRepository = Objects.requireNonNull(userRoleRepo);
         userNotificator = Objects.requireNonNull(userNotf);
         tokenStore = Objects.requireNonNull(tStore);
 
@@ -143,6 +150,25 @@ public final class DefaultUserService implements UserService {
         log.trace("Read users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
         return users;
+    }
+
+    @Override
+    public final Page<Role> getAvailableRoles(final String username, final Pagination pagination,
+            final Sorting sorting) {
+        final Page<Role> roles;
+
+        log.trace("Reading available roles for {}", username);
+
+        if (!userRepository.exists(username)) {
+            log.error("Missing user {}", username);
+            throw new MissingUsernameException(username);
+        }
+
+        roles = userRoleRepository.findAvailableToUser(username, pagination, sorting);
+
+        log.trace("Read available roles for {}", username);
+
+        return roles;
     }
 
     @Override

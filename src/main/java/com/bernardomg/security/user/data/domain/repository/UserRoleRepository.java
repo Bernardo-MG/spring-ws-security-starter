@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.permission.domain.repository;
+package com.bernardomg.security.user.data.domain.repository;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;

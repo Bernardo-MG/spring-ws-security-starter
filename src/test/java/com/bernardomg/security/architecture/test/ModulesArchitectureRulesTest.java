@@ -107,8 +107,9 @@ public class ModulesArchitectureRulesTest {
 
         // Permission modules access
         .whereLayer("Permissions data")
-        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "User tokens", "User activation", "Roles", "Initializers", "Login",
-            "Access", "Config", "Spring", "Permissions initializer", "Permissions configuration")
+        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "User tokens", "User activation", "Roles",
+            "Initializers", "Login", "Access", "Config", "Spring", "Permissions initializer",
+            "Permissions configuration")
         .whereLayer("Permissions initializer")
         .mayOnlyBeAccessedByLayers("Permissions initializer", "Config", "Login", "Roles", "Users data", "User tokens",
             "Permissions configuration")
@@ -116,8 +117,8 @@ public class ModulesArchitectureRulesTest {
         .mayNotBeAccessedByAnyLayer()
 
         .whereLayer("Roles")
-        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "User activation", "Initializers", "Config", "Spring",
-            "Permissions configuration", "User configuration")
+        .mayOnlyBeAccessedByLayers("Users data", "Users permissions", "User activation", "Initializers", "Config",
+            "Spring", "Permissions configuration", "User configuration")
         .whereLayer("Access")
         .mayOnlyBeAccessedByLayers("Config", "Spring", "Account", "Roles", "Password reset", "Password change", "Login",
             "User activation", "Users data", "User tokens", "Users permissions")

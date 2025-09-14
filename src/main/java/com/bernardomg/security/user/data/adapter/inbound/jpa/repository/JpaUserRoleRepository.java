@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.permission.adapter.inbound.jpa.repository;
+package com.bernardomg.security.user.data.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +44,7 @@ import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
+import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
 
 /**
  * Role repository based on JPA entities.

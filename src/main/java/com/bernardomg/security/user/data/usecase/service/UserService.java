@@ -29,6 +29,7 @@ import java.util.Optional;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.data.domain.model.User;
 import com.bernardomg.security.user.data.domain.model.UserQuery;
 
@@ -62,6 +63,19 @@ public interface UserService {
      * @return a page for the users matching the sample
      */
     public Page<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
+
+    /**
+     * Returns all the roles available to the user, in paginated form.
+     *
+     * @param username
+     *            user username
+     * @param pagination
+     *            pagination to apply
+     * @param sorting
+     *            sorting to apply
+     * @return a page with the available roles
+     */
+    public Page<Role> getAvailableRoles(final String username, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the user for the received username, if it exists. Otherwise an empty {@code Optional} is returned.

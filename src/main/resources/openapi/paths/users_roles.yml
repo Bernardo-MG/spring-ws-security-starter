@@ -4,7 +4,7 @@ get:
     Returns all roles that are available to assign to the specified user, 
     excluding those already assigned.
   operationId: getAvailableRolesForUser
-  tags: [UserRole]
+  tags: [User]
   parameters:
     - name: username
       in: path

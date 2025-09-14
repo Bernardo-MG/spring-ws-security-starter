@@ -39,8 +39,8 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.Re
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.springframework.domain.model.ResourceActionGrantedAuthority;
 import com.bernardomg.security.user.data.domain.model.User;
+import com.bernardomg.security.user.data.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
 
 /**
  * User details service which takes the user data from the domain layer.

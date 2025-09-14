@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.role.test.usecase.service.unit;
+package com.bernardomg.security.user.data.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -14,32 +14,48 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.Roles;
 import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
-import com.bernardomg.security.user.permission.usecase.service.DefaultUserRoleService;
+import com.bernardomg.security.user.data.domain.repository.UserRoleRepository;
+import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
+import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultUserRoleService - get available roles")
-class TestDefaultUserRoleServiceGetAvailableRoles {
+@DisplayName("DefaultRoleService - get available roles")
+class TestUserServiceGetAvailableRoles {
+
+    @Mock
+    private PasswordEncoder    passwordEncoder;
+
+    @Mock
+    private RoleRepository     roleRepository;
 
     @InjectMocks
-    private DefaultUserRoleService service;
+    private DefaultUserService service;
 
     @Mock
-    private UserRepository         userRepository;
+    private UserTokenStore     tokenStore;
 
     @Mock
-    private UserRoleRepository     userRoleRepository;
+    private UserNotificator    userNotificator;
 
-    public TestDefaultUserRoleServiceGetAvailableRoles() {
+    @Mock
+    private UserRepository     userRepository;
+
+    @Mock
+    private UserRoleRepository userRoleRepository;
+
+    public TestUserServiceGetAvailableRoles() {
         super();
     }
 
