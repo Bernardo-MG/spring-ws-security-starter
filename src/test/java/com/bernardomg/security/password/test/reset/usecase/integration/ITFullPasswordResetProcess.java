@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserTokenSpringRepository;
-import com.bernardomg.security.user.data.domain.model.UserTokenStatus;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;

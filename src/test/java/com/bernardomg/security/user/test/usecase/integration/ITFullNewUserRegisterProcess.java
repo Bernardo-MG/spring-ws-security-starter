@@ -16,13 +16,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserTokenSpringRepository;
-import com.bernardomg.security.user.data.domain.model.UserTokenStatus;
-import com.bernardomg.security.user.data.usecase.service.UserActivationService;
-import com.bernardomg.security.user.data.usecase.service.UserService;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.usecase.service.UserActivationService;
+import com.bernardomg.security.user.usecase.service.UserService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest

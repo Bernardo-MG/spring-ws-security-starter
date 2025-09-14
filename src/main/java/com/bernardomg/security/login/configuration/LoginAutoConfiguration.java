@@ -51,8 +51,8 @@ import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.security.login.usecase.service.LoginService;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
-import com.bernardomg.security.user.data.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**

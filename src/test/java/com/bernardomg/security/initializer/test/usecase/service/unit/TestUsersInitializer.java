@@ -19,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.initializer.usecase.service.DefaultUsersInitializerService;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.Roles;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)

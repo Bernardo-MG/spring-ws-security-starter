@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.user.token.test.config.factory;
 
-import com.bernardomg.security.user.data.domain.model.UserTokenStatus;
+import com.bernardomg.security.user.domain.model.UserTokenStatus;
 
 public final class UserTokenStatuses {
 

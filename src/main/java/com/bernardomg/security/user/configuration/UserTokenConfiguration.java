@@ -30,15 +30,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.user.data.adapter.inbound.initializer.TokenPermissionRegister;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserTokenRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserTokenSpringRepository;
-import com.bernardomg.security.user.data.adapter.inbound.schedule.UserTokenCleanUpScheduleTask;
-import com.bernardomg.security.user.data.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.data.usecase.service.SpringUserTokenService;
-import com.bernardomg.security.user.data.usecase.service.UserTokenService;
+import com.bernardomg.security.user.adapter.inbound.initializer.TokenPermissionRegister;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserTokenRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.schedule.UserTokenCleanUpScheduleTask;
+import com.bernardomg.security.user.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.user.usecase.service.UserTokenService;
 
 /**
  * User token configuration.

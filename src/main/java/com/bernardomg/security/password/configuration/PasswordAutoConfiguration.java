@@ -49,10 +49,10 @@ import com.bernardomg.security.password.notification.usecase.notification.Passwo
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.configuration.UserTokenProperties;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.data.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.data.usecase.store.ScopedUserTokenStore;
-import com.bernardomg.security.user.data.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**

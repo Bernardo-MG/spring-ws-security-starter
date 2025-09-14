@@ -2,7 +2,7 @@
 package com.bernardomg.security.user.token.test.config.factory;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.data.domain.model.UserToken;
+import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 public final class UserTokens {

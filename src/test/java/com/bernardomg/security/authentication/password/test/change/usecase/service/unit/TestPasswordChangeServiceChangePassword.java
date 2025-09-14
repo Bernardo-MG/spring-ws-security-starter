@@ -20,11 +20,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.password.change.domain.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
-import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
-import com.bernardomg.security.user.data.domain.exception.LockedUserException;
-import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.exception.DisabledUserException;
+import com.bernardomg.security.user.domain.exception.ExpiredUserException;
+import com.bernardomg.security.user.domain.exception.LockedUserException;
+import com.bernardomg.security.user.domain.exception.MissingUsernameException;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.factory.Authentications;
 import com.bernardomg.test.config.factory.SecurityUsers;
