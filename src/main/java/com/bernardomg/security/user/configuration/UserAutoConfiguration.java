@@ -33,6 +33,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,26 +41,25 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
-import com.bernardomg.security.user.activation.usecase.service.DefaultUserActivationService;
-import com.bernardomg.security.user.activation.usecase.service.UserActivationService;
-import com.bernardomg.security.user.data.adapter.inbound.initializer.UserPermissionRegister;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.JpaUserRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.data.usecase.service.DefaultUserService;
-import com.bernardomg.security.user.data.usecase.service.UserService;
-import com.bernardomg.security.user.login.adapter.inbound.event.LoginFailureBlockerListener;
-import com.bernardomg.security.user.login.usecase.service.DefaultUserLoginAttempsService;
-import com.bernardomg.security.user.login.usecase.service.UserLoginAttempsService;
-import com.bernardomg.security.user.notification.adapter.outbound.email.DisabledUserNotificator;
-import com.bernardomg.security.user.notification.adapter.outbound.email.SpringMailUserNotificator;
-import com.bernardomg.security.user.notification.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.permission.adapter.inbound.jpa.repository.JpaUserRoleRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
-import com.bernardomg.security.user.token.configuration.UserTokenProperties;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
-import com.bernardomg.security.user.token.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.adapter.inbound.event.LoginFailureBlockerListener;
+import com.bernardomg.security.user.adapter.inbound.initializer.UserPermissionRegister;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.outbound.email.DisabledUserNotificator;
+import com.bernardomg.security.user.adapter.outbound.email.SpringMailUserNotificator;
+import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.repository.UserRoleRepository;
+import com.bernardomg.security.user.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.usecase.notificator.UserNotificator;
+import com.bernardomg.security.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.usecase.service.DefaultUserLoginAttempsService;
+import com.bernardomg.security.user.usecase.service.DefaultUserService;
+import com.bernardomg.security.user.usecase.service.UserActivationService;
+import com.bernardomg.security.user.usecase.service.UserLoginAttempsService;
+import com.bernardomg.security.user.usecase.service.UserService;
+import com.bernardomg.security.user.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
@@ -69,13 +69,10 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.user.data.adapter.outbound.rest.controller",
-        "com.bernardomg.security.user.activation.adapter.outbound.rest.controller",
-        "com.bernardomg.security.user.permission.adapter.outbound.rest.controller",
-        "com.bernardomg.security.user.token.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.data.adapter.inbound.jpa",
-        "com.bernardomg.security.user.permission.adapter.inbound.jpa" })
+@ComponentScan({ "com.bernardomg.security.user.adapter.outbound.rest.controller" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.adapter.inbound.jpa" })
 @EnableConfigurationProperties({ LoginProperties.class, UserNotificatorProperties.class })
+@Import({ UserTokenConfiguration.class })
 public class UserAutoConfiguration {
 
     /**
@@ -144,8 +141,9 @@ public class UserAutoConfiguration {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserNotificator mSender, @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
-        return new DefaultUserService(userRepo, roleRepo, mSender, tokenStore);
+            final UserRoleRepository userRoleRepo, final UserNotificator mSender,
+            @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
+        return new DefaultUserService(userRepo, roleRepo, userRoleRepo, mSender, tokenStore);
     }
 
     @Bean("userTokenStore")

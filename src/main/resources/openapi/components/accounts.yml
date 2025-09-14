@@ -1,0 +1,28 @@
+components:
+  schemas:
+    Account:
+      type: object
+      required: [username, name, email]
+      properties:
+        username:
+          type: string
+          description: Unique username of the account.
+        name:
+          type: string
+          description: Display name of the user.
+        email:
+          type: string
+          format: email
+          description: Email address of the user.
+    AccountChange:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          description: New display name for the account.
+    AccountResponse:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Account'

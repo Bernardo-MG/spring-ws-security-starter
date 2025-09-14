@@ -257,6 +257,7 @@ public final class JpaRoleRepository implements RoleRepository {
     private final RoleEntity toEntity(final RoleQuery role) {
         final RoleEntity entity;
 
+        // TODO: does it make sense filtering by name?
         entity = new RoleEntity();
         entity.setName(role.name());
 

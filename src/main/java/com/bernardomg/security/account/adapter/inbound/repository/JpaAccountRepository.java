@@ -34,8 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 /**
  * Account repository based on JPA entities. The account is actually a view over the users.

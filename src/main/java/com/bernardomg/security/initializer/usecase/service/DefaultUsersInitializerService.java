@@ -33,8 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
-import com.bernardomg.security.user.data.domain.model.User;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 
 /**
  * Creates initial test users on app start. These are meant to help local development.

@@ -1,0 +1,57 @@
+components:
+  schemas:
+    Page:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+        size:
+          type: integer
+        page:
+          type: integer
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        elementsInPage:
+          type: integer
+        first:
+          type: boolean
+        last:
+          type: boolean
+        sort:
+          $ref: '#/components/schemas/Sorting'
+    Sorting:
+      type: object
+      properties:
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Property'
+    Property:
+      type: object
+      properties:
+        name:
+          type: string
+        direction:
+          type: string
+          enum: [asc, desc]
+    pageParam:
+      type: integer
+      minimum: 1
+      example: 1
+      default: 1
+    sizeParam:
+      type: integer
+      minimum: 1
+      example: 10
+      default: 10
+    sortingParam:
+      type: array
+      items:
+        type: string
+        example: property,ASC

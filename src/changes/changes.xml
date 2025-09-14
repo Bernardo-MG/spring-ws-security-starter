@@ -328,5 +328,13 @@
             Corrected resource annotation interceptor.
          </action>
       </release>
+      <release version="0.4.20" date="2025-09-14" description="OpenAPI">
+         <action dev="bmg" type="update">
+            Using OpenAPI to define endpoints.
+         </action>
+         <action dev="bmg" type="update">
+            Merged user packages.
+         </action>
+      </release>
    </body>
 </document>

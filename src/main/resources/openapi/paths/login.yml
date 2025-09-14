@@ -1,0 +1,17 @@
+post:
+  summary: Handle login.
+  operationId: login
+  tags: [Login]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/login.yml#/components/schemas/LoginRequest'
+  responses:
+    '200':
+      description: The updated account.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/login.yml#/components/schemas/TokenLoginStatusResponse'

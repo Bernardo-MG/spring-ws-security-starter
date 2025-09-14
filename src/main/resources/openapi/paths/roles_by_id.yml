@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific Role
+  operationId: getOneRole
+  tags: [Role]
+  parameters:
+    - name: role
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Role details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/roles.yml#/components/schemas/RoleResponse'
+delete:
+  summary: Delete a Role
+  operationId: deleteRole
+  tags: [Role]
+  parameters:
+    - name: role
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Deleted Role
+      content:
+        application/json:
+          schema:
+            $ref: '../components/roles.yml#/components/schemas/RoleResponse'
+put:
+  summary: Update a Role
+  operationId: updateRole
+  tags: [Role]
+  parameters:
+    - name: role
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/roles.yml#/components/schemas/RoleChange'
+  responses:
+    '200':
+      description: Role updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/roles.yml#/components/schemas/RoleResponse'

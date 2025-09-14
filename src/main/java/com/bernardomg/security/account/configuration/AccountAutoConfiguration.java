@@ -33,7 +33,7 @@ import com.bernardomg.security.account.adapter.inbound.repository.JpaAccountRepo
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.usecase.service.AccountService;
 import com.bernardomg.security.account.usecase.service.DefaultAccountService;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 /**
  * Account auto configuration.

@@ -35,7 +35,7 @@ import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.test.config.annotation.EnabledUser;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

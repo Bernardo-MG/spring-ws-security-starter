@@ -1,0 +1,42 @@
+post:
+  summary: Activate a new user.
+  operationId: activateUser
+  tags: [UserActivation]
+  parameters:
+    - name: token
+      in: path
+      required: true
+      description: Token identifying the user to activate.
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/users.yml#/components/schemas/UserActivation'
+  responses:
+    '201':
+      description: Token validation result.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/users.yml#/components/schemas/UserResponse'
+get:
+  summary: Validate an activation token.
+  operationId: validateActivationToken
+  tags: [UserActivation]
+  parameters:
+    - name: token
+      in: path
+      required: true
+      description: Token to validate.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Token validation result.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/user_token.yml#/components/schemas/UserTokenStatusResponse'

@@ -1,0 +1,30 @@
+get:
+  summary: Handle login.
+  operationId: getAllLoginRegisters
+  tags: [LoginRegister]
+  parameters:
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: The updated account.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/login_register.yml#/components/schemas/LoginRegisterPageResponse'

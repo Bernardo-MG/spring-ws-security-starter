@@ -38,11 +38,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.password.change.domain.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
-import com.bernardomg.security.user.data.domain.exception.DisabledUserException;
-import com.bernardomg.security.user.data.domain.exception.ExpiredUserException;
-import com.bernardomg.security.user.data.domain.exception.LockedUserException;
-import com.bernardomg.security.user.data.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.exception.DisabledUserException;
+import com.bernardomg.security.user.domain.exception.ExpiredUserException;
+import com.bernardomg.security.user.domain.exception.LockedUserException;
+import com.bernardomg.security.user.domain.exception.MissingUsernameException;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.validation.domain.exception.FieldFailureException;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRuleValidator;

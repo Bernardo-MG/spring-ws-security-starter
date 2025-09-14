@@ -1,0 +1,31 @@
+get:
+  summary: Get all user tokens
+  description: Returns a paginated list of all user tokens.
+  operationId: getAllUserTokens
+  tags: [User Tokens]
+  parameters:
+    - name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/pageParam'
+    - name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
+    - name: sort
+      in: query
+      required: false
+      description: Sorting to apply.
+      schema:
+        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
+  responses:
+    '200':
+      description: Paginated list of user tokens.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/user_token.yml#/components/schemas/UserTokenPageResponse'

@@ -1,0 +1,10 @@
+components:
+  schemas:
+    Date:
+      type: string
+      format: date-time
+      example: '2025-08-01T00:00:00Z'
+    Month:
+      type: string
+      format: month
+      example: '2025-08'

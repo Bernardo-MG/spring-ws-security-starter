@@ -24,16 +24,18 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
-import com.bernardomg.security.login.adapter.outbound.rest.model.LoginRequest;
+import com.bernardomg.security.login.adapter.outbound.rest.model.LoginDtoMapper;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.LoginService;
+import com.bernardomg.ucronia.openapi.api.LoginApi;
+import com.bernardomg.ucronia.openapi.model.LoginRequestDto;
+import com.bernardomg.ucronia.openapi.model.TokenLoginStatusResponseDto;
+
+import jakarta.validation.Valid;
 
 /**
  * Handles login requests. All the logic is delegated to a {@link LoginService}.
@@ -42,8 +44,7 @@ import com.bernardomg.security.login.usecase.service.LoginService;
  *
  */
 @RestController
-@RequestMapping("/login")
-public class LoginController {
+public class LoginController implements LoginApi {
 
     /**
      * Login service.
@@ -56,20 +57,16 @@ public class LoginController {
         this.service = service;
     }
 
-    /**
-     * Attempts to log in a user, returning the login status.
-     *
-     * @param login
-     *            login request
-     * @return the login status after the login attempt
-     */
-    @PostMapping
+    @Override
     @Unsecured
-    public TokenLoginStatus login(@RequestBody final LoginRequest login) {
-        final Credentials credentials;
+    public TokenLoginStatusResponseDto login(@Valid final LoginRequestDto loginRequestDto) {
+        final Credentials      credentials;
+        final TokenLoginStatus status;
 
-        credentials = new Credentials(login.username(), login.password());
-        return service.login(credentials);
+        credentials = LoginDtoMapper.toDomain(loginRequestDto);
+        status = service.login(credentials);
+
+        return LoginDtoMapper.toResponseDto(status);
     }
 
 }

@@ -16,15 +16,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.token.domain.exception.ConsumedTokenException;
-import com.bernardomg.security.user.token.domain.exception.ExpiredTokenException;
-import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
-import com.bernardomg.security.user.token.domain.exception.OutOfScopeTokenException;
-import com.bernardomg.security.user.token.domain.exception.RevokedTokenException;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.user.domain.exception.ExpiredTokenException;
+import com.bernardomg.security.user.domain.exception.MissingUserTokenException;
+import com.bernardomg.security.user.domain.exception.OutOfScopeTokenException;
+import com.bernardomg.security.user.domain.exception.RevokedTokenException;
+import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.factory.UserTokens;
-import com.bernardomg.security.user.token.usecase.store.ScopedUserTokenStore;
+import com.bernardomg.security.user.usecase.store.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ScopedUserTokenStore - validate")
