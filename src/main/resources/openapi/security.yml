@@ -33,3 +33,7 @@ paths:
     $ref: paths/users_activation.yml
   /security/user/{username}/role/available:
     $ref: paths/users_roles.yml
+  /security/user/token:
+    $ref: paths/users_token.yml
+  /security/user/token/{token}:
+    $ref: paths/users_token_by_id.yml

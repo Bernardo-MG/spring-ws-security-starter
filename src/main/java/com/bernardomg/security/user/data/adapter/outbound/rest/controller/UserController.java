@@ -79,7 +79,7 @@ public class UserController implements UserApi {
     @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
-    public UserResponseDto createUser(@Valid UserCreationDto userCreationDto) {
+    public UserResponseDto createUser(@Valid final UserCreationDto userCreationDto) {
         final User user;
 
         user = service.registerNewUser(userCreationDto.getUsername(), userCreationDto.getName(),
@@ -92,7 +92,7 @@ public class UserController implements UserApi {
     @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USER),
             @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
-    public UserResponseDto deleteUser(String username) {
+    public UserResponseDto deleteUser(final String username) {
         final User deleted;
 
         deleted = service.delete(username);
@@ -103,10 +103,10 @@ public class UserController implements UserApi {
     @Override
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public UserPageResponseDto getAllUsers(@Email @Valid String email, @Valid String username, @Valid String name,
-            @Valid Boolean enabled, @Valid Boolean notLocked, @Valid Boolean notExpired,
-            @Valid Boolean passwordNotExpired, @Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
-            @Valid List<String> sort) {
+    public UserPageResponseDto getAllUsers(@Email @Valid final String email, @Valid final String username,
+            @Valid final String name, @Valid final Boolean enabled, @Valid final Boolean notLocked,
+            @Valid final Boolean notExpired, @Valid final Boolean passwordNotExpired, @Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Pagination pagination;
         final Sorting    sorting;
         final Page<User> users;
@@ -124,7 +124,7 @@ public class UserController implements UserApi {
     @Override
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER)
-    public UserResponseDto getOneUser(String user) {
+    public UserResponseDto getOneUser(final String user) {
         final Optional<User> found;
 
         found = service.getOne(user);
@@ -136,7 +136,7 @@ public class UserController implements UserApi {
     @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") }, evict = {
             @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
-    public UserResponseDto updateUser(String username, @Valid UserChangeDto userChangeDto) {
+    public UserResponseDto updateUser(final String username, @Valid final UserChangeDto userChangeDto) {
         final User toUpdate;
         final User updated;
 
