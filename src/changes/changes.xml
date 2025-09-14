@@ -323,5 +323,10 @@
             Repositories return a page for paginated queries.
          </action>
       </release>
+      <release version="0.4.19" date="2025-08-19" description="Corrected resource annotation interceptor">
+         <action dev="bmg" type="fix">
+            Corrected resource annotation interceptor.
+         </action>
+      </release>
    </body>
 </document>
