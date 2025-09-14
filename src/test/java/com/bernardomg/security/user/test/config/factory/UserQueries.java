@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.user.test.config.factory;
 
-import com.bernardomg.security.user.data.domain.model.UserQuery;
+import com.bernardomg.security.user.domain.model.UserQuery;
 
 public final class UserQueries {
 

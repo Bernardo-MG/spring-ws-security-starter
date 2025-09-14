@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.user.data.domain.model.User;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.annotation.DisabledUser;
 import com.bernardomg.security.user.test.config.annotation.EnabledUser;
 import com.bernardomg.security.user.test.config.annotation.EnabledUserWithoutPermissions;

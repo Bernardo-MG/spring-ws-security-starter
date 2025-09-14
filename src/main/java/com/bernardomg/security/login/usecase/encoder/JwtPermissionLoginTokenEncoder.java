@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
-import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 
 /**
  * Encodes a JWT token including the permissions for the user.

@@ -17,12 +17,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.token.domain.exception.MissingUserTokenException;
-import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.domain.exception.MissingUserTokenException;
+import com.bernardomg.security.user.domain.model.UserToken;
+import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.factory.UserTokenConstants;
 import com.bernardomg.security.user.token.test.config.factory.UserTokens;
-import com.bernardomg.security.user.token.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.user.usecase.service.SpringUserTokenService;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 

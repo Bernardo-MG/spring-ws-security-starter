@@ -42,9 +42,9 @@ import com.bernardomg.security.permission.data.domain.repository.ResourceReposit
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
-import com.bernardomg.security.user.data.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.permission.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
+import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 
 /**
  * Security configuration.

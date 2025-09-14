@@ -39,8 +39,8 @@ import com.bernardomg.security.event.LogInEvent;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
-import com.bernardomg.security.user.data.domain.model.User;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 
 /**
  * Login service which generates a token for the logged in user.

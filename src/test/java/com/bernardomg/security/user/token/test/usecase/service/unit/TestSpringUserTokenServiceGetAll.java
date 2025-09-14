@@ -18,10 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.security.user.token.domain.model.UserToken;
-import com.bernardomg.security.user.token.domain.repository.UserTokenRepository;
+import com.bernardomg.security.user.domain.model.UserToken;
+import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.token.test.config.factory.UserTokens;
-import com.bernardomg.security.user.token.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.user.usecase.service.SpringUserTokenService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringUserTokenService - get all")

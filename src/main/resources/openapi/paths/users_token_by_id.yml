@@ -2,8 +2,7 @@ get:
   summary: Get a user token by token code
   description: Retrieves a single user token by its code. Returns `null` if not found.
   operationId: getOneUserToken
-  tags:
-    - User Tokens
+  tags: [User Tokens]
   parameters:
     - name: token
       in: path

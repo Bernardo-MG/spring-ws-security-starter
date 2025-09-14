@@ -40,10 +40,6 @@ import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.usecase.service.DefaultRoleService;
 import com.bernardomg.security.role.usecase.service.RoleService;
-import com.bernardomg.security.user.data.domain.repository.UserRepository;
-import com.bernardomg.security.user.permission.domain.repository.UserRoleRepository;
-import com.bernardomg.security.user.permission.usecase.service.DefaultUserRoleService;
-import com.bernardomg.security.user.permission.usecase.service.UserRoleService;
 
 /**
  * Password handling configuration.
@@ -79,12 +75,6 @@ public class RoleAutoConfiguration {
             final RolePermissionRepository rolePermissionRepository,
             final ResourcePermissionRepository resourcePermissionRepository) {
         return new DefaultRoleService(roleRepository, rolePermissionRepository, resourcePermissionRepository);
-    }
-
-    @Bean("userRoleService")
-    public UserRoleService getUserRoleService(final UserRepository userRepository,
-            final UserRoleRepository userRoleRepository) {
-        return new DefaultUserRoleService(userRepository, userRoleRepository);
     }
 
 }
