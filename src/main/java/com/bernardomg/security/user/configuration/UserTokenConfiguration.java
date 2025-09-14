@@ -24,10 +24,8 @@
 
 package com.bernardomg.security.user.configuration;
 
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.user.adapter.inbound.initializer.TokenPermissionRegister;
@@ -48,8 +46,6 @@ import com.bernardomg.security.user.usecase.service.UserTokenService;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(UserTokenProperties.class)
-@ComponentScan({ "com.bernardomg.security.user.token.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.token.adapter.inbound.jpa" })
 public class UserTokenConfiguration {
 
     public UserTokenConfiguration() {
