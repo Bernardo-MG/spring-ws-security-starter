@@ -692,7 +692,15 @@
                </dependency>
             </dependencies>
          </plugin>
+	     <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-javadoc-plugin</artifactId>
+	        <configuration>
+	          <failOnError>false</failOnError>
+	        </configuration>
+	     </plugin>
          <plugin>
+            <!-- OpenApi -->
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator-maven-plugin</artifactId>
             <version>${plugin.openapi.version}</version>
