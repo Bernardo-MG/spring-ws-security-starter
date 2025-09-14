@@ -45,8 +45,9 @@ public interface UserService {
      *
      * @param username
      *            username of the user to delete
+     * @return the deleted user
      */
-    public void delete(final String username);
+    public User delete(final String username);
 
     /**
      * Returns all the users matching the sample in a paginated form. If the sample fields are empty, then all the users

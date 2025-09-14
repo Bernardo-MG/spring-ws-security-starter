@@ -1,0 +1,21 @@
+components:
+  schemas:
+    LoginRegister:
+      type: object
+      required: [logged, token]
+      properties:
+        username:
+          type: string
+        loggedIn:
+          type: boolean
+        date:
+          $ref: '../common/dates.yml#/components/schemas/Date'
+    LoginRegisterPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/LoginRegister'

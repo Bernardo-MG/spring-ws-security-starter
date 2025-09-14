@@ -1,0 +1,46 @@
+get:
+  summary: Get a user token by token code
+  description: Retrieves a single user token by its code. Returns `null` if not found.
+  operationId: getOneUserToken
+  tags:
+    - User Tokens
+  parameters:
+    - name: token
+      in: path
+      required: true
+      description: Token code of the user token.
+      schema:
+        type: string
+  responses:
+    '200':
+      description: User token object or `null`.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/user_token.yml#/components/schemas/UserTokenResponse'
+patch:
+  summary: Partially update a user token
+  description: Applies a partial update (patch) to the specified user token.
+  operationId: patchUserToken
+  tags:
+    - User Tokens
+  parameters:
+    - name: token
+      in: path
+      required: true
+      description: Token code of the user token to patch.
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/user_token.yml#/components/schemas/UserTokenChange'
+  responses:
+    '200':
+      description: Updated user token.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/user_token.yml#/components/schemas/UserTokenResponse'

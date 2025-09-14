@@ -24,21 +24,26 @@
 
 package com.bernardomg.security.user.permission.adapter.outbound.rest.controller;
 
+import java.util.List;
+
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
+import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.permission.usecase.service.UserRoleService;
+import com.bernardomg.ucronia.openapi.api.UserRoleApi;
+import com.bernardomg.ucronia.openapi.model.RolePageResponseDto;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * User role REST controller.
@@ -47,8 +52,7 @@ import com.bernardomg.security.user.permission.usecase.service.UserRoleService;
  *
  */
 @RestController
-@RequestMapping("/security/user/{username}/role")
-public class UserRoleController {
+public class UserRoleController implements UserRoleApi {
 
     /**
      * User role service.
@@ -61,23 +65,19 @@ public class UserRoleController {
         this.service = service;
     }
 
-    /**
-     * Returns all the roles available to a user. That is, those which haven't been assigned to the role.
-     *
-     * @param username
-     *            user username
-     * @param pagination
-     *            pagination to apply
-     * @param sorting
-     *            sorting to apply
-     * @return a page with the available roles
-     */
-    @GetMapping(path = "/available", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.USER_AVAILABLE_ROLES)
-    public Page<Role> readAvailable(@PathVariable("username") final String username, final Pagination pagination,
-            final Sorting sorting) {
-        return service.getAvailableRoles(username, pagination, sorting);
+    public RolePageResponseDto getAvailableRolesForUser(final String username, @Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        final Pagination pagination;
+        final Sorting    sorting;
+        Page<Role>       roles;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+        roles = service.getAvailableRoles(username, pagination, sorting);
+        return RoleDtoMapper.toResponseDto(roles);
     }
 
 }

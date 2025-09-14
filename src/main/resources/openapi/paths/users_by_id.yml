@@ -1,0 +1,57 @@
+get:
+  summary: Get a specific User
+  operationId: getOneUser
+  tags: [User]
+  parameters:
+    - name: user
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      description: User details
+      content:
+        application/json:
+          schema:
+            $ref: '../components/users.yml#/components/schemas/UserResponse'
+delete:
+  summary: Delete a User
+  operationId: deleteUser
+  tags: [User]
+  parameters:
+    - name: username
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    '204':
+      description: Deleted User
+      content:
+        application/json:
+          schema:
+            $ref: '../components/users.yml#/components/schemas/UserResponse'
+put:
+  summary: Update a User
+  operationId: updateUser
+  tags: [User]
+  parameters:
+    - name: username
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/users.yml#/components/schemas/UserChange'
+  responses:
+    '200':
+      description: User updated
+      content:
+        application/json:
+          schema:
+            $ref: '../components/users.yml#/components/schemas/UserResponse'

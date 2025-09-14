@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: Ucronia API
+  version: 1.0.0
+  description: API for managing the Ucronia association.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /login:
+    $ref: paths/login.yml
+  /password/change:
+    $ref: paths/password_change.yml
+  /password/reset:
+    $ref: paths/password_reset_request.yml
+  /password/reset/{token}:
+    $ref: paths/password_reset.yml
+  /account:
+    $ref: paths/accounts.yml
+  /security/login/register:
+    $ref: paths/login_register.yml
+  /security/role:
+    $ref: paths/roles.yml
+  /security/role/{role}:
+    $ref: paths/roles_by_id.yml
+  /security/role/{role}/permission:
+    $ref: paths/roles_permissions.yml
+  /security/user:
+    $ref: paths/users.yml
+  /security/user/{role}:
+    $ref: paths/users_by_id.yml
+  /security/user/activate/{token}:
+    $ref: paths/users_activation.yml
+  /security/user/{username}/role/available:
+    $ref: paths/users_roles.yml
+  /security/user/token:
+    $ref: paths/users_token.yml
+  /security/user/token/{token}:
+    $ref: paths/users_token_by_id.yml

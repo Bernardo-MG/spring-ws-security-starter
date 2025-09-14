@@ -3,8 +3,8 @@ package com.bernardomg.security.springframework.test.access.usecase.validator;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
 
@@ -51,7 +51,7 @@ class TestRequireResourceAccessInterceptor {
         method = TestService.class.getMethod("annotatedMethod");
 
         // WHEN
-        when(validator.isAuthorized("data", "read")).thenReturn(true);
+        given(validator.isAuthorized("data", "read")).willReturn(true);
 
         exec = () -> interceptor.before(jp, method.getAnnotation(RequireResourceAccess.class));
         assertThatCode(exec).doesNotThrowAnyException();
@@ -69,7 +69,7 @@ class TestRequireResourceAccessInterceptor {
         method = TestService.class.getMethod("annotatedMethod");
 
         // WHEN
-        when(validator.isAuthorized("data", "read")).thenReturn(false);
+        given(validator.isAuthorized("data", "read")).willReturn(false);
 
         // THEN
         exec = () -> interceptor.before(jp, method.getAnnotation(RequireResourceAccess.class));

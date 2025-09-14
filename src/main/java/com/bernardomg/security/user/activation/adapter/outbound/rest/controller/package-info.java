@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.outbound.rest.model;
-
 /**
- * Request for login.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * User activation controllers.
  */
-public record LoginRequest(String username, String password) {
 
-}
+package com.bernardomg.security.user.activation.adapter.outbound.rest.controller;

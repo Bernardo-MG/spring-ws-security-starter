@@ -24,22 +24,27 @@
 
 package com.bernardomg.security.user.token.adapter.outbound.rest.controller;
 
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.permission.data.constant.Actions;
-import com.bernardomg.security.user.token.adapter.outbound.rest.model.UserTokenPartial;
+import com.bernardomg.security.user.token.adapter.outbound.rest.model.UserTokenDtoMapper;
 import com.bernardomg.security.user.token.domain.model.UserToken;
 import com.bernardomg.security.user.token.usecase.service.UserTokenService;
+import com.bernardomg.ucronia.openapi.api.UserTokensApi;
+import com.bernardomg.ucronia.openapi.model.UserTokenChangeDto;
+import com.bernardomg.ucronia.openapi.model.UserTokenPageResponseDto;
+import com.bernardomg.ucronia.openapi.model.UserTokenResponseDto;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 
 /**
  * User token REST controller. Supports reading and patching, as the token are generated there is little which the user
@@ -51,8 +56,7 @@ import com.bernardomg.security.user.token.usecase.service.UserTokenService;
  *
  */
 @RestController
-@RequestMapping("/security/user/token")
-public class UserTokenController {
+public class UserTokenController implements UserTokensApi {
 
     /**
      * User token service.
@@ -65,51 +69,41 @@ public class UserTokenController {
         this.service = service;
     }
 
-    /**
-     * Applies a partial change into a user token.
-     *
-     * @param tokenCode
-     *            token for the user token to patch
-     * @param request
-     *            partial change to apply
-     * @return the updated user token
-     */
-    @PatchMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
+    public UserTokenPageResponseDto getAllUserTokens(@Min(1) @Valid final Integer page,
+            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+        final Pagination      pagination;
+        final Sorting         sorting;
+        final Page<UserToken> tokens;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+
+        tokens = service.getAll(pagination, sorting);
+
+        return UserTokenDtoMapper.toResponseDto(tokens);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
+    public UserTokenResponseDto getOneUserToken(final String token) {
+        final Optional<UserToken> userToken;
+
+        userToken = service.getOne(token);
+
+        return UserTokenDtoMapper.toResponseDto(userToken);
+    }
+
+    @Override
     @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
-    public UserToken patch(@PathVariable("token") final String tokenCode, @RequestBody final UserTokenPartial request) {
-        final UserToken token;
+    public UserTokenResponseDto patchUserToken(final String token, @Valid final UserTokenChangeDto userTokenChangeDto) {
+        final UserToken toUpdate;
+        final UserToken updated;
 
-        token = new UserToken("", "", "", tokenCode, null, request.expirationDate(), null, request.revoked());
-        return service.patch(token);
-    }
-
-    /**
-     * Reads all the user tokens paged.
-     *
-     * @param pagination
-     *            pagination to apply
-     * @param sorting
-     *            sorting to apply
-     * @return all the user tokens paged
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
-    public Page<UserToken> readAll(final Pagination pagination, final Sorting sorting) {
-        return service.getAll(pagination, sorting);
-    }
-
-    /**
-     * Reads a single user token. Otherwise {@code null} is returned.
-     *
-     * @param token
-     *            token for the user token to read
-     * @return the user token for the id, if it exists, or {@code null} otherwise
-     */
-    @GetMapping(path = "/{token}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
-    public UserToken readOne(@PathVariable("token") final String token) {
-        return service.getOne(token)
-            .orElse(null);
+        toUpdate = UserTokenDtoMapper.toDomain(userTokenChangeDto, token);
+        updated = service.patch(toUpdate);
+        return UserTokenDtoMapper.toResponseDto(updated);
     }
 
 }

@@ -25,11 +25,11 @@ import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
-import com.bernardomg.security.role.usecase.service.DefaultRolePermissionService;
+import com.bernardomg.security.role.usecase.service.DefaultRoleService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultRolePermissionService - get available permissions")
-class TestRolePermissionServiceGetAvailablePermissions {
+@DisplayName("DefaultRoleService - get available permissions")
+class TestRoleServiceGetAvailablePermissions {
 
     @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
@@ -41,7 +41,7 @@ class TestRolePermissionServiceGetAvailablePermissions {
     private RoleRepository               roleRepository;
 
     @InjectMocks
-    private DefaultRolePermissionService service;
+    private DefaultRoleService           service;
 
     @Test
     @DisplayName("When there are available permissions they are returned")

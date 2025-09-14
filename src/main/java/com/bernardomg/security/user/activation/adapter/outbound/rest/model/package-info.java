@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.adapter.outbound.rest.model;
-
 /**
- * Data required for changing a password.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * User activation REST model.
  */
-public final record PasswordReset(String password) {
 
-}
+package com.bernardomg.security.user.activation.adapter.outbound.rest.model;

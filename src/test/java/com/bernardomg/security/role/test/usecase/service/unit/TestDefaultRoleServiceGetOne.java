@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.role.test.config.factory.Roles;
@@ -28,6 +29,9 @@ class TestDefaultRoleServiceGetOne {
 
     @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
+
+    @Mock
+    private RolePermissionRepository     rolePermissionRepository;
 
     @Mock
     private RoleRepository               roleRepository;

@@ -1,0 +1,28 @@
+get:
+  summary: Get the current user account.
+  operationId: getCurrentUserAccount
+  tags: [Account]
+  responses:
+    '200':
+      description: The current authenticated user's account. Returns null if not authenticated.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/accounts.yml#/components/schemas/AccountResponse'
+put:
+  summary: Update the current user account.
+  operationId: updateCurrentUserAccount
+  tags: [Account]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/accounts.yml#/components/schemas/AccountChange'
+  responses:
+    '200':
+      description: The updated account.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/accounts.yml#/components/schemas/AccountResponse'
