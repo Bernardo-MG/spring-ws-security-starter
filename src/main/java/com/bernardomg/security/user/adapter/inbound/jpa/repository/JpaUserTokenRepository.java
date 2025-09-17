@@ -98,8 +98,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         page = userDataTokenSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
-        return new Page<>(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements(),
-            page.getTotalPages(), page.getNumberOfElements(), page.isFirst(), page.isLast(), sorting);
+        return SpringPagination.toPage(page);
     }
 
     @Override
