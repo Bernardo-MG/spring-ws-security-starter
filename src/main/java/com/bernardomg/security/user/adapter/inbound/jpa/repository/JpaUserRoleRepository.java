@@ -83,8 +83,7 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
         page = roleSpringRepository.findAllByUser(username, pageable)
             .map(this::toDomain);
 
-        return new Page<>(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements(),
-            page.getTotalPages(), page.getNumberOfElements(), page.isFirst(), page.isLast(), sorting);
+        return SpringPagination.toPage(page);
     }
 
     private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {

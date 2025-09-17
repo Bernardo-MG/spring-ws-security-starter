@@ -92,9 +92,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
             pageable = SpringPagination.toPageable(pagination, sorting);
             permissionsPage = resourcePermissionSpringRepository.findAllAvailableToRole(roleEntity.getId(), pageable)
                 .map(this::toDomain);
-            permissions = new Page<>(permissionsPage.getContent(), permissionsPage.getSize(),
-                permissionsPage.getNumber(), permissionsPage.getTotalElements(), permissionsPage.getTotalPages(),
-                permissionsPage.getNumberOfElements(), permissionsPage.isFirst(), permissionsPage.isLast(), sorting);
+            permissions = SpringPagination.toPage(permissionsPage);
         } else {
             log.warn("Role {} doesn't exist. Can't find available permissions", role);
             permissions = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);

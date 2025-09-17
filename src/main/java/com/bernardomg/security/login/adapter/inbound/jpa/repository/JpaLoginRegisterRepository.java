@@ -72,8 +72,7 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
         page = loginRegisterSpringRepository.findAll(pageable)
             .map(this::toDomain);
 
-        return new Page<>(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements(),
-            page.getTotalPages(), page.getNumberOfElements(), page.isFirst(), page.isLast(), sorting);
+        return SpringPagination.toPage(page);
     }
 
     @Override
