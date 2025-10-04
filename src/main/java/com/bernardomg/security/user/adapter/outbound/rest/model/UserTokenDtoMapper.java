@@ -83,7 +83,8 @@ public final class UserTokenDtoMapper {
             .creationDate(userToken.creationDate())
             .expirationDate(userToken.expirationDate())
             .consumed(userToken.consumed())
-            .revoked(userToken.revoked());
+            .revoked(userToken.revoked())
+            .token(userToken.token());
     }
 
     private UserTokenDtoMapper() {
