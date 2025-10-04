@@ -81,10 +81,9 @@ public final class WhitelistCustomizer implements
             .toList();
 
         if (!matchers.isEmpty()) {
-
+            registry.requestMatchers(matchers.toArray(new RequestMatcher[matchers.size()]))
+                .permitAll();
         }
-        registry.requestMatchers(matchers.toArray(new RequestMatcher[matchers.size()]))
-            .permitAll();
     }
 
     /**
