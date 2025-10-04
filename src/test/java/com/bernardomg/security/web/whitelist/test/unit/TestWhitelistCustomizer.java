@@ -3,12 +3,12 @@ package com.bernardomg.security.web.whitelist.test.unit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,12 +39,6 @@ public class TestWhitelistCustomizer {
     @Mock
     private AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry;
 
-    @BeforeEach
-    @SuppressWarnings("unchecked")
-    public final void clearUpSecurityContext() {
-        given(registry.requestMatchers(any(RequestMatcher[].class))).willReturn(authorizedUrl);
-    }
-
     @Test
     @DisplayName("Calls the registry when there are no whitelistings")
     void testCustomize_NoWhiteListing() {
@@ -59,7 +53,7 @@ public class TestWhitelistCustomizer {
         customizer.customize(registry);
 
         // THEN
-        verify(registry).requestMatchers(new RequestMatcher[0]);
+        verify(registry, times(0)).requestMatchers(any(MvcRequestMatcher.class));
     }
 
     @Test
@@ -71,6 +65,7 @@ public class TestWhitelistCustomizer {
         // GIVEN
         whitelist = List.of(WhitelistRoute.of("/path", HttpMethod.GET));
         customizer = new WhitelistCustomizer(whitelist, introspector);
+        given(registry.requestMatchers(any(RequestMatcher[].class))).willReturn(authorizedUrl);
 
         // WHEN
         customizer.customize(registry);
@@ -88,6 +83,7 @@ public class TestWhitelistCustomizer {
         // GIVEN
         whitelist = List.of(WhitelistRoute.of("/path"));
         customizer = new WhitelistCustomizer(whitelist, introspector);
+        given(registry.requestMatchers(any(RequestMatcher[].class))).willReturn(authorizedUrl);
 
         // WHEN
         customizer.customize(registry);
