@@ -349,7 +349,7 @@
             Fixed REST API.
          </action>
       </release>
-      <release version="0.4.23" date="2025-10-04" description="Response fixes">
+      <release version="1.0.0" date="2025-10-04" description="Response fixes">
          <action dev="bmg" type="fix">
             Fixed response code on delete.
          </action>
