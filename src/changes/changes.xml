@@ -344,7 +344,10 @@
             Fixed returned pages.
          </action>
       </release>
-      <release version="1.0.0" date="2025-09-18" description="Fixes">
+      <release version="0.4.22" date="2025-09-25" description="Fixes">
+         <action dev="bmg" type="fix">
+            Fixed REST API.
+         </action>
       </release>
    </body>
 </document>
