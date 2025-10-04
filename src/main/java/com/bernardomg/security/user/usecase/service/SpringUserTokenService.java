@@ -39,7 +39,7 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.user.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.usecase.validation.UserTokenNotExpiredRule;
+import com.bernardomg.security.user.usecase.validation.UserTokenExpirationDateNotInPastRule;
 import com.bernardomg.security.user.usecase.validation.UserTokenPatchNotRevokedRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -81,7 +81,7 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
 
-        validatorPatch = new FieldRuleValidator<>(new UserTokenNotExpiredRule(), new UserTokenPatchNotRevokedRule());
+        validatorPatch = new FieldRuleValidator<>(new UserTokenExpirationDateNotInPastRule(), new UserTokenPatchNotRevokedRule());
     }
 
     @Override
