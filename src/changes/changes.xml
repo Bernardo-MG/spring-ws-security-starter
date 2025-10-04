@@ -354,7 +354,10 @@
             Fixed response code on delete.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-04" description="Response fixes">
+      <release version="0.4.24" date="2025-10-04" description="Response fixes">
+         <action dev="bmg" type="fix">
+            Fixed token code not being returned.
+         </action>
       </release>
    </body>
 </document>
