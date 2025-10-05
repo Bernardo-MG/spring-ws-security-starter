@@ -1,4 +1,37 @@
 components:
+  parameters:
+    pageParam:
+      name: page
+      description: Page to return.
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        example: 1
+        default: 1
+    sizeParam:
+      name: size
+      description: Page size.
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        example: 10
+        default: 10
+    sortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          example: property|asc
   schemas:
     Page:
       type: object
@@ -40,18 +73,3 @@ components:
         direction:
           type: string
           enum: [asc, desc]
-    pageParam:
-      type: integer
-      minimum: 1
-      example: 1
-      default: 1
-    sizeParam:
-      type: integer
-      minimum: 1
-      example: 10
-      default: 10
-    sortingParam:
-      type: array
-      items:
-        type: string
-        example: property,ASC

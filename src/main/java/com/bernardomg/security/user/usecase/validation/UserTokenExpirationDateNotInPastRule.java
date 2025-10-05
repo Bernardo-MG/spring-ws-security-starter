@@ -12,16 +12,16 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the user token is not expired.
+ * Checks the user token expiration date is not in the past.
  */
-public final class UserTokenNotExpiredRule implements FieldRule<UserToken> {
+public final class UserTokenExpirationDateNotInPastRule implements FieldRule<UserToken> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(UserTokenNotExpiredRule.class);
+    private static final Logger log = LoggerFactory.getLogger(UserTokenExpirationDateNotInPastRule.class);
 
-    public UserTokenNotExpiredRule() {
+    public UserTokenExpirationDateNotInPastRule() {
         super();
     }
 

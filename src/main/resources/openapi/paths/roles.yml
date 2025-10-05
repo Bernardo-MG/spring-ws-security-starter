@@ -20,29 +20,14 @@ get:
   operationId: getAllRoles
   tags: [Role]
   parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
     - name: name
       in: query
       required: false
       schema:
         type: string
-    - name: page
-      description: Page to return.
-      in: query
-      required: false
-      schema:
-        $ref: '../common/pagination.yml#/components/schemas/pageParam'
-    - name: size
-      description: Page size.
-      in: query
-      required: false
-      schema:
-        $ref: '../common/pagination.yml#/components/schemas/sizeParam'
-    - name: sort
-      in: query
-      required: false
-      description: Sorting to apply.
-      schema:
-        $ref: '../common/pagination.yml#/components/schemas/sortingParam'
   responses:
     '200':
       description: Roles page
