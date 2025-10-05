@@ -359,5 +359,7 @@
             Fixed token code not being returned.
          </action>
       </release>
+      <release version="1.0.0" date="2025-10-04" description="">
+      </release>
    </body>
 </document>
