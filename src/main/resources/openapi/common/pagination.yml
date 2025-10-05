@@ -31,7 +31,7 @@ components:
         type: array
         items:
           type: string
-          example: property,ASC
+          example: property|asc
   schemas:
     Page:
       type: object
