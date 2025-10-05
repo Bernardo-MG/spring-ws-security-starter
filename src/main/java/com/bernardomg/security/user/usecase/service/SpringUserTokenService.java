@@ -81,7 +81,8 @@ public final class SpringUserTokenService implements UserTokenService {
 
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
 
-        validatorPatch = new FieldRuleValidator<>(new UserTokenExpirationDateNotInPastRule(), new UserTokenPatchNotRevokedRule());
+        validatorPatch = new FieldRuleValidator<>(new UserTokenExpirationDateNotInPastRule(),
+            new UserTokenPatchNotRevokedRule());
     }
 
     @Override

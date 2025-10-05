@@ -106,10 +106,10 @@ public class UserController implements UserApi {
     @Override
     @RequireResourceAccess(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
-    public UserPageResponseDto getAllUsers(@Email @Valid final String email, @Valid final String username,
+    public UserPageResponseDto getAllUsers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort, @Email @Valid final String email, @Valid final String username,
             @Valid final String name, @Valid final Boolean enabled, @Valid final Boolean notLocked,
-            @Valid final Boolean notExpired, @Valid final Boolean passwordNotExpired, @Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+            @Valid final Boolean notExpired, @Valid final Boolean passwordNotExpired) {
         final Pagination pagination;
         final Sorting    sorting;
         final Page<User> users;
