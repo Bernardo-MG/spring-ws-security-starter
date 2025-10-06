@@ -718,13 +718,10 @@
                      <modelNameSuffix>Dto</modelNameSuffix>
                      <typeMappings>
                        <typeMapping>string+date-time=Instant</typeMapping>
-                       <typeMapping>string+month=YearMonth</typeMapping>
                        <typeMapping>InstantDto=Instant</typeMapping>
-                       <typeMapping>YearMonthDto=YearMonth</typeMapping>
                      </typeMappings>
                      <importMappings>
                        <importMapping>InstantDto=java.time.Instant</importMapping>
-                       <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
                      </importMappings>
                      <configOptions>
                         <interfaceOnly>true</interfaceOnly>
