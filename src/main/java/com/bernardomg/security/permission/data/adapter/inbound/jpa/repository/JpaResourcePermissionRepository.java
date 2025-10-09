@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 
@@ -73,7 +74,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     public final Collection<ResourcePermission> findAll() {
         return resourcePermissionSpringRepository.findAll()
             .stream()
-            .map(this::toDomain)
+            .map(ResourcePermissionEntityMapper::toDomain)
             .distinct()
             .toList();
     }
@@ -91,14 +92,14 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         log.debug("Saving resource permissions {}", permissions);
 
         entities = permissions.stream()
-            .map(this::toEntity)
+            .map(ResourcePermissionEntityMapper::toEntity)
             .toList();
         entities.forEach(this::loadId);
 
         created = resourcePermissionSpringRepository.saveAll(entities);
 
         return created.stream()
-            .map(this::toDomain)
+            .map(ResourcePermissionEntityMapper::toDomain)
             .toList();
     }
 
@@ -110,21 +111,6 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
             entity.setId(existing.get()
                 .getId());
         }
-    }
-
-    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return new ResourcePermission(entity.getResource(), entity.getAction());
-    }
-
-    private final ResourcePermissionEntity toEntity(final ResourcePermission permission) {
-        final ResourcePermissionEntity entity;
-
-        entity = new ResourcePermissionEntity();
-        entity.setName(permission.getName());
-        entity.setResource(permission.resource());
-        entity.setAction(permission.action());
-
-        return entity;
     }
 
 }

@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.user.adapter.inbound.jpa.repository;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -37,11 +35,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
@@ -81,31 +75,9 @@ public final class JpaUserRoleRepository implements UserRoleRepository {
         // TODO: this doesn't need the full role model, just the names
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = roleSpringRepository.findAllByUser(username, pageable)
-            .map(this::toDomain);
+            .map(RoleEntityMapper::toDomain);
 
         return SpringPagination.toPage(page);
-    }
-
-    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return new ResourcePermission(entity.getResource(), entity.getAction());
-    }
-
-    private final Role toDomain(final RoleEntity role) {
-        final Collection<ResourcePermission> permissions;
-
-        if (role.getPermissions() == null) {
-            permissions = List.of();
-        } else {
-            permissions = role.getPermissions()
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(RolePermissionEntity::getGranted)
-                .map(RolePermissionEntity::getResourcePermission)
-                .map(this::toDomain)
-                .sorted(new ResourcePermissionComparator())
-                .toList();
-        }
-        return new Role(role.getName(), permissions);
     }
 
 }
