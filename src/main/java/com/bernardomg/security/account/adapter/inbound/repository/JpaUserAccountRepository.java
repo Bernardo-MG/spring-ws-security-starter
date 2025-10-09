@@ -38,24 +38,24 @@ import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 /**
- * Account repository based on JPA entities. The account is actually a view over the users.
+ * Account repository based on user JPA entities. The account is created from the user info.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @Transactional
-public final class JpaAccountRepository implements AccountRepository {
+public final class JpaUserAccountRepository implements AccountRepository {
 
     /**
      * Logger for the class.
      */
-    private static final Logger        log = LoggerFactory.getLogger(JpaAccountRepository.class);
+    private static final Logger        log = LoggerFactory.getLogger(JpaUserAccountRepository.class);
 
     /**
      * User repository.
      */
     private final UserSpringRepository userSpringRepository;
 
-    public JpaAccountRepository(final UserSpringRepository userSpringRepo) {
+    public JpaUserAccountRepository(final UserSpringRepository userSpringRepo) {
         super();
 
         userSpringRepository = Objects.requireNonNull(userSpringRepo);

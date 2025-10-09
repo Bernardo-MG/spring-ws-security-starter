@@ -41,7 +41,6 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
-import com.bernardomg.security.account.adapter.inbound.repository.JpaAccountRepository;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
@@ -64,7 +63,7 @@ public final class JpaRoleRepository implements RoleRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                      log = LoggerFactory.getLogger(JpaAccountRepository.class);
+    private static final Logger                      log = LoggerFactory.getLogger(JpaRoleRepository.class);
 
     /**
      * Resource permission repository.

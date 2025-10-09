@@ -73,6 +73,8 @@ public class ModulesArchitectureRulesTest {
             "Password reset", "Password change", "Permissions configuration", "Password configuration", "Roles")
         .whereLayer("User configuration")
         .mayOnlyBeAccessedByLayers("Password configuration")
+        .whereLayer("Account")
+        .mayNotBeAccessedByAnyLayer()
 
         // Password modules access
         .whereLayer("Password notification")
