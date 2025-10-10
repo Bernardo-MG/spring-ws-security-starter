@@ -1,7 +1,7 @@
 post:
   summary: Activate a new user.
   operationId: activateUser
-  tags: [UserActivation]
+  tags: [UserOnboarding]
   parameters:
     - name: token
       in: path
@@ -25,7 +25,7 @@ post:
 get:
   summary: Validate an activation token.
   operationId: validateActivationToken
-  tags: [UserActivation]
+  tags: [UserOnboarding]
   parameters:
     - name: token
       in: path

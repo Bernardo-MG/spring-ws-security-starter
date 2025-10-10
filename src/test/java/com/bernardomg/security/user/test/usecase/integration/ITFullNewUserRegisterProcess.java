@@ -21,7 +21,7 @@ import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRep
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
-import com.bernardomg.security.user.usecase.service.UserActivationService;
+import com.bernardomg.security.user.usecase.service.UserOnboardingService;
 import com.bernardomg.security.user.usecase.service.UserService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -33,7 +33,7 @@ class ITFullNewUserRegisterProcess {
     private PasswordEncoder           passwordEncoder;
 
     @Autowired
-    private UserActivationService     userActivationService;
+    private UserOnboardingService     userActivationService;
 
     @Autowired
     private UserSpringRepository      userRepository;

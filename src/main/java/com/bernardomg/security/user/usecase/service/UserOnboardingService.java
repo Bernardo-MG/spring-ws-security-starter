@@ -28,12 +28,12 @@ import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 
 /**
- * User activation service.
+ * User onboarding service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserActivationService {
+public interface UserOnboardingService {
 
     /**
      * Activates a registered user.
@@ -54,5 +54,18 @@ public interface UserActivationService {
      * @return token status
      */
     public UserTokenStatus validateToken(final String token);
+
+    /**
+     * Invites a user to join the application.
+     *
+     * @param username
+     *            username for the user to persist
+     * @param name
+     *            name for the user to persist
+     * @param email
+     *            email for the user to persist
+     * @return the persisted user
+     */
+    public User inviteUser(final String username, final String name, final String email);
 
 }

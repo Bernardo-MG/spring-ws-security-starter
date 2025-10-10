@@ -36,7 +36,13 @@ import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
+import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
+import com.bernardomg.security.user.usecase.validation.UserNameNotEmptyRule;
+import com.bernardomg.security.user.usecase.validation.UserUsernameNotEmptyRule;
+import com.bernardomg.security.user.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -47,7 +53,7 @@ import com.bernardomg.validation.validator.Validator;
  *
  */
 @Transactional
-public final class DefaultUserActivationService implements UserActivationService {
+public final class DefaultUserActivationService implements UserOnboardingService {
 
     /**
      * Logger for the class.
@@ -60,6 +66,11 @@ public final class DefaultUserActivationService implements UserActivationService
     private final UserTokenStore    tokenStore;
 
     /**
+     * Message sender. Registering new users may require emails, or other kind of messaging.
+     */
+    private final UserNotificator   userNotificator;
+
+    /**
      * User repository.
      */
     private final UserRepository    userRepository;
@@ -69,13 +80,23 @@ public final class DefaultUserActivationService implements UserActivationService
      */
     private final Validator<String> validatorActivate;
 
-    public DefaultUserActivationService(final UserRepository userRepo, final UserTokenStore tStore) {
+    /**
+     * User registration validator.
+     */
+    private final Validator<User>   validatorInvite;
+
+    public DefaultUserActivationService(final UserRepository userRepo, final UserTokenStore tStore,
+            final UserNotificator userNotf) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         tokenStore = Objects.requireNonNull(tStore);
+        userNotificator = Objects.requireNonNull(userNotf);
 
         validatorActivate = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
+        validatorInvite = new FieldRuleValidator<>(new UserUsernameNotEmptyRule(), new UserNameNotEmptyRule(),
+            new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
+            new UserUsernameNotExistsRule(userRepository));
     }
 
     @Override
@@ -112,6 +133,34 @@ public final class DefaultUserActivationService implements UserActivationService
         log.trace("Activated new user {}", username);
 
         return saved;
+    }
+
+    @Override
+    public final User inviteUser(final String username, final String name, final String email) {
+        final User   user;
+        final User   created;
+        final String token;
+
+        log.trace("Registering new user {} with email {}", username, email);
+
+        user = User.newUser(username, email, name);
+
+        validatorInvite.validate(user);
+
+        created = userRepository.saveNewUser(user);
+
+        // Revoke previous tokens
+        tokenStore.revokeExistingTokens(created.username());
+
+        // Register new token
+        token = tokenStore.createToken(created.username());
+
+        // TODO: Handle through events
+        userNotificator.sendUserRegisteredMessage(created.email(), username, token);
+
+        log.trace("Registered new user {} with email {}", username, email);
+
+        return created;
     }
 
     @Override

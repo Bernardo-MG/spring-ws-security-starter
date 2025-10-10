@@ -1,0 +1,17 @@
+post:
+  summary: Create a user.
+  operationId: inviteUser
+  tags: [UserOnboarding]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/users.yml#/components/schemas/UserCreation'
+  responses:
+    '201':
+      description: User created.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/users.yml#/components/schemas/UserResponse'

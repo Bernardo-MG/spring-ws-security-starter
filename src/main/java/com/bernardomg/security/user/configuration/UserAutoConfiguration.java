@@ -55,8 +55,8 @@ import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.service.DefaultUserActivationService;
 import com.bernardomg.security.user.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
-import com.bernardomg.security.user.usecase.service.UserActivationService;
 import com.bernardomg.security.user.usecase.service.UserLoginAttempsService;
+import com.bernardomg.security.user.usecase.service.UserOnboardingService;
 import com.bernardomg.security.user.usecase.service.UserService;
 import com.bernardomg.security.user.usecase.store.ScopedUserTokenStore;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
@@ -103,10 +103,10 @@ public class UserAutoConfiguration {
         return new LoginFailureBlockerListener(userAccessService);
     }
 
-    @Bean("userActivationService")
-    public UserActivationService getUserActivationService(final UserRepository userRepo,
-            @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
-        return new DefaultUserActivationService(userRepo, tokenStore);
+    @Bean("userOnboardingService")
+    public UserOnboardingService getUserActivationService(final UserRepository userRepo,
+            @Qualifier("userTokenStore") final UserTokenStore tokenStore, final UserNotificator userNotificator) {
+        return new DefaultUserActivationService(userRepo, tokenStore, userNotificator);
     }
 
     @Bean("userLoginAttempsService")

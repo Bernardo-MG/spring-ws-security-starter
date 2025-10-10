@@ -35,9 +35,10 @@ import com.bernardomg.security.user.adapter.outbound.rest.model.UserActivationDt
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
-import com.bernardomg.security.user.usecase.service.UserActivationService;
-import com.bernardomg.ucronia.openapi.api.UserActivationApi;
+import com.bernardomg.security.user.usecase.service.UserOnboardingService;
+import com.bernardomg.ucronia.openapi.api.UserOnboardingApi;
 import com.bernardomg.ucronia.openapi.model.UserActivationDto;
+import com.bernardomg.ucronia.openapi.model.UserCreationDto;
 import com.bernardomg.ucronia.openapi.model.UserResponseDto;
 import com.bernardomg.ucronia.openapi.model.UserTokenStatusResponseDto;
 
@@ -50,14 +51,14 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-public class UserActivationController implements UserActivationApi {
+public class UserOnboardingController implements UserOnboardingApi {
 
     /**
      * Service which handles user activation.
      */
-    private final UserActivationService service;
+    private final UserOnboardingService service;
 
-    public UserActivationController(final UserActivationService service) {
+    public UserOnboardingController(final UserOnboardingService service) {
         super();
 
         this.service = service;
@@ -81,6 +82,12 @@ public class UserActivationController implements UserActivationApi {
 
         userToken = service.validateToken(token);
         return UserTokenDtoMapper.toResponseDto(userToken);
+    }
+
+    @Override
+    public UserResponseDto inviteUser(@Valid UserCreationDto userCreationDto) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
