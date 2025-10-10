@@ -76,18 +76,18 @@ public class UserOnboardingController implements UserOnboardingApi {
     }
 
     @Override
+    public UserResponseDto inviteUser(@Valid final UserCreationDto userCreationDto) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     @Unsecured
     public UserTokenStatusResponseDto validateActivationToken(final String token) {
         final UserTokenStatus userToken;
 
         userToken = service.validateToken(token);
         return UserTokenDtoMapper.toResponseDto(userToken);
-    }
-
-    @Override
-    public UserResponseDto inviteUser(@Valid UserCreationDto userCreationDto) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

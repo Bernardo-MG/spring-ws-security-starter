@@ -52,8 +52,8 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.service.DefaultUserLoginAttempsService;
+import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.service.UserLoginAttempsService;
 import com.bernardomg.security.user.usecase.service.UserOnboardingService;
@@ -103,12 +103,6 @@ public class UserAutoConfiguration {
         return new LoginFailureBlockerListener(userAccessService);
     }
 
-    @Bean("userOnboardingService")
-    public UserOnboardingService getUserOnboardingService(final UserRepository userRepo,
-            @Qualifier("userTokenStore") final UserTokenStore tokenStore, final UserNotificator userNotificator) {
-        return new DefaultUserOnboardingService(userRepo, tokenStore, userNotificator);
-    }
-
     @Bean("userLoginAttempsService")
     public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
             final LoginProperties userAccessProperties) {
@@ -126,6 +120,12 @@ public class UserAutoConfiguration {
             .url());
         return new SpringMailUserNotificator(templateEng, mailSender, properties.from(), properties.activateUser()
             .url());
+    }
+
+    @Bean("userOnboardingService")
+    public UserOnboardingService getUserOnboardingService(final UserRepository userRepo,
+            @Qualifier("userTokenStore") final UserTokenStore tokenStore, final UserNotificator userNotificator) {
+        return new DefaultUserOnboardingService(userRepo, tokenStore, userNotificator);
     }
 
     @Bean("userRepository")

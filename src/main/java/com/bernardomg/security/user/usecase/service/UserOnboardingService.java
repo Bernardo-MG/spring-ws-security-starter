@@ -47,15 +47,6 @@ public interface UserOnboardingService {
     public User activateUser(final String token, final String password);
 
     /**
-     * Validate a user registration token.
-     *
-     * @param token
-     *            token to validate
-     * @return token status
-     */
-    public UserTokenStatus validateToken(final String token);
-
-    /**
      * Invites a user to join the application.
      *
      * @param username
@@ -67,5 +58,14 @@ public interface UserOnboardingService {
      * @return the persisted user
      */
     public User inviteUser(final String username, final String name, final String email);
+
+    /**
+     * Validate a user registration token.
+     *
+     * @param token
+     *            token to validate
+     * @return token status
+     */
+    public UserTokenStatus validateToken(final String token);
 
 }
