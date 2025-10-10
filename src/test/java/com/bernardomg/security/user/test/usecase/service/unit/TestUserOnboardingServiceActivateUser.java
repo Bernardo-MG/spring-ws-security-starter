@@ -26,14 +26,14 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - activate user")
-class TestUserActivationServiceActivateUser {
+class TestUserOnboardingServiceActivateUser {
 
     @Mock
     private PasswordEncoder              passwordEncoder;
@@ -42,7 +42,7 @@ class TestUserActivationServiceActivateUser {
     private UserRepository               repository;
 
     @InjectMocks
-    private DefaultUserActivationService service;
+    private DefaultUserOnboardingService service;
 
     @Mock
     private UserTokenStore               tokenStore;
@@ -50,7 +50,7 @@ class TestUserActivationServiceActivateUser {
     @Mock
     private UserNotificator              userNotificator;
 
-    public TestUserActivationServiceActivateUser() {
+    public TestUserOnboardingServiceActivateUser() {
         super();
     }
 

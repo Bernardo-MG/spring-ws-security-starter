@@ -53,12 +53,12 @@ import com.bernardomg.validation.validator.Validator;
  *
  */
 @Transactional
-public final class DefaultUserActivationService implements UserOnboardingService {
+public final class DefaultUserOnboardingService implements UserOnboardingService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultUserActivationService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultUserOnboardingService.class);
 
     /**
      * Token processor.
@@ -85,7 +85,7 @@ public final class DefaultUserActivationService implements UserOnboardingService
      */
     private final Validator<User>   validatorInvite;
 
-    public DefaultUserActivationService(final UserRepository userRepo, final UserTokenStore tStore,
+    public DefaultUserOnboardingService(final UserRepository userRepo, final UserTokenStore tStore,
             final UserNotificator userNotf) {
         super();
 

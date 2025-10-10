@@ -52,7 +52,7 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.service.UserLoginAttempsService;
@@ -104,9 +104,9 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userOnboardingService")
-    public UserOnboardingService getUserActivationService(final UserRepository userRepo,
+    public UserOnboardingService getUserOnboardingService(final UserRepository userRepo,
             @Qualifier("userTokenStore") final UserTokenStore tokenStore, final UserNotificator userNotificator) {
-        return new DefaultUserActivationService(userRepo, tokenStore, userNotificator);
+        return new DefaultUserOnboardingService(userRepo, tokenStore, userNotificator);
     }
 
     @Bean("userLoginAttempsService")

@@ -42,12 +42,12 @@ import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserActivationService - token validation")
-class TestUserActivationServiceValidateToken {
+class TestUserOnboardingServiceValidateToken {
 
     @Mock
     private PasswordEncoder              passwordEncoder;
@@ -56,7 +56,7 @@ class TestUserActivationServiceValidateToken {
     private UserRepository               repository;
 
     @InjectMocks
-    private DefaultUserActivationService service;
+    private DefaultUserOnboardingService service;
 
     @Mock
     private UserTokenStore               tokenStore;
