@@ -132,7 +132,6 @@ class TestUserServiceUpdate {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
         executable = () -> service.update(Users.invalidEmail());
