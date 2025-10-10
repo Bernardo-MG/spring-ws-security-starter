@@ -133,29 +133,36 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     }
 
     @Override
-    public final User inviteUser(final String username, final String name, final String email) {
-        final User   user;
+    public final User inviteUser(final User user) {
+        final User   toCreate;
         final User   created;
         final String token;
 
-        log.trace("Registering new user {} with email {}", username, email);
+        log.trace("Inviting new user {} with email {} and name {}", user.username(), user.email(), user.name());
 
-        user = User.newUser(username, email, name);
+        // TODO: verify the roles exist
+        toCreate = User.newUser(user.username()
+            .trim()
+            .toLowerCase(),
+            user.email()
+                .trim()
+                .toLowerCase(),
+            user.name()
+                .trim()
+                .toLowerCase(),
+            user.roles());
 
-        validatorInvite.validate(user);
+        validatorInvite.validate(toCreate);
 
-        created = userRepository.saveNewUser(user);
+        created = userRepository.saveNewUser(toCreate);
 
-        // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.username());
-
-        // Register new token
+        // Register new token for activation
         token = tokenStore.createToken(created.username());
 
         // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.email(), username, token);
+        userNotificator.sendUserRegisteredMessage(created.email(), toCreate.username(), token);
 
-        log.trace("Registered new user {} with email {}", username, email);
+        log.trace("Invited new user {} with email {} and name {}", toCreate.username(), toCreate.email(), user.name());
 
         return created;
     }

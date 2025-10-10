@@ -3,15 +3,7 @@ components:
     User:
       type: object
       description: Represents a system user and their account status.
-      required:
-        - email
-        - username
-        - name
-        - enabled
-        - notExpired
-        - notLocked
-        - passwordNotExpired
-        - roles
+      required: [email, username, name, enabled, notExpired, notLocked, passwordNotExpired, roles]
       properties:
         email:
           type: string
@@ -58,15 +50,14 @@ components:
           type: string
         name:
           type: string
+        roles:
+          type: array
+          items:
+            type: string
     UserChange:
       type: object
       description: Data for updating an existing user.
-      required:
-        - email
-        - name
-        - enabled
-        - passwordNotExpired
-        - roles
+      required: [email, name, enabled, passwordNotExpired, roles]
       properties:
         email:
           type: string

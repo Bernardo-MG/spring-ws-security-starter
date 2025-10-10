@@ -73,7 +73,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        service.inviteUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME, UserConstants.EMAIL.toUpperCase());
+        service.inviteUser(Users.upperCase());
 
         // THEN
         verify(repository).saveNewUser(Users.newlyCreated());
@@ -88,42 +88,11 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.inviteUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
-            UserConstants.EMAIL.toUpperCase());
+        user = service.inviteUser(Users.noRoles());
 
         // THEN
         Assertions.assertThat(user)
             .isEqualTo(Users.newlyCreated());
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the name is empty")
-    void testRegisterNewUser_EmptyName() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        // WHEN
-        executable = () -> service.inviteUser(UserConstants.USERNAME, "", UserConstants.EMAIL);
-
-        // THEN
-        failure = new FieldFailure("empty", "name", "name.empty", "");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the username is empty")
-    void testRegisterNewUser_EmptyUsername() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        // WHEN
-        executable = () -> service.inviteUser("", UserConstants.NAME, UserConstants.EMAIL);
-
-        // THEN
-        failure = new FieldFailure("empty", "username", "username.empty", "");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
     }
 
     @Test
@@ -136,7 +105,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
 
         // WHEN
-        executable = () -> service.inviteUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        executable = () -> service.inviteUser(Users.noRoles());
 
         // THEN
         failure = new FieldFailure("existing", "email", "email.existing", UserConstants.EMAIL);
@@ -154,7 +123,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.inviteUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        executable = () -> service.inviteUser(Users.noRoles());
 
         // THEN
         failure = new FieldFailure("existing", "username", "username.existing", UserConstants.USERNAME);
@@ -169,7 +138,7 @@ class TestUserOnboardingServiceInviteUser {
         final FieldFailure     failure;
 
         // WHEN
-        executable = () -> service.inviteUser(UserConstants.USERNAME, UserConstants.NAME, "abc");
+        executable = () -> service.inviteUser(Users.invalidEmail());
 
         // THEN
         failure = new FieldFailure("invalid", "email", "email.invalid", "abc");
@@ -184,8 +153,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        service.inviteUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
-            " " + UserConstants.EMAIL + " ");
+        service.inviteUser(Users.padded());
 
         // THEN
         verify(repository).saveNewUser(Users.newlyCreated());
@@ -200,8 +168,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.inviteUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
-            " " + UserConstants.EMAIL + " ");
+        user = service.inviteUser(Users.padded());
 
         // THEN
         Assertions.assertThat(user)
@@ -215,7 +182,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        service.inviteUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        service.inviteUser(Users.noRoles());
 
         // THEN
         verify(repository).saveNewUser(Users.newlyCreated());
@@ -230,7 +197,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.inviteUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        user = service.inviteUser(Users.noRoles());
 
         // THEN
         Assertions.assertThat(user)

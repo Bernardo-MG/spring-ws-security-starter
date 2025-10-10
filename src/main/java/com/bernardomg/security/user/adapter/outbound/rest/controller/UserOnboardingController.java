@@ -79,10 +79,12 @@ public class UserOnboardingController implements UserOnboardingApi {
     @Override
     public UserResponseDto inviteUser(@Valid final UserCreationDto userCreationDto) {
         final User user;
+        final User created;
 
-        user = service.inviteUser(userCreationDto.getUsername(), userCreationDto.getName(), userCreationDto.getEmail());
+        user = UserDtoMapper.toDomain(userCreationDto);
+        created = service.inviteUser(user);
 
-        return UserDtoMapper.toResponseDto(user);
+        return UserDtoMapper.toResponseDto(created);
     }
 
     @Override

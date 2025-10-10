@@ -80,6 +80,11 @@ public final class Users {
             List.of());
     }
 
+    public static final User padded() {
+        return new User(" " + UserConstants.EMAIL + " ", " " + UserConstants.USERNAME + " ",
+            " " + UserConstants.NAME + " ", true, true, true, false, List.of());
+    }
+
     public static final User passwordExpired() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, false,
             List.of(Roles.withSinglePermission()));
@@ -88,6 +93,11 @@ public final class Users {
     public static final User passwordExpiredAndDisabled() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, false,
             List.of(Roles.withSinglePermission()));
+    }
+
+    public static final User upperCase() {
+        return new User(UserConstants.EMAIL.toUpperCase(), UserConstants.USERNAME.toUpperCase(),
+            UserConstants.NAME.toUpperCase(), true, true, true, false, List.of());
     }
 
     public static final User withoutPermissions() {

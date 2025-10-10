@@ -49,15 +49,11 @@ public interface UserOnboardingService {
     /**
      * Invites a user to join the application.
      *
-     * @param username
-     *            username for the user to persist
-     * @param name
-     *            name for the user to persist
-     * @param email
-     *            email for the user to persist
+     * @param user
+     *            user to invite
      * @return the persisted user
      */
-    public User inviteUser(final String username, final String name, final String email);
+    public User inviteUser(final User user);
 
     /**
      * Validate a user registration token.

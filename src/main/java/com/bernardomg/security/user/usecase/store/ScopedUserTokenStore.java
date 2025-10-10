@@ -83,6 +83,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
         userTokenRepository = Objects.requireNonNull(tokenRepo);
         userRepository = Objects.requireNonNull(userRepo);
+        // TODO: maybe the scope should be received in the method
         tokenScope = Objects.requireNonNull(scope);
         validity = Objects.requireNonNull(duration);
     }
