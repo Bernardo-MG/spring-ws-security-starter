@@ -47,9 +47,7 @@ import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
-import com.bernardomg.security.user.usecase.validation.UserNameNotEmptyRule;
 import com.bernardomg.security.user.usecase.validation.UserRolesNotDuplicatedRule;
-import com.bernardomg.security.user.usecase.validation.UserUsernameNotEmptyRule;
 import com.bernardomg.security.user.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -113,10 +111,9 @@ public final class DefaultUserService implements UserService {
         userNotificator = Objects.requireNonNull(userNotf);
         tokenStore = Objects.requireNonNull(tStore);
 
-        validatorRegisterUser = new FieldRuleValidator<>(new UserUsernameNotEmptyRule(), new UserNameNotEmptyRule(),
-            new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
-            new UserUsernameNotExistsRule(userRepository));
-        validatorUpdateUser = new FieldRuleValidator<>(new UserNameNotEmptyRule(), new UserEmailFormatRule(),
+        validatorRegisterUser = new FieldRuleValidator<>(new UserEmailFormatRule(),
+            new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
+        validatorUpdateUser = new FieldRuleValidator<>(new UserEmailFormatRule(),
             new UserEmailNotExistsForAnotherRule(userRepo), new UserRolesNotDuplicatedRule());
     }
 

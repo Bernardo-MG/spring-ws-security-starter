@@ -40,8 +40,6 @@ import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
-import com.bernardomg.security.user.usecase.validation.UserNameNotEmptyRule;
-import com.bernardomg.security.user.usecase.validation.UserUsernameNotEmptyRule;
 import com.bernardomg.security.user.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -94,8 +92,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         userNotificator = Objects.requireNonNull(userNotf);
 
         validatorActivate = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
-        validatorInvite = new FieldRuleValidator<>(new UserUsernameNotEmptyRule(), new UserNameNotEmptyRule(),
-            new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
+        validatorInvite = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
             new UserUsernameNotExistsRule(userRepository));
     }
 
