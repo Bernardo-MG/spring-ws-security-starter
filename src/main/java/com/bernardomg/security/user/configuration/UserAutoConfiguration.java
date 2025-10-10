@@ -123,9 +123,10 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userOnboardingService")
-    public UserOnboardingService getUserOnboardingService(final UserRepository userRepo,
-            @Qualifier("userTokenStore") final UserTokenStore tokenStore, final UserNotificator userNotificator) {
-        return new DefaultUserOnboardingService(userRepo, tokenStore, userNotificator);
+    public UserOnboardingService getUserOnboardingService(final UserRepository userRepository,
+            final RoleRepository roleRepository, @Qualifier("userTokenStore") final UserTokenStore tokenStore,
+            final UserNotificator userNotificator) {
+        return new DefaultUserOnboardingService(userRepository, roleRepository, tokenStore, userNotificator);
     }
 
     @Bean("userRepository")

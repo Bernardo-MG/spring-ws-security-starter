@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.domain.exception.LockedUserException;
@@ -40,6 +41,9 @@ class TestUserOnboardingServiceActivateUser {
 
     @Mock
     private UserRepository               repository;
+
+    @Mock
+    private RoleRepository               roleRepository;
 
     @InjectMocks
     private DefaultUserOnboardingService service;

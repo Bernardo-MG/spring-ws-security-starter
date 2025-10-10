@@ -163,37 +163,6 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Sends the user without roles to the repository")
-    void testUpdate_NoRoles_PersistedData() {
-
-        // GIVEN
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-
-        // WHEN
-        service.update(Users.noRoles());
-
-        // THEN
-        verify(userRepository).save(Users.noRoles());
-    }
-
-    @Test
-    @DisplayName("Returns the created user without roles")
-    void testUpdate_NoRoles_ReturnedData() {
-        final User result;
-
-        // GIVEN
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userRepository.save(Users.noRoles())).willReturn(Users.noRoles());
-
-        // WHEN
-        result = service.update(Users.noRoles());
-
-        // THEN
-        Assertions.assertThat(result)
-            .isEqualTo(Users.noRoles());
-    }
-
-    @Test
     @DisplayName("When the role doesn't exists an exception is thrown")
     void testUpdate_NotExistingRole() {
         final ThrowingCallable execution;
@@ -257,6 +226,37 @@ class TestUserServiceUpdate {
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(Users.emailChange());
+    }
+
+    @Test
+    @DisplayName("Sends the user without roles to the repository")
+    void testUpdate_withoutRoles_PersistedData() {
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+
+        // WHEN
+        service.update(Users.withoutRoles());
+
+        // THEN
+        verify(userRepository).save(Users.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("Returns the created user without roles")
+    void testUpdate_withoutRoles_ReturnedData() {
+        final User result;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.save(Users.withoutRoles())).willReturn(Users.withoutRoles());
+
+        // WHEN
+        result = service.update(Users.withoutRoles());
+
+        // THEN
+        Assertions.assertThat(result)
+            .isEqualTo(Users.withoutRoles());
     }
 
 }

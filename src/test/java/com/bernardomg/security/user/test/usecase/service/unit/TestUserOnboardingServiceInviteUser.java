@@ -37,6 +37,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
@@ -56,6 +58,9 @@ class TestUserOnboardingServiceInviteUser {
 
     @Mock
     private UserRepository               repository;
+
+    @Mock
+    private RoleRepository               roleRepository;
 
     @InjectMocks
     private DefaultUserOnboardingService service;
@@ -88,7 +93,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.inviteUser(Users.noRoles());
+        user = service.inviteUser(Users.withoutRoles());
 
         // THEN
         Assertions.assertThat(user)
@@ -105,7 +110,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
 
         // WHEN
-        executable = () -> service.inviteUser(Users.noRoles());
+        executable = () -> service.inviteUser(Users.withoutRoles());
 
         // THEN
         failure = new FieldFailure("existing", "email", "email.existing", UserConstants.EMAIL);
@@ -123,7 +128,7 @@ class TestUserOnboardingServiceInviteUser {
         given(repository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.inviteUser(Users.noRoles());
+        executable = () -> service.inviteUser(Users.withoutRoles());
 
         // THEN
         failure = new FieldFailure("existing", "username", "username.existing", UserConstants.USERNAME);
@@ -176,28 +181,59 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Sends the user to the repository")
-    void testRegisterNewUser_PersistedData() {
+    @DisplayName("With a user with roles, it is sent to the repository")
+    void testRegisterNewUser_Roles_PersistedData() {
+        // GIVEN
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(repository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
+
+        // WHEN
+        service.inviteUser(Users.withRole());
+
+        // THEN
+        verify(repository).saveNewUser(Users.newlyCreatedWithRole());
+    }
+
+    @Test
+    @DisplayName("With a user with roles, it is returned")
+    void testRegisterNewUser_Roles_ReturnedData() {
+        final User user;
+
+        // GIVEN
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+        given(repository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
+
+        // WHEN
+        user = service.inviteUser(Users.withRole());
+
+        // THEN
+        Assertions.assertThat(user)
+            .isEqualTo(Users.newlyCreatedWithRole());
+    }
+
+    @Test
+    @DisplayName("With a user without roles, it is sent to the repository")
+    void testRegisterNewUser_withoutRoles_PersistedData() {
         // GIVEN
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        service.inviteUser(Users.noRoles());
+        service.inviteUser(Users.withoutRoles());
 
         // THEN
         verify(repository).saveNewUser(Users.newlyCreated());
     }
 
     @Test
-    @DisplayName("Returns the created user")
-    void testRegisterNewUser_ReturnedData() {
+    @DisplayName("With a user without roles, it is returned")
+    void testRegisterNewUser_withoutRoles_ReturnedData() {
         final User user;
 
         // GIVEN
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.inviteUser(Users.noRoles());
+        user = service.inviteUser(Users.withoutRoles());
 
         // THEN
         Assertions.assertThat(user)

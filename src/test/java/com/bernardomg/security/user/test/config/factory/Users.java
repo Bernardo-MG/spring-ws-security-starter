@@ -51,8 +51,7 @@ public final class Users {
     }
 
     public static final User invalidEmail() {
-        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of(Roles.withSinglePermission()));
+        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true, true, List.of());
     }
 
     public static final User locked() {
@@ -73,11 +72,6 @@ public final class Users {
     public static final User noName() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, "", true, true, true, true,
             List.of(Roles.withSinglePermission()));
-    }
-
-    public static final User noRoles() {
-        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of());
     }
 
     public static final User padded() {
@@ -108,6 +102,11 @@ public final class Users {
     public static final User withoutRoles() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
             List.of());
+    }
+
+    public static final User withRole() {
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of(Roles.withSinglePermission()));
     }
 
 }

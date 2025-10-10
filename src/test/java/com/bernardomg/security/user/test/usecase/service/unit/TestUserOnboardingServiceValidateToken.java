@@ -37,6 +37,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -54,6 +55,9 @@ class TestUserOnboardingServiceValidateToken {
 
     @Mock
     private UserRepository               repository;
+
+    @Mock
+    private RoleRepository               roleRepository;
 
     @InjectMocks
     private DefaultUserOnboardingService service;

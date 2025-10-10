@@ -31,6 +31,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
+import com.bernardomg.security.role.domain.exception.MissingRoleException;
+import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
@@ -59,6 +62,11 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     private static final Logger     log = LoggerFactory.getLogger(DefaultUserOnboardingService.class);
 
     /**
+     * Role repository.
+     */
+    private final RoleRepository    roleRepository;
+
+    /**
      * Token processor.
      */
     private final UserTokenStore    tokenStore;
@@ -83,11 +91,12 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
      */
     private final Validator<User>   validatorInvite;
 
-    public DefaultUserOnboardingService(final UserRepository userRepo, final UserTokenStore tStore,
-            final UserNotificator userNotf) {
+    public DefaultUserOnboardingService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserTokenStore tStore, final UserNotificator userNotf) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
+        roleRepository = Objects.requireNonNull(roleRepo);
         tokenStore = Objects.requireNonNull(tStore);
         userNotificator = Objects.requireNonNull(userNotf);
 
@@ -139,6 +148,14 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         final String token;
 
         log.trace("Inviting new user {} with email {} and name {}", user.username(), user.email(), user.name());
+
+        // Verify the roles exists
+        for (final Role role : user.roles()) {
+            if (!roleRepository.exists(role.name())) {
+                log.error("Missing role {}", role.name());
+                throw new MissingRoleException(role.name());
+            }
+        }
 
         // TODO: verify the roles exist
         toCreate = User.newUser(user.username()
