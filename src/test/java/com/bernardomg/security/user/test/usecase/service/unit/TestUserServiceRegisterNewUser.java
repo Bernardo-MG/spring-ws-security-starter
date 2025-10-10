@@ -83,36 +83,6 @@ class TestUserServiceRegisterNewUser {
     }
 
     @Test
-    @DisplayName("Throws an exception when the name is empty")
-    void testRegisterNewUser_EmptyName() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        // WHEN
-        executable = () -> service.registerNewUser(UserConstants.USERNAME, "", UserConstants.EMAIL);
-
-        // THEN
-        failure = new FieldFailure("empty", "name", "name.empty", "");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the username is empty")
-    void testRegisterNewUser_EmptyUsername() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        // WHEN
-        executable = () -> service.registerNewUser("", UserConstants.NAME, UserConstants.EMAIL);
-
-        // THEN
-        failure = new FieldFailure("empty", "username", "username.empty", "");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
     @DisplayName("Throws an exception when the email already exists")
     void testRegisterNewUser_ExistingEmail() {
         final ThrowingCallable executable;

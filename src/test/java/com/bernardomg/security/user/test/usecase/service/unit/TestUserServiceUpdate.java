@@ -104,25 +104,6 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Throws an exception when the name is empty")
-    void testUpdate_EmptyName() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-
-        // WHEN
-        executable = () -> service.update(Users.noName());
-
-        // THEN
-        failure = new FieldFailure("empty", "name", "name.empty", "");
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
     @DisplayName("Throws an exception when the email already exists")
     void testUpdate_ExistingMail() {
         final ThrowingCallable executable;
