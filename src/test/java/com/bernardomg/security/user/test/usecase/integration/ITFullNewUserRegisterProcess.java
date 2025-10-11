@@ -21,8 +21,8 @@ import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRep
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.usecase.service.UserOnboardingService;
-import com.bernardomg.security.user.usecase.service.UserService;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -33,13 +33,10 @@ class ITFullNewUserRegisterProcess {
     private PasswordEncoder           passwordEncoder;
 
     @Autowired
-    private UserOnboardingService     userActivationService;
+    private UserOnboardingService     userOnboardingService;
 
     @Autowired
     private UserSpringRepository      userRepository;
-
-    @Autowired
-    private UserService               userService;
 
     @Autowired
     private UserTokenSpringRepository userTokenRepository;
@@ -85,7 +82,7 @@ class ITFullNewUserRegisterProcess {
         changeToAdmin();
 
         // Register new user
-        userService.create(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        userOnboardingService.inviteUser(Users.withoutRoles());
 
         // Validate new token
         token = userTokenRepository.findAll()
@@ -94,7 +91,7 @@ class ITFullNewUserRegisterProcess {
             .get()
             .getToken();
 
-        validTokenStatus = userActivationService.validateToken(token);
+        validTokenStatus = userOnboardingService.validateToken(token);
 
         Assertions.assertThat(validTokenStatus.valid())
             .isTrue();
@@ -105,7 +102,7 @@ class ITFullNewUserRegisterProcess {
         changeToAnonymous();
 
         // Enable new user
-        userActivationService.activateUser(token, UserConstants.NEW_PASSWORD);
+        userOnboardingService.activateUser(token, UserConstants.NEW_PASSWORD);
 
         user = userRepository.findAll()
             .stream()

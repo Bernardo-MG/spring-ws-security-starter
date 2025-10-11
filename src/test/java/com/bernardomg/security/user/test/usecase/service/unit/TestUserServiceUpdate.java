@@ -40,6 +40,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
@@ -49,7 +50,6 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -58,6 +58,9 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - update")
 class TestUserServiceUpdate {
+
+    @Mock
+    private EventEmitter       eventEmitter;
 
     @Mock
     private PasswordEncoder    passwordEncoder;
@@ -70,9 +73,6 @@ class TestUserServiceUpdate {
 
     @Mock
     private UserTokenStore     tokenStore;
-
-    @Mock
-    private UserNotificator    userNotificator;
 
     @Mock
     private UserRepository     userRepository;

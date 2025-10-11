@@ -22,31 +22,46 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.adapter.outbound.email;
+package com.bernardomg.security.user.adapter.inbound.event;
+
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
+import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.security.user.domain.event.UserInvitationEvent;
+import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
 /**
- * Disabled user notificator. For disabling emailing.
+ * Listens for login failure events, and blocks the user after a number of failures.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class DisabledUserNotificator implements UserNotificator {
+public final class UserInvitationNotificatorListener implements EventListener<UserInvitationEvent> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(DisabledUserNotificator.class);
+    private static final Logger           log = LoggerFactory.getLogger(UserInvitationNotificatorListener.class);
 
-    public DisabledUserNotificator() {
+    private final UserNotificationService userNotificationService;
+
+    public UserInvitationNotificatorListener(final UserNotificationService userNotificationService) {
         super();
+
+        this.userNotificationService = Objects.requireNonNull(userNotificationService);
     }
 
     @Override
-    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
-        // To avoid sending emails
-        log.warn("Disabled email messages");
+    public final Class<UserInvitationEvent> getEventType() {
+        return UserInvitationEvent.class;
+    }
+
+    @Override
+    public final void handle(final UserInvitationEvent event) {
+        log.debug("Handling notification for invitation for user {}", event.getUsername());
+        userNotificationService.sendUserInvitationMessage(event.getEmail(), event.getUsername(), event.getToken());
     }
 
 }

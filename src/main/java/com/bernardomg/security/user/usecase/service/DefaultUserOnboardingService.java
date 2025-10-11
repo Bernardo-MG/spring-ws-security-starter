@@ -30,16 +30,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.user.domain.event.UserInvitationEvent;
 import com.bernardomg.security.user.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
@@ -62,6 +63,11 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     private static final Logger     log = LoggerFactory.getLogger(DefaultUserOnboardingService.class);
 
     /**
+     * Event emitter.
+     */
+    private final EventEmitter      eventEmitter;
+
+    /**
      * Role repository.
      */
     private final RoleRepository    roleRepository;
@@ -70,11 +76,6 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
      * Token processor.
      */
     private final UserTokenStore    tokenStore;
-
-    /**
-     * Message sender. Registering new users may require emails, or other kind of messaging.
-     */
-    private final UserNotificator   userNotificator;
 
     /**
      * User repository.
@@ -92,13 +93,13 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     private final Validator<User>   validatorInvite;
 
     public DefaultUserOnboardingService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserTokenStore tStore, final UserNotificator userNotf) {
+            final UserTokenStore tStore, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
         tokenStore = Objects.requireNonNull(tStore);
-        userNotificator = Objects.requireNonNull(userNotf);
+        eventEmitter = Objects.requireNonNull(eventEmit);
 
         validatorActivate = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
         validatorInvite = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
@@ -143,9 +144,10 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
 
     @Override
     public final User inviteUser(final User user) {
-        final User   toCreate;
-        final User   created;
-        final String token;
+        final User                toCreate;
+        final User                created;
+        final String              token;
+        final UserInvitationEvent userInvitationEvent;
 
         log.trace("Inviting new user {} with email {} and name {}", user.username(), user.email(), user.name());
 
@@ -176,8 +178,8 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         // Register new token for activation
         token = tokenStore.createToken(created.username());
 
-        // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.email(), toCreate.username(), token);
+        userInvitationEvent = new UserInvitationEvent(this, created.email(), created.username(), token);
+        eventEmitter.emit(userInvitationEvent);
 
         log.trace("Invited new user {} with email {} and name {}", toCreate.username(), toCreate.email(), user.name());
 

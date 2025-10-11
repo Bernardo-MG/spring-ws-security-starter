@@ -37,14 +37,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
+import com.bernardomg.security.user.domain.event.UserInvitationEvent;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -53,6 +54,9 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserActivationService - token validation")
 class TestUserOnboardingServiceInviteUser {
+
+    @Mock
+    private EventEmitter                 eventEmitter;
 
     @Mock
     private PasswordEncoder              passwordEncoder;
@@ -69,13 +73,11 @@ class TestUserOnboardingServiceInviteUser {
     @Mock
     private UserTokenStore               tokenStore;
 
-    @Mock
-    private UserNotificator              userNotificator;
-
     @Test
     @DisplayName("Sends the user to the repository, ignoring case")
     void testInviteUser_Case_AddsEntity() {
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
@@ -91,6 +93,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
@@ -153,23 +156,28 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("When inviting a new user, a notification is sent")
+    @DisplayName("When inviting a new user, an event is sent")
     void testInviteUser_Notification() {
+        final UserInvitationEvent userInvitationEvent;
+
         // GIVEN
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        userInvitationEvent = new UserInvitationEvent(service, UserConstants.EMAIL, UserConstants.USERNAME,
+            Tokens.TOKEN);
 
         // WHEN
         service.inviteUser(Users.withoutRoles());
 
         // THEN
-        verify(userNotificator).sendUserRegisteredMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
+        verify(eventEmitter).emit(userInvitationEvent);
     }
 
     @Test
     @DisplayName("Sends the user to the repository, padded with whitespace")
     void testInviteUser_Padded_AddsEntity() {
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
@@ -185,6 +193,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
@@ -199,6 +208,7 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("With a user with roles, it is sent to the repository")
     void testInviteUser_Roles_PersistedData() {
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(repository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
 
@@ -215,6 +225,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(repository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
 
@@ -230,6 +241,7 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("With a user without roles, it is sent to the repository")
     void testInviteUser_WithoutRoles_PersistedData() {
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
@@ -245,6 +257,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN

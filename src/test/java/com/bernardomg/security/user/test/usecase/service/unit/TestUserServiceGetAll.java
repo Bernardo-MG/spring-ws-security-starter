@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserQuery;
@@ -25,13 +26,15 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserQueries;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("User service - get all")
 class TestUserServiceGetAll {
+
+    @Mock
+    private EventEmitter       eventEmitter;
 
     @Mock
     private PasswordEncoder    passwordEncoder;
@@ -44,9 +47,6 @@ class TestUserServiceGetAll {
 
     @Mock
     private UserTokenStore     tokenStore;
-
-    @Mock
-    private UserNotificator    userNotificator;
 
     @Mock
     private UserRepository     userRepository;

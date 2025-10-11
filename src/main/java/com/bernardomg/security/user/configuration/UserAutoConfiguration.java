@@ -39,6 +39,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.adapter.inbound.event.LoginFailureBlockerListener;
@@ -46,16 +47,16 @@ import com.bernardomg.security.user.adapter.inbound.initializer.UserPermissionRe
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.adapter.outbound.email.DisabledUserNotificator;
-import com.bernardomg.security.user.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
+import com.bernardomg.security.user.usecase.service.DisabledUserNotificationService;
+import com.bernardomg.security.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.user.usecase.service.UserLoginAttempsService;
+import com.bernardomg.security.user.usecase.service.UserNotificationService;
 import com.bernardomg.security.user.usecase.service.UserOnboardingService;
 import com.bernardomg.security.user.usecase.service.UserService;
 import com.bernardomg.security.user.usecase.store.ScopedUserTokenStore;
@@ -89,13 +90,13 @@ public class UserAutoConfiguration {
         return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
     }
 
-    @Bean("userNotificator")
+    @Bean("userNotificationService")
     // @ConditionalOnMissingBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
-    public UserNotificator getDefaultUserNotificator() {
+    public UserNotificationService getDefaultUserNotificationService() {
         // FIXME: This is not handling correctly the missing bean condition
-        log.info("Disabled user notificator");
-        return new DisabledUserNotificator();
+        log.info("Disabled user notificator service");
+        return new DisabledUserNotificationService();
     }
 
     @Bean("loginFailureBlockerListener")
@@ -112,21 +113,22 @@ public class UserAutoConfiguration {
     @Bean("userNotificator")
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public UserNotificator getUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSender,
-            final UserNotificatorProperties properties) {
+    public UserNotificationService getUserNotificator(final SpringTemplateEngine templateEng,
+            final JavaMailSender mailSender, final UserNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for user notifications", properties.from());
         log.info("Activate user URL: {}", properties.activateUser()
             .url());
-        return new SpringMailUserNotificator(templateEng, mailSender, properties.from(), properties.activateUser()
-            .url());
+        return new SpringMailUserNotificationService(templateEng, mailSender, properties.from(),
+            properties.activateUser()
+                .url());
     }
 
     @Bean("userOnboardingService")
     public UserOnboardingService getUserOnboardingService(final UserRepository userRepository,
             final RoleRepository roleRepository, @Qualifier("userTokenStore") final UserTokenStore tokenStore,
-            final UserNotificator userNotificator) {
-        return new DefaultUserOnboardingService(userRepository, roleRepository, tokenStore, userNotificator);
+            final EventEmitter eventEmitter) {
+        return new DefaultUserOnboardingService(userRepository, roleRepository, tokenStore, eventEmitter);
     }
 
     @Bean("userRepository")
@@ -147,7 +149,7 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userTokenStore")
-    public UserTokenStore getUserTokenStore(final UserRepository userSpringRepo, final UserNotificator mSender,
+    public UserTokenStore getUserTokenStore(final UserRepository userSpringRepo,
             final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
         return new ScopedUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
             tokenProperties.validity());

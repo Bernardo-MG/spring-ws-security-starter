@@ -22,8 +22,31 @@
  * SOFTWARE.
  */
 
-/**
- * User notificator.
- */
+package com.bernardomg.security.user.usecase.service;
 
-package com.bernardomg.security.user.usecase.notificator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Disabled user notificator. For disabling emailing.
+ */
+@Transactional
+public final class DisabledUserNotificationService implements UserNotificationService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(DisabledUserNotificationService.class);
+
+    public DisabledUserNotificationService() {
+        super();
+    }
+
+    @Override
+    public final void sendUserInvitationMessage(final String email, final String username, final String token) {
+        // To avoid sending emails
+        log.warn("Disabled invitation notification");
+    }
+
+}
