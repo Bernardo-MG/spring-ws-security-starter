@@ -27,10 +27,12 @@ paths:
     $ref: paths/roles_permissions.yml
   /security/user:
     $ref: paths/users.yml
+  /security/user/onboarding/activate/{token}:
+    $ref: paths/users_activation.yml
+  /security/user/onboarding/invite:
+    $ref: paths/users_invite.yml
   /security/user/{username}:
     $ref: paths/users_by_id.yml
-  /security/user/activate/{token}:
-    $ref: paths/users_activation.yml
   /security/user/{username}/role/available:
     $ref: paths/users_roles.yml
   /security/user/token:

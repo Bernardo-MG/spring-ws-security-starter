@@ -29,15 +29,19 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.access.Unsecured;
+import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserActivationDtoMapper;
+import com.bernardomg.security.user.adapter.outbound.rest.model.UserDtoMapper;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
-import com.bernardomg.security.user.usecase.service.UserActivationService;
-import com.bernardomg.ucronia.openapi.api.UserActivationApi;
+import com.bernardomg.security.user.usecase.service.UserOnboardingService;
+import com.bernardomg.ucronia.openapi.api.UserOnboardingApi;
 import com.bernardomg.ucronia.openapi.model.UserActivationDto;
+import com.bernardomg.ucronia.openapi.model.UserCreationDto;
 import com.bernardomg.ucronia.openapi.model.UserResponseDto;
 import com.bernardomg.ucronia.openapi.model.UserTokenStatusResponseDto;
 
@@ -50,14 +54,14 @@ import jakarta.validation.Valid;
  *
  */
 @RestController
-public class UserActivationController implements UserActivationApi {
+public class UserOnboardingController implements UserOnboardingApi {
 
     /**
      * Service which handles user activation.
      */
-    private final UserActivationService service;
+    private final UserOnboardingService service;
 
-    public UserActivationController(final UserActivationService service) {
+    public UserOnboardingController(final UserOnboardingService service) {
         super();
 
         this.service = service;
@@ -72,6 +76,20 @@ public class UserActivationController implements UserActivationApi {
 
         user = service.activateUser(token, userActivationDto.getPassword());
         return UserActivationDtoMapper.toResponseDto(user);
+    }
+
+    @Override
+    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
+            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
+    public UserResponseDto inviteUser(@Valid final UserCreationDto userCreationDto) {
+        final User user;
+        final User created;
+
+        user = UserDtoMapper.toDomain(userCreationDto);
+        created = service.inviteUser(user);
+
+        return UserDtoMapper.toResponseDto(created);
     }
 
     @Override

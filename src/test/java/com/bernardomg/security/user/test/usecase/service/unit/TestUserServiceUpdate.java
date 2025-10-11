@@ -40,6 +40,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
@@ -49,7 +50,6 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -58,6 +58,9 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - update")
 class TestUserServiceUpdate {
+
+    @Mock
+    private EventEmitter       eventEmitter;
 
     @Mock
     private PasswordEncoder    passwordEncoder;
@@ -70,9 +73,6 @@ class TestUserServiceUpdate {
 
     @Mock
     private UserTokenStore     tokenStore;
-
-    @Mock
-    private UserNotificator    userNotificator;
 
     @Mock
     private UserRepository     userRepository;
@@ -99,25 +99,6 @@ class TestUserServiceUpdate {
 
         // THEN
         failure = new FieldFailure("duplicated", "roles[]", "roles[].duplicated", 1L);
-
-        ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the name is empty")
-    void testUpdate_EmptyName() {
-        final ThrowingCallable executable;
-        final FieldFailure     failure;
-
-        // GIVEN
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-
-        // WHEN
-        executable = () -> service.update(Users.noName());
-
-        // THEN
-        failure = new FieldFailure("empty", "name", "name.empty", "");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
     }
@@ -151,7 +132,6 @@ class TestUserServiceUpdate {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
         executable = () -> service.update(Users.invalidEmail());
@@ -160,37 +140,6 @@ class TestUserServiceUpdate {
         failure = new FieldFailure("invalid", "email", "email.invalid", "abc");
 
         ValidationAssertions.assertThatFieldFails(executable, failure);
-    }
-
-    @Test
-    @DisplayName("Sends the user without roles to the repository")
-    void testUpdate_NoRoles_PersistedData() {
-
-        // GIVEN
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-
-        // WHEN
-        service.update(Users.noRoles());
-
-        // THEN
-        verify(userRepository).save(Users.noRoles());
-    }
-
-    @Test
-    @DisplayName("Returns the created user without roles")
-    void testUpdate_NoRoles_ReturnedData() {
-        final User result;
-
-        // GIVEN
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userRepository.save(Users.noRoles())).willReturn(Users.noRoles());
-
-        // WHEN
-        result = service.update(Users.noRoles());
-
-        // THEN
-        Assertions.assertThat(result)
-            .isEqualTo(Users.noRoles());
     }
 
     @Test
@@ -257,6 +206,37 @@ class TestUserServiceUpdate {
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(Users.emailChange());
+    }
+
+    @Test
+    @DisplayName("Sends the user without roles to the repository")
+    void testUpdate_withoutRoles_PersistedData() {
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+
+        // WHEN
+        service.update(Users.withoutRoles());
+
+        // THEN
+        verify(userRepository).save(Users.withoutRoles());
+    }
+
+    @Test
+    @DisplayName("Returns the created user without roles")
+    void testUpdate_withoutRoles_ReturnedData() {
+        final User result;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.save(Users.withoutRoles())).willReturn(Users.withoutRoles());
+
+        // WHEN
+        result = service.update(Users.withoutRoles());
+
+        // THEN
+        Assertions.assertThat(result)
+            .isEqualTo(Users.withoutRoles());
     }
 
 }

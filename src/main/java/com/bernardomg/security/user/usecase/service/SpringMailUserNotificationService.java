@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.adapter.outbound.email;
+package com.bernardomg.security.user.usecase.service;
 
 import java.util.Objects;
 
@@ -31,10 +31,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -45,12 +44,14 @@ import jakarta.mail.internet.MimeMessage;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class SpringMailUserNotificator implements UserNotificator {
+@Transactional
+public final class SpringMailUserNotificationService implements UserNotificationService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger        log                   = LoggerFactory.getLogger(SpringMailUserNotificator.class);
+    private static final Logger        log                   = LoggerFactory
+        .getLogger(SpringMailUserNotificationService.class);
 
     /**
      * Email for the from field.
@@ -77,7 +78,7 @@ public final class SpringMailUserNotificator implements UserNotificator {
      */
     private final String               userRegisteredUrl;
 
-    public SpringMailUserNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
+    public SpringMailUserNotificationService(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
             final String frmEmail, final String userRegUrl) {
         super();
 
@@ -88,7 +89,7 @@ public final class SpringMailUserNotificator implements UserNotificator {
     }
 
     @Override
-    public final void sendUserRegisteredMessage(final String email, final String username, final String token) {
+    public final void sendUserInvitationMessage(final String email, final String username, final String token) {
         final String recoveryUrl;
         final String userRegisteredEmailText;
 

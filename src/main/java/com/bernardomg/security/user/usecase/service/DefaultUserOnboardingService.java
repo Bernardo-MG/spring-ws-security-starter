@@ -30,13 +30,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
+import com.bernardomg.security.role.domain.exception.MissingRoleException;
+import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.user.domain.event.UserInvitationEvent;
 import com.bernardomg.security.user.domain.exception.InvalidTokenException;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
+import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
+import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
+import com.bernardomg.security.user.usecase.validation.UserRolesNotDuplicatedRule;
+import com.bernardomg.security.user.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -47,12 +56,22 @@ import com.bernardomg.validation.validator.Validator;
  *
  */
 @Transactional
-public final class DefaultUserActivationService implements UserActivationService {
+public final class DefaultUserOnboardingService implements UserOnboardingService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultUserActivationService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultUserOnboardingService.class);
+
+    /**
+     * Event emitter.
+     */
+    private final EventEmitter      eventEmitter;
+
+    /**
+     * Role repository.
+     */
+    private final RoleRepository    roleRepository;
 
     /**
      * Token processor.
@@ -69,13 +88,23 @@ public final class DefaultUserActivationService implements UserActivationService
      */
     private final Validator<String> validatorActivate;
 
-    public DefaultUserActivationService(final UserRepository userRepo, final UserTokenStore tStore) {
+    /**
+     * User registration validator.
+     */
+    private final Validator<User>   validatorInvite;
+
+    public DefaultUserOnboardingService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final UserTokenStore tStore, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
+        roleRepository = Objects.requireNonNull(roleRepo);
         tokenStore = Objects.requireNonNull(tStore);
+        eventEmitter = Objects.requireNonNull(eventEmit);
 
         validatorActivate = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
+        validatorInvite = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserRolesNotDuplicatedRule(),
+            new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
     }
 
     @Override
@@ -112,6 +141,49 @@ public final class DefaultUserActivationService implements UserActivationService
         log.trace("Activated new user {}", username);
 
         return saved;
+    }
+
+    @Override
+    public final User inviteUser(final User user) {
+        final User                toCreate;
+        final User                created;
+        final String              token;
+        final UserInvitationEvent userInvitationEvent;
+
+        log.trace("Inviting new user {} with email {} and name {}", user.username(), user.email(), user.name());
+
+        // Verify the roles exists
+        for (final Role role : user.roles()) {
+            if (!roleRepository.exists(role.name())) {
+                log.error("Missing role {}", role.name());
+                throw new MissingRoleException(role.name());
+            }
+        }
+
+        toCreate = User.newUser(user.username()
+            .trim()
+            .toLowerCase(),
+            user.email()
+                .trim()
+                .toLowerCase(),
+            user.name()
+                .trim()
+                .toLowerCase(),
+            user.roles());
+
+        validatorInvite.validate(toCreate);
+
+        created = userRepository.saveNewUser(toCreate);
+
+        // Register new token for activation
+        token = tokenStore.createToken(created.username());
+
+        userInvitationEvent = new UserInvitationEvent(this, created.email(), created.username(), token);
+        eventEmitter.emit(userInvitationEvent);
+
+        log.trace("Invited new user {} with email {} and name {}", created.username(), created.email(), user.name());
+
+        return created;
     }
 
     @Override

@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.Roles;
@@ -26,13 +27,15 @@ import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - get available roles")
 class TestUserServiceGetAvailableRoles {
+
+    @Mock
+    private EventEmitter       eventEmitter;
 
     @Mock
     private PasswordEncoder    passwordEncoder;
@@ -45,9 +48,6 @@ class TestUserServiceGetAvailableRoles {
 
     @Mock
     private UserTokenStore     tokenStore;
-
-    @Mock
-    private UserNotificator    userNotificator;
 
     @Mock
     private UserRepository     userRepository;

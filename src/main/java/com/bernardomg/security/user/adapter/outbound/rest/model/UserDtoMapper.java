@@ -16,6 +16,7 @@ import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.ucronia.openapi.model.RoleDto;
 import com.bernardomg.ucronia.openapi.model.SortingDto;
 import com.bernardomg.ucronia.openapi.model.UserChangeDto;
+import com.bernardomg.ucronia.openapi.model.UserCreationDto;
 import com.bernardomg.ucronia.openapi.model.UserDto;
 import com.bernardomg.ucronia.openapi.model.UserPageResponseDto;
 import com.bernardomg.ucronia.openapi.model.UserResponseDto;
@@ -35,6 +36,22 @@ public final class UserDtoMapper {
         }
         return new User(userChangeDto.getEmail(), username, userChangeDto.getName(), userChangeDto.getEnabled(),
             userChangeDto.getPasswordNotExpired(), false, false, roles);
+    }
+
+    public static final User toDomain(final UserCreationDto userCreationDto) {
+        final Collection<Role> roles;
+
+        if (userCreationDto.getRoles() == null) {
+            roles = List.of();
+        } else {
+            roles = userCreationDto.getRoles()
+                .stream()
+                .map(r -> new Role(r, List.of()))
+                .toList();
+        }
+
+        return User.newUser(userCreationDto.getUsername(), userCreationDto.getEmail(), userCreationDto.getName(),
+            roles);
     }
 
     public static final UserResponseDto toResponseDto(final Optional<User> user) {

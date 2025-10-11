@@ -22,8 +22,26 @@
  * SOFTWARE.
  */
 
-/**
- * User notifications.
- */
+package com.bernardomg.security.user.usecase.service;
 
-package com.bernardomg.security.user.adapter.outbound.email;
+/**
+ * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface UserNotificationService {
+
+    /**
+     * Sends a user registered message to the received email. This is used to activate the new user.
+     *
+     * @param email
+     *            email to send the message to
+     * @param username
+     *            username of the new user
+     * @param token
+     *            token to activate the user
+     */
+    public void sendUserInvitationMessage(final String email, final String username, final String token);
+
+}

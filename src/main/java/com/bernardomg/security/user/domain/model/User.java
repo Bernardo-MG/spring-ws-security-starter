@@ -84,6 +84,11 @@ public record User(String email, String username, String name, boolean enabled, 
         return new User(email, username, name, false, true, true, false, List.of());
     }
 
+    public static final User newUser(final String username, final String email, final String name,
+            final Collection<Role> roles) {
+        return new User(email, username, name, false, true, true, false, roles);
+    }
+
     public final void checkStatus() {
         // TODO: Send a single exception with all the cases
         // TODO: Test

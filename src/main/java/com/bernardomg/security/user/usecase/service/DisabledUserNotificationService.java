@@ -22,26 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.usecase.notificator;
+package com.bernardomg.security.user.usecase.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Disabled user notificator. For disabling emailing.
  */
-public interface UserNotificator {
+@Transactional
+public final class DisabledUserNotificationService implements UserNotificationService {
 
     /**
-     * Sends a user registered message to the received email. This is used to activate the new user.
-     *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username of the new user
-     * @param token
-     *            token to activate the user
+     * Logger for the class.
      */
-    public void sendUserRegisteredMessage(final String email, final String username, final String token);
+    private static final Logger log = LoggerFactory.getLogger(DisabledUserNotificationService.class);
+
+    public DisabledUserNotificationService() {
+        super();
+    }
+
+    @Override
+    public final void sendUserInvitationMessage(final String email, final String username, final String token) {
+        // To avoid sending emails
+        log.warn("Disabled invitation notification");
+    }
 
 }

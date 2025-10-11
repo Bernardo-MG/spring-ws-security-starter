@@ -22,8 +22,46 @@
  * SOFTWARE.
  */
 
-/**
- * User notificator.
- */
+package com.bernardomg.security.user.usecase.service;
 
-package com.bernardomg.security.user.usecase.notificator;
+import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.user.domain.model.UserTokenStatus;
+
+/**
+ * User onboarding service.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface UserOnboardingService {
+
+    /**
+     * Activates a registered user.
+     *
+     * @param token
+     *            token assigned to the user
+     * @param password
+     *            user password
+     * @return the activated user
+     */
+    public User activateUser(final String token, final String password);
+
+    /**
+     * Invites a user to join the application.
+     *
+     * @param user
+     *            user to invite
+     * @return the persisted user
+     */
+    public User inviteUser(final User user);
+
+    /**
+     * Validate a user registration token.
+     *
+     * @param token
+     *            token to validate
+     * @return token status
+     */
+    public UserTokenStatus validateToken(final String token);
+
+}

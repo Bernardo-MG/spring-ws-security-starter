@@ -93,7 +93,7 @@ class ITUserRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("user")
-            .isEqualTo(Users.noRoles());
+            .isEqualTo(Users.withoutRoles());
     }
 
     @Test

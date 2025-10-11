@@ -17,7 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.domain.exception.EnabledUserException;
 import com.bernardomg.security.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.domain.exception.LockedUserException;
@@ -25,15 +27,17 @@ import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultUserService - activate user")
-class TestUserActivationServiceActivateUser {
+class TestUserOnboardingServiceActivateUser {
+
+    @Mock
+    private EventEmitter                 eventEmitter;
 
     @Mock
     private PasswordEncoder              passwordEncoder;
@@ -41,16 +45,16 @@ class TestUserActivationServiceActivateUser {
     @Mock
     private UserRepository               repository;
 
+    @Mock
+    private RoleRepository               roleRepository;
+
     @InjectMocks
-    private DefaultUserActivationService service;
+    private DefaultUserOnboardingService service;
 
     @Mock
     private UserTokenStore               tokenStore;
 
-    @Mock
-    private UserNotificator              userNotificator;
-
-    public TestUserActivationServiceActivateUser() {
+    public TestUserOnboardingServiceActivateUser() {
         super();
     }
 

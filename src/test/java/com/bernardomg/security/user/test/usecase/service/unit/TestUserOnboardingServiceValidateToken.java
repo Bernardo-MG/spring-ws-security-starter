@@ -36,18 +36,22 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.domain.exception.ConsumedTokenException;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.usecase.service.DefaultUserActivationService;
+import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserActivationService - token validation")
-class TestUserActivationServiceValidateToken {
+class TestUserOnboardingServiceValidateToken {
+
+    @Mock
+    private EventEmitter                 eventEmitter;
 
     @Mock
     private PasswordEncoder              passwordEncoder;
@@ -55,14 +59,14 @@ class TestUserActivationServiceValidateToken {
     @Mock
     private UserRepository               repository;
 
+    @Mock
+    private RoleRepository               roleRepository;
+
     @InjectMocks
-    private DefaultUserActivationService service;
+    private DefaultUserOnboardingService service;
 
     @Mock
     private UserTokenStore               tokenStore;
-
-    @Mock
-    private UserNotificator              userNotificator;
 
     @Test
     void testValidateToken_Invalid() {

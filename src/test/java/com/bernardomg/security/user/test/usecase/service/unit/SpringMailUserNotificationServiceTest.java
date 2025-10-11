@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.test.adapter.outbound.email.unit;
+package com.bernardomg.security.user.test.usecase.service.unit;
 
 import static org.mockito.Mockito.verify;
 
@@ -15,37 +15,37 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.adapter.outbound.email.SpringMailUserNotificator;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
+import com.bernardomg.security.user.usecase.service.SpringMailUserNotificationService;
+import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificator")
-class SpringMailUserNotificatorTest {
+class SpringMailUserNotificationServiceTest {
 
     @Mock
-    private JavaMailSender       javaMailSender;
+    private JavaMailSender          javaMailSender;
 
     @Mock
-    private SpringTemplateEngine templateEng;
+    private SpringTemplateEngine    templateEng;
 
-    private UserNotificator      userNotificator;
+    private UserNotificationService userNotificationService;
 
-    public SpringMailUserNotificatorTest() {
+    public SpringMailUserNotificationServiceTest() {
         super();
     }
 
     @BeforeEach
     private final void initializeSender() {
-        userNotificator = new SpringMailUserNotificator(templateEng, javaMailSender, "sender@somewhere.com",
-            "http://somewhere.com");
+        userNotificationService = new SpringMailUserNotificationService(templateEng, javaMailSender,
+            "sender@somewhere.com", "http://somewhere.com");
     }
 
     @Test
     @DisplayName("The message is sent")
     void testSendEmail_MessageSent() throws Exception {
         // WHEN
-        userNotificator.sendUserRegisteredMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
+        userNotificationService.sendUserInvitationMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));
