@@ -44,6 +44,7 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
+import com.bernardomg.security.user.usecase.validation.UserRolesNotDuplicatedRule;
 import com.bernardomg.security.user.usecase.validation.UserUsernameNotExistsRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -102,8 +103,8 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         eventEmitter = Objects.requireNonNull(eventEmit);
 
         validatorActivate = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
-        validatorInvite = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
-            new UserUsernameNotExistsRule(userRepository));
+        validatorInvite = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserRolesNotDuplicatedRule(),
+            new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
     }
 
     @Override
@@ -159,7 +160,6 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
             }
         }
 
-        // TODO: verify the roles exist
         toCreate = User.newUser(user.username()
             .trim()
             .toLowerCase(),
@@ -181,7 +181,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         userInvitationEvent = new UserInvitationEvent(this, created.email(), created.username(), token);
         eventEmitter.emit(userInvitationEvent);
 
-        log.trace("Invited new user {} with email {} and name {}", toCreate.username(), toCreate.email(), user.name());
+        log.trace("Invited new user {} with email {} and name {}", created.username(), created.email(), user.name());
 
         return created;
     }

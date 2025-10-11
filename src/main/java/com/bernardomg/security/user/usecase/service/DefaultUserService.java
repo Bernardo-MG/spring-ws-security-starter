@@ -97,26 +97,43 @@ public final class DefaultUserService implements UserService {
         roleRepository = Objects.requireNonNull(roleRepo);
         userRoleRepository = Objects.requireNonNull(userRoleRepo);
 
-        validatorCreateUser = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
-            new UserUsernameNotExistsRule(userRepository));
-        validatorUpdateUser = new FieldRuleValidator<>(new UserEmailFormatRule(),
-            new UserEmailNotExistsForAnotherRule(userRepo), new UserRolesNotDuplicatedRule());
+        validatorCreateUser = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserRolesNotDuplicatedRule(),
+            new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
+        validatorUpdateUser = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserRolesNotDuplicatedRule(),
+            new UserEmailNotExistsForAnotherRule(userRepo));
     }
 
     @Override
-    public final User create(final String username, final String name, final String email) {
-        final User user;
+    public final User create(final User user) {
+        final User toCreate;
         final User created;
 
-        log.trace("Registering new user {} with email {}", username, email);
+        log.trace("Creating user {} with email {} and name {}", user.username(), user.email(), user.name());
 
-        user = User.newUser(username, email, name);
+        // Verify the roles exists
+        for (final Role role : user.roles()) {
+            if (!roleRepository.exists(role.name())) {
+                log.error("Missing role {}", role.name());
+                throw new MissingRoleException(role.name());
+            }
+        }
 
-        validatorCreateUser.validate(user);
+        toCreate = User.newUser(user.username()
+            .trim()
+            .toLowerCase(),
+            user.email()
+                .trim()
+                .toLowerCase(),
+            user.name()
+                .trim()
+                .toLowerCase(),
+            user.roles());
 
-        created = userRepository.saveNewUser(user);
+        validatorCreateUser.validate(toCreate);
 
-        log.trace("Registered new user {} with email {}", username, email);
+        created = userRepository.saveNewUser(toCreate);
+
+        log.trace("Created user {} with email {} and name {}", created.username(), created.email(), user.name());
 
         return created;
     }

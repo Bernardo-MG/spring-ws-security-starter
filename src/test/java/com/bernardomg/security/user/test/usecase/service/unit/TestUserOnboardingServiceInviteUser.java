@@ -39,6 +39,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.role.domain.exception.MissingRoleException;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.user.domain.event.UserInvitationEvent;
@@ -62,9 +63,6 @@ class TestUserOnboardingServiceInviteUser {
     private PasswordEncoder              passwordEncoder;
 
     @Mock
-    private UserRepository               repository;
-
-    @Mock
     private RoleRepository               roleRepository;
 
     @InjectMocks
@@ -73,18 +71,21 @@ class TestUserOnboardingServiceInviteUser {
     @Mock
     private UserTokenStore               tokenStore;
 
+    @Mock
+    private UserRepository               userRepository;
+
     @Test
     @DisplayName("Sends the user to the repository, ignoring case")
     void testInviteUser_Case_AddsEntity() {
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.inviteUser(Users.upperCase());
 
         // THEN
-        verify(repository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).saveNewUser(Users.newlyCreated());
     }
 
     @Test
@@ -94,7 +95,7 @@ class TestUserOnboardingServiceInviteUser {
 
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.inviteUser(Users.withoutRoles());
@@ -105,13 +106,31 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
+    @DisplayName("Throws an exception when the role is duplicated")
+    void testInviteUser_DuplicatedRole() {
+        final ThrowingCallable executable;
+        final FieldFailure     failure;
+
+        // GIVEN
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
+
+        // WHEN
+        executable = () -> service.inviteUser(Users.duplicatedRole());
+
+        // THEN
+        failure = new FieldFailure("duplicated", "roles[]", "roles[].duplicated", 1L);
+
+        ValidationAssertions.assertThatFieldFails(executable, failure);
+    }
+
+    @Test
     @DisplayName("Throws an exception when the email already exists")
     void testInviteUser_ExistingEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
         // GIVEN
-        given(repository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
+        given(userRepository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
 
         // WHEN
         executable = () -> service.inviteUser(Users.withoutRoles());
@@ -129,7 +148,7 @@ class TestUserOnboardingServiceInviteUser {
         final FieldFailure     failure;
 
         // GIVEN
-        given(repository.exists(UserConstants.USERNAME)).willReturn(true);
+        given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
         executable = () -> service.inviteUser(Users.withoutRoles());
@@ -156,13 +175,29 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
+    @DisplayName("When the role doesn't exists an exception is thrown")
+    void testInviteUser_NotExistingRole() {
+        final ThrowingCallable execution;
+
+        // GIVEN
+        given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.inviteUser(Users.enabled());
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingRoleException.class);
+    }
+
+    @Test
     @DisplayName("When inviting a new user, an event is sent")
     void testInviteUser_Notification() {
         final UserInvitationEvent userInvitationEvent;
 
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
         userInvitationEvent = new UserInvitationEvent(service, UserConstants.EMAIL, UserConstants.USERNAME,
             Tokens.TOKEN);
 
@@ -178,13 +213,13 @@ class TestUserOnboardingServiceInviteUser {
     void testInviteUser_Padded_AddsEntity() {
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.inviteUser(Users.padded());
 
         // THEN
-        verify(repository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).saveNewUser(Users.newlyCreated());
     }
 
     @Test
@@ -194,7 +229,7 @@ class TestUserOnboardingServiceInviteUser {
 
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.inviteUser(Users.padded());
@@ -206,28 +241,28 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("With a user with roles, it is sent to the repository")
-    void testInviteUser_Roles_PersistedData() {
+    void testInviteUser_Role_PersistedData() {
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(repository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
+        given(userRepository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
 
         // WHEN
         service.inviteUser(Users.withRole());
 
         // THEN
-        verify(repository).saveNewUser(Users.newlyCreatedWithRole());
+        verify(userRepository).saveNewUser(Users.newlyCreatedWithRole());
     }
 
     @Test
     @DisplayName("With a user with roles, it is returned")
-    void testInviteUser_Roles_ReturnedData() {
+    void testInviteUser_Role_ReturnedData() {
         final User user;
 
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(repository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
+        given(userRepository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
 
         // WHEN
         user = service.inviteUser(Users.withRole());
@@ -242,13 +277,13 @@ class TestUserOnboardingServiceInviteUser {
     void testInviteUser_WithoutRoles_PersistedData() {
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         service.inviteUser(Users.withoutRoles());
 
         // THEN
-        verify(repository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).saveNewUser(Users.newlyCreated());
     }
 
     @Test
@@ -258,7 +293,7 @@ class TestUserOnboardingServiceInviteUser {
 
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.inviteUser(Users.withoutRoles());
