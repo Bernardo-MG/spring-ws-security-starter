@@ -10,11 +10,11 @@
 
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
     <div style="padding: 16px; max-width: 400px; margin: 0 auto;">
-        <h2 style="text-align: center; margin-bottom: 16px;">New user registration</h2>
-        <p style="text-align: center; margin-bottom: 16px;">To activate the newly created user <span th:text="${username}" th:remove="tag">username</span>.</p>
-        <p style="text-align: center; margin-bottom: 16px;">If you didn't expect this email, ignore it. Otherwise use the link below</p>
+        <h2 style="text-align: center; margin-bottom: 16px;" th:text="#{email.welcome.title}">Welcome</h2>
+        <p style="text-align: center; margin-bottom: 16px;" th:text="#{email.welcome.text(${username}, ${name)}">To activate user.</p>
+        <p style="text-align: center; margin-bottom: 16px;" th:text="#{email.welcome.explain(${url}}">If you didn't expect this email, ignore it. Otherwise use the link below</p>
         <div style="display: grid; gap: 8px;">
-            <a th:href="${url}" style="display: block; padding: 12px 0; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 4px; font-size: 16px; line-height: 1; cursor: pointer;">Register user</a>
+            <a th:href="${url}" th:text="#{email.welcome.button}" style="display: block; padding: 12px 0; background-color: #007bff; color: #fff; text-align: center; text-decoration: none; border-radius: 4px; font-size: 16px; line-height: 1; cursor: pointer;">Register user</a>
         </div>
     </div>
 </body>
