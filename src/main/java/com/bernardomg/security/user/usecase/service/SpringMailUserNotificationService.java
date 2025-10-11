@@ -96,7 +96,7 @@ public final class SpringMailUserNotificationService implements UserNotification
         log.debug("Sending user registered email to {} for {}", email, username);
 
         recoveryUrl = generateUrl(userRegisteredUrl, token);
-        userRegisteredEmailText = generateEmailContent("mail/user-registered", recoveryUrl, username);
+        userRegisteredEmailText = generateEmailContent("mail/user-welcome", recoveryUrl, username);
 
         // TODO: Send template name and parameters
         sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
