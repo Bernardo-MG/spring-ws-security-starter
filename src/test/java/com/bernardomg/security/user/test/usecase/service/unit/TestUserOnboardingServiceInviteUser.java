@@ -37,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.user.domain.model.User;
@@ -73,7 +74,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("Sends the user to the repository, ignoring case")
-    void testRegisterNewUser_Case_AddsEntity() {
+    void testInviteUser_Case_AddsEntity() {
         // GIVEN
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
@@ -86,7 +87,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("Returns the created user, ignoring case")
-    void testRegisterNewUser_Case_ReturnedData() {
+    void testInviteUser_Case_ReturnedData() {
         final User user;
 
         // GIVEN
@@ -102,7 +103,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("Throws an exception when the email already exists")
-    void testRegisterNewUser_ExistingEmail() {
+    void testInviteUser_ExistingEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -120,7 +121,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
-    void testRegisterNewUser_ExistingUsername() {
+    void testInviteUser_ExistingUsername() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -138,7 +139,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("Throws an exception when the email has an invalid format")
-    void testRegisterNewUser_InvalidEmail() {
+    void testInviteUser_InvalidEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -152,8 +153,22 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
+    @DisplayName("When inviting a new user, a notification is sent")
+    void testInviteUser_Notification() {
+        // GIVEN
+        given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        // WHEN
+        service.inviteUser(Users.withoutRoles());
+
+        // THEN
+        verify(userNotificator).sendUserRegisteredMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
+    }
+
+    @Test
     @DisplayName("Sends the user to the repository, padded with whitespace")
-    void testRegisterNewUser_Padded_AddsEntity() {
+    void testInviteUser_Padded_AddsEntity() {
         // GIVEN
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
@@ -166,7 +181,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("Returns the created user, padded with whitespace")
-    void testRegisterNewUser_Padded_ReturnedData() {
+    void testInviteUser_Padded_ReturnedData() {
         final User user;
 
         // GIVEN
@@ -182,7 +197,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("With a user with roles, it is sent to the repository")
-    void testRegisterNewUser_Roles_PersistedData() {
+    void testInviteUser_Roles_PersistedData() {
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(repository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
@@ -196,7 +211,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("With a user with roles, it is returned")
-    void testRegisterNewUser_Roles_ReturnedData() {
+    void testInviteUser_Roles_ReturnedData() {
         final User user;
 
         // GIVEN
@@ -213,7 +228,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("With a user without roles, it is sent to the repository")
-    void testRegisterNewUser_withoutRoles_PersistedData() {
+    void testInviteUser_WithoutRoles_PersistedData() {
         // GIVEN
         given(repository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
@@ -226,7 +241,7 @@ class TestUserOnboardingServiceInviteUser {
 
     @Test
     @DisplayName("With a user without roles, it is returned")
-    void testRegisterNewUser_withoutRoles_ReturnedData() {
+    void testInviteUser_WithoutRoles_ReturnedData() {
         final User user;
 
         // GIVEN
