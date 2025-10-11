@@ -42,8 +42,6 @@ import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserQuery;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserRoleRepository;
-import com.bernardomg.security.user.usecase.notificator.UserNotificator;
-import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
@@ -72,16 +70,6 @@ public final class DefaultUserService implements UserService {
     private final RoleRepository     roleRepository;
 
     /**
-     * Token processor.
-     */
-    private final UserTokenStore     tokenStore;
-
-    /**
-     * Message sender. Registering new users may require emails, or other kind of messaging.
-     */
-    private final UserNotificator    userNotificator;
-
-    /**
      * User repository.
      */
     private final UserRepository     userRepository;
@@ -94,7 +82,7 @@ public final class DefaultUserService implements UserService {
     /**
      * User registration validator.
      */
-    private final Validator<User>    validatorRegisterUser;
+    private final Validator<User>    validatorCreateUser;
 
     /**
      * Update user validator.
@@ -102,19 +90,35 @@ public final class DefaultUserService implements UserService {
     private final Validator<User>    validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo, final UserNotificator userNotf, final UserTokenStore tStore) {
+            final UserRoleRepository userRoleRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
         userRoleRepository = Objects.requireNonNull(userRoleRepo);
-        userNotificator = Objects.requireNonNull(userNotf);
-        tokenStore = Objects.requireNonNull(tStore);
 
-        validatorRegisterUser = new FieldRuleValidator<>(new UserEmailFormatRule(),
-            new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
+        validatorCreateUser = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserEmailNotExistsRule(userRepo),
+            new UserUsernameNotExistsRule(userRepository));
         validatorUpdateUser = new FieldRuleValidator<>(new UserEmailFormatRule(),
             new UserEmailNotExistsForAnotherRule(userRepo), new UserRolesNotDuplicatedRule());
+    }
+
+    @Override
+    public final User create(final String username, final String name, final String email) {
+        final User user;
+        final User created;
+
+        log.trace("Registering new user {} with email {}", username, email);
+
+        user = User.newUser(username, email, name);
+
+        validatorCreateUser.validate(user);
+
+        created = userRepository.saveNewUser(user);
+
+        log.trace("Registered new user {} with email {}", username, email);
+
+        return created;
     }
 
     @Override
@@ -183,34 +187,6 @@ public final class DefaultUserService implements UserService {
         log.trace("Read user {}", username);
 
         return user;
-    }
-
-    @Override
-    public final User registerNewUser(final String username, final String name, final String email) {
-        final User   user;
-        final User   created;
-        final String token;
-
-        log.trace("Registering new user {} with email {}", username, email);
-
-        user = User.newUser(username, email, name);
-
-        validatorRegisterUser.validate(user);
-
-        created = userRepository.saveNewUser(user);
-
-        // Revoke previous tokens
-        tokenStore.revokeExistingTokens(created.username());
-
-        // Register new token
-        token = tokenStore.createToken(created.username());
-
-        // TODO: Handle through events
-        userNotificator.sendUserRegisteredMessage(created.email(), username, token);
-
-        log.trace("Registered new user {} with email {}", username, email);
-
-        return created;
     }
 
     @Override

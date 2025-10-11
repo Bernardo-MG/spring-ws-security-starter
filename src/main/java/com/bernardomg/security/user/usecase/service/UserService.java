@@ -42,6 +42,19 @@ import com.bernardomg.security.user.domain.model.UserQuery;
 public interface UserService {
 
     /**
+     * Persists the received user.
+     *
+     * @param username
+     *            username for the user to persist
+     * @param name
+     *            name for the user to persist
+     * @param email
+     *            email for the user to persist
+     * @return the persisted user
+     */
+    public User create(final String username, final String name, final String email);
+
+    /**
      * Deletes the user with the received id.
      *
      * @param username
@@ -85,19 +98,6 @@ public interface UserService {
      * @return an {@code Optional} with the user, if it exists, of an empty {@code Optional} otherwise
      */
     public Optional<User> getOne(final String username);
-
-    /**
-     * Persists the received user.
-     *
-     * @param username
-     *            username for the user to persist
-     * @param name
-     *            name for the user to persist
-     * @param email
-     *            email for the user to persist
-     * @return the persisted user
-     */
-    public User registerNewUser(final String username, final String name, final String email);
 
     /**
      * Updates the received user with the received data.

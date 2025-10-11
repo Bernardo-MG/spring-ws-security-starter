@@ -85,7 +85,7 @@ class ITFullNewUserRegisterProcess {
         changeToAdmin();
 
         // Register new user
-        userService.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        userService.create(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // Validate new token
         token = userTokenRepository.findAll()

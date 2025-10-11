@@ -85,8 +85,7 @@ public class UserController implements UserApi {
     public UserResponseDto createUser(@Valid final UserCreationDto userCreationDto) {
         final User user;
 
-        user = service.registerNewUser(userCreationDto.getUsername(), userCreationDto.getName(),
-            userCreationDto.getEmail());
+        user = service.create(userCreationDto.getUsername(), userCreationDto.getName(), userCreationDto.getEmail());
 
         return UserDtoMapper.toResponseDto(user);
     }

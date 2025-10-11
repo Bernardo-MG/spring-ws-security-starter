@@ -27,8 +27,8 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultUserService - register new user")
-class TestUserServiceRegisterNewUser {
+@DisplayName("DefaultUserService - create user")
+class TestUserServiceCreateUser {
 
     @Mock
     private PasswordEncoder    passwordEncoder;
@@ -53,13 +53,12 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Sends the user to the repository, ignoring case")
-    void testRegisterNewUser_Case_AddsEntity() {
+    void testCreateUser_Case_AddsEntity() {
         // GIVEN
         given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
-            UserConstants.EMAIL.toUpperCase());
+        service.create(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME, UserConstants.EMAIL.toUpperCase());
 
         // THEN
         verify(userRepository).saveNewUser(Users.newlyCreated());
@@ -67,14 +66,14 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Returns the created user, ignoring case")
-    void testRegisterNewUser_Case_ReturnedData() {
+    void testCreateUser_Case_ReturnedData() {
         final User user;
 
         // GIVEN
         given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.registerNewUser(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
+        user = service.create(UserConstants.USERNAME.toUpperCase(), UserConstants.NAME,
             UserConstants.EMAIL.toUpperCase());
 
         // THEN
@@ -84,7 +83,7 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Throws an exception when the email already exists")
-    void testRegisterNewUser_ExistingEmail() {
+    void testCreateUser_ExistingEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -92,7 +91,7 @@ class TestUserServiceRegisterNewUser {
         given(userRepository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
 
         // WHEN
-        executable = () -> service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        executable = () -> service.create(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
         failure = new FieldFailure("existing", "email", "email.existing", UserConstants.EMAIL);
@@ -102,7 +101,7 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Throws an exception when the username already exists")
-    void testRegisterNewUser_ExistingUsername() {
+    void testCreateUser_ExistingUsername() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
@@ -110,7 +109,7 @@ class TestUserServiceRegisterNewUser {
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        executable = () -> service.create(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
         failure = new FieldFailure("existing", "username", "username.existing", UserConstants.USERNAME);
@@ -120,12 +119,12 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Throws an exception when the email has an invalid format")
-    void testRegisterNewUser_InvalidEmail() {
+    void testCreateUser_InvalidEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
 
         // WHEN
-        executable = () -> service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, "abc");
+        executable = () -> service.create(UserConstants.USERNAME, UserConstants.NAME, "abc");
 
         // THEN
         failure = new FieldFailure("invalid", "email", "email.invalid", "abc");
@@ -135,12 +134,12 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Sends the user to the repository, padded with whitespace")
-    void testRegisterNewUser_Padded_AddsEntity() {
+    void testCreateUser_Padded_AddsEntity() {
         // GIVEN
         given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        service.registerNewUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
+        service.create(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
             " " + UserConstants.EMAIL + " ");
 
         // THEN
@@ -149,14 +148,14 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Returns the created user, padded with whitespace")
-    void testRegisterNewUser_Padded_ReturnedData() {
+    void testCreateUser_Padded_ReturnedData() {
         final User user;
 
         // GIVEN
         given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.registerNewUser(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
+        user = service.create(" " + UserConstants.USERNAME + " ", " " + UserConstants.NAME + " ",
             " " + UserConstants.EMAIL + " ");
 
         // THEN
@@ -166,12 +165,12 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Sends the user to the repository")
-    void testRegisterNewUser_PersistedData() {
+    void testCreateUser_PersistedData() {
         // GIVEN
         given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        service.create(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
         verify(userRepository).saveNewUser(Users.newlyCreated());
@@ -179,14 +178,14 @@ class TestUserServiceRegisterNewUser {
 
     @Test
     @DisplayName("Returns the created user")
-    void testRegisterNewUser_ReturnedData() {
+    void testCreateUser_ReturnedData() {
         final User user;
 
         // GIVEN
         given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
 
         // WHEN
-        user = service.registerNewUser(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
+        user = service.create(UserConstants.USERNAME, UserConstants.NAME, UserConstants.EMAIL);
 
         // THEN
         Assertions.assertThat(user)

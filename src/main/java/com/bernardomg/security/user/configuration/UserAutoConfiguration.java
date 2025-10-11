@@ -142,9 +142,8 @@ public class UserAutoConfiguration {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo, final UserNotificator mSender,
-            @Qualifier("userTokenStore") final UserTokenStore tokenStore) {
-        return new DefaultUserService(userRepo, roleRepo, userRoleRepo, mSender, tokenStore);
+            final UserRoleRepository userRoleRepo) {
+        return new DefaultUserService(userRepo, roleRepo, userRoleRepo);
     }
 
     @Bean("userTokenStore")
