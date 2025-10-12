@@ -43,6 +43,7 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.adapter.inbound.event.LoginFailureBlockerListener;
+import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificatorListener;
 import com.bernardomg.security.user.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
@@ -104,6 +105,12 @@ public class UserAutoConfiguration {
         return new LoginFailureBlockerListener(userAccessService);
     }
 
+    @Bean("userInvitationNotificatorListener")
+    public UserInvitationNotificatorListener
+            getUserInvitationNotificatorListener(final UserNotificationService userNotificationService) {
+        return new UserInvitationNotificatorListener(userNotificationService);
+    }
+
     @Bean("userLoginAttempsService")
     public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
             final LoginProperties userAccessProperties) {
@@ -121,7 +128,8 @@ public class UserAutoConfiguration {
             .url());
         return new SpringMailUserNotificationService(templateEng, mailSender, properties.from(),
             properties.activateUser()
-                .url(), properties.appName());
+                .url(),
+            properties.appName());
     }
 
     @Bean("userOnboardingService")
