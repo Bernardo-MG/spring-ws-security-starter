@@ -28,12 +28,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.user.adapter.inbound.event.CleanUpTokensOnMonthStartEventListener;
 import com.bernardomg.security.user.adapter.inbound.initializer.TokenPermissionRegister;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
-import com.bernardomg.security.user.adapter.inbound.schedule.UserTokenCleanUpScheduleTask;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.usecase.service.SpringUserTokenService;
 import com.bernardomg.security.user.usecase.service.UserTokenService;
@@ -52,9 +52,10 @@ public class UserTokenConfiguration {
         super();
     }
 
-    @Bean("tokenCleanUpScheduleTask")
-    public UserTokenCleanUpScheduleTask getTokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
-        return new UserTokenCleanUpScheduleTask(tokenCleanUpService);
+    @Bean("userInvitationNotificatorListener")
+    public CleanUpTokensOnMonthStartEventListener
+            getCleanUpTokensOnMonthStartEventListener(final UserTokenService userTokenService) {
+        return new CleanUpTokensOnMonthStartEventListener(userTokenService);
     }
 
     @Bean("tokenPermissionRegister")

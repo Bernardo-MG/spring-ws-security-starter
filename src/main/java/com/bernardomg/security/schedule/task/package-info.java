@@ -26,4 +26,4 @@
  * Scheduling components.
  */
 
-package com.bernardomg.security.user.adapter.inbound.schedule;
+package com.bernardomg.security.schedule.task;

@@ -22,32 +22,50 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.configuration;
+package com.bernardomg.security.user.adapter.inbound.event;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
+import java.util.Objects;
 
-import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.security.schedule.task.MonthStartScheduleTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.security.schedule.event.MonthStartEvent;
+import com.bernardomg.security.user.usecase.service.UserTokenService;
 
 /**
- * Security auto configuration.
+ * Listens for login failure events, and blocks the user after a number of failures.
  *
  * @author Bernardo Mart&iacute;nez Garrido
- *
  */
-@AutoConfiguration
-@Import({ SecurityConfiguration.class })
-public class SecurityAutoConfiguration {
+public final class CleanUpTokensOnMonthStartEventListener implements EventListener<MonthStartEvent> {
 
-    public SecurityAutoConfiguration() {
+    /**
+     * Logger for the class.
+     */
+    private static final Logger    log = LoggerFactory.getLogger(CleanUpTokensOnMonthStartEventListener.class);
+
+    /**
+     * User token service.
+     */
+    private final UserTokenService service;
+
+    public CleanUpTokensOnMonthStartEventListener(final UserTokenService userTokenService) {
         super();
+
+        service = Objects.requireNonNull(userTokenService);
     }
 
-    @Bean("monthStartScheduleTask")
-    public MonthStartScheduleTask getMonthStartScheduleTask(final EventEmitter eventEmit) {
-        return new MonthStartScheduleTask(eventEmit);
+    @Override
+    public final Class<MonthStartEvent> getEventType() {
+        return MonthStartEvent.class;
+    }
+
+    @Override
+    public final void handle(final MonthStartEvent event) {
+        log.info("Starting token cleanup task");
+        service.cleanUpTokens();
+        log.info("Finished token cleanup task");
     }
 
 }

@@ -22,50 +22,52 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.adapter.inbound.schedule;
+package com.bernardomg.security.schedule.event;
 
+import java.time.YearMonth;
 import java.util.Objects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-
-import com.bernardomg.security.user.usecase.service.UserTokenService;
+import com.bernardomg.event.domain.AbstractEvent;
 
 /**
- * Token clean up scheduled task. It delegates the actual clean up to {@link UserTokenService}.
- * <p>
- * This clean up is executed monthly.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * New month has started event.
  */
-public class UserTokenCleanUpScheduleTask {
+public final class MonthStartEvent extends AbstractEvent {
 
-    /**
-     * Logger for the class.
-     */
-    private static final Logger    log = LoggerFactory.getLogger(UserTokenCleanUpScheduleTask.class);
+    private static final long serialVersionUID = 7173269718677701462L;
 
-    /**
-     * Token clean up service.
-     */
-    private final UserTokenService service;
+    private final YearMonth   month;
 
-    public UserTokenCleanUpScheduleTask(final UserTokenService tokenCleanUpService) {
-        super();
+    public MonthStartEvent(final Object source, final YearMonth date) {
+        super(source);
 
-        service = Objects.requireNonNull(tokenCleanUpService);
+        month = date;
     }
 
-    @Async
-    @Scheduled(cron = "0 0 0 1 1/1 *")
-    public void cleanUpTokens() {
-        log.info("Starting token cleanup task");
-        // TODO: can't use a daily event?
-        service.cleanUpTokens();
-        log.info("Finished token cleanup task");
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final MonthStartEvent other = (MonthStartEvent) obj;
+        return Objects.equals(month, other.month);
+    }
+
+    public YearMonth getMonth() {
+        return month;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), month);
+    }
+
+    @Override
+    public String toString() {
+        return "MonthStartEvent [month=" + month + "]";
     }
 
 }
