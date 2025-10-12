@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.user.usecase.service;
 
+import com.bernardomg.security.user.domain.model.User;
+
 /**
  * User notificator. Sends emails related to the user workflow, such as when a new user is registered.
  *
@@ -33,15 +35,13 @@ package com.bernardomg.security.user.usecase.service;
 public interface UserNotificationService {
 
     /**
-     * Sends a user registered message to the received email. This is used to activate the new user.
+     * Sends an invitation message to the received user.
      *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username of the new user
+     * @param user
+     *            invited user
      * @param token
      *            token to activate the user
      */
-    public void sendUserInvitationMessage(final String email, final String username, final String token);
+    public void sendUserInvitation(final User user, final String token);
 
 }

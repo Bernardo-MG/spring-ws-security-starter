@@ -15,7 +15,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
@@ -38,14 +38,14 @@ class SpringMailUserNotificationServiceTest {
     @BeforeEach
     private final void initializeSender() {
         userNotificationService = new SpringMailUserNotificationService(templateEng, javaMailSender,
-            "sender@somewhere.com", "http://somewhere.com");
+            "sender@somewhere.com", "http://somewhere.com", "App");
     }
 
     @Test
     @DisplayName("The message is sent")
-    void testSendEmail_MessageSent() throws Exception {
+    void testSendUserInvitation_MessageSent() throws Exception {
         // WHEN
-        userNotificationService.sendUserInvitationMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
+        userNotificationService.sendUserInvitation(Users.enabled(), Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

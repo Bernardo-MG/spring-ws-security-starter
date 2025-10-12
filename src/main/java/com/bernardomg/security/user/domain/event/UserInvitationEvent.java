@@ -27,6 +27,7 @@ package com.bernardomg.security.user.domain.event;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
+import com.bernardomg.security.user.domain.model.User;
 
 /**
  * Log in attempt event. It is created no matter if the attempt was succesful or not.
@@ -35,17 +36,14 @@ public final class UserInvitationEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 4486597593510214141L;
 
-    private final String      email;
-
     private final String      token;
 
-    private final String      username;
+    private final User        user;
 
-    public UserInvitationEvent(final Object source, final String email, final String username, final String token) {
+    public UserInvitationEvent(final Object source, final User user, final String token) {
         super(source);
 
-        this.email = Objects.requireNonNull(email);
-        this.username = Objects.requireNonNull(username);
+        this.user = Objects.requireNonNull(user);
         this.token = Objects.requireNonNull(token);
     }
 
@@ -58,30 +56,25 @@ public final class UserInvitationEvent extends AbstractEvent {
             return false;
         }
         final UserInvitationEvent other = (UserInvitationEvent) obj;
-        return Objects.equals(email, other.email) && Objects.equals(token, other.token)
-                && Objects.equals(username, other.username);
-    }
-
-    public final String getEmail() {
-        return email;
+        return Objects.equals(user, other.user) && Objects.equals(token, other.token);
     }
 
     public final String getToken() {
         return token;
     }
 
-    public final String getUsername() {
-        return username;
+    public final User getUser() {
+        return user;
     }
 
     @Override
     public final int hashCode() {
-        return Objects.hash(email, token, username);
+        return Objects.hash(user, token);
     }
 
     @Override
     public final String toString() {
-        return "UserInvitationEvent [email=" + email + ", username=" + username + ", token=" + token + "]";
+        return "UserInvitationEvent [user=" + user + ", token=" + token + "]";
     }
 
 }
