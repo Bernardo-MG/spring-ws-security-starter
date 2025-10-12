@@ -29,7 +29,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "email.security")
 public final record UserNotificatorProperties(String from, String appName, ActivateUserProperties activateUser) {
 
-    public UserNotificatorProperties(final String from, final String appName, final ActivateUserProperties activateUser) {
+    public UserNotificatorProperties(final String from, final String appName,
+            final ActivateUserProperties activateUser) {
         this.from = from;
         this.appName = appName;
         if (activateUser == null) {

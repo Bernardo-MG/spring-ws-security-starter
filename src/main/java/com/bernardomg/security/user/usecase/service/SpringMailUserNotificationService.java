@@ -56,6 +56,11 @@ public final class SpringMailUserNotificationService implements UserNotification
         .getLogger(SpringMailUserNotificationService.class);
 
     /**
+     * App name for the title.
+     */
+    private final String               appName;
+
+    /**
      * Email for the from field.
      */
     private final String               fromEmail;
@@ -71,19 +76,14 @@ public final class SpringMailUserNotificationService implements UserNotification
     private final SpringTemplateEngine templateEngine;
 
     /**
-     * Subject when the user is registered.
-     */
-    private final String               userRegisteredSubject = "User registered";
-
-    /**
      * URL for the registered user email, to activate the user.
      */
     private final String               userActivationUrl;
-    
+
     /**
-     * App name for the title.
+     * Subject when the user is registered.
      */
-    private final String appName;
+    private final String               userRegisteredSubject = "User registered";
 
     public SpringMailUserNotificationService(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
             final String frmEmail, final String userActUrl, final String appNm) {
@@ -104,15 +104,15 @@ public final class SpringMailUserNotificationService implements UserNotification
         log.debug("Sending user registered email to {} for {}", user.email(), user.username());
 
         activationUrl = generateUrl(userActivationUrl, token);
-        userRegisteredEmailText = generateEmailContent("mail/user-welcome", activationUrl,  user);
+        userRegisteredEmailText = generateEmailContent("mail/user-welcome", activationUrl, user);
 
         // TODO: Send template name and parameters
         sendEmail(user.email(), userRegisteredSubject, userRegisteredEmailText);
 
-        log.debug("Sent user registered email to {} for {}", user.email(),  user.username());
+        log.debug("Sent user registered email to {} for {}", user.email(), user.username());
     }
 
-    private final String generateEmailContent(final String templateName, final String url,final User user) {
+    private final String generateEmailContent(final String templateName, final String url, final User user) {
         final Context context;
 
         context = new Context();

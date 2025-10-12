@@ -38,7 +38,7 @@ public final class UserInvitationEvent extends AbstractEvent {
 
     private final String      token;
 
-    private final User user;
+    private final User        user;
 
     public UserInvitationEvent(final Object source, final User user, final String token) {
         super(source);

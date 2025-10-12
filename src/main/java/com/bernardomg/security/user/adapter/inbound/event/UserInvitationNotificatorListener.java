@@ -60,7 +60,8 @@ public final class UserInvitationNotificatorListener implements EventListener<Us
 
     @Override
     public final void handle(final UserInvitationEvent event) {
-        log.debug("Handling invitation notification for user {}", event.getUser().username());
+        log.debug("Handling invitation notification for user {}", event.getUser()
+            .username());
         userNotificationService.sendUserInvitation(event.getUser(), event.getToken());
     }
 
