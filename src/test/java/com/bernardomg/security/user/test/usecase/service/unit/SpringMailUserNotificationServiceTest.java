@@ -43,9 +43,9 @@ class SpringMailUserNotificationServiceTest {
 
     @Test
     @DisplayName("The message is sent")
-    void testSendEmail_MessageSent() throws Exception {
+    void testSendUserInvitation_MessageSent() throws Exception {
         // WHEN
-        userNotificationService.sendUserInvitationMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
+        userNotificationService.sendUserInvitation(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

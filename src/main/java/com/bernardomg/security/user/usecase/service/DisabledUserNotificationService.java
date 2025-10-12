@@ -44,7 +44,7 @@ public final class DisabledUserNotificationService implements UserNotificationSe
     }
 
     @Override
-    public final void sendUserInvitationMessage(final String email, final String username, final String token) {
+    public final void sendUserInvitation(final String email, final String username, final String token) {
         // To avoid sending emails
         log.warn("Disabled invitation notification");
     }

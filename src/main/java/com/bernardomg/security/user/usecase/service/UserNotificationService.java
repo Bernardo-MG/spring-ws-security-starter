@@ -42,6 +42,6 @@ public interface UserNotificationService {
      * @param token
      *            token to activate the user
      */
-    public void sendUserInvitationMessage(final String email, final String username, final String token);
+    public void sendUserInvitation(final String email, final String username, final String token);
 
 }

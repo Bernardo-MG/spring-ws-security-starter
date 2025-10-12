@@ -89,7 +89,7 @@ public final class SpringMailUserNotificationService implements UserNotification
     }
 
     @Override
-    public final void sendUserInvitationMessage(final String email, final String username, final String token) {
+    public final void sendUserInvitation(final String email, final String username, final String token) {
         final String recoveryUrl;
         final String userRegisteredEmailText;
 
