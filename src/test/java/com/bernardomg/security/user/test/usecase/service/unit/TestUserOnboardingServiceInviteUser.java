@@ -198,8 +198,7 @@ class TestUserOnboardingServiceInviteUser {
         // GIVEN
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
-        userInvitationEvent = new UserInvitationEvent(service, UserConstants.EMAIL, UserConstants.USERNAME,
-            Tokens.TOKEN);
+        userInvitationEvent = new UserInvitationEvent(service, Users.enabled(), Tokens.TOKEN);
 
         // WHEN
         service.inviteUser(Users.withoutRoles());

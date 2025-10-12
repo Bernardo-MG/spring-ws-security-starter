@@ -121,7 +121,7 @@ public class UserAutoConfiguration {
             .url());
         return new SpringMailUserNotificationService(templateEng, mailSender, properties.from(),
             properties.activateUser()
-                .url());
+                .url(), properties.appName());
     }
 
     @Bean("userOnboardingService")

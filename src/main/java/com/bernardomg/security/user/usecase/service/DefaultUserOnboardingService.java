@@ -178,7 +178,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         // Register new token for activation
         token = tokenStore.createToken(created.username());
 
-        userInvitationEvent = new UserInvitationEvent(this, created.email(), created.username(), token);
+        userInvitationEvent = new UserInvitationEvent(this, created, token);
         eventEmitter.emit(userInvitationEvent);
 
         log.trace("Invited new user {} with email {} and name {}", created.username(), created.email(), user.name());

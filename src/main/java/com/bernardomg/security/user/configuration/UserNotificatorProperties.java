@@ -27,10 +27,11 @@ package com.bernardomg.security.user.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "email.security")
-public final record UserNotificatorProperties(String from, ActivateUserProperties activateUser) {
+public final record UserNotificatorProperties(String from, String appName, ActivateUserProperties activateUser) {
 
-    public UserNotificatorProperties(final String from, final ActivateUserProperties activateUser) {
+    public UserNotificatorProperties(final String from, final String appName, final ActivateUserProperties activateUser) {
         this.from = from;
+        this.appName = appName;
         if (activateUser == null) {
             this.activateUser = new ActivateUserProperties("");
         } else {

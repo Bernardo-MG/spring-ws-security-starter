@@ -28,6 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.security.user.domain.model.User;
+
 /**
  * Disabled user notificator. For disabling emailing.
  */
@@ -44,7 +46,7 @@ public final class DisabledUserNotificationService implements UserNotificationSe
     }
 
     @Override
-    public final void sendUserInvitation(final String email, final String username, final String token) {
+    public final void sendUserInvitation(final User user, final String token) {
         // To avoid sending emails
         log.warn("Disabled invitation notification");
     }

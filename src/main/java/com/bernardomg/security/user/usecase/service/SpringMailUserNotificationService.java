@@ -35,6 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.security.user.domain.model.User;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -76,40 +78,49 @@ public final class SpringMailUserNotificationService implements UserNotification
     /**
      * URL for the registered user email, to activate the user.
      */
-    private final String               userRegisteredUrl;
+    private final String               userActivationUrl;
+    
+    /**
+     * App name for the title.
+     */
+    private final String appName;
 
     public SpringMailUserNotificationService(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
-            final String frmEmail, final String userRegUrl) {
+            final String frmEmail, final String userActUrl, final String appNm) {
         super();
 
         templateEngine = Objects.requireNonNull(templateEng);
         mailSender = Objects.requireNonNull(mailSendr);
         fromEmail = Objects.requireNonNull(frmEmail);
-        userRegisteredUrl = Objects.requireNonNull(userRegUrl);
+        userActivationUrl = Objects.requireNonNull(userActUrl);
+        appName = Objects.requireNonNull(appNm);
     }
 
     @Override
-    public final void sendUserInvitation(final String email, final String username, final String token) {
-        final String recoveryUrl;
+    public final void sendUserInvitation(final User user, final String token) {
+        final String activationUrl;
         final String userRegisteredEmailText;
 
-        log.debug("Sending user registered email to {} for {}", email, username);
+        log.debug("Sending user registered email to {} for {}", user.email(), user.username());
 
-        recoveryUrl = generateUrl(userRegisteredUrl, token);
-        userRegisteredEmailText = generateEmailContent("mail/user-welcome", recoveryUrl, username);
+        activationUrl = generateUrl(userActivationUrl, token);
+        userRegisteredEmailText = generateEmailContent("mail/user-welcome", activationUrl,  user);
 
         // TODO: Send template name and parameters
-        sendEmail(email, userRegisteredSubject, userRegisteredEmailText);
+        sendEmail(user.email(), userRegisteredSubject, userRegisteredEmailText);
 
-        log.debug("Sent user registered email to {} for {}", email, username);
+        log.debug("Sent user registered email to {} for {}", user.email(),  user.username());
     }
 
-    private final String generateEmailContent(final String templateName, final String url, final String username) {
+    private final String generateEmailContent(final String templateName, final String url,final User user) {
         final Context context;
 
         context = new Context();
         context.setVariable("url", url);
-        context.setVariable("username", username);
+        context.setVariable("appName", appName);
+        context.setVariable("name", user.name());
+        context.setVariable("username", user.username());
+        context.setVariable("username", user.username());
         return templateEngine.process(templateName, context);
     }
 
