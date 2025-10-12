@@ -120,7 +120,6 @@ public final class SpringMailUserNotificationService implements UserNotification
         context.setVariable("appName", appName);
         context.setVariable("name", user.name());
         context.setVariable("username", user.username());
-        context.setVariable("username", user.username());
         return templateEngine.process(templateName, context);
     }
 
