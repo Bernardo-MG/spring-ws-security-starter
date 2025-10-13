@@ -34,6 +34,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
+import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntityMapper;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 
@@ -70,7 +71,7 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = loginRegisterSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(LoginRegisterEntityMapper::toDomain);
 
         return SpringPagination.toPage(page);
     }
@@ -82,26 +83,11 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
 
         log.trace("Saving login register {}", register);
 
-        entity = toEntity(register);
+        entity = LoginRegisterEntityMapper.toEntity(register);
 
         saved = loginRegisterSpringRepository.save(entity);
 
-        return toDomain(saved);
-    }
-
-    private final LoginRegister toDomain(final LoginRegisterEntity login) {
-        return new LoginRegister(login.getUsername(), login.getLoggedIn(), login.getDate());
-    }
-
-    private final LoginRegisterEntity toEntity(final LoginRegister login) {
-        final LoginRegisterEntity entity;
-
-        entity = new LoginRegisterEntity();
-        entity.setUsername(login.username());
-        entity.setLoggedIn(login.loggedIn());
-        entity.setDate(login.date());
-
-        return entity;
+        return LoginRegisterEntityMapper.toDomain(saved);
     }
 
 }

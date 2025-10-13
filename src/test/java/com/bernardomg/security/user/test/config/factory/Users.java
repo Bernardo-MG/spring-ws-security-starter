@@ -2,6 +2,7 @@
 package com.bernardomg.security.user.test.config.factory;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
@@ -51,8 +52,7 @@ public final class Users {
     }
 
     public static final User invalidEmail() {
-        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of(Roles.withSinglePermission()));
+        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true, true, List.of());
     }
 
     public static final User locked() {
@@ -75,9 +75,9 @@ public final class Users {
             List.of(Roles.withSinglePermission()));
     }
 
-    public static final User noRoles() {
-        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of());
+    public static final User padded() {
+        return new User(" " + UserConstants.EMAIL + " ", " " + UserConstants.USERNAME + " ",
+            " " + UserConstants.NAME + " ", true, true, true, false, List.of());
     }
 
     public static final User passwordExpired() {
@@ -90,6 +90,12 @@ public final class Users {
             List.of(Roles.withSinglePermission()));
     }
 
+    public static final User upperCase() {
+        return new User(UserConstants.EMAIL.toUpperCase(Locale.getDefault()),
+            UserConstants.USERNAME.toUpperCase(Locale.getDefault()),
+            UserConstants.NAME.toUpperCase(Locale.getDefault()), true, true, true, false, List.of());
+    }
+
     public static final User withoutPermissions() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
             List.of(Roles.withoutPermissions()));
@@ -98,6 +104,11 @@ public final class Users {
     public static final User withoutRoles() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
             List.of());
+    }
+
+    public static final User withRole() {
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
+            List.of(Roles.withSinglePermission()));
     }
 
 }

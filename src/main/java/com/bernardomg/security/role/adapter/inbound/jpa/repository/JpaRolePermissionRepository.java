@@ -37,7 +37,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
@@ -91,7 +91,7 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
             roleEntity = readRole.get();
             pageable = SpringPagination.toPageable(pagination, sorting);
             permissionsPage = resourcePermissionSpringRepository.findAllAvailableToRole(roleEntity.getId(), pageable)
-                .map(this::toDomain);
+                .map(ResourcePermissionEntityMapper::toDomain);
             permissions = SpringPagination.toPage(permissionsPage);
         } else {
             log.warn("Role {} doesn't exist. Can't find available permissions", role);
@@ -99,10 +99,6 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
         }
 
         return permissions;
-    }
-
-    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return new ResourcePermission(entity.getResource(), entity.getAction());
     }
 
 }

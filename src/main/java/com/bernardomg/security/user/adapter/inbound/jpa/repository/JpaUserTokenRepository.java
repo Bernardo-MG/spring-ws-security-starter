@@ -41,6 +41,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserDataTokenEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserDataTokenEntityMapper;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserTokenEntity;
 import com.bernardomg.security.user.domain.model.UserToken;
@@ -96,7 +97,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = userDataTokenSpringRepository.findAll(pageable)
-            .map(this::toDomain);
+            .map(UserDataTokenEntityMapper::toDomain);
 
         return SpringPagination.toPage(page);
     }
@@ -107,7 +108,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         return userDataTokenSpringRepository.findAllFinished()
             .stream()
-            .map(this::toDomain)
+            .map(UserDataTokenEntityMapper::toDomain)
             .toList();
     }
 
@@ -117,7 +118,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         return userDataTokenSpringRepository.findAllByRevokedFalseAndUsernameAndScope(username, scope)
             .stream()
-            .map(this::toDomain)
+            .map(UserDataTokenEntityMapper::toDomain)
             .toList();
     }
 
@@ -126,7 +127,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         log.trace("Finding token");
 
         return userDataTokenSpringRepository.findByToken(token)
-            .map(this::toDomain);
+            .map(UserDataTokenEntityMapper::toDomain);
     }
 
     @Override
@@ -134,7 +135,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         log.trace("Finding token in scope {}", scope);
 
         return userDataTokenSpringRepository.findByTokenAndScope(token, scope)
-            .map(this::toDomain);
+            .map(UserDataTokenEntityMapper::toDomain);
     }
 
     @Override
@@ -147,7 +148,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         log.trace("Saving token");
 
-        entity = toSimpleEntity(token);
+        entity = UserDataTokenEntityMapper.toEntity(token);
 
         existing = userDataTokenSpringRepository.findByToken(token.token());
         // TODO: Else exception
@@ -167,7 +168,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             .get();
 
         // TODO: the view is not updating correctly, remove the view and use queries
-        return toDomain(data, created);
+        return UserDataTokenEntityMapper.toDomain(data, created);
     }
 
     @Override
@@ -211,32 +212,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         return userDataTokenSpringRepository.findAllById(savedIds)
             .stream()
-            .map(this::toDomain)
+            .map(UserDataTokenEntityMapper::toDomain)
             .toList();
-    }
-
-    private final UserToken toDomain(final UserDataTokenEntity data) {
-        return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
-            data.getCreationDate(), data.getExpirationDate(), data.isConsumed(), data.isRevoked());
-    }
-
-    private final UserToken toDomain(final UserDataTokenEntity data, final UserTokenEntity created) {
-        return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
-            data.getCreationDate(), created.getExpirationDate(), data.isConsumed(), created.isRevoked());
-    }
-
-    private final UserTokenEntity toSimpleEntity(final UserToken dataToken) {
-        final UserTokenEntity entity;
-
-        entity = new UserTokenEntity();
-        entity.setToken(dataToken.token());
-        entity.setScope(dataToken.scope());
-        entity.setCreationDate(dataToken.creationDate());
-        entity.setExpirationDate(dataToken.expirationDate());
-        entity.setConsumed(dataToken.consumed());
-        entity.setRevoked(dataToken.revoked());
-
-        return entity;
     }
 
     private final UserTokenEntity toSimpleEntityLoadUsername(final UserToken dataToken) {

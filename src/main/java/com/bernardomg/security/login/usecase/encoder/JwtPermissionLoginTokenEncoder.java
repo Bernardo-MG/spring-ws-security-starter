@@ -4,6 +4,7 @@ package com.bernardomg.security.login.usecase.encoder;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -88,11 +89,11 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
         // Resource name in lower case
         resourceMapper = ResourcePermission::resource;
-        resourceMapper = resourceMapper.andThen(String::toLowerCase);
+        resourceMapper = resourceMapper.andThen(r -> r.toLowerCase(Locale.getDefault()));
 
         // Action name in lower case
         actionMapper = ResourcePermission::action;
-        actionMapper = actionMapper.andThen(String::toLowerCase);
+        actionMapper = actionMapper.andThen(a -> a.toLowerCase(Locale.getDefault()));
 
         // Transform into a map, with the resource as key, and the list of actions as value
         // TODO: query by id

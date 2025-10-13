@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.account.adapter.inbound.repository.JpaAccountRepository;
+import com.bernardomg.security.account.adapter.inbound.repository.JpaUserAccountRepository;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.usecase.service.AccountService;
 import com.bernardomg.security.account.usecase.service.DefaultAccountService;
@@ -48,7 +48,7 @@ public class AccountAutoConfiguration {
 
     @Bean("accountRepository")
     public AccountRepository getAccountRepository(final UserSpringRepository userSpringRepository) {
-        return new JpaAccountRepository(userSpringRepository);
+        return new JpaUserAccountRepository(userSpringRepository);
     }
 
     @Bean("accountService")

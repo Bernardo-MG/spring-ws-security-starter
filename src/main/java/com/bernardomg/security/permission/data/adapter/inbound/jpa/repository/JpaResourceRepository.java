@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourceEntity;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourceEntityMapper;
 import com.bernardomg.security.permission.data.domain.model.Resource;
 import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
 
@@ -74,14 +75,14 @@ public final class JpaResourceRepository implements ResourceRepository {
         log.debug("Saving resources {}", resources);
 
         entities = resources.stream()
-            .map(this::toEntity)
+            .map(ResourceEntityMapper::toEntity)
             .toList();
         entities.forEach(this::loadId);
 
         created = resourceSpringRepository.saveAll(entities);
 
         return created.stream()
-            .map(this::toDomain)
+            .map(ResourceEntityMapper::toDomain)
             .toList();
     }
 
@@ -93,19 +94,6 @@ public final class JpaResourceRepository implements ResourceRepository {
             entity.setId(existing.get()
                 .getId());
         }
-    }
-
-    private final Resource toDomain(final ResourceEntity entity) {
-        return new Resource(entity.getName());
-    }
-
-    private final ResourceEntity toEntity(final Resource resource) {
-        final ResourceEntity entity;
-
-        entity = new ResourceEntity();
-        entity.setName(resource.name());
-
-        return entity;
     }
 
 }

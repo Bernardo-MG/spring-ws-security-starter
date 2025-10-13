@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.login.usecase.service;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -138,12 +139,12 @@ public final class TokenLoginService implements LoginService {
                     .username();
             } else {
                 log.debug("No user found for email {}", username);
-                validUsername = username.toLowerCase();
+                validUsername = username.toLowerCase(Locale.getDefault());
             }
         } else {
             // Using username for login
             log.debug("Login attempt with username");
-            validUsername = username.toLowerCase();
+            validUsername = username.toLowerCase(Locale.getDefault());
         }
 
         return validUsername;

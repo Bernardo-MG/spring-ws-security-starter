@@ -41,12 +41,13 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
-import com.bernardomg.security.account.adapter.inbound.repository.JpaAccountRepository;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.role.domain.model.Role;
@@ -64,7 +65,7 @@ public final class JpaRoleRepository implements RoleRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                      log = LoggerFactory.getLogger(JpaAccountRepository.class);
+    private static final Logger                      log = LoggerFactory.getLogger(JpaRoleRepository.class);
 
     /**
      * Resource permission repository.
@@ -114,7 +115,7 @@ public final class JpaRoleRepository implements RoleRepository {
         log.debug("Finding available permissions for query {} with pagination {} and sorting {}", query, pagination,
             sorting);
 
-        sample = toEntity(query);
+        sample = RoleEntityMapper.toEntity(query);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = roleSpringRepository.findAll(Example.of(sample), pageable)
@@ -191,12 +192,10 @@ public final class JpaRoleRepository implements RoleRepository {
         return toDomain(savedAgain);
     }
 
-    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return new ResourcePermission(entity.getResource(), entity.getAction());
-    }
-
     private final Role toDomain(final RoleEntity role) {
         final Collection<ResourcePermission> permissions;
+
+        // TODO: move to mapper
 
         if (role.getPermissions() == null) {
             permissions = List.of();
@@ -206,7 +205,7 @@ public final class JpaRoleRepository implements RoleRepository {
                 .filter(Objects::nonNull)
                 .filter(RolePermissionEntity::getGranted)
                 .map(RolePermissionEntity::getResourcePermission)
-                .map(this::toDomain)
+                .map(ResourcePermissionEntityMapper::toDomain)
                 .sorted(new ResourcePermissionComparator())
                 .toList();
         }
@@ -219,6 +218,8 @@ public final class JpaRoleRepository implements RoleRepository {
         final ResourcePermissionEntity           resourceEntity;
         final RolePermissionEntity               entity;
         final RolePermissionId                   id;
+
+        // TODO: move to mapper
 
         read = resourcePermissionSpringRepository.findByName(permission.getName());
 
@@ -241,6 +242,8 @@ public final class JpaRoleRepository implements RoleRepository {
         final Collection<RolePermissionEntity> permissions;
         final RoleEntity                       entity;
 
+        // TODO: move to mapper
+
         permissions = role.permissions()
             .stream()
             .map(this::toEntity)
@@ -249,16 +252,6 @@ public final class JpaRoleRepository implements RoleRepository {
         entity = new RoleEntity();
         entity.setName(role.name());
         entity.setPermissions(permissions);
-
-        return entity;
-    }
-
-    private final RoleEntity toEntity(final RoleQuery role) {
-        final RoleEntity entity;
-
-        // TODO: does it make sense filtering by name?
-        entity = new RoleEntity();
-        entity.setName(role.name());
 
         return entity;
     }

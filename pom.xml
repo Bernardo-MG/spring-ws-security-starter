@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.4.25</version>
+   <version>0.4.26</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -718,13 +718,10 @@
                      <modelNameSuffix>Dto</modelNameSuffix>
                      <typeMappings>
                        <typeMapping>string+date-time=Instant</typeMapping>
-                       <typeMapping>string+month=YearMonth</typeMapping>
                        <typeMapping>InstantDto=Instant</typeMapping>
-                       <typeMapping>YearMonthDto=YearMonth</typeMapping>
                      </typeMappings>
                      <importMappings>
                        <importMapping>InstantDto=java.time.Instant</importMapping>
-                       <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
                      </importMappings>
                      <configOptions>
                         <interfaceOnly>true</interfaceOnly>

@@ -25,7 +25,11 @@
 package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.schedule.task.MonthStartScheduleTask;
 
 /**
  * Security auto configuration.
@@ -39,6 +43,11 @@ public class SecurityAutoConfiguration {
 
     public SecurityAutoConfiguration() {
         super();
+    }
+
+    @Bean("monthStartScheduleTask")
+    public MonthStartScheduleTask getMonthStartScheduleTask(final EventEmitter eventEmit) {
+        return new MonthStartScheduleTask(eventEmit);
     }
 
 }

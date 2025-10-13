@@ -84,11 +84,12 @@ public class UserController implements UserApi {
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public UserResponseDto createUser(@Valid final UserCreationDto userCreationDto) {
         final User user;
+        final User created;
 
-        user = service.registerNewUser(userCreationDto.getUsername(), userCreationDto.getName(),
-            userCreationDto.getEmail());
+        user = UserDtoMapper.toDomain(userCreationDto);
+        created = service.create(user);
 
-        return UserDtoMapper.toResponseDto(user);
+        return UserDtoMapper.toResponseDto(created);
     }
 
     @Override

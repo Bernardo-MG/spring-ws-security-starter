@@ -41,15 +41,11 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.role.domain.comparator.RoleComparator;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntityMapper;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserQuery;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -112,7 +108,7 @@ public final class JpaUserRepository implements UserRepository {
             user.setEnabled(true);
             user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);
-            result = toDomain(updated);
+            result = UserEntityMapper.toDomain(updated);
         } else {
             // TODO: Maybe return an optional
             log.warn("User {} not found", username);
@@ -176,10 +172,10 @@ public final class JpaUserRepository implements UserRepository {
 
         log.trace("Finding users for query {} with pagination {} and sorting {}", query, pagination, sorting);
 
-        entity = toEntity(query);
+        entity = UserEntityMapper.toEntity(query);
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = userSpringRepository.findAll(Example.of(entity), pageable)
-            .map(this::toDomain);
+            .map(UserEntityMapper::toDomain);
 
         return SpringPagination.toPage(page);
     }
@@ -198,7 +194,7 @@ public final class JpaUserRepository implements UserRepository {
         log.trace("Finding user {}", username);
 
         return userSpringRepository.findByUsername(username)
-            .map(this::toDomain);
+            .map(UserEntityMapper::toDomain);
     }
 
     @Override
@@ -206,7 +202,7 @@ public final class JpaUserRepository implements UserRepository {
         log.trace("Finding user by email {}", email);
 
         return userSpringRepository.findByEmail(email)
-            .map(this::toDomain);
+            .map(UserEntityMapper::toDomain);
     }
 
     @Override
@@ -255,7 +251,7 @@ public final class JpaUserRepository implements UserRepository {
             user = read.get();
             user.setNotLocked(false);
             updated = userSpringRepository.save(user);
-            result = toDomain(updated);
+            result = UserEntityMapper.toDomain(updated);
         } else {
             // TODO: Maybe return an optional
             result = new User(null, null, null, false, false, false, false, null);
@@ -286,7 +282,7 @@ public final class JpaUserRepository implements UserRepository {
 
             user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);
-            result = toDomain(updated);
+            result = UserEntityMapper.toDomain(updated);
         } else {
             // TODO: Maybe return an optional
             result = new User(null, null, null, false, false, false, false, null);
@@ -318,7 +314,7 @@ public final class JpaUserRepository implements UserRepository {
         }
 
         saved = userSpringRepository.save(entity);
-        return toDomain(saved);
+        return UserEntityMapper.toDomain(saved);
     }
 
     @Override
@@ -337,42 +333,13 @@ public final class JpaUserRepository implements UserRepository {
 
         saved = userSpringRepository.save(entity);
 
-        return toDomain(saved);
-    }
-
-    private final ResourcePermission toDomain(final ResourcePermissionEntity entity) {
-        return new ResourcePermission(entity.getResource(), entity.getAction());
-    }
-
-    private final Role toDomain(final RoleEntity role) {
-        final Collection<ResourcePermission> permissions;
-
-        permissions = role.getPermissions()
-            .stream()
-            .filter(Objects::nonNull)
-            .filter(RolePermissionEntity::getGranted)
-            .map(RolePermissionEntity::getResourcePermission)
-            .map(this::toDomain)
-            .sorted(new ResourcePermissionComparator())
-            .toList();
-        return new Role(role.getName(), permissions);
-    }
-
-    private final User toDomain(final UserEntity user) {
-        final Collection<Role> roles;
-
-        roles = user.getRoles()
-            .stream()
-            .filter(Objects::nonNull)
-            .map(this::toDomain)
-            .sorted(new RoleComparator())
-            .toList();
-        return new User(user.getEmail(), user.getUsername(), user.getName(), user.getEnabled(), user.getNotExpired(),
-            user.getNotLocked(), user.getPasswordNotExpired(), roles);
+        return UserEntityMapper.toDomain(saved);
     }
 
     private final RoleEntity toEntity(final Role role) {
         final Optional<RoleEntity> read;
+
+        // TODO: move to mapper
 
         read = roleSpringRepository.findByName(role.name());
 
@@ -382,6 +349,8 @@ public final class JpaUserRepository implements UserRepository {
     private final UserEntity toEntity(final User user) {
         final Collection<RoleEntity> roles;
         final UserEntity             entity;
+
+        // TODO: move to mapper
 
         roles = user.roles()
             .stream()
@@ -399,21 +368,6 @@ public final class JpaUserRepository implements UserRepository {
         entity.setPasswordNotExpired(user.passwordNotExpired());
         entity.setRoles(roles);
         entity.setLoginAttempts(0);
-
-        return entity;
-    }
-
-    private final UserEntity toEntity(final UserQuery user) {
-        final UserEntity entity;
-
-        entity = new UserEntity();
-        entity.setUsername(user.username());
-        entity.setName(user.name());
-        entity.setEmail(user.email());
-        entity.setEnabled(user.enabled());
-        entity.setNotExpired(user.notExpired());
-        entity.setNotLocked(user.notLocked());
-        entity.setPasswordNotExpired(user.passwordNotExpired());
 
         return entity;
     }

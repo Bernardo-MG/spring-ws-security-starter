@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.role.test.domain.repository.integration;
 
+import java.util.Locale;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +45,7 @@ class ITRoleRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(RoleConstants.NAME.toUpperCase());
+        exists = repository.exists(RoleConstants.NAME.toUpperCase(Locale.getDefault()));
 
         // THEN
         Assertions.assertThat(exists)

@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionEntity;
+import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ActionEntityMapper;
 import com.bernardomg.security.permission.data.domain.model.Action;
 import com.bernardomg.security.permission.data.domain.repository.ActionRepository;
 
@@ -74,14 +75,14 @@ public final class JpaActionRepository implements ActionRepository {
         log.debug("Saving actions {}", actions);
 
         entities = actions.stream()
-            .map(this::toEntity)
+            .map(ActionEntityMapper::toEntity)
             .toList();
         entities.forEach(this::loadId);
 
         created = actionSpringRepository.saveAll(entities);
 
         return created.stream()
-            .map(this::toDomain)
+            .map(ActionEntityMapper::toDomain)
             .toList();
     }
 
@@ -93,19 +94,6 @@ public final class JpaActionRepository implements ActionRepository {
             entity.setId(existing.get()
                 .getId());
         }
-    }
-
-    private final Action toDomain(final ActionEntity action) {
-        return new Action(action.getName());
-    }
-
-    private final ActionEntity toEntity(final Action action) {
-        final ActionEntity entity;
-
-        entity = new ActionEntity();
-        entity.setName(action.name());
-
-        return entity;
     }
 
 }
