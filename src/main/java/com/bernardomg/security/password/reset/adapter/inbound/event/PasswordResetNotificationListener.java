@@ -22,31 +22,47 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.notification.adapter.outbound.disabled;
+package com.bernardomg.security.password.reset.adapter.inbound.event;
+
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
+import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.security.password.reset.domain.event.PasswordResetEvent;
+import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 
 /**
- * Disabled password notificator. For disabling messages.
+ * Listens for login failure events, and blocks the user after a number of failures.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class DisabledPasswordNotificator implements PasswordNotificator {
+public final class PasswordResetNotificationListener implements EventListener<PasswordResetEvent> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(DisabledPasswordNotificator.class);
+    private static final Logger               log = LoggerFactory.getLogger(PasswordResetNotificationListener.class);
 
-    public DisabledPasswordNotificator() {
+    private final PasswordNotificationService passwordNotificationService;
+
+    public PasswordResetNotificationListener(final PasswordNotificationService passwordNotificationService) {
         super();
+
+        this.passwordNotificationService = Objects.requireNonNull(passwordNotificationService);
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
-        // To avoid sending emails
-        log.warn("Password recovery message is disabled");
+    public final Class<PasswordResetEvent> getEventType() {
+        return PasswordResetEvent.class;
+    }
+
+    @Override
+    public final void handle(final PasswordResetEvent event) {
+        log.debug("Handling password reset notification for user {}", event.getUser()
+            .username());
+        passwordNotificationService.sendPasswordRecoveryMessage(event.getUser(), event.getToken());
     }
 
 }

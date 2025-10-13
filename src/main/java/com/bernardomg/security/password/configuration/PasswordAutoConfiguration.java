@@ -41,12 +41,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.password.notification.adapter.outbound.disabled.DisabledPasswordNotificator;
-import com.bernardomg.security.password.notification.adapter.outbound.email.SpringMailPasswordNotificator;
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.password.reset.adapter.inbound.event.PasswordResetNotificationListener;
+import com.bernardomg.security.password.reset.usecase.service.DisabledPasswordNotificationService;
+import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.security.password.reset.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.configuration.UserTokenProperties;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -65,7 +67,7 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.password.reset.adapter.outbound.rest.controller",
         "com.bernardomg.security.password.change.adapter.outbound.rest.controller" })
-@EnableConfigurationProperties({ PasswordNotificatorProperties.class })
+@EnableConfigurationProperties({ PasswordNotificationProperties.class })
 public class PasswordAutoConfiguration {
 
     /**
@@ -77,13 +79,13 @@ public class PasswordAutoConfiguration {
         super();
     }
 
-    @Bean("passwordNotificator")
+    @Bean("passwordNotificationService")
     // @ConditionalOnMissingBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
-    public PasswordNotificator getDefaultPasswordNotificator() {
+    public PasswordNotificationService getDefaultPasswordNotificationService() {
         // FIXME: This is not handling correctly the missing bean condition
-        log.info("Disabled password notificator");
-        return new DisabledPasswordNotificator();
+        log.info("Disabled password notification");
+        return new DisabledPasswordNotificationService();
     }
 
     @Bean("passwordChangeService")
@@ -97,31 +99,38 @@ public class PasswordAutoConfiguration {
         return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
-    @Bean("passwordNotificator")
+    @Bean("passwordNotificationService")
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
-            final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
+    public PasswordNotificationService getPasswordNotificationService(final SpringTemplateEngine templateEng,
+            final JavaMailSender mailSender, final PasswordNotificationProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for password notifications", properties.from());
         log.info("Password recovery URL: {}", properties.passwordRecovery()
             .url());
-        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.from(),
+        return new SpringMailPasswordNotificationService(templateEng, mailSender, properties.from(),
             properties.passwordRecovery()
-                .url());
+                .url(),
+            properties.appName());
     }
 
     @Bean("passwordRecoveryService")
     public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
-            final UserDetailsService userDetailsService, final PasswordNotificator notificator,
-            final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
-            final UserTokenProperties tokenProperties) {
+            final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder,
+            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties,
+            final EventEmitter eventEmit) {
         final UserTokenStore tokenStore;
 
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
             tokenProperties.validity());
 
-        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, notificator, tokenStore);
+        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, tokenStore, eventEmit);
+    }
+
+    @Bean("passwordResetNotificationListener")
+    public PasswordResetNotificationListener
+            getPasswordResetNotificationListener(final PasswordNotificationService passwordNotificationService) {
+        return new PasswordResetNotificationListener(passwordNotificationService);
     }
 
     @Bean("passwordResetWhitelist")

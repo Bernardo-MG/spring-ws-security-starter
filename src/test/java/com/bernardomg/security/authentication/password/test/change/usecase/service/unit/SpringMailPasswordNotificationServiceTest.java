@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.authentication.password.test.notification.unit;
+package com.bernardomg.security.authentication.password.test.change.usecase.service.unit;
 
 import static org.mockito.Mockito.verify;
 
@@ -15,37 +15,37 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.password.notification.adapter.outbound.email.SpringMailPasswordNotificator;
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
-import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
+import com.bernardomg.security.password.reset.usecase.service.SpringMailPasswordNotificationService;
+import com.bernardomg.security.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringMailPasswordNotificator")
-class SpringMailPasswordNotificatorTest {
+@DisplayName("SpringMailPasswordNotificationService")
+class SpringMailPasswordNotificationServiceTest {
 
     @Mock
-    private JavaMailSender       javaMailSender;
+    private JavaMailSender              javaMailSender;
 
-    private PasswordNotificator  passwordNotificator;
+    private PasswordNotificationService passwordNotificationService;
 
     @Mock
-    private SpringTemplateEngine templateEng;
+    private SpringTemplateEngine        templateEng;
 
-    public SpringMailPasswordNotificatorTest() {
+    public SpringMailPasswordNotificationServiceTest() {
         super();
     }
 
     @BeforeEach
     private final void initializeSender() {
-        passwordNotificator = new SpringMailPasswordNotificator(templateEng, javaMailSender, "sender@somewhere.com",
-            "http://somewhere.com");
+        passwordNotificationService = new SpringMailPasswordNotificationService(templateEng, javaMailSender,
+            "sender@somewhere.com", "http://somewhere.com", "App");
     }
 
     @Test
     @DisplayName("The message content is sent to the target email")
     void testSendEmail_Content() throws Exception {
         // WHEN
-        passwordNotificator.sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME, Tokens.TOKEN);
+        passwordNotificationService.sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

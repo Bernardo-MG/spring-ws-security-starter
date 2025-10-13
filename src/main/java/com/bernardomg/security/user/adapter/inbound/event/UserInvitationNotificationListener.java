@@ -22,33 +22,47 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.usecase.service;
+package com.bernardomg.security.user.adapter.inbound.event;
+
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.event.listener.EventListener;
+import com.bernardomg.security.user.domain.event.UserInvitationEvent;
+import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
 /**
- * Disabled user notification service. For disabling emailing.
+ * Listens of user invitation events, and sends a message.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
  */
-@Transactional
-public final class DisabledUserNotificationService implements UserNotificationService {
+public final class UserInvitationNotificationListener implements EventListener<UserInvitationEvent> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(DisabledUserNotificationService.class);
+    private static final Logger           log = LoggerFactory.getLogger(UserInvitationNotificationListener.class);
 
-    public DisabledUserNotificationService() {
+    private final UserNotificationService userNotificationService;
+
+    public UserInvitationNotificationListener(final UserNotificationService userNotificationService) {
         super();
+
+        this.userNotificationService = Objects.requireNonNull(userNotificationService);
     }
 
     @Override
-    public final void sendUserInvitation(final User user, final String token) {
-        // To avoid sending emails
-        log.warn("Disabled invitation notification");
+    public final Class<UserInvitationEvent> getEventType() {
+        return UserInvitationEvent.class;
+    }
+
+    @Override
+    public final void handle(final UserInvitationEvent event) {
+        log.debug("Handling invitation notification for user {}", event.getUser()
+            .username());
+        userNotificationService.sendUserInvitation(event.getUser(), event.getToken());
     }
 
 }

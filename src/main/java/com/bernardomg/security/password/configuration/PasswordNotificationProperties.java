@@ -27,10 +27,13 @@ package com.bernardomg.security.password.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "email.security")
-public final record PasswordNotificatorProperties(String from, PasswordRecoveryProperties passwordRecovery) {
+public final record PasswordNotificationProperties(String from, String appName,
+        PasswordRecoveryProperties passwordRecovery) {
 
-    public PasswordNotificatorProperties(final String from, final PasswordRecoveryProperties passwordRecovery) {
+    public PasswordNotificationProperties(final String from, final String appName,
+            final PasswordRecoveryProperties passwordRecovery) {
         this.from = from;
+        this.appName = appName;
         if (passwordRecovery == null) {
             this.passwordRecovery = new PasswordRecoveryProperties("");
         } else {

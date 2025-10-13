@@ -22,47 +22,33 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.adapter.inbound.event;
-
-import java.util.Objects;
+package com.bernardomg.security.password.reset.usecase.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.event.listener.EventListener;
-import com.bernardomg.security.user.domain.event.UserInvitationEvent;
-import com.bernardomg.security.user.usecase.service.UserNotificationService;
+import com.bernardomg.security.user.domain.model.User;
 
 /**
- * Listens for login failure events, and blocks the user after a number of failures.
- *
- * @author Bernardo Mart&iacute;nez Garrido
+ * Disabled password notification service. For disabling messages.
  */
-public final class UserInvitationNotificatorListener implements EventListener<UserInvitationEvent> {
+@Transactional
+public final class DisabledPasswordNotificationService implements PasswordNotificationService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(UserInvitationNotificatorListener.class);
+    private static final Logger log = LoggerFactory.getLogger(DisabledPasswordNotificationService.class);
 
-    private final UserNotificationService userNotificationService;
-
-    public UserInvitationNotificatorListener(final UserNotificationService userNotificationService) {
+    public DisabledPasswordNotificationService() {
         super();
-
-        this.userNotificationService = Objects.requireNonNull(userNotificationService);
     }
 
     @Override
-    public final Class<UserInvitationEvent> getEventType() {
-        return UserInvitationEvent.class;
-    }
-
-    @Override
-    public final void handle(final UserInvitationEvent event) {
-        log.debug("Handling invitation notification for user {}", event.getUser()
-            .username());
-        userNotificationService.sendUserInvitation(event.getUser(), event.getToken());
+    public final void sendPasswordRecoveryMessage(final User user, final String token) {
+        // To avoid sending emails
+        log.warn("Password recovery message is disabled");
     }
 
 }

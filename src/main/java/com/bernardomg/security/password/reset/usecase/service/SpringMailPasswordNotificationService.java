@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.notification.adapter.outbound.email;
+package com.bernardomg.security.password.reset.usecase.service;
 
 import java.util.Objects;
 
@@ -31,27 +31,34 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.user.domain.model.User;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 /**
- * Password notificator based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
+ * Password notification service based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class SpringMailPasswordNotificator implements PasswordNotificator {
+@Transactional
+public final class SpringMailPasswordNotificationService implements PasswordNotificationService {
 
     /**
      * Logger for the class.
      */
     private static final Logger        log                     = LoggerFactory
-        .getLogger(SpringMailPasswordNotificator.class);
+        .getLogger(SpringMailPasswordNotificationService.class);
+
+    /**
+     * App name for the title.
+     */
+    private final String               appName;
 
     /**
      * Email to be set as the source.
@@ -80,37 +87,40 @@ public final class SpringMailPasswordNotificator implements PasswordNotificator 
      */
     private final SpringTemplateEngine templateEngine;
 
-    public SpringMailPasswordNotificator(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
-            final String frmEmail, final String passRecoveryUrl) {
+    public SpringMailPasswordNotificationService(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
+            final String frmEmail, final String passRecoveryUrl, final String appNm) {
         super();
 
         templateEngine = Objects.requireNonNull(templateEng);
         mailSender = Objects.requireNonNull(mailSendr);
         fromEmail = Objects.requireNonNull(frmEmail);
         passwordRecoveryUrl = Objects.requireNonNull(passRecoveryUrl);
+        appName = Objects.requireNonNull(appNm);
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final String email, final String username, final String token) {
+    public final void sendPasswordRecoveryMessage(final User user, final String token) {
         final String recoveryUrl;
         final String passwordRecoveryEmailText;
 
-        log.trace("Sending password recovery email for {} to {}", username, email);
+        log.trace("Sending password recovery email for {} to {}", user.username(), user.email());
 
         recoveryUrl = generateUrl(passwordRecoveryUrl, token);
-        passwordRecoveryEmailText = generateEmailContent("mail/password-reset", recoveryUrl, username);
+        passwordRecoveryEmailText = generateEmailContent("mail/password-reset", recoveryUrl, user);
 
-        sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
+        sendEmail(user.email(), passwordRecoverySubject, passwordRecoveryEmailText);
 
-        log.info("Sent password recovery email for {} to {}", username, email);
+        log.info("Sent password recovery email for {} to {}", user.username(), user.email());
     }
 
-    private final String generateEmailContent(final String templateName, final String url, final String username) {
+    private final String generateEmailContent(final String templateName, final String url, final User user) {
         final Context context;
 
         context = new Context();
         context.setVariable("url", url);
-        context.setVariable("username", username);
+        context.setVariable("appName", appName);
+        context.setVariable("name", user.name());
+        context.setVariable("username", user.username());
         return templateEngine.process(templateName, context);
     }
 

@@ -22,26 +22,26 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.notification.usecase.notification;
+package com.bernardomg.security.user.configuration;
 
-/**
- * Password notificator. Sends emails related to the password workflow, such as password recovery.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public interface PasswordNotificator {
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-    /**
-     * Sends a password recovery message to the received email.
-     *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username to change the password
-     * @param token
-     *            token for the password change
-     */
-    public void sendPasswordRecoveryMessage(final String email, final String username, final String token);
+@ConfigurationProperties(prefix = "email.security")
+public final record UserNotificationProperties(String from, String appName, ActivateUserProperties activateUser) {
+
+    public UserNotificationProperties(final String from, final String appName,
+            final ActivateUserProperties activateUser) {
+        this.from = from;
+        this.appName = appName;
+        if (activateUser == null) {
+            this.activateUser = new ActivateUserProperties("");
+        } else {
+            this.activateUser = activateUser;
+        }
+    }
+
+    public final record ActivateUserProperties(String url) {
+
+    }
 
 }
