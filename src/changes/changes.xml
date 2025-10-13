@@ -364,7 +364,7 @@
             Fixed pagination parameters.
          </action>
       </release>
-      <release version="0.4.26" date="2025-10-05" description="Emails">
+      <release version="0.4.26" date="2025-10-13" description="Emails">
          <action dev="bmg" type="update">
             Reworked onboarding email.
          </action>
@@ -372,7 +372,10 @@
             Reworked password reset email.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-05" description="">
+      <release version="0.4.27" date="2025-10-13" description="Fixed message bundle">
+         <action dev="bmg" type="fix">
+            Fixed message bundle.
+         </action>
       </release>
    </body>
 </document>
