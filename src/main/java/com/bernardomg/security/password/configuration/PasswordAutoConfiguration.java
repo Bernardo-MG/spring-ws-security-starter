@@ -79,6 +79,15 @@ public class PasswordAutoConfiguration {
         super();
     }
 
+    @Bean("passwordNotificationService")
+    // @ConditionalOnMissingBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
+    public PasswordNotificationService getDefaultPasswordNotificationService() {
+        // FIXME: This is not handling correctly the missing bean condition
+        log.info("Disabled password notification");
+        return new DisabledPasswordNotificationService();
+    }
+
     @Bean("passwordChangeService")
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
@@ -88,15 +97,6 @@ public class PasswordAutoConfiguration {
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
-    }
-
-    @Bean("passwordNotificationService")
-    // @ConditionalOnMissingBean(EmailSender.class)
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
-    public PasswordNotificationService getPasswordNotificationService() {
-        // FIXME: This is not handling correctly the missing bean condition
-        log.info("Disabled password notification");
-        return new DisabledPasswordNotificationService();
     }
 
     @Bean("passwordNotificationService")
