@@ -40,7 +40,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 /**
- * Password notificator based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
+ * Password notification service based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

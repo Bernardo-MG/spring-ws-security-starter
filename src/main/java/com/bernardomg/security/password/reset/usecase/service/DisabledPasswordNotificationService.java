@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.security.user.domain.model.User;
 
 /**
- * Disabled password notificator. For disabling messages.
+ * Disabled password notification service. For disabling messages.
  */
 public final class DisabledPasswordNotificationService implements PasswordNotificationService {
 

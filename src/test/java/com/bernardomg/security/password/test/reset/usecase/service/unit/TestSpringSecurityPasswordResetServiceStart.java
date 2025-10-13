@@ -43,7 +43,7 @@ class TestSpringSecurityPasswordResetServiceStart {
     private PasswordEncoder                    passwordEncoder;
 
     @Mock
-    private PasswordNotificationService        passwordNotificator;
+    private PasswordNotificationService        passwordNotificationService;
 
     @InjectMocks
     private SpringSecurityPasswordResetService service;
@@ -94,7 +94,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(passwordNotificator).sendPasswordRecoveryMessage(Users.passwordExpired(), Tokens.TOKEN);
+        verify(passwordNotificationService).sendPasswordRecoveryMessage(Users.passwordExpired(), Tokens.TOKEN);
     }
 
     @Test
@@ -250,7 +250,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(passwordNotificator).sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
+        verify(passwordNotificationService).sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
     }
 
     @Test
@@ -300,7 +300,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(passwordNotificator).sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
+        verify(passwordNotificationService).sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
     }
 
 }

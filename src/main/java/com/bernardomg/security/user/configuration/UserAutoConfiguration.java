@@ -43,7 +43,7 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.adapter.inbound.event.LoginFailureBlockerListener;
-import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificatorListener;
+import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificationListener;
 import com.bernardomg.security.user.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
@@ -73,7 +73,7 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.user.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.user.adapter.inbound.jpa" })
-@EnableConfigurationProperties({ LoginProperties.class, UserNotificatorProperties.class })
+@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class })
 @Import({ UserTokenConfiguration.class })
 public class UserAutoConfiguration {
 
@@ -96,7 +96,7 @@ public class UserAutoConfiguration {
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
     public UserNotificationService getDefaultUserNotificationService() {
         // FIXME: This is not handling correctly the missing bean condition
-        log.info("Disabled user notificator service");
+        log.info("Disabled user notification service");
         return new DisabledUserNotificationService();
     }
 
@@ -105,10 +105,10 @@ public class UserAutoConfiguration {
         return new LoginFailureBlockerListener(userAccessService);
     }
 
-    @Bean("userInvitationNotificatorListener")
-    public UserInvitationNotificatorListener
-            getUserInvitationNotificatorListener(final UserNotificationService userNotificationService) {
-        return new UserInvitationNotificatorListener(userNotificationService);
+    @Bean("userInvitationNotificationListener")
+    public UserInvitationNotificationListener
+            getUserInvitationNotificationListener(final UserNotificationService userNotificationService) {
+        return new UserInvitationNotificationListener(userNotificationService);
     }
 
     @Bean("userLoginAttempsService")
@@ -121,7 +121,7 @@ public class UserAutoConfiguration {
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public UserNotificationService getUserNotificationService(final SpringTemplateEngine templateEng,
-            final JavaMailSender mailSender, final UserNotificatorProperties properties) {
+            final JavaMailSender mailSender, final UserNotificationProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for user notifications", properties.from());
         log.info("Activate user URL: {}", properties.activateUser()

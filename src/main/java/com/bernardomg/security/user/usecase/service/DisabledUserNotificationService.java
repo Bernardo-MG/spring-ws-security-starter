@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.security.user.domain.model.User;
 
 /**
- * Disabled user notificator. For disabling emailing.
+ * Disabled user notification service. For disabling emailing.
  */
 @Transactional
 public final class DisabledUserNotificationService implements UserNotificationService {

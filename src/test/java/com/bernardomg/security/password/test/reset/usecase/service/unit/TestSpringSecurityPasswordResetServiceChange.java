@@ -41,7 +41,7 @@ class TestSpringSecurityPasswordResetServiceChange {
     private PasswordEncoder                    passwordEncoder;
 
     @Mock
-    private PasswordNotificationService        passwordNotificator;
+    private PasswordNotificationService        passwordNotificationService;
 
     @InjectMocks
     private SpringSecurityPasswordResetService service;

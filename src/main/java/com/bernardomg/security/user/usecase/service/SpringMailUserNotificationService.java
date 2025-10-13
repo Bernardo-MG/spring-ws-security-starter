@@ -41,7 +41,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 /**
- * User notificator based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
+ * User notification service based on Spring Mail. The message bodies are composed with the help of Thymeleaf.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

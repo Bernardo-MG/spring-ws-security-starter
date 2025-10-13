@@ -22,26 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.configuration;
+package com.bernardomg.security.user.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "email.security")
-public final record PasswordNotificatorProperties(String from, String appName,
-        PasswordRecoveryProperties passwordRecovery) {
+public final record UserNotificationProperties(String from, String appName, ActivateUserProperties activateUser) {
 
-    public PasswordNotificatorProperties(final String from, final String appName,
-            final PasswordRecoveryProperties passwordRecovery) {
+    public UserNotificationProperties(final String from, final String appName,
+            final ActivateUserProperties activateUser) {
         this.from = from;
         this.appName = appName;
-        if (passwordRecovery == null) {
-            this.passwordRecovery = new PasswordRecoveryProperties("");
+        if (activateUser == null) {
+            this.activateUser = new ActivateUserProperties("");
         } else {
-            this.passwordRecovery = passwordRecovery;
+            this.activateUser = activateUser;
         }
     }
 
-    public final record PasswordRecoveryProperties(String url) {
+    public final record ActivateUserProperties(String url) {
 
     }
 

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.adapter.inbound.event;
+package com.bernardomg.security.user.adapter.inbound.event;
 
 import java.util.Objects;
 
@@ -30,39 +30,39 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
-import com.bernardomg.security.password.reset.domain.event.PasswordResetEvent;
-import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
+import com.bernardomg.security.user.domain.event.UserInvitationEvent;
+import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
 /**
- * Listens for login failure events, and blocks the user after a number of failures.
+ * Listens of user invitation events, and sends a message.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class PasswordResetNotificatorListener implements EventListener<PasswordResetEvent> {
+public final class UserInvitationNotificationListener implements EventListener<UserInvitationEvent> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(PasswordResetNotificatorListener.class);
+    private static final Logger           log = LoggerFactory.getLogger(UserInvitationNotificationListener.class);
 
-    private final PasswordNotificationService passwordNotificationService;
+    private final UserNotificationService userNotificationService;
 
-    public PasswordResetNotificatorListener(final PasswordNotificationService passwordNotificationService) {
+    public UserInvitationNotificationListener(final UserNotificationService userNotificationService) {
         super();
 
-        this.passwordNotificationService = Objects.requireNonNull(passwordNotificationService);
+        this.userNotificationService = Objects.requireNonNull(userNotificationService);
     }
 
     @Override
-    public final Class<PasswordResetEvent> getEventType() {
-        return PasswordResetEvent.class;
+    public final Class<UserInvitationEvent> getEventType() {
+        return UserInvitationEvent.class;
     }
 
     @Override
-    public final void handle(final PasswordResetEvent event) {
-        log.debug("Handling password reset notification for user {}", event.getUser()
+    public final void handle(final UserInvitationEvent event) {
+        log.debug("Handling invitation notification for user {}", event.getUser()
             .username());
-        passwordNotificationService.sendPasswordRecoveryMessage(event.getUser(), event.getToken());
+        userNotificationService.sendUserInvitation(event.getUser(), event.getToken());
     }
 
 }

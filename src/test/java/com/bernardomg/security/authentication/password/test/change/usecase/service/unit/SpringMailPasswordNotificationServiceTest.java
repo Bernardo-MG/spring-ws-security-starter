@@ -26,7 +26,7 @@ class SpringMailPasswordNotificationServiceTest {
     @Mock
     private JavaMailSender              javaMailSender;
 
-    private PasswordNotificationService passwordNotificator;
+    private PasswordNotificationService passwordNotificationService;
 
     @Mock
     private SpringTemplateEngine        templateEng;
@@ -37,7 +37,7 @@ class SpringMailPasswordNotificationServiceTest {
 
     @BeforeEach
     private final void initializeSender() {
-        passwordNotificator = new SpringMailPasswordNotificationService(templateEng, javaMailSender,
+        passwordNotificationService = new SpringMailPasswordNotificationService(templateEng, javaMailSender,
             "sender@somewhere.com", "http://somewhere.com", "App");
     }
 
@@ -45,7 +45,7 @@ class SpringMailPasswordNotificationServiceTest {
     @DisplayName("The message content is sent to the target email")
     void testSendEmail_Content() throws Exception {
         // WHEN
-        passwordNotificator.sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
+        passwordNotificationService.sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

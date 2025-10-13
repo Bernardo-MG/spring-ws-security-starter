@@ -44,7 +44,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.password.reset.adapter.inbound.event.PasswordResetNotificatorListener;
+import com.bernardomg.security.password.reset.adapter.inbound.event.PasswordResetNotificationListener;
 import com.bernardomg.security.password.reset.usecase.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
@@ -67,7 +67,7 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.password.reset.adapter.outbound.rest.controller",
         "com.bernardomg.security.password.change.adapter.outbound.rest.controller" })
-@EnableConfigurationProperties({ PasswordNotificatorProperties.class })
+@EnableConfigurationProperties({ PasswordNotificationProperties.class })
 public class PasswordAutoConfiguration {
 
     /**
@@ -77,15 +77,6 @@ public class PasswordAutoConfiguration {
 
     public PasswordAutoConfiguration() {
         super();
-    }
-
-    @Bean("passwordNotificationService")
-    // @ConditionalOnMissingBean(EmailSender.class)
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
-    public PasswordNotificationService getDefaultPasswordNotificator() {
-        // FIXME: This is not handling correctly the missing bean condition
-        log.info("Disabled password notificator");
-        return new DisabledPasswordNotificationService();
     }
 
     @Bean("passwordChangeService")
@@ -100,10 +91,19 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordNotificationService")
+    // @ConditionalOnMissingBean(EmailSender.class)
+    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
+    public PasswordNotificationService getPasswordNotificationService() {
+        // FIXME: This is not handling correctly the missing bean condition
+        log.info("Disabled password notification");
+        return new DisabledPasswordNotificationService();
+    }
+
+    @Bean("passwordNotificationService")
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public PasswordNotificationService getPasswordNotificator(final SpringTemplateEngine templateEng,
-            final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
+    public PasswordNotificationService getPasswordNotificationService(final SpringTemplateEngine templateEng,
+            final JavaMailSender mailSender, final PasswordNotificationProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for password notifications", properties.from());
         log.info("Password recovery URL: {}", properties.passwordRecovery()
@@ -127,10 +127,10 @@ public class PasswordAutoConfiguration {
         return new SpringSecurityPasswordResetService(userRepository, userDetailsService, tokenStore, eventEmit);
     }
 
-    @Bean("passwordResetNotificatorListener")
-    public PasswordResetNotificatorListener
-            getPasswordResetNotificatorListener(final PasswordNotificationService passwordNotificationService) {
-        return new PasswordResetNotificatorListener(passwordNotificationService);
+    @Bean("passwordResetNotificationListener")
+    public PasswordResetNotificationListener
+            getPasswordResetNotificationListener(final PasswordNotificationService passwordNotificationService) {
+        return new PasswordResetNotificationListener(passwordNotificationService);
     }
 
     @Bean("passwordResetWhitelist")
