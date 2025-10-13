@@ -98,7 +98,7 @@ public final class SpringMailPasswordNotificator implements PasswordNotificator 
         log.trace("Sending password recovery email for {} to {}", username, email);
 
         recoveryUrl = generateUrl(passwordRecoveryUrl, token);
-        passwordRecoveryEmailText = generateEmailContent("mail/password-recovery", recoveryUrl, username);
+        passwordRecoveryEmailText = generateEmailContent("mail/password-reset", recoveryUrl, username);
 
         sendEmail(email, passwordRecoverySubject, passwordRecoveryEmailText);
 
