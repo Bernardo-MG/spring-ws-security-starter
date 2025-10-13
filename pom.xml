@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.4.27</version>
+   <version>1.0.0</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
