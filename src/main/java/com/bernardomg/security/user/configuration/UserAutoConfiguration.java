@@ -117,10 +117,10 @@ public class UserAutoConfiguration {
         return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepo);
     }
 
-    @Bean("userNotificator")
+    @Bean("userNotificationService")
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public UserNotificationService getUserNotificator(final SpringTemplateEngine templateEng,
+    public UserNotificationService getUserNotificationService(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final UserNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for user notifications", properties.from());

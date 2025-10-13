@@ -33,6 +33,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.password.reset.domain.event.PasswordResetEvent;
 import com.bernardomg.security.password.reset.usecase.validation.EmailFormatRule;
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.domain.exception.DisabledUserException;
@@ -72,46 +74,46 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(SpringSecurityPasswordResetService.class);
+    private static final Logger      log = LoggerFactory.getLogger(SpringSecurityPasswordResetService.class);
 
     /**
-     * Notificator. Recovery steps may require emails, or other kind of messaging.
+     * Event emitter.
      */
-    private final PasswordNotificationService passwordNotificator;
+    private final EventEmitter       eventEmitter;
 
     /**
      * Token store for password reset tokens.
      */
-    private final UserTokenStore              passwordResetTokenStore;
+    private final UserTokenStore     passwordResetTokenStore;
 
     /**
      * User details service, to find and validate users.
      */
-    private final UserDetailsService          userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     /**
      * User repository.
      */
-    private final UserRepository              userRepository;
+    private final UserRepository     userRepository;
 
     /**
      * Change password validator.
      */
-    private final Validator<String>           validatorChange;
+    private final Validator<String>  validatorChange;
 
     /**
      * Start password change validator.
      */
-    private final Validator<String>           validatorStart;
+    private final Validator<String>  validatorStart;
 
     public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
-            final PasswordNotificationService notif, final UserTokenStore tStore) {
+            final UserTokenStore tStore, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(repo);
         userDetailsService = Objects.requireNonNull(userDetsService);
-        passwordNotificator = Objects.requireNonNull(notif);
         passwordResetTokenStore = Objects.requireNonNull(tStore);
+        eventEmitter = Objects.requireNonNull(eventEmit);
 
         validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
         validatorStart = new FieldRuleValidator<>(new EmailFormatRule());
@@ -146,8 +148,9 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
     @Override
     public final void startPasswordReset(final String email) {
-        final User   user;
-        final String token;
+        final User               user;
+        final String             token;
+        final PasswordResetEvent passwordResetEvent;
 
         // TODO: run async
 
@@ -170,8 +173,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         log.debug("Generating new token to reset password for {}", user.username());
         token = passwordResetTokenStore.createToken(user.username());
 
-        // TODO: Handle through events
-        passwordNotificator.sendPasswordRecoveryMessage(user, token);
+        passwordResetEvent = new PasswordResetEvent(this, user, token);
+        eventEmitter.emit(passwordResetEvent);
 
         log.trace("Finished password recovery request for {}", email);
     }

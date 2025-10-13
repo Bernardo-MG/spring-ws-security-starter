@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.domain.event;
+package com.bernardomg.security.password.reset.domain.event;
 
 import java.util.Objects;
 
@@ -30,9 +30,9 @@ import com.bernardomg.event.domain.AbstractEvent;
 import com.bernardomg.security.user.domain.model.User;
 
 /**
- * User invitation event.
+ * Password reset event.
  */
-public final class UserInvitationEvent extends AbstractEvent {
+public final class PasswordResetEvent extends AbstractEvent {
 
     private static final long serialVersionUID = 4486597593510214141L;
 
@@ -40,7 +40,7 @@ public final class UserInvitationEvent extends AbstractEvent {
 
     private final User        user;
 
-    public UserInvitationEvent(final Object source, final User user, final String token) {
+    public PasswordResetEvent(final Object source, final User user, final String token) {
         super(source);
 
         this.user = Objects.requireNonNull(user);
@@ -55,7 +55,7 @@ public final class UserInvitationEvent extends AbstractEvent {
         if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
-        final UserInvitationEvent other = (UserInvitationEvent) obj;
+        final PasswordResetEvent other = (PasswordResetEvent) obj;
         return Objects.equals(user, other.user) && Objects.equals(token, other.token);
     }
 
