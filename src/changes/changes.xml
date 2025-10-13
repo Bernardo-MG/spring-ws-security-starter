@@ -377,7 +377,7 @@
             Fixed message bundle.
          </action>
       </release>
-      <release version="0.4.27" date="2025-10-13" description="Fixed message bundle">
+      <release version="0.4.28" date="2025-10-13" description="Fixed message bundle">
          <action dev="bmg" type="fix">
             Fixed message bundle after merge issues.
          </action>
