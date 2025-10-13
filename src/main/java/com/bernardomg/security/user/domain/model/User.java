@@ -26,6 +26,7 @@ package com.bernardomg.security.user.domain.model;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -61,14 +62,14 @@ public record User(String email, String username, String name, boolean enabled, 
 
         if (Objects.nonNull(username)) {
             this.username = username.trim()
-                .toLowerCase();
+                .toLowerCase(Locale.getDefault());
         } else {
             this.username = null;
         }
 
         if (Objects.nonNull(email)) {
             this.email = email.trim()
-                .toLowerCase();
+                .toLowerCase(Locale.getDefault());
         } else {
             this.email = null;
         }

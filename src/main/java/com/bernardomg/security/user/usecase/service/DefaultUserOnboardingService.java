@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.user.usecase.service;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -162,13 +163,13 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
 
         toCreate = User.newUser(user.username()
             .trim()
-            .toLowerCase(),
+            .toLowerCase(Locale.getDefault()),
             user.email()
                 .trim()
-                .toLowerCase(),
+                .toLowerCase(Locale.getDefault()),
             user.name()
                 .trim()
-                .toLowerCase(),
+                .toLowerCase(Locale.getDefault()),
             user.roles());
 
         validatorInvite.validate(toCreate);

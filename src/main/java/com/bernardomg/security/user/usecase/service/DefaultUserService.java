@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.user.usecase.service;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -120,13 +121,13 @@ public final class DefaultUserService implements UserService {
 
         toCreate = User.newUser(user.username()
             .trim()
-            .toLowerCase(),
+            .toLowerCase(Locale.getDefault()),
             user.email()
                 .trim()
-                .toLowerCase(),
+                .toLowerCase(Locale.getDefault()),
             user.name()
                 .trim()
-                .toLowerCase(),
+                .toLowerCase(Locale.getDefault()),
             user.roles());
 
         validatorCreateUser.validate(toCreate);
