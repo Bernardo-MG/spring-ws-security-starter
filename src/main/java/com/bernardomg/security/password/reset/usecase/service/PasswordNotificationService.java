@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.change.usecase.service;
+package com.bernardomg.security.password.reset.usecase.service;
 
 import com.bernardomg.security.user.domain.model.User;
 

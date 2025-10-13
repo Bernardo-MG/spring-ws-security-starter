@@ -33,7 +33,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.password.change.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.validation.EmailFormatRule;
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.domain.exception.DisabledUserException;

@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.password.change.usecase.service.PasswordNotificationService;
+import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.domain.exception.ExpiredUserException;

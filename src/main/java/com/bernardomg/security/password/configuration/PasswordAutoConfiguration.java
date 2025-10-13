@@ -41,12 +41,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.password.change.usecase.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
-import com.bernardomg.security.password.change.usecase.service.PasswordNotificationService;
-import com.bernardomg.security.password.change.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.password.reset.usecase.service.DisabledPasswordNotificationService;
+import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.security.password.reset.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.configuration.UserTokenProperties;
 import com.bernardomg.security.user.domain.repository.UserRepository;
