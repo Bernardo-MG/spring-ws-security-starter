@@ -52,7 +52,7 @@ public class UserTokenConfiguration {
         super();
     }
 
-    @Bean("userInvitationNotificatorListener")
+    @Bean("cleanUpTokensOnMonthStartEventListener")
     public CleanUpTokensOnMonthStartEventListener
             getCleanUpTokensOnMonthStartEventListener(final UserTokenService userTokenService) {
         return new CleanUpTokensOnMonthStartEventListener(userTokenService);
