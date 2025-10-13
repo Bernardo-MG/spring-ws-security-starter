@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.notification.usecase.notification;
+package com.bernardomg.security.password.change.usecase.service;
+
+import com.bernardomg.security.user.domain.model.User;
 
 /**
  * Password notificator. Sends emails related to the password workflow, such as password recovery.
@@ -30,18 +32,16 @@ package com.bernardomg.security.password.notification.usecase.notification;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface PasswordNotificator {
+public interface PasswordNotificationService {
 
     /**
      * Sends a password recovery message to the received email.
      *
-     * @param email
-     *            email to send the message to
-     * @param username
-     *            username to change the password
+     * @param user
+     *            user changing password
      * @param token
      *            token for the password change
      */
-    public void sendPasswordRecoveryMessage(final String email, final String username, final String token);
+    public void sendPasswordRecoveryMessage(final User user, final String token);
 
 }

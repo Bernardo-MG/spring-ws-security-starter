@@ -41,11 +41,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import com.bernardomg.security.password.change.usecase.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
+import com.bernardomg.security.password.change.usecase.service.PasswordNotificationService;
+import com.bernardomg.security.password.change.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.password.notification.adapter.outbound.disabled.DisabledPasswordNotificator;
-import com.bernardomg.security.password.notification.adapter.outbound.email.SpringMailPasswordNotificator;
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.configuration.UserTokenProperties;
@@ -80,10 +80,10 @@ public class PasswordAutoConfiguration {
     @Bean("passwordNotificator")
     // @ConditionalOnMissingBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
-    public PasswordNotificator getDefaultPasswordNotificator() {
+    public PasswordNotificationService getDefaultPasswordNotificator() {
         // FIXME: This is not handling correctly the missing bean condition
         log.info("Disabled password notificator");
-        return new DisabledPasswordNotificator();
+        return new DisabledPasswordNotificationService();
     }
 
     @Bean("passwordChangeService")
@@ -100,20 +100,21 @@ public class PasswordAutoConfiguration {
     @Bean("passwordNotificator")
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
-    public PasswordNotificator getPasswordNotificator(final SpringTemplateEngine templateEng,
+    public PasswordNotificationService getPasswordNotificator(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final PasswordNotificatorProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for password notifications", properties.from());
         log.info("Password recovery URL: {}", properties.passwordRecovery()
             .url());
-        return new SpringMailPasswordNotificator(templateEng, mailSender, properties.from(),
+        return new SpringMailPasswordNotificationService(templateEng, mailSender, properties.from(),
             properties.passwordRecovery()
-                .url());
+                .url(),
+            properties.appName());
     }
 
     @Bean("passwordRecoveryService")
     public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
-            final UserDetailsService userDetailsService, final PasswordNotificator notificator,
+            final UserDetailsService userDetailsService, final PasswordNotificationService notificator,
             final PasswordEncoder passwordEncoder, final UserTokenRepository userTokenRepository,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;

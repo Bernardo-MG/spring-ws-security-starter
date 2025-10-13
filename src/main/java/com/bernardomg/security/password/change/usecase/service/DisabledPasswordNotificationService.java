@@ -22,8 +22,31 @@
  * SOFTWARE.
  */
 
-/**
- * Email adapters.
- */
+package com.bernardomg.security.password.change.usecase.service;
 
-package com.bernardomg.security.password.notification.adapter.outbound.email;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bernardomg.security.user.domain.model.User;
+
+/**
+ * Disabled password notificator. For disabling messages.
+ */
+public final class DisabledPasswordNotificationService implements PasswordNotificationService {
+
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(DisabledPasswordNotificationService.class);
+
+    public DisabledPasswordNotificationService() {
+        super();
+    }
+
+    @Override
+    public final void sendPasswordRecoveryMessage(final User user, final String token) {
+        // To avoid sending emails
+        log.warn("Password recovery message is disabled");
+    }
+
+}

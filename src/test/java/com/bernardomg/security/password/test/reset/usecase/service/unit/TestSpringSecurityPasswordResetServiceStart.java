@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.password.change.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.domain.exception.ExpiredUserException;
@@ -43,7 +43,7 @@ class TestSpringSecurityPasswordResetServiceStart {
     private PasswordEncoder                    passwordEncoder;
 
     @Mock
-    private PasswordNotificator                passwordNotificator;
+    private PasswordNotificationService        passwordNotificator;
 
     @InjectMocks
     private SpringSecurityPasswordResetService service;
@@ -94,8 +94,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(passwordNotificator).sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME,
-            Tokens.TOKEN);
+        verify(passwordNotificator).sendPasswordRecoveryMessage(Users.passwordExpired(), Tokens.TOKEN);
     }
 
     @Test
@@ -251,8 +250,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(passwordNotificator).sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME,
-            Tokens.TOKEN);
+        verify(passwordNotificator).sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
     }
 
     @Test
@@ -302,8 +300,7 @@ class TestSpringSecurityPasswordResetServiceStart {
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(passwordNotificator).sendPasswordRecoveryMessage(UserConstants.EMAIL, UserConstants.USERNAME,
-            Tokens.TOKEN);
+        verify(passwordNotificator).sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
     }
 
 }

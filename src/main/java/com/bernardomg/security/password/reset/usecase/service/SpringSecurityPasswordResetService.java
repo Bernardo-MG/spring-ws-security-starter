@@ -33,7 +33,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.password.notification.usecase.notification.PasswordNotificator;
+import com.bernardomg.security.password.change.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.validation.EmailFormatRule;
 import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.user.domain.exception.DisabledUserException;
@@ -73,40 +73,40 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     /**
      * Logger for the class.
      */
-    private static final Logger       log = LoggerFactory.getLogger(SpringSecurityPasswordResetService.class);
+    private static final Logger               log = LoggerFactory.getLogger(SpringSecurityPasswordResetService.class);
 
     /**
      * Notificator. Recovery steps may require emails, or other kind of messaging.
      */
-    private final PasswordNotificator passwordNotificator;
+    private final PasswordNotificationService passwordNotificator;
 
     /**
      * Token store for password reset tokens.
      */
-    private final UserTokenStore      passwordResetTokenStore;
+    private final UserTokenStore              passwordResetTokenStore;
 
     /**
      * User details service, to find and validate users.
      */
-    private final UserDetailsService  userDetailsService;
+    private final UserDetailsService          userDetailsService;
 
     /**
      * User repository.
      */
-    private final UserRepository      userRepository;
+    private final UserRepository              userRepository;
 
     /**
      * Change password validator.
      */
-    private final Validator<String>   validatorChange;
+    private final Validator<String>           validatorChange;
 
     /**
      * Start password change validator.
      */
-    private final Validator<String>   validatorStart;
+    private final Validator<String>           validatorStart;
 
     public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
-            final PasswordNotificator notif, final UserTokenStore tStore) {
+            final PasswordNotificationService notif, final UserTokenStore tStore) {
         super();
 
         userRepository = Objects.requireNonNull(repo);
@@ -172,7 +172,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         token = passwordResetTokenStore.createToken(user.username());
 
         // TODO: Handle through events
-        passwordNotificator.sendPasswordRecoveryMessage(user.email(), user.username(), token);
+        passwordNotificator.sendPasswordRecoveryMessage(user, token);
 
         log.trace("Finished password recovery request for {}", email);
     }
