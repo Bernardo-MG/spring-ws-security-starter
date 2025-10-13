@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -45,6 +46,7 @@ import jakarta.mail.internet.MimeMessage;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Transactional
 public final class SpringMailPasswordNotificationService implements PasswordNotificationService {
 
     /**
