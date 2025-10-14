@@ -24,12 +24,12 @@
 
 package com.bernardomg.security.password.reset.usecase.service;
 
-import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -108,7 +108,7 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
 
         // TODO: get request locale
         passwordRecoverySubject = messageSource.getMessage("email.welcome.title", new Object[] { appName },
-            Locale.getDefault());
+            LocaleContextHolder.getLocale());
         sendEmail(user.email(), passwordRecoverySubject, passwordRecoveryEmailText);
 
         log.info("Sent password recovery email for {} to {}", user.username(), user.email());

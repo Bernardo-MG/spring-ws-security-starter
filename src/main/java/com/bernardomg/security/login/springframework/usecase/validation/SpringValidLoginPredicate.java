@@ -1,13 +1,13 @@
 
 package com.bernardomg.security.login.springframework.usecase.validation;
 
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -65,7 +65,7 @@ public final class SpringValidLoginPredicate implements Predicate<Credentials> {
         // Find the user
         try {
             details = Optional.ofNullable(userDetailsService.loadUserByUsername(credentials.username()
-                .toLowerCase(Locale.getDefault())));
+                .toLowerCase(LocaleContextHolder.getLocale())));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }

@@ -45,7 +45,7 @@ class ITRoleRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(RoleConstants.NAME.toUpperCase(Locale.getDefault()));
+        exists = repository.exists(RoleConstants.NAME.toUpperCase(LocaleContextHolder.getLocale()));
 
         // THEN
         Assertions.assertThat(exists)

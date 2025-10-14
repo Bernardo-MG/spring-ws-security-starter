@@ -24,12 +24,12 @@
 
 package com.bernardomg.security.user.usecase.service;
 
-import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -108,7 +108,7 @@ public final class SpringMailUserNotificationService implements UserNotification
 
         // TODO: get request locale
         userRegisteredSubject = messageSource.getMessage("email.welcome.title", new Object[] { appName },
-            Locale.getDefault());
+            LocaleContextHolder.getLocale());
         // TODO: Send template name and parameters
         sendEmail(user.email(), userRegisteredSubject, userRegisteredEmailText);
 
