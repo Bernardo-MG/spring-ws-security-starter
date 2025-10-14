@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -27,6 +28,9 @@ class SpringMailUserNotificationServiceTest {
     private JavaMailSender          javaMailSender;
 
     @Mock
+    private MessageSource           messageSource;
+
+    @Mock
     private SpringTemplateEngine    templateEng;
 
     private UserNotificationService userNotificationService;
@@ -38,7 +42,7 @@ class SpringMailUserNotificationServiceTest {
     @BeforeEach
     private final void initializeSender() {
         userNotificationService = new SpringMailUserNotificationService(templateEng, javaMailSender,
-            "sender@somewhere.com", "http://somewhere.com", "App");
+            "sender@somewhere.com", "http://somewhere.com", "App", messageSource);
     }
 
     @Test

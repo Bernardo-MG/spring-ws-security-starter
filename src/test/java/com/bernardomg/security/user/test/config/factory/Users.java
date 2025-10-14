@@ -2,7 +2,8 @@
 package com.bernardomg.security.user.test.config.factory;
 
 import java.util.List;
-import java.util.Locale;
+
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
