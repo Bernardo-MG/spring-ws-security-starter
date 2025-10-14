@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.login.usecase.service;
 
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -33,6 +32,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.event.emitter.EventEmitter;
@@ -139,12 +139,12 @@ public final class TokenLoginService implements LoginService {
                     .username();
             } else {
                 log.debug("No user found for email {}", username);
-                validUsername = username.toLowerCase(Locale.getDefault());
+                validUsername = username.toLowerCase(LocaleContextHolder.getLocale());
             }
         } else {
             // Using username for login
             log.debug("Login attempt with username");
-            validUsername = username.toLowerCase(Locale.getDefault());
+            validUsername = username.toLowerCase(LocaleContextHolder.getLocale());
         }
 
         return validUsername;

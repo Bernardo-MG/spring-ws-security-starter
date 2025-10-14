@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -121,7 +122,8 @@ public class UserAutoConfiguration {
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public UserNotificationService getUserNotificationService(final SpringTemplateEngine templateEng,
-            final JavaMailSender mailSender, final UserNotificationProperties properties) {
+            final JavaMailSender mailSender, final MessageSource messageSource,
+            final UserNotificationProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for user notifications", properties.from());
         log.info("Activate user URL: {}", properties.activateUser()
@@ -129,7 +131,7 @@ public class UserAutoConfiguration {
         return new SpringMailUserNotificationService(templateEng, mailSender, properties.from(),
             properties.activateUser()
                 .url(),
-            properties.appName());
+            properties.appName(), messageSource);
     }
 
     @Bean("userOnboardingService")

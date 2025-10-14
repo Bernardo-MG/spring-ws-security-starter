@@ -28,6 +28,8 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -52,8 +54,7 @@ public final class SpringMailUserNotificationService implements UserNotification
     /**
      * Logger for the class.
      */
-    private static final Logger        log                   = LoggerFactory
-        .getLogger(SpringMailUserNotificationService.class);
+    private static final Logger        log = LoggerFactory.getLogger(SpringMailUserNotificationService.class);
 
     /**
      * App name for the title.
@@ -70,6 +71,8 @@ public final class SpringMailUserNotificationService implements UserNotification
      */
     private final JavaMailSender       mailSender;
 
+    private final MessageSource        messageSource;
+
     /**
      * Template engine to generate the email content.
      */
@@ -80,13 +83,8 @@ public final class SpringMailUserNotificationService implements UserNotification
      */
     private final String               userActivationUrl;
 
-    /**
-     * Subject when the user is registered.
-     */
-    private final String               userRegisteredSubject = "User registered";
-
     public SpringMailUserNotificationService(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
-            final String frmEmail, final String userActUrl, final String appNm) {
+            final String frmEmail, final String userActUrl, final String appNm, final MessageSource msgSource) {
         super();
 
         templateEngine = Objects.requireNonNull(templateEng);
@@ -94,18 +92,23 @@ public final class SpringMailUserNotificationService implements UserNotification
         fromEmail = Objects.requireNonNull(frmEmail);
         userActivationUrl = Objects.requireNonNull(userActUrl);
         appName = Objects.requireNonNull(appNm);
+        messageSource = Objects.requireNonNull(msgSource);
     }
 
     @Override
     public final void sendUserInvitation(final User user, final String token) {
         final String activationUrl;
         final String userRegisteredEmailText;
+        final String userRegisteredSubject;
 
         log.debug("Sending user registered email to {} for {}", user.email(), user.username());
 
         activationUrl = generateUrl(userActivationUrl, token);
         userRegisteredEmailText = generateEmailContent("mail/user-welcome", activationUrl, user);
 
+        // TODO: get request locale
+        userRegisteredSubject = messageSource.getMessage("email.welcome.title", new Object[] { appName },
+            LocaleContextHolder.getLocale());
         // TODO: Send template name and parameters
         sendEmail(user.email(), userRegisteredSubject, userRegisteredEmailText);
 

@@ -24,8 +24,9 @@
 
 package com.bernardomg.security.user.domain.model;
 
-import java.util.Locale;
 import java.util.Objects;
+
+import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * Data for querying users.
@@ -45,13 +46,13 @@ public record UserQuery(String email, String username, String name, Boolean enab
         }
         if (Objects.nonNull(username)) {
             this.username = username.trim()
-                .toLowerCase(Locale.getDefault());
+                .toLowerCase(LocaleContextHolder.getLocale());
         } else {
             this.username = null;
         }
         if (Objects.nonNull(email)) {
             this.email = email.trim()
-                .toLowerCase(Locale.getDefault());
+                .toLowerCase(LocaleContextHolder.getLocale());
         } else {
             this.email = null;
         }

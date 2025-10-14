@@ -26,11 +26,11 @@ package com.bernardomg.security.user.domain.model;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.domain.exception.EnabledUserException;
@@ -62,14 +62,14 @@ public record User(String email, String username, String name, boolean enabled, 
 
         if (Objects.nonNull(username)) {
             this.username = username.trim()
-                .toLowerCase(Locale.getDefault());
+                .toLowerCase(LocaleContextHolder.getLocale());
         } else {
             this.username = null;
         }
 
         if (Objects.nonNull(email)) {
             this.email = email.trim()
-                .toLowerCase(Locale.getDefault());
+                .toLowerCase(LocaleContextHolder.getLocale());
         } else {
             this.email = null;
         }

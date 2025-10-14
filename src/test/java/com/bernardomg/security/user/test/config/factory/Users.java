@@ -2,7 +2,8 @@
 package com.bernardomg.security.user.test.config.factory;
 
 import java.util.List;
-import java.util.Locale;
+
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
@@ -91,9 +92,9 @@ public final class Users {
     }
 
     public static final User upperCase() {
-        return new User(UserConstants.EMAIL.toUpperCase(Locale.getDefault()),
-            UserConstants.USERNAME.toUpperCase(Locale.getDefault()),
-            UserConstants.NAME.toUpperCase(Locale.getDefault()), true, true, true, false, List.of());
+        return new User(UserConstants.EMAIL.toUpperCase(LocaleContextHolder.getLocale()),
+            UserConstants.USERNAME.toUpperCase(LocaleContextHolder.getLocale()),
+            UserConstants.NAME.toUpperCase(LocaleContextHolder.getLocale()), true, true, true, false, List.of());
     }
 
     public static final User withoutPermissions() {

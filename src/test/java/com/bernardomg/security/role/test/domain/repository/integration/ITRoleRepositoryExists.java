@@ -1,12 +1,11 @@
 
 package com.bernardomg.security.role.test.domain.repository.integration;
 
-import java.util.Locale;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
@@ -45,7 +44,7 @@ class ITRoleRepositoryExists {
         final boolean exists;
 
         // WHEN
-        exists = repository.exists(RoleConstants.NAME.toUpperCase(Locale.getDefault()));
+        exists = repository.exists(RoleConstants.NAME.toUpperCase(LocaleContextHolder.getLocale()));
 
         // THEN
         Assertions.assertThat(exists)

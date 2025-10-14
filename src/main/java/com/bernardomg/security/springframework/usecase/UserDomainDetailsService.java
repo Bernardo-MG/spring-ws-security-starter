@@ -25,11 +25,11 @@
 package com.bernardomg.security.springframework.usecase;
 
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -105,7 +105,7 @@ public final class UserDomainDetailsService implements UserDetailsService {
 
         log.trace("Loading user {}", username);
 
-        user = userRepository.findOne(username.toLowerCase(Locale.getDefault()))
+        user = userRepository.findOne(username.toLowerCase(LocaleContextHolder.getLocale()))
             .orElseThrow(() -> {
                 log.error("Username {} not found in database", username);
                 throw new UsernameNotFoundException(String.format("Username %s not found in database", username));

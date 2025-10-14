@@ -24,12 +24,12 @@
 
 package com.bernardomg.security.user.usecase.service;
 
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Page;
@@ -121,13 +121,13 @@ public final class DefaultUserService implements UserService {
 
         toCreate = User.newUser(user.username()
             .trim()
-            .toLowerCase(Locale.getDefault()),
+            .toLowerCase(LocaleContextHolder.getLocale()),
             user.email()
                 .trim()
-                .toLowerCase(Locale.getDefault()),
+                .toLowerCase(LocaleContextHolder.getLocale()),
             user.name()
                 .trim()
-                .toLowerCase(Locale.getDefault()),
+                .toLowerCase(LocaleContextHolder.getLocale()),
             user.roles());
 
         validatorCreateUser.validate(toCreate);

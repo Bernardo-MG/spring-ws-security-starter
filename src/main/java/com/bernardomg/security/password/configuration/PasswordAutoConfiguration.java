@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -103,7 +104,8 @@ public class PasswordAutoConfiguration {
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
     public PasswordNotificationService getPasswordNotificationService(final SpringTemplateEngine templateEng,
-            final JavaMailSender mailSender, final PasswordNotificationProperties properties) {
+            final JavaMailSender mailSender, final MessageSource messageSource,
+            final PasswordNotificationProperties properties) {
         // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for password notifications", properties.from());
         log.info("Password recovery URL: {}", properties.passwordRecovery()
@@ -111,7 +113,7 @@ public class PasswordAutoConfiguration {
         return new SpringMailPasswordNotificationService(templateEng, mailSender, properties.from(),
             properties.passwordRecovery()
                 .url(),
-            properties.appName());
+            properties.appName(), messageSource);
     }
 
     @Bean("passwordRecoveryService")
