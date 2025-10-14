@@ -24,10 +24,12 @@
 
 package com.bernardomg.security.password.reset.usecase.service;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -52,8 +54,7 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
     /**
      * Logger for the class.
      */
-    private static final Logger        log                     = LoggerFactory
-        .getLogger(SpringMailPasswordNotificationService.class);
+    private static final Logger        log = LoggerFactory.getLogger(SpringMailPasswordNotificationService.class);
 
     /**
      * App name for the title.
@@ -70,12 +71,7 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
      */
     private final JavaMailSender       mailSender;
 
-    /**
-     * Password recovery subject.
-     * <p>
-     * TODO: Internationalize
-     */
-    private final String               passwordRecoverySubject = "Password recovery";
+    private final MessageSource        messageSource;
 
     /**
      * Password recovery URL. This is where the user will start the password recovery.
@@ -88,7 +84,7 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
     private final SpringTemplateEngine templateEngine;
 
     public SpringMailPasswordNotificationService(final SpringTemplateEngine templateEng, final JavaMailSender mailSendr,
-            final String frmEmail, final String passRecoveryUrl, final String appNm) {
+            final String frmEmail, final String passRecoveryUrl, final String appNm, final MessageSource msgSource) {
         super();
 
         templateEngine = Objects.requireNonNull(templateEng);
@@ -96,18 +92,23 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
         fromEmail = Objects.requireNonNull(frmEmail);
         passwordRecoveryUrl = Objects.requireNonNull(passRecoveryUrl);
         appName = Objects.requireNonNull(appNm);
+        messageSource = Objects.requireNonNull(msgSource);
     }
 
     @Override
     public final void sendPasswordRecoveryMessage(final User user, final String token) {
         final String recoveryUrl;
         final String passwordRecoveryEmailText;
+        final String passwordRecoverySubject;
 
         log.trace("Sending password recovery email for {} to {}", user.username(), user.email());
 
         recoveryUrl = generateUrl(passwordRecoveryUrl, token);
         passwordRecoveryEmailText = generateEmailContent("mail/password-reset", recoveryUrl, user);
 
+        // TODO: get request locale
+        passwordRecoverySubject = messageSource.getMessage("email.welcome.title", new Object[] { appName },
+            Locale.getDefault());
         sendEmail(user.email(), passwordRecoverySubject, passwordRecoveryEmailText);
 
         log.info("Sent password recovery email for {} to {}", user.username(), user.email());
