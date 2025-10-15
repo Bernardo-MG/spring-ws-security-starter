@@ -387,5 +387,13 @@
             Fixed formatting and locale.
          </action>
       </release>
+      <release version="0.4.30" date="2025-10-15" description="Fixes">
+         <action dev="bmg" type="fix">
+            Fixed message typos.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed user activation whitelist.
+         </action>
+      </release>
    </body>
 </document>

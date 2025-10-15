@@ -87,11 +87,6 @@ public class UserAutoConfiguration {
         super();
     }
 
-    @Bean("activateUserWhitelist")
-    public WhitelistRoute getActivateUserWhitelist() {
-        return WhitelistRoute.of("/security/user/activate/**", HttpMethod.GET, HttpMethod.POST);
-    }
-
     @Bean("userNotificationService")
     // @ConditionalOnMissingBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
@@ -139,6 +134,11 @@ public class UserAutoConfiguration {
             final RoleRepository roleRepository, @Qualifier("userTokenStore") final UserTokenStore tokenStore,
             final EventEmitter eventEmitter) {
         return new DefaultUserOnboardingService(userRepository, roleRepository, tokenStore, eventEmitter);
+    }
+
+    @Bean("userOnboardingWhitelist")
+    public WhitelistRoute getUserOnboardingWhitelist() {
+        return WhitelistRoute.of("/security/user/onboarding/activate/**", HttpMethod.GET, HttpMethod.POST);
     }
 
     @Bean("userRepository")
