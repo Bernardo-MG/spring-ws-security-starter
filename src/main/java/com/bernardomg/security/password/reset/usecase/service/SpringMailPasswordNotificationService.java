@@ -107,7 +107,7 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
         passwordRecoveryEmailText = generateEmailContent("mail/password-reset", recoveryUrl, user);
 
         // TODO: get request locale
-        passwordRecoverySubject = messageSource.getMessage("email.welcome.title", new Object[] { appName },
+        passwordRecoverySubject = messageSource.getMessage("email.password.reset.title", new Object[] { appName },
             LocaleContextHolder.getLocale());
         sendEmail(user.email(), passwordRecoverySubject, passwordRecoveryEmailText);
 
