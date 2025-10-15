@@ -382,7 +382,10 @@
             Fixed message bundle after merge issues.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-13" description="">
+      <release version="0.4.29" date="2025-10-13" description="Fixed message">
+         <action dev="bmg" type="fix">
+            Fixed formatting and locale.
+         </action>
       </release>
    </body>
 </document>
