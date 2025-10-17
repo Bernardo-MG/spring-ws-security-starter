@@ -27,8 +27,8 @@ package com.bernardomg.security.account.adapter.outbound.rest.model;
 import java.util.Optional;
 
 import com.bernardomg.security.account.domain.model.Account;
-import com.bernardomg.ucronia.openapi.model.AccountDto;
-import com.bernardomg.ucronia.openapi.model.AccountResponseDto;
+import com.bernardomg.security.openapi.model.AccountDto;
+import com.bernardomg.security.openapi.model.AccountResponseDto;
 
 /**
  * Account mapper for the REST adapter.

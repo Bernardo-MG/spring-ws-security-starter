@@ -17,6 +17,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.bernardomg.security.openapi.model.RequestPasswordResetDto;
 import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.PasswordResetRequestController;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
@@ -24,7 +25,6 @@ import com.bernardomg.test.TestApplication;
 import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.test.json.JsonUtils;
-import com.bernardomg.ucronia.openapi.model.RequestPasswordResetDto;
 
 @MvcIntegrationTest
 @ComponentScan(basePackageClasses = PasswordResetRequestController.class)

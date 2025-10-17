@@ -3,11 +3,11 @@ package com.bernardomg.security.user.adapter.outbound.rest.model;
 
 import java.util.List;
 
+import com.bernardomg.security.openapi.model.RoleDto;
+import com.bernardomg.security.openapi.model.UserDto;
+import com.bernardomg.security.openapi.model.UserResponseDto;
 import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
 import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.ucronia.openapi.model.RoleDto;
-import com.bernardomg.ucronia.openapi.model.UserDto;
-import com.bernardomg.ucronia.openapi.model.UserResponseDto;
 
 public final class UserActivationDtoMapper {
 

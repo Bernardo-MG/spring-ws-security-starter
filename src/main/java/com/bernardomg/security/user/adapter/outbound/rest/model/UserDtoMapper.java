@@ -8,18 +8,18 @@ import java.util.Optional;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.security.openapi.model.PropertyDto;
+import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
+import com.bernardomg.security.openapi.model.RoleDto;
+import com.bernardomg.security.openapi.model.SortingDto;
+import com.bernardomg.security.openapi.model.UserChangeDto;
+import com.bernardomg.security.openapi.model.UserCreationDto;
+import com.bernardomg.security.openapi.model.UserDto;
+import com.bernardomg.security.openapi.model.UserPageResponseDto;
+import com.bernardomg.security.openapi.model.UserResponseDto;
 import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.RoleDto;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.UserChangeDto;
-import com.bernardomg.ucronia.openapi.model.UserCreationDto;
-import com.bernardomg.ucronia.openapi.model.UserDto;
-import com.bernardomg.ucronia.openapi.model.UserPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.UserResponseDto;
 
 public final class UserDtoMapper {
 

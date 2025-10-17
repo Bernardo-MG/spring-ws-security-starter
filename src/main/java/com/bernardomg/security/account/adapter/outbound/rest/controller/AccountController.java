@@ -33,9 +33,9 @@ import com.bernardomg.security.account.adapter.outbound.rest.model.AccountDtoMap
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.ucronia.openapi.api.AccountApi;
-import com.bernardomg.ucronia.openapi.model.AccountChangeDto;
-import com.bernardomg.ucronia.openapi.model.AccountResponseDto;
+import com.bernardomg.security.openapi.api.AccountApi;
+import com.bernardomg.security.openapi.model.AccountChangeDto;
+import com.bernardomg.security.openapi.model.AccountResponseDto;
 
 import jakarta.validation.Valid;
 

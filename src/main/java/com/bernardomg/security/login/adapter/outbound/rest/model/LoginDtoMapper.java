@@ -3,9 +3,9 @@ package com.bernardomg.security.login.adapter.outbound.rest.model;
 
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
-import com.bernardomg.ucronia.openapi.model.LoginRequestDto;
-import com.bernardomg.ucronia.openapi.model.TokenLoginStatusDto;
-import com.bernardomg.ucronia.openapi.model.TokenLoginStatusResponseDto;
+import com.bernardomg.security.openapi.model.LoginRequestDto;
+import com.bernardomg.security.openapi.model.TokenLoginStatusDto;
+import com.bernardomg.security.openapi.model.TokenLoginStatusResponseDto;
 
 public final class LoginDtoMapper {
 

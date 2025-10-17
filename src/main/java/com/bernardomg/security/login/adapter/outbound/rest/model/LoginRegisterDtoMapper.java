@@ -5,11 +5,11 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
 import com.bernardomg.security.login.domain.model.LoginRegister;
-import com.bernardomg.ucronia.openapi.model.LoginRegisterDto;
-import com.bernardomg.ucronia.openapi.model.LoginRegisterPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
+import com.bernardomg.security.openapi.model.LoginRegisterDto;
+import com.bernardomg.security.openapi.model.LoginRegisterPageResponseDto;
+import com.bernardomg.security.openapi.model.PropertyDto;
+import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
+import com.bernardomg.security.openapi.model.SortingDto;
 
 public final class LoginRegisterDtoMapper {
 

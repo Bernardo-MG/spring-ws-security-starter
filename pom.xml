@@ -695,8 +695,8 @@
                      <inputSpec>${project.basedir}/src/main/resources/openapi/security.yml</inputSpec>
                      <generatorName>spring</generatorName>
                      <library>spring-boot</library>
-                     <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
-                     <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                     <apiPackage>com.bernardomg.security.openapi.api</apiPackage>
+                     <modelPackage>com.bernardomg.security.openapi.model</modelPackage>
                      <modelNameSuffix>Dto</modelNameSuffix>
                      <typeMappings>
                        <typeMapping>string+date-time=Instant</typeMapping>

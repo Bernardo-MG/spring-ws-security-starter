@@ -6,17 +6,17 @@ import java.util.Optional;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.security.openapi.model.PropertyDto;
+import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
+import com.bernardomg.security.openapi.model.SortingDto;
+import com.bernardomg.security.openapi.model.UserTokenChangeDto;
+import com.bernardomg.security.openapi.model.UserTokenDto;
+import com.bernardomg.security.openapi.model.UserTokenPageResponseDto;
+import com.bernardomg.security.openapi.model.UserTokenResponseDto;
+import com.bernardomg.security.openapi.model.UserTokenStatusDto;
+import com.bernardomg.security.openapi.model.UserTokenStatusResponseDto;
 import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenChangeDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenResponseDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenStatusDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenStatusResponseDto;
 
 public final class UserTokenDtoMapper {
 
