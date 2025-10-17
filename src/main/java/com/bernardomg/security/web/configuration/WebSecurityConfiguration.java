@@ -46,7 +46,6 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.jwt.encoding.TokenValidator;
@@ -118,8 +117,7 @@ public class WebSecurityConfiguration {
      *             if the setup fails
      */
     @Bean("webSecurityFilterChain")
-    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
-            final HandlerMappingIntrospector handlerMappingIntrospector, final CorsProperties corsProperties,
+    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final TokenValidator tokenValidator,
             final UserDetailsService userDetailsService, final Collection<WhitelistRoute> whitelist) throws Exception {
@@ -129,7 +127,7 @@ public class WebSecurityConfiguration {
         final Filter                                                                                               jwtFilterWrapped;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
-        whitelister = new WhitelistCustomizer(whitelist, handlerMappingIntrospector);
+        whitelister = new WhitelistCustomizer(whitelist);
         jwtFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
         jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
         http

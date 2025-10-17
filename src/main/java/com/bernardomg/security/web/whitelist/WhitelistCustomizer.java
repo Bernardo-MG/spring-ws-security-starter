@@ -27,17 +27,16 @@ package com.bernardomg.security.web.whitelist;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 /**
  * Whitelist customizer. Registers a list of {@code WhitelistRoute} as request mappers.
@@ -50,33 +49,25 @@ public final class WhitelistCustomizer implements
      */
     private static final Logger              log = LoggerFactory.getLogger(WhitelistCustomizer.class);
 
-    private final HandlerMappingIntrospector handlerMappingIntrospector;
-
     private final Collection<WhitelistRoute> whitelist;
 
-    public WhitelistCustomizer(final Collection<WhitelistRoute> wl, final HandlerMappingIntrospector introspector) {
+    public WhitelistCustomizer(final Collection<WhitelistRoute> wl) {
         super();
 
         whitelist = Objects.requireNonNull(wl);
-        handlerMappingIntrospector = Objects.requireNonNull(introspector);
     }
 
     @Override
     public final void customize(
             final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
-        final MvcRequestMatcher.Builder                               requestBuilder;
-        final Collection<MvcRequestMatcher>                           matchers;
-        final Function<WhitelistRoute, Collection<MvcRequestMatcher>> matcherMapper;
+        final Collection<? extends RequestMatcher> matchers;
 
         if (log.isDebugEnabled()) {
             whitelist.forEach(this::logRoute);
         }
 
-        requestBuilder = new MvcRequestMatcher.Builder(handlerMappingIntrospector);
-        matcherMapper = w -> toMatcher(requestBuilder, w);
-
         matchers = whitelist.stream()
-            .map(matcherMapper)
+            .map(this::toMatcher)
             .flatMap(Collection::stream)
             .toList();
 
@@ -116,17 +107,18 @@ public final class WhitelistCustomizer implements
      *            whitelist route
      * @return request matchers for the route
      */
-    private final Collection<MvcRequestMatcher> toMatcher(final MvcRequestMatcher.Builder requestBuilder,
-            final WhitelistRoute route) {
-        final Collection<MvcRequestMatcher> matchers;
+    private Collection<? extends RequestMatcher> toMatcher(final WhitelistRoute route) {
+        final Collection<? extends RequestMatcher> matchers;
 
         if (route.methods()
             .isEmpty()) {
-            matchers = List.of(requestBuilder.pattern(route.route()));
+            matchers = List.of(PathPatternRequestMatcher.withDefaults()
+                .matcher(route.route()));
         } else {
             matchers = route.methods()
                 .stream()
-                .map(m -> requestBuilder.pattern(m, route.route()))
+                .map(m -> PathPatternRequestMatcher.withDefaults()
+                    .matcher(HttpMethod.valueOf(m.name()), route.route()))
                 .toList();
         }
 
