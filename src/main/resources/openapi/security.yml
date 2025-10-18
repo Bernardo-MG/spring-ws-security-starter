@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Ucronia API
+  title: Security API
   version: 1.0.0
-  description: API for managing the Ucronia association.
+  description: Security API.
 servers:
   - url: https://localhost
     description: Local development
