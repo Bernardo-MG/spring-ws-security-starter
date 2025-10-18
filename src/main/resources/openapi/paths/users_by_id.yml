@@ -3,7 +3,7 @@ get:
   operationId: getOneUser
   tags: [User]
   parameters:
-    - name: user
+    - name: username
       in: path
       required: true
       schema:
