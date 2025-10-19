@@ -81,10 +81,12 @@ public class RoleController implements RoleApi {
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public RoleResponseDto createRole(@Valid final RoleCreationDto roleCreationDto) {
         final Role role;
+        final Role created;
 
-        role = service.create(roleCreationDto.getName());
+        role = RoleDtoMapper.toDomain(roleCreationDto);
+        created = service.create(role);
 
-        return RoleDtoMapper.toResponseDto(role);
+        return RoleDtoMapper.toResponseDto(created);
     }
 
     @Override

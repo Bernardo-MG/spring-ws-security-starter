@@ -42,13 +42,13 @@ import com.bernardomg.security.role.domain.model.RoleQuery;
 public interface RoleService {
 
     /**
-     * Persists the received user.
+     * Persists the received role.
      *
-     * @param name
-     *            name of the role to persist
+     * @param role
+     *            role to create
      * @return the persisted role
      */
-    public Role create(final String name);
+    public Role create(final Role role);
 
     /**
      * Deletes the role with the received id.

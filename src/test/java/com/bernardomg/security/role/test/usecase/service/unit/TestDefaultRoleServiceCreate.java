@@ -49,9 +49,13 @@ class TestDefaultRoleServiceCreate {
     void testCreate_NameEmpty() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
+        final Role             toCreate;
+
+        // GIVEN
+        toCreate = Roles.noName();
 
         // WHEN
-        executable = () -> service.create("");
+        executable = () -> service.create(toCreate);
 
         // THEN
         failure = new FieldFailure("empty", "name", "name.empty", "");
@@ -64,12 +68,16 @@ class TestDefaultRoleServiceCreate {
     void testCreate_NameExists() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
+        final Role             toCreate;
+
+        // GIVEN
+        toCreate = Roles.withoutPermissions();
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.create(RoleConstants.NAME);
+        executable = () -> service.create(toCreate);
 
         // THEN
         failure = new FieldFailure("existing", "name", "name.existing", RoleConstants.NAME);
@@ -78,29 +86,73 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Sends the role to the repository")
-    void testCreate_PersistedData() {
+    @DisplayName("Sends a role without permissions to the repository")
+    void testCreate_NoPermissions_PersistedData() {
+        final Role toCreate;
+
+        // GIVEN
+        toCreate = Roles.withoutPermissions();
+
         // WHEN
-        service.create(RoleConstants.NAME);
+        service.create(toCreate);
 
         // THEN
         verify(roleRepository).save(Roles.withoutPermissions());
     }
 
     @Test
-    @DisplayName("Returns the created role")
-    void testCreate_ReturnedData() {
+    @DisplayName("Returns the created role without permissions")
+    void testCreate_NoPermissions_ReturnedData() {
         final Role result;
+        final Role toCreate;
+
+        // GIVEN
+        toCreate = Roles.withoutPermissions();
 
         // GIVEN
         given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withoutPermissions());
 
         // WHEN
-        result = service.create(RoleConstants.NAME);
+        result = service.create(toCreate);
 
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(Roles.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("Sends a role with permissions to the repository")
+    void testCreate_Permissions_PersistedData() {
+        final Role toCreate;
+
+        // GIVEN
+        toCreate = Roles.withSinglePermission();
+
+        // WHEN
+        service.create(toCreate);
+
+        // THEN
+        verify(roleRepository).save(Roles.withSinglePermission());
+    }
+
+    @Test
+    @DisplayName("Returns the created role with permissions")
+    void testCreate_Permissions_ReturnedData() {
+        final Role result;
+        final Role toCreate;
+
+        // GIVEN
+        toCreate = Roles.withSinglePermission();
+
+        // GIVEN
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withSinglePermission());
+
+        // WHEN
+        result = service.create(toCreate);
+
+        // THEN
+        Assertions.assertThat(result)
+            .isEqualTo(Roles.withSinglePermission());
     }
 
 }
