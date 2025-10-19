@@ -108,19 +108,24 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Role create(final String name) {
-        final Role role;
+    public final Role create(final Role role) {
         final Role created;
 
-        log.trace("Creating role {}", name);
+        log.trace("Creating role {} with permissions {}", role.name(), role.permissions());
 
-        role = new Role(name, List.of());
+        // Verify the permissions exists
+        for (final ResourcePermission permission : role.permissions()) {
+            if (!resourcePermissionRepository.exists(permission.getName())) {
+                // TODO: send all missing in a single exception
+                throw new MissingResourcePermissionException(role.name());
+            }
+        }
 
         validatorCreate.validate(role);
 
         created = roleRepository.save(role);
 
-        log.trace("Created role {}", name);
+        log.trace("Created role {}", role.name(), role.permissions());
 
         return created;
     }

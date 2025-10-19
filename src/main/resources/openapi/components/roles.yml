@@ -22,11 +22,25 @@ components:
             $ref: 'permissions.yml/#/components/schemas/ResourcePermission'
     RoleCreation:
       type: object
-      required: [name]
+      required: [name, permissions]
       properties:
         name:
           type: string
           description: Name for the new role.
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleCreationPermission'
+    RoleCreationPermission:
+      type: object
+      required: [resource, action]
+      properties:
+        resource:
+          type: string
+          description: Name of the secured resource.
+        action:
+          type: string
+          description: Action permitted on the resource.
     RoleChange:
       type: object
       properties:
