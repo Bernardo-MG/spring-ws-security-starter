@@ -8,17 +8,18 @@ import java.util.Optional;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.security.openapi.model.PropertyDto;
+import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
+import com.bernardomg.security.openapi.model.ResourcePermissionDto;
+import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
+import com.bernardomg.security.openapi.model.RoleChangeDto;
+import com.bernardomg.security.openapi.model.RoleCreationDto;
+import com.bernardomg.security.openapi.model.RoleDto;
+import com.bernardomg.security.openapi.model.RolePageResponseDto;
+import com.bernardomg.security.openapi.model.RoleResponseDto;
+import com.bernardomg.security.openapi.model.SortingDto;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.ucronia.openapi.model.PropertyDto;
-import com.bernardomg.ucronia.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.ucronia.openapi.model.ResourcePermissionDto;
-import com.bernardomg.ucronia.openapi.model.ResourcePermissionPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.RoleChangeDto;
-import com.bernardomg.ucronia.openapi.model.RoleDto;
-import com.bernardomg.ucronia.openapi.model.RolePageResponseDto;
-import com.bernardomg.ucronia.openapi.model.RoleResponseDto;
-import com.bernardomg.ucronia.openapi.model.SortingDto;
 
 public final class RoleDtoMapper {
 
@@ -34,6 +35,20 @@ public final class RoleDtoMapper {
                 .toList();
         }
         return new Role(roleName, permissions);
+    }
+
+    public static final Role toDomain(final RoleCreationDto roleCreationDto) {
+        final Collection<ResourcePermission> permissions;
+
+        if (roleCreationDto.getPermissions() == null) {
+            permissions = List.of();
+        } else {
+            permissions = roleCreationDto.getPermissions()
+                .stream()
+                .map(p -> new ResourcePermission(p.getResource(), p.getAction()))
+                .toList();
+        }
+        return new Role(roleCreationDto.getName(), permissions);
     }
 
     public static final RoleDto toDto(final Role role) {

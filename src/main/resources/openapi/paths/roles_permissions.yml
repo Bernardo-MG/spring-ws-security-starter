@@ -6,11 +6,7 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../common/pagination.yml#/components/parameters/sortParam'
-    - name: role
-      in: path
-      required: true
-      schema:
-        type: string
+    - $ref: '../components/roles.yml#/components/parameters/name'
   responses:
     '200':
       description: Roles page

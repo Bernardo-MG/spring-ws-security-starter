@@ -14,7 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.permission.data.domain.exception.MissingResourcePermissionException;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -49,9 +51,13 @@ class TestDefaultRoleServiceCreate {
     void testCreate_NameEmpty() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
+        final Role             toCreate;
+
+        // GIVEN
+        toCreate = Roles.noName();
 
         // WHEN
-        executable = () -> service.create("");
+        executable = () -> service.create(toCreate);
 
         // THEN
         failure = new FieldFailure("empty", "name", "name.empty", "");
@@ -64,12 +70,16 @@ class TestDefaultRoleServiceCreate {
     void testCreate_NameExists() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
+        final Role             toCreate;
+
+        // GIVEN
+        toCreate = Roles.withoutPermissions();
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.create(RoleConstants.NAME);
+        executable = () -> service.create(toCreate);
 
         // THEN
         failure = new FieldFailure("existing", "name", "name.existing", RoleConstants.NAME);
@@ -78,29 +88,94 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Sends the role to the repository")
-    void testCreate_PersistedData() {
+    @DisplayName("Sends a role without permissions to the repository")
+    void testCreate_NoPermissions_PersistedData() {
+        final Role toCreate;
+
+        // GIVEN
+        toCreate = Roles.withoutPermissions();
+
         // WHEN
-        service.create(RoleConstants.NAME);
+        service.create(toCreate);
 
         // THEN
         verify(roleRepository).save(Roles.withoutPermissions());
     }
 
     @Test
-    @DisplayName("Returns the created role")
-    void testCreate_ReturnedData() {
+    @DisplayName("Returns the created role without permissions")
+    void testCreate_NoPermissions_ReturnedData() {
         final Role result;
+        final Role toCreate;
+
+        // GIVEN
+        toCreate = Roles.withoutPermissions();
 
         // GIVEN
         given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withoutPermissions());
 
         // WHEN
-        result = service.create(RoleConstants.NAME);
+        result = service.create(toCreate);
 
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(Roles.withoutPermissions());
+    }
+
+    @Test
+    @DisplayName("Sends a role with permissions to the repository")
+    void testCreate_Permissions_PersistedData() {
+        final Role toCreate;
+
+        // GIVEN
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
+        toCreate = Roles.withSinglePermission();
+
+        // WHEN
+        service.create(toCreate);
+
+        // THEN
+        verify(roleRepository).save(Roles.withSinglePermission());
+    }
+
+    @Test
+    @DisplayName("Returns the created role with permissions")
+    void testCreate_Permissions_ReturnedData() {
+        final Role result;
+        final Role toCreate;
+
+        // GIVEN
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
+        toCreate = Roles.withSinglePermission();
+
+        // GIVEN
+        given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withSinglePermission());
+
+        // WHEN
+        result = service.create(toCreate);
+
+        // THEN
+        Assertions.assertThat(result)
+            .isEqualTo(Roles.withSinglePermission());
+    }
+
+    @Test
+    @DisplayName("When the permission doesn't exists an exception is thrown")
+    void testUpdate_NotExistingPermission() {
+        final ThrowingCallable execution;
+        final Role             data;
+
+        // GIVEN
+        data = Roles.withSinglePermission();
+
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(data);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingResourcePermissionException.class);
     }
 
 }

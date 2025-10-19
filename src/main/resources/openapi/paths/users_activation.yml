@@ -3,12 +3,7 @@ post:
   operationId: activateUser
   tags: [UserOnboarding]
   parameters:
-    - name: token
-      in: path
-      required: true
-      description: Token identifying the user to activate.
-      schema:
-        type: string
+    - $ref: '../components/token.yml#/components/parameters/token'
   requestBody:
     required: true
     content:
@@ -17,7 +12,7 @@ post:
           $ref: '../components/users.yml#/components/schemas/UserActivation'
   responses:
     '201':
-      description: Token validation result.
+      description: Activated user.
       content:
         application/json:
           schema:
@@ -27,16 +22,11 @@ get:
   operationId: validateActivationToken
   tags: [UserOnboarding]
   parameters:
-    - name: token
-      in: path
-      required: true
-      description: Token to validate.
-      schema:
-        type: string
+    - $ref: '../components/token.yml#/components/parameters/token'
   responses:
     '200':
       description: Token validation result.
       content:
         application/json:
           schema:
-            $ref: '../components/user_token.yml#/components/schemas/UserTokenStatusResponse'
+            $ref: '../components/token.yml#/components/schemas/UserTokenStatusResponse'

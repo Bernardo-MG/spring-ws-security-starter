@@ -27,12 +27,12 @@ package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.Unsecured;
+import com.bernardomg.security.openapi.api.PasswordResetApi;
+import com.bernardomg.security.openapi.model.PasswordResetDto;
+import com.bernardomg.security.openapi.model.UserTokenStatusResponseDto;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
-import com.bernardomg.ucronia.openapi.api.PasswordResetApi;
-import com.bernardomg.ucronia.openapi.model.PasswordResetDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenStatusResponseDto;
 
 import jakarta.validation.Valid;
 

@@ -31,9 +31,9 @@ import com.bernardomg.security.login.adapter.outbound.rest.model.LoginDtoMapper;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.LoginService;
-import com.bernardomg.ucronia.openapi.api.LoginApi;
-import com.bernardomg.ucronia.openapi.model.LoginRequestDto;
-import com.bernardomg.ucronia.openapi.model.TokenLoginStatusResponseDto;
+import com.bernardomg.security.openapi.api.LoginApi;
+import com.bernardomg.security.openapi.model.LoginRequestDto;
+import com.bernardomg.security.openapi.model.TokenLoginStatusResponseDto;
 
 import jakarta.validation.Valid;
 

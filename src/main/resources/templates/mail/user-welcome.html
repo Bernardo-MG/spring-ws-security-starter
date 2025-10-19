@@ -24,9 +24,8 @@
       this email.
     </p>
 
-    <p style="text-align: center; margin: 0 0 20px; font-size: 15px; line-height: 1.6;"
-      th:text="#{email.welcome.body}">
-      You can use the button below, or this link: <a th:href="${url}" th:text="${url}">https://example.com/activate</a>
+    <p style="text-align: center; margin: 0 0 20px; font-size: 15px; line-height: 1.6;">
+      <div th:text="#{email.welcome.body}">You can use the button below, or this link:</div> <a th:href="${url}" th:text="${url}">https://example.com/activate</a>
     </p>
 
     <div style="text-align: center; margin-bottom: 24px;">

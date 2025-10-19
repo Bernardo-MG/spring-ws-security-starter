@@ -10,7 +10,7 @@ post:
           $ref: '../components/users.yml#/components/schemas/UserCreation'
   responses:
     '201':
-      description: User created.
+      description: Created user.
       content:
         application/json:
           schema:
@@ -25,31 +25,39 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/sortParam'
     - in: query
       name: email
-      schema: { type: string, format: email }
+      schema:
+        type: string
+        format: email
       description: Filter by email.
     - in: query
       name: username
-      schema: { type: string }
+      schema:
+        type: string
       description: Filter by username.
     - in: query
       name: name
-      schema: { type: string }
+      schema:
+        type: string
       description: Filter by display name.
     - in: query
       name: enabled
-      schema: { type: boolean }
+      schema:
+        type: boolean
       description: Filter by enabled status.
     - in: query
       name: notLocked
-      schema: { type: boolean }
+      schema:
+        type: boolean
       description: Filter by lock status.
     - in: query
       name: notExpired
-      schema: { type: boolean }
+      schema:
+        type: boolean
       description: Filter by expiration.
     - in: query
       name: passwordNotExpired
-      schema: { type: boolean }
+      schema:
+        type: boolean
       description: Filter by password expiration status.
   responses:
     '200':

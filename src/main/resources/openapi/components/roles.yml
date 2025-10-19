@@ -1,4 +1,12 @@
 components:
+  parameters:
+    name:
+      name: name
+      description: Role name
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
     Role:
       type: object
@@ -6,7 +14,7 @@ components:
       properties:
         name:
           type: string
-          description: Unique name of the role.
+          description: Unique name.
         permissions:
           type: array
           description: List of resource permissions.
@@ -14,11 +22,25 @@ components:
             $ref: 'permissions.yml/#/components/schemas/ResourcePermission'
     RoleCreation:
       type: object
-      required: [name]
+      required: [name, permissions]
       properties:
         name:
           type: string
           description: Name for the new role.
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleCreationPermission'
+    RoleCreationPermission:
+      type: object
+      required: [resource, action]
+      properties:
+        resource:
+          type: string
+          description: Name of the secured resource.
+        action:
+          type: string
+          description: Action permitted on the resource.
     RoleChange:
       type: object
       properties:

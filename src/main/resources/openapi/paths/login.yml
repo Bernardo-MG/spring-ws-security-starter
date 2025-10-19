@@ -10,7 +10,7 @@ post:
           $ref: '../components/login.yml#/components/schemas/LoginRequest'
   responses:
     '200':
-      description: The updated account.
+      description: Login status.
       content:
         application/json:
           schema:

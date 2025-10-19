@@ -6,14 +6,14 @@ components:
       properties:
         username:
           type: string
-          description: Unique username of the account.
-        name:
-          type: string
-          description: Display name of the user.
+          description: Unique username.
         email:
           type: string
           format: email
-          description: Email address of the user.
+          description: Unique email address.
+        name:
+          type: string
+          description: Display name.
     AccountChange:
       type: object
       required: [name]

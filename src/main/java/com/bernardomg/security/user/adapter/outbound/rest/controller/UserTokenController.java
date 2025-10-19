@@ -34,14 +34,14 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.openapi.api.UserTokensApi;
+import com.bernardomg.security.openapi.model.UserTokenChangeDto;
+import com.bernardomg.security.openapi.model.UserTokenPageResponseDto;
+import com.bernardomg.security.openapi.model.UserTokenResponseDto;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;
 import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.usecase.service.UserTokenService;
-import com.bernardomg.ucronia.openapi.api.UserTokensApi;
-import com.bernardomg.ucronia.openapi.model.UserTokenChangeDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenPageResponseDto;
-import com.bernardomg.ucronia.openapi.model.UserTokenResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

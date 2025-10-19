@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.4.30</version>
+   <version>0.4.31</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -176,19 +176,16 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <archunit.version>1.4.1</archunit.version>
-      <assertj.version>3.27.3</assertj.version>
       <bernardomg.framework.test.architecture>1.0.6</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.4.2</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.version>0.4.4</bernardomg.framework.ws.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jjwt.version>0.12.6</jjwt.version>
-      <micrometer.version>1.14.8</micrometer.version>
       <openapitools.jackson>0.2.6</openapitools.jackson>
-      <slf4j.version>2.0.17</slf4j.version>
       <springdoc.version>2.8.5</springdoc.version>
-      <spring.boot.version>3.4.6</spring.boot.version>
+      <spring.boot.version>3.5.6</spring.boot.version>
       <spring.data.version>2024.1.7</spring.data.version>
-      <spring.version>6.2.8</spring.version>
+      <spring.version>6.2.11</spring.version>
       <swagger.version>2.2.35</swagger.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
@@ -378,7 +375,6 @@
          <!-- SL4J API -->
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
-         <version>${slf4j.version}</version>
       </dependency>
       <dependency>
          <!-- Log4j SLF4J Bridge -->
@@ -468,19 +464,6 @@
          <artifactId>thymeleaf-spring6</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ============ VERSION CONVERGENCE ============= -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-observation</artifactId>
-         <version>${micrometer.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>io.micrometer</groupId>
-         <artifactId>micrometer-commons</artifactId>
-         <version>${micrometer.version}</version>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
@@ -517,7 +500,6 @@
          <!-- AssertJ -->
          <groupId>org.assertj</groupId>
          <artifactId>assertj-core</artifactId>
-         <version>${assertj.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
@@ -713,8 +695,8 @@
                      <inputSpec>${project.basedir}/src/main/resources/openapi/security.yml</inputSpec>
                      <generatorName>spring</generatorName>
                      <library>spring-boot</library>
-                     <apiPackage>com.bernardomg.ucronia.openapi.api</apiPackage>
-                     <modelPackage>com.bernardomg.ucronia.openapi.model</modelPackage>
+                     <apiPackage>com.bernardomg.security.openapi.api</apiPackage>
+                     <modelPackage>com.bernardomg.security.openapi.model</modelPackage>
                      <modelNameSuffix>Dto</modelNameSuffix>
                      <typeMappings>
                        <typeMapping>string+date-time=Instant</typeMapping>

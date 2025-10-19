@@ -10,7 +10,7 @@ post:
           $ref: '../components/users.yml#/components/schemas/UserCreation'
   responses:
     '201':
-      description: User created.
+      description: Invited, and created, user.
       content:
         application/json:
           schema:

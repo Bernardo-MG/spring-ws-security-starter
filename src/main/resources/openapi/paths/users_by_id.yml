@@ -3,11 +3,7 @@ get:
   operationId: getOneUser
   tags: [User]
   parameters:
-    - name: user
-      in: path
-      required: true
-      schema:
-        type: string
+    - $ref: '../components/users.yml#/components/parameters/username'
   responses:
     '200':
       description: User details
@@ -20,14 +16,10 @@ delete:
   operationId: deleteUser
   tags: [User]
   parameters:
-    - name: username
-      in: path
-      required: true
-      schema:
-        type: string
+    - $ref: '../components/users.yml#/components/parameters/username'
   responses:
     '200':
-      description: Deleted User
+      description: Deleted user.
       content:
         application/json:
           schema:
@@ -37,11 +29,7 @@ put:
   operationId: updateUser
   tags: [User]
   parameters:
-    - name: username
-      in: path
-      required: true
-      schema:
-        type: string
+    - $ref: '../components/users.yml#/components/parameters/username'
   requestBody:
     required: true
     content:
@@ -50,7 +38,7 @@ put:
           $ref: '../components/users.yml#/components/schemas/UserChange'
   responses:
     '200':
-      description: User updated
+      description: Updated user.
       content:
         application/json:
           schema:
