@@ -10,7 +10,7 @@ components:
   schemas:
     User:
       type: object
-      description: Represents a system user and their account status.
+      description: System user and their account status.
       required: [email, username, name, enabled, notExpired, notLocked, passwordNotExpired, roles]
       properties:
         email:

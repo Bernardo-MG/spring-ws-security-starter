@@ -21,7 +21,7 @@ put:
           $ref: '../components/accounts.yml#/components/schemas/AccountChange'
   responses:
     '200':
-      description: The updated account.
+      description: Updated account.
       content:
         application/json:
           schema:

@@ -12,7 +12,7 @@ get:
     - $ref: '../components/users.yml#/components/parameters/username'
   responses:
     '200':
-      description: A page of roles available for assignment.
+      description: Roles available for assignment page.
       content:
         application/json:
           schema:

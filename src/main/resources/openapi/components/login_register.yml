@@ -6,13 +6,13 @@ components:
       properties:
         username:
           type: string
-          description: Unique username of the account.
+          description: Unique username.
         loggedIn:
           type: boolean
           description: Succesful, or not, log in attempt.
         date:
           $ref: '../common/dates.yml#/components/schemas/Date'
-          description: Date when it was registered.
+          description: When it was registered.
     LoginRegisterPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

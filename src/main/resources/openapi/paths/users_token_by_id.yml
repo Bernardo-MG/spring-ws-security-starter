@@ -11,7 +11,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/user_token.yml#/components/schemas/UserTokenResponse'
+            $ref: '../components/token.yml#/components/schemas/UserTokenResponse'
 patch:
   summary: Partially update a user token
   description: Applies a partial update to the specified user token.
@@ -24,11 +24,11 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '../components/user_token.yml#/components/schemas/UserTokenChange'
+          $ref: '../components/token.yml#/components/schemas/UserTokenChange'
   responses:
     '200':
       description: Updated user token.
       content:
         application/json:
           schema:
-            $ref: '../components/user_token.yml#/components/schemas/UserTokenResponse'
+            $ref: '../components/token.yml#/components/schemas/UserTokenResponse'

@@ -13,4 +13,4 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../components/user_token.yml#/components/schemas/UserTokenPageResponse'
+            $ref: '../components/token.yml#/components/schemas/UserTokenPageResponse'
