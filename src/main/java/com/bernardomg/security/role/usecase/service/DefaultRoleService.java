@@ -112,8 +112,14 @@ public final class DefaultRoleService implements RoleService {
         final Role created;
 
         log.trace("Creating role {} with permissions {}", role.name(), role.permissions());
-        
-        // TODO: verify permissions exist
+
+        // Verify the permissions exists
+        for (final ResourcePermission permission : role.permissions()) {
+            if (!resourcePermissionRepository.exists(permission.getName())) {
+                // TODO: send all missing in a single exception
+                throw new MissingResourcePermissionException(role.name());
+            }
+        }
 
         validatorCreate.validate(role);
 

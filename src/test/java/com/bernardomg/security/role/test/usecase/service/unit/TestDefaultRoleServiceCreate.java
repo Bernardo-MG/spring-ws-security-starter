@@ -14,7 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.permission.data.domain.exception.MissingResourcePermissionException;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -126,6 +128,7 @@ class TestDefaultRoleServiceCreate {
         final Role toCreate;
 
         // GIVEN
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
         toCreate = Roles.withSinglePermission();
 
         // WHEN
@@ -142,6 +145,7 @@ class TestDefaultRoleServiceCreate {
         final Role toCreate;
 
         // GIVEN
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
         toCreate = Roles.withSinglePermission();
 
         // GIVEN
@@ -153,6 +157,25 @@ class TestDefaultRoleServiceCreate {
         // THEN
         Assertions.assertThat(result)
             .isEqualTo(Roles.withSinglePermission());
+    }
+
+    @Test
+    @DisplayName("When the permission doesn't exists an exception is thrown")
+    void testUpdate_NotExistingPermission() {
+        final ThrowingCallable execution;
+        final Role             data;
+
+        // GIVEN
+        data = Roles.withSinglePermission();
+
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+
+        // WHEN
+        execution = () -> service.create(data);
+
+        // THEN
+        Assertions.assertThatThrownBy(execution)
+            .isInstanceOf(MissingResourcePermissionException.class);
     }
 
 }
