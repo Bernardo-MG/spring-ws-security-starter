@@ -9,12 +9,7 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../common/pagination.yml#/components/parameters/sortParam'
-    - name: username
-      in: path
-      required: true
-      description: Username of the user for which to retrieve available roles.
-      schema:
-        type: string
+    - $ref: '../components/users.yml#/components/parameters/username'
   responses:
     '200':
       description: A page of roles available for assignment.

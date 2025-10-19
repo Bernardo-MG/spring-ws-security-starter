@@ -1,4 +1,11 @@
 components:
+  parameters:
+    name:
+      name: name
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
     Role:
       type: object

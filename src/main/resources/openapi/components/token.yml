@@ -1,0 +1,9 @@
+components:
+  parameters:
+    token:
+      name: token
+      in: path
+      required: true
+      description: Token code.
+      schema:
+        type: string

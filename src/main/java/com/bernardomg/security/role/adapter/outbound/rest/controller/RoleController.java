@@ -91,10 +91,10 @@ public class RoleController implements RoleApi {
     @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLE),
             @CacheEvict(cacheNames = { RoleCaches.ROLES, RoleCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true) })
-    public RoleResponseDto deleteRole(final String role) {
+    public RoleResponseDto deleteRole(final String name) {
         final Role deleted;
 
-        deleted = service.delete(role);
+        deleted = service.delete(name);
 
         return RoleDtoMapper.toResponseDto(deleted);
     }
@@ -119,8 +119,8 @@ public class RoleController implements RoleApi {
     @Override
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
-    public RolePageResponseDto getAllRoles(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
-            @Valid final List<String> sort, @Valid final String name) {
+    public RolePageResponseDto getAllRoles(String name, @Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
+            @Valid List<String> sort) {
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Role> fees;
@@ -150,11 +150,11 @@ public class RoleController implements RoleApi {
     @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.content.name") }, evict = {
             @CacheEvict(cacheNames = { RoleCaches.ROLES, RoleCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true) })
-    public RoleResponseDto updateRole(final String role, @Valid final RoleChangeDto roleChangeDto) {
+    public RoleResponseDto updateRole(final String name, @Valid final RoleChangeDto roleChangeDto) {
         final Role toUpdate;
         final Role updated;
 
-        toUpdate = RoleDtoMapper.toDomain(roleChangeDto, role);
+        toUpdate = RoleDtoMapper.toDomain(roleChangeDto, name);
         updated = service.update(toUpdate);
         return RoleDtoMapper.toResponseDto(updated);
     }

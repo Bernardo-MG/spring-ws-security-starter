@@ -1,4 +1,12 @@
 components:
+  parameters:
+    username:
+      name: username
+      in: path
+      required: true
+      description: User's username.
+      schema:
+        type: string
   schemas:
     User:
       type: object
@@ -42,7 +50,7 @@ components:
           description: Password to set for the new user.
     UserCreation:
       type: object
-      required: [password]
+      required: [email, username, name, roles]
       properties:
         email:
           type: string

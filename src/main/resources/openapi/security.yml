@@ -21,9 +21,9 @@ paths:
     $ref: paths/login_register.yml
   /security/role:
     $ref: paths/roles.yml
-  /security/role/{role}:
+  /security/role/{name}:
     $ref: paths/roles_by_id.yml
-  /security/role/{role}/permission:
+  /security/role/{name}/permission:
     $ref: paths/roles_permissions.yml
   /security/user:
     $ref: paths/users.yml

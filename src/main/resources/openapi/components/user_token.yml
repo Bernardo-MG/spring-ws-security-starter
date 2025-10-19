@@ -3,14 +3,7 @@ components:
     UserToken:
       type: object
       description: Represents a token issued for a user, including its lifecycle states.
-      required:
-        - username
-        - scope
-        - token
-        - creationDate
-        - expirationDate
-        - consumed
-        - revoked
+      required: [username, scope, token, creationDate, expirationDate, consumed, revoked]
       properties:
         username:
           type: string
