@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: Ucronia API
+  title: Security API
   version: 1.0.0
-  description: API for managing the Ucronia association.
+  description: Security API.
 servers:
   - url: https://localhost
     description: Local development
@@ -21,9 +21,9 @@ paths:
     $ref: paths/login_register.yml
   /security/role:
     $ref: paths/roles.yml
-  /security/role/{role}:
+  /security/role/{name}:
     $ref: paths/roles_by_id.yml
-  /security/role/{role}/permission:
+  /security/role/{name}/permission:
     $ref: paths/roles_permissions.yml
   /security/user:
     $ref: paths/users.yml

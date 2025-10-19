@@ -3,14 +3,10 @@ get:
   operationId: getOneRole
   tags: [Role]
   parameters:
-    - name: role
-      in: path
-      required: true
-      schema:
-        type: string
+    - $ref: '../components/roles.yml#/components/parameters/name'
   responses:
     '200':
-      description: Role details
+      description: Role details.
       content:
         application/json:
           schema:
@@ -20,14 +16,10 @@ delete:
   operationId: deleteRole
   tags: [Role]
   parameters:
-    - name: role
-      in: path
-      required: true
-      schema:
-        type: string
+    - $ref: '../components/roles.yml#/components/parameters/name'
   responses:
     '200':
-      description: Deleted Role
+      description: Deleted Role.
       content:
         application/json:
           schema:
@@ -37,11 +29,7 @@ put:
   operationId: updateRole
   tags: [Role]
   parameters:
-    - name: role
-      in: path
-      required: true
-      schema:
-        type: string
+    - $ref: '../components/roles.yml#/components/parameters/name'
   requestBody:
     required: true
     content:
@@ -50,7 +38,7 @@ put:
           $ref: '../components/roles.yml#/components/schemas/RoleChange'
   responses:
     '200':
-      description: Role updated
+      description: Updated role.
       content:
         application/json:
           schema:

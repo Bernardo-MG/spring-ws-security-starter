@@ -23,14 +23,10 @@ get:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
     - $ref: '../common/pagination.yml#/components/parameters/sortParam'
-    - name: name
-      in: query
-      required: false
-      schema:
-        type: string
+    - $ref: '../components/roles.yml#/components/parameters/name'
   responses:
     '200':
-      description: Roles page
+      description: Roles page.
       content:
         application/json:
           schema:
