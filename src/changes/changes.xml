@@ -406,5 +406,10 @@
             Allow creating roles with permissions.
          </action>
       </release>
+      <release version="0.4.32" date="2025-10-19" description="Fixes">
+         <action dev="bmg" type="fix">
+            Fixed typo in role name filter.
+         </action>
+      </release>
    </body>
 </document>

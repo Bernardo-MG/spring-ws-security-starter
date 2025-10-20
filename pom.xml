@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.4.31</version>
+   <version>0.4.32</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -179,10 +179,11 @@
       <bernardomg.framework.test.architecture>1.0.6</bernardomg.framework.test.architecture>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.4.4</bernardomg.framework.ws.version>
+      <commons.lang3.version>3.18.0</commons.lang3.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jjwt.version>0.12.6</jjwt.version>
       <openapitools.jackson>0.2.6</openapitools.jackson>
-      <springdoc.version>2.8.5</springdoc.version>
+      <springdoc.version>2.8.13</springdoc.version>
       <spring.boot.version>3.5.6</spring.boot.version>
       <spring.data.version>2024.1.7</spring.data.version>
       <spring.version>6.2.11</spring.version>
@@ -449,6 +450,14 @@
          <!-- Aspectj Weaver -->
          <groupId>org.aspectj</groupId>
          <artifactId>aspectjweaver</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ========= DEPENDENCY CONVERGENCE ============= -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>org.apache.commons</groupId>
+         <artifactId>commons-lang3</artifactId>
+         <version>${commons.lang3.version}</version>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ THYMELEAF =================== -->
