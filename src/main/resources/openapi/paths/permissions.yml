@@ -1,0 +1,15 @@
+get:
+  summary: Get all permissions.
+  operationId: getAllPermissions
+  tags: [Permission]
+  parameters:
+    - $ref: '../common/pagination.yml#/components/parameters/pageParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
+    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+  responses:
+    '200':
+      description: Permissions page.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/permissions.yml#/components/schemas/ResourcePermissionPageResponse'

@@ -19,6 +19,8 @@ paths:
     $ref: paths/accounts.yml
   /security/login/register:
     $ref: paths/login_register.yml
+  /security/permission:
+    $ref: paths/permissions.yml
   /security/role:
     $ref: paths/roles.yml
   /security/role/{name}:
