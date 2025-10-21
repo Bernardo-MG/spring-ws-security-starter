@@ -47,10 +47,8 @@ import com.bernardomg.security.user.adapter.inbound.event.LoginFailureBlockerLis
 import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificationListener;
 import com.bernardomg.security.user.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
-import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRoleRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
@@ -147,15 +145,9 @@ public class UserAutoConfiguration {
         return new JpaUserRepository(userRepo, roleSpringRepo, passEncoder);
     }
 
-    @Bean("userRoleRepository")
-    public UserRoleRepository getUserRoleRepository(final RoleSpringRepository roleSpringRepo) {
-        return new JpaUserRoleRepository(roleSpringRepo);
-    }
-
     @Bean("userService")
-    public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
-        return new DefaultUserService(userRepo, roleRepo, userRoleRepo);
+    public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
+        return new DefaultUserService(userRepo, roleRepo);
     }
 
     @Bean("userTokenStore")

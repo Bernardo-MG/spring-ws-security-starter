@@ -42,7 +42,6 @@ import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserQuery;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.usecase.validation.UserEmailFormatRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.user.usecase.validation.UserEmailNotExistsRule;
@@ -63,40 +62,33 @@ public final class DefaultUserService implements UserService {
     /**
      * Logger for the class.
      */
-    private static final Logger      log = LoggerFactory.getLogger(DefaultUserService.class);
+    private static final Logger   log = LoggerFactory.getLogger(DefaultUserService.class);
 
     /**
      * Role repository.
      */
-    private final RoleRepository     roleRepository;
+    private final RoleRepository  roleRepository;
 
     /**
      * User repository.
      */
-    private final UserRepository     userRepository;
-
-    /**
-     * User role repository.
-     */
-    private final UserRoleRepository userRoleRepository;
+    private final UserRepository  userRepository;
 
     /**
      * User registration validator.
      */
-    private final Validator<User>    validatorCreateUser;
+    private final Validator<User> validatorCreateUser;
 
     /**
      * Update user validator.
      */
-    private final Validator<User>    validatorUpdateUser;
+    private final Validator<User> validatorUpdateUser;
 
-    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserRoleRepository userRoleRepo) {
+    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
-        userRoleRepository = Objects.requireNonNull(userRoleRepo);
 
         validatorCreateUser = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserRolesNotDuplicatedRule(),
             new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
@@ -169,25 +161,6 @@ public final class DefaultUserService implements UserService {
         log.trace("Read users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
 
         return users;
-    }
-
-    @Override
-    public final Page<Role> getAvailableRoles(final String username, final Pagination pagination,
-            final Sorting sorting) {
-        final Page<Role> roles;
-
-        log.trace("Reading available roles for {}", username);
-
-        if (!userRepository.exists(username)) {
-            log.error("Missing user {}", username);
-            throw new MissingUsernameException(username);
-        }
-
-        roles = userRoleRepository.findAvailableToUser(username, pagination, sorting);
-
-        log.trace("Read available roles for {}", username);
-
-        return roles;
     }
 
     @Override
