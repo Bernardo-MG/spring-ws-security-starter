@@ -39,15 +39,12 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.openapi.api.UserApi;
-import com.bernardomg.security.openapi.model.RolePageResponseDto;
 import com.bernardomg.security.openapi.model.UserChangeDto;
 import com.bernardomg.security.openapi.model.UserCreationDto;
 import com.bernardomg.security.openapi.model.UserPageResponseDto;
 import com.bernardomg.security.openapi.model.UserResponseDto;
 import com.bernardomg.security.permission.data.constant.Actions;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
-import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
-import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserDtoMapper;
 import com.bernardomg.security.user.domain.model.User;
@@ -123,21 +120,6 @@ public class UserController implements UserApi {
         users = service.getAll(query, pagination, sorting);
 
         return UserDtoMapper.toResponseDto(users);
-    }
-
-    @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = RoleCaches.USER_AVAILABLE_ROLES)
-    public RolePageResponseDto getAvailableRolesForUser(final String username, @Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
-        final Pagination pagination;
-        final Sorting    sorting;
-        Page<Role>       roles;
-
-        pagination = new Pagination(page, size);
-        sorting = WebSorting.toSorting(sort);
-        roles = service.getAvailableRoles(username, pagination, sorting);
-        return RoleDtoMapper.toResponseDto(roles);
     }
 
     @Override

@@ -112,8 +112,7 @@ public final class JpaRoleRepository implements RoleRepository {
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<Role> page;
 
-        log.debug("Finding available permissions for query {} with pagination {} and sorting {}", query, pagination,
-            sorting);
+        log.debug("Finding all roles for query {} with pagination {} and sorting {}", query, pagination, sorting);
 
         sample = RoleEntityMapper.toEntity(query);
 

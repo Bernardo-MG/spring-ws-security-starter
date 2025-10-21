@@ -23,7 +23,6 @@ import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserQuery;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserQueries;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
@@ -50,9 +49,6 @@ class TestUserServiceGetAll {
 
     @Mock
     private UserRepository     userRepository;
-
-    @Mock
-    private UserRoleRepository userRoleRepository;
 
     public TestUserServiceGetAll() {
         super();

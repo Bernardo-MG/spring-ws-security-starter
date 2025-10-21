@@ -19,6 +19,8 @@ paths:
     $ref: paths/accounts.yml
   /security/login/register:
     $ref: paths/login_register.yml
+  /security/permission:
+    $ref: paths/permissions.yml
   /security/role:
     $ref: paths/roles.yml
   /security/role/{name}:
@@ -33,8 +35,6 @@ paths:
     $ref: paths/users_invite.yml
   /security/user/{username}:
     $ref: paths/users_by_id.yml
-  /security/user/{username}/role/available:
-    $ref: paths/users_roles.yml
   /security/user/token:
     $ref: paths/users_token.yml
   /security/user/token/{token}:

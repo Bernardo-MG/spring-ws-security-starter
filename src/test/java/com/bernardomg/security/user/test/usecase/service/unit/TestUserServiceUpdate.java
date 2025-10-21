@@ -47,7 +47,6 @@ import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.domain.repository.UserRoleRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
@@ -76,9 +75,6 @@ class TestUserServiceUpdate {
 
     @Mock
     private UserRepository     userRepository;
-
-    @Mock
-    private UserRoleRepository userRoleRepository;
 
     public TestUserServiceUpdate() {
         super();

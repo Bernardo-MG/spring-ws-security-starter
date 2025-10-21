@@ -22,62 +22,59 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.adapter.inbound.jpa.repository;
+package com.bernardomg.security.permission.usercase.service;
 
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringPagination;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.user.domain.repository.UserRoleRepository;
+import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 
 /**
- * Role repository based on JPA entities.
+ * Default role service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
 @Transactional
-public final class JpaUserRoleRepository implements UserRoleRepository {
+public final class DefaultPermissionService implements PermissionService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger        log = LoggerFactory.getLogger(JpaUserRoleRepository.class);
+    private static final Logger                log = LoggerFactory.getLogger(DefaultPermissionService.class);
 
     /**
-     * Role repository.
+     * Resource permission repository.
      */
-    private final RoleSpringRepository roleSpringRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
-    public JpaUserRoleRepository(final RoleSpringRepository roleSpringRepo) {
+    public DefaultPermissionService(final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo,
+            final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 
-        roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
+        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
     }
 
     @Override
-    public final Page<Role> findAvailableToUser(final String username, final Pagination pagination,
-            final Sorting sorting) {
-        final Pageable                                   pageable;
-        final org.springframework.data.domain.Page<Role> page;
+    public final Page<ResourcePermission> getAll(final Pagination pagination, final Sorting sorting) {
+        final Page<ResourcePermission> roles;
 
-        log.trace("Finding roles available to user {}", username);
+        log.trace("Reading roles with pagination {} and sorting {}", pagination, sorting);
 
-        // TODO: this doesn't need the full role model, just the names
-        pageable = SpringPagination.toPageable(pagination, sorting);
-        page = roleSpringRepository.findAllByUser(username, pageable)
-            .map(RoleEntityMapper::toDomain);
+        roles = resourcePermissionRepository.findAll(pagination, sorting);
 
-        return SpringPagination.toPage(page);
+        log.trace("Read roles with pagination {} and sorting {}", pagination, sorting);
+
+        return roles;
     }
 
 }

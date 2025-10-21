@@ -121,8 +121,8 @@ public class RoleController implements RoleApi {
     @Override
     @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
-    public RolePageResponseDto getAllRoles(@Min(1) @Valid Integer page, @Min(1) @Valid Integer size,
-            @Valid List<String> sort, @Valid String name) {
+    public RolePageResponseDto getAllRoles(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
+            @Valid final List<String> sort, @Valid final String name) {
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Role> fees;

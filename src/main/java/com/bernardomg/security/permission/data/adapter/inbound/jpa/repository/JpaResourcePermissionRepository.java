@@ -31,8 +31,13 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.data.domain.Page;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
@@ -77,6 +82,20 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
             .map(ResourcePermissionEntityMapper::toDomain)
             .distinct()
             .toList();
+    }
+
+    @Override
+    public final Page<ResourcePermission> findAll(final Pagination pagination, final Sorting sorting) {
+        final Pageable                                                 pageable;
+        final org.springframework.data.domain.Page<ResourcePermission> page;
+
+        log.debug("Finding all permissions for pagination {} and sorting {}", pagination, sorting);
+
+        pageable = SpringPagination.toPageable(pagination, sorting);
+        page = resourcePermissionSpringRepository.findAll(pageable)
+            .map(ResourcePermissionEntityMapper::toDomain);
+
+        return SpringPagination.toPage(page);
     }
 
     @Override
