@@ -411,7 +411,13 @@
             Fixed typo in role name filter.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-19" description="">
+      <release version="0.4.33" date="2025-10-21" description="Permissions query">
+         <action dev="bmg" type="add">
+            Permissions query.
+         </action>
+         <action dev="bmg" type="remove">
+            Removed query for available roles.
+         </action>
       </release>
    </body>
 </document>
