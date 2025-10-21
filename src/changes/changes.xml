@@ -419,5 +419,10 @@
             Removed query for available roles.
          </action>
       </release>
+      <release version="0.4.34" date="2025-10-21" description="Scan for permission controller">
+         <action dev="bmg" type="fix">
+            Registered permission controller.
+         </action>
+      </release>
    </body>
 </document>
