@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.data.domain.repository;
-
-import java.util.Collection;
+package com.bernardomg.security.permission.usercase.service;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
@@ -32,53 +30,22 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
 
 /**
- * Resource permission repository.
+ * Permission service.
  *
  * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-public interface ResourcePermissionRepository {
+public interface PermissionService {
 
     /**
-     * Checks if a resource permission exists with the given name.
-     *
-     * @param name
-     *            name of the resource permission to check
-     * @return {@code true} if the resource permission exists, {@code false} otherwise
-     */
-    public boolean exists(final String name);
-
-    /**
-     * Returns all the resource permissions.
-     *
-     * @return all the resource permissions
-     */
-    public Collection<ResourcePermission> findAll();
-
-    /**
-     * Returns all permissions paged.
+     * Returns all the resource permissions paged.
      *
      * @param pagination
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the roles for the received query
+     * @return a page for the roles matching the sample
      */
-    public Page<ResourcePermission> findAll(final Pagination pagination, final Sorting sorting);
-
-    /**
-     * Returns the names of all the resources.
-     *
-     * @return the names of all the resources
-     */
-    public Collection<String> findAllNames();
-
-    /**
-     * Saves the received permissions. If they exist these are updated, otherwise they are created.
-     *
-     * @param permissions
-     *            permissions to save
-     * @return the saved permission
-     */
-    public Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions);
+    public Page<ResourcePermission> getAll(final Pagination pagination, final Sorting sorting);
 
 }
