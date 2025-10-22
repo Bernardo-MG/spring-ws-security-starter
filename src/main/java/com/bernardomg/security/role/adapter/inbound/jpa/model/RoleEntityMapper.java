@@ -27,9 +27,9 @@ package com.bernardomg.security.role.adapter.inbound.jpa.model;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
-import com.bernardomg.security.permission.data.domain.comparator.ResourcePermissionComparator;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
+import com.bernardomg.security.permission.domain.comparator.ResourcePermissionComparator;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 

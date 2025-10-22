@@ -30,9 +30,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.role.adapter.inbound.initializer.RolePermissionRegister;
+import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRoleRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
@@ -60,6 +61,12 @@ public class RoleAutoConfiguration {
     @Bean("rolePermissionRegister")
     public RolePermissionRegister getRolePermissionRegister() {
         return new RolePermissionRegister();
+    }
+
+    @Bean("rolePermissionRepository")
+    public RolePermissionRepository getRolePermissionRepository(final RoleSpringRepository roleRepo,
+            final ResourcePermissionSpringRepository resourcePermissionRepo) {
+        return new JpaRolePermissionRepository(roleRepo, resourcePermissionRepo);
     }
 
     @Bean("roleRepository")

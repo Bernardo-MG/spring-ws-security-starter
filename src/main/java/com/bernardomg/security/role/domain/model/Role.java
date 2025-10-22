@@ -26,7 +26,7 @@ package com.bernardomg.security.role.domain.model;
 
 import java.util.Collection;
 
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 
 /**
  * Role.

@@ -43,7 +43,7 @@ import com.bernardomg.security.openapi.model.UserChangeDto;
 import com.bernardomg.security.openapi.model.UserCreationDto;
 import com.bernardomg.security.openapi.model.UserPageResponseDto;
 import com.bernardomg.security.openapi.model.UserResponseDto;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserDtoMapper;

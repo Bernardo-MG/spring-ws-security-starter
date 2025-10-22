@@ -26,10 +26,21 @@ package com.bernardomg.security.permission.adapter.outbound.rest.controller;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.data.domain.Page;
+import com.bernardomg.data.domain.Pagination;
+import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.data.web.WebSorting;
+import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.openapi.api.PermissionApi;
 import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
+import com.bernardomg.security.permission.adapter.outbound.cache.PermissionCaches;
+import com.bernardomg.security.permission.adapter.outbound.rest.model.PermissionDtoMapper;
+import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.usecase.service.PermissionService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -44,11 +55,29 @@ import jakarta.validation.constraints.Min;
 @RestController
 public class PermissionController implements PermissionApi {
 
+    private final PermissionService service;
+
+    public PermissionController(final PermissionService service) {
+        super();
+
+        this.service = service;
+    }
+
     @Override
+    @Cacheable(cacheNames = PermissionCaches.PERMISSIONS)
+    @RequireResourceAccess(resource = "PERMISSION", action = Actions.READ)
     public ResourcePermissionPageResponseDto getAllPermissions(@Min(1) @Valid final Integer page,
             @Min(1) @Max(100) @Valid final Integer size, @Valid final List<String> sort) {
-        // TODO Auto-generated method stub
-        return null;
+        final Pagination               pagination;
+        final Sorting                  sorting;
+        final Page<ResourcePermission> permissions;
+
+        pagination = new Pagination(page, size);
+        sorting = WebSorting.toSorting(sort);
+
+        permissions = service.getAll(pagination, sorting);
+
+        return PermissionDtoMapper.toResponseDto(permissions);
     }
 
 }

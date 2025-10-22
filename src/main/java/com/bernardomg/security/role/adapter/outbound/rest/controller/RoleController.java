@@ -44,8 +44,8 @@ import com.bernardomg.security.openapi.model.RoleChangeDto;
 import com.bernardomg.security.openapi.model.RoleCreationDto;
 import com.bernardomg.security.openapi.model.RolePageResponseDto;
 import com.bernardomg.security.openapi.model.RoleResponseDto;
-import com.bernardomg.security.permission.data.constant.Actions;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
 import com.bernardomg.security.role.domain.model.Role;
@@ -125,16 +125,16 @@ public class RoleController implements RoleApi {
             @Valid final List<String> sort, @Valid final String name) {
         final Pagination pagination;
         final Sorting    sorting;
-        final Page<Role> fees;
+        final Page<Role> roles;
         final RoleQuery  query;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
         query = new RoleQuery(name);
-        fees = service.getAll(query, pagination, sorting);
+        roles = service.getAll(query, pagination, sorting);
 
-        return RoleDtoMapper.toResponseDto(fees);
+        return RoleDtoMapper.toResponseDto(roles);
     }
 
     @Override

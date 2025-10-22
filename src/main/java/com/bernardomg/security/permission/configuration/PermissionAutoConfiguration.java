@@ -31,18 +31,17 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ActionSpringRepository;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.JpaActionRepository;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.JpaResourcePermissionRepository;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.JpaResourceRepository;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.ResourceSpringRepository;
-import com.bernardomg.security.permission.data.domain.repository.ActionRepository;
-import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.JpaActionRepository;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.JpaResourcePermissionRepository;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.JpaResourceRepository;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
+import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
+import com.bernardomg.security.permission.domain.repository.ActionRepository;
+import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.domain.repository.ResourceRepository;
+import com.bernardomg.security.permission.usecase.service.DefaultPermissionService;
+import com.bernardomg.security.permission.usecase.service.PermissionService;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
@@ -56,7 +55,7 @@ import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.permission.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.data.adapter.inbound.jpa" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.adapter.inbound.jpa" })
 @Import({ PermissionLoaderConfiguration.class })
 public class PermissionAutoConfiguration {
 
@@ -69,6 +68,11 @@ public class PermissionAutoConfiguration {
         return new JpaActionRepository(actionRepo);
     }
 
+    @Bean("permissionService")
+    public PermissionService getPermissionService(final ResourcePermissionRepository resourcePermissionRepository) {
+        return new DefaultPermissionService(resourcePermissionRepository);
+    }
+
     @Bean("resourcePermissionRepository")
     public ResourcePermissionRepository
             getResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionRepo) {
@@ -78,12 +82,6 @@ public class PermissionAutoConfiguration {
     @Bean("resourceRepository")
     public ResourceRepository getResourceRepository(final ResourceSpringRepository resourceRepo) {
         return new JpaResourceRepository(resourceRepo);
-    }
-
-    @Bean("rolePermissionRepository")
-    public RolePermissionRepository getRolePermissionRepository(final RoleSpringRepository roleRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo) {
-        return new JpaRolePermissionRepository(roleRepo, resourcePermissionRepo);
     }
 
     @Bean("userPermissionRepository")

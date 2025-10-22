@@ -9,7 +9,7 @@ import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.security.openapi.model.ResourcePermissionDto;
 import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.openapi.model.SortingDto;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 
 public final class PermissionDtoMapper {
 

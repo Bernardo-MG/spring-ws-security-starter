@@ -2,13 +2,15 @@
 package com.bernardomg.security.architecture.test;
 
 import com.bernardomg.framework.testing.architecture.rule.DependencyRules;
+import com.bernardomg.security.architecture.config.IgnoreGenerated;
 import com.bernardomg.security.architecture.rule.TestImportRules;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.junit.ArchTests;
 
-@AnalyzeClasses(packages = "com.bernardomg.security", importOptions = ImportOption.OnlyIncludeTests.class)
+@AnalyzeClasses(packages = "com.bernardomg.security",
+        importOptions = { ImportOption.DoNotIncludeTests.class, IgnoreGenerated.class })
 public class TestArchitectureRulesTest {
 
     // TODO: enable these rules
