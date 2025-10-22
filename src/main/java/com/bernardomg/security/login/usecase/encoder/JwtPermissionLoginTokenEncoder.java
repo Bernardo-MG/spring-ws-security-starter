@@ -15,7 +15,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 
 /**

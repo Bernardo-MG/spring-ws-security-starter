@@ -40,7 +40,7 @@ import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.security.openapi.api.LoginRegisterApi;
 import com.bernardomg.security.openapi.model.LoginRegisterPageResponseDto;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.permission.domain.constant.Actions;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

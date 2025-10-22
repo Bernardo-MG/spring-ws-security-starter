@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;

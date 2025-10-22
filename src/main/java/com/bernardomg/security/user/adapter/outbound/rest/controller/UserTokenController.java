@@ -38,7 +38,7 @@ import com.bernardomg.security.openapi.api.UserTokensApi;
 import com.bernardomg.security.openapi.model.UserTokenChangeDto;
 import com.bernardomg.security.openapi.model.UserTokenPageResponseDto;
 import com.bernardomg.security.openapi.model.UserTokenResponseDto;
-import com.bernardomg.security.permission.data.constant.Actions;
+import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;
 import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.usecase.service.UserTokenService;

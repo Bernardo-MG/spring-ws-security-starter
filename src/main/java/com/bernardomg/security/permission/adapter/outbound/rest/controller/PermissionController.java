@@ -35,8 +35,8 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.openapi.api.PermissionApi;
 import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.permission.adapter.outbound.rest.model.PermissionDtoMapper;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.usercase.service.PermissionService;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.usecase.service.PermissionService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;

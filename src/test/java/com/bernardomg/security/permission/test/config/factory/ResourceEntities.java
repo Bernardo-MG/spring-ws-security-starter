@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.permission.test.config.factory;
 
-import com.bernardomg.security.permission.data.adapter.inbound.jpa.model.ResourceEntity;
+import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourceEntity;
 
 public final class ResourceEntities {
 

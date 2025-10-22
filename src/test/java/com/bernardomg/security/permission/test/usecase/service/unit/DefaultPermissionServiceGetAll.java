@@ -17,10 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.permission.usercase.service.DefaultPermissionService;
+import com.bernardomg.security.permission.usecase.service.DefaultPermissionService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultPermissionService - get all")

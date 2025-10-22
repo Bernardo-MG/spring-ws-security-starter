@@ -4,7 +4,7 @@ package com.bernardomg.security.role.test.config.factory;
 import java.util.Collection;
 import java.util.List;
 
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.role.domain.model.Role;
 

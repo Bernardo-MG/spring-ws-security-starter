@@ -32,12 +32,12 @@ import java.util.function.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.permission.data.domain.model.Action;
-import com.bernardomg.security.permission.data.domain.model.Resource;
-import com.bernardomg.security.permission.data.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.data.domain.repository.ActionRepository;
-import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
+import com.bernardomg.security.permission.domain.model.Action;
+import com.bernardomg.security.permission.domain.model.Resource;
+import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.domain.repository.ActionRepository;
+import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.domain.repository.ResourceRepository;
 
 /**
  * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionRegister}.
