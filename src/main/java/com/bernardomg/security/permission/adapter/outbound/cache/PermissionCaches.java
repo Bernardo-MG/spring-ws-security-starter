@@ -22,8 +22,23 @@
  * SOFTWARE.
  */
 
-/**
- * Permission cache configuration.
- */
+package com.bernardomg.security.permission.adapter.outbound.cache;
 
-package com.bernardomg.security.permission.adapter.outbound.rest.cache;
+/**
+ * Names of all the caches used for role queries.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final class PermissionCaches {
+
+    /**
+     * Multiple permission.
+     */
+    public static final String PERMISSIONS = "security_permission";
+
+    private PermissionCaches() {
+        super();
+    }
+
+}

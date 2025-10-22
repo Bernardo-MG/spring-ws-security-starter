@@ -36,7 +36,7 @@ import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.RequireResourceAccess;
 import com.bernardomg.security.openapi.api.PermissionApi;
 import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
-import com.bernardomg.security.permission.adapter.outbound.rest.cache.PermissionCaches;
+import com.bernardomg.security.permission.adapter.outbound.cache.PermissionCaches;
 import com.bernardomg.security.permission.adapter.outbound.rest.model.PermissionDtoMapper;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
