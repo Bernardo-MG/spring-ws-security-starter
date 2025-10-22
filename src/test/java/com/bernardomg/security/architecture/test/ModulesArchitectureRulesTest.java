@@ -3,12 +3,14 @@ package com.bernardomg.security.architecture.test;
 
 import static com.tngtech.archunit.library.Architectures.layeredArchitecture;
 
+import com.bernardomg.security.architecture.config.IgnoreGenerated;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-@AnalyzeClasses(packages = "com.bernardomg.security", importOptions = ImportOption.DoNotIncludeTests.class)
+@AnalyzeClasses(packages = "com.bernardomg.security",
+        importOptions = { ImportOption.DoNotIncludeTests.class, IgnoreGenerated.class })
 public class ModulesArchitectureRulesTest {
 
     @ArchTest
