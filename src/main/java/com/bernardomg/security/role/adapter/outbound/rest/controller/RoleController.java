@@ -125,16 +125,16 @@ public class RoleController implements RoleApi {
             @Valid final List<String> sort, @Valid final String name) {
         final Pagination pagination;
         final Sorting    sorting;
-        final Page<Role> fees;
+        final Page<Role> roles;
         final RoleQuery  query;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
         query = new RoleQuery(name);
-        fees = service.getAll(query, pagination, sorting);
+        roles = service.getAll(query, pagination, sorting);
 
-        return RoleDtoMapper.toResponseDto(fees);
+        return RoleDtoMapper.toResponseDto(roles);
     }
 
     @Override

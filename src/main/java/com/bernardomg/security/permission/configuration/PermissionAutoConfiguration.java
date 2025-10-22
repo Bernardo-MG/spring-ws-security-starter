@@ -40,9 +40,12 @@ import com.bernardomg.security.permission.data.adapter.inbound.jpa.repository.Re
 import com.bernardomg.security.permission.data.domain.repository.ActionRepository;
 import com.bernardomg.security.permission.data.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.data.domain.repository.ResourceRepository;
+import com.bernardomg.security.permission.usercase.service.DefaultPermissionService;
+import com.bernardomg.security.permission.usercase.service.PermissionService;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
+import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
@@ -67,6 +70,13 @@ public class PermissionAutoConfiguration {
     @Bean("actionRepository")
     public ActionRepository getActionRepository(final ActionSpringRepository actionRepo) {
         return new JpaActionRepository(actionRepo);
+    }
+
+    @Bean("permissionService")
+    public PermissionService getPermissionService(final RoleRepository roleRepository,
+            final RolePermissionRepository rolePermissionRepository,
+            final ResourcePermissionRepository resourcePermissionRepository) {
+        return new DefaultPermissionService(roleRepository, rolePermissionRepository, resourcePermissionRepository);
     }
 
     @Bean("resourcePermissionRepository")

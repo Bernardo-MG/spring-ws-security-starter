@@ -8,7 +8,7 @@ public final class IgnoreGenerated implements ImportOption {
 
     @Override
     public final boolean includes(final Location location) {
-        return !location.contains("com.bernardomg.security.openapi");
+        return (!location.contains("/com/bernardomg/security/openapi/") && !location.contains(".com.bernardomg.security.openapi."));
     }
 
 }
