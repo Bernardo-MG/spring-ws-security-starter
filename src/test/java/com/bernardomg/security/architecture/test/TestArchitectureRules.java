@@ -21,7 +21,7 @@ import com.tngtech.archunit.junit.ArchTests;
 
 @AnalyzeClasses(packages = "com.bernardomg.security",
         importOptions = { ImportOption.DoNotIncludeTests.class, IgnoreGenerated.class })
-public class ArchitectureRulesTest {
+public class TestArchitectureRules {
 
     @ArchTest
     static final ArchTests cacheRules           = ArchTests.in(CacheRules.class);

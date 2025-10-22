@@ -22,7 +22,7 @@ import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificationService")
-class SpringMailUserNotificationServiceTest {
+class TestSpringMailUserNotificationService {
 
     @Mock
     private JavaMailSender          javaMailSender;
@@ -35,7 +35,7 @@ class SpringMailUserNotificationServiceTest {
 
     private UserNotificationService userNotificationService;
 
-    public SpringMailUserNotificationServiceTest() {
+    public TestSpringMailUserNotificationService() {
         super();
     }
 

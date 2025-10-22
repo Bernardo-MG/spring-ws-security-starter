@@ -22,7 +22,7 @@ import com.bernardomg.security.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailPasswordNotificationService")
-class SpringMailPasswordNotificationServiceTest {
+class TestSpringMailPasswordNotificationService {
 
     @Mock
     private JavaMailSender              javaMailSender;
@@ -35,7 +35,7 @@ class SpringMailPasswordNotificationServiceTest {
     @Mock
     private SpringTemplateEngine        templateEng;
 
-    public SpringMailPasswordNotificationServiceTest() {
+    public TestSpringMailPasswordNotificationService() {
         super();
     }
 

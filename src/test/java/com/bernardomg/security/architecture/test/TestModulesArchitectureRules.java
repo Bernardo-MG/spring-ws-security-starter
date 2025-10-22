@@ -11,7 +11,7 @@ import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(packages = "com.bernardomg.security",
         importOptions = { ImportOption.DoNotIncludeTests.class, IgnoreGenerated.class })
-public class ModulesArchitectureRulesTest {
+public class TestModulesArchitectureRules {
 
     @ArchTest
     static final ArchRule module_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
