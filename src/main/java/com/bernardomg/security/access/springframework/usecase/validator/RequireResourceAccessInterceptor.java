@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.access.usecase.validator;
+package com.bernardomg.security.access.springframework.usecase.validator;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAccess;
 
 /**
  * Intercepts calls to any method marked by {@code AuthorizedResource} and applies resource-based authentication. This
@@ -69,6 +69,7 @@ public final class RequireResourceAccessInterceptor {
             log.error("User is not authorized with action {} for resource {}", annotation.action(),
                 annotation.resource());
             // TODO: Use a better exception, unrelated to Spring
+            // TODO: Or use a provider for the exception
             throw new AccessDeniedException("Missing authentication");
         }
     }

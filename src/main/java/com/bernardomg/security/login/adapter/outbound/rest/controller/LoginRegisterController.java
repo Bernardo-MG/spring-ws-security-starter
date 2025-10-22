@@ -33,7 +33,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAccess;
 import com.bernardomg.security.login.adapter.outbound.cache.Logins;
 import com.bernardomg.security.login.adapter.outbound.rest.model.LoginRegisterDtoMapper;
 import com.bernardomg.security.login.domain.model.LoginRegister;

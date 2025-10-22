@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023-2025 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,40 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.configuration;
+package com.bernardomg.security.access.annotation;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
-import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.user.domain.repository.UserRepository;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Spring components configuration.
+ * Access control annotation, marking a method with requires permissions over a resource. Said permission is a pair
+ * composed of a resource and an action applied over it.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Configuration(proxyBeanMethods = false)
-public class SpringAutoConfiguration {
+@Target({ ElementType.METHOD, ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+public @interface RequireResourceAccess {
 
-    public SpringAutoConfiguration() {
-        super();
-    }
+    /**
+     * Action required over the resource.
+     *
+     * @return action required
+     */
+    String action();
 
-    @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final UserPermissionRepository userPermissionRepository) {
-        return new UserDomainDetailsService(userRepository, userPermissionRepository);
-    }
+    /**
+     * Resource to access.
+     *
+     * @return resource to access
+     */
+    String resource();
 
 }

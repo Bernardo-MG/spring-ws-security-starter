@@ -37,7 +37,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAccess;
 import com.bernardomg.security.openapi.api.UserApi;
 import com.bernardomg.security.openapi.model.UserChangeDto;
 import com.bernardomg.security.openapi.model.UserCreationDto;

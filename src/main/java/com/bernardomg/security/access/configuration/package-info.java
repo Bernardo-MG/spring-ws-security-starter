@@ -23,7 +23,7 @@
  */
 
 /**
- * Access aspects and annotations.
+ * Spring Framework components configuration.
  */
 
-package com.bernardomg.security.springframework.access.usecase.validator;
+package com.bernardomg.security.access.configuration;

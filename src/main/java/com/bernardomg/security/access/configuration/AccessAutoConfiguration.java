@@ -22,48 +22,38 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.adapter.outbound.rest.controller;
+package com.bernardomg.security.access.configuration;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.access.annotation.Unsecured;
-import com.bernardomg.security.openapi.api.PasswordResetRequestApi;
-import com.bernardomg.security.openapi.model.RequestPasswordResetDto;
-import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
-
-import jakarta.validation.Valid;
+import com.bernardomg.security.access.springframework.usecase.validator.RequireResourceAccessInterceptor;
+import com.bernardomg.security.access.springframework.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.access.springframework.usecase.validator.SpringResourceAccessValidator;
 
 /**
- * Handles password reset for a user, usually when it can't start a session. It is divided into two steps:
- * <p>
- * <ul>
- * <li>Starting the password reset</li>
- * <li>Changing password at end of password reset</li>
- * </ul>
- * <p>
- * All the logic is delegated to a {@link PasswordResetService}.
+ * Access configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@RestController
-public class PasswordResetRequestController implements PasswordResetRequestApi {
+@AutoConfiguration
+@Configuration(proxyBeanMethods = false)
+public class AccessAutoConfiguration {
 
-    /**
-     * Password reset service.
-     */
-    private final PasswordResetService service;
-
-    public PasswordResetRequestController(final PasswordResetService service) {
+    public AccessAutoConfiguration() {
         super();
-
-        this.service = service;
     }
 
-    @Override
-    @Unsecured
-    public void requestPasswordReset(@Valid final RequestPasswordResetDto requestPasswordResetDto) {
-        service.startPasswordReset(requestPasswordResetDto.getEmail());
+    @Bean("requireResourceAccessAspect")
+    @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
+    public RequireResourceAccessInterceptor getRequireResourceAccessAspect() {
+        final ResourceAccessValidator validator;
+
+        validator = new SpringResourceAccessValidator();
+        return new RequireResourceAccessInterceptor(validator);
     }
 
 }

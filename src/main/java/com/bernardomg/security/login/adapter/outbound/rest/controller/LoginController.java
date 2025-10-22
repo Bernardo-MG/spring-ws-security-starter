@@ -26,7 +26,7 @@ package com.bernardomg.security.login.adapter.outbound.rest.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.access.Unsecured;
+import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.security.login.adapter.outbound.rest.model.LoginDtoMapper;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;

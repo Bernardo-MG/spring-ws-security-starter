@@ -18,9 +18,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.springframework.access.usecase.validator.RequireResourceAccessInterceptor;
-import com.bernardomg.security.springframework.access.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.access.annotation.RequireResourceAccess;
+import com.bernardomg.security.access.springframework.usecase.validator.RequireResourceAccessInterceptor;
+import com.bernardomg.security.access.springframework.usecase.validator.ResourceAccessValidator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("RequireResourceAccessInterceptor")

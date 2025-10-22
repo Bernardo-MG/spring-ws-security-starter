@@ -1,3 +1,4 @@
+com.bernardomg.security.access.configuration.AccessAutoConfiguration
 com.bernardomg.security.account.configuration.AccountAutoConfiguration
 com.bernardomg.security.configuration.SecurityAutoConfiguration
 com.bernardomg.security.initializer.configuration.SecurityInitializerAutoConfiguration

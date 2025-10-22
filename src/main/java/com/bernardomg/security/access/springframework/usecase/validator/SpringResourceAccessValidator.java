@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.access.usecase.validator;
+package com.bernardomg.security.access.springframework.usecase.validator;
 
 import java.util.Objects;
 import java.util.function.Predicate;

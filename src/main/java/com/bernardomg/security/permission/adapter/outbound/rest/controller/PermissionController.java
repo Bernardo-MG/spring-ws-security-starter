@@ -33,7 +33,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAccess;
 import com.bernardomg.security.openapi.api.PermissionApi;
 import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.permission.adapter.outbound.cache.PermissionCaches;

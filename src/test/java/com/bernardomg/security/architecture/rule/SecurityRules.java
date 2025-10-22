@@ -5,8 +5,8 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
 import com.bernardomg.framework.testing.architecture.predicates.IsInServicePackage;
 import com.bernardomg.framework.testing.architecture.predicates.springframework.IsSpringControllerClass;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.access.Unsecured;
+import com.bernardomg.security.access.annotation.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.Unsecured;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
