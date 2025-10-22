@@ -424,7 +424,10 @@
             Registered permission controller.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-21" description="">
+      <release version="0.4.35" date="2025-10-22" description="Connected controller to service">
+         <action dev="bmg" type="fix">
+            Connected permissions controller to service.
+         </action>
       </release>
    </body>
 </document>
