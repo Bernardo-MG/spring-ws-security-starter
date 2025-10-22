@@ -35,8 +35,6 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
 
 /**
  * Default role service.
@@ -57,8 +55,7 @@ public final class DefaultPermissionService implements PermissionService {
      */
     private final ResourcePermissionRepository resourcePermissionRepository;
 
-    public DefaultPermissionService(final RoleRepository roleRepo, final RolePermissionRepository rolePermissionRepo,
-            final ResourcePermissionRepository resourcePermissionRepo) {
+    public DefaultPermissionService(final ResourcePermissionRepository resourcePermissionRepo) {
         super();
 
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);

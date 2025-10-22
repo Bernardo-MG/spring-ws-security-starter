@@ -30,14 +30,6 @@ public class TestModulesArchitectureRules {
         .layer("Password configuration")
         .definedBy("com.bernardomg.security.password.configuration..")
 
-        // Permission modules
-        .layer("Permissions data")
-        .definedBy("com.bernardomg.security.permission.data..")
-        .layer("Permissions initializer")
-        .definedBy("com.bernardomg.security.permission.initializer..")
-        .layer("Permissions configuration")
-        .definedBy("com.bernardomg.security.permission.configuration..")
-
         // Login
         .layer("Login")
         .definedBy("com.bernardomg.security.login..")
@@ -46,6 +38,8 @@ public class TestModulesArchitectureRules {
         .layer("Web security")
         .definedBy("com.bernardomg.security.web..")
 
+        .layer("Permissions")
+        .definedBy("com.bernardomg.security.permission..")
         .layer("Roles")
         .definedBy("com.bernardomg.security.role..")
         .layer("Access")
@@ -68,7 +62,7 @@ public class TestModulesArchitectureRules {
         // User modules access
         .whereLayer("Users")
         .mayOnlyBeAccessedByLayers("Initializers", "Config", "Login", "Spring", "Account", "Password reset",
-            "Password change", "Permissions configuration", "Password configuration", "Roles")
+            "Password change", "Permissions", "Password configuration", "Roles")
         .whereLayer("User configuration")
         .mayOnlyBeAccessedByLayers("Password configuration")
         .whereLayer("Account")
@@ -83,17 +77,10 @@ public class TestModulesArchitectureRules {
         .mayNotBeAccessedByAnyLayer()
 
         // Permission modules access
-        .whereLayer("Permissions data")
-        .mayOnlyBeAccessedByLayers("Users", "Roles", "Initializers", "Login", "Access", "Config", "Spring",
-            "Permissions initializer", "Permissions configuration")
-        .whereLayer("Permissions initializer")
-        .mayOnlyBeAccessedByLayers("Permissions initializer", "Config", "Login", "Roles", "Users",
-            "Permissions configuration")
-        .whereLayer("Permissions configuration")
-        .mayNotBeAccessedByAnyLayer()
-
+        .whereLayer("Permissions")
+        .mayOnlyBeAccessedByLayers("Users", "Roles", "Initializers", "Login", "Access", "Config", "Spring")
         .whereLayer("Roles")
-        .mayOnlyBeAccessedByLayers("Users", "Initializers", "Config", "Spring", "Permissions configuration")
+        .mayOnlyBeAccessedByLayers("Users", "Initializers", "Config", "Spring")
         .whereLayer("Access")
         .mayOnlyBeAccessedByLayers("Config", "Spring", "Account", "Roles", "Password reset", "Password change", "Login",
             "Users")
