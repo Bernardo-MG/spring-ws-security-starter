@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.test.access.usecase.validator;
+package com.bernardomg.security.test.access.interceptor;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,8 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
 
 import com.bernardomg.security.access.annotation.RequireResourceAccess;
-import com.bernardomg.security.access.springframework.usecase.validator.RequireResourceAccessInterceptor;
-import com.bernardomg.security.access.springframework.usecase.validator.ResourceAccessValidator;
+import com.bernardomg.security.access.interceptor.RequireResourceAccessInterceptor;
+import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("RequireResourceAccessInterceptor")

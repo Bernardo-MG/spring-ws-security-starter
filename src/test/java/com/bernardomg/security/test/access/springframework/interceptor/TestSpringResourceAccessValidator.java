@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.test.access.usecase.validator;
+package com.bernardomg.security.test.access.springframework.interceptor;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.access.springframework.usecase.validator.ResourceAccessValidator;
-import com.bernardomg.security.access.springframework.usecase.validator.SpringResourceAccessValidator;
+import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.security.access.springframework.interceptor.SpringResourceAccessValidator;
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.test.config.factory.Authentications;
 

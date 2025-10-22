@@ -23,7 +23,7 @@
  */
 
 /**
- * Access aspects and annotations.
+ * Interceptor components based on Spring.
  */
 
-package com.bernardomg.security.access.springframework.usecase.validator;
+package com.bernardomg.security.access.springframework.interceptor;

@@ -22,14 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.access.springframework.usecase.validator;
+package com.bernardomg.security.access.interceptor;
+
+import java.util.Objects;
+import java.util.function.Supplier;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
 
 import com.bernardomg.security.access.annotation.RequireResourceAccess;
 
@@ -46,17 +48,21 @@ public final class RequireResourceAccessInterceptor {
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(RequireResourceAccessInterceptor.class);
+    private static final Logger              log = LoggerFactory.getLogger(RequireResourceAccessInterceptor.class);
 
     /**
      * Authorization validator. Makes sure the user in session has the required authorities.
      */
-    private final ResourceAccessValidator authValidator;
+    private final ResourceAccessValidator    authValidator;
 
-    public RequireResourceAccessInterceptor(final ResourceAccessValidator validator) {
+    private final Supplier<RuntimeException> exceptionSupplier;
+
+    public RequireResourceAccessInterceptor(final ResourceAccessValidator validator,
+            final Supplier<RuntimeException> exceptionSup) {
         super();
 
-        authValidator = validator;
+        authValidator = Objects.requireNonNull(validator);
+        exceptionSupplier = Objects.requireNonNull(exceptionSup);
     }
 
     @Before("@annotation(RequireResourceAccess)")
@@ -68,9 +74,7 @@ public final class RequireResourceAccessInterceptor {
         if (!authorized) {
             log.error("User is not authorized with action {} for resource {}", annotation.action(),
                 annotation.resource());
-            // TODO: Use a better exception, unrelated to Spring
-            // TODO: Or use a provider for the exception
-            throw new AccessDeniedException("Missing authentication");
+            throw exceptionSupplier.get();
         }
     }
 

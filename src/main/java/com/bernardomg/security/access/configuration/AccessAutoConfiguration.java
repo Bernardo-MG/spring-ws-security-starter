@@ -28,10 +28,11 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 
-import com.bernardomg.security.access.springframework.usecase.validator.RequireResourceAccessInterceptor;
-import com.bernardomg.security.access.springframework.usecase.validator.ResourceAccessValidator;
-import com.bernardomg.security.access.springframework.usecase.validator.SpringResourceAccessValidator;
+import com.bernardomg.security.access.interceptor.RequireResourceAccessInterceptor;
+import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.security.access.springframework.interceptor.SpringResourceAccessValidator;
 
 /**
  * Access configuration.
@@ -53,7 +54,8 @@ public class AccessAutoConfiguration {
         final ResourceAccessValidator validator;
 
         validator = new SpringResourceAccessValidator();
-        return new RequireResourceAccessInterceptor(validator);
+        return new RequireResourceAccessInterceptor(validator,
+            () -> new AccessDeniedException("Missing authentication"));
     }
 
 }

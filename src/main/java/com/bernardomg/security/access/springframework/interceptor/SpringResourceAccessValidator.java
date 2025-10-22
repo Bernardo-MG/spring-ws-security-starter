@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.access.springframework.usecase.validator;
+package com.bernardomg.security.access.springframework.interceptor;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.springframework.domain.model.ResourceActionGrantedAuthority;
 
 /**
