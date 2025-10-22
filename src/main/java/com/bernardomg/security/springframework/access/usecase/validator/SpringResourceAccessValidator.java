@@ -104,6 +104,7 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
      */
     private final boolean matches(final ResourceActionGrantedAuthority authority, final String resource,
             final String action) {
+        // TODO: make case insensitive
         return authority.resource()
             .equals(resource)
                 && authority.action()

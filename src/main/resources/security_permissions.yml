@@ -1,0 +1,27 @@
+register:
+  - resource: permission
+    permissions:
+      - read
+  - resource: role
+    permissions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: user
+    permissions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: user_token
+    permissions:
+      - read
+      - update
+      - delete
+      - view
+  - resource: login_register
+    permissions:
+      - read
