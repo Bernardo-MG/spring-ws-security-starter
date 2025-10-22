@@ -55,7 +55,7 @@ import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.permission.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.data.adapter.inbound.jpa" })
+@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.adapter.inbound.jpa" })
 @Import({ PermissionLoaderConfiguration.class })
 public class PermissionAutoConfiguration {
 
