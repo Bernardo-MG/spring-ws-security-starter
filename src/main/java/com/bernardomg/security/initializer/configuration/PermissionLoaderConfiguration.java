@@ -24,12 +24,16 @@
 
 package com.bernardomg.security.initializer.configuration;
 
+import java.io.IOException;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 
+import com.bernardomg.security.initializer.usecase.loader.PermissionFileLoader;
 import com.bernardomg.security.initializer.usecase.loader.PermissionRegister;
 import com.bernardomg.security.initializer.usecase.loader.PermissionsLoader;
 import com.bernardomg.security.permission.domain.repository.ActionRepository;
@@ -61,6 +65,12 @@ public class PermissionLoaderConfiguration {
             final ResourceRepository resourceRepo, final ResourcePermissionRepository resourcePermissionRepo,
             final Collection<PermissionRegister> perms) {
         return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, perms);
+    }
+
+    @Bean("permissionFileLoader")
+    public PermissionFileLoader permissionFileLoader(@Value("security_permissions.yml") final Resource resource)
+            throws IOException {
+        return new PermissionFileLoader(resource.getInputStream());
     }
 
 }
