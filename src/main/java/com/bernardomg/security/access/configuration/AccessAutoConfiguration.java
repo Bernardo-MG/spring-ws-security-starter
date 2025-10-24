@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.bernardomg.security.access.interceptor.RequireResourceAccessInterceptor;
+import com.bernardomg.security.access.interceptor.RequireResourceAuthorizationInterceptor;
 import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.access.springframework.interceptor.SpringResourceAccessValidator;
 
@@ -50,11 +50,11 @@ public class AccessAutoConfiguration {
 
     @Bean("requireResourceAccessAspect")
     @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RequireResourceAccessInterceptor getRequireResourceAccessAspect() {
+    public RequireResourceAuthorizationInterceptor getRequireResourceAccessAspect() {
         final ResourceAccessValidator validator;
 
         validator = new SpringResourceAccessValidator();
-        return new RequireResourceAccessInterceptor(validator,
+        return new RequireResourceAuthorizationInterceptor(validator,
             () -> new AccessDeniedException("Missing authentication"));
     }
 

@@ -42,7 +42,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface RequireResourceAccess {
+public @interface RequireResourceAuthorization {
 
     /**
      * Action required over the resource.

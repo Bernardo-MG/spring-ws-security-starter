@@ -18,29 +18,29 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.bernardomg.security.access.annotation.RequireResourceAccess;
-import com.bernardomg.security.access.interceptor.RequireResourceAccessInterceptor;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.access.interceptor.RequireResourceAuthorizationInterceptor;
 import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("RequireResourceAccessInterceptor")
-class TestRequireResourceAccessInterceptor {
+@DisplayName("RequireResourceAuthorizationInterceptor")
+class TestRequireResourceAuthorizationInterceptor {
 
     static class TestService {
 
-        @RequireResourceAccess(resource = "data", action = "read")
+        @RequireResourceAuthorization(resource = "data", action = "read")
         public void annotatedMethod() {}
 
     }
 
     @InjectMocks
-    private RequireResourceAccessInterceptor interceptor;
+    private RequireResourceAuthorizationInterceptor interceptor;
 
     @Mock
-    private JoinPoint                        jp;
+    private JoinPoint                               jp;
 
     @Mock
-    private ResourceAccessValidator          validator;
+    private ResourceAccessValidator                 validator;
 
     @Test
     void allowsExecution_WhenAuthorized() throws Exception {
@@ -53,7 +53,7 @@ class TestRequireResourceAccessInterceptor {
         // WHEN
         given(validator.isAuthorized("data", "read")).willReturn(true);
 
-        exec = () -> interceptor.before(jp, method.getAnnotation(RequireResourceAccess.class));
+        exec = () -> interceptor.before(jp, method.getAnnotation(RequireResourceAuthorization.class));
         assertThatCode(exec).doesNotThrowAnyException();
 
         // THEN
@@ -72,7 +72,7 @@ class TestRequireResourceAccessInterceptor {
         given(validator.isAuthorized("data", "read")).willReturn(false);
 
         // THEN
-        exec = () -> interceptor.before(jp, method.getAnnotation(RequireResourceAccess.class));
+        exec = () -> interceptor.before(jp, method.getAnnotation(RequireResourceAuthorization.class));
         assertThatThrownBy(exec).isInstanceOf(AccessDeniedException.class);
     }
 

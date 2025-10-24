@@ -29,7 +29,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.access.annotation.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
 import com.bernardomg.security.openapi.api.UserOnboardingApi;
 import com.bernardomg.security.openapi.model.UserActivationDto;
@@ -79,7 +79,7 @@ public class UserOnboardingController implements UserOnboardingApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public UserResponseDto inviteUser(@Valid final UserCreationDto userCreationDto) {

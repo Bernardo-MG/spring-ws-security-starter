@@ -33,7 +33,7 @@ import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.access.annotation.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 
 /**
  * Intercepts calls to any method marked by {@code AuthorizedResource} and applies resource-based authentication. This
@@ -43,33 +43,34 @@ import com.bernardomg.security.access.annotation.RequireResourceAccess;
  *
  */
 @Aspect
-public final class RequireResourceAccessInterceptor {
+public final class RequireResourceAuthorizationInterceptor {
 
     /**
      * Logger for the class.
      */
-    private static final Logger              log = LoggerFactory.getLogger(RequireResourceAccessInterceptor.class);
+    private static final Logger              log = LoggerFactory
+        .getLogger(RequireResourceAuthorizationInterceptor.class);
 
     /**
      * Authorization validator. Makes sure the user in session has the required authorities.
      */
-    private final ResourceAccessValidator    authValidator;
+    private final ResourceAccessValidator    accessValidator;
 
     private final Supplier<RuntimeException> exceptionSupplier;
 
-    public RequireResourceAccessInterceptor(final ResourceAccessValidator validator,
+    public RequireResourceAuthorizationInterceptor(final ResourceAccessValidator validator,
             final Supplier<RuntimeException> exceptionSup) {
         super();
 
-        authValidator = Objects.requireNonNull(validator);
+        accessValidator = Objects.requireNonNull(validator);
         exceptionSupplier = Objects.requireNonNull(exceptionSup);
     }
 
     @Before("@annotation(RequireResourceAccess)")
-    public final void before(final JoinPoint call, final RequireResourceAccess annotation) {
+    public final void before(final JoinPoint call, final RequireResourceAuthorization annotation) {
         final boolean authorized;
 
-        authorized = authValidator.isAuthorized(annotation.resource(), annotation.action());
+        authorized = accessValidator.isAuthorized(annotation.resource(), annotation.action());
 
         if (!authorized) {
             log.error("User is not authorized with action {} for resource {}", annotation.action(),
