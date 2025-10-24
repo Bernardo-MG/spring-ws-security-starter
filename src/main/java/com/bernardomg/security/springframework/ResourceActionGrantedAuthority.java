@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023-2025 the original author or authors.
+ * Copyright (c) 2022-2023 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,31 @@
  * SOFTWARE.
  */
 
-/**
- * JWT entry points.
- */
+package com.bernardomg.security.springframework;
 
-package com.bernardomg.security.springframework.web;
+import org.springframework.security.core.GrantedAuthority;
+
+/**
+ * Granted authority for resource based access.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public final record ResourceActionGrantedAuthority(String resource, String action) implements GrantedAuthority {
+
+    /**
+     * Serialization id.
+     */
+    private static final long serialVersionUID = 2121524436657408632L;
+
+    @Override
+    public final String getAuthority() {
+        return String.format("%s:%s", resource, action);
+    }
+
+    @Override
+    public String toString() {
+        return getAuthority();
+    }
+
+}

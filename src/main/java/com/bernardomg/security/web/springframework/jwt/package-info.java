@@ -23,7 +23,7 @@
  */
 
 /**
- * Spring access validator.
+ * JWT web components for Spring.
  */
 
-package com.bernardomg.security.springframework.usecase;
+package com.bernardomg.security.web.springframework.jwt;

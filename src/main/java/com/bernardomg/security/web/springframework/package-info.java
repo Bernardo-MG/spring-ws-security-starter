@@ -23,7 +23,7 @@
  */
 
 /**
- * JWT web components for Spring.
+ * JWT entry points.
  */
 
-package com.bernardomg.security.springframework.web.jwt;
+package com.bernardomg.security.web.springframework;

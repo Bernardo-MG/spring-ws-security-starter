@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
+import com.bernardomg.security.springframework.userdetails.UserDomainDetailsService;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 

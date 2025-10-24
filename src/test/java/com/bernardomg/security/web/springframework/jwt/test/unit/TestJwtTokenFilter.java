@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.web.jwt.test.unit;
+package com.bernardomg.security.web.springframework.jwt.test.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -22,8 +22,8 @@ import com.bernardomg.security.jwt.encoding.JwtTokenData;
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.jwt.encoding.TokenValidator;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.web.springframework.jwt.JwtTokenFilter;
 import com.bernardomg.test.config.factory.SecurityUsers;
 
 import jakarta.servlet.FilterChain;
