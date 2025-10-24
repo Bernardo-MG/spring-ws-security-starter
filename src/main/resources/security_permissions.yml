@@ -1,27 +1,33 @@
-register:
+actions:
+  - create
+  - read
+  - update
+  - delete
+  - view
+permissions:
   - resource: permission
-    permissions:
+    actions:
       - read
   - resource: role
-    permissions:
+    actions:
       - create
       - read
       - update
       - delete
       - view
   - resource: user
-    permissions:
+    actions:
       - create
       - read
       - update
       - delete
       - view
   - resource: user_token
-    permissions:
+    actions:
       - read
       - update
       - delete
       - view
   - resource: login_register
-    permissions:
+    actions:
       - read
