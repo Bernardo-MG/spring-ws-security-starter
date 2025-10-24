@@ -10,10 +10,10 @@ import java.lang.reflect.Method;
 
 import org.aspectj.lang.JoinPoint;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
@@ -33,7 +33,6 @@ class TestRequireResourceAuthorizationInterceptor {
 
     }
 
-    @InjectMocks
     private RequireResourceAuthorizationInterceptor interceptor;
 
     @Mock
@@ -41,6 +40,12 @@ class TestRequireResourceAuthorizationInterceptor {
 
     @Mock
     private ResourceAccessValidator                 validator;
+
+    @BeforeEach
+    public final void initializeInterceptor() {
+        interceptor = new RequireResourceAuthorizationInterceptor(validator,
+            () -> new AccessDeniedException("Missing authentication"));
+    }
 
     @Test
     void allowsExecution_WhenAuthorized() throws Exception {
