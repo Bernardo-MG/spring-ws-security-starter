@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.initializer.usecase;
+package com.bernardomg.security.initializer.usecase.loader;
 
 /**
  * Resource and action pair for the permissions loader. This pair represents a permission which to be loaded.

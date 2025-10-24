@@ -29,7 +29,6 @@ import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.JpaActionRepository;
@@ -56,7 +55,6 @@ import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 @Configuration(proxyBeanMethods = false)
 @ComponentScan({ "com.bernardomg.security.permission.adapter.outbound.rest.controller" })
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.permission.adapter.inbound.jpa" })
-@Import({ PermissionLoaderConfiguration.class })
 public class PermissionAutoConfiguration {
 
     public PermissionAutoConfiguration() {

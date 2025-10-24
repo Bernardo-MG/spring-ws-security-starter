@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.initializer.test.usecase;
+package com.bernardomg.security.initializer.test.usecase.loader;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -12,12 +12,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.initializer.usecase.loader.PermissionRegister;
+import com.bernardomg.security.initializer.usecase.loader.PermissionsLoader;
+import com.bernardomg.security.initializer.usecase.loader.ResourcePermissionPair;
 import com.bernardomg.security.permission.domain.repository.ActionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.PermissionsLoader;
-import com.bernardomg.security.permission.initializer.usecase.ResourcePermissionPair;
 import com.bernardomg.security.permission.test.config.factory.Actions;
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;

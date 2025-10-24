@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.initializer.usecase;
+package com.bernardomg.security.initializer.usecase.loader;
 
 import java.util.Collection;
 import java.util.List;

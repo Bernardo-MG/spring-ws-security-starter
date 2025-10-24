@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.configuration;
+package com.bernardomg.security.initializer.configuration;
 
 import java.util.Collection;
 
@@ -30,12 +30,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.initializer.usecase.loader.PermissionRegister;
+import com.bernardomg.security.initializer.usecase.loader.PermissionsLoader;
 import com.bernardomg.security.permission.domain.repository.ActionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
 import com.bernardomg.security.permission.initializer.adapter.inbound.initializer.DefaultPermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.PermissionRegister;
-import com.bernardomg.security.permission.initializer.usecase.PermissionsLoader;
 
 /**
  * Permission loader auto configuration.
