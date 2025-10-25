@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.initializer.test.usecase.loader;
+package com.bernardomg.security.initializer.test.usecase.loader.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;

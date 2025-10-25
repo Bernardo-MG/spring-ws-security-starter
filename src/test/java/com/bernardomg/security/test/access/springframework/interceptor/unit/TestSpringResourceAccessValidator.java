@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.test.access.springframework.interceptor;
+package com.bernardomg.security.test.access.springframework.interceptor.unit;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.test.access.interceptor;
+package com.bernardomg.security.test.access.interceptor.unit;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
