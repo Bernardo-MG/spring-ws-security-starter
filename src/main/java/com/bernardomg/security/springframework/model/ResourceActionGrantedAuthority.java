@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework;
+package com.bernardomg.security.springframework.model;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -37,7 +37,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.springframework.ResourceActionGrantedAuthority;
+import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;

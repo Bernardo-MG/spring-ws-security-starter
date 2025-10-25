@@ -33,7 +33,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
-import com.bernardomg.security.springframework.ResourceActionGrantedAuthority;
+import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 
 /**
  * Validates permissions over a resource with the help of Spring. Permissions are checked through the user authorities,
