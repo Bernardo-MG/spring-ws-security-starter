@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.userdetails;
+package com.bernardomg.security.springframework.usecase.service;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -34,6 +34,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
@@ -63,6 +64,7 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@Transactional
 public final class UserDomainDetailsService implements UserDetailsService {
 
     /**

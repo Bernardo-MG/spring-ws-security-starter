@@ -14,7 +14,7 @@ import com.bernardomg.security.permission.test.config.annotation.AlternativeUser
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.UserWithoutPermissions;
-import com.bernardomg.security.springframework.userdetails.UserDomainDetailsService;
+import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

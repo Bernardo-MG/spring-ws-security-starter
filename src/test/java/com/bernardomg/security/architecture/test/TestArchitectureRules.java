@@ -14,6 +14,7 @@ import com.bernardomg.security.architecture.config.IgnoreGenerated;
 import com.bernardomg.security.architecture.rule.CacheRules;
 import com.bernardomg.security.architecture.rule.LayerDependencyRules;
 import com.bernardomg.security.architecture.rule.SecurityRules;
+import com.bernardomg.security.architecture.rule.TestImportRules;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
@@ -52,6 +53,9 @@ public class TestArchitectureRules {
 
     @ArchTest
     static final ArchTests serviceRules         = ArchTests.in(ServiceRules.class);
+
+    @ArchTest
+    static final ArchTests testImportRules      = ArchTests.in(TestImportRules.class);
 
     @ArchTest
     static final ArchTests transactionalRules   = ArchTests.in(TransactionalRules.class);

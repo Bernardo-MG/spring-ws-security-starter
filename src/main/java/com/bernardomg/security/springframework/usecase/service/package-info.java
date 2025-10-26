@@ -26,4 +26,4 @@
  * Spring security services.
  */
 
-package com.bernardomg.security.springframework.userdetails;
+package com.bernardomg.security.springframework.usecase.service;

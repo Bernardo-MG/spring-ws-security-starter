@@ -26,6 +26,7 @@ package com.bernardomg.security.initializer.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -67,16 +68,10 @@ public class PermissionLoaderConfiguration {
             throw new IOException("Missing permissions file");
         }
 
-        additionalFiles = permissionsFilesProperties.files()
-            .stream()
-            .map(t -> {
-                try {
-                    return t.getInputStream();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
-                }
-            })
-            .toList();
+        additionalFiles = new ArrayList<>();
+        for (final Resource t : permissionsFilesProperties.files()) {
+            additionalFiles.add(t.getInputStream());
+        }
         files = Stream.concat(List.of(resource.getInputStream())
             .stream(), additionalFiles.stream())
             .toList();

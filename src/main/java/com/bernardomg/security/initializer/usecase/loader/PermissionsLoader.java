@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -114,7 +113,7 @@ public final class PermissionsLoader {
         actions = permissionConfigs.stream()
             .map(PermissionConfig::getActions)
             .flatMap(Collection::stream)
-            .map(Strings::toRootUpperCase)
+            .map(String::toUpperCase)
             .distinct()
             .filter(Predicate.not(actionNames::contains))
             .map(Action::new)
@@ -129,7 +128,7 @@ public final class PermissionsLoader {
             .map(PermissionConfig::getPermissions)
             .flatMap(Collection::stream)
             .map(ResourcePermissionConfig::getResource)
-            .map(Strings::toRootUpperCase)
+            .map(String::toUpperCase)
             .distinct()
             .filter(Predicate.not(resourceNames::contains))
             .map(Resource::new)
