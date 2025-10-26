@@ -24,14 +24,21 @@
 
 package com.bernardomg.security.initializer.usecase.loader;
 
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.LoaderOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
+import com.bernardomg.security.initializer.domain.model.PermissionConfig;
+import com.bernardomg.security.initializer.domain.model.ResourcePermissionConfig;
 import com.bernardomg.security.permission.domain.model.Action;
 import com.bernardomg.security.permission.domain.model.Resource;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
@@ -49,36 +56,37 @@ public final class PermissionsLoader {
     /**
      * Logger for the class.
      */
-    private static final Logger                  log = LoggerFactory.getLogger(PermissionsLoader.class);
+    private static final Logger                log = LoggerFactory.getLogger(PermissionsLoader.class);
 
     /**
      * Actions repository.
      */
-    private final ActionRepository               actionRepository;
+    private final ActionRepository             actionRepository;
 
     /**
      * Permissions to load.
      */
-    private final Collection<PermissionRegister> permissionRegisters;
+    private final PermissionConfig             permissionConfig;
 
     /**
      * Resource permissions repository.
      */
-    private final ResourcePermissionRepository   resourcePermissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
     /**
      * Resource repository.
      */
-    private final ResourceRepository             resourceRepository;
+    private final ResourceRepository           resourceRepository;
 
     public PermissionsLoader(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
-            final ResourcePermissionRepository resourcePermissionRepo, final Collection<PermissionRegister> perms) {
+            final ResourcePermissionRepository resourcePermissionRepo, final InputStream permissions) {
         super();
 
         actionRepository = Objects.requireNonNull(actionRepo);
         resourceRepository = Objects.requireNonNull(resourceRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
-        permissionRegisters = Objects.requireNonNull(perms);
+
+        permissionConfig = readPermissions(permissions);
     }
 
     /**
@@ -97,12 +105,13 @@ public final class PermissionsLoader {
         // TODO: Apply transactionality
         // TODO: Group each into a single query
 
+        // TODO: Load default actions
         // Load actions
         log.debug("Saving actions");
         actionNames = actionRepository.findAllNames();
-        actions = permissionRegisters.stream()
-            .map(PermissionRegister::getActions)
-            .flatMap(Collection::stream)
+        actions = permissionConfig.getActions()
+            .stream()
+            .map(Strings::toRootUpperCase)
             .distinct()
             .filter(Predicate.not(actionNames::contains))
             .map(Action::new)
@@ -113,9 +122,10 @@ public final class PermissionsLoader {
         // Load resources
         log.debug("Saving resources");
         resourceNames = resourceRepository.findAllNames();
-        resources = permissionRegisters.stream()
-            .map(PermissionRegister::getResources)
-            .flatMap(Collection::stream)
+        resources = permissionConfig.getPermissions()
+            .stream()
+            .map(ResourcePermissionConfig::getResource)
+            .map(Strings::toRootUpperCase)
             .distinct()
             .filter(Predicate.not(resourceNames::contains))
             .map(Resource::new)
@@ -127,10 +137,10 @@ public final class PermissionsLoader {
         // Load permissions
         log.debug("Saving permissions");
         permissionNames = resourcePermissionRepository.findAllNames();
-        permissions = permissionRegisters.stream()
-            .map(PermissionRegister::getPermissions)
-            .flatMap(Collection::stream)
+        permissions = permissionConfig.getPermissions()
+            .stream()
             .map(this::toResourcePermission)
+            .flatMap(Collection::stream)
             .distinct()
             .filter(p -> !permissionNames.contains(p.getName()))
             .toList();
@@ -140,8 +150,25 @@ public final class PermissionsLoader {
         log.debug("Finished loading permissions");
     }
 
-    private final ResourcePermission toResourcePermission(final ResourcePermissionPair pair) {
-        return new ResourcePermission(pair.resource(), pair.action());
+    private final PermissionConfig readPermissions(final InputStream permissions) {
+        final Yaml       yaml;
+        PermissionConfig config;
+
+        yaml = new Yaml(new Constructor(PermissionConfig.class, new LoaderOptions()));
+        config = yaml.load(permissions);
+        if (config == null) {
+            config = new PermissionConfig();
+        }
+
+        return config;
+    }
+
+    private final Collection<ResourcePermission> toResourcePermission(final ResourcePermissionConfig config) {
+        return config.getActions()
+            .stream()
+            .map(a -> new ResourcePermission(config.getResource()
+                .toUpperCase(), a.toUpperCase()))
+            .toList();
     }
 
 }

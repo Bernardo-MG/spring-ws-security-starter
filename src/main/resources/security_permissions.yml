@@ -3,7 +3,6 @@ actions:
   - read
   - update
   - delete
-  - view
 permissions:
   - resource: permission
     actions:

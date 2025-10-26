@@ -4,6 +4,9 @@ package com.bernardomg.security.initializer.test.usecase.loader.unit;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.initializer.usecase.loader.PermissionRegister;
 import com.bernardomg.security.initializer.usecase.loader.PermissionsLoader;
-import com.bernardomg.security.initializer.usecase.loader.ResourcePermissionPair;
 import com.bernardomg.security.permission.domain.repository.ActionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
@@ -31,50 +32,60 @@ public class TestPermissionsLoader {
     private ActionRepository             actionRepository;
 
     @Mock
-    private PermissionRegister           permissionRegister;
-
-    @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
     private ResourceRepository           resourceRepository;
 
     private final PermissionsLoader getPermissionsLoader() {
+        final String      yaml;
+        final InputStream inputStream;
 
         // GIVEN
-        given(permissionRegister.getActions()).willReturn(List.of(PermissionConstants.CREATE));
-        given(permissionRegister.getResources()).willReturn(List.of(PermissionConstants.DATA));
-        given(permissionRegister.getPermissions())
-            .willReturn(List.of(new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE)));
+        yaml = """
+                actions:
+                  - create
+                permissions:
+                  - resource: data
+                    actions:
+                      - create
+                """;
+        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
 
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
-            List.of(permissionRegister));
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, inputStream);
     }
 
     private final PermissionsLoader getPermissionsLoaderNoData() {
+        final String      yaml;
+        final InputStream inputStream;
 
         // GIVEN
-        given(permissionRegister.getActions()).willReturn(List.of());
-        given(permissionRegister.getResources()).willReturn(List.of());
-        given(permissionRegister.getPermissions()).willReturn(List.of());
+        yaml = """
+                """;
+        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
 
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
-            List.of(permissionRegister));
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, inputStream);
     }
 
     private final PermissionsLoader getPermissionsLoaderWithDuplicates() {
+        final String      yaml;
+        final InputStream inputStream;
 
         // GIVEN
-        given(permissionRegister.getActions())
-            .willReturn(List.of(PermissionConstants.CREATE, PermissionConstants.CREATE));
-        given(permissionRegister.getResources())
-            .willReturn(List.of(PermissionConstants.DATA, PermissionConstants.DATA));
-        given(permissionRegister.getPermissions())
-            .willReturn(List.of(new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE),
-                new ResourcePermissionPair(PermissionConstants.DATA, PermissionConstants.CREATE)));
+        yaml = """
+                actions:
+                  - create
+                permissions:
+                  - resource: data
+                    actions:
+                      - create
+                  - resource: data
+                    actions:
+                      - create
+                """;
+        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
 
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
-            List.of(permissionRegister));
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, inputStream);
     }
 
     @Test

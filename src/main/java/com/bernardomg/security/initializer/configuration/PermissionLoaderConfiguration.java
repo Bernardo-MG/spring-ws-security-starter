@@ -25,7 +25,6 @@
 package com.bernardomg.security.initializer.configuration;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -33,13 +32,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
-import com.bernardomg.security.initializer.usecase.loader.PermissionFileLoader;
-import com.bernardomg.security.initializer.usecase.loader.PermissionRegister;
 import com.bernardomg.security.initializer.usecase.loader.PermissionsLoader;
 import com.bernardomg.security.permission.domain.repository.ActionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
-import com.bernardomg.security.permission.initializer.adapter.inbound.initializer.DefaultPermissionRegister;
 
 /**
  * Permission loader auto configuration.
@@ -48,29 +44,22 @@ import com.bernardomg.security.permission.initializer.adapter.inbound.initialize
  *
  */
 @Configuration
-@ConditionalOnProperty(name = "initialize.permission", havingValue = "true", matchIfMissing = true)
 public class PermissionLoaderConfiguration {
 
     public PermissionLoaderConfiguration() {
         super();
     }
 
-    @Bean("defaultPermissionRegister")
-    public PermissionRegister getDefaultPermissionRegister() {
-        return new DefaultPermissionRegister();
-    }
-
     @Bean(name = "permissionsLoader", initMethod = "load")
-    public PermissionsLoader getPermissionsLoader(final ActionRepository actionRepo,
+    @ConditionalOnProperty(name = "initialize.permission", havingValue = "true", matchIfMissing = true)
+    public PermissionsLoader permissionsLoaderNew(final ActionRepository actionRepo,
             final ResourceRepository resourceRepo, final ResourcePermissionRepository resourcePermissionRepo,
-            final Collection<PermissionRegister> perms) {
-        return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, perms);
-    }
-
-    @Bean("permissionFileLoader")
-    public PermissionFileLoader permissionFileLoader(@Value("security_permissions.yml") final Resource resource)
-            throws IOException {
-        return new PermissionFileLoader(resource.getInputStream());
+            @Value("classpath:security_permissions.yml") final Resource resource) throws IOException {
+        // FIXME: that conditional is just for the tests
+        if (!resource.exists()) {
+            throw new IOException("Missing permissions file");
+        }
+        return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, resource.getInputStream());
     }
 
 }

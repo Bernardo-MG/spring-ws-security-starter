@@ -45,7 +45,6 @@ import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRep
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificationListener;
-import com.bernardomg.security.user.adapter.inbound.initializer.UserPermissionRegister;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -155,11 +154,6 @@ public class UserAutoConfiguration {
             final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties) {
         return new ScopedUserTokenStore(userTokenRepository, userSpringRepo, "user_registered",
             tokenProperties.validity());
-    }
-
-    @Bean("userPermissionRegister")
-    public UserPermissionRegister geUserPermissionRegister() {
-        return new UserPermissionRegister();
     }
 
 }
