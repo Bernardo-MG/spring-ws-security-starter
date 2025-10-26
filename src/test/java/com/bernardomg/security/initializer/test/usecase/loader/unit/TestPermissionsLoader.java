@@ -25,7 +25,7 @@ import com.bernardomg.security.permission.test.config.factory.ResourcePermission
 import com.bernardomg.security.permission.test.config.factory.Resources;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TestPermissions")
+@DisplayName("PermissionsLoader")
 public class TestPermissionsLoader {
 
     @Mock
@@ -52,7 +52,8 @@ public class TestPermissionsLoader {
                 """;
         inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
 
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, inputStream);
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
+            List.of(inputStream));
     }
 
     private final PermissionsLoader getPermissionsLoaderNoData() {
@@ -64,7 +65,12 @@ public class TestPermissionsLoader {
                 """;
         inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
 
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, inputStream);
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
+            List.of(inputStream));
+    }
+
+    private final PermissionsLoader getPermissionsLoaderNoSource() {
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, List.of());
     }
 
     private final PermissionsLoader getPermissionsLoaderWithDuplicates() {
@@ -85,7 +91,8 @@ public class TestPermissionsLoader {
                 """;
         inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
 
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, inputStream);
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
+            List.of(inputStream));
     }
 
     @Test
@@ -143,6 +150,18 @@ public class TestPermissionsLoader {
     void testLoad_NoData() {
         // WHEN
         getPermissionsLoaderNoData().load();
+
+        // THEN
+        verify(actionRepository).save(List.of());
+        verify(resourceRepository).save(List.of());
+        verify(resourcePermissionRepository).save(List.of());
+    }
+
+    @Test
+    @DisplayName("When there is no source nothing is saved")
+    void testLoad_NoSource() {
+        // WHEN
+        getPermissionsLoaderNoSource().load();
 
         // THEN
         verify(actionRepository).save(List.of());

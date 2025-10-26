@@ -66,7 +66,7 @@ public final class PermissionsLoader {
     /**
      * Permissions to load.
      */
-    private final PermissionConfig             permissionConfig;
+    private final List<PermissionConfig>       permissionConfigs;
 
     /**
      * Resource permissions repository.
@@ -79,14 +79,16 @@ public final class PermissionsLoader {
     private final ResourceRepository           resourceRepository;
 
     public PermissionsLoader(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
-            final ResourcePermissionRepository resourcePermissionRepo, final InputStream permissions) {
+            final ResourcePermissionRepository resourcePermissionRepo, final Collection<InputStream> permissions) {
         super();
 
         actionRepository = Objects.requireNonNull(actionRepo);
         resourceRepository = Objects.requireNonNull(resourceRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
 
-        permissionConfig = readPermissions(permissions);
+        permissionConfigs = permissions.stream()
+            .map(this::readPermissions)
+            .toList();
     }
 
     /**
@@ -109,8 +111,9 @@ public final class PermissionsLoader {
         // Load actions
         log.debug("Saving actions");
         actionNames = actionRepository.findAllNames();
-        actions = permissionConfig.getActions()
-            .stream()
+        actions = permissionConfigs.stream()
+            .map(PermissionConfig::getActions)
+            .flatMap(Collection::stream)
             .map(Strings::toRootUpperCase)
             .distinct()
             .filter(Predicate.not(actionNames::contains))
@@ -122,8 +125,9 @@ public final class PermissionsLoader {
         // Load resources
         log.debug("Saving resources");
         resourceNames = resourceRepository.findAllNames();
-        resources = permissionConfig.getPermissions()
-            .stream()
+        resources = permissionConfigs.stream()
+            .map(PermissionConfig::getPermissions)
+            .flatMap(Collection::stream)
             .map(ResourcePermissionConfig::getResource)
             .map(Strings::toRootUpperCase)
             .distinct()
@@ -137,8 +141,9 @@ public final class PermissionsLoader {
         // Load permissions
         log.debug("Saving permissions");
         permissionNames = resourcePermissionRepository.findAllNames();
-        permissions = permissionConfig.getPermissions()
-            .stream()
+        permissions = permissionConfigs.stream()
+            .map(PermissionConfig::getPermissions)
+            .flatMap(Collection::stream)
             .map(this::toResourcePermission)
             .flatMap(Collection::stream)
             .distinct()

@@ -25,6 +25,9 @@
 package com.bernardomg.security.initializer.configuration;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -54,12 +57,30 @@ public class PermissionLoaderConfiguration {
     @ConditionalOnProperty(name = "initialize.permission", havingValue = "true", matchIfMissing = true)
     public PermissionsLoader permissionsLoaderNew(final ActionRepository actionRepo,
             final ResourceRepository resourceRepo, final ResourcePermissionRepository resourcePermissionRepo,
-            @Value("classpath:security_permissions.yml") final Resource resource) throws IOException {
+            @Value("classpath:security_permissions.yml") final Resource resource,
+            final PermissionsFilesProperties permissionsFilesProperties) throws IOException {
+        final List<InputStream> additionalFiles;
+        final List<InputStream> files;
+
         // FIXME: that conditional is just for the tests
         if (!resource.exists()) {
             throw new IOException("Missing permissions file");
         }
-        return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, resource.getInputStream());
+
+        additionalFiles = permissionsFilesProperties.files()
+            .stream()
+            .map(t -> {
+                try {
+                    return t.getInputStream();
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
+            })
+            .toList();
+        files = Stream.concat(List.of(resource.getInputStream())
+            .stream(), additionalFiles.stream())
+            .toList();
+        return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, files);
     }
 
 }
