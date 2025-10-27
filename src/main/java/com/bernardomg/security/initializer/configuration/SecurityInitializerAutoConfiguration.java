@@ -29,7 +29,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Import;
 
 import com.bernardomg.security.initializer.adapter.inbound.RolesInitializer;
 import com.bernardomg.security.initializer.adapter.inbound.UsersInitializer;
@@ -49,7 +48,6 @@ import com.bernardomg.security.user.domain.repository.UserRepository;
  */
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-@Import({ PermissionLoaderConfiguration.class })
 public class SecurityInitializerAutoConfiguration {
 
     @Bean(name = "rolesInitializer", initMethod = "initialize")

@@ -1,6 +1,7 @@
 com.bernardomg.security.access.configuration.AccessAutoConfiguration
 com.bernardomg.security.account.configuration.AccountAutoConfiguration
 com.bernardomg.security.configuration.SecurityAutoConfiguration
+com.bernardomg.security.initializer.configuration.PermissionLoaderAutoConfiguration
 com.bernardomg.security.initializer.configuration.SecurityInitializerAutoConfiguration
 com.bernardomg.security.jwt.configuration.JwtAutoConfiguration
 com.bernardomg.security.login.configuration.LoginAutoConfiguration

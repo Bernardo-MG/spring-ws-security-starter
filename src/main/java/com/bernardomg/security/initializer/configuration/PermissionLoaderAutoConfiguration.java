@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -47,24 +47,23 @@ import com.bernardomg.security.permission.domain.repository.ResourceRepository;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-public class PermissionLoaderConfiguration {
+@AutoConfiguration
+@Configuration(proxyBeanMethods = false)
+public class PermissionLoaderAutoConfiguration {
 
-    public PermissionLoaderConfiguration() {
+    public PermissionLoaderAutoConfiguration() {
         super();
     }
 
     @Bean(name = "permissionsLoader", initMethod = "load")
-    @ConditionalOnProperty(name = "initialize.permission", havingValue = "true", matchIfMissing = true)
     public PermissionsLoader permissionsLoaderNew(final ActionRepository actionRepo,
             final ResourceRepository resourceRepo, final ResourcePermissionRepository resourcePermissionRepo,
-            @Value("classpath:security_permissions.yml") final Resource resource,
+            @Value("classpath:security_permissions.yml") final Resource permissionsFile,
             final PermissionsFilesProperties permissionsFilesProperties) throws IOException {
         final List<InputStream> additionalFiles;
         final List<InputStream> files;
 
-        // FIXME: that conditional is just for the tests
-        if (!resource.exists()) {
+        if (!permissionsFile.exists()) {
             throw new IOException("Missing permissions file");
         }
 
@@ -72,7 +71,7 @@ public class PermissionLoaderConfiguration {
         for (final Resource t : permissionsFilesProperties.files()) {
             additionalFiles.add(t.getInputStream());
         }
-        files = Stream.concat(List.of(resource.getInputStream())
+        files = Stream.concat(List.of(permissionsFile.getInputStream())
             .stream(), additionalFiles.stream())
             .toList();
         return new PermissionsLoader(actionRepo, resourceRepo, resourcePermissionRepo, files);
