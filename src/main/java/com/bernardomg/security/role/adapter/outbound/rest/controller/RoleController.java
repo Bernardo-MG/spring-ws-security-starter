@@ -37,7 +37,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.openapi.api.RoleApi;
 import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.openapi.model.RoleChangeDto;
@@ -76,7 +76,7 @@ public class RoleController implements RoleApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "ROLE", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "ROLE", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.content.name") },
             evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public RoleResponseDto createRole(@Valid final RoleCreationDto roleCreationDto) {
@@ -90,7 +90,7 @@ public class RoleController implements RoleApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "ROLE", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "ROLE", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLE),
             @CacheEvict(cacheNames = { RoleCaches.ROLES, RoleCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true) })
     public RoleResponseDto deleteRole(final String name) {
@@ -102,7 +102,7 @@ public class RoleController implements RoleApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLE_AVAILABLE_PERMISSIONS)
     public ResourcePermissionPageResponseDto getAllRolePermissions(@Valid final String role,
             @Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
@@ -119,7 +119,7 @@ public class RoleController implements RoleApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLES)
     public RolePageResponseDto getAllRoles(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final String name) {
@@ -138,7 +138,7 @@ public class RoleController implements RoleApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "ROLE", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "ROLE", action = Actions.READ)
     @Cacheable(cacheNames = RoleCaches.ROLE)
     public RoleResponseDto getOneRole(final String role) {
         final Optional<Role> found;
@@ -149,7 +149,7 @@ public class RoleController implements RoleApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "ROLE", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "ROLE", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.content.name") }, evict = {
             @CacheEvict(cacheNames = { RoleCaches.ROLES, RoleCaches.ROLE_AVAILABLE_PERMISSIONS }, allEntries = true) })
     public RoleResponseDto updateRole(final String name, @Valid final RoleChangeDto roleChangeDto) {

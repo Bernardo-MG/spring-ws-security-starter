@@ -33,7 +33,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.openapi.api.UserTokensApi;
 import com.bernardomg.security.openapi.model.UserTokenChangeDto;
 import com.bernardomg.security.openapi.model.UserTokenPageResponseDto;
@@ -70,7 +70,7 @@ public class UserTokenController implements UserTokensApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "USER_TOKEN", action = Actions.READ)
     public UserTokenPageResponseDto getAllUserTokens(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Pagination      pagination;
@@ -86,7 +86,7 @@ public class UserTokenController implements UserTokensApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "USER_TOKEN", action = Actions.READ)
     public UserTokenResponseDto getOneUserToken(final String token) {
         final Optional<UserToken> userToken;
 
@@ -96,7 +96,7 @@ public class UserTokenController implements UserTokensApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER_TOKEN", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "USER_TOKEN", action = Actions.UPDATE)
     public UserTokenResponseDto patchUserToken(final String token, @Valid final UserTokenChangeDto userTokenChangeDto) {
         final UserToken toUpdate;
         final UserToken updated;

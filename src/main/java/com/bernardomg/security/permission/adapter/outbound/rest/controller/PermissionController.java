@@ -33,7 +33,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.openapi.api.PermissionApi;
 import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.permission.adapter.outbound.cache.PermissionCaches;
@@ -65,7 +65,7 @@ public class PermissionController implements PermissionApi {
 
     @Override
     @Cacheable(cacheNames = PermissionCaches.PERMISSIONS)
-    @RequireResourceAccess(resource = "PERMISSION", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "PERMISSION", action = Actions.READ)
     public ResourcePermissionPageResponseDto getAllPermissions(@Min(1) @Valid final Integer page,
             @Min(1) @Max(100) @Valid final Integer size, @Valid final List<String> sort) {
         final Pagination               pagination;

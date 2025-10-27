@@ -39,7 +39,6 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.configuration.JwtProperties;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterListener;
-import com.bernardomg.security.login.adapter.inbound.initializer.LoginPermissionRegister;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.domain.model.Credentials;
@@ -70,11 +69,6 @@ public class LoginAutoConfiguration {
     @Bean("loginEventRegisterListener")
     public LoginEventRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {
         return new LoginEventRegisterListener(loginRegisterService);
-    }
-
-    @Bean("loginPermissionRegister")
-    public LoginPermissionRegister getLoginPermissionRegister() {
-        return new LoginPermissionRegister();
     }
 
     @Bean("loginRegisterRepository")
