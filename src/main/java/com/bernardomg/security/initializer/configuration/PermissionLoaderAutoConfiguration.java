@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -49,6 +50,7 @@ import com.bernardomg.security.permission.domain.repository.ResourceRepository;
  */
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(PermissionsFilesProperties.class)
 public class PermissionLoaderAutoConfiguration {
 
     public PermissionLoaderAutoConfiguration() {
