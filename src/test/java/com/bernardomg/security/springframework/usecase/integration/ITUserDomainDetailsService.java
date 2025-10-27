@@ -8,13 +8,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.permission.test.config.annotation.AlternativeUserWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.UserWithoutPermissions;
-import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -26,7 +26,7 @@ import com.bernardomg.test.config.annotation.IntegrationTest;
 class ITUserDomainDetailsService {
 
     @Autowired
-    private UserDomainDetailsService service;
+    private UserDetailsService service;
 
     public ITUserDomainDetailsService() {
         super();
