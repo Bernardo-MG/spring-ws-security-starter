@@ -5,8 +5,8 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 
 import com.bernardomg.framework.testing.architecture.predicates.IsInServicePackage;
 import com.bernardomg.framework.testing.architecture.predicates.springframework.IsSpringControllerClass;
-import com.bernardomg.security.access.RequireResourceAccess;
-import com.bernardomg.security.access.Unsecured;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.access.annotation.Unsecured;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
@@ -18,7 +18,7 @@ public class SecurityRules {
         .and()
         .arePublic()
         .should()
-        .beAnnotatedWith(RequireResourceAccess.class)
+        .beAnnotatedWith(RequireResourceAuthorization.class)
         .orShould()
         .beAnnotatedWith(Unsecured.class);
 
@@ -28,6 +28,6 @@ public class SecurityRules {
         .and()
         .arePublic()
         .should()
-        .notBeAnnotatedWith(RequireResourceAccess.class);
+        .notBeAnnotatedWith(RequireResourceAuthorization.class);
 
 }

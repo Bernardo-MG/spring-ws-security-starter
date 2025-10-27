@@ -25,20 +25,16 @@
 package com.bernardomg.security.springframework.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.springframework.access.usecase.validator.RequireResourceAccessInterceptor;
-import com.bernardomg.security.springframework.access.usecase.validator.ResourceAccessValidator;
-import com.bernardomg.security.springframework.access.usecase.validator.SpringResourceAccessValidator;
-import com.bernardomg.security.springframework.usecase.UserDomainDetailsService;
+import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 
 /**
- * Login configuration.
+ * Spring components configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
@@ -49,15 +45,6 @@ public class SpringAutoConfiguration {
 
     public SpringAutoConfiguration() {
         super();
-    }
-
-    @Bean("requireResourceAccessAspect")
-    @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RequireResourceAccessInterceptor getRequireResourceAccessAspect() {
-        final ResourceAccessValidator validator;
-
-        validator = new SpringResourceAccessValidator();
-        return new RequireResourceAccessInterceptor(validator);
     }
 
     @Bean("userDetailsService")

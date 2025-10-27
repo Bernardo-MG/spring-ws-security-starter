@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.user.adapter.inbound.event.CleanUpTokensOnMonthStartEventListener;
-import com.bernardomg.security.user.adapter.inbound.initializer.TokenPermissionRegister;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -56,11 +55,6 @@ public class UserTokenConfiguration {
     public CleanUpTokensOnMonthStartEventListener
             getCleanUpTokensOnMonthStartEventListener(final UserTokenService userTokenService) {
         return new CleanUpTokensOnMonthStartEventListener(userTokenService);
-    }
-
-    @Bean("tokenPermissionRegister")
-    public TokenPermissionRegister getTokenPermissionRegister() {
-        return new TokenPermissionRegister();
     }
 
     @Bean("userTokenRepository")

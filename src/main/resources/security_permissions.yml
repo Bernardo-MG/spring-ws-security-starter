@@ -1,0 +1,32 @@
+actions:
+  - create
+  - read
+  - update
+  - delete
+permissions:
+  - resource: permission
+    actions:
+      - read
+  - resource: role
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: user
+    actions:
+      - create
+      - read
+      - update
+      - delete
+      - view
+  - resource: user_token
+    actions:
+      - read
+      - update
+      - delete
+      - view
+  - resource: login_register
+    actions:
+      - read

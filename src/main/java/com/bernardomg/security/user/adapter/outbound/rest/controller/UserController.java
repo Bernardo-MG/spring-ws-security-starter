@@ -37,7 +37,7 @@ import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
-import com.bernardomg.security.access.RequireResourceAccess;
+import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.openapi.api.UserApi;
 import com.bernardomg.security.openapi.model.UserChangeDto;
 import com.bernardomg.security.openapi.model.UserCreationDto;
@@ -76,7 +76,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.CREATE)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.CREATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
             evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public UserResponseDto createUser(@Valid final UserCreationDto userCreationDto) {
@@ -90,7 +90,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.DELETE)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USER),
             @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
     public UserResponseDto deleteUser(final String username) {
@@ -102,7 +102,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USERS)
     public UserPageResponseDto getAllUsers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Email @Valid final String email, @Valid final String username,
@@ -123,7 +123,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.READ)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
     @Cacheable(cacheNames = UserCaches.USER)
     public UserResponseDto getOneUser(final String user) {
         final Optional<User> found;
@@ -134,7 +134,7 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @RequireResourceAccess(resource = "USER", action = Actions.UPDATE)
+    @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
     @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") }, evict = {
             @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
     public UserResponseDto updateUser(final String username, @Valid final UserChangeDto userChangeDto) {

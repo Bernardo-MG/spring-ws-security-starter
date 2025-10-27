@@ -28,13 +28,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import com.bernardomg.security.initializer.configuration.PermissionLoaderAutoConfiguration;
+
 /**
  * Application runnable class. This allows Spring Boot to run the application.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = { PermissionLoaderAutoConfiguration.class })
 @ComponentScan({ "com.bernardomg.ws" })
 public class TestApplication {
 

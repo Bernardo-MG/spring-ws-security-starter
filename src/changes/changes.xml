@@ -429,5 +429,10 @@
             Connected permissions controller to service.
          </action>
       </release>
+      <release version="0.4.36" date="2025-10-27" description="Permissions file">
+         <action dev="bmg" type="add">
+            Register permissions through file.
+         </action>
+      </release>
    </body>
 </document>
