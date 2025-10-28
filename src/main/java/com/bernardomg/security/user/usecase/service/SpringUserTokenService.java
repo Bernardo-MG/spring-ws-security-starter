@@ -25,7 +25,6 @@
 package com.bernardomg.security.user.usecase.service;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -86,28 +85,6 @@ public final class SpringUserTokenService implements UserTokenService {
         validatorPatch = new FieldRuleValidator<>(new UserTokenExpirationDateNotInPastRule(),
             new UserTokenNotConsumeRule(), new UserTokenNotRevokedRule(userTokenRepository),
             new UserTokenNotConsumedRule(userTokenRepository));
-    }
-
-    @Override
-    public final void cleanUpTokens() {
-        final Collection<UserToken> tokens;
-        final Collection<String>    tokenCodes;
-
-        log.trace("Cleaning up tokens");
-
-        // Expiration date before now
-        // Revoked
-        // Consumed
-        tokens = userTokenRepository.findAllFinished();
-
-        log.info("Removing {} finished tokens", tokens.size());
-
-        tokenCodes = tokens.stream()
-            .map(UserToken::token)
-            .toList();
-        userTokenRepository.deleteAll(tokenCodes);
-
-        log.trace("Cleaned up tokens");
     }
 
     @Override

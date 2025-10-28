@@ -40,14 +40,6 @@ import com.bernardomg.security.user.adapter.inbound.jpa.model.UserTokenEntity;
 public interface UserTokenSpringRepository extends JpaRepository<UserTokenEntity, Long> {
 
     /**
-     * Deletes all the tokens with the received codes.
-     *
-     * @param tokens
-     *            token codes to delete
-     */
-    public void deleteByTokenIn(final Collection<String> tokens);
-
-    /**
      * Returns all the tokens with any of the received codes.
      *
      * @param tokens

@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserDataTokenEntity;
 
@@ -51,24 +50,6 @@ public interface UserDataTokenSpringRepository extends JpaRepository<UserDataTok
      */
     public Collection<UserDataTokenEntity> findAllByRevokedFalseAndUsernameAndScope(final String username,
             final String scope);
-
-    /**
-     * Returns all the finished tokens. This means all tokens which are at least one of the following states:
-     * <p>
-     * <ul>
-     * <li>Consumed</li>
-     * <li>Revoked</li>
-     * <li>Expired</li>
-     * </ul>
-     *
-     * @return all the finished tokens
-     */
-    @Query("""
-               SELECT t
-               FROM UserDataToken t
-               WHERE t.consumed = true OR t.revoked = true OR t.expirationDate <= CURRENT_DATE
-            """)
-    public Collection<UserDataTokenEntity> findAllFinished();
 
     /**
      * Returns the token with the received token code.

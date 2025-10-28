@@ -82,13 +82,6 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     }
 
     @Override
-    public final void deleteAll(final Collection<String> tokens) {
-        log.trace("Deleting multiple tokens");
-
-        userTokenSpringRepository.deleteByTokenIn(tokens);
-    }
-
-    @Override
     public final Page<UserToken> findAll(final Pagination pagination, final Sorting sorting) {
         final Pageable                                        pageable;
         final org.springframework.data.domain.Page<UserToken> page;
@@ -100,16 +93,6 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
             .map(UserDataTokenEntityMapper::toDomain);
 
         return SpringPagination.toPage(page);
-    }
-
-    @Override
-    public final Collection<UserToken> findAllFinished() {
-        log.trace("Finding all finished tokens");
-
-        return userDataTokenSpringRepository.findAllFinished()
-            .stream()
-            .map(UserDataTokenEntityMapper::toDomain)
-            .toList();
     }
 
     @Override

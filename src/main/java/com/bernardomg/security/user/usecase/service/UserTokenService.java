@@ -40,11 +40,6 @@ import com.bernardomg.security.user.domain.model.UserToken;
 public interface UserTokenService {
 
     /**
-     * Removes all unusable tokens.
-     */
-    public void cleanUpTokens();
-
-    /**
      * Returns all the user tokens, paged.
      *
      * @param pagination
