@@ -37,6 +37,46 @@ class TestSpringUserTokenServicePatch {
     private UserTokenRepository    userTokenRepository;
 
     @Test
+    @DisplayName("When trying to patch a token as consumed an exception is thrown")
+    void testPatch_Consume() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+        final UserToken        change;
+
+        // GIVEN
+        change = UserTokens.consumed();
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.valid()));
+
+        // WHEN
+        execution = () -> service.patch(change);
+
+        // THEN
+        failure = new FieldFailure("invalidValue", "consumed", "consumed.invalidValue", true);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
+    @DisplayName("When trying to patch a consumed token an exception is thrown")
+    void testPatch_Consumed() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+        final UserToken        change;
+
+        // GIVEN
+        change = UserTokens.valid();
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.consumed()));
+
+        // WHEN
+        execution = () -> service.patch(change);
+
+        // THEN
+        failure = new FieldFailure("invalidValue", "consumed", "consumed.invalidValue", true);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
+    }
+
+    @Test
     @DisplayName("Patching sends the user token to the repository")
     void testPatch_Empty_Persisted() {
         final UserToken change;
@@ -128,26 +168,6 @@ class TestSpringUserTokenServicePatch {
     }
 
     @Test
-    @DisplayName("When trying to enable a revoked token an exception is thrown")
-    void testPatch_RemoveRevoked() {
-        final ThrowingCallable execution;
-        final FieldFailure     failure;
-        final UserToken        change;
-
-        // GIVEN
-        change = UserTokens.notRevoked();
-        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.revoked()));
-
-        // WHEN
-        execution = () -> service.patch(change);
-
-        // THEN
-        failure = new FieldFailure("invalidValue", "revoked", "revoked.invalidValue", false);
-
-        ValidationAssertions.assertThatFieldFails(execution, failure);
-    }
-
-    @Test
     @DisplayName("Patching the revoke flag sends the user token to the repository")
     void testPatch_Revoke_Persisted() {
         final UserToken change;
@@ -161,6 +181,26 @@ class TestSpringUserTokenServicePatch {
 
         // THEN
         verify(userTokenRepository, atLeastOnce()).save(UserTokens.revoked());
+    }
+
+    @Test
+    @DisplayName("When trying to patch a revoked token an exception is thrown")
+    void testPatch_Revoked() {
+        final ThrowingCallable execution;
+        final FieldFailure     failure;
+        final UserToken        change;
+
+        // GIVEN
+        change = UserTokens.valid();
+        given(userTokenRepository.findOne(Tokens.TOKEN)).willReturn(Optional.of(UserTokens.revoked()));
+
+        // WHEN
+        execution = () -> service.patch(change);
+
+        // THEN
+        failure = new FieldFailure("invalidValue", "revoked", "revoked.invalidValue", true);
+
+        ValidationAssertions.assertThatFieldFails(execution, failure);
     }
 
 }
