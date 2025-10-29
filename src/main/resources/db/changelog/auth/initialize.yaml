@@ -146,12 +146,6 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(60)
-                  constraints:
-                    unique: true
-                    nullable: false
-              - column:
                   name: resource
                   type: varchar(60)
                   constraints:
@@ -218,11 +212,11 @@ databaseChangeLog:
                     references: security.roles(id)
                     nullable: false
               - column:
-                  name: permission
-                  type: varchar(60)
+                  name: permission_id
+                  type: bigint
                   constraints:
                     foreignKeyName: fk_role_permissions_permission_id
-                    references: security.permissions(name)
+                    references: security.permissions(id)
                     nullable: false
               - column:
                   name: granted
@@ -234,7 +228,7 @@ databaseChangeLog:
             constraintName: role_permissions_key
             schemaName: security
             tableName: role_permissions
-            columnNames: 'role_id, permission'
+            columnNames: 'role_id, permission_id'
         - createTable:
             schemaName: security
             tableName: user_roles

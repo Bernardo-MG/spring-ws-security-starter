@@ -10,10 +10,6 @@ components:
         action:
           type: string
           description: Action permitted on the resource.
-        name:
-          type: string
-          readOnly: true
-          description: Computed permission name (action:resource).
     ResourcePermissionPageResponse:
       allOf:
         - $ref: '../common/responses.yml#/components/schemas/PageResponse'

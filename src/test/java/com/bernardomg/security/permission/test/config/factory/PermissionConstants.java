@@ -11,14 +11,6 @@ public final class PermissionConstants {
 
     public static final String DATA_2               = "DATA2";
 
-    public static final String DATA_CREATE          = "CREATE:DATA";
-
-    public static final String DATA_DELETE          = "DELETE:DATA";
-
-    public static final String DATA_READ            = "READ:DATA";
-
-    public static final String DATA_UPDATE          = "UPDATE:DATA";
-
     public static final String DELETE               = "DELETE";
 
     public static final String READ                 = "READ";

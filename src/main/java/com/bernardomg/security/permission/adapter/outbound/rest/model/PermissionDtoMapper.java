@@ -49,8 +49,7 @@ public final class PermissionDtoMapper {
 
     private static final ResourcePermissionDto toDto(final ResourcePermission permission) {
         return new ResourcePermissionDto().resource(permission.resource())
-            .action(permission.action())
-            .name(permission.getName());
+            .action(permission.action());
     }
 
     private PermissionDtoMapper() {

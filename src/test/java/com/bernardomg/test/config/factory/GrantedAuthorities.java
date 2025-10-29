@@ -21,7 +21,7 @@ public final class GrantedAuthorities {
     }
 
     public static SimpleGrantedAuthority simpleCreate() {
-        return new SimpleGrantedAuthority(PermissionConstants.DATA_CREATE);
+        return new SimpleGrantedAuthority(PermissionConstants.DATA + ":" + PermissionConstants.READ);
     }
 
     private GrantedAuthorities() {

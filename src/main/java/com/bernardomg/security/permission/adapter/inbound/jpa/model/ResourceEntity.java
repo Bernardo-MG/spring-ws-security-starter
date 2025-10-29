@@ -25,6 +25,7 @@
 package com.bernardomg.security.permission.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -64,6 +65,18 @@ public class ResourceEntity implements Serializable {
     @Column(name = "name", nullable = false, unique = true, length = 60)
     private String            name;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final ResourceEntity other = (ResourceEntity) obj;
+        return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+    }
+
     public Long getId() {
         return id;
     }
@@ -72,12 +85,22 @@ public class ResourceEntity implements Serializable {
         return name;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
     public void setId(final Long id) {
         this.id = id;
     }
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "ResourceEntity [id=" + id + ", name=" + name + "]";
     }
 
 }

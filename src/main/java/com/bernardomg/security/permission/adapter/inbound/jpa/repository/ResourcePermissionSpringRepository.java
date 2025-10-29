@@ -43,14 +43,7 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePerm
  */
 public interface ResourcePermissionSpringRepository extends JpaRepository<ResourcePermissionEntity, Long> {
 
-    /**
-     * Checks if a resource permission exists for the received name.
-     *
-     * @param name
-     *            resource permission name
-     * @return {@code true} if the resource permission exists, {@code false} otherwise
-     */
-    public boolean existsByName(final String name);
+    public boolean existsByResourceAndAction(final String resource, final String action);
 
     /**
      * Returns all the permissions available to a role, in a paginated form.
@@ -64,8 +57,8 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
     @Query("""
                SELECT p
                FROM ResourcePermission p
-                 LEFT JOIN RolePermission rp ON p.name = rp.id.permission AND rp.id.roleId = :roleId
-               WHERE rp.id.permission IS NULL OR rp.granted = false
+                 LEFT JOIN RolePermission rp ON p.id = rp.id.permissionId AND rp.id.roleId = :roleId
+               WHERE rp.id.permissionId IS NULL OR rp.granted = false
             """)
     public Page<ResourcePermissionEntity> findAllAvailableToRole(@Param("roleId") final Long roleId,
             final Pageable page);
@@ -82,7 +75,7 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
     @Query("""
                SELECT p
                FROM ResourcePermission p
-                 INNER JOIN RolePermission rp ON p.name = rp.id.permission AND rp.id.roleId = :roleId
+                 INNER JOIN RolePermission rp ON p.id = rp.id.permissionId AND rp.id.roleId = :roleId
                WHERE rp.granted = true
             """)
     public Page<ResourcePermissionEntity> findAllForRole(@Param("roleId") final Long roleId, final Pageable page);
@@ -97,7 +90,7 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
     @Query("""
                SELECT p
                FROM ResourcePermission p
-                 INNER JOIN RolePermission rp ON p.name = rp.id.permission
+                 INNER JOIN RolePermission rp ON p.id = rp.id.permissionId
                  INNER JOIN Role r ON r.id = rp.id.roleId
                  INNER JOIN UserRole ur ON ur.roleId = r.id
                  INNER JOIN User u ON u.id = ur.userId
@@ -105,24 +98,6 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
             """)
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
 
-    /**
-     * Returns the names of all permissions.
-     *
-     * @return the names of all permissions
-     */
-    @Query("""
-               SELECT p.name
-               FROM ResourcePermission p
-            """)
-    public Collection<String> findAllNames();
-
-    /**
-     * Returns the resource permission for the received name.
-     *
-     * @param name
-     *            name of the resource permission to search for
-     * @return the resource permission for the received name
-     */
-    public Optional<ResourcePermissionEntity> findByName(final String name);
+    public Optional<ResourcePermissionEntity> findByResourceAndAction(final String resource, final String action);
 
 }

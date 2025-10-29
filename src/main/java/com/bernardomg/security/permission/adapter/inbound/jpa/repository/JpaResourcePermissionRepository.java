@@ -69,10 +69,10 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
-    public final boolean exists(final String name) {
-        log.debug("Checking if resource permission {} exists", name);
+    public final boolean exists(final String resource, final String action) {
+        log.debug("Checking if resource permission {}:{} exists", resource, action);
 
-        return resourcePermissionSpringRepository.existsByName(name);
+        return resourcePermissionSpringRepository.existsByResourceAndAction(resource, action);
     }
 
     @Override
@@ -99,11 +99,6 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
-    public final Collection<String> findAllNames() {
-        return resourcePermissionSpringRepository.findAllNames();
-    }
-
-    @Override
     public final Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions) {
         final List<ResourcePermissionEntity> entities;
         final List<ResourcePermissionEntity> created;
@@ -125,7 +120,8 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     private final void loadId(final ResourcePermissionEntity entity) {
         final Optional<ResourcePermissionEntity> existing;
 
-        existing = resourcePermissionSpringRepository.findByName(entity.getName());
+        existing = resourcePermissionSpringRepository.findByResourceAndAction(entity.getResource(),
+            entity.getAction());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());

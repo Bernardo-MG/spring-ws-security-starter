@@ -25,6 +25,7 @@
 package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -48,8 +49,8 @@ public class RolePermissionId implements Serializable {
     /**
      * Permission.
      */
-    @Column(name = "permission", nullable = false)
-    private String            permission;
+    @Column(name = "permission_id", nullable = false, insertable = false, updatable = false)
+    private Long              permissionId;
 
     /**
      * Role id.
@@ -57,20 +58,42 @@ public class RolePermissionId implements Serializable {
     @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Long              roleId;
 
-    public String getPermission() {
-        return permission;
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final RolePermissionId other = (RolePermissionId) obj;
+        return Objects.equals(permissionId, other.permissionId) && Objects.equals(roleId, other.roleId);
+    }
+
+    public Long getPermissionId() {
+        return permissionId;
     }
 
     public Long getRoleId() {
         return roleId;
     }
 
-    public void setPermission(final String permission) {
-        this.permission = permission;
+    @Override
+    public int hashCode() {
+        return Objects.hash(permissionId, roleId);
+    }
+
+    public void setPermissionId(final Long permissionId) {
+        this.permissionId = permissionId;
     }
 
     public void setRoleId(final Long roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public String toString() {
+        return "RolePermissionId [permissionId=" + permissionId + ", roleId=" + roleId + "]";
     }
 
 }

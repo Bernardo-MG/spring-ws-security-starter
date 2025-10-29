@@ -35,8 +35,17 @@ public final class ResourcePermissionComparator implements Comparator<ResourcePe
 
     @Override
     public final int compare(final ResourcePermission left, final ResourcePermission right) {
-        return left.getName()
-            .compareTo(right.getName());
+        int result;
+
+        result = left.resource()
+            .compareTo(right.resource());
+
+        if (result != 0) {
+            return result;
+        }
+
+        return left.action()
+            .compareTo(right.action());
     }
 
 }

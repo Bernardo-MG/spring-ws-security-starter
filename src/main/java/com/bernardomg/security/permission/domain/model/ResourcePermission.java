@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.permission.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Immutable resource permission.
  *
@@ -33,15 +31,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 public record ResourcePermission(String resource, String action) {
-
-    /**
-     * Permission name.
-     *
-     * @return resource name
-     */
-    @JsonProperty("name")
-    public final String getName() {
-        return String.format("%s:%s", action, resource);
-    }
 
 }

@@ -32,7 +32,7 @@ class ITRolePermissionRepositoryFindAvailablePermissionsPagination extends Abstr
     protected final Page<ResourcePermission> read(final Pagination pagination) {
         final Sorting sorting;
 
-        sorting = Sorting.asc("name");
+        sorting = Sorting.asc("resource", "action");
         return repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
     }
 

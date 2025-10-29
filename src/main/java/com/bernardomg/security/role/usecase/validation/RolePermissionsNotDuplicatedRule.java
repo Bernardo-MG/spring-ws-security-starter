@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
@@ -35,7 +34,7 @@ public final class RolePermissionsNotDuplicatedRule implements FieldRule<Role> {
 
         uniquePermissions = role.permissions()
             .stream()
-            .map(ResourcePermission::getName)
+            .map(p -> String.format("%s:%s", p.resource(), p.action()))
             .distinct()
             .count();
         totalPermissions = role.permissions()

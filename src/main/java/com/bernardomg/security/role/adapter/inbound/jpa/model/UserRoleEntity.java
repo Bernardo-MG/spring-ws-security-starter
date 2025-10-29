@@ -25,6 +25,7 @@
 package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -64,6 +65,18 @@ public class UserRoleEntity implements Serializable {
     @Column(name = "user_id", nullable = false, unique = true)
     private Long              userId;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final UserRoleEntity other = (UserRoleEntity) obj;
+        return Objects.equals(roleId, other.roleId) && Objects.equals(userId, other.userId);
+    }
+
     public Long getRoleId() {
         return roleId;
     }
@@ -72,12 +85,22 @@ public class UserRoleEntity implements Serializable {
         return userId;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(roleId, userId);
+    }
+
     public void setRoleId(final Long roleId) {
         this.roleId = roleId;
     }
 
     public void setUserId(final Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRoleEntity [roleId=" + roleId + ", userId=" + userId + "]";
     }
 
 }

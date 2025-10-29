@@ -220,12 +220,13 @@ public final class JpaRoleRepository implements RoleRepository {
 
         // TODO: move to mapper
 
-        read = resourcePermissionSpringRepository.findByName(permission.getName());
+        read = resourcePermissionSpringRepository.findByResourceAndAction(permission.resource(),
+            permission.action());
 
         if (read.isPresent()) {
             resourceEntity = read.get();
             id = new RolePermissionId();
-            id.setPermission(resourceEntity.getName());
+            id.setPermissionId(resourceEntity.getId());
             entity = new RolePermissionEntity();
             entity.setId(id);
             entity.setGranted(true);
