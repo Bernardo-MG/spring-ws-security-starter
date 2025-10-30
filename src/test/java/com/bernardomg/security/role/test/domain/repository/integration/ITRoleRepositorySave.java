@@ -222,7 +222,7 @@ class ITRoleRepositorySave {
     @Test
     @DisplayName("Returns an existing role removing permissions")
     @RoleWithCrudPermissions
-    void testSave_RemovePermissions_ReturneddData() {
+    void testSave_RemovePermissions_ReturnedData() {
         final Role saved;
         final Role role;
 
