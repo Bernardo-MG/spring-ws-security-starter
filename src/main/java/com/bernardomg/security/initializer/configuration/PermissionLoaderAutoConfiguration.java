@@ -64,6 +64,8 @@ public class PermissionLoaderAutoConfiguration {
             final PermissionsFilesProperties permissionsFilesProperties) throws IOException {
         final List<InputStream> additionalFiles;
         final List<InputStream> files;
+        
+        // TODO: load on application ready
 
         if (!permissionsFile.exists()) {
             throw new IOException("Missing permissions file");

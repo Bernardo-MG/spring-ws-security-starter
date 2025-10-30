@@ -54,6 +54,8 @@ public class SecurityInitializerAutoConfiguration {
     @DependsOn("permissionsLoader")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public RolesInitializer getRolesInitializer(final RolesInitializerService service) {
+        
+        // TODO: load on application ready
         return new RolesInitializer(service);
     }
 
@@ -68,6 +70,8 @@ public class SecurityInitializerAutoConfiguration {
     @DependsOn("rolesInitializer")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public UsersInitializer getUsersInitializer(final UsersInitializerService usersInitializerService) {
+        
+        // TODO: load on application ready
         return new UsersInitializer(usersInitializerService);
     }
 
