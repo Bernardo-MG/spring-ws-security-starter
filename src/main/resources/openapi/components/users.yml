@@ -1,5 +1,18 @@
 components:
   parameters:
+    sortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(email|username|name|enabled|notExpired|notLocked|passwordNotExpired)\|(asc|desc)$'
+          example: username|asc
     username:
       name: username
       in: path

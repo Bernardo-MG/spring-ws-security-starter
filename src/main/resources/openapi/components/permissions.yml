@@ -1,4 +1,18 @@
 components:
+  parameters:
+    sortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(resource|action)\|(asc|desc)$'
+          example: username|asc
   schemas:
     ResourcePermission:
       type: object

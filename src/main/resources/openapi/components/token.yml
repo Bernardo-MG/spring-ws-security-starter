@@ -1,5 +1,18 @@
 components:
   parameters:
+    sortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(username|name|scope|creationDate|expirationDate|consumed|revoked)\|(asc|desc)$'
+          example: username|asc
     token:
       name: token
       in: path
@@ -18,7 +31,7 @@ components:
           description: Username associated with the token.
         name:
           type: string
-          description: Display name or identifier for the token.
+          description: User name.
         scope:
           type: string
           description: Scope for which the token is valid.
