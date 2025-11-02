@@ -40,14 +40,6 @@ import com.bernardomg.security.user.domain.model.UserToken;
 public interface UserTokenRepository {
 
     /**
-     * Deletes all the tokens with the received token codes.
-     *
-     * @param tokens
-     *            token code to delete
-     */
-    public void deleteAll(final Collection<String> tokens);
-
-    /**
      * Returns all the tokens paginated.
      *
      * @param pagination
@@ -57,18 +49,6 @@ public interface UserTokenRepository {
      * @return all the tokens paginated
      */
     public Page<UserToken> findAll(final Pagination pagination, final Sorting sorting);
-
-    /**
-     * Returns all the finished tokens. This means all tokens which are at least one of the following states:
-     * <ul>
-     * <li>Consumed</li>
-     * <li>Revoked</li>
-     * <li>Expired</li>
-     * </ul>
-     *
-     * @return all the finished tokens
-     */
-    public Collection<UserToken> findAllFinished();
 
     /**
      * Returns all the tokens which are not revoked for a user and scope.

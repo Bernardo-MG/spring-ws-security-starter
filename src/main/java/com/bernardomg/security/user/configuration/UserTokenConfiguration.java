@@ -28,7 +28,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.user.adapter.inbound.event.CleanUpTokensOnMonthStartEventListener;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
@@ -49,12 +48,6 @@ public class UserTokenConfiguration {
 
     public UserTokenConfiguration() {
         super();
-    }
-
-    @Bean("cleanUpTokensOnMonthStartEventListener")
-    public CleanUpTokensOnMonthStartEventListener
-            getCleanUpTokensOnMonthStartEventListener(final UserTokenService userTokenService) {
-        return new CleanUpTokensOnMonthStartEventListener(userTokenService);
     }
 
     @Bean("userTokenRepository")

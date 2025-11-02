@@ -26,6 +26,7 @@ package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -75,6 +76,19 @@ public class RoleEntity implements Serializable {
     @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Collection<RolePermissionEntity> permissions;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final RoleEntity other = (RoleEntity) obj;
+        return Objects.equals(id, other.id) && Objects.equals(name, other.name)
+                && Objects.equals(permissions, other.permissions);
+    }
+
     public Long getId() {
         return id;
     }
@@ -87,6 +101,11 @@ public class RoleEntity implements Serializable {
         return permissions;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, permissions);
+    }
+
     public void setId(final Long id) {
         this.id = id;
     }
@@ -97,6 +116,11 @@ public class RoleEntity implements Serializable {
 
     public void setPermissions(final Collection<RolePermissionEntity> permissions) {
         this.permissions = permissions;
+    }
+
+    @Override
+    public String toString() {
+        return "RoleEntity [id=" + id + ", name=" + name + ", permissions=" + permissions + "]";
     }
 
 }

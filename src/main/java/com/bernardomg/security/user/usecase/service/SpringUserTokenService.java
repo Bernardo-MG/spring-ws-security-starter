@@ -25,7 +25,6 @@
 package com.bernardomg.security.user.usecase.service;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -40,7 +39,9 @@ import com.bernardomg.security.user.domain.exception.MissingUserTokenException;
 import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.usecase.validation.UserTokenExpirationDateNotInPastRule;
-import com.bernardomg.security.user.usecase.validation.UserTokenPatchNotRevokedRule;
+import com.bernardomg.security.user.usecase.validation.UserTokenNotConsumeRule;
+import com.bernardomg.security.user.usecase.validation.UserTokenNotConsumedRule;
+import com.bernardomg.security.user.usecase.validation.UserTokenNotRevokedRule;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
@@ -82,29 +83,8 @@ public final class SpringUserTokenService implements UserTokenService {
         userTokenRepository = Objects.requireNonNull(userTokenRepo);
 
         validatorPatch = new FieldRuleValidator<>(new UserTokenExpirationDateNotInPastRule(),
-            new UserTokenPatchNotRevokedRule());
-    }
-
-    @Override
-    public final void cleanUpTokens() {
-        final Collection<UserToken> tokens;
-        final Collection<String>    tokenCodes;
-
-        log.trace("Cleaning up tokens");
-
-        // Expiration date before now
-        // Revoked
-        // Consumed
-        tokens = userTokenRepository.findAllFinished();
-
-        log.info("Removing {} finished tokens", tokens.size());
-
-        tokenCodes = tokens.stream()
-            .map(UserToken::token)
-            .toList();
-        userTokenRepository.deleteAll(tokenCodes);
-
-        log.trace("Cleaned up tokens");
+            new UserTokenNotConsumeRule(), new UserTokenNotRevokedRule(userTokenRepository),
+            new UserTokenNotConsumedRule(userTokenRepository));
     }
 
     @Override

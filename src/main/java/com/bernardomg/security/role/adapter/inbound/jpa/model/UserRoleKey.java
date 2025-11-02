@@ -25,6 +25,7 @@
 package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * User role key.
@@ -49,6 +50,18 @@ public class UserRoleKey implements Serializable {
      */
     private Long              userId;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final UserRoleKey other = (UserRoleKey) obj;
+        return Objects.equals(roleId, other.roleId) && Objects.equals(userId, other.userId);
+    }
+
     public Long getRoleId() {
         return roleId;
     }
@@ -57,12 +70,22 @@ public class UserRoleKey implements Serializable {
         return userId;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(roleId, userId);
+    }
+
     public void setRoleId(final Long roleId) {
         this.roleId = roleId;
     }
 
     public void setUserId(final Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRoleKey [roleId=" + roleId + ", userId=" + userId + "]";
     }
 
 }

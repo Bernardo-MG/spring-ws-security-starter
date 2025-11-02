@@ -93,7 +93,7 @@ class ITRoleRepositorySave {
 
         Assertions.assertThat(roles)
             .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id.permissionId")
             .containsExactly(RoleEntities.withPermissions());
     }
 
@@ -222,7 +222,7 @@ class ITRoleRepositorySave {
     @Test
     @DisplayName("Returns an existing role removing permissions")
     @RoleWithCrudPermissions
-    void testSave_RemovePermissions_ReturneddData() {
+    void testSave_RemovePermissions_ReturnedData() {
         final Role saved;
         final Role role;
 
@@ -297,7 +297,8 @@ class ITRoleRepositorySave {
 
         Assertions.assertThat(roles)
             .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id.roleId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id.roleId",
+                "permissions.id.permissionId")
             .containsExactly(RoleEntities.withPermissions());
     }
 

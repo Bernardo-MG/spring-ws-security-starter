@@ -1,2 +1,2 @@
-INSERT INTO security.permissions (id, name, resource, action) VALUES
-   (1, 'CREATE:DATA', 'DATA', 'CREATE');
+INSERT INTO security.permissions (id, resource, action) VALUES
+   (1, 'DATA', 'CREATE');

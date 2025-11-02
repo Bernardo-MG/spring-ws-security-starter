@@ -11,16 +11,16 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 
 /**
- * Checks the user token is not revoked.
+ * Checks the user token is not set to consumed.
  */
-public final class UserTokenPatchNotRevokedRule implements FieldRule<UserToken> {
+public final class UserTokenNotConsumeRule implements FieldRule<UserToken> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(UserTokenPatchNotRevokedRule.class);
+    private static final Logger log = LoggerFactory.getLogger(UserTokenNotConsumeRule.class);
 
-    public UserTokenPatchNotRevokedRule() {
+    public UserTokenNotConsumeRule() {
         super();
     }
 
@@ -29,10 +29,9 @@ public final class UserTokenPatchNotRevokedRule implements FieldRule<UserToken> 
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        // TODO: what if the token is already valid?
-        if ((token.revoked() != null) && (!token.revoked())) {
-            log.error("Reverting token revocation");
-            fieldFailure = new FieldFailure("invalidValue", "revoked", token.revoked());
+        if (Boolean.TRUE.equals(token.consumed())) {
+            log.error("Editing consumed token");
+            fieldFailure = new FieldFailure("invalidValue", "consumed", token.consumed());
             failure = Optional.of(fieldFailure);
         } else {
             failure = Optional.empty();

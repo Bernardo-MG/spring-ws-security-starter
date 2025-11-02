@@ -25,6 +25,7 @@
 package com.bernardomg.security.permission.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -65,16 +66,23 @@ public class ResourcePermissionEntity implements Serializable {
     private Long              id;
 
     /**
-     * Permission name.
-     */
-    @Column(name = "name", nullable = false)
-    private String            name;
-
-    /**
      * Permission resource.
      */
     @Column(name = "resource", nullable = false)
     private String            resource;
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final ResourcePermissionEntity other = (ResourcePermissionEntity) obj;
+        return Objects.equals(action, other.action) && Objects.equals(id, other.id)
+                && Objects.equals(resource, other.resource);
+    }
 
     public String getAction() {
         return action;
@@ -84,12 +92,13 @@ public class ResourcePermissionEntity implements Serializable {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getResource() {
         return resource;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(action, id, resource);
     }
 
     public void setAction(final String action) {
@@ -100,12 +109,13 @@ public class ResourcePermissionEntity implements Serializable {
         this.id = id;
     }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
-
     public void setResource(final String resource) {
         this.resource = resource;
+    }
+
+    @Override
+    public String toString() {
+        return "ResourcePermissionEntity [action=" + action + ", id=" + id + ", resource=" + resource + "]";
     }
 
 }

@@ -5,7 +5,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+    - $ref: '../components/login_register.yml#/components/parameters/sortParam'
   responses:
     '200':
       description: Login registers page.

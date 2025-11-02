@@ -41,11 +41,13 @@ public interface ResourcePermissionRepository {
     /**
      * Checks if a resource permission exists with the given name.
      *
-     * @param name
-     *            name of the resource permission to check
+     * @param resource
+     *            resource for the permission to check
+     * @param action
+     *            action for the permission to check
      * @return {@code true} if the resource permission exists, {@code false} otherwise
      */
-    public boolean exists(final String name);
+    public boolean exists(final String resource, final String action);
 
     /**
      * Returns all the resource permissions.
@@ -64,13 +66,6 @@ public interface ResourcePermissionRepository {
      * @return all the roles for the received query
      */
     public Page<ResourcePermission> findAll(final Pagination pagination, final Sorting sorting);
-
-    /**
-     * Returns the names of all the resources.
-     *
-     * @return the names of all the resources
-     */
-    public Collection<String> findAllNames();
 
     /**
      * Saves the received permissions. If they exist these are updated, otherwise they are created.

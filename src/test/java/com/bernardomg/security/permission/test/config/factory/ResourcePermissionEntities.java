@@ -9,7 +9,6 @@ public final class ResourcePermissionEntities {
         final ResourcePermissionEntity entity;
 
         entity = new ResourcePermissionEntity();
-        entity.setName(PermissionConstants.DATA_CREATE);
         entity.setResource(PermissionConstants.DATA);
         entity.setAction(PermissionConstants.CREATE);
 
@@ -20,7 +19,6 @@ public final class ResourcePermissionEntities {
         final ResourcePermissionEntity entity;
 
         entity = new ResourcePermissionEntity();
-        entity.setName(PermissionConstants.DATA_DELETE);
         entity.setResource(PermissionConstants.DATA);
         entity.setAction(PermissionConstants.DELETE);
 
@@ -31,7 +29,6 @@ public final class ResourcePermissionEntities {
         final ResourcePermissionEntity entity;
 
         entity = new ResourcePermissionEntity();
-        entity.setName(PermissionConstants.DATA_READ);
         entity.setResource(PermissionConstants.DATA);
         entity.setAction(PermissionConstants.READ);
 
@@ -42,7 +39,6 @@ public final class ResourcePermissionEntities {
         final ResourcePermissionEntity entity;
 
         entity = new ResourcePermissionEntity();
-        entity.setName(PermissionConstants.DATA_UPDATE);
         entity.setResource(PermissionConstants.DATA);
         entity.setAction(PermissionConstants.UPDATE);
 

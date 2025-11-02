@@ -12,7 +12,7 @@ public final class RolePermissionEntities {
 
         id = new RolePermissionId();
         id.setRoleId(1L);
-        id.setPermission(PermissionConstants.DATA_CREATE);
+        id.setPermissionId(1L);
 
         entity = new RolePermissionEntity();
         entity.setId(id);
@@ -28,7 +28,7 @@ public final class RolePermissionEntities {
 
         id = new RolePermissionId();
         id.setRoleId(1L);
-        id.setPermission(PermissionConstants.DATA_DELETE);
+        id.setPermissionId(1L);
 
         entity = new RolePermissionEntity();
         entity.setId(id);
@@ -44,7 +44,7 @@ public final class RolePermissionEntities {
 
         id = new RolePermissionId();
         id.setRoleId(1L);
-        id.setPermission(PermissionConstants.DATA_CREATE);
+        id.setPermissionId(1L);
 
         entity = new RolePermissionEntity();
         entity.setId(id);
@@ -60,7 +60,7 @@ public final class RolePermissionEntities {
 
         id = new RolePermissionId();
         id.setRoleId(1L);
-        id.setPermission(PermissionConstants.DATA_CREATE);
+        id.setPermissionId(1L);
 
         entity = new RolePermissionEntity();
         entity.setId(id);
@@ -76,7 +76,7 @@ public final class RolePermissionEntities {
 
         id = new RolePermissionId();
         id.setRoleId(1L);
-        id.setPermission(PermissionConstants.DATA_READ);
+        id.setPermissionId(1L);
 
         entity = new RolePermissionEntity();
         entity.setId(id);
@@ -92,7 +92,7 @@ public final class RolePermissionEntities {
 
         id = new RolePermissionId();
         id.setRoleId(1L);
-        id.setPermission(PermissionConstants.DATA_UPDATE);
+        id.setPermissionId(1L);
 
         entity = new RolePermissionEntity();
         entity.setId(id);

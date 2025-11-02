@@ -128,7 +128,8 @@ class TestDefaultRoleServiceCreate {
         final Role toCreate;
 
         // GIVEN
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.CREATE))
+            .willReturn(true);
         toCreate = Roles.withSinglePermission();
 
         // WHEN
@@ -145,7 +146,8 @@ class TestDefaultRoleServiceCreate {
         final Role toCreate;
 
         // GIVEN
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.CREATE))
+            .willReturn(true);
         toCreate = Roles.withSinglePermission();
 
         // GIVEN
@@ -168,7 +170,8 @@ class TestDefaultRoleServiceCreate {
         // GIVEN
         data = Roles.withSinglePermission();
 
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.CREATE))
+            .willReturn(false);
 
         // WHEN
         execution = () -> service.create(data);

@@ -102,7 +102,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoader().load();
@@ -118,7 +118,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoader().load();
@@ -134,7 +134,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoaderWithDuplicates().load();
@@ -176,7 +176,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoader().load();
@@ -192,7 +192,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA_CREATE));
+        given(resourcePermissionRepository.findAll()).willReturn(List.of(ResourcePermissions.create()));
 
         // WHEN
         getPermissionsLoader().load();
@@ -208,7 +208,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoader().load();
@@ -224,7 +224,7 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
-        given(resourcePermissionRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
         getPermissionsLoader().load();

@@ -44,7 +44,6 @@ import com.bernardomg.security.openapi.model.UserCreationDto;
 import com.bernardomg.security.openapi.model.UserPageResponseDto;
 import com.bernardomg.security.openapi.model.UserResponseDto;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserDtoMapper;
 import com.bernardomg.security.user.domain.model.User;
@@ -92,7 +91,7 @@ public class UserController implements UserApi {
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.DELETE)
     @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USER),
-            @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
+            @CacheEvict(cacheNames = { UserCaches.USERS }, allEntries = true) })
     public UserResponseDto deleteUser(final String username) {
         final User deleted;
 
@@ -135,8 +134,8 @@ public class UserController implements UserApi {
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") }, evict = {
-            @CacheEvict(cacheNames = { UserCaches.USERS, RoleCaches.USER_AVAILABLE_ROLES }, allEntries = true) })
+    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
+            evict = { @CacheEvict(cacheNames = { UserCaches.USERS }, allEntries = true) })
     public UserResponseDto updateUser(final String username, @Valid final UserChangeDto userChangeDto) {
         final User toUpdate;
         final User updated;

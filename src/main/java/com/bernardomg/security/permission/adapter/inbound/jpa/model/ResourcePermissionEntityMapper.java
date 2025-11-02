@@ -39,7 +39,6 @@ public final class ResourcePermissionEntityMapper {
         final ResourcePermissionEntity entity;
 
         entity = new ResourcePermissionEntity();
-        entity.setName(permission.getName());
         entity.setResource(permission.resource());
         entity.setAction(permission.action());
 

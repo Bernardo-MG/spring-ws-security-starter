@@ -25,6 +25,7 @@
 package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 
@@ -69,9 +70,21 @@ public class RolePermissionEntity implements Serializable {
      * Permission.
      */
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "permission", referencedColumnName = "name", insertable = false, updatable = false)
-    // @MapsId("permission")
+    @JoinColumn(name = "permission_id", referencedColumnName = "id", insertable = false, updatable = false)
     private ResourcePermissionEntity resourcePermission;
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final RolePermissionEntity other = (RolePermissionEntity) obj;
+        return Objects.equals(granted, other.granted) && Objects.equals(id, other.id)
+                && Objects.equals(resourcePermission, other.resourcePermission);
+    }
 
     public Boolean getGranted() {
         return granted;
@@ -85,6 +98,11 @@ public class RolePermissionEntity implements Serializable {
         return resourcePermission;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(granted, id, resourcePermission);
+    }
+
     public void setGranted(final Boolean granted) {
         this.granted = granted;
     }
@@ -95,6 +113,12 @@ public class RolePermissionEntity implements Serializable {
 
     public void setResourcePermission(final ResourcePermissionEntity resourcePermission) {
         this.resourcePermission = resourcePermission;
+    }
+
+    @Override
+    public String toString() {
+        return "RolePermissionEntity [granted=" + granted + ", id=" + id + ", resourcePermission=" + resourcePermission
+                + "]";
     }
 
 }

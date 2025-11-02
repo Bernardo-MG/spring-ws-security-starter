@@ -81,7 +81,8 @@ class TestDefaultRoleServiceUpdate {
         data = Roles.duplicatedPermission();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.CREATE))
+            .willReturn(true);
 
         // WHEN
         executable = () -> service.update(data);
@@ -101,10 +102,13 @@ class TestDefaultRoleServiceUpdate {
         data = Roles.withPermissions();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_DELETE)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_READ)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_UPDATE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.CREATE))
+            .willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.DELETE))
+            .willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.READ)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.UPDATE))
+            .willReturn(true);
 
         // WHEN
         service.update(data);
@@ -124,10 +128,13 @@ class TestDefaultRoleServiceUpdate {
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(roleRepository.save(ArgumentMatchers.any())).willReturn(Roles.withPermissions());
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_DELETE)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_READ)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_UPDATE)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.CREATE))
+            .willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.DELETE))
+            .willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.READ)).willReturn(true);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.UPDATE))
+            .willReturn(true);
 
         // WHEN
         role = service.update(data);
@@ -184,7 +191,8 @@ class TestDefaultRoleServiceUpdate {
         data = Roles.withSinglePermission();
 
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(resourcePermissionRepository.exists(PermissionConstants.DATA_CREATE)).willReturn(false);
+        given(resourcePermissionRepository.exists(PermissionConstants.DATA, PermissionConstants.CREATE))
+            .willReturn(false);
 
         // WHEN
         execution = () -> service.update(data);

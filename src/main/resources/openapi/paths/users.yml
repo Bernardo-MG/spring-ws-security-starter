@@ -22,7 +22,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../common/pagination.yml#/components/parameters/sortParam'
+    - $ref: '../components/users.yml#/components/parameters/sortParam'
     - in: query
       name: email
       schema:
