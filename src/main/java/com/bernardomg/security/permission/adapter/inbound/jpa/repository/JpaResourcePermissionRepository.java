@@ -120,8 +120,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     private final void loadId(final ResourcePermissionEntity entity) {
         final Optional<ResourcePermissionEntity> existing;
 
-        existing = resourcePermissionSpringRepository.findByResourceAndAction(entity.getResource(),
-            entity.getAction());
+        existing = resourcePermissionSpringRepository.findByResourceAndAction(entity.getResource(), entity.getAction());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());

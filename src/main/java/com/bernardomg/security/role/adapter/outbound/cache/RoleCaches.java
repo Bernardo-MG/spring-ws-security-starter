@@ -35,17 +35,17 @@ public final class RoleCaches {
     /**
      * Single role.
      */
-    public static final String ROLE                 = "security_role";
+    public static final String ROLE       = "security_role";
 
     /**
      * Multiple roles.
      */
-    public static final String ROLES                = "security_roles";
+    public static final String ROLES      = "security_roles";
 
     /**
      * User roles.
      */
-    public static final String USER_ROLES           = "security_user_roles";
+    public static final String USER_ROLES = "security_user_roles";
 
     private RoleCaches() {
         super();
