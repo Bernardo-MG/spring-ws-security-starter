@@ -434,7 +434,22 @@
             Register permissions through file.
          </action>
       </release>
-      <release version="1.0.0" date="2025-10-27" description="">
+      <release version="0.4.37" date="2025-11-02" description="Fixes">
+         <action dev="bmg" type="fix">
+            Registered permissions properties.
+         </action>
+         <action dev="bmg" type="update">
+            Removed scheduled deletion of tokens.
+         </action>
+         <action dev="bmg" type="update">
+            Extended token validations.
+         </action>
+         <action dev="bmg" type="update">
+            Removed permission name.
+         </action>
+         <action dev="bmg" type="update">
+            Updated dependencies.
+         </action>
       </release>
    </body>
 </document>
