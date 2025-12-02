@@ -1,6 +1,6 @@
 components:
   parameters:
-    sortParam:
+    userSortParam:
       name: sort
       description: Sorting to apply.
       in: query

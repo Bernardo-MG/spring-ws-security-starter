@@ -5,7 +5,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/permissions.yml#/components/parameters/sortParam'
+    - $ref: '../components/permissions.yml#/components/parameters/permissionSortParam'
     - $ref: '../components/roles.yml#/components/parameters/name'
   responses:
     '200':

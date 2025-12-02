@@ -22,7 +22,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/roles.yml#/components/parameters/sortParam'
+    - $ref: '../components/roles.yml#/components/parameters/rolesSortParam'
     - name: name
       in: query
       required: false

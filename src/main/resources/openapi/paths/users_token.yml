@@ -6,7 +6,7 @@ get:
   parameters:
     - $ref: '../common/pagination.yml#/components/parameters/pageParam'
     - $ref: '../common/pagination.yml#/components/parameters/sizeParam'
-    - $ref: '../components/token.yml#/components/parameters/sortParam'
+    - $ref: '../components/token.yml#/components/parameters/tokenSortParam'
   responses:
     '200':
       description: Paginated list of user tokens.
