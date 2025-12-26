@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.permission.adapter.outbound.rest.model;
 
+import java.util.List;
+
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -14,17 +16,20 @@ import com.bernardomg.security.permission.domain.model.ResourcePermission;
 public final class PermissionDtoMapper {
 
     public static final ResourcePermissionPageResponseDto toResponseDto(final Page<ResourcePermission> page) {
-        final SortingDto sortingResponse;
+        final SortingDto            sortingResponse;
+        List<ResourcePermissionDto> content;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
             .map(PermissionDtoMapper::toDto)
             .toList());
-        return new ResourcePermissionPageResponseDto().content(page.content()
+
+        content = page.content()
             .stream()
             .map(PermissionDtoMapper::toDto)
-            .toList())
+            .toList();
+        return new ResourcePermissionPageResponseDto().content(content)
             .size(page.size())
             .page(page.page())
             .totalElements(page.totalElements())

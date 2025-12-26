@@ -1,9 +1,11 @@
 
 package com.bernardomg.security.role.adapter.outbound.rest.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
@@ -32,7 +34,7 @@ public final class RoleDtoMapper {
             permissions = roleChangeDto.getPermissions()
                 .stream()
                 .map(p -> new ResourcePermission(p.getResource(), p.getAction()))
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
         }
         return new Role(roleName, permissions);
     }
@@ -46,7 +48,7 @@ public final class RoleDtoMapper {
             permissions = roleCreationDto.getPermissions()
                 .stream()
                 .map(p -> new ResourcePermission(p.getResource(), p.getAction()))
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
         }
         return new Role(roleCreationDto.getName(), permissions);
     }
@@ -57,23 +59,26 @@ public final class RoleDtoMapper {
         permissions = role.permissions()
             .stream()
             .map(RoleDtoMapper::toDto)
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         return new RoleDto().name(role.name())
             .permissions(permissions);
     }
 
     public static final ResourcePermissionPageResponseDto toPermissionResponseDto(final Page<ResourcePermission> page) {
-        final SortingDto sortingResponse;
+        final SortingDto                  sortingResponse;
+        final List<ResourcePermissionDto> content;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
             .map(RoleDtoMapper::toDto)
-            .toList());
-        return new ResourcePermissionPageResponseDto().content(page.content()
+            .collect(Collectors.toCollection(ArrayList::new)));
+
+        content = page.content()
             .stream()
             .map(RoleDtoMapper::toDto)
-            .toList())
+            .toList();
+        return new ResourcePermissionPageResponseDto().content(content)
             .size(page.size())
             .page(page.page())
             .totalElements(page.totalElements())
@@ -90,17 +95,20 @@ public final class RoleDtoMapper {
     }
 
     public static final RolePageResponseDto toResponseDto(final Page<Role> page) {
-        final SortingDto sortingResponse;
+        final SortingDto    sortingResponse;
+        final List<RoleDto> content;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
             .map(RoleDtoMapper::toDto)
-            .toList());
-        return new RolePageResponseDto().content(page.content()
+            .collect(Collectors.toCollection(ArrayList::new)));
+
+        content = page.content()
             .stream()
             .map(RoleDtoMapper::toDto)
-            .toList())
+            .toList();
+        return new RolePageResponseDto().content(content)
             .size(page.size())
             .page(page.page())
             .totalElements(page.totalElements())

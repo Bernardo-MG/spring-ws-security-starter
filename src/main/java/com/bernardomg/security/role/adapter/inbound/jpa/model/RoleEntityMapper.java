@@ -24,8 +24,10 @@
 
 package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.domain.comparator.ResourcePermissionComparator;
@@ -49,7 +51,7 @@ public final class RoleEntityMapper {
             .map(ResourcePermissionEntityMapper::toDomain)
             // TODO: should sort in the query
             .sorted(new ResourcePermissionComparator())
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         return new Role(role.getName(), permissions);
     }
 
