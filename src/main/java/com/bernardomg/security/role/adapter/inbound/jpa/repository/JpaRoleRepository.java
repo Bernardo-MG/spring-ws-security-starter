@@ -26,7 +26,6 @@ package com.bernardomg.security.role.adapter.inbound.jpa.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,9 +41,7 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.springframework.SpringPagination;
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
-import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.permission.domain.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
@@ -96,13 +93,21 @@ public final class JpaRoleRepository implements RoleRepository {
         log.trace("Deleting role {}", name);
 
         roleSpringRepository.deleteByName(name);
+
+        log.trace("Deleted role {}", name);
     }
 
     @Override
     public final boolean exists(final String name) {
+        final boolean existing;
+
         log.trace("Checking role {} exists", name);
 
-        return roleSpringRepository.existsByNameIgnoreCase(name);
+        existing = roleSpringRepository.existsByNameIgnoreCase(name);
+
+        log.trace("Checked role {} exists: {}", name, existing);
+
+        return existing;
     }
 
     @Override
@@ -110,6 +115,7 @@ public final class JpaRoleRepository implements RoleRepository {
         final RoleEntity                                 sample;
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<Role> page;
+        final Page<Role>                                 read;
 
         log.debug("Finding all roles for query {} with pagination {} and sorting {}", query, pagination, sorting);
 
@@ -117,17 +123,28 @@ public final class JpaRoleRepository implements RoleRepository {
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = roleSpringRepository.findAll(Example.of(sample), pageable)
-            .map(this::toDomain);
+            .map(RoleEntityMapper::toDomain);
 
-        return SpringPagination.toPage(page);
+        read = SpringPagination.toPage(page);
+
+        log.debug("Found all roles for query {} with pagination {} and sorting {}: {}", query, pagination, sorting,
+            read);
+
+        return read;
     }
 
     @Override
     public final Optional<Role> findOne(final String name) {
+        final Optional<Role> read;
+
         log.trace("Finding role {}", name);
 
-        return roleSpringRepository.findByName(name)
-            .map(this::toDomain);
+        read = roleSpringRepository.findByName(name)
+            .map(RoleEntityMapper::toDomain);
+
+        log.trace("Found role {}", read);
+
+        return read;
     }
 
     @Override
@@ -148,6 +165,8 @@ public final class JpaRoleRepository implements RoleRepository {
             exists = false;
         }
 
+        log.trace("Checked if role {} is linked to user: {}", name, exists);
+
         return exists;
     }
 
@@ -158,6 +177,7 @@ public final class JpaRoleRepository implements RoleRepository {
         final RoleEntity                       saved;
         final RoleEntity                       savedAgain;
         final Collection<RolePermissionEntity> permissions;
+        final Role                             created;
 
         log.trace("Saving role {}", role);
 
@@ -186,28 +206,12 @@ public final class JpaRoleRepository implements RoleRepository {
         saved.setPermissions(permissions);
         savedAgain = roleSpringRepository.save(saved);
 
-        return toDomain(savedAgain);
-    }
+        created = RoleEntityMapper.toDomain(savedAgain);
 
-    private final Role toDomain(final RoleEntity role) {
-        final Collection<ResourcePermission> permissions;
+        log.trace("Saved role {}", created);
 
-        // TODO: move to mapper
+        return created;
 
-        if (role.getPermissions() == null) {
-            permissions = List.of();
-        } else {
-            permissions = role.getPermissions()
-                .stream()
-                .filter(Objects::nonNull)
-                .filter(RolePermissionEntity::getGranted)
-                .map(RolePermissionEntity::getResourcePermission)
-                .map(ResourcePermissionEntityMapper::toDomain)
-                .sorted(new ResourcePermissionComparator())
-                .toList();
-        }
-
-        return new Role(role.getName(), permissions);
     }
 
     private final RolePermissionEntity toEntity(final ResourcePermission permission) {

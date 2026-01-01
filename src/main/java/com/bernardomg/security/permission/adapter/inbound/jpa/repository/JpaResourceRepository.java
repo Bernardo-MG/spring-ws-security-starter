@@ -64,13 +64,21 @@ public final class JpaResourceRepository implements ResourceRepository {
 
     @Override
     public final Collection<String> findAllNames() {
-        return resourceSpringRepository.findAllNames();
+        final Collection<String> names;
+
+        log.debug("Finding all resource names");
+
+        names = resourceSpringRepository.findAllNames();
+
+        log.debug("Found all resource names: {}", names);
+
+        return names;
     }
 
     @Override
     public final Collection<Resource> save(final Collection<Resource> resources) {
         final List<ResourceEntity> entities;
-        final List<ResourceEntity> created;
+        final List<Resource>       created;
 
         log.debug("Saving resources {}", resources);
 
@@ -79,11 +87,14 @@ public final class JpaResourceRepository implements ResourceRepository {
             .toList();
         entities.forEach(this::loadId);
 
-        created = resourceSpringRepository.saveAll(entities);
-
-        return created.stream()
+        created = resourceSpringRepository.saveAll(entities)
+            .stream()
             .map(ResourceEntityMapper::toDomain)
             .toList();
+
+        log.debug("Saved resources {}", created);
+
+        return created;
     }
 
     private final void loadId(final ResourceEntity entity) {

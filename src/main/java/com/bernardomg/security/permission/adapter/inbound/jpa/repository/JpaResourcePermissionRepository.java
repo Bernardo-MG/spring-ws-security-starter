@@ -70,24 +70,39 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
 
     @Override
     public final boolean exists(final String resource, final String action) {
+        final boolean exists;
+
         log.debug("Checking if resource permission {}:{} exists", resource, action);
 
-        return resourcePermissionSpringRepository.existsByResourceAndAction(resource, action);
+        exists = resourcePermissionSpringRepository.existsByResourceAndAction(resource, action);
+
+        log.debug("Checked if resource permission {}:{} exists: {}", resource, action, exists);
+
+        return exists;
     }
 
     @Override
     public final Collection<ResourcePermission> findAll() {
-        return resourcePermissionSpringRepository.findAll()
+        final Collection<ResourcePermission> read;
+
+        log.debug("Finding all resource permissions");
+
+        read = resourcePermissionSpringRepository.findAll()
             .stream()
             .map(ResourcePermissionEntityMapper::toDomain)
             .distinct()
             .toList();
+
+        log.debug("Found all resource permissions: {}");
+
+        return read;
     }
 
     @Override
     public final Page<ResourcePermission> findAll(final Pagination pagination, final Sorting sorting) {
         final Pageable                                                 pageable;
         final org.springframework.data.domain.Page<ResourcePermission> page;
+        final Page<ResourcePermission>                                 read;
 
         log.debug("Finding all permissions for pagination {} and sorting {}", pagination, sorting);
 
@@ -95,13 +110,18 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         page = resourcePermissionSpringRepository.findAll(pageable)
             .map(ResourcePermissionEntityMapper::toDomain);
 
-        return SpringPagination.toPage(page);
+        read = SpringPagination.toPage(page);
+
+        log.debug("Found all permissions for pagination {} and sorting {}: read", pagination, sorting, read);
+
+        return read;
     }
 
     @Override
     public final Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions) {
         final List<ResourcePermissionEntity> entities;
         final List<ResourcePermissionEntity> created;
+        final Collection<ResourcePermission> saved;
 
         log.debug("Saving resource permissions {}", permissions);
 
@@ -112,9 +132,13 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
 
         created = resourcePermissionSpringRepository.saveAll(entities);
 
-        return created.stream()
+        saved = created.stream()
             .map(ResourcePermissionEntityMapper::toDomain)
             .toList();
+
+        log.debug("Saved resource permissions {}", saved);
+
+        return saved;
     }
 
     private final void loadId(final ResourcePermissionEntity entity) {

@@ -64,13 +64,21 @@ public final class JpaActionRepository implements ActionRepository {
 
     @Override
     public final Collection<String> findAllNames() {
-        return actionSpringRepository.findAllNames();
+        final Collection<String> names;
+
+        log.debug("Finding all action names");
+
+        names = actionSpringRepository.findAllNames();
+
+        log.debug("Found all action names: {}");
+
+        return names;
     }
 
     @Override
     public final Collection<Action> save(final Collection<Action> actions) {
         final List<ActionEntity> entities;
-        final List<ActionEntity> created;
+        final List<Action>       created;
 
         log.debug("Saving actions {}", actions);
 
@@ -79,11 +87,14 @@ public final class JpaActionRepository implements ActionRepository {
             .toList();
         entities.forEach(this::loadId);
 
-        created = actionSpringRepository.saveAll(entities);
-
-        return created.stream()
+        created = actionSpringRepository.saveAll(entities)
+            .stream()
             .map(ActionEntityMapper::toDomain)
             .toList();
+
+        log.debug("Saved actions {}", created);
+
+        return created;
     }
 
     private final void loadId(final ActionEntity entity) {
