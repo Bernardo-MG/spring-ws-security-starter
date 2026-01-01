@@ -32,6 +32,7 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -50,6 +51,7 @@ import com.bernardomg.security.permission.domain.repository.ResourceRepository;
  * <p>
  * The {@link #load()} method takes care of persisting all the data.
  */
+@Transactional
 public final class PermissionsLoader {
 
     /**
@@ -102,9 +104,6 @@ public final class PermissionsLoader {
         final Collection<String>       permissionNames;
 
         log.debug("Begins loading permissions");
-
-        // TODO: Apply transactionality
-        // TODO: Group each into a single query
 
         // TODO: Load default actions
         // Load actions
