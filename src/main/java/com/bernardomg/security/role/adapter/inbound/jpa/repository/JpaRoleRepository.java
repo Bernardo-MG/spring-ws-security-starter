@@ -49,7 +49,6 @@ import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionId;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -182,8 +181,7 @@ public final class JpaRoleRepository implements RoleRepository {
         saved = roleSpringRepository.save(entity);
 
         permissions.forEach(p -> {
-            p.getId()
-                .setRoleId(saved.getId());
+            p.setRoleId(saved.getId());
         });
         saved.setPermissions(permissions);
         savedAgain = roleSpringRepository.save(saved);
@@ -216,7 +214,6 @@ public final class JpaRoleRepository implements RoleRepository {
         final Optional<ResourcePermissionEntity> read;
         final ResourcePermissionEntity           resourceEntity;
         final RolePermissionEntity               entity;
-        final RolePermissionId                   id;
 
         // TODO: move to mapper
 
@@ -224,10 +221,8 @@ public final class JpaRoleRepository implements RoleRepository {
 
         if (read.isPresent()) {
             resourceEntity = read.get();
-            id = new RolePermissionId();
-            id.setPermissionId(resourceEntity.getId());
             entity = new RolePermissionEntity();
-            entity.setId(id);
+            entity.setPermissionId(resourceEntity.getId());
             entity.setGranted(true);
             entity.setResourcePermission(resourceEntity);
         } else {

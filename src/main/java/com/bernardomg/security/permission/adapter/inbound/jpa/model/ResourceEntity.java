@@ -74,7 +74,7 @@ public class ResourceEntity implements Serializable {
             return false;
         }
         final ResourceEntity other = (ResourceEntity) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+        return Objects.equals(id, other.id);
     }
 
     public Long getId() {
@@ -87,7 +87,7 @@ public class ResourceEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 
     public void setId(final Long id) {

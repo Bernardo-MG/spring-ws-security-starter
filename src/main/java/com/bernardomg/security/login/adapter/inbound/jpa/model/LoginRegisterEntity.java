@@ -26,6 +26,7 @@ package com.bernardomg.security.login.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -77,6 +78,18 @@ public class LoginRegisterEntity implements Serializable {
     @Column(name = "username", nullable = false, unique = true, length = 60)
     private String            username;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final LoginRegisterEntity other = (LoginRegisterEntity) obj;
+        return Objects.equals(id, other.id);
+    }
+
     public Instant getDate() {
         return date;
     }
@@ -93,6 +106,11 @@ public class LoginRegisterEntity implements Serializable {
         return username;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     public void setDate(final Instant date) {
         this.date = date;
     }
@@ -107,6 +125,12 @@ public class LoginRegisterEntity implements Serializable {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginRegisterEntity [id=" + id + ", username=" + username + ", date=" + date + ", loggedIn=" + loggedIn
+                + "]";
     }
 
 }

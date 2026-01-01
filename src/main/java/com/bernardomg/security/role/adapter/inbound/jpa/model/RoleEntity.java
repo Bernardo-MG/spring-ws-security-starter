@@ -85,8 +85,7 @@ public class RoleEntity implements Serializable {
             return false;
         }
         final RoleEntity other = (RoleEntity) obj;
-        return Objects.equals(id, other.id) && Objects.equals(name, other.name)
-                && Objects.equals(permissions, other.permissions);
+        return Objects.equals(id, other.id);
     }
 
     public Long getId() {
@@ -103,7 +102,7 @@ public class RoleEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, permissions);
+        return Objects.hash(id);
     }
 
     public void setId(final Long id) {

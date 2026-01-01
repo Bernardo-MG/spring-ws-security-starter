@@ -80,8 +80,7 @@ public class ResourcePermissionEntity implements Serializable {
             return false;
         }
         final ResourcePermissionEntity other = (ResourcePermissionEntity) obj;
-        return Objects.equals(action, other.action) && Objects.equals(id, other.id)
-                && Objects.equals(resource, other.resource);
+        return Objects.equals(id, other.id);
     }
 
     public String getAction() {
@@ -98,7 +97,7 @@ public class ResourcePermissionEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(action, id, resource);
+        return Objects.hash(id);
     }
 
     public void setAction(final String action) {
@@ -115,7 +114,7 @@ public class ResourcePermissionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "ResourcePermissionEntity [action=" + action + ", id=" + id + ", resource=" + resource + "]";
+        return "ResourcePermissionEntity [id=" + id + ", resource=" + resource + ", action=" + action + "]";
     }
 
 }
