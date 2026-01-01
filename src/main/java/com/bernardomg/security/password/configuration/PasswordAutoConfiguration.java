@@ -90,9 +90,8 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordChangeService")
-    public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
-            final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder) {
-        return new SpringSecurityPasswordChangeService(userRepository, userDetailsService, passwordEncoder);
+    public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,final PasswordEncoder passwordEncoder) {
+        return new SpringSecurityPasswordChangeService(userRepository, passwordEncoder);
     }
 
     @Bean("passwordEncoder")
