@@ -27,10 +27,6 @@ package com.bernardomg.security.role.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.data.domain.Page;
@@ -46,7 +42,6 @@ import com.bernardomg.security.openapi.model.RolePageResponseDto;
 import com.bernardomg.security.openapi.model.RoleResponseDto;
 import com.bernardomg.security.permission.domain.constant.Actions;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.role.adapter.outbound.cache.RoleCaches;
 import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
@@ -77,8 +72,6 @@ public class RoleController implements RoleApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ROLE", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.content.name") },
-            evict = { @CacheEvict(cacheNames = RoleCaches.ROLES, allEntries = true) })
     public RoleResponseDto createRole(@Valid final RoleCreationDto roleCreationDto) {
         final Role role;
         final Role created;
@@ -91,8 +84,6 @@ public class RoleController implements RoleApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ROLE", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = RoleCaches.ROLE),
-            @CacheEvict(cacheNames = { RoleCaches.ROLES }, allEntries = true) })
     public RoleResponseDto deleteRole(final String name) {
         final Role deleted;
 
@@ -103,7 +94,6 @@ public class RoleController implements RoleApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = RoleCaches.ROLES)
     public ResourcePermissionPageResponseDto getAllRolePermissions(@Valid final String role,
             @Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
         final Pagination               pagination;
@@ -120,7 +110,6 @@ public class RoleController implements RoleApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = RoleCaches.ROLES)
     public RolePageResponseDto getAllRoles(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Valid final String name) {
         final Pagination pagination;
@@ -139,7 +128,6 @@ public class RoleController implements RoleApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ROLE", action = Actions.READ)
-    @Cacheable(cacheNames = RoleCaches.ROLE)
     public RoleResponseDto getOneRole(final String role) {
         final Optional<Role> found;
 
@@ -150,8 +138,6 @@ public class RoleController implements RoleApi {
 
     @Override
     @RequireResourceAuthorization(resource = "ROLE", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = RoleCaches.ROLE, key = "#result.content.name") },
-            evict = { @CacheEvict(cacheNames = { RoleCaches.ROLES }, allEntries = true) })
     public RoleResponseDto updateRole(final String name, @Valid final RoleChangeDto roleChangeDto) {
         final Role toUpdate;
         final Role updated;

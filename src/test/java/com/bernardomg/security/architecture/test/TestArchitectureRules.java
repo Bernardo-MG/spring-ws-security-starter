@@ -11,7 +11,6 @@ import com.bernardomg.framework.testing.architecture.rule.ValidationRules;
 import com.bernardomg.framework.testing.architecture.rule.springframework.SpringControllerRules;
 import com.bernardomg.framework.testing.architecture.rule.springframework.SpringRules;
 import com.bernardomg.security.architecture.config.IgnoreGenerated;
-import com.bernardomg.security.architecture.rule.CacheRules;
 import com.bernardomg.security.architecture.rule.LayerDependencyRules;
 import com.bernardomg.security.architecture.rule.SecurityRules;
 import com.bernardomg.security.architecture.rule.TestImportRules;
@@ -23,9 +22,6 @@ import com.tngtech.archunit.junit.ArchTests;
 @AnalyzeClasses(packages = "com.bernardomg.security",
         importOptions = { ImportOption.DoNotIncludeTests.class, IgnoreGenerated.class })
 public class TestArchitectureRules {
-
-    @ArchTest
-    static final ArchTests cacheRules           = ArchTests.in(CacheRules.class);
 
     @ArchTest
     static final ArchTests codingRules          = ArchTests.in(CodingRules.class);
