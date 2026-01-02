@@ -456,7 +456,10 @@
             Fixed sorting mapping in controllers.
          </action>
       </release>
-      <release version="1.0.0" date="2025-12-02" description="">
+      <release version="0.4.39" date="2025-12-02" description="Entity corrections">
+         <action dev="bmg" type="fix">
+            Corrected entities and mappings.
+         </action>
       </release>
    </body>
 </document>
