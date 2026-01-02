@@ -52,7 +52,7 @@ import com.bernardomg.security.permission.domain.repository.ResourceRepository;
  * The {@link #load()} method takes care of persisting all the data.
  */
 @Transactional
-public final class PermissionsLoader {
+public final class PermissionsLoader implements Loader {
 
     /**
      * Logger for the class.
@@ -95,6 +95,7 @@ public final class PermissionsLoader {
     /**
      * Persists the permissions.
      */
+    @Override
     public final void load() {
         final List<Action>       actions;
         final List<Resource>     resources;
