@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.security.account.adapter.inbound.model.AccountEntityMapper;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
@@ -63,20 +64,12 @@ public final class JpaUserAccountRepository implements AccountRepository {
 
     @Override
     public final Optional<Account> findOne(final String username) {
-        final Optional<UserEntity> read;
-        final UserEntity           user;
-        final Optional<Account>    account;
+        final Optional<Account> account;
 
         log.trace("Finding account for username {}", username);
 
-        read = userSpringRepository.findByUsername(username);
-        if (read.isPresent()) {
-            user = read.get();
-            account = Optional.of(BasicAccount.of(user.getUsername(), user.getName(), user.getEmail()));
-        } else {
-            log.warn("No user for username {}", username);
-            account = Optional.empty();
-        }
+        account = userSpringRepository.findByUsername(username)
+            .map(AccountEntityMapper::toDomain);
 
         log.trace("Found account for username {}: {}", username, account);
 
@@ -98,9 +91,9 @@ public final class JpaUserAccountRepository implements AccountRepository {
             user.setName(account.getName());
             user.setEmail(account.getEmail());
             updated = userSpringRepository.save(user);
-            result = BasicAccount.of(updated.getUsername(), updated.getName(), updated.getEmail());
+            result = AccountEntityMapper.toDomain(updated);
         } else {
-            log.warn("No user for username {}", account.getUsername());
+            log.warn("No account for username {}", account.getUsername());
             result = new BasicAccount(null, null, null);
         }
 

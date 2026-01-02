@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.user.adapter.outbound.rest.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.bernardomg.data.domain.Page;
@@ -26,22 +27,27 @@ public final class UserTokenDtoMapper {
     }
 
     public static final UserTokenResponseDto toResponseDto(final Optional<UserToken> userToken) {
-        return new UserTokenResponseDto().content(userToken.map(UserTokenDtoMapper::toDto)
-            .orElse(null));
+        final UserTokenDto content;
+
+        content = userToken.map(UserTokenDtoMapper::toDto)
+            .orElse(null);
+        return new UserTokenResponseDto().content(content);
     }
 
     public static final UserTokenPageResponseDto toResponseDto(final Page<UserToken> page) {
-        final SortingDto sortingResponse;
+        final SortingDto         sortingResponse;
+        final List<UserTokenDto> content;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
             .map(UserTokenDtoMapper::toDto)
             .toList());
-        return new UserTokenPageResponseDto().content(page.content()
+        content = page.content()
             .stream()
             .map(UserTokenDtoMapper::toDto)
-            .toList())
+            .toList();
+        return new UserTokenPageResponseDto().content(content)
             .size(page.size())
             .page(page.page())
             .totalElements(page.totalElements())

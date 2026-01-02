@@ -24,9 +24,6 @@
 
 package com.bernardomg.security.user.adapter.outbound.rest.controller;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
@@ -37,7 +34,6 @@ import com.bernardomg.security.openapi.model.UserCreationDto;
 import com.bernardomg.security.openapi.model.UserResponseDto;
 import com.bernardomg.security.openapi.model.UserTokenStatusResponseDto;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.security.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserActivationDtoMapper;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserDtoMapper;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;
@@ -69,8 +65,6 @@ public class UserOnboardingController implements UserOnboardingApi {
 
     @Override
     @Unsecured
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
-            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public UserResponseDto activateUser(final String token, @Valid final UserActivationDto userActivationDto) {
         final User user;
 
@@ -80,8 +74,6 @@ public class UserOnboardingController implements UserOnboardingApi {
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
-            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public UserResponseDto inviteUser(@Valid final UserCreationDto userCreationDto) {
         final User user;
         final User created;

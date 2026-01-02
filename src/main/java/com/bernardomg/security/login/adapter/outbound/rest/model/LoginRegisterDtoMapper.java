@@ -1,6 +1,8 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.model;
 
+import java.util.List;
+
 import com.bernardomg.data.domain.Page;
 import com.bernardomg.data.domain.Sorting.Direction;
 import com.bernardomg.data.domain.Sorting.Property;
@@ -14,7 +16,8 @@ import com.bernardomg.security.openapi.model.SortingDto;
 public final class LoginRegisterDtoMapper {
 
     public static final LoginRegisterPageResponseDto toResponseDto(final Page<LoginRegister> page) {
-        final SortingDto sortingResponse;
+        final SortingDto             sortingResponse;
+        final List<LoginRegisterDto> content;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
@@ -22,10 +25,11 @@ public final class LoginRegisterDtoMapper {
             .map(LoginRegisterDtoMapper::toDto)
             .toList());
 
-        return new LoginRegisterPageResponseDto().content(page.content()
+        content = page.content()
             .stream()
             .map(LoginRegisterDtoMapper::toDto)
-            .toList())
+            .toList();
+        return new LoginRegisterPageResponseDto().content(content)
             .size(page.size())
             .page(page.page())
             .totalElements(page.totalElements())

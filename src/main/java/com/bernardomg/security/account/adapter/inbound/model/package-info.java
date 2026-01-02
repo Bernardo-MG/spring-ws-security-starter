@@ -22,28 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.adapter.outbound.cache;
-
 /**
- * Names of all the caches used for user queries.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Account persistence model.
  */
-public final class UserCaches {
 
-    /**
-     * Single user.
-     */
-    public static final String USER  = "security_user";
-
-    /**
-     * Multiple users.
-     */
-    public static final String USERS = "security_users";
-
-    private UserCaches() {
-        super();
-    }
-
-}
+package com.bernardomg.security.account.adapter.inbound.model;

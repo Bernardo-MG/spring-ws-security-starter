@@ -27,10 +27,6 @@ package com.bernardomg.security.user.adapter.outbound.rest.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.data.domain.Page;
@@ -44,7 +40,6 @@ import com.bernardomg.security.openapi.model.UserCreationDto;
 import com.bernardomg.security.openapi.model.UserPageResponseDto;
 import com.bernardomg.security.openapi.model.UserResponseDto;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.security.user.adapter.outbound.cache.UserCaches;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserDtoMapper;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserQuery;
@@ -76,8 +71,6 @@ public class UserController implements UserApi {
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.CREATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
-            evict = { @CacheEvict(cacheNames = UserCaches.USERS, allEntries = true) })
     public UserResponseDto createUser(@Valid final UserCreationDto userCreationDto) {
         final User user;
         final User created;
@@ -90,8 +83,6 @@ public class UserController implements UserApi {
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.DELETE)
-    @Caching(evict = { @CacheEvict(cacheNames = UserCaches.USER),
-            @CacheEvict(cacheNames = { UserCaches.USERS }, allEntries = true) })
     public UserResponseDto deleteUser(final String username) {
         final User deleted;
 
@@ -102,7 +93,6 @@ public class UserController implements UserApi {
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.USERS)
     public UserPageResponseDto getAllUsers(@Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size,
             @Valid final List<String> sort, @Email @Valid final String email, @Valid final String username,
             @Valid final String name, @Valid final Boolean enabled, @Valid final Boolean notLocked,
@@ -123,7 +113,6 @@ public class UserController implements UserApi {
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.READ)
-    @Cacheable(cacheNames = UserCaches.USER)
     public UserResponseDto getOneUser(final String user) {
         final Optional<User> found;
 
@@ -134,8 +123,6 @@ public class UserController implements UserApi {
 
     @Override
     @RequireResourceAuthorization(resource = "USER", action = Actions.UPDATE)
-    @Caching(put = { @CachePut(cacheNames = UserCaches.USER, key = "#result.content.username") },
-            evict = { @CacheEvict(cacheNames = { UserCaches.USERS }, allEntries = true) })
     public UserResponseDto updateUser(final String username, @Valid final UserChangeDto userChangeDto) {
         final User toUpdate;
         final User updated;

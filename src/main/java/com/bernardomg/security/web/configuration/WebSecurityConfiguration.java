@@ -98,8 +98,6 @@ public class WebSecurityConfiguration {
      *
      * @param http
      *            HTTP security component
-     * @param handlerMappingIntrospector
-     *            utility class to find routes
      * @param corsProperties
      *            CORS properties
      * @param securityConfigurers

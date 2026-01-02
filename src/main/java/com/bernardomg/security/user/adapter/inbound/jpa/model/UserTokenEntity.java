@@ -26,6 +26,7 @@ package com.bernardomg.security.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -77,6 +78,18 @@ public class UserTokenEntity implements Serializable {
     @Column(name = "user_id", nullable = false)
     private Long              userId;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final UserTokenEntity other = (UserTokenEntity) obj;
+        return Objects.equals(id, other.id);
+    }
+
     public Instant getCreationDate() {
         return creationDate;
     }
@@ -99,6 +112,11 @@ public class UserTokenEntity implements Serializable {
 
     public Long getUserId() {
         return userId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public boolean isConsumed() {
@@ -139,6 +157,13 @@ public class UserTokenEntity implements Serializable {
 
     public void setUserId(final Long userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserTokenEntity [id=" + id + ", userId=" + userId + ", token=" + token + ", consumed=" + consumed
+                + ", creationDate=" + creationDate + ", expirationDate=" + expirationDate + ", revoked=" + revoked
+                + ", scope=" + scope + "]";
     }
 
 }

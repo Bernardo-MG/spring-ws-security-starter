@@ -20,7 +20,7 @@ public final class UserRoleEntities {
 
         entity = new UserRoleEntity();
         entity.setUserId(1L);
-        entity.setRoleId(1L);
+        entity.setRoleId(2L);
 
         return entity;
     }

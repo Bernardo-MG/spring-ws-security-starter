@@ -24,15 +24,13 @@
 
 package com.bernardomg.security.password.change.usecase.service;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +40,7 @@ import com.bernardomg.security.user.domain.exception.DisabledUserException;
 import com.bernardomg.security.user.domain.exception.ExpiredUserException;
 import com.bernardomg.security.user.domain.exception.LockedUserException;
 import com.bernardomg.security.user.domain.exception.MissingUsernameException;
+import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.validation.domain.exception.FieldFailureException;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -60,66 +59,59 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     /**
      * Logger for the class.
      */
-    private static final Logger      log = LoggerFactory.getLogger(SpringSecurityPasswordChangeService.class);
+    private static final Logger     log = LoggerFactory.getLogger(SpringSecurityPasswordChangeService.class);
 
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder    passwordEncoder;
+    private final PasswordEncoder   passwordEncoder;
 
     /**
      * User repository.
      */
-    private final UserRepository     repository;
-
-    /**
-     * User details service, to find and validate users.
-     */
-    private final UserDetailsService userDetailsService;
+    private final UserRepository    repository;
 
     /**
      * Change password validator.
      */
-    private final Validator<String>  validatorChange;
+    private final Validator<String> validatorChange;
 
-    public SpringSecurityPasswordChangeService(final UserRepository userRepo, final UserDetailsService userDetsService,
-            final PasswordEncoder passEncoder) {
+    public SpringSecurityPasswordChangeService(final UserRepository userRepo, final PasswordEncoder passEncoder) {
         super();
 
         repository = Objects.requireNonNull(userRepo);
-        userDetailsService = Objects.requireNonNull(userDetsService);
         passwordEncoder = Objects.requireNonNull(passEncoder);
 
         validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
+
+        // TODO: make independent from Spring
     }
 
     @Override
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
-        final String      username;
-        final UserDetails userDetails;
+        final String         username;
+        final Optional<User> user;
 
         username = getCurrentUsername();
 
         log.trace("Changing password for user {}", username);
 
         // Validate the user exists
-        if (!repository.exists(username)) {
+        user = repository.findOne(username);
+        if (user.isEmpty()) {
             // TODO: Is this exception being hid?
             log.error("Missing user {}", username);
             throw new MissingUsernameException(username);
         }
 
-        // TODO: Avoid this second query
-        userDetails = userDetailsService.loadUserByUsername(username);
-
         // TODO: Move to validator
-        validatePassword(userDetails, oldPassword);
+        validatePassword(user.get(), oldPassword);
 
         log.trace("Validating new password");
         validatorChange.validate(newPassword);
 
         // Make sure the user can change the password
-        authorizePasswordChange(userDetails);
+        authorizePasswordChange(user.get());
 
         repository.resetPassword(username, newPassword);
 
@@ -132,22 +124,22 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
      * @param user
      *            user for which the password is changed
      */
-    private final void authorizePasswordChange(final UserDetails user) {
+    private final void authorizePasswordChange(final User user) {
 
         // Accepts users with expired credentials, as they have an expired password
 
         // TODO: This should be contained in a common class
-        if (!user.isAccountNonExpired()) {
-            log.error("User {} is expired", user.getUsername());
-            throw new ExpiredUserException(user.getUsername());
+        if (!user.notExpired()) {
+            log.error("User {} is expired", user.username());
+            throw new ExpiredUserException(user.username());
         }
-        if (!user.isAccountNonLocked()) {
-            log.error("User {} is locked", user.getUsername());
-            throw new LockedUserException(user.getUsername());
+        if (!user.notLocked()) {
+            log.error("User {} is locked", user.username());
+            throw new LockedUserException(user.username());
         }
-        if (!user.isEnabled()) {
-            log.error("User {} is disabled", user.getUsername());
-            throw new DisabledUserException(user.getUsername());
+        if (!user.enabled()) {
+            log.error("User {} is disabled", user.username());
+            throw new DisabledUserException(user.username());
         }
     }
 
@@ -165,15 +157,17 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         return auth.getName();
     }
 
-    private final void validatePassword(final UserDetails userDetails, final String oldPassword) {
+    private final void validatePassword(final User user, final String oldPassword) {
         final FieldFailure failure;
+        final String       password;
 
         // Verify the current password matches the original one
-        if (!passwordEncoder.matches(oldPassword, userDetails.getPassword())) {
-            log.error("Received a password which doesn't match the one stored for username {}",
-                userDetails.getUsername());
+        password = repository.findPassword(user.username())
+            .get();
+        if (!passwordEncoder.matches(oldPassword, password)) {
+            log.error("Received a password which doesn't match the one stored for username {}", user.username());
             failure = new FieldFailure("notMatch", "oldPassword", oldPassword);
-            throw new FieldFailureException(userDetails, List.of(failure));
+            throw new FieldFailureException(failure);
         }
     }
 

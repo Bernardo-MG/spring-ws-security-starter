@@ -32,6 +32,7 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -50,6 +51,7 @@ import com.bernardomg.security.permission.domain.repository.ResourceRepository;
  * <p>
  * The {@link #load()} method takes care of persisting all the data.
  */
+@Transactional
 public final class PermissionsLoader {
 
     /**
@@ -94,17 +96,12 @@ public final class PermissionsLoader {
      * Persists the permissions.
      */
     public final void load() {
-        final List<Action>             actions;
-        final List<Resource>           resources;
-        final List<ResourcePermission> permissions;
-        final Collection<String>       actionNames;
-        final Collection<String>       resourceNames;
-        final Collection<String>       permissionNames;
+        final List<Action>       actions;
+        final List<Resource>     resources;
+        final Collection<String> actionNames;
+        final Collection<String> resourceNames;
 
         log.debug("Begins loading permissions");
-
-        // TODO: Apply transactionality
-        // TODO: Group each into a single query
 
         // TODO: Load default actions
         // Load actions
@@ -122,6 +119,7 @@ public final class PermissionsLoader {
         log.debug("Saved actions");
 
         // Load resources
+        // TODO: maybe they should be defined elsewhere like the actions
         log.debug("Saving resources");
         resourceNames = resourceRepository.findAllNames();
         resources = permissionConfigs.stream()
@@ -136,9 +134,21 @@ public final class PermissionsLoader {
         resourceRepository.save(resources);
         log.debug("Saved resources");
 
-        // TODO: Verify the resources and actions exist
         // Load permissions
+        loadPermissions();
+
+        log.debug("Finished loading permissions");
+    }
+
+    private final void loadPermissions() {
+        final List<ResourcePermission> permissions;
+        final Collection<String>       actionNames;
+        final Collection<String>       resourceNames;
+        final Collection<String>       permissionNames;
+
         log.debug("Saving permissions");
+        actionNames = actionRepository.findAllNames();
+        resourceNames = resourceRepository.findAllNames();
         permissionNames = resourcePermissionRepository.findAll()
             .stream()
             .map(this::toName)
@@ -149,12 +159,12 @@ public final class PermissionsLoader {
             .map(this::toResourcePermission)
             .flatMap(Collection::stream)
             .distinct()
+            .filter(p -> actionNames.contains(p.action()))
+            .filter(p -> resourceNames.contains(p.resource()))
             .filter(p -> !permissionNames.contains(toName(p)))
             .toList();
         resourcePermissionRepository.save(permissions);
         log.debug("Saved permissions");
-
-        log.debug("Finished loading permissions");
     }
 
     private final PermissionConfig readPermissions(final InputStream permissions) {

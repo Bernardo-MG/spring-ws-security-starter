@@ -31,8 +31,9 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePerm
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -46,6 +47,7 @@ import jakarta.persistence.Transient;
  */
 @Entity(name = "RolePermission")
 @Table(schema = "security", name = "role_permissions")
+@IdClass(RolePermissionId.class)
 public class RolePermissionEntity implements Serializable {
 
     /**
@@ -61,10 +63,11 @@ public class RolePermissionEntity implements Serializable {
     private Boolean                  granted;
 
     /**
-     * Id.
+     * Permission.
      */
-    @EmbeddedId
-    private RolePermissionId         id;
+    @Id
+    @Column(name = "permission_id", nullable = false, insertable = false, updatable = false)
+    private Long                     permissionId;
 
     /**
      * Permission.
@@ -72,6 +75,13 @@ public class RolePermissionEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "permission_id", referencedColumnName = "id", insertable = false, updatable = false)
     private ResourcePermissionEntity resourcePermission;
+
+    /**
+     * Role id.
+     */
+    @Id
+    @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
+    private Long                     roleId;
 
     @Override
     public boolean equals(final Object obj) {
@@ -82,43 +92,50 @@ public class RolePermissionEntity implements Serializable {
             return false;
         }
         final RolePermissionEntity other = (RolePermissionEntity) obj;
-        return Objects.equals(granted, other.granted) && Objects.equals(id, other.id)
-                && Objects.equals(resourcePermission, other.resourcePermission);
+        return Objects.equals(permissionId, other.permissionId) && Objects.equals(roleId, other.roleId);
     }
 
     public Boolean getGranted() {
         return granted;
     }
 
-    public RolePermissionId getId() {
-        return id;
+    public Long getPermissionId() {
+        return permissionId;
     }
 
     public ResourcePermissionEntity getResourcePermission() {
         return resourcePermission;
     }
 
+    public Long getRoleId() {
+        return roleId;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(granted, id, resourcePermission);
+        return Objects.hash(permissionId, roleId);
     }
 
     public void setGranted(final Boolean granted) {
         this.granted = granted;
     }
 
-    public void setId(final RolePermissionId id) {
-        this.id = id;
+    public void setPermissionId(final Long permissionId) {
+        this.permissionId = permissionId;
     }
 
     public void setResourcePermission(final ResourcePermissionEntity resourcePermission) {
         this.resourcePermission = resourcePermission;
     }
 
+    public void setRoleId(final Long roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
-        return "RolePermissionEntity [granted=" + granted + ", id=" + id + ", resourcePermission=" + resourcePermission
-                + "]";
+        return "RolePermissionEntity [roleId=" + roleId + ", permissionId=" + permissionId + ", resourcePermission="
+                + resourcePermission + ", granted=" + granted + "]";
     }
 
 }

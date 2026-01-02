@@ -27,8 +27,6 @@ package com.bernardomg.security.role.adapter.inbound.jpa.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Transient;
 
 /**
@@ -37,7 +35,6 @@ import jakarta.persistence.Transient;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Embeddable
 public class RolePermissionId implements Serializable {
 
     /**
@@ -49,13 +46,11 @@ public class RolePermissionId implements Serializable {
     /**
      * Permission.
      */
-    @Column(name = "permission_id", nullable = false, insertable = false, updatable = false)
     private Long              permissionId;
 
     /**
      * Role id.
      */
-    @Column(name = "role_id", nullable = false, insertable = false, updatable = false)
     private Long              roleId;
 
     @Override
@@ -93,7 +88,7 @@ public class RolePermissionId implements Serializable {
 
     @Override
     public String toString() {
-        return "RolePermissionId [permissionId=" + permissionId + ", roleId=" + roleId + "]";
+        return "RolePermissionId [roleId=" + roleId + ", permissionId=" + permissionId + "]";
     }
 
 }

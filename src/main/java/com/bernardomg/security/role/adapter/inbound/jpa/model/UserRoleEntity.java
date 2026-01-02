@@ -100,7 +100,7 @@ public class UserRoleEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UserRoleEntity [roleId=" + roleId + ", userId=" + userId + "]";
+        return "UserRoleEntity [userId=" + userId + ", roleId=" + roleId + "]";
     }
 
 }

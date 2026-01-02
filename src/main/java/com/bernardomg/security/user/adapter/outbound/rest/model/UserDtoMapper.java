@@ -55,22 +55,28 @@ public final class UserDtoMapper {
     }
 
     public static final UserResponseDto toResponseDto(final Optional<User> user) {
-        return new UserResponseDto().content(user.map(UserDtoMapper::toDto)
-            .orElse(null));
+        final UserDto content;
+
+        content = user.map(UserDtoMapper::toDto)
+            .orElse(null);
+        return new UserResponseDto().content(content);
     }
 
     public static final UserPageResponseDto toResponseDto(final Page<User> page) {
-        final SortingDto sortingResponse;
+        final SortingDto    sortingResponse;
+        final List<UserDto> content;
 
         sortingResponse = new SortingDto().properties(page.sort()
             .properties()
             .stream()
             .map(UserDtoMapper::toDto)
             .toList());
-        return new UserPageResponseDto().content(page.content()
+
+        content = page.content()
             .stream()
             .map(UserDtoMapper::toDto)
-            .toList())
+            .toList();
+        return new UserPageResponseDto().content(content)
             .size(page.size())
             .page(page.page())
             .totalElements(page.totalElements())

@@ -25,6 +25,7 @@
 package com.bernardomg.security.role.adapter.inbound.jpa.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
@@ -41,15 +42,20 @@ public final class RoleEntityMapper {
     public static final Role toDomain(final RoleEntity role) {
         final Collection<ResourcePermission> permissions;
 
-        permissions = role.getPermissions()
-            .stream()
-            .filter(Objects::nonNull)
-            .filter(RolePermissionEntity::getGranted)
-            .map(RolePermissionEntity::getResourcePermission)
-            .map(ResourcePermissionEntityMapper::toDomain)
-            // TODO: should sort in the query
-            .sorted(new ResourcePermissionComparator())
-            .toList();
+        if (role.getPermissions() == null) {
+            permissions = List.of();
+        } else {
+            permissions = role.getPermissions()
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(RolePermissionEntity::getGranted)
+                .map(RolePermissionEntity::getResourcePermission)
+                .map(ResourcePermissionEntityMapper::toDomain)
+                // TODO: should sort in the query
+                .sorted(new ResourcePermissionComparator())
+                .toList();
+        }
+
         return new Role(role.getName(), permissions);
     }
 

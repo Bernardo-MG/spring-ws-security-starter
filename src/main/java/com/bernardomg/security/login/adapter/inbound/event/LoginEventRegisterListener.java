@@ -28,12 +28,9 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
 
 import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.security.event.LogInEvent;
-import com.bernardomg.security.login.adapter.outbound.cache.Logins;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 
 /**
@@ -62,7 +59,6 @@ public final class LoginEventRegisterListener implements EventListener<LogInEven
     }
 
     @Override
-    @Caching(evict = { @CacheEvict(cacheNames = Logins.LOGIN_REGISTERS, allEntries = true) })
     public final void handle(final LogInEvent event) {
         log.debug("Handling login event register for {}", event.getUsername());
         loginRegisterService.register(event.getUsername(), event.isLoggedIn());

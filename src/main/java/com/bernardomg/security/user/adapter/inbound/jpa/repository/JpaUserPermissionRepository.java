@@ -90,6 +90,8 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
             permissions = List.of();
         }
 
+        log.trace("Found permissions for user {}: {}", username, permissions);
+
         return permissions;
     }
 

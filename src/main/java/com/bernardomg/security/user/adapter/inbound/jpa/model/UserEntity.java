@@ -26,6 +26,7 @@ package com.bernardomg.security.user.adapter.inbound.jpa.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
 
@@ -126,6 +127,18 @@ public class UserEntity implements Serializable {
     @Column(name = "username", nullable = false, unique = true, length = 60)
     private String                 username;
 
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if ((obj == null) || (getClass() != obj.getClass())) {
+            return false;
+        }
+        final UserEntity other = (UserEntity) obj;
+        return Objects.equals(id, other.id);
+    }
+
     public String getEmail() {
         return email;
     }
@@ -170,6 +183,11 @@ public class UserEntity implements Serializable {
         return username;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     public void setEmail(final String email) {
         this.email = email;
     }
@@ -212,6 +230,14 @@ public class UserEntity implements Serializable {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity [id=" + id + ", username=" + username + ", name=" + name + ", roles=" + roles + ", email="
+                + email + ", enabled=" + enabled + ", loginAttempts=" + loginAttempts + ", notExpired=" + notExpired
+                + ", notLocked=" + notLocked + ", password=" + password + ", passwordNotExpired=" + passwordNotExpired
+                + "]";
     }
 
 }

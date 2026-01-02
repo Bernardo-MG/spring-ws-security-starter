@@ -26,6 +26,8 @@ package com.bernardomg.security.login.configuration;
 
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
@@ -66,6 +68,11 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 @AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa" })
 public class LoginAutoConfiguration {
 
+    /**
+     * Logger for the class.
+     */
+    private static final Logger log = LoggerFactory.getLogger(LoginAutoConfiguration.class);
+
     @Bean("loginEventRegisterListener")
     public LoginEventRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {
         return new LoginEventRegisterListener(loginRegisterService);
@@ -91,6 +98,7 @@ public class LoginAutoConfiguration {
 
         valid = new SpringValidLoginPredicate(userDetailsService, passwordEncoder);
 
+        log.info("Security tokens will have a validity of {}", jwtProperties.validity());
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userPermissionRepository,
             jwtProperties.validity());
 

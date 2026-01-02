@@ -109,6 +109,8 @@ public final class JpaUserRepository implements UserRepository {
             user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);
             result = UserEntityMapper.toDomain(updated);
+
+            log.trace("Activated {}", result);
         } else {
             // TODO: Maybe return an optional
             log.warn("User {} not found", username);
@@ -131,6 +133,8 @@ public final class JpaUserRepository implements UserRepository {
             toSave.setLoginAttempts(0);
 
             userSpringRepository.save(toSave);
+
+            log.trace("Cleared login attempts for {}", username);
         } else {
             log.warn("User {} not found", username);
         }
@@ -141,27 +145,47 @@ public final class JpaUserRepository implements UserRepository {
         log.trace("Deleting user {}", username);
 
         userSpringRepository.deleteByUsername(username);
+
+        log.trace("Deleted user {}", username);
     }
 
     @Override
     public final boolean exists(final String username) {
+        final boolean exists;
+
         log.trace("Checking if user {} exists", username);
 
-        return userSpringRepository.existsByUsername(username);
+        exists = userSpringRepository.existsByUsername(username);
+
+        log.trace("Checked if user {} exists: {}", username, exists);
+
+        return exists;
     }
 
     @Override
     public final boolean existsByEmail(final String email) {
+        final boolean exists;
+
         log.trace("Checking if user exists by email {}", email);
 
-        return userSpringRepository.existsByEmail(email);
+        exists = userSpringRepository.existsByEmail(email);
+
+        log.trace("Checked if user exists by email {}: {}", email, exists);
+
+        return exists;
     }
 
     @Override
     public final boolean existsEmailForAnotherUser(final String username, final String email) {
+        final boolean exists;
+
         log.trace("Checking if email {} is assigned to a user who is not {}", email, username);
 
-        return userSpringRepository.existsByUsernameNotAndEmail(username, email);
+        exists = userSpringRepository.existsByUsernameNotAndEmail(username, email);
+
+        log.trace("Checked if email {} is assigned to a user who is not {}: {}", email, username, exists);
+
+        return exists;
     }
 
     @Override
@@ -169,6 +193,7 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity                                 entity;
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<User> page;
+        final Page<User>                                 read;
 
         log.trace("Finding users for query {} with pagination {} and sorting {}", query, pagination, sorting);
 
@@ -177,40 +202,68 @@ public final class JpaUserRepository implements UserRepository {
         page = userSpringRepository.findAll(Example.of(entity), pageable)
             .map(UserEntityMapper::toDomain);
 
-        return SpringPagination.toPage(page);
+        read = SpringPagination.toPage(page);
+
+        log.trace("Found users for query {} with pagination {} and sorting {}: {}", query, pagination, sorting, read);
+
+        return read;
     }
 
     @Override
     public final int findLoginAttempts(final String username) {
+        final int attempts;
+
         log.trace("Finding login attempts for user {}", username);
 
-        return userSpringRepository.findByUsername(username)
+        attempts = userSpringRepository.findByUsername(username)
             .map(UserEntity::getLoginAttempts)
             .orElse(0);
+
+        log.trace("Found login attempts for user {}: {}", username, attempts);
+
+        return attempts;
     }
 
     @Override
     public final Optional<User> findOne(final String username) {
+        final Optional<User> read;
+
         log.trace("Finding user {}", username);
 
-        return userSpringRepository.findByUsername(username)
+        read = userSpringRepository.findByUsername(username)
             .map(UserEntityMapper::toDomain);
+
+        log.trace("Found user {}", read);
+
+        return read;
     }
 
     @Override
     public final Optional<User> findOneByEmail(final String email) {
+        final Optional<User> read;
+
         log.trace("Finding user by email {}", email);
 
-        return userSpringRepository.findByEmail(email)
+        read = userSpringRepository.findByEmail(email)
             .map(UserEntityMapper::toDomain);
+
+        log.trace("Found user by email {}", read);
+
+        return read;
     }
 
     @Override
     public final Optional<String> findPassword(final String username) {
+        final Optional<String> password;
+
         log.trace("Finding password for user {}", username);
 
-        return userSpringRepository.findByUsername(username)
+        password = userSpringRepository.findByUsername(username)
             .map(UserEntity::getPassword);
+
+        log.trace("Found password for user {}", username);
+
+        return password;
     }
 
     @Override
@@ -229,8 +282,11 @@ public final class JpaUserRepository implements UserRepository {
             toSave.setLoginAttempts(attempts);
 
             userSpringRepository.save(toSave);
+
+            log.trace("Increased login attempts for user {} to {}", username, attempts);
         } else {
             attempts = -1;
+            log.warn("User {} doesn't exist", username);
         }
 
         return attempts;
@@ -252,9 +308,12 @@ public final class JpaUserRepository implements UserRepository {
             user.setNotLocked(false);
             updated = userSpringRepository.save(user);
             result = UserEntityMapper.toDomain(updated);
+
+            log.trace("Locked user {}", username);
         } else {
             // TODO: Maybe return an optional
             result = new User(null, null, null, false, false, false, false, null);
+            log.warn("User {} doesn't exist", username);
         }
 
         return result;
@@ -283,9 +342,12 @@ public final class JpaUserRepository implements UserRepository {
             user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);
             result = UserEntityMapper.toDomain(updated);
+
+            log.trace("Resetted pasword for {}", username);
         } else {
             // TODO: Maybe return an optional
             result = new User(null, null, null, false, false, false, false, null);
+            log.warn("User {} doesn't exist", username);
         }
 
         return result;
@@ -296,6 +358,7 @@ public final class JpaUserRepository implements UserRepository {
         final Optional<UserEntity> existing;
         final UserEntity           entity;
         final UserEntity           saved;
+        final User                 created;
 
         log.trace("Saving user");
 
@@ -314,7 +377,11 @@ public final class JpaUserRepository implements UserRepository {
         }
 
         saved = userSpringRepository.save(entity);
-        return UserEntityMapper.toDomain(saved);
+        created = UserEntityMapper.toDomain(saved);
+
+        log.trace("Saved user: {}", created);
+
+        return created;
     }
 
     @Override
@@ -322,6 +389,7 @@ public final class JpaUserRepository implements UserRepository {
         final String     encodedPassword;
         final UserEntity entity;
         final UserEntity saved;
+        final User       created;
 
         log.trace("Saving new user");
 
@@ -333,7 +401,11 @@ public final class JpaUserRepository implements UserRepository {
 
         saved = userSpringRepository.save(entity);
 
-        return UserEntityMapper.toDomain(saved);
+        created = UserEntityMapper.toDomain(saved);
+
+        log.trace("Saved new user: {}", created);
+
+        return created;
     }
 
     private final RoleEntity toEntity(final Role role) {

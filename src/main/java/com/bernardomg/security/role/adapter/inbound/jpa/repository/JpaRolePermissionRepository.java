@@ -98,6 +98,9 @@ public final class JpaRolePermissionRepository implements RolePermissionReposito
             permissions = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         }
 
+        log.debug("Found available permissions for {} with pagination {} and sorting {}: {}", role, pagination, sorting,
+            permissions);
+
         return permissions;
     }
 

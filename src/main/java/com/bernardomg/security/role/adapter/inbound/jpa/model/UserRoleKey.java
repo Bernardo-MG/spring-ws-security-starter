@@ -85,7 +85,7 @@ public class UserRoleKey implements Serializable {
 
     @Override
     public String toString() {
-        return "UserRoleKey [roleId=" + roleId + ", userId=" + userId + "]";
+        return "UserRoleKey [userId=" + userId + ", roleId=" + roleId + "]";
     }
 
 }

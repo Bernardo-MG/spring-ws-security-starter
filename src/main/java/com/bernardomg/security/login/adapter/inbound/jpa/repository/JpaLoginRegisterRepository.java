@@ -24,6 +24,8 @@
 
 package com.bernardomg.security.login.adapter.inbound.jpa.repository;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -56,38 +58,48 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
      */
     private final LoginRegisterSpringRepository loginRegisterSpringRepository;
 
-    public JpaLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterRepository) {
+    public JpaLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepo) {
         super();
 
-        loginRegisterSpringRepository = loginRegisterRepository;
+        loginRegisterSpringRepository = Objects.requireNonNull(loginRegisterSpringRepo);
     }
 
     @Override
     public final Page<LoginRegister> findAll(final Pagination pagination, final Sorting sorting) {
         final Pageable                                            pageable;
         final org.springframework.data.domain.Page<LoginRegister> page;
+        final Page<LoginRegister>                                 read;
 
-        log.trace("Finding login registers with pagination {} and sorting {}", pagination, sorting);
+        log.debug("Finding login registers with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
         page = loginRegisterSpringRepository.findAll(pageable)
             .map(LoginRegisterEntityMapper::toDomain);
 
-        return SpringPagination.toPage(page);
+        read = SpringPagination.toPage(page);
+
+        log.debug("Found login registers with pagination {} and sorting {}: {}", pagination, sorting);
+
+        return read;
     }
 
     @Override
     public final LoginRegister save(final LoginRegister register) {
         final LoginRegisterEntity entity;
         final LoginRegisterEntity saved;
+        final LoginRegister       created;
 
-        log.trace("Saving login register {}", register);
+        log.debug("Saving login register {}", register);
 
         entity = LoginRegisterEntityMapper.toEntity(register);
 
         saved = loginRegisterSpringRepository.save(entity);
 
-        return LoginRegisterEntityMapper.toDomain(saved);
+        created = LoginRegisterEntityMapper.toDomain(saved);
+
+        log.debug("Saved login register {}", created);
+
+        return created;
     }
 
 }

@@ -129,11 +129,12 @@ public class TestPermissionsLoader {
 
     @Test
     @DisplayName("When loading the permissions duplicates are removed")
+    @SuppressWarnings("unchecked")
     void testLoad_Duplicates() {
 
         // GIVEN
-        given(actionRepository.findAllNames()).willReturn(List.of());
-        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(actionRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.CREATE));
+        given(resourceRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
@@ -174,8 +175,8 @@ public class TestPermissionsLoader {
     void testLoad_Permission() {
 
         // GIVEN
-        given(actionRepository.findAllNames()).willReturn(List.of());
-        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
+        given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
 
         // WHEN
@@ -183,6 +184,38 @@ public class TestPermissionsLoader {
 
         // THEN
         verify(resourcePermissionRepository).save(List.of(ResourcePermissions.create()));
+    }
+
+    @Test
+    @DisplayName("When the action doesn't exist nothing is saved")
+    void testLoad_Permission_NoActions() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of());
+        given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourcePermissionRepository).save(List.of());
+    }
+
+    @Test
+    @DisplayName("When the resource doesn't exist nothing is saved")
+    void testLoad_Permission_NoResource() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
+        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourcePermissionRepository).save(List.of());
     }
 
     @Test

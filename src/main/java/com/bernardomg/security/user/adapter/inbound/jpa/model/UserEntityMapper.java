@@ -24,8 +24,10 @@
 
 package com.bernardomg.security.user.adapter.inbound.jpa.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
 import com.bernardomg.security.role.domain.comparator.RoleComparator;
@@ -46,7 +48,7 @@ public final class UserEntityMapper {
             .filter(Objects::nonNull)
             .map(RoleEntityMapper::toDomain)
             .sorted(new RoleComparator())
-            .toList();
+            .collect(Collectors.toCollection(ArrayList::new));
         return new User(user.getEmail(), user.getUsername(), user.getName(), user.getEnabled(), user.getNotExpired(),
             user.getNotLocked(), user.getPasswordNotExpired(), roles);
     }
