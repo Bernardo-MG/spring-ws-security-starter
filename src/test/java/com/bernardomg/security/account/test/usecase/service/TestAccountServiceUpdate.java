@@ -21,7 +21,7 @@ import com.bernardomg.security.account.domain.exception.MissingAccountException;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.test.config.factory.Accounts;
-import com.bernardomg.security.account.usecase.service.DefaultAccountService;
+import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.factory.Authentications;
 
@@ -30,10 +30,10 @@ import com.bernardomg.test.config.factory.Authentications;
 class TestAccountServiceUpdate {
 
     @Mock
-    private AccountRepository     accountRepository;
+    private AccountRepository            accountRepository;
 
     @InjectMocks
-    private DefaultAccountService service;
+    private SpringSecurityAccountService service;
 
     public TestAccountServiceUpdate() {
         super();
