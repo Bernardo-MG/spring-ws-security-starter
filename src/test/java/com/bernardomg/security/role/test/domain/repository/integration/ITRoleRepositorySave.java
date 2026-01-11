@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
+import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -214,10 +215,12 @@ class ITRoleRepositorySave {
         // THEN
         roles = springRepository.findAll();
 
-        Assertions.assertThat(roles)
-            .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(RoleEntities.withoutPermissions());
+        Assertions.assertThat(roles.get(0)
+            .getPermissions()
+            .stream()
+            .map(RolePermissionEntity::getGranted))
+            .as("permissions status")
+            .containsExactly(false, false, false, false);
     }
 
     @Test

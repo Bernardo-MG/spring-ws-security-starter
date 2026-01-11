@@ -26,6 +26,7 @@ package com.bernardomg.security.role.adapter.inbound.jpa.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,31 +63,38 @@ public final class JpaRoleRepository implements RoleRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                      log = LoggerFactory.getLogger(JpaRoleRepository.class);
+    private static final Logger                        log = LoggerFactory.getLogger(JpaRoleRepository.class);
 
     /**
      * Resource permission repository.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
+    private final ResourcePermissionSpringRepository   resourcePermissionSpringRepository;
+
+    /**
+     * Role permission repository.
+     */
+    private final RolePermissionEntitySpringRepository rolePermissionEntitySpringRepository;
 
     /**
      * Role repository.
      */
-    private final RoleSpringRepository               roleSpringRepository;
+    private final RoleSpringRepository                 roleSpringRepository;
 
     /**
      * User roles repository.
      */
-    private final UserRoleSpringRepository           userRoleSpringRepository;
+    private final UserRoleSpringRepository             userRoleSpringRepository;
 
     public JpaRoleRepository(final RoleSpringRepository roleSpringRepo,
             final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
-            final UserRoleSpringRepository userRoleSpringRepo) {
+            final UserRoleSpringRepository userRoleSpringRepo,
+            final RolePermissionEntitySpringRepository rolePermissionEntitySpringRepo) {
         super();
 
         roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
         resourcePermissionSpringRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
         userRoleSpringRepository = Objects.requireNonNull(userRoleSpringRepo);
+        rolePermissionEntitySpringRepository = Objects.requireNonNull(rolePermissionEntitySpringRepo);
     }
 
     @Override
@@ -175,8 +183,6 @@ public final class JpaRoleRepository implements RoleRepository {
     public final Role save(final Role role) {
         final Optional<RoleEntity>             existing;
         final RoleEntity                       entity;
-        final RoleEntity                       saved;
-        final RoleEntity                       updated;
         final RoleEntity                       savedAgain;
         final Collection<RolePermissionEntity> permissions;
         final Collection<RolePermissionEntity> disabledPermissions;
@@ -187,12 +193,6 @@ public final class JpaRoleRepository implements RoleRepository {
 
         entity = toEntity(role);
 
-        existing = roleSpringRepository.findByName(role.name());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
-        }
-
         if (entity.getPermissions() == null) {
             permissions = new ArrayList<>();
         } else {
@@ -201,21 +201,28 @@ public final class JpaRoleRepository implements RoleRepository {
                 .filter(Objects::nonNull)
                 .toList());
         }
-        entity.setPermissions(new ArrayList<>());
-        saved = roleSpringRepository.save(entity);
-        updated = roleSpringRepository.findById(saved.getId())
-            .get();
+
+        existing = roleSpringRepository.findByName(role.name());
+        if (existing.isPresent()) {
+            entity.setId(existing.get()
+                .getId());
+            disabledPermissions = disablePermissions(permissions, existing.get()
+                .getPermissions());
+        } else {
+            disabledPermissions = List.of();
+        }
 
         // Disable existing permissions, and set role id
-        disabledPermissions = disablePermissions(permissions, updated);
         newPermissions = Stream.concat(permissions.stream(), disabledPermissions.stream())
             .collect(Collectors.toCollection(ArrayList::new));
         newPermissions.forEach(p -> {
-            p.setRoleId(saved.getId());
+            p.setRoleId(entity.getId());
         });
 
-        updated.setPermissions(newPermissions);
-        savedAgain = roleSpringRepository.save(saved);
+        entity.setPermissions(newPermissions);
+        savedAgain = roleSpringRepository.save(entity);
+
+        rolePermissionEntitySpringRepository.saveAll(newPermissions);
 
         created = RoleEntityMapper.toDomain(savedAgain);
 
@@ -225,16 +232,16 @@ public final class JpaRoleRepository implements RoleRepository {
 
     }
 
-    private final Collection<RolePermissionEntity>
-            disablePermissions(final Collection<RolePermissionEntity> permissions, final RoleEntity entity) {
+    private final Collection<RolePermissionEntity> disablePermissions(
+            final Collection<RolePermissionEntity> newPermissions,
+            final Collection<RolePermissionEntity> existingPermissions) {
         final Collection<String>               permissionNames;
         final Collection<RolePermissionEntity> disabledPermissions;
-        permissionNames = permissions.stream()
+        permissionNames = newPermissions.stream()
             .map(p -> slug(p.getResourcePermission()))
             .distinct()
             .toList();
-        disabledPermissions = entity.getPermissions()
-            .stream()
+        disabledPermissions = existingPermissions.stream()
             .filter(p -> !permissionNames.contains(slug(p.getResourcePermission())))
             .toList();
         disabledPermissions.forEach(p -> p.setGranted(false));
