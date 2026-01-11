@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,8 +176,11 @@ public final class JpaRoleRepository implements RoleRepository {
         final Optional<RoleEntity>             existing;
         final RoleEntity                       entity;
         final RoleEntity                       saved;
+        final RoleEntity                       updated;
         final RoleEntity                       savedAgain;
         final Collection<RolePermissionEntity> permissions;
+        final Collection<RolePermissionEntity> disabledPermissions;
+        final Collection<RolePermissionEntity> newPermissions;
         final Role                             created;
 
         log.trace("Saving role {}", role);
@@ -199,11 +203,18 @@ public final class JpaRoleRepository implements RoleRepository {
         }
         entity.setPermissions(new ArrayList<>());
         saved = roleSpringRepository.save(entity);
+        updated = roleSpringRepository.findById(saved.getId())
+            .get();
 
-        permissions.forEach(p -> {
+        // Disable existing permissions, and set role id
+        disabledPermissions = disablePermissions(permissions, updated);
+        newPermissions = Stream.concat(permissions.stream(), disabledPermissions.stream())
+            .collect(Collectors.toCollection(ArrayList::new));
+        newPermissions.forEach(p -> {
             p.setRoleId(saved.getId());
         });
-        saved.setPermissions(permissions);
+
+        updated.setPermissions(newPermissions);
         savedAgain = roleSpringRepository.save(saved);
 
         created = RoleEntityMapper.toDomain(savedAgain);
@@ -212,6 +223,26 @@ public final class JpaRoleRepository implements RoleRepository {
 
         return created;
 
+    }
+
+    private final Collection<RolePermissionEntity>
+            disablePermissions(final Collection<RolePermissionEntity> permissions, final RoleEntity entity) {
+        final Collection<String>               permissionNames;
+        final Collection<RolePermissionEntity> disabledPermissions;
+        permissionNames = permissions.stream()
+            .map(p -> slug(p.getResourcePermission()))
+            .distinct()
+            .toList();
+        disabledPermissions = entity.getPermissions()
+            .stream()
+            .filter(p -> !permissionNames.contains(slug(p.getResourcePermission())))
+            .toList();
+        disabledPermissions.forEach(p -> p.setGranted(false));
+        return disabledPermissions;
+    }
+
+    private final String slug(final ResourcePermissionEntity permission) {
+        return permission.getResource() + "-" + permission.getAction();
     }
 
     private final RolePermissionEntity toEntity(final ResourcePermission permission) {

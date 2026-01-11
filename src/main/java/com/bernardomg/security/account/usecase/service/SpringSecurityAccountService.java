@@ -17,22 +17,22 @@ import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 
 /**
- * Default account service.
+ * Account service based on Spring security.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @Transactional
-public final class DefaultAccountService implements AccountService {
+public final class SpringSecurityAccountService implements AccountService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(DefaultAccountService.class);
+    private static final Logger     log = LoggerFactory.getLogger(SpringSecurityAccountService.class);
 
     private final AccountRepository accountRepository;
 
-    public DefaultAccountService(final AccountRepository accountRepo) {
+    public SpringSecurityAccountService(final AccountRepository accountRepo) {
         super();
 
         accountRepository = Objects.requireNonNull(accountRepo);
