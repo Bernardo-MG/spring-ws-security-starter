@@ -35,6 +35,7 @@ import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapp
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Handles password reset for a user, usually when it can't start a session. It is divided into two steps:
@@ -65,7 +66,7 @@ public class PasswordResetController implements PasswordResetApi {
 
     @Override
     @Unsecured
-    public void changePasswordWithToken(final String token, @Valid final PasswordResetDto passwordResetDto) {
+    public void changePasswordWithToken(@NotNull final String token, @Valid final PasswordResetDto passwordResetDto) {
         service.changePassword(token, passwordResetDto.getPassword());
     }
 

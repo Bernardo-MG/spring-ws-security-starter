@@ -476,5 +476,10 @@
             Fix for disabling role permissions.
          </action>
       </release>
+      <release version="0.4.43" date="2026-01-11" description="Fixed password reset">
+         <action dev="bmg" type="fix">
+            Fixed password reset.
+         </action>
+      </release>
    </body>
 </document>
