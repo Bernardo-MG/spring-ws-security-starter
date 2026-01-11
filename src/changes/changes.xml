@@ -471,7 +471,10 @@
             Fix for disabling role permissions.
          </action>
       </release>
-      <release version="1.0.0" date="2026-01-11" description="">
+      <release version="0.4.42" date="2026-01-11" description="Permission fix">
+         <action dev="bmg" type="fix">
+            Fix for disabling role permissions.
+         </action>
       </release>
    </body>
 </document>
