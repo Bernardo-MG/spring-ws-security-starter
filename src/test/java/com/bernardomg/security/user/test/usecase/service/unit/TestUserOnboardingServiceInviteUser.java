@@ -78,14 +78,16 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("Sends the user to the repository, ignoring case")
     void testInviteUser_Case_AddsEntity() {
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         service.inviteUser(Users.upperCase());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -94,8 +96,10 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.inviteUser(Users.withoutRoles());
@@ -196,8 +200,10 @@ class TestUserOnboardingServiceInviteUser {
         final UserInvitationEvent userInvitationEvent;
 
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
         userInvitationEvent = new UserInvitationEvent(service, Users.newlyCreated(), Tokens.TOKEN);
 
         // WHEN
@@ -211,14 +217,16 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("Sends the user to the repository, padded with whitespace")
     void testInviteUser_Padded_AddsEntity() {
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         service.inviteUser(Users.padded());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -227,8 +235,10 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.inviteUser(Users.padded());
@@ -242,15 +252,17 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("With a user with roles, it is sent to the repository")
     void testInviteUser_Role_PersistedData() {
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(userRepository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
+        given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreatedWithRole());
 
         // WHEN
         service.inviteUser(Users.withRole());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreatedWithRole());
+        verify(userRepository).save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -259,9 +271,11 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(userRepository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
+        given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreatedWithRole());
 
         // WHEN
         user = service.inviteUser(Users.withRole());
@@ -275,14 +289,16 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("With a user without roles, it is sent to the repository")
     void testInviteUser_WithoutRoles_PersistedData() {
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         service.inviteUser(Users.withoutRoles());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -291,8 +307,10 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.inviteUser(Users.withoutRoles());

@@ -29,6 +29,7 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.role.domain.model.Role;
@@ -48,17 +49,24 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
     /**
      * Logger for the class.
      */
-    private static final Logger  log = LoggerFactory.getLogger(DefaultUsersInitializerService.class);
+    private static final Logger   log = LoggerFactory.getLogger(DefaultUsersInitializerService.class);
 
-    private final RoleRepository roleRepository;
+    /**
+     * Password encoder.
+     */
+    private final PasswordEncoder passwordEncoder;
 
-    private final UserRepository userRepository;
+    private final RoleRepository  roleRepository;
 
-    public DefaultUsersInitializerService(final UserRepository userRepo, final RoleRepository roleRepo) {
+    private final UserRepository  userRepository;
+
+    public DefaultUsersInitializerService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final PasswordEncoder passEncoder) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
@@ -90,21 +98,23 @@ public final class DefaultUsersInitializerService implements UsersInitializerSer
     }
 
     private final void initializeReadUser() {
-        final User readUser;
+        final User   readUser;
+        final String encodedPassword;
 
         // Add read user
         readUser = getReadUser();
-        userRepository.saveNewUser(readUser);
-        userRepository.resetPassword(readUser.username(), "1234");
+        encodedPassword = passwordEncoder.encode("1234");
+        userRepository.save(readUser, encodedPassword);
     }
 
     private final void initializeRootUser() {
-        final User rootUser;
+        final User   rootUser;
+        final String encodedPassword;
 
         // Add root user
         rootUser = getRootUser();
-        userRepository.saveNewUser(rootUser);
-        userRepository.resetPassword(rootUser.username(), "1234");
+        encodedPassword = passwordEncoder.encode("1234");
+        userRepository.save(rootUser, encodedPassword);
     }
 
     private final void runIfNotExists(final Runnable runnable, final String name) {

@@ -128,9 +128,10 @@ public class UserAutoConfiguration {
 
     @Bean("userOnboardingService")
     public UserOnboardingService getUserOnboardingService(final UserRepository userRepository,
-            final RoleRepository roleRepository, @Qualifier("userTokenStore") final UserTokenStore tokenStore,
-            final EventEmitter eventEmitter) {
-        return new DefaultUserOnboardingService(userRepository, roleRepository, tokenStore, eventEmitter);
+            final RoleRepository roleRepository, final PasswordEncoder passwordEncoder,
+            @Qualifier("userTokenStore") final UserTokenStore tokenStore, final EventEmitter eventEmitter) {
+        return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncoder, tokenStore,
+            eventEmitter);
     }
 
     @Bean("userOnboardingWhitelist")
@@ -145,8 +146,9 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userService")
-    public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
-        return new DefaultUserService(userRepo, roleRepo);
+    public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final PasswordEncoder passwordEncoder) {
+        return new DefaultUserService(userRepo, roleRepo, passwordEncoder);
     }
 
     @Bean("userTokenStore")

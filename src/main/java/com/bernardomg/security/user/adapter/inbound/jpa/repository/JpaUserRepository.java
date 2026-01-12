@@ -385,25 +385,21 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final User saveNewUser(final User user) {
-        final String     encodedPassword;
+    public final User save(final User user, final String password) {
         final UserEntity entity;
         final UserEntity saved;
         final User       created;
 
-        log.trace("Saving new user");
+        log.trace("Saving user {} with password", user);
 
-        // TODO: seems to be a business usecase
         entity = toEntity(user);
-
-        encodedPassword = passwordEncoder.encode("");
-        entity.setPassword(encodedPassword);
+        entity.setPassword(password);
 
         saved = userSpringRepository.save(entity);
 
         created = UserEntityMapper.toDomain(saved);
 
-        log.trace("Saved new user: {}", created);
+        log.trace("Saved user {} with password", created);
 
         return created;
     }

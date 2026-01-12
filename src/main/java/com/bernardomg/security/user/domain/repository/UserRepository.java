@@ -187,8 +187,10 @@ public interface UserRepository {
      *
      * @param user
      *            user to save
+     * @param password
+     *            user password
      * @return the saved user
      */
-    public User saveNewUser(final User user);
+    public User save(final User user, final String password);
 
 }
