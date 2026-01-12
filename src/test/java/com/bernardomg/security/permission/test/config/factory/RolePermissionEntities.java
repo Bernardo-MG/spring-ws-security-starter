@@ -11,7 +11,6 @@ public final class RolePermissionEntities {
         entity = new RolePermissionEntity();
         entity.setRoleId(1L);
         entity.setPermissionId(1L);
-        entity.setGranted(true);
         entity.setResourcePermission(ResourcePermissionEntities.create());
 
         return entity;
@@ -23,32 +22,7 @@ public final class RolePermissionEntities {
         entity = new RolePermissionEntity();
         entity.setRoleId(1L);
         entity.setPermissionId(1L);
-        entity.setGranted(true);
         entity.setResourcePermission(ResourcePermissionEntities.delete());
-
-        return entity;
-    }
-
-    public static final RolePermissionEntity granted() {
-        final RolePermissionEntity entity;
-
-        entity = new RolePermissionEntity();
-        entity.setRoleId(1L);
-        entity.setPermissionId(1L);
-        entity.setGranted(true);
-        entity.setResourcePermission(ResourcePermissionEntities.create());
-
-        return entity;
-    }
-
-    public static final RolePermissionEntity notGranted() {
-        final RolePermissionEntity entity;
-
-        entity = new RolePermissionEntity();
-        entity.setRoleId(1L);
-        entity.setPermissionId(1L);
-        entity.setGranted(false);
-        entity.setResourcePermission(ResourcePermissionEntities.create());
 
         return entity;
     }
@@ -59,7 +33,6 @@ public final class RolePermissionEntities {
         entity = new RolePermissionEntity();
         entity.setRoleId(1L);
         entity.setPermissionId(1L);
-        entity.setGranted(true);
         entity.setResourcePermission(ResourcePermissionEntities.read());
 
         return entity;
@@ -71,7 +44,6 @@ public final class RolePermissionEntities {
         entity = new RolePermissionEntity();
         entity.setRoleId(1L);
         entity.setPermissionId(1L);
-        entity.setGranted(true);
         entity.setResourcePermission(ResourcePermissionEntities.update());
 
         return entity;

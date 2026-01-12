@@ -57,12 +57,6 @@ public class RolePermissionEntity implements Serializable {
     private static final long        serialVersionUID = 8513041662486312372L;
 
     /**
-     * Granted flag.
-     */
-    @Column(name = "granted", nullable = false)
-    private Boolean                  granted;
-
-    /**
      * Permission.
      */
     @Id
@@ -95,10 +89,6 @@ public class RolePermissionEntity implements Serializable {
         return Objects.equals(permissionId, other.permissionId) && Objects.equals(roleId, other.roleId);
     }
 
-    public Boolean getGranted() {
-        return granted;
-    }
-
     public Long getPermissionId() {
         return permissionId;
     }
@@ -116,10 +106,6 @@ public class RolePermissionEntity implements Serializable {
         return Objects.hash(permissionId, roleId);
     }
 
-    public void setGranted(final Boolean granted) {
-        this.granted = granted;
-    }
-
     public void setPermissionId(final Long permissionId) {
         this.permissionId = permissionId;
     }
@@ -135,7 +121,7 @@ public class RolePermissionEntity implements Serializable {
     @Override
     public String toString() {
         return "RolePermissionEntity [roleId=" + roleId + ", permissionId=" + permissionId + ", resourcePermission="
-                + resourcePermission + ", granted=" + granted + "]";
+                + resourcePermission + "]";
     }
 
 }

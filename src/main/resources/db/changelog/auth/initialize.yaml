@@ -218,12 +218,6 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_permission_id
                     references: security.permissions(id)
                     nullable: false
-              - column:
-                  name: granted
-                  type: boolean
-                  constraints:
-                    nullable: false
-                  defaultValueBoolean: false
         - addPrimaryKey:
             constraintName: role_permissions_key
             schemaName: security

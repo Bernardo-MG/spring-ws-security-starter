@@ -14,7 +14,6 @@ import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.annotation.RoleWithCrudPermissions;
-import com.bernardomg.security.role.test.config.annotation.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.role.test.config.factory.Roles;
@@ -79,31 +78,6 @@ class ITRoleRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When there are roles with no granted permissions they are returned")
-    @RoleWithCrudPermissionsNotGranted
-    void testFindAll_WithNotGrantedPermission() {
-        final Page<Role> roles;
-        final RoleQuery  sample;
-        final Pagination pagination;
-        final Sorting    sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = Sorting.unsorted();
-
-        sample = RolesQuery.empty();
-
-        // WHEN
-        roles = repository.findAll(sample, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(roles)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .containsExactly(Roles.withoutPermissions());
     }
 
     @Test

@@ -58,7 +58,7 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
                SELECT p
                FROM ResourcePermission p
                  LEFT JOIN RolePermission rp ON p.id = rp.id.permissionId AND rp.id.roleId = :roleId
-               WHERE rp.id.permissionId IS NULL OR rp.granted = false
+               WHERE rp.id.permissionId IS NULL
             """)
     public Page<ResourcePermissionEntity> findAllAvailableToRole(@Param("roleId") final Long roleId,
             final Pageable page);
@@ -76,7 +76,6 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
                SELECT p
                FROM ResourcePermission p
                  INNER JOIN RolePermission rp ON p.id = rp.id.permissionId AND rp.id.roleId = :roleId
-               WHERE rp.granted = true
             """)
     public Page<ResourcePermissionEntity> findAllForRole(@Param("roleId") final Long roleId, final Pageable page);
 
@@ -94,7 +93,7 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
                  INNER JOIN Role r ON r.id = rp.id.roleId
                  INNER JOIN UserRole ur ON ur.roleId = r.id
                  INNER JOIN User u ON u.id = ur.userId
-               WHERE u.id = :userId AND rp.granted = true
+               WHERE u.id = :userId
             """)
     public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
 

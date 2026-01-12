@@ -12,12 +12,10 @@ import com.bernardomg.data.domain.Pagination;
 import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissions;
-import com.bernardomg.security.permission.test.config.annotation.AlternativeRoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.test.config.annotation.RoleWithCrudPermissions;
-import com.bernardomg.security.role.test.config.annotation.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
@@ -83,7 +81,7 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
     @Test
     @DisplayName("When all the permission have been assigned, and there is another role with no permissions, nothing is returned")
     @RoleWithCrudPermissions
-    @AlternativeRoleWithCrudPermissionsNotGranted
+    @AlternativeRoleWithCrudPermissions
     void testFindAvailablePermissions_AllAssigned_AlternativeRole() {
         final Page<ResourcePermission> permissions;
         final Pagination               pagination;
@@ -176,30 +174,6 @@ class ITRolePermissionRepositoryFindAvailablePermissions {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("permissions")
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When there are no permissions granted all are returned")
-    @RoleWithCrudPermissionsNotGranted
-    void testFindAvailablePermissions_NotGranted() {
-        final Page<ResourcePermission> permissions;
-        final Pagination               pagination;
-        final Sorting                  sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        permissions = repository.findAvailablePermissions(RoleConstants.NAME, pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(permissions)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("permissions")
-            .containsOnly(ResourcePermissions.create(), ResourcePermissions.read(), ResourcePermissions.update(),
-                ResourcePermissions.delete());
     }
 
 }
