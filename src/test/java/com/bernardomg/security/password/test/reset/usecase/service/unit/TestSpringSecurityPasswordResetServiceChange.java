@@ -186,7 +186,7 @@ class TestSpringSecurityPasswordResetServiceChange {
     @DisplayName("Changing password sends the data to the repository")
     void testChangePassword_ResetsPassword() {
         // GIVEN
-        given(passwordEncoder.encode(UserConstants.PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
