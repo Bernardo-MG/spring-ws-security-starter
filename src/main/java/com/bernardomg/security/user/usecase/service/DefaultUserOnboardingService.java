@@ -120,6 +120,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         final String username;
         final User   user;
         final User   saved;
+        final String encodedPassword;
 
         log.trace("Activating new user");
 
@@ -143,7 +144,8 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         // TODO: validate somehow that it is actually a new user
         user.checkStatus();
 
-        saved = userRepository.activate(username, password.trim());
+        encodedPassword = passwordEncoder.encode(password.trim());
+        saved = userRepository.activate(username, encodedPassword);
         tokenStore.consumeToken(token);
 
         log.trace("Activated new user {}", username);

@@ -77,6 +77,7 @@ class TestUserOnboardingServiceActivateUser {
     @DisplayName("Activating a disabled user saves it as enabled")
     void testActivateUser_Disabled() {
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
 
@@ -84,7 +85,7 @@ class TestUserOnboardingServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -148,6 +149,7 @@ class TestUserOnboardingServiceActivateUser {
     @DisplayName("Activating a new user keeps its roles")
     void testActivateUser_KeepsRoles() {
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreatedWithRole()));
 
@@ -155,7 +157,7 @@ class TestUserOnboardingServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -183,6 +185,7 @@ class TestUserOnboardingServiceActivateUser {
     @DisplayName("Activating a new user saves it as enabled")
     void testActivateUser_NewlyCreated() {
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
 
@@ -190,7 +193,7 @@ class TestUserOnboardingServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -218,6 +221,7 @@ class TestUserOnboardingServiceActivateUser {
     @DisplayName("Activating a new user with a padded password saves it as enabled")
     void testActivateUser_PaddedPassword() {
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.newlyCreated()));
 
@@ -225,13 +229,14 @@ class TestUserOnboardingServiceActivateUser {
         service.activateUser(Tokens.TOKEN, " " + UserConstants.NEW_PASSWORD + " ");
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
     @DisplayName("Activating a user with password expired saves it as enabled")
     void testActivateUser_PasswordExpired() {
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpiredAndDisabled()));
 
@@ -239,7 +244,7 @@ class TestUserOnboardingServiceActivateUser {
         service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(repository).activate(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        verify(repository).activate(UserConstants.USERNAME, UserConstants.ENCODED_PASSWORD);
     }
 
 }
