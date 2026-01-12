@@ -254,6 +254,7 @@ class TestPasswordChangeServiceChangePassword {
         // GIVEN
         SecurityContextHolder.getContext()
             .setAuthentication(Authentications.authenticated());
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
@@ -263,7 +264,7 @@ class TestPasswordChangeServiceChangePassword {
 
         // THEN
         Mockito.verify(repository)
-            .resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+            .resetPassword(UserConstants.USERNAME, UserConstants.ENCODED_NEW_PASSWORD);
     }
 
     @Test
@@ -271,6 +272,7 @@ class TestPasswordChangeServiceChangePassword {
     void testChangePasswordForUserInSession_Resets() {
 
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
@@ -280,7 +282,7 @@ class TestPasswordChangeServiceChangePassword {
 
         // THEN
         Mockito.verify(repository)
-            .resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+            .resetPassword(UserConstants.USERNAME, UserConstants.ENCODED_NEW_PASSWORD);
     }
 
 }

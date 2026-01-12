@@ -53,13 +53,15 @@ class TestUserServiceCreateUser {
     @DisplayName("Sends the user to the repository, ignoring case")
     void testCreate_Case_AddsEntity() {
         // GIVEN
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         service.create(Users.upperCase());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -68,7 +70,9 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.create(Users.upperCase());
@@ -167,13 +171,15 @@ class TestUserServiceCreateUser {
     @DisplayName("Sends the user to the repository, padded with whitespace")
     void testCreate_Padded_AddsEntity() {
         // GIVEN
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         service.create(Users.padded());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -182,7 +188,9 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.create(Users.padded());
@@ -196,14 +204,16 @@ class TestUserServiceCreateUser {
     @DisplayName("With a user with roles, it is sent to the repository")
     void testCreate_Role_PersistedData() {
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(userRepository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreated());
+        given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         service.create(Users.withRole());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreatedWithRole());
+        verify(userRepository).save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -212,8 +222,10 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
-        given(userRepository.saveNewUser(Users.newlyCreatedWithRole())).willReturn(Users.newlyCreatedWithRole());
+        given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreatedWithRole());
 
         // WHEN
         user = service.create(Users.withRole());
@@ -227,13 +239,15 @@ class TestUserServiceCreateUser {
     @DisplayName("With a user without roles, it is sent to the repository")
     void testCreate_WithoutRoles_PersistedData() {
         // GIVEN
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreatedWithRole());
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreatedWithRole());
 
         // WHEN
         service.create(Users.withoutRoles());
 
         // THEN
-        verify(userRepository).saveNewUser(Users.newlyCreated());
+        verify(userRepository).save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD);
     }
 
     @Test
@@ -242,7 +256,9 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
-        given(userRepository.saveNewUser(Users.newlyCreated())).willReturn(Users.newlyCreated());
+        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
+            .willReturn(Users.newlyCreated());
 
         // WHEN
         user = service.create(Users.withoutRoles());

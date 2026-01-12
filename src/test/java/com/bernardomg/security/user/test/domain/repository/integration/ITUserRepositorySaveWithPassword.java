@@ -36,13 +36,14 @@ import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.UserEntities;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("User repository - save new user")
-class ITUserRepositorySaveNewUser {
+@DisplayName("User repository - save with password")
+class ITUserRepositorySaveWithPassword {
 
     @Autowired
     private UserRepository       repository;
@@ -50,14 +51,14 @@ class ITUserRepositorySaveNewUser {
     @Autowired
     private UserSpringRepository userSpringRepository;
 
-    public ITUserRepositorySaveNewUser() {
+    public ITUserRepositorySaveWithPassword() {
         super();
     }
 
     @Test
     @DisplayName("When the user doesn't exists, it is created")
     @RoleWithPermission
-    void testSaveNewUser_PersistedData() {
+    void testSave_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
 
@@ -65,7 +66,7 @@ class ITUserRepositorySaveNewUser {
         user = Users.enabled();
 
         // WHEN
-        repository.saveNewUser(user);
+        repository.save(user, UserConstants.ENCODED_PASSWORD);
 
         // THEN
         entities = userSpringRepository.findAll();
@@ -79,7 +80,7 @@ class ITUserRepositorySaveNewUser {
     @Test
     @DisplayName("When the user it is created, it is returned")
     @RoleWithPermission
-    void testSaveNewUser_ReturnedData() {
+    void testSave_ReturnedData() {
         final User user;
         final User created;
 
@@ -87,7 +88,7 @@ class ITUserRepositorySaveNewUser {
         user = Users.enabled();
 
         // WHEN
-        created = repository.saveNewUser(user);
+        created = repository.save(user, UserConstants.ENCODED_PASSWORD);
 
         // THEN
         Assertions.assertThat(created)

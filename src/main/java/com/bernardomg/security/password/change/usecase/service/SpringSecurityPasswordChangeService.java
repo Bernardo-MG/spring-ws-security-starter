@@ -91,6 +91,7 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
         final String         username;
         final Optional<User> user;
+        final String         encodedPassword;
 
         username = getCurrentUsername();
 
@@ -113,7 +114,8 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         // Make sure the user can change the password
         authorizePasswordChange(user.get());
 
-        repository.resetPassword(username, newPassword);
+        encodedPassword = passwordEncoder.encode(newPassword);
+        repository.resetPassword(username, encodedPassword);
 
         log.trace("Changed password for user {}", username);
     }

@@ -27,7 +27,6 @@ package com.bernardomg.security.user.test.domain.repository.integration;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,18 +80,10 @@ class ITUserRepositoryResetPassword {
 
         // THEN
         entities = userSpringRepository.findAll();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(entities)
-                .as("users")
-                .usingRecursiveFieldByFieldElementComparatorIgnoringFields("password", "roles")
-                .containsExactly(UserEntities.updatedPassword());
-            softly.assertThat(entities)
-                .first()
-                .extracting(UserEntity::getPassword)
-                .as("password")
-                .isNotEqualTo(UserConstants.ENCODED_PASSWORD)
-                .isNotEqualTo(UserConstants.NEW_PASSWORD);
-        });
+        Assertions.assertThat(entities)
+            .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("password", "roles")
+            .containsExactly(UserEntities.updatedPassword());
     }
 
     @Test

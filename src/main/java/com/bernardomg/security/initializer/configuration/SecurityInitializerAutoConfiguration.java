@@ -29,6 +29,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.initializer.adapter.inbound.RolesInitializer;
 import com.bernardomg.security.initializer.adapter.inbound.UsersInitializer;
@@ -78,8 +79,8 @@ public class SecurityInitializerAutoConfiguration {
     @Bean(name = "usersInitializerService")
     @ConditionalOnProperty(prefix = "initialize.test", name = "user", havingValue = "true")
     public UsersInitializerService getUsersInitializerService(final UserRepository userRepository,
-            final RoleRepository roleRepository) {
-        return new DefaultUsersInitializerService(userRepository, roleRepository);
+            final RoleRepository roleRepository, final PasswordEncoder passwordEncoder) {
+        return new DefaultUsersInitializerService(userRepository, roleRepository, passwordEncoder);
     }
 
 }
