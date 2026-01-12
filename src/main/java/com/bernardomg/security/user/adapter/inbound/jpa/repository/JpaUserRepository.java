@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Page;
@@ -64,11 +63,6 @@ public final class JpaUserRepository implements UserRepository {
     private static final Logger        log = LoggerFactory.getLogger(JpaUserRepository.class);
 
     /**
-     * Password encoder, for validating passwords.
-     */
-    private final PasswordEncoder      passwordEncoder;
-
-    /**
      * Role repository.
      */
     private final RoleSpringRepository roleSpringRepository;
@@ -78,13 +72,11 @@ public final class JpaUserRepository implements UserRepository {
      */
     private final UserSpringRepository userSpringRepository;
 
-    public JpaUserRepository(final UserSpringRepository userSpringRepo, final RoleSpringRepository roleSpringRepo,
-            final PasswordEncoder passEncoder) {
+    public JpaUserRepository(final UserSpringRepository userSpringRepo, final RoleSpringRepository roleSpringRepo) {
         super();
 
         userSpringRepository = Objects.requireNonNull(userSpringRepo);
         roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
-        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
@@ -321,7 +313,6 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity           user;
         final UserEntity           updated;
         final User                 result;
-        final String               encodedPassword;
 
         log.trace("Resetting pasword for {}", username);
 
@@ -329,11 +320,7 @@ public final class JpaUserRepository implements UserRepository {
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
-
-            // Encode password
-            // TODO: shouldn't be encoded in the service?
-            encodedPassword = passwordEncoder.encode(password);
-            user.setPassword(encodedPassword);
+            user.setPassword(password);
 
             user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);

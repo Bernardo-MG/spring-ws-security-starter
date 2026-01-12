@@ -141,8 +141,8 @@ public class UserAutoConfiguration {
 
     @Bean("userRepository")
     public UserRepository getUserRepository(final UserSpringRepository userRepo,
-            final RoleSpringRepository roleSpringRepo, final PasswordEncoder passEncoder) {
-        return new JpaUserRepository(userRepo, roleSpringRepo, passEncoder);
+            final RoleSpringRepository roleSpringRepo) {
+        return new JpaUserRepository(userRepo, roleSpringRepo);
     }
 
     @Bean("userService")

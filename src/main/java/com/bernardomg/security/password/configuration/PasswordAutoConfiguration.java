@@ -126,7 +126,8 @@ public class PasswordAutoConfiguration {
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
             tokenProperties.validity());
 
-        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, tokenStore, eventEmit);
+        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, passwordEncoder, tokenStore,
+            eventEmit);
     }
 
     @Bean("passwordResetNotificationListener")

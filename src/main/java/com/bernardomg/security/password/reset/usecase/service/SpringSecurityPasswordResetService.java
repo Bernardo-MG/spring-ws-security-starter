@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.event.emitter.EventEmitter;
@@ -82,6 +83,11 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final EventEmitter       eventEmitter;
 
     /**
+     * Password encoder, for validating passwords.
+     */
+    private final PasswordEncoder    passwordEncoder;
+
+    /**
      * Token store for password reset tokens.
      */
     private final UserTokenStore     passwordResetTokenStore;
@@ -107,11 +113,12 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     private final Validator<String>  validatorStart;
 
     public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
-            final UserTokenStore tStore, final EventEmitter eventEmit) {
+            final PasswordEncoder passEncoder, final UserTokenStore tStore, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(repo);
         userDetailsService = Objects.requireNonNull(userDetsService);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
         passwordResetTokenStore = Objects.requireNonNull(tStore);
         eventEmitter = Objects.requireNonNull(eventEmit);
 
@@ -124,6 +131,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
     public final void changePassword(final String token, final String password) {
         final String username;
         final User   user;
+        final String encodedPassword;
 
         log.trace("Changing password from token");
 
@@ -140,7 +148,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         authorizePasswordChange(user.username());
 
-        userRepository.resetPassword(user.username(), password);
+        encodedPassword = passwordEncoder.encode(password);
+        userRepository.resetPassword(user.username(), encodedPassword);
         passwordResetTokenStore.consumeToken(token);
 
         log.trace("Changed password for {}", username);

@@ -169,6 +169,7 @@ class TestSpringSecurityPasswordResetServiceChange {
     @DisplayName("Changing password when the user is expired resets the flag")
     void testChangePassword_PasswordExpired_ResetsPassword() {
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME))
@@ -178,13 +179,14 @@ class TestSpringSecurityPasswordResetServiceChange {
         service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(userRepository).resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        verify(userRepository).resetPassword(UserConstants.USERNAME, UserConstants.ENCODED_NEW_PASSWORD);
     }
 
     @Test
     @DisplayName("Changing password sends the data to the repository")
     void testChangePassword_ResetsPassword() {
         // GIVEN
+        given(passwordEncoder.encode(UserConstants.PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
@@ -193,7 +195,7 @@ class TestSpringSecurityPasswordResetServiceChange {
         service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        verify(userRepository).resetPassword(UserConstants.USERNAME, UserConstants.NEW_PASSWORD);
+        verify(userRepository).resetPassword(UserConstants.USERNAME, UserConstants.ENCODED_NEW_PASSWORD);
     }
 
     @Test
