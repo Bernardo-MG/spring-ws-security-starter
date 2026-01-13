@@ -34,7 +34,6 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.repository.Resourc
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRoleRepository;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.RolePermissionEntitySpringRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
@@ -67,10 +66,9 @@ public class RoleAutoConfiguration {
     @Bean("roleRepository")
     public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepository,
             final ResourcePermissionSpringRepository resourcePermissionSpringRepository,
-            final UserRoleSpringRepository userRoleSpringRepository,
-            final RolePermissionEntitySpringRepository rolePermissionEntitySpringRepository) {
-        return new JpaRoleRepository(roleSpringRepository, resourcePermissionSpringRepository, userRoleSpringRepository,
-            rolePermissionEntitySpringRepository);
+            final UserRoleSpringRepository userRoleSpringRepository) {
+        return new JpaRoleRepository(roleSpringRepository, resourcePermissionSpringRepository,
+            userRoleSpringRepository);
     }
 
     @Bean("roleService")

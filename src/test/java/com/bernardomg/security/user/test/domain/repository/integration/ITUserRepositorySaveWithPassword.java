@@ -73,7 +73,7 @@ class ITUserRepositorySaveWithPassword {
         Assertions.assertThat(entities)
             .as("users")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.id",
-                "roles.permissions.id.roleId")
+                "roles.permissions.id")
             .containsExactly(UserEntities.enabled());
     }
 
