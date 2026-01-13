@@ -173,7 +173,7 @@ public final class JpaRoleRepository implements RoleRepository {
     public final Role save(final Role role) {
         final Optional<RoleEntity> existing;
         final RoleEntity           entity;
-        final RoleEntity           savedAgain;
+        final RoleEntity           saved;
         final Role                 created;
 
         log.trace("Saving role {}", role);
@@ -186,9 +186,9 @@ public final class JpaRoleRepository implements RoleRepository {
                 .getId());
         }
 
-        savedAgain = roleSpringRepository.save(entity);
+        saved = roleSpringRepository.save(entity);
 
-        created = RoleEntityMapper.toDomain(savedAgain);
+        created = RoleEntityMapper.toDomain(saved);
 
         log.trace("Saved role {}", created);
 
