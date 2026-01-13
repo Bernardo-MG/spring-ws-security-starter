@@ -492,5 +492,7 @@
             Removed obsolete roles available permissions query.
          </action>
       </release>
+      <release version="1.0.0" date="2026-01-13" description="Corrections">
+      </release>
    </body>
 </document>
