@@ -481,5 +481,7 @@
             Fixed password reset.
          </action>
       </release>
+      <release version="1.0.0" date="2026-01-11" description="">
+      </release>
    </body>
 </document>
