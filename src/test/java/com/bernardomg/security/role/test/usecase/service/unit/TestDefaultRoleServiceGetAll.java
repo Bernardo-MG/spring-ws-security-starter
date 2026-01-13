@@ -20,7 +20,6 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
-import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.Roles;
 import com.bernardomg.security.role.test.config.factory.RolesQuery;
@@ -32,9 +31,6 @@ class TestDefaultRoleServiceGetAll {
 
     @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
-
-    @Mock
-    private RolePermissionRepository     rolePermissionRepository;
 
     @Mock
     private RoleRepository               roleRepository;

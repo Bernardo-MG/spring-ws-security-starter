@@ -90,7 +90,6 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         read = resourcePermissionSpringRepository.findAll()
             .stream()
             .map(ResourcePermissionEntityMapper::toDomain)
-            .distinct()
             .toList();
 
         log.debug("Found all resource permissions: {}");

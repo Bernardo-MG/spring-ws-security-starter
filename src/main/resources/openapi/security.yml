@@ -25,8 +25,6 @@ paths:
     $ref: paths/roles.yml
   /security/role/{name}:
     $ref: paths/roles_by_id.yml
-  /security/role/{name}/permission:
-    $ref: paths/roles_permissions.yml
   /security/user:
     $ref: paths/users.yml
   /security/user/onboarding/activate/{token}:

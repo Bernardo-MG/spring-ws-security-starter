@@ -32,11 +32,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRolePermissionRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRoleRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
-import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.usecase.service.DefaultRoleService;
 import com.bernardomg.security.role.usecase.service.RoleService;
@@ -57,12 +55,6 @@ public class RoleAutoConfiguration {
         super();
     }
 
-    @Bean("rolePermissionRepository")
-    public RolePermissionRepository getRolePermissionRepository(final RoleSpringRepository roleRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo) {
-        return new JpaRolePermissionRepository(roleRepo, resourcePermissionRepo);
-    }
-
     @Bean("roleRepository")
     public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepository,
             final ResourcePermissionSpringRepository resourcePermissionSpringRepository,
@@ -73,9 +65,8 @@ public class RoleAutoConfiguration {
 
     @Bean("roleService")
     public RoleService getRoleService(final RoleRepository roleRepository,
-            final RolePermissionRepository rolePermissionRepository,
             final ResourcePermissionRepository resourcePermissionRepository) {
-        return new DefaultRoleService(roleRepository, rolePermissionRepository, resourcePermissionRepository);
+        return new DefaultRoleService(roleRepository, resourcePermissionRepository);
     }
 
 }

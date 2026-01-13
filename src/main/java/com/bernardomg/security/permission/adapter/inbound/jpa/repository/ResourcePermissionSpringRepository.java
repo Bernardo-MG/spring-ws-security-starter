@@ -46,28 +46,6 @@ public interface ResourcePermissionSpringRepository extends JpaRepository<Resour
     public boolean existsByResourceAndAction(final String resource, final String action);
 
     /**
-     * Returns all the permissions available to a role, in a paginated form.
-     *
-     * @param roleId
-     *            role id
-     * @param page
-     *            pagination to apply
-     * @return a page with the permissions
-     */
-    @Query("""
-               SELECT p
-               FROM ResourcePermission p
-               WHERE p.id NOT IN (
-                   SELECT perm.id
-                   FROM Role r
-                   JOIN r.permissions perm
-                   WHERE r.id = :roleId
-               )
-            """)
-    public Page<ResourcePermissionEntity> findAllAvailableToRole(@Param("roleId") final Long roleId,
-            final Pageable page);
-
-    /**
      * Returns all the permissions assigned to a role, in a paginated form.
      *
      * @param roleId

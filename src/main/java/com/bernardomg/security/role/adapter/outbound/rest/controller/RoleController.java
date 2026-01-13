@@ -35,13 +35,11 @@ import com.bernardomg.data.domain.Sorting;
 import com.bernardomg.data.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.openapi.api.RoleApi;
-import com.bernardomg.security.openapi.model.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.openapi.model.RoleChangeDto;
 import com.bernardomg.security.openapi.model.RoleCreationDto;
 import com.bernardomg.security.openapi.model.RolePageResponseDto;
 import com.bernardomg.security.openapi.model.RoleResponseDto;
 import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
@@ -90,22 +88,6 @@ public class RoleController implements RoleApi {
         deleted = service.delete(name);
 
         return RoleDtoMapper.toResponseDto(deleted);
-    }
-
-    @Override
-    @RequireResourceAuthorization(resource = "ROLE", action = Actions.READ)
-    public ResourcePermissionPageResponseDto getAllRolePermissions(@Valid final String role,
-            @Min(1) @Valid final Integer page, @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
-        final Pagination               pagination;
-        final Sorting                  sorting;
-        final Page<ResourcePermission> permissions;
-
-        pagination = new Pagination(page, size);
-        sorting = WebSorting.toSorting(sort);
-
-        permissions = service.getAvailablePermissions(role, pagination, sorting);
-
-        return RoleDtoMapper.toPermissionResponseDto(permissions);
     }
 
     @Override
