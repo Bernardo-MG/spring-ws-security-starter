@@ -21,7 +21,6 @@ import com.bernardomg.security.initializer.usecase.service.DefaultRolesInitializ
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.Roles;
 
@@ -31,9 +30,6 @@ class TestRolesInitializer {
 
     @Mock
     private ResourcePermissionRepository   resourcePermissionRepository;
-
-    @Mock
-    private RolePermissionRepository       rolePermissionRepository;
 
     @Mock
     private RoleRepository                 roleRepository;

@@ -29,6 +29,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.event.emitter.EventEmitter;
@@ -70,6 +71,11 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     private final EventEmitter      eventEmitter;
 
     /**
+     * Password encoder.
+     */
+    private final PasswordEncoder   passwordEncoder;
+
+    /**
      * Role repository.
      */
     private final RoleRepository    roleRepository;
@@ -95,11 +101,12 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     private final Validator<User>   validatorInvite;
 
     public DefaultUserOnboardingService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final UserTokenStore tStore, final EventEmitter eventEmit) {
+            final PasswordEncoder passEncoder, final UserTokenStore tStore, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
         tokenStore = Objects.requireNonNull(tStore);
         eventEmitter = Objects.requireNonNull(eventEmit);
 
@@ -113,6 +120,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         final String username;
         final User   user;
         final User   saved;
+        final String encodedPassword;
 
         log.trace("Activating new user");
 
@@ -136,7 +144,8 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         // TODO: validate somehow that it is actually a new user
         user.checkStatus();
 
-        saved = userRepository.activate(username, password.trim());
+        encodedPassword = passwordEncoder.encode(password.trim());
+        saved = userRepository.activate(username, encodedPassword);
         tokenStore.consumeToken(token);
 
         log.trace("Activated new user {}", username);
@@ -150,6 +159,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         final User                created;
         final String              token;
         final UserInvitationEvent userInvitationEvent;
+        final String              encodedPassword;
 
         log.trace("Inviting new user {} with email {} and name {}", user.username(), user.email(), user.name());
 
@@ -174,7 +184,8 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
 
         validatorInvite.validate(toCreate);
 
-        created = userRepository.saveNewUser(toCreate);
+        encodedPassword = passwordEncoder.encode("");
+        created = userRepository.save(toCreate, encodedPassword);
 
         // Register new token for activation
         token = tokenStore.createToken(created.username());

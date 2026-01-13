@@ -30,6 +30,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Page;
@@ -65,6 +66,11 @@ public final class DefaultUserService implements UserService {
     private static final Logger   log = LoggerFactory.getLogger(DefaultUserService.class);
 
     /**
+     * Password encoder.
+     */
+    private final PasswordEncoder passwordEncoder;
+
+    /**
      * Role repository.
      */
     private final RoleRepository  roleRepository;
@@ -84,11 +90,13 @@ public final class DefaultUserService implements UserService {
      */
     private final Validator<User> validatorUpdateUser;
 
-    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo) {
+    public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
+            final PasswordEncoder passEncoder) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
+        passwordEncoder = Objects.requireNonNull(passEncoder);
 
         validatorCreateUser = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserRolesNotDuplicatedRule(),
             new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
@@ -98,8 +106,9 @@ public final class DefaultUserService implements UserService {
 
     @Override
     public final User create(final User user) {
-        final User toCreate;
-        final User created;
+        final User   toCreate;
+        final User   created;
+        final String encodedPassword;
 
         log.trace("Creating user {} with email {} and name {}", user.username(), user.email(), user.name());
 
@@ -124,7 +133,8 @@ public final class DefaultUserService implements UserService {
 
         validatorCreateUser.validate(toCreate);
 
-        created = userRepository.saveNewUser(toCreate);
+        encodedPassword = passwordEncoder.encode("");
+        created = userRepository.save(toCreate, encodedPassword);
 
         log.trace("Created user {} with email {} and name {}", created.username(), created.email(), user.name());
 
@@ -205,6 +215,7 @@ public final class DefaultUserService implements UserService {
 
         validatorUpdateUser.validate(user);
 
+        // TODO: why only the password expired can be changed?
         toSave = new User(user.email(), existing.username(), user.name(), user.enabled(), existing.notExpired(),
             existing.notLocked(), user.passwordNotExpired(), user.roles());
 

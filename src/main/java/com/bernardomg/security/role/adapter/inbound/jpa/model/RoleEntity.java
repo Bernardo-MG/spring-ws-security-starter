@@ -28,14 +28,16 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
+import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -53,7 +55,7 @@ public class RoleEntity implements Serializable {
      * Serialization id.
      */
     @Transient
-    private static final long                serialVersionUID = 8513041662486312372L;
+    private static final long                    serialVersionUID = 8513041662486312372L;
 
     /**
      * Entity id.
@@ -61,20 +63,21 @@ public class RoleEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
-    private Long                             id;
+    private Long                                 id;
 
     /**
      * Action name.
      */
     @Column(name = "name", nullable = false, unique = true, length = 60)
-    private String                           name;
+    private String                               name;
 
     /**
      * Role permissions.
      */
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
-    private Collection<RolePermissionEntity> permissions;
+    @ManyToMany
+    @JoinTable(schema = "security", name = "role_permissions", joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    private Collection<ResourcePermissionEntity> permissions;
 
     @Override
     public boolean equals(final Object obj) {
@@ -96,7 +99,7 @@ public class RoleEntity implements Serializable {
         return name;
     }
 
-    public Collection<RolePermissionEntity> getPermissions() {
+    public Collection<ResourcePermissionEntity> getPermissions() {
         return permissions;
     }
 
@@ -113,7 +116,7 @@ public class RoleEntity implements Serializable {
         this.name = name;
     }
 
-    public void setPermissions(final Collection<RolePermissionEntity> permissions) {
+    public void setPermissions(final Collection<ResourcePermissionEntity> permissions) {
         this.permissions = permissions;
     }
 

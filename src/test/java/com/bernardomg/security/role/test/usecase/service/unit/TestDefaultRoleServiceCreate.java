@@ -18,7 +18,6 @@ import com.bernardomg.security.permission.domain.exception.MissingResourcePermis
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.repository.RolePermissionRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.role.test.config.factory.Roles;
@@ -32,9 +31,6 @@ class TestDefaultRoleServiceCreate {
 
     @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
-
-    @Mock
-    private RolePermissionRepository     rolePermissionRepository;
 
     @Mock
     private RoleRepository               roleRepository;

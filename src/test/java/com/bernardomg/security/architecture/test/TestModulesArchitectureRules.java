@@ -62,7 +62,7 @@ public class TestModulesArchitectureRules {
         // User modules access
         .whereLayer("Users")
         .mayOnlyBeAccessedByLayers("Initializers", "Config", "Login", "Spring", "Account", "Password reset",
-            "Password change", "Permissions", "Password configuration", "Roles")
+            "Password change", "Permissions", "Password configuration")
         .whereLayer("User configuration")
         .mayOnlyBeAccessedByLayers("Password configuration")
         .whereLayer("Account")

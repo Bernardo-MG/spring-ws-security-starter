@@ -481,5 +481,16 @@
             Fixed password reset.
          </action>
       </release>
+      <release version="0.4.44" date="2026-01-13" description="Corrections">
+         <action dev="bmg" type="fix">
+            Simplified role permissions.
+         </action>
+         <action dev="bmg" type="fix">
+            Moved password encoder to service.
+         </action>
+         <action dev="bmg" type="remove">
+            Removed obsolete roles available permissions query.
+         </action>
+      </release>
    </body>
 </document>

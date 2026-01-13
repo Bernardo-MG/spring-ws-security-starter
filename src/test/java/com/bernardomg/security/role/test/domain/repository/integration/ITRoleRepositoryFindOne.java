@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.annotation.RoleWithCrudPermissions;
-import com.bernardomg.security.role.test.config.annotation.RoleWithCrudPermissionsNotGranted;
 import com.bernardomg.security.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
@@ -68,20 +67,6 @@ class ITRoleRepositoryFindOne {
         // WHILE
         Assertions.assertThat(role)
             .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When the role exists, and it has no granted permission, it is returned")
-    @RoleWithCrudPermissionsNotGranted
-    void testFindOne_WithNotGrantedPermission() {
-        final Optional<Role> role;
-
-        // WHEN
-        role = repository.findOne(RoleConstants.NAME);
-
-        // THEN
-        Assertions.assertThat(role)
-            .contains(Roles.withoutPermissions());
     }
 
     @Test

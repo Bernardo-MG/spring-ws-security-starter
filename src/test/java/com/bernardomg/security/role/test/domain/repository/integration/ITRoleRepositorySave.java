@@ -4,13 +4,13 @@ package com.bernardomg.security.role.test.domain.repository.integration;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -94,7 +94,7 @@ class ITRoleRepositorySave {
 
         Assertions.assertThat(roles)
             .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.permissionId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id")
             .containsExactly(RoleEntities.withPermissions());
     }
 
@@ -175,8 +175,7 @@ class ITRoleRepositorySave {
 
         Assertions.assertThat(roles)
             .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.permissionId",
-                "permissions.roleId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id", "permissions.roleId")
             .containsExactly(RoleEntities.withPermissions());
     }
 
@@ -215,12 +214,13 @@ class ITRoleRepositorySave {
         // THEN
         roles = springRepository.findAll();
 
-        Assertions.assertThat(roles.get(0)
-            .getPermissions()
-            .stream()
-            .map(RolePermissionEntity::getGranted))
-            .as("permissions status")
-            .containsExactly(false, false, false, false);
+        Assertions.assertThat(roles)
+            .as("roles")
+            .hasSize(1)
+            .first()
+            .extracting(RoleEntity::getPermissions)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .isEmpty();
     }
 
     @Test
@@ -301,8 +301,7 @@ class ITRoleRepositorySave {
 
         Assertions.assertThat(roles)
             .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.roleId",
-                "permissions.permissionId")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.roleId", "permissions.id")
             .containsExactly(RoleEntities.withPermissions());
     }
 

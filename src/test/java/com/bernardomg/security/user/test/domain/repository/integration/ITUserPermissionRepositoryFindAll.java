@@ -7,10 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.permission.test.config.annotation.CrudPermissions;
 import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissions;
-import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsGrantedAndNotGranted;
-import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPermissionsNotGranted;
 import com.bernardomg.security.permission.test.config.annotation.UserWithTwoRoles;
+import com.bernardomg.security.permission.test.config.annotation.UserWithTwoRolesPermissionsAndNotPermissions;
+import com.bernardomg.security.permission.test.config.annotation.UserWithoutPermissions;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
@@ -42,8 +43,9 @@ class ITUserPermissionRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("Returns all the permissions when the permissions are not granted")
-    @UserWithCrudPermissionsNotGranted
+    @DisplayName("Returns all the permissions when the user has no permissions")
+    @UserWithoutPermissions
+    @CrudPermissions
     void testFindAll_NotGranted() {
         final Iterable<ResourcePermission> permissions;
 
@@ -92,7 +94,7 @@ class ITUserPermissionRepositoryFindAll {
 
     @Test
     @DisplayName("Returns all the permissions for a user with two roles, one granting the permissions, the other not")
-    @UserWithCrudPermissionsGrantedAndNotGranted
+    @UserWithTwoRolesPermissionsAndNotPermissions
     void testFindAll_TwoRoles_GrantedAndNotGranted() {
         final Iterable<ResourcePermission> permissions;
 

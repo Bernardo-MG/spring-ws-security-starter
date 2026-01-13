@@ -15,6 +15,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.initializer.usecase.service.DefaultUsersInitializerService;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -25,6 +26,9 @@ import com.bernardomg.security.user.test.config.factory.Users;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UsersInitializer")
 class TestUsersInitializer {
+
+    @Mock
+    private PasswordEncoder                passwordEncoder;
 
     @Mock
     private RoleRepository                 roleRepository;
@@ -38,7 +42,7 @@ class TestUsersInitializer {
     @BeforeEach
     public final void initializeMocks() {
         given(roleRepository.findOne(ArgumentMatchers.any())).willReturn(Optional.of(Roles.withoutPermissions()));
-        given(userRepository.saveNewUser(ArgumentMatchers.any())).willReturn(Users.enabled());
+        given(userRepository.save(ArgumentMatchers.any(), ArgumentMatchers.any())).willReturn(Users.enabled());
     }
 
     @Test
@@ -48,7 +52,7 @@ class TestUsersInitializer {
         usersInitializerService.initialize();
 
         // THEN
-        verify(userRepository, atLeastOnce()).saveNewUser(ArgumentMatchers.any());
+        verify(userRepository, atLeastOnce()).save(ArgumentMatchers.any(), ArgumentMatchers.any());
     }
 
 }

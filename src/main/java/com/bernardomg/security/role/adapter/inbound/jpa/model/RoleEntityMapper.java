@@ -48,8 +48,6 @@ public final class RoleEntityMapper {
             permissions = role.getPermissions()
                 .stream()
                 .filter(Objects::nonNull)
-                .filter(RolePermissionEntity::getGranted)
-                .map(RolePermissionEntity::getResourcePermission)
                 .map(ResourcePermissionEntityMapper::toDomain)
                 // TODO: should sort in the query
                 .sorted(new ResourcePermissionComparator())

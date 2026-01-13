@@ -114,7 +114,7 @@ class ITUserRepositorySave {
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.permissions.id")
             .containsExactly(UserEntities.additionalRole());
     }
 
@@ -273,7 +273,7 @@ class ITUserRepositorySave {
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles.permissions.id")
             .containsExactly(UserEntities.enabled());
     }
 

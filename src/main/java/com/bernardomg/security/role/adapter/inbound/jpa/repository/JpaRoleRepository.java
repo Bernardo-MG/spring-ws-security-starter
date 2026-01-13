@@ -26,11 +26,9 @@ package com.bernardomg.security.role.adapter.inbound.jpa.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +45,6 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.repository.Resourc
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntity;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.RolePermissionEntity;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
@@ -63,38 +60,31 @@ public final class JpaRoleRepository implements RoleRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                        log = LoggerFactory.getLogger(JpaRoleRepository.class);
+    private static final Logger                      log = LoggerFactory.getLogger(JpaRoleRepository.class);
 
     /**
      * Resource permission repository.
      */
-    private final ResourcePermissionSpringRepository   resourcePermissionSpringRepository;
-
-    /**
-     * Role permission repository.
-     */
-    private final RolePermissionEntitySpringRepository rolePermissionEntitySpringRepository;
+    private final ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
     /**
      * Role repository.
      */
-    private final RoleSpringRepository                 roleSpringRepository;
+    private final RoleSpringRepository               roleSpringRepository;
 
     /**
      * User roles repository.
      */
-    private final UserRoleSpringRepository             userRoleSpringRepository;
+    private final UserRoleSpringRepository           userRoleSpringRepository;
 
     public JpaRoleRepository(final RoleSpringRepository roleSpringRepo,
             final ResourcePermissionSpringRepository resourcePermissionSpringRepo,
-            final UserRoleSpringRepository userRoleSpringRepo,
-            final RolePermissionEntitySpringRepository rolePermissionEntitySpringRepo) {
+            final UserRoleSpringRepository userRoleSpringRepo) {
         super();
 
         roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
         resourcePermissionSpringRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
         userRoleSpringRepository = Objects.requireNonNull(userRoleSpringRepo);
-        rolePermissionEntitySpringRepository = Objects.requireNonNull(rolePermissionEntitySpringRepo);
     }
 
     @Override
@@ -181,102 +171,40 @@ public final class JpaRoleRepository implements RoleRepository {
 
     @Override
     public final Role save(final Role role) {
-        final Optional<RoleEntity>             existing;
-        final RoleEntity                       entity;
-        final RoleEntity                       savedAgain;
-        final Collection<RolePermissionEntity> permissions;
-        final Collection<RolePermissionEntity> disabledPermissions;
-        final Collection<RolePermissionEntity> newPermissions;
-        final Role                             created;
+        final Optional<RoleEntity> existing;
+        final RoleEntity           entity;
+        final RoleEntity           saved;
+        final Role                 created;
 
         log.trace("Saving role {}", role);
 
         entity = toEntity(role);
 
-        if (entity.getPermissions() == null) {
-            permissions = new ArrayList<>();
-        } else {
-            permissions = new ArrayList<>(entity.getPermissions()
-                .stream()
-                .filter(Objects::nonNull)
-                .toList());
-        }
-
         existing = roleSpringRepository.findByName(role.name());
         if (existing.isPresent()) {
             entity.setId(existing.get()
                 .getId());
-            disabledPermissions = disablePermissions(permissions, existing.get()
-                .getPermissions());
-        } else {
-            disabledPermissions = List.of();
         }
 
-        // Disable existing permissions, and set role id
-        newPermissions = Stream.concat(permissions.stream(), disabledPermissions.stream())
-            .collect(Collectors.toCollection(ArrayList::new));
-        newPermissions.forEach(p -> {
-            p.setRoleId(entity.getId());
-        });
+        saved = roleSpringRepository.save(entity);
 
-        entity.setPermissions(newPermissions);
-        savedAgain = roleSpringRepository.save(entity);
-
-        rolePermissionEntitySpringRepository.saveAll(newPermissions);
-
-        created = RoleEntityMapper.toDomain(savedAgain);
+        created = RoleEntityMapper.toDomain(saved);
 
         log.trace("Saved role {}", created);
 
         return created;
-
     }
 
-    private final Collection<RolePermissionEntity> disablePermissions(
-            final Collection<RolePermissionEntity> newPermissions,
-            final Collection<RolePermissionEntity> existingPermissions) {
-        final Collection<String>               permissionNames;
-        final Collection<RolePermissionEntity> disabledPermissions;
-        permissionNames = newPermissions.stream()
-            .map(p -> slug(p.getResourcePermission()))
-            .distinct()
-            .toList();
-        disabledPermissions = existingPermissions.stream()
-            .filter(p -> !permissionNames.contains(slug(p.getResourcePermission())))
-            .toList();
-        disabledPermissions.forEach(p -> p.setGranted(false));
-        return disabledPermissions;
-    }
-
-    private final String slug(final ResourcePermissionEntity permission) {
-        return permission.getResource() + "-" + permission.getAction();
-    }
-
-    private final RolePermissionEntity toEntity(final ResourcePermission permission) {
-        final Optional<ResourcePermissionEntity> read;
-        final ResourcePermissionEntity           resourceEntity;
-        final RolePermissionEntity               entity;
-
+    private final ResourcePermissionEntity toEntity(final ResourcePermission permission) {
         // TODO: move to mapper
 
-        read = resourcePermissionSpringRepository.findByResourceAndAction(permission.resource(), permission.action());
-
-        if (read.isPresent()) {
-            resourceEntity = read.get();
-            entity = new RolePermissionEntity();
-            entity.setPermissionId(resourceEntity.getId());
-            entity.setGranted(true);
-            entity.setResourcePermission(resourceEntity);
-        } else {
-            entity = null;
-        }
-
-        return entity;
+        return resourcePermissionSpringRepository.findByResourceAndAction(permission.resource(), permission.action())
+            .orElse(null);
     }
 
     private final RoleEntity toEntity(final Role role) {
-        final Collection<RolePermissionEntity> permissions;
-        final RoleEntity                       entity;
+        final Collection<ResourcePermissionEntity> permissions;
+        final RoleEntity                           entity;
 
         // TODO: move to mapper
 

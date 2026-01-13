@@ -34,7 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.data.domain.Page;
@@ -64,11 +63,6 @@ public final class JpaUserRepository implements UserRepository {
     private static final Logger        log = LoggerFactory.getLogger(JpaUserRepository.class);
 
     /**
-     * Password encoder, for validating passwords.
-     */
-    private final PasswordEncoder      passwordEncoder;
-
-    /**
      * Role repository.
      */
     private final RoleSpringRepository roleSpringRepository;
@@ -78,13 +72,11 @@ public final class JpaUserRepository implements UserRepository {
      */
     private final UserSpringRepository userSpringRepository;
 
-    public JpaUserRepository(final UserSpringRepository userSpringRepo, final RoleSpringRepository roleSpringRepo,
-            final PasswordEncoder passEncoder) {
+    public JpaUserRepository(final UserSpringRepository userSpringRepo, final RoleSpringRepository roleSpringRepo) {
         super();
 
         userSpringRepository = Objects.requireNonNull(userSpringRepo);
         roleSpringRepository = Objects.requireNonNull(roleSpringRepo);
-        passwordEncoder = Objects.requireNonNull(passEncoder);
     }
 
     @Override
@@ -93,17 +85,13 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity           user;
         final UserEntity           updated;
         final User                 result;
-        final String               encodedPassword;
 
         log.trace("Activating {}", username);
 
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
-
-            // Encode password
-            encodedPassword = passwordEncoder.encode(password);
-            user.setPassword(encodedPassword);
+            user.setPassword(password);
 
             user.setEnabled(true);
             user.setPasswordNotExpired(true);
@@ -325,7 +313,6 @@ public final class JpaUserRepository implements UserRepository {
         final UserEntity           user;
         final UserEntity           updated;
         final User                 result;
-        final String               encodedPassword;
 
         log.trace("Resetting pasword for {}", username);
 
@@ -333,11 +320,7 @@ public final class JpaUserRepository implements UserRepository {
         read = userSpringRepository.findByUsername(username);
         if (read.isPresent()) {
             user = read.get();
-
-            // Encode password
-            // TODO: shouldn't be encoded in the service?
-            encodedPassword = passwordEncoder.encode(password);
-            user.setPassword(encodedPassword);
+            user.setPassword(password);
 
             user.setPasswordNotExpired(true);
             updated = userSpringRepository.save(user);
@@ -385,25 +368,21 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final User saveNewUser(final User user) {
-        final String     encodedPassword;
+    public final User save(final User user, final String password) {
         final UserEntity entity;
         final UserEntity saved;
         final User       created;
 
-        log.trace("Saving new user");
+        log.trace("Saving user {} with password", user);
 
-        // TODO: seems to be a business usecase
         entity = toEntity(user);
-
-        encodedPassword = passwordEncoder.encode("");
-        entity.setPassword(encodedPassword);
+        entity.setPassword(password);
 
         saved = userSpringRepository.save(entity);
 
         created = UserEntityMapper.toDomain(saved);
 
-        log.trace("Saved new user: {}", created);
+        log.trace("Saved user {} with password", created);
 
         return created;
     }
