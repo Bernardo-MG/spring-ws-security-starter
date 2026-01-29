@@ -43,8 +43,16 @@ components:
         permissions:
           type: array
           items:
-            $ref: '#/components/schemas/RoleCreationPermission'
-    RoleCreationPermission:
+            $ref: '#/components/schemas/RoleChangePermission'
+    RoleChange:
+      type: object
+      properties:
+        permissions:
+          type: array
+          description: Updated permissions for the role.
+          items:
+            $ref: '#/components/schemas/RoleChangePermission'
+    RoleChangePermission:
       type: object
       required: [resource, action]
       properties:
@@ -54,14 +62,6 @@ components:
         action:
           type: string
           description: Action permitted on the resource.
-    RoleChange:
-      type: object
-      properties:
-        permissions:
-          type: array
-          description: Updated permissions for the role.
-          items:
-            $ref: 'permissions.yml/#/components/schemas/ResourcePermission'
     RoleQueryRequest:
       type: object
       properties:
