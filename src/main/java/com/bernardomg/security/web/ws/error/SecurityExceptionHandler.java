@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.bernardomg.security.user.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.user.domain.exception.InvalidTokenException;
 import com.bernardomg.ws.response.domain.model.ErrorResponse;
 
 /**
@@ -53,6 +55,24 @@ public class SecurityExceptionHandler {
      */
     public SecurityExceptionHandler() {
         super();
+    }
+
+    @ExceptionHandler({ ConsumedTokenException.class })
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public final ErrorResponse handleConsumedTokenException(final Exception ex) {
+        log.warn(ex.getMessage(), ex);
+
+        // TODO: the response is ignored
+        return new ErrorResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "Consumed token");
+    }
+
+    @ExceptionHandler({ InvalidTokenException.class })
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public final ErrorResponse handleInvalidTokenException(final Exception ex) {
+        log.warn(ex.getMessage(), ex);
+
+        // TODO: the response is ignored
+        return new ErrorResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "Invalid token");
     }
 
     @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
