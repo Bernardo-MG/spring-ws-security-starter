@@ -22,46 +22,55 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.web.ws.error;
+package com.bernardomg.security.user.adapter.outbound.ws.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.bernardomg.security.user.domain.exception.ConsumedTokenException;
+import com.bernardomg.security.user.domain.exception.InvalidTokenException;
 import com.bernardomg.ws.response.domain.model.ErrorResponse;
 
 /**
- * Captures and handles security exceptions.
+ * Captures and handles user exceptions.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
 @RestControllerAdvice
-public class SecurityExceptionHandler {
+public class UserSecurityExceptionHandler {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(SecurityExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(UserSecurityExceptionHandler.class);
 
     /**
      * Default constructor.
      */
-    public SecurityExceptionHandler() {
+    public UserSecurityExceptionHandler() {
         super();
     }
 
-    @ExceptionHandler({ AuthenticationException.class, AccessDeniedException.class })
+    @ExceptionHandler({ ConsumedTokenException.class })
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public final ErrorResponse handleUnauthorizedException(final Exception ex) {
+    public final ErrorResponse handleConsumedTokenException(final Exception ex) {
         log.warn(ex.getMessage(), ex);
 
         // TODO: the response is ignored
-        return new ErrorResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "Unauthorized");
+        return new ErrorResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "Consumed token");
+    }
+
+    @ExceptionHandler({ InvalidTokenException.class })
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public final ErrorResponse handleInvalidTokenException(final Exception ex) {
+        log.warn(ex.getMessage(), ex);
+
+        // TODO: the response is ignored
+        return new ErrorResponse(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "Invalid token");
     }
 
 }
