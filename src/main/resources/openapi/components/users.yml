@@ -67,14 +67,18 @@ components:
       properties:
         email:
           type: string
+          description: User email address.
         username:
           type: string
+          description: Unique username for the user.
         name:
           type: string
+          description: Display name of the user.
         roles:
           type: array
           items:
             type: string
+          description: Roles assigned to the user.
     UserChange:
       type: object
       description: Data for updating an existing user.

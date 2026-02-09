@@ -34,8 +34,8 @@ public final class UserDtoMapper {
                 .map(r -> new Role(r, List.of()))
                 .toList();
         }
-        return new User(userChangeDto.getEmail(), username, userChangeDto.getName(), userChangeDto.getEnabled(),
-            userChangeDto.getPasswordNotExpired(), false, false, roles);
+        return new User(userChangeDto.getEmail(), username, userChangeDto.getName(), userChangeDto.getEnabled(), false,
+            false, userChangeDto.getPasswordNotExpired(), roles);
     }
 
     public static final User toDomain(final UserCreationDto userCreationDto) {

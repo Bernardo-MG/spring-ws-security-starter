@@ -492,5 +492,13 @@
             Removed obsolete roles available permissions query.
          </action>
       </release>
+      <release version="0.4.45" date="2026-02-09" description="Corrections">
+         <action dev="bmg" type="add">
+            Handle token exceptions.
+         </action>
+         <action dev="bmg" type="fix">
+            Corrected mappings and routes.
+         </action>
+      </release>
    </body>
 </document>
