@@ -500,7 +500,10 @@
             Corrected mappings and routes.
          </action>
       </release>
-      <release version="1.0.0" date="2026-02-09" description="">
+      <release version="0.4.46" date="2026-02-10" description="Load error handler">
+         <action dev="bmg" type="fix">
+            Relocated error handler so it is loaded.
+         </action>
       </release>
    </body>
 </document>
