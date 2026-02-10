@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.adapter.outbound.ws.error;
+package com.bernardomg.security.user.adapter.outbound.rest.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
