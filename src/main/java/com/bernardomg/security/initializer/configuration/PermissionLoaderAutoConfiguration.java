@@ -58,7 +58,7 @@ public class PermissionLoaderAutoConfiguration {
     }
 
     @Bean(name = "permissionsLoader", initMethod = "load")
-    public PermissionsLoader permissionsLoaderNew(final ActionRepository actionRepo,
+    public PermissionsLoader permissionsLoader(final ActionRepository actionRepo,
             final ResourceRepository resourceRepo, final ResourcePermissionRepository resourcePermissionRepo,
             @Value("classpath:security_permissions.yml") final Resource permissionsFile,
             final PermissionsFilesProperties permissionsFilesProperties) throws IOException {
