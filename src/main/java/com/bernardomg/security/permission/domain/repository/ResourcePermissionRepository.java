@@ -74,6 +74,6 @@ public interface ResourcePermissionRepository {
      *            permissions to save
      * @return the saved permission
      */
-    public Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions);
+    public Collection<ResourcePermission> saveAll(final Collection<ResourcePermission> permissions);
 
 }

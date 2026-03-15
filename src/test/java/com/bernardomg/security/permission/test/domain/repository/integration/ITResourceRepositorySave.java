@@ -28,8 +28,24 @@ class ITResourceRepositorySave {
     private ResourceSpringRepository resourceSpringRepository;
 
     @Test
-    @DisplayName("Persists the data")
-    void testSave_Persisted() {
+    @DisplayName("When saving no data nothing is persisted")
+    void testSaveAll_Empty() {
+        final Iterable<ResourceEntity> permissions;
+
+        // WHEN
+        repository.saveAll(List.of());
+
+        // THEN
+        permissions = resourceSpringRepository.findAll();
+
+        Assertions.assertThat(permissions)
+            .as("resources")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When saving a rewsource the data is persisted")
+    void testSaveAll_Persisted() {
         final Iterable<ResourceEntity> permissions;
         final Resource                 permission;
 
@@ -37,7 +53,7 @@ class ITResourceRepositorySave {
         permission = Resources.data();
 
         // WHEN
-        repository.save(List.of(permission));
+        repository.saveAll(List.of(permission));
 
         // THEN
         permissions = resourceSpringRepository.findAll();
@@ -49,8 +65,8 @@ class ITResourceRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the persisted data")
-    void testSave_Returned() {
+    @DisplayName("When saving a rewsource the data is returned")
+    void testSaveAll_Returned() {
         final Collection<Resource> created;
         final Resource             permission;
 
@@ -58,7 +74,7 @@ class ITResourceRepositorySave {
         permission = Resources.data();
 
         // WHEN
-        created = repository.save(List.of(permission));
+        created = repository.saveAll(List.of(permission));
 
         // THEN
         Assertions.assertThat(created)

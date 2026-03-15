@@ -18,7 +18,7 @@ import com.bernardomg.security.permission.test.config.factory.Actions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ActionRepository - save")
+@DisplayName("ActionRepository - save all")
 class ITActionRepositorySave {
 
     @Autowired
@@ -28,8 +28,24 @@ class ITActionRepositorySave {
     private ActionRepository       repository;
 
     @Test
-    @DisplayName("Persists the data")
-    void testSave_Persisted() {
+    @DisplayName("When saving no data nothing is persisted")
+    void testSaveAll_Empty() {
+        final Iterable<ActionEntity> actions;
+
+        // WHEN
+        repository.saveAll(List.of());
+
+        // THEN
+        actions = actionSpringRepository.findAll();
+
+        Assertions.assertThat(actions)
+            .as("actions")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When saving an action the data is persisted")
+    void testSaveAll_Persisted() {
         final Iterable<ActionEntity> actions;
         final Action                 action;
 
@@ -37,7 +53,7 @@ class ITActionRepositorySave {
         action = Actions.create();
 
         // WHEN
-        repository.save(List.of(action));
+        repository.saveAll(List.of(action));
 
         // THEN
         actions = actionSpringRepository.findAll();
@@ -49,8 +65,8 @@ class ITActionRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the persisted data")
-    void testSave_Returned() {
+    @DisplayName("When saving an action the data is returned")
+    void testSaveAll_Returned() {
         final Collection<Action> created;
         final Action             action;
 
@@ -58,7 +74,7 @@ class ITActionRepositorySave {
         action = Actions.create();
 
         // WHEN
-        created = repository.save(List.of(action));
+        created = repository.saveAll(List.of(action));
 
         // THEN
         Assertions.assertThat(created)

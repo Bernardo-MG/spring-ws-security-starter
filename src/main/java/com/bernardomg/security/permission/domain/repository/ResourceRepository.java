@@ -49,6 +49,6 @@ public interface ResourceRepository {
      *            resources to save
      * @return the saved resources
      */
-    public Collection<Resource> save(final Collection<Resource> resources);
+    public Collection<Resource> saveAll(final Collection<Resource> resources);
 
 }

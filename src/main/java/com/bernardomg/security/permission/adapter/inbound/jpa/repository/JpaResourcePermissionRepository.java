@@ -117,7 +117,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
-    public final Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions) {
+    public final Collection<ResourcePermission> saveAll(final Collection<ResourcePermission> permissions) {
         final List<ResourcePermissionEntity> entities;
         final List<ResourcePermissionEntity> created;
         final Collection<ResourcePermission> saved;

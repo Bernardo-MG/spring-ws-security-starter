@@ -76,7 +76,7 @@ public final class JpaActionRepository implements ActionRepository {
     }
 
     @Override
-    public final Collection<Action> save(final Collection<Action> actions) {
+    public final Collection<Action> saveAll(final Collection<Action> actions) {
         final List<ActionEntity> entities;
         final List<Action>       created;
 

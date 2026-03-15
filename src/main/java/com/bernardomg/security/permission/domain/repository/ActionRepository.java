@@ -49,6 +49,6 @@ public interface ActionRepository {
      *            actions to save
      * @return the saved actions
      */
-    public Collection<Action> save(final Collection<Action> actions);
+    public Collection<Action> saveAll(final Collection<Action> actions);
 
 }
