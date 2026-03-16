@@ -10,11 +10,11 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/action/single.sql" })
+@Sql({ "/db/queries/security/resource/data.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface SingleAction {
+public @interface DataResource {
 
 }

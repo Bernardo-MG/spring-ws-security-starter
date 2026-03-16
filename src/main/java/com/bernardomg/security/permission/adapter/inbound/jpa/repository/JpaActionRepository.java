@@ -26,8 +26,9 @@ package com.bernardomg.security.permission.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +86,7 @@ public final class JpaActionRepository implements ActionRepository {
         entities = actions.stream()
             .map(ActionEntityMapper::toEntity)
             .toList();
-        entities.forEach(this::loadId);
+        loadIds(entities);
 
         created = actionSpringRepository.saveAll(entities)
             .stream()
@@ -97,14 +98,26 @@ public final class JpaActionRepository implements ActionRepository {
         return created;
     }
 
-    private final void loadId(final ActionEntity entity) {
-        final Optional<ActionEntity> existing;
+    private void loadIds(final List<ActionEntity> entities) {
+        final Collection<String>       names;
+        final Collection<ActionEntity> existing;
+        final Map<String, Long>        idMap;
 
-        existing = actionSpringRepository.findByName(entity.getName());
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
-        }
+        names = entities.stream()
+            .map(ActionEntity::getName)
+            .collect(Collectors.toSet());
+        existing = actionSpringRepository.findByNameIn(names);
+
+        idMap = existing.stream()
+            .collect(Collectors.toMap(ActionEntity::getName, ActionEntity::getId));
+
+        // Assign IDs to entities that already exist
+        entities.forEach(e -> {
+            final Long id = idMap.get(e.getName());
+            if (id != null) {
+                e.setId(id);
+            }
+        });
     }
 
 }

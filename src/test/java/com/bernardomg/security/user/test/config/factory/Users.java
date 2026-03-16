@@ -61,6 +61,11 @@ public final class Users {
             List.of(Roles.withSinglePermission()));
     }
 
+    public static final User nameChange() {
+        return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.CHANGED_NAME, true, true, true, true,
+            List.of(Roles.withSinglePermission()));
+    }
+
     public static final User newlyCreated() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, false,
             List.of());

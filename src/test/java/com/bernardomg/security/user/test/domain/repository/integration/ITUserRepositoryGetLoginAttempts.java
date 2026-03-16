@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.annotation.MaxLoginAttemptsUser;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -63,7 +63,7 @@ class ITUserRepositoryGetLoginAttempts {
 
     @Test
     @DisplayName("When the user has no login attempts, zero attempts are returned")
-    @ValidUser
+    @EnabledUserWithRole
     void testFindLoginAttempts_NoAttempts() {
         final int attempts;
 

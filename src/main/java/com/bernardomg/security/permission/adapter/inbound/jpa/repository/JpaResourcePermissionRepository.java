@@ -127,6 +127,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         entities = permissions.stream()
             .map(ResourcePermissionEntityMapper::toEntity)
             .toList();
+        // TODO: do a single query
         entities.forEach(this::loadId);
 
         created = resourcePermissionSpringRepository.saveAll(entities);

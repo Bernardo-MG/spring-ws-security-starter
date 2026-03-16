@@ -36,7 +36,7 @@ import com.bernardomg.security.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.test.config.annotation.EnabledUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
@@ -108,7 +108,7 @@ class ITRoleRepositoryDelete {
 
     @Test
     @DisplayName("Deletes a role with user and permissions")
-    @EnabledUser
+    @EnabledUserWithRole
     void testDelete_WithUser() {
         // WHEN
         repository.delete(RoleConstants.NAME);
@@ -120,7 +120,7 @@ class ITRoleRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a role with user and permissions, the permissions are not deleted")
-    @EnabledUser
+    @EnabledUserWithRole
     void testDelete_WithUser_PermissionsNotDeleted() {
         // WHEN
         repository.delete(RoleConstants.NAME);
@@ -132,7 +132,7 @@ class ITRoleRepositoryDelete {
 
     @Test
     @DisplayName("When deleting a role with user and permissions, the user is not deleted")
-    @EnabledUser
+    @EnabledUserWithRole
     void testDelete_WithUser_UserNotDeleted() {
         // WHEN
         repository.delete(RoleConstants.NAME);

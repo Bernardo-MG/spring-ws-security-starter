@@ -12,7 +12,7 @@ import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
 import com.bernardomg.security.user.domain.model.UserTokenStatus;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -38,7 +38,7 @@ class ITFullPasswordResetProcess {
 
     @Test
     @DisplayName("Can follow the password recovery from start to end")
-    @ValidUser
+    @EnabledUserWithRole
     void testResetPassword() {
         final UserTokenStatus validTokenStatus;
         final String          token;

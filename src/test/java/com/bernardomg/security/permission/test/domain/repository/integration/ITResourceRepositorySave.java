@@ -13,6 +13,7 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourceEnti
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
 import com.bernardomg.security.permission.domain.model.Resource;
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
+import com.bernardomg.security.permission.test.config.annotation.DataResource;
 import com.bernardomg.security.permission.test.config.factory.ResourceEntities;
 import com.bernardomg.security.permission.test.config.factory.Resources;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -44,7 +45,29 @@ class ITResourceRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a rewsource the data is persisted")
+    @DisplayName("When saving an existing resource, the data is persisted")
+    @DataResource
+    void testSaveAll_Existing_Persisted() {
+        final Iterable<ResourceEntity> permissions;
+        final Resource                 permission;
+
+        // GIVEN
+        permission = Resources.data();
+
+        // WHEN
+        repository.saveAll(List.of(permission));
+
+        // THEN
+        permissions = resourceSpringRepository.findAll();
+
+        Assertions.assertThat(permissions)
+            .as("resources")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsOnly(ResourceEntities.data());
+    }
+
+    @Test
+    @DisplayName("When saving a resource the data is persisted")
     void testSaveAll_Persisted() {
         final Iterable<ResourceEntity> permissions;
         final Resource                 permission;
@@ -65,7 +88,7 @@ class ITResourceRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a rewsource the data is returned")
+    @DisplayName("When saving a resource the data is returned")
     void testSaveAll_Returned() {
         final Collection<Resource> created;
         final Resource             permission;

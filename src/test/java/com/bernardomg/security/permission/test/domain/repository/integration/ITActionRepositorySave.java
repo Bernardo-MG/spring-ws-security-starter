@@ -13,6 +13,7 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.model.ActionEntity
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
 import com.bernardomg.security.permission.domain.model.Action;
 import com.bernardomg.security.permission.domain.repository.ActionRepository;
+import com.bernardomg.security.permission.test.config.annotation.CreateAction;
 import com.bernardomg.security.permission.test.config.factory.ActionEntities;
 import com.bernardomg.security.permission.test.config.factory.Actions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -41,6 +42,28 @@ class ITActionRepositorySave {
         Assertions.assertThat(actions)
             .as("actions")
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When saving an action that already exists, the data is persisted")
+    @CreateAction
+    void testSaveAll_Existing_Persisted() {
+        final Iterable<ActionEntity> actions;
+        final Action                 action;
+
+        // GIVEN
+        action = Actions.create();
+
+        // WHEN
+        repository.saveAll(List.of(action));
+
+        // THEN
+        actions = actionSpringRepository.findAll();
+
+        Assertions.assertThat(actions)
+            .as("actions")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsOnly(ActionEntities.create());
     }
 
     @Test

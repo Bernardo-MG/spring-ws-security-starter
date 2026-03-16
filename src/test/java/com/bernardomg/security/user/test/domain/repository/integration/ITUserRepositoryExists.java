@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -47,7 +47,7 @@ class ITUserRepositoryExists {
 
     @Test
     @DisplayName("When the user exists it is returned as existing")
-    @ValidUser
+    @EnabledUserWithRole
     void testExists() {
         final boolean exists;
 

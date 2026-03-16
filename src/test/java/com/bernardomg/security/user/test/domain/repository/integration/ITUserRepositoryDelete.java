@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.annotation.OnlyUser;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -68,7 +68,7 @@ class ITUserRepositoryDelete {
 
     @Test
     @DisplayName("Does not remove roles when deleting")
-    @ValidUser
+    @EnabledUserWithRole
     void testDelete_DoesNotRemoveRelations() {
         // WHEN
         userRepository.delete(UserConstants.USERNAME);

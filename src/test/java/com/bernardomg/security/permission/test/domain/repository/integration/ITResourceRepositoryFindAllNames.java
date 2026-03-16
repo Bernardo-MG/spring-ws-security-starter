@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
-import com.bernardomg.security.permission.test.config.annotation.SingleResource;
+import com.bernardomg.security.permission.test.config.annotation.DataResource;
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -22,7 +22,7 @@ class ITResourceRepositoryFindAllNames {
 
     @Test
     @DisplayName("When there is an resource its name is returned")
-    @SingleResource
+    @DataResource
     void testFindAllNames() {
         final Collection<String> names;
 

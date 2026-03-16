@@ -54,6 +54,7 @@ public final class UserDataTokenEntityMapper {
 
         return entity;
     }
+
     public static final UserTokenEntity toEntity(final UserTokenEntity entity, final UserToken dataToken) {
         entity.setToken(dataToken.token());
         entity.setScope(dataToken.scope());
