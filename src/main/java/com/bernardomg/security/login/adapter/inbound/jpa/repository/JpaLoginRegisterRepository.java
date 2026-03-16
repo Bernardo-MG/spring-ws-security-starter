@@ -25,6 +25,7 @@
 package com.bernardomg.security.login.adapter.inbound.jpa.repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,13 +86,20 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
 
     @Override
     public final LoginRegister save(final LoginRegister register) {
-        final LoginRegisterEntity entity;
-        final LoginRegisterEntity saved;
-        final LoginRegister       created;
+        final LoginRegisterEntity           entity;
+        final LoginRegisterEntity           saved;
+        final LoginRegister                 created;
+        final Optional<LoginRegisterEntity> read;
 
         log.debug("Saving login register {}", register);
 
-        entity = LoginRegisterEntityMapper.toEntity(register);
+        read = loginRegisterSpringRepository.findByUsername(register.username());
+
+        if (read.isPresent()) {
+            entity = LoginRegisterEntityMapper.toEntity(read.get(), register);
+        } else {
+            entity = LoginRegisterEntityMapper.toEntity(register);
+        }
 
         saved = loginRegisterSpringRepository.save(entity);
 

@@ -25,7 +25,6 @@
 package com.bernardomg.security.permission.adapter.inbound.jpa.repository;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -52,12 +51,12 @@ public interface ActionSpringRepository extends JpaRepository<ActionEntity, Long
     public Collection<String> findAllNames();
 
     /**
-     * Finds the action with the given name.
+     * Finds the action with any of the given names.
      *
-     * @param name
-     *            name of the action to find
-     * @return an {@code Optional} with the action if it exists, or an empty {@code Optional} otherwise
+     * @param names
+     *            names of the actions to find
+     * @return a collection with the actions if they exists, or an empty collection otherwise
      */
-    public Optional<ActionEntity> findByName(final String name);
+    public Collection<ActionEntity> findByNameIn(final Collection<String> names);
 
 }

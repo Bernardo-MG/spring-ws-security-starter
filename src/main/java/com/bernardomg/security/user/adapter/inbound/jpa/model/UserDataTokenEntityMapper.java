@@ -55,6 +55,17 @@ public final class UserDataTokenEntityMapper {
         return entity;
     }
 
+    public static final UserTokenEntity toEntity(final UserTokenEntity entity, final UserToken dataToken) {
+        entity.setToken(dataToken.token());
+        entity.setScope(dataToken.scope());
+        entity.setCreationDate(dataToken.creationDate());
+        entity.setExpirationDate(dataToken.expirationDate());
+        entity.setConsumed(dataToken.consumed());
+        entity.setRevoked(dataToken.revoked());
+
+        return entity;
+    }
+
     private UserDataTokenEntityMapper() {
         super();
     }

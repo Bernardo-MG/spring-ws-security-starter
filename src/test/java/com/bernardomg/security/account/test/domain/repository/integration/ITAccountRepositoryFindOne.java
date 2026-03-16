@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.test.config.factory.Accounts;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithoutRole;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -27,9 +28,23 @@ class ITAccountRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the account")
-    @ValidUser
-    void testGetAll_Data() {
+    @DisplayName("With no data it returns nothing")
+    void testGetAll_Empty() {
+        final Optional<Account> account;
+
+        // WHEN
+        account = repository.findOne(UserConstants.USERNAME);
+
+        // THEN
+        Assertions.assertThat(account)
+            .as("account")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user has no role, the account is returned")
+    @EnabledUserWithoutRole
+    void testGetAll_NoRole() {
         final Optional<Account> account;
 
         // WHEN
@@ -42,8 +57,9 @@ class ITAccountRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
-    void testGetAll_Empty_Count() {
+    @DisplayName("When the user has a role and permissions, the account is returned")
+    @EnabledUserWithRole
+    void testGetAll_RoleAndPermissions() {
         final Optional<Account> account;
 
         // WHEN
@@ -52,7 +68,7 @@ class ITAccountRepositoryFindOne {
         // THEN
         Assertions.assertThat(account)
             .as("account")
-            .isEmpty();
+            .contains(Accounts.valid());
     }
 
 }

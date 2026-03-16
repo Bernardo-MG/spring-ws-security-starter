@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/resource/single.sql" })
+@Sql({ "/db/queries/security/action/crud.sql", "/db/queries/security/resource/data.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

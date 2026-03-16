@@ -30,14 +30,14 @@ class ITUserTokenRepositorySaveAll {
     private UserTokenSpringRepository userTokenSpringRepository;
 
     @Test
-    @DisplayName("Persists an existing token")
+    @DisplayName("When revoking a token, it is persisted")
     @OnlyUser
     @ValidUserToken
-    void testSaveAll_Existing_Single_Persisted() {
+    void testSaveAll_Existing_Revoke_Persisted() {
         final List<UserTokenEntity> tokens;
 
         // WHEN
-        userTokenRepository.saveAll(List.of(UserTokens.valid()));
+        userTokenRepository.saveAll(List.of(UserTokens.revoked()));
 
         // THEN
         tokens = userTokenSpringRepository.findAll();
@@ -45,7 +45,7 @@ class ITUserTokenRepositorySaveAll {
         Assertions.assertThat(tokens)
             .as("tokens")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(UserTokenEntities.valid());
+            .containsExactly(UserTokenEntities.revoked());
     }
 
     @Test

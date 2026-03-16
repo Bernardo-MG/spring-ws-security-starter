@@ -10,14 +10,14 @@ import java.lang.annotation.Target;
 
 import org.springframework.test.context.jdbc.Sql;
 
-@Sql({ "/db/queries/security/resource/single.sql", "/db/queries/security/action/crud.sql",
+@Sql({ "/db/queries/security/resource/data.sql", "/db/queries/security/action/crud.sql",
         "/db/queries/security/permission/crud.sql", "/db/queries/security/role/single.sql",
-        "/db/queries/security/user/single.sql", "/db/queries/security/relationship/role_permission.sql",
+        "/db/queries/security/user/disabled.sql", "/db/queries/security/relationship/role_permission.sql",
         "/db/queries/security/relationship/user_role.sql" })
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface ValidUser {
+public @interface DisabledUserWithRole {
 
 }

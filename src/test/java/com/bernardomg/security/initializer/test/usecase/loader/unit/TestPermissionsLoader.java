@@ -108,7 +108,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(actionRepository).save(List.of(Actions.create()));
+        verify(actionRepository).saveAll(List.of(Actions.create()));
     }
 
     @Test
@@ -124,7 +124,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(actionRepository).save(List.of());
+        verify(actionRepository).saveAll(List.of());
     }
 
     @Test
@@ -141,9 +141,9 @@ public class TestPermissionsLoader {
         getPermissionsLoaderWithDuplicates().load();
 
         // THEN
-        verify(actionRepository).save(List.of(Actions.create()));
-        verify(resourceRepository).save(List.of(Resources.data()));
-        verify(resourcePermissionRepository).save(List.of(ResourcePermissions.create()));
+        verify(actionRepository).saveAll(List.of(Actions.create()));
+        verify(resourceRepository).saveAll(List.of(Resources.data()));
+        verify(resourcePermissionRepository).saveAll(List.of(ResourcePermissions.create()));
     }
 
     @Test
@@ -153,9 +153,9 @@ public class TestPermissionsLoader {
         getPermissionsLoaderNoData().load();
 
         // THEN
-        verify(actionRepository).save(List.of());
-        verify(resourceRepository).save(List.of());
-        verify(resourcePermissionRepository).save(List.of());
+        verify(actionRepository).saveAll(List.of());
+        verify(resourceRepository).saveAll(List.of());
+        verify(resourcePermissionRepository).saveAll(List.of());
     }
 
     @Test
@@ -165,9 +165,9 @@ public class TestPermissionsLoader {
         getPermissionsLoaderNoSource().load();
 
         // THEN
-        verify(actionRepository).save(List.of());
-        verify(resourceRepository).save(List.of());
-        verify(resourcePermissionRepository).save(List.of());
+        verify(actionRepository).saveAll(List.of());
+        verify(resourceRepository).saveAll(List.of());
+        verify(resourcePermissionRepository).saveAll(List.of());
     }
 
     @Test
@@ -183,7 +183,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(resourcePermissionRepository).save(List.of(ResourcePermissions.create()));
+        verify(resourcePermissionRepository).saveAll(List.of(ResourcePermissions.create()));
     }
 
     @Test
@@ -199,7 +199,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(resourcePermissionRepository).save(List.of());
+        verify(resourcePermissionRepository).saveAll(List.of());
     }
 
     @Test
@@ -215,7 +215,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(resourcePermissionRepository).save(List.of());
+        verify(resourcePermissionRepository).saveAll(List.of());
     }
 
     @Test
@@ -231,7 +231,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(resourcePermissionRepository).save(List.of());
+        verify(resourcePermissionRepository).saveAll(List.of());
     }
 
     @Test
@@ -247,7 +247,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(resourceRepository).save(List.of(Resources.data()));
+        verify(resourceRepository).saveAll(List.of(Resources.data()));
     }
 
     @Test
@@ -263,7 +263,7 @@ public class TestPermissionsLoader {
         getPermissionsLoader().load();
 
         // THEN
-        verify(resourceRepository).save(List.of());
+        verify(resourceRepository).saveAll(List.of());
     }
 
 }

@@ -29,10 +29,10 @@ class ITUserTokenRepositorySave {
     private UserTokenSpringRepository userTokenSpringRepository;
 
     @Test
-    @DisplayName("Updates an existing token")
+    @DisplayName("When revoking a token, it is persisted")
     @OnlyUser
     @ValidUserToken
-    void testSave_Existing_Persisted() {
+    void testSave_Existing_Revoke_Persisted() {
         final List<UserTokenEntity> tokens;
 
         // WHEN
@@ -48,10 +48,10 @@ class ITUserTokenRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the existing token when it is persisted")
+    @DisplayName("When revoking a token, it is returned")
     @OnlyUser
     @ValidUserToken
-    void testSave_Existing_Returned() {
+    void testSave_Existing_Revoke_Returned() {
         final UserToken token;
 
         // WHEN

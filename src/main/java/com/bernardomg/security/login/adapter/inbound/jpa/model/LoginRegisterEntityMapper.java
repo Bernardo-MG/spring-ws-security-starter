@@ -46,6 +46,15 @@ public final class LoginRegisterEntityMapper {
         return entity;
     }
 
+    public static final LoginRegisterEntity toEntity(final LoginRegisterEntity entity, final LoginRegister login) {
+
+        entity.setUsername(login.username());
+        entity.setLoggedIn(login.loggedIn());
+        entity.setDate(login.date());
+
+        return entity;
+    }
+
     private LoginRegisterEntityMapper() {
         super();
     }

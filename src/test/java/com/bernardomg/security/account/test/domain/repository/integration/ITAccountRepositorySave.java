@@ -13,7 +13,8 @@ import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.test.config.factory.Accounts;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithoutRole;
 import com.bernardomg.security.user.test.config.factory.UserEntities;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -32,47 +33,9 @@ class ITAccountRepositorySave {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist, the account is not persisted")
-    void testSave_NoUser_PersistedData() {
-        final List<UserEntity> users;
-        final Account          account;
-
-        // GIVEN
-        account = Accounts.nameChange();
-
-        // WHEN
-        repository.save(account);
-
-        // THEN
-        users = userSpringRepository.findAll();
-
-        Assertions.assertThat(users)
-            .as("users")
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("When the user doesn't exist, an empty account is returned")
-    void testSave_NoUser_ReturnedData() {
-        final Account saved;
-        final Account account;
-
-        // GIVEN
-        account = Accounts.nameChange();
-
-        // WHEN
-        saved = repository.save(account);
-
-        // THEN
-        Assertions.assertThat(saved)
-            .as("account")
-            .isEqualTo(Accounts.empty());
-    }
-
-    @Test
-    @DisplayName("Persists an account")
-    @ValidUser
-    void testSave_PersistedData() {
+    @DisplayName("When changing the name, the data is persisted")
+    @EnabledUserWithoutRole
+    void testSave_NameChange_PersistedData() {
         final List<UserEntity> users;
         final Account          account;
 
@@ -92,9 +55,9 @@ class ITAccountRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
-    @ValidUser
-    void testSave_ReturnedData() {
+    @DisplayName("When changing the name, the data is returned")
+    @EnabledUserWithRole
+    void testSave_NameChange_ReturnedData() {
         final Account saved;
         final Account account;
 
@@ -108,6 +71,44 @@ class ITAccountRepositorySave {
         Assertions.assertThat(saved)
             .as("account")
             .isEqualTo(Accounts.nameChange());
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exist, the account is not persisted")
+    void testSave_PersistedData() {
+        final List<UserEntity> users;
+        final Account          account;
+
+        // GIVEN
+        account = Accounts.nameChange();
+
+        // WHEN
+        repository.save(account);
+
+        // THEN
+        users = userSpringRepository.findAll();
+
+        Assertions.assertThat(users)
+            .as("users")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When the user doesn't exist, an empty account is returned")
+    void testSave_ReturnedData() {
+        final Account saved;
+        final Account account;
+
+        // GIVEN
+        account = Accounts.nameChange();
+
+        // WHEN
+        saved = repository.save(account);
+
+        // THEN
+        Assertions.assertThat(saved)
+            .as("account")
+            .isEqualTo(Accounts.empty());
     }
 
 }

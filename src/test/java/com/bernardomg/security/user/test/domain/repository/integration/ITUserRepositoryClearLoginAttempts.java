@@ -31,8 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.annotation.MaxLoginAttemptsUser;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.UserEntities;
 import com.bernardomg.test.config.annotation.IntegrationTest;
@@ -68,7 +68,7 @@ class ITUserRepositoryClearLoginAttempts {
 
     @Test
     @DisplayName("When the user has no login attempts, these are removed")
-    @ValidUser
+    @EnabledUserWithRole
     void testClearLoginAttempts_NoAttempts() {
 
         // WHEN

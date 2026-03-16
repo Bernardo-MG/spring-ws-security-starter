@@ -76,7 +76,7 @@ public final class JpaResourceRepository implements ResourceRepository {
     }
 
     @Override
-    public final Collection<Resource> save(final Collection<Resource> resources) {
+    public final Collection<Resource> saveAll(final Collection<Resource> resources) {
         final List<ResourceEntity> entities;
         final List<Resource>       created;
 

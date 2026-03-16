@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -158,17 +157,12 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         entity = UserDataTokenEntityMapper.toEntity(token);
 
         existing = userDataTokenSpringRepository.findByToken(token.token());
-        // TODO: Else exception
-        if (existing.isPresent()) {
-            entity.setId(existing.get()
-                .getId());
-        }
+        entity.setId(existing.map(UserDataTokenEntity::getId)
+            .orElse(null));
+
         existingUser = userSpringRepository.findByUsername(token.username());
-        // TODO: Else exception
-        if (existingUser.isPresent()) {
-            entity.setUserId(existingUser.get()
-                .getId());
-        }
+        entity.setUserId(existingUser.map(UserEntity::getId)
+            .orElse(null));
 
         saved = userTokenSpringRepository.save(entity);
         data = userDataTokenSpringRepository.findById(saved.getId())
@@ -184,38 +178,22 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final Collection<UserToken> saveAll(final Collection<UserToken> tokens) {
-        final Collection<String>           tokenCodes;
-        final Optional<UserTokenEntity>    existing;
-        final Map<String, UserTokenEntity> existingByToken;
-        final Collection<UserTokenEntity>  toSave;
-        final Collection<UserTokenEntity>  saved;
-        final Collection<Long>             savedIds;
-        final Collection<UserToken>        created;
+        final Collection<UserTokenEntity> toSave;
+        final Collection<UserTokenEntity> saved;
+        final Collection<Long>            savedIds;
+        final Collection<UserToken>       created;
+        final Map<String, Long>           userIdsByUsername;
+        final Map<String, Long>           tokenIdsByToken;
 
         log.trace("Saving multiple tokens");
         // TODO: Reject duplicated tokens
 
+        userIdsByUsername = loadUserIds(tokens);
+        tokenIdsByToken = loadTokenIds(tokens);
+
         toSave = tokens.stream()
-            .map(this::toSimpleEntityLoadUsername)
+            .map(t -> toEntity(t, userIdsByUsername.get(t.username()), tokenIdsByToken.get(t.token())))
             .toList();
-
-        // Load id
-        tokenCodes = tokens.stream()
-            .map(UserToken::token)
-            .distinct()
-            .toList();
-        existing = userTokenSpringRepository.findAllByTokenIn(tokenCodes);
-        existingByToken = existing.stream()
-            .collect(Collectors.toMap(UserTokenEntity::getToken, Function.identity()));
-
-        toSave.stream()
-            .filter(t -> existingByToken.containsKey(t.getToken()))
-            .forEach(t -> {
-                final UserTokenEntity found;
-
-                found = existingByToken.get(t.getToken());
-                t.setId(found.getId());
-            });
 
         saved = userTokenSpringRepository.saveAll(toSave);
         savedIds = saved.stream()
@@ -232,23 +210,38 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         return created;
     }
 
-    private final UserTokenEntity toSimpleEntityLoadUsername(final UserToken dataToken) {
-        final Optional<UserEntity> user;
-        final Long                 userId;
-        final UserTokenEntity      entity;
+    private final Map<String, Long> loadTokenIds(final Collection<UserToken> tokens) {
+        final Collection<String> tokenCodes = tokens.stream()
+            .map(UserToken::token)
+            .distinct()
+            .toList();
 
-        user = userSpringRepository.findByUsername(dataToken.username());
-        userId = user.map(UserEntity::getId)
-            .orElse(null);
+        return userTokenSpringRepository.findAllByTokenIn(tokenCodes)
+            .stream()
+            .collect(Collectors.toMap(UserTokenEntity::getToken, UserTokenEntity::getId));
+    }
 
-        entity = new UserTokenEntity();
+    private final Map<String, Long> loadUserIds(final Collection<UserToken> tokens) {
+        final Collection<String> usernames;
+
+        usernames = tokens.stream()
+            .map(UserToken::username)
+            .filter(Objects::nonNull)
+            .distinct()
+            .toList();
+
+        return userSpringRepository.findAllByUsernameIn(usernames)
+            .stream()
+            .collect(Collectors.toMap(UserEntity::getUsername, UserEntity::getId));
+    }
+
+    private final UserTokenEntity toEntity(final UserToken token, final Long userId, final Long existingId) {
+        final UserTokenEntity entity;
+
+        entity = UserDataTokenEntityMapper.toEntity(token);
+
         entity.setUserId(userId);
-        entity.setToken(dataToken.token());
-        entity.setScope(dataToken.scope());
-        entity.setCreationDate(dataToken.creationDate());
-        entity.setExpirationDate(dataToken.expirationDate());
-        entity.setConsumed(dataToken.consumed());
-        entity.setRevoked(dataToken.revoked());
+        entity.setId(existingId);
 
         return entity;
     }
