@@ -505,5 +505,7 @@
             Relocated error handler so it is loaded.
          </action>
       </release>
+      <release version="1.0.0" date="2026-02-10" description="">
+      </release>
    </body>
 </document>
