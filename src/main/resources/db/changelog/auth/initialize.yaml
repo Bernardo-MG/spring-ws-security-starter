@@ -149,7 +149,7 @@ databaseChangeLog:
                   name: resource
                   type: varchar(60)
                   constraints:
-                    foreignKeyName: fk_role_permissions_resource_id
+                    foreignKeyName: fk_permissions_resource_id
                     references: security.resources(name)
                     nullable: false
                     deleteCascade: true
@@ -157,7 +157,7 @@ databaseChangeLog:
                   name: action
                   type: varchar(60)
                   constraints:
-                    foreignKeyName: fk_role_permissions_action_id
+                    foreignKeyName: fk_permissions_action_id
                     references: security.actions(name)
                     nullable: false
                     deleteCascade: true
