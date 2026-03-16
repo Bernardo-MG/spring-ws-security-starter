@@ -318,7 +318,7 @@
       <!-- =============== SPRING BOOT ================== -->
       <!-- ============================================== -->
       <dependency>
-		 <!-- Spring Boot autoconfiguration -->
+         <!-- Spring Boot autoconfiguration -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
@@ -686,13 +686,14 @@
                </dependency>
             </dependencies>
          </plugin>
-	     <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-javadoc-plugin</artifactId>
-	        <configuration>
-	          <failOnError>false</failOnError>
-	        </configuration>
-	     </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <failOnError>false</failOnError>
+              <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
+            </configuration>
+         </plugin>
          <plugin>
             <!-- OpenApi -->
             <groupId>org.openapitools</groupId>
@@ -753,6 +754,14 @@
                   <!-- The customized rules file -->
                   <ruleset>${project.basedir}/src/config/pmd/pmd-rules.xml</ruleset>
                </rulesets>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <failOnError>false</failOnError>
+              <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
             </configuration>
          </plugin>
       </plugins>
