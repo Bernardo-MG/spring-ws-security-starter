@@ -47,7 +47,7 @@ import com.bernardomg.security.permission.domain.repository.ResourcePermissionRe
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
 
 /**
- * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionRegister}.
+ * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionConfig}.
  * <p>
  * The {@link #load()} method takes care of persisting all the data.
  */
