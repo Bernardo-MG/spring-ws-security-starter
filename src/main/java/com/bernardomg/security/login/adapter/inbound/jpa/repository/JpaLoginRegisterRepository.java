@@ -93,7 +93,7 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
 
         log.debug("Saving login register {}", register);
 
-        read = loginRegisterSpringRepository.findOneByUsername(register.username());
+        read = loginRegisterSpringRepository.findByUsername(register.username());
 
         if (read.isPresent()) {
             entity = LoginRegisterEntityMapper.toEntity(read.get(), register);

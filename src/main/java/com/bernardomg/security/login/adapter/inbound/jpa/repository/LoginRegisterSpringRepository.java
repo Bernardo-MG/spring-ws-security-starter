@@ -38,6 +38,6 @@ import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEnti
  */
 public interface LoginRegisterSpringRepository extends JpaRepository<LoginRegisterEntity, Long> {
 
-    public Optional<LoginRegisterEntity> findOneByUsername(final String username);
+    public Optional<LoginRegisterEntity> findByUsername(final String username);
 
 }
