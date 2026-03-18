@@ -26,9 +26,9 @@ package com.bernardomg.security.role.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.role.domain.model.Role;
 import com.bernardomg.security.role.domain.model.RoleQuery;
 

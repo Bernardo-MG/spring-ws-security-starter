@@ -177,8 +177,9 @@
       <!-- ============================================== -->
       <archunit.version>1.4.1</archunit.version>
       <bernardomg.framework.test.architecture>1.0.7</bernardomg.framework.test.architecture>
+      <bernardomg.framework.pagination.version>1.0.1</bernardomg.framework.pagination.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.4.6</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.version>0.4.7</bernardomg.framework.ws.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jackson.version>2.20.1</jackson.version>
@@ -244,6 +245,12 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
          <version>${bernardomg.framework.validation.version}</version>
+      </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+         <version>${bernardomg.framework.pagination.version}</version>
       </dependency>
       <dependency>
          <!-- Spring WS Starter -->

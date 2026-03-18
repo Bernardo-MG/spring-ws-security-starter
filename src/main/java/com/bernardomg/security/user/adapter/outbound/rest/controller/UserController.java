@@ -29,10 +29,10 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.web.WebSorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.openapi.api.UserApi;
 import com.bernardomg.security.openapi.model.UserChangeDto;
