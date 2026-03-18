@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.test.config.annotation.DisabledUser;
-import com.bernardomg.security.user.test.config.annotation.EnabledUser;
+import com.bernardomg.security.user.test.config.annotation.DisabledUserWithRole;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.annotation.EnabledUserWithoutPermissions;
 import com.bernardomg.security.user.test.config.annotation.ExpiredPasswordUser;
 import com.bernardomg.security.user.test.config.annotation.ExpiredUser;
@@ -34,7 +34,7 @@ class ITUserRepositoryFindOne {
 
     @Test
     @DisplayName("Returns the correct data when reading a disabled user")
-    @DisabledUser
+    @DisabledUserWithRole
     void testFindOne_Disabled() {
         final Optional<User> result;
 
@@ -46,7 +46,7 @@ class ITUserRepositoryFindOne {
 
     @Test
     @DisplayName("Returns the correct data when reading an enabled user")
-    @EnabledUser
+    @EnabledUserWithRole
     void testFindOne_Enabled() {
         final Optional<User> result;
 

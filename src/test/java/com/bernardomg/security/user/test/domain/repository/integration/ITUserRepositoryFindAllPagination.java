@@ -7,19 +7,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.model.UserQuery;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.test.config.annotation.EnabledUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.factory.UserQueries;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @DisplayName("User repository - find all - pagination")
-@EnabledUser
+@EnabledUserWithRole
 class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
 
     @Autowired

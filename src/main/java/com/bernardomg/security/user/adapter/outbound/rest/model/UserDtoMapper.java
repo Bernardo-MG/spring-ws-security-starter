@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.security.openapi.model.PropertyDto;
 import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
 import com.bernardomg.security.openapi.model.RoleDto;

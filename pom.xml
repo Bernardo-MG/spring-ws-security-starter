@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.spring</groupId>
    <artifactId>spring-ws-security-starter</artifactId>
-   <version>0.4.46</version>
+   <version>0.4.47</version>
    <packaging>jar</packaging>
 
    <name>Starter for Security in Spring Web Services</name>
@@ -177,8 +177,9 @@
       <!-- ============================================== -->
       <archunit.version>1.4.1</archunit.version>
       <bernardomg.framework.test.architecture>1.0.7</bernardomg.framework.test.architecture>
+      <bernardomg.framework.pagination.version>1.0.1</bernardomg.framework.pagination.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.4.6</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.version>0.4.7</bernardomg.framework.ws.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jackson.version>2.20.1</jackson.version>
@@ -244,6 +245,12 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
          <version>${bernardomg.framework.validation.version}</version>
+      </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+         <version>${bernardomg.framework.pagination.version}</version>
       </dependency>
       <dependency>
          <!-- Spring WS Starter -->
@@ -318,7 +325,7 @@
       <!-- =============== SPRING BOOT ================== -->
       <!-- ============================================== -->
       <dependency>
-		 <!-- Spring Boot autoconfiguration -->
+         <!-- Spring Boot autoconfiguration -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
@@ -686,13 +693,14 @@
                </dependency>
             </dependencies>
          </plugin>
-	     <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-javadoc-plugin</artifactId>
-	        <configuration>
-	          <failOnError>false</failOnError>
-	        </configuration>
-	     </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <failOnError>false</failOnError>
+              <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
+            </configuration>
+         </plugin>
          <plugin>
             <!-- OpenApi -->
             <groupId>org.openapitools</groupId>
@@ -753,6 +761,14 @@
                   <!-- The customized rules file -->
                   <ruleset>${project.basedir}/src/config/pmd/pmd-rules.xml</ruleset>
                </rulesets>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <failOnError>false</failOnError>
+              <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
             </configuration>
          </plugin>
       </plugins>

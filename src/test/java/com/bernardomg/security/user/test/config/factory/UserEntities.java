@@ -124,7 +124,7 @@ public final class UserEntities {
 
         entity = new UserEntity();
         entity.setId(1L);
-        entity.setName(UserConstants.ALTERNATIVE_NAME);
+        entity.setName(UserConstants.CHANGED_NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
         entity.setPassword(UserConstants.ENCODED_PASSWORD);
@@ -132,7 +132,7 @@ public final class UserEntities {
         entity.setNotExpired(true);
         entity.setPasswordNotExpired(true);
         entity.setNotLocked(true);
-        entity.setRoles(List.of(RoleEntities.withPermission()));
+        entity.setRoles(List.of());
         entity.setLoginAttempts(0);
 
         return entity;

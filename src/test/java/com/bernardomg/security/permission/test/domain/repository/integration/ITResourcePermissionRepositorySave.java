@@ -13,13 +13,16 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePerm
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.permission.test.config.annotation.CreateAction;
+import com.bernardomg.security.permission.test.config.annotation.DataResource;
 import com.bernardomg.security.permission.test.config.annotation.ResourceAndActions;
+import com.bernardomg.security.permission.test.config.annotation.SinglePermission;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissionEntities;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
-@DisplayName("ResourcePermissionRepository - save")
+@DisplayName("ResourcePermissionRepository - save all")
 class ITResourcePermissionRepositorySave {
 
     @Autowired
@@ -33,9 +36,26 @@ class ITResourcePermissionRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists the data")
+    @DisplayName("When saving no data nothing is persisted")
     @ResourceAndActions
-    void testSave_Persisted() {
+    void testSaveAll_Empty() {
+        final Iterable<ResourcePermissionEntity> permissions;
+
+        // WHEN
+        repository.saveAll(List.of());
+
+        // THEN
+        permissions = resourcePermissionSpringRepository.findAll();
+
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When updating a resource the data is persisted")
+    @SinglePermission
+    void testSaveAll_Existing_Persisted() {
         final Iterable<ResourcePermissionEntity> permissions;
         final ResourcePermission                 permission;
 
@@ -43,7 +63,7 @@ class ITResourcePermissionRepositorySave {
         permission = ResourcePermissions.create();
 
         // WHEN
-        repository.save(List.of(permission));
+        repository.saveAll(List.of(permission));
 
         // THEN
         permissions = resourcePermissionSpringRepository.findAll();
@@ -55,9 +75,33 @@ class ITResourcePermissionRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the persisted data")
-    @ResourceAndActions
-    void testSave_Returned() {
+    @DisplayName("When saving a resource the data is persisted")
+    @DataResource
+    @CreateAction
+    void testSaveAll_Persisted() {
+        final Iterable<ResourcePermissionEntity> permissions;
+        final ResourcePermission                 permission;
+
+        // GIVEN
+        permission = ResourcePermissions.create();
+
+        // WHEN
+        repository.saveAll(List.of(permission));
+
+        // THEN
+        permissions = resourcePermissionSpringRepository.findAll();
+
+        Assertions.assertThat(permissions)
+            .as("permissions")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsOnly(ResourcePermissionEntities.create());
+    }
+
+    @Test
+    @DisplayName("When saving a resource the data is returned")
+    @DataResource
+    @CreateAction
+    void testSaveAll_Returned() {
         final Collection<ResourcePermission> created;
         final ResourcePermission             permission;
 
@@ -65,7 +109,7 @@ class ITResourcePermissionRepositorySave {
         permission = ResourcePermissions.create();
 
         // WHEN
-        created = repository.save(List.of(permission));
+        created = repository.saveAll(List.of(permission));
 
         // THEN
         Assertions.assertThat(created)

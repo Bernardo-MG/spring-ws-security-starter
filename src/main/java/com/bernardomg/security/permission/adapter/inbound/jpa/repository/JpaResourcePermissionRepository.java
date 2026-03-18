@@ -34,10 +34,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringPagination;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
@@ -117,7 +117,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
     }
 
     @Override
-    public final Collection<ResourcePermission> save(final Collection<ResourcePermission> permissions) {
+    public final Collection<ResourcePermission> saveAll(final Collection<ResourcePermission> permissions) {
         final List<ResourcePermissionEntity> entities;
         final List<ResourcePermissionEntity> created;
         final Collection<ResourcePermission> saved;
@@ -127,6 +127,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
         entities = permissions.stream()
             .map(ResourcePermissionEntityMapper::toEntity)
             .toList();
+        // TODO: do a single query
         entities.forEach(this::loadId);
 
         created = resourcePermissionSpringRepository.saveAll(entities);

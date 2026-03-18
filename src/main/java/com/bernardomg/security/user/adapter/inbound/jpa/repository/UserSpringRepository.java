@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.user.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -74,6 +75,8 @@ public interface UserSpringRepository extends JpaRepository<UserEntity, Long> {
      * @return {@code true} if a user exists, {@code false} otherwise
      */
     public boolean existsByUsernameNotAndEmail(final String username, final String email);
+
+    public Collection<UserEntity> findAllByUsernameIn(final Collection<String> usernames);
 
     /**
      * Returns the user for the received email.

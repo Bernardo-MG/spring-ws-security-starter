@@ -25,16 +25,17 @@
 package com.bernardomg.security.login.adapter.inbound.jpa.repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.springframework.SpringPagination;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntityMapper;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -85,13 +86,20 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
 
     @Override
     public final LoginRegister save(final LoginRegister register) {
-        final LoginRegisterEntity entity;
-        final LoginRegisterEntity saved;
-        final LoginRegister       created;
+        final LoginRegisterEntity           entity;
+        final LoginRegisterEntity           saved;
+        final LoginRegister                 created;
+        final Optional<LoginRegisterEntity> read;
 
         log.debug("Saving login register {}", register);
 
-        entity = LoginRegisterEntityMapper.toEntity(register);
+        read = loginRegisterSpringRepository.findByUsername(register.username());
+
+        if (read.isPresent()) {
+            entity = LoginRegisterEntityMapper.toEntity(read.get(), register);
+        } else {
+            entity = LoginRegisterEntityMapper.toEntity(register);
+        }
 
         saved = loginRegisterSpringRepository.save(entity);
 

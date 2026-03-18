@@ -31,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.annotation.AlternativeUser;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 
@@ -48,7 +48,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
 
     @Test
     @DisplayName("When there is another user with the email it exists")
-    @ValidUser
+    @EnabledUserWithRole
     @AlternativeUser
     void testExistsEmailForAnotherUser_AnotherUser() {
         final boolean exists;
@@ -78,7 +78,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
 
     @Test
     @DisplayName("When the user exists and there is not another user the email doesn't exist")
-    @ValidUser
+    @EnabledUserWithRole
     void testExistsEmailForAnotherUser_SingleUser() {
         final boolean exists;
 

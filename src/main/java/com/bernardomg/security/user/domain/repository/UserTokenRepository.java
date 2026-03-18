@@ -27,9 +27,9 @@ package com.bernardomg.security.user.domain.repository;
 import java.util.Collection;
 import java.util.Optional;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.user.domain.model.UserToken;
 
 /**

@@ -28,10 +28,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Pagination;
-import com.bernardomg.data.domain.Sorting;
-import com.bernardomg.data.web.WebSorting;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.login.adapter.outbound.rest.model.LoginRegisterDtoMapper;
 import com.bernardomg.security.login.domain.model.LoginRegister;
@@ -67,9 +67,9 @@ public class LoginRegisterController implements LoginRegisterApi {
     @RequireResourceAuthorization(resource = "LOGIN_REGISTER", action = Actions.READ)
     public LoginRegisterPageResponseDto getAllLoginRegisters(@Min(1) @Valid final Integer page,
             @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
-        final Pagination    pagination;
-        final Sorting       sorting;
-        Page<LoginRegister> loginRegisters;
+        final Pagination          pagination;
+        final Sorting             sorting;
+        final Page<LoginRegister> loginRegisters;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);

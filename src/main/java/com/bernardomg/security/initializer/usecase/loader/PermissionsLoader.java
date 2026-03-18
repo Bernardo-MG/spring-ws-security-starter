@@ -47,7 +47,7 @@ import com.bernardomg.security.permission.domain.repository.ResourcePermissionRe
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
 
 /**
- * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionRegister}.
+ * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionConfig}.
  * <p>
  * The {@link #load()} method takes care of persisting all the data.
  */
@@ -116,7 +116,7 @@ public final class PermissionsLoader implements Loader {
             .filter(Predicate.not(actionNames::contains))
             .map(Action::new)
             .toList();
-        actionRepository.save(actions);
+        actionRepository.saveAll(actions);
         log.debug("Saved actions");
 
         // Load resources
@@ -132,7 +132,7 @@ public final class PermissionsLoader implements Loader {
             .filter(Predicate.not(resourceNames::contains))
             .map(Resource::new)
             .toList();
-        resourceRepository.save(resources);
+        resourceRepository.saveAll(resources);
         log.debug("Saved resources");
 
         // Load permissions
@@ -164,7 +164,7 @@ public final class PermissionsLoader implements Loader {
             .filter(p -> resourceNames.contains(p.resource()))
             .filter(p -> !permissionNames.contains(toName(p)))
             .toList();
-        resourcePermissionRepository.save(permissions);
+        resourcePermissionRepository.saveAll(permissions);
         log.debug("Saved permissions");
     }
 

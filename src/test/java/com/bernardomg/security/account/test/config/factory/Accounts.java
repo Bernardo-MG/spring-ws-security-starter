@@ -12,7 +12,7 @@ public final class Accounts {
     }
 
     public static final Account nameChange() {
-        return new BasicAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.ALTERNATIVE_NAME);
+        return new BasicAccount(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.CHANGED_NAME);
     }
 
     public static final Account valid() {

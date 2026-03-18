@@ -35,7 +35,7 @@ import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.UserEntities;
 import com.bernardomg.security.user.test.config.factory.Users;
@@ -71,7 +71,7 @@ class ITUserRepositoryLock {
 
     @Test
     @DisplayName("When locking a user it is updated")
-    @ValidUser
+    @EnabledUserWithRole
     void testLock_PersistedData() {
         final List<UserEntity> entities;
 
@@ -88,7 +88,7 @@ class ITUserRepositoryLock {
 
     @Test
     @DisplayName("When locking a user it is returned")
-    @ValidUser
+    @EnabledUserWithRole
     void testLock_ReturnedData() {
         final User user;
 

@@ -3,9 +3,9 @@ package com.bernardomg.security.login.adapter.outbound.rest.model;
 
 import java.util.List;
 
-import com.bernardomg.data.domain.Page;
-import com.bernardomg.data.domain.Sorting.Direction;
-import com.bernardomg.data.domain.Sorting.Property;
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.openapi.model.LoginRegisterDto;
 import com.bernardomg.security.openapi.model.LoginRegisterPageResponseDto;

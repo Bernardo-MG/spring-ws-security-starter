@@ -9,6 +9,8 @@ public final class UserConstants {
 
     public static final String ALTERNATIVE_USERNAME = "user2";
 
+    public static final String CHANGED_NAME         = "name123";
+
     public static final String EMAIL                = "mail@somewhere.com";
 
     public static final String ENCODED_NEW_PASSWORD = "$2a$10$lCFfAzBFfwnYNzSei.fjRORjjF4G4k0pYQ5AF3inwrVUybBGbNhxe";

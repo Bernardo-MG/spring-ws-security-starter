@@ -44,7 +44,7 @@ import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.role.test.config.factory.Roles;
 import com.bernardomg.security.role.usecase.service.DefaultRoleService;
-import com.bernardomg.security.user.test.config.annotation.ValidUser;
+import com.bernardomg.security.user.test.config.annotation.EnabledUserWithRole;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - delete")
@@ -79,7 +79,7 @@ class TestDefaultRoleServiceDelete {
 
     @Test
     @DisplayName("Deleting a not existing role throws an exception")
-    @ValidUser
+    @EnabledUserWithRole
     void testDelete_NotExisting() {
         final ThrowingCallable executable;
 

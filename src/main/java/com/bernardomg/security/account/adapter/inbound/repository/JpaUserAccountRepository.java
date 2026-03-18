@@ -78,16 +78,16 @@ public final class JpaUserAccountRepository implements AccountRepository {
 
     @Override
     public final Account save(final Account account) {
-        final Optional<UserEntity> read;
+        final Optional<UserEntity> readUser;
         final UserEntity           user;
         final UserEntity           updated;
         final Account              result;
 
         log.trace("Saving account {}", account);
 
-        read = userSpringRepository.findByUsername(account.getUsername());
-        if (read.isPresent()) {
-            user = read.get();
+        readUser = userSpringRepository.findByUsername(account.getUsername());
+        if (readUser.isPresent()) {
+            user = readUser.get();
             user.setName(account.getName());
             user.setEmail(account.getEmail());
             updated = userSpringRepository.save(user);
