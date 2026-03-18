@@ -506,6 +506,9 @@
          </action>
       </release>
       <release version="0.4.47" date="2026-03-18" description="Updated dependencies">
+         <action dev="bmg" type="fix">
+            Cleaned up saving operations.
+         </action>
          <action dev="bmg" type="update">
             Updated pagination dependency.
          </action>
