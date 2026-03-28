@@ -24,20 +24,34 @@
 
 package com.bernardomg.security.permission.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing resource permission exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingResourcePermissionException extends MissingIdException {
+public final class MissingResourcePermissionException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
+    /**
+     * Id which caused the exception.
+     */
+    private final String      name;
+
     public MissingResourcePermissionException(final String name) {
-        super("resourcePermission", name);
+        super(String.format("Missing id %s for resource permission", name));
+
+        this.name = name;
+    }
+
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final String getName() {
+        return name;
     }
 
 }

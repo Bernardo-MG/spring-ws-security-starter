@@ -214,7 +214,7 @@ class TestUserOnboardingServiceActivateUser {
         exception = Assertions.catchThrowableOfType(MissingUsernameException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Missing id username for user");
+            .isEqualTo("Missing username username for user");
     }
 
     @Test

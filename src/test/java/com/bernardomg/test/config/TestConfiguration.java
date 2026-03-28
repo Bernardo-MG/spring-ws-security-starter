@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023-2025 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,25 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.user.domain.exception;
+package com.bernardomg.test.config;
 
-/**
- * Missing user by username exception.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final class MissingUsernameException extends RuntimeException {
+import java.util.Collection;
 
-    private static final long serialVersionUID = 2786821546505029631L;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-    /**
-     * Username which caused the exception.
-     */
-    private final String      username;
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.event.emitter.SynchronousEventEmitter;
+import com.bernardomg.event.listener.EventListener;
 
-    public MissingUsernameException(final String username) {
-        super(String.format("Missing username %s for user", username));
+@Configuration
+@ComponentScan({ "com.bernardomg.ws" })
+public class TestConfiguration {
 
-        this.username = username;
-    }
-
-    /**
-     * Returns the username which caused the exception.
-     *
-     * @return the username which caused the exception
-     */
-    public final String getUsername() {
-        return username;
+    @Bean("eventEmitter")
+    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
+        return new SynchronousEventEmitter(listeners);
     }
 
 }

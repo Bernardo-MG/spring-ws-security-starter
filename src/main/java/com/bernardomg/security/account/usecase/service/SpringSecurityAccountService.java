@@ -89,7 +89,8 @@ public final class SpringSecurityAccountService implements AccountService {
 
         current = getCurrentUser().orElseThrow(() -> {
             log.error("Missing account for user in session");
-            throw new MissingAccountException();
+            // TODO: Use another exception
+            throw new MissingAccountException("");
         });
 
         // Can only change name

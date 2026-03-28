@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.user.domain.event;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
@@ -40,7 +41,7 @@ public final class UserInvitationEvent extends AbstractEvent {
 
     private final User        user;
 
-    public UserInvitationEvent(final Object source, final User user, final String token) {
+    public UserInvitationEvent(final Serializable source, final User user, final String token) {
         super(source);
 
         this.user = Objects.requireNonNull(user);

@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.event;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
@@ -45,7 +46,7 @@ public final class LogInEvent extends AbstractEvent {
      */
     private final String      username;
 
-    public LogInEvent(final Object source, final String user, final boolean logged) {
+    public LogInEvent(final Serializable source, final String user, final boolean logged) {
         super(source);
 
         username = Objects.requireNonNull(user);
