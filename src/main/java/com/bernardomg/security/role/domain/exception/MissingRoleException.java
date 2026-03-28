@@ -24,20 +24,34 @@
 
 package com.bernardomg.security.role.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing role exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingRoleException extends MissingIdException {
+public final class MissingRoleException extends RuntimeException {
 
     private static final long serialVersionUID = 2786821546505029631L;
 
+    /**
+     * Id which caused the exception.
+     */
+    private final String      name;
+
     public MissingRoleException(final String name) {
-        super("role", name);
+        super(String.format("Missing id %s for role", name));
+
+        this.name = name;
+    }
+
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final String getName() {
+        return name;
     }
 
 }

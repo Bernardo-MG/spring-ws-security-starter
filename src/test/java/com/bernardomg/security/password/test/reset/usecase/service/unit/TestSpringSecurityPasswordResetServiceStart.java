@@ -92,7 +92,8 @@ class TestSpringSecurityPasswordResetServiceStart {
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME))
             .willReturn(SecurityUsers.credentialsExpired());
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        passwordResetEvent = new PasswordResetEvent(service, Users.passwordExpired(), Tokens.TOKEN);
+        // TODO: Set source
+        passwordResetEvent = new PasswordResetEvent(null, Users.passwordExpired(), Tokens.TOKEN);
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);
@@ -251,7 +252,8 @@ class TestSpringSecurityPasswordResetServiceStart {
         given(userDetailsService.loadUserByUsername(ArgumentMatchers.anyString())).willReturn(SecurityUsers.enabled());
         given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(Users.enabled()));
         given(tokenStore.createToken(ArgumentMatchers.anyString())).willReturn(Tokens.TOKEN);
-        passwordResetEvent = new PasswordResetEvent(service, Users.enabled(), Tokens.TOKEN);
+        // TODO: Set source
+        passwordResetEvent = new PasswordResetEvent(null, Users.enabled(), Tokens.TOKEN);
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);
@@ -293,7 +295,7 @@ class TestSpringSecurityPasswordResetServiceStart {
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Missing id mail@somewhere.com for user");
+            .isEqualTo("Missing username mail@somewhere.com for user");
     }
 
     @Test
@@ -305,7 +307,8 @@ class TestSpringSecurityPasswordResetServiceStart {
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(SecurityUsers.enabled());
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        passwordResetEvent = new PasswordResetEvent(service, Users.enabled(), Tokens.TOKEN);
+        // TODO: Set source
+        passwordResetEvent = new PasswordResetEvent(null, Users.enabled(), Tokens.TOKEN);
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);

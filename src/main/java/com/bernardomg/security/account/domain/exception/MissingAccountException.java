@@ -24,24 +24,34 @@
 
 package com.bernardomg.security.account.domain.exception;
 
-import com.bernardomg.exception.MissingIdException;
-
 /**
  * Missing account exception.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class MissingAccountException extends MissingIdException {
+public final class MissingAccountException extends RuntimeException {
 
     private static final long serialVersionUID = -8969358976410690055L;
 
-    public MissingAccountException() {
-        super("account", "");
-    }
+    /**
+     * Id which caused the exception.
+     */
+    private final String      name;
 
     public MissingAccountException(final String name) {
-        super("account", name);
+        super(String.format("Missing id %s for account", name));
+
+        this.name = name;
+    }
+
+    /**
+     * Returns the id which caused the exception.
+     *
+     * @return the id which caused the exception
+     */
+    public final String getName() {
+        return name;
     }
 
 }

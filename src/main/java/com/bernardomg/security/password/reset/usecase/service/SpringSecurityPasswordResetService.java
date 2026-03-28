@@ -182,7 +182,8 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         log.debug("Generating new token to reset password for {}", user.username());
         token = passwordResetTokenStore.createToken(user.username());
 
-        passwordResetEvent = new PasswordResetEvent(this, user, token);
+        // TODO: Set source
+        passwordResetEvent = new PasswordResetEvent(null, user, token);
         eventEmitter.emit(passwordResetEvent);
 
         log.trace("Finished password recovery request for {}", email);

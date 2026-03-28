@@ -162,7 +162,7 @@ class TestSpringSecurityPasswordResetServiceChange {
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
-            .isEqualTo("Missing id username for user");
+            .isEqualTo("Missing username username for user");
     }
 
     @Test

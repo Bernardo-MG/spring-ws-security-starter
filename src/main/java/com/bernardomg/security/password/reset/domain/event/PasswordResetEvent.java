@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.password.reset.domain.event;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
@@ -40,7 +41,7 @@ public final class PasswordResetEvent extends AbstractEvent {
 
     private final User        user;
 
-    public PasswordResetEvent(final Object source, final User user, final String token) {
+    public PasswordResetEvent(final Serializable source, final User user, final String token) {
         super(source);
 
         this.user = Objects.requireNonNull(user);

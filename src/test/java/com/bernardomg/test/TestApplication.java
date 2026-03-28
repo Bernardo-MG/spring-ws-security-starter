@@ -26,9 +26,10 @@ package com.bernardomg.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 import com.bernardomg.security.initializer.configuration.PermissionLoaderAutoConfiguration;
+import com.bernardomg.test.config.TestConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -37,7 +38,7 @@ import com.bernardomg.security.initializer.configuration.PermissionLoaderAutoCon
  *
  */
 @SpringBootApplication(exclude = { PermissionLoaderAutoConfiguration.class })
-@ComponentScan({ "com.bernardomg.ws" })
+@Import({ TestConfiguration.class })
 public class TestApplication {
 
     /**

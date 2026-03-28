@@ -99,7 +99,8 @@ public final class TokenLoginService implements LoginService {
         log.debug("Log in for {} with status {}", credentials.username(), status);
 
         // FIXME: the event root should be an object
-        event = new LogInEvent(this, validUsername, valid);
+        // TODO: Set source
+        event = new LogInEvent(null, validUsername, valid);
         eventEmitter.emit(event);
 
         log.trace("Finished log in attempt for {}", credentials.username());
