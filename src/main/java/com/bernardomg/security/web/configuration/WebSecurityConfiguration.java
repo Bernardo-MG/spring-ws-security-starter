@@ -126,6 +126,7 @@ public class WebSecurityConfiguration {
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
+        // TODO: move to JWT config
         jwtFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
         jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
         http
