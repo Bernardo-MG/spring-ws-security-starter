@@ -204,6 +204,7 @@
       <!-- Checkstyle customized rules file -->
       <checkstyle.config.location>${project.basedir}/src/config/checkstyle/checkstyle-rules.xml</checkstyle.config.location>
       <plugin.openapi.version>7.18.0</plugin.openapi.version>
+      <plugin.spring.boot.version>${spring.boot.version}</plugin.spring.boot.version>
       <!-- ============================================== -->
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
@@ -243,6 +244,14 @@
             <scope>import</scope>
          </dependency>
          <!-- ============================================== -->
+         <!-- ================= PROJECT ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <!-- ============================================== -->
          <!-- ================ FRAMEWORK =================== -->
          <!-- ============================================== -->
          <dependency>
@@ -268,77 +277,6 @@
             <groupId>com.bernardomg.framework.spring</groupId>
             <artifactId>spring-ws-starter</artifactId>
             <version>${bernardomg.framework.ws.version}</version>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- ================== SPRING ==================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- Spring beans -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring context -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring context support -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring Data JPA -->
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring Data Commons -->
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring transactions -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring Web -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring Web MVC -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-         </dependency>
-         <dependency>
-             <!-- Spring Security Configuration -->
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-config</artifactId>
-         </dependency>
-         <dependency>
-             <!-- Spring Security Web -->
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-web</artifactId>
-         </dependency>
-         <dependency>
-             <!-- Spring Security Core -->
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-core</artifactId>
-         </dependency>
-         <dependency>
-             <!-- Spring Security Crypto -->
-             <groupId>org.springframework.security</groupId>
-             <artifactId>spring-security-crypto</artifactId>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- =============== SPRING BOOT ================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- Spring Boot autoconfiguration -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
          </dependency>
          <!-- ============================================== -->
          <!-- =============== JSON WEB TOKEN =============== -->
@@ -375,52 +313,6 @@
            <version>${swagger.version}</version>
          </dependency>
          <!-- ============================================== -->
-         <!-- ============== JPA DEPENDENCIES ============== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- JPA API -->
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- ================== LOGGING =================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- SL4J API -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Log4j SLF4J Bridge -->
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-            <scope>provided</scope>
-         </dependency>
-         <dependency>
-            <!-- Log4j core -->
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <scope>provided</scope>
-         </dependency>
-         <dependency>
-            <!-- Log4j Commons Logging Bridge -->
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-jcl</artifactId>
-            <scope>provided</scope>
-            <exclusions>
-               <exclusion>
-                  <groupId>commons-logging</groupId>
-                  <artifactId>commons-logging</artifactId>
-               </exclusion>
-            </exclusions>
-         </dependency>
-         <dependency>
-            <!-- Log4j Web -->
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
-            <scope>provided</scope>
-         </dependency>
-         <!-- ============================================== -->
          <!-- ================= JACKSON ==================== -->
          <!-- ============================================== -->
          <dependency>
@@ -430,20 +322,6 @@
            <version>${jackson.version}</version>
          </dependency>
          <!-- ============================================== -->
-         <!-- ================= JAKARTA ==================== -->
-         <!-- ============================================== -->
-         <dependency>
-             <!-- Jakarta Servlet API -->
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <scope>provided</scope>
-         </dependency>
-         <dependency>
-             <!-- Jakarta Mail -->
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>jakarta.mail</artifactId>
-         </dependency>
-         <!-- ============================================== -->
          <!-- ================ VALIDATION ================== -->
          <!-- ============================================== -->
          <dependency>
@@ -451,34 +329,6 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation.version}</version>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- =================== YAML ===================== -->
-         <!-- ============================================== -->
-         <dependency>
-           <groupId>org.yaml</groupId>
-           <artifactId>snakeyaml</artifactId>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- ================= ASPECTJ ==================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- Aspectj Weaver -->
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- ================ THYMELEAF =================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- Thymeleaf -->
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-         </dependency>
-         <dependency>
-            <!-- Spring Thymeleaf -->
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring6</artifactId>
          </dependency>
          <!-- ============================================== -->
          <!-- ========= DEPENDENCY CONVERGENCE ============= -->
@@ -496,100 +346,6 @@
          <!-- ============================================== -->
          <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
          <!-- ============================================== -->
-         <dependency>
-            <!-- Hamcrest -->
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- JSON Path -->
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- JUnit Jupiter Engine -->
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Mockito -->
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Mockito JUnit Jupiter -->
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- AssertJ -->
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Spring Test -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Spring Security Test -->
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Spring Boot Test -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-test</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Spring Boot Starter: Test -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-               <exclusion>
-                  <groupId>ch.qos.logback</groupId>
-                  <artifactId>logback-classic</artifactId>
-               </exclusion>
-               <exclusion>
-                  <groupId>org.apache.logging.log4j</groupId>
-                  <artifactId>log4j-to-slf4j</artifactId>
-               </exclusion>
-            </exclusions>
-         </dependency>
-         <dependency>
-            <!-- Spring Boot Starter: Thymeleaf -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Spring Boot Starter: JPA -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Spring Boot Starter: Actuator -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- GSON -->
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <scope>test</scope>
-         </dependency>
          <dependency>
             <!-- ArchUnit -->
             <groupId>com.tngtech.archunit</groupId>
@@ -609,42 +365,6 @@
             <groupId>com.tngtech.archunit</groupId>
             <artifactId>archunit-junit5-api</artifactId>
             <version>${archunit.version}</version>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Test containers -->
-            <groupId>org.testcontainers</groupId>
-            <artifactId>testcontainers</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Postgresql test container -->
-            <groupId>org.testcontainers</groupId>
-            <artifactId>postgresql </artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Postgres connector -->
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Hibernate validator -->
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <!-- Liquibase -->
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <exclusions>
-               <exclusion>
-                  <groupId>ch.qos.logback</groupId>
-                  <artifactId>logback-classic</artifactId>
-               </exclusion>
-            </exclusions>
             <scope>test</scope>
          </dependency>
          <dependency>

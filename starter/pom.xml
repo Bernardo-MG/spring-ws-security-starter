@@ -30,45 +30,12 @@
    <!-- ********************************************** -->
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.settings</groupId>
-         <artifactId>settings-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.settings</groupId>
-         <artifactId>association-settings-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.transaction</groupId>
-         <artifactId>association-transaction-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.profile</groupId>
-         <artifactId>association-profile-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.member</groupId>
-         <artifactId>association-member-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.fee</groupId>
-         <artifactId>association-fee-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.guest</groupId>
-         <artifactId>association-guest-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.sponsor</groupId>
-         <artifactId>association-sponsor-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.library</groupId>
-         <artifactId>association-library-spring-starter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.association.security</groupId>
-         <artifactId>association-security-spring-starter</artifactId>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>core</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
@@ -358,23 +325,6 @@
       <dependency>
          <groupId>io.prometheus</groupId>
          <artifactId>prometheus-metrics-tracer-otel</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =============== APACHE POI =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Apache POI -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Apache POI OOXML -->
-         <groupId>org.apache.poi</groupId>
-         <artifactId>poi-ooxml</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>commons-codec</groupId>
-         <artifactId>commons-codec</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
