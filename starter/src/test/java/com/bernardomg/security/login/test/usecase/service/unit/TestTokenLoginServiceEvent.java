@@ -1,0 +1,282 @@
+
+package com.bernardomg.security.login.test.usecase.service.unit;
+
+import static org.mockito.BDDMockito.given;
+
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.event.LogInEvent;
+import com.bernardomg.security.jwt.test.configuration.Tokens;
+import com.bernardomg.security.login.domain.model.Credentials;
+import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
+import com.bernardomg.security.login.usecase.service.TokenLoginService;
+import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.user.test.config.factory.Users;
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("TokenLoginService - login event handling")
+class TestTokenLoginServiceEvent {
+
+    @Captor
+    private ArgumentCaptor<LogInEvent> eventCaptor;
+
+    @Mock
+    private EventEmitter               eventEmitter;
+
+    @Mock
+    private LoginTokenEncoder          loginTokenEncoder;
+
+    @InjectMocks
+    private TokenLoginService          service;
+
+    @Mock
+    private UserRepository             userRepository;
+
+    @Mock
+    private Predicate<Credentials>     valid;
+
+    public TestTokenLoginServiceEvent() {
+        super();
+    }
+
+    @Test
+    @DisplayName("With an expired account and logging with email it generates an event not logged in")
+    void testLogIn_Email_Invalid() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(false);
+
+        // WHEN
+        // TODO: use constants
+        service.login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+    @Test
+    @DisplayName("With a not existing user and logging with email it generates an event not logged in")
+    void testLogIn_Email_NotExisting() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.empty());
+
+        // WHEN
+        service.login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.EMAIL);
+        });
+    }
+
+    @Test
+    @DisplayName("With a valid account and logging with email it generates a logged in event")
+    void testLogIn_Email_Valid() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(true);
+
+        // WHEN
+        service.login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+    @Test
+    @DisplayName("With a valid account and logging with a padded email it generates a logged in event")
+    void testLogIn_Email_ValidPadded() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(true);
+
+        // WHEN
+        service.login(new Credentials(" " + UserConstants.EMAIL + " ", UserConstants.PASSWORD));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+    @Test
+    @DisplayName("With a valid account and logging with a padded password it generates a logged in event")
+    void testLogIn_PaddedPassword() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(true);
+
+        // WHEN
+        service.login(new Credentials(UserConstants.USERNAME, " " + UserConstants.PASSWORD + " "));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+    @Test
+    @DisplayName("With an expired account and logging with username it generates an event not logged in")
+    void testLogIn_Username_Invalid() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(false);
+
+        // WHEN
+        service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+    @Test
+    @DisplayName("With a valid account and logging with username it generates a logged in event")
+    void testLogIn_Username_Valid() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(true);
+
+        // WHEN
+        service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+    @Test
+    @DisplayName("With a valid account and logging with a padded username it generates a logged in event")
+    void testLogIn_Username_ValidPadded() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+
+        given(valid.test(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD))).willReturn(true);
+
+        // WHEN
+        service.login(new Credentials(" " + UserConstants.USERNAME + " ", UserConstants.PASSWORD));
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+}

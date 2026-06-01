@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <!-- ********************************************** -->
+   <!-- ****************** BASE POM ****************** -->
+   <!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.framework</groupId>
+      <artifactId>security</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROJECT INFO **************** -->
+   <!-- ********************************************** -->
+
+   <groupId>com.bernardomg.framework.spring</groupId>
+   <artifactId>spring-ws-security-starter</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Starter for Security in Spring Web Services</name>
+   <description>Starter for Security in Spring Web Services.</description>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencies>
+      <dependency>
+         <groupId>com.bernardomg.settings</groupId>
+         <artifactId>settings-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.settings</groupId>
+         <artifactId>association-settings-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.transaction</groupId>
+         <artifactId>association-transaction-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.profile</groupId>
+         <artifactId>association-profile-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.member</groupId>
+         <artifactId>association-member-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.fee</groupId>
+         <artifactId>association-fee-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.guest</groupId>
+         <artifactId>association-guest-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.sponsor</groupId>
+         <artifactId>association-sponsor-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.library</groupId>
+         <artifactId>association-library-spring-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.association.security</groupId>
+         <artifactId>association-security-spring-starter</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== LOGGING =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- SL4J API -->
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Log4j SLF4J Bridge -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-slf4j2-impl</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Log4j core -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-core</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Log4j Commons Logging Bridge -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-jcl</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>commons-logging</groupId>
+               <artifactId>commons-logging</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <!-- Log4j Web -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-web</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring AOP -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-aop</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring beans -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-beans</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring context support -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Core -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-core</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring JDBC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-jdbc</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Data JPA -->
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-jpa</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring transactions -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-tx</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Web -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-web</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring ORM -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-orm</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== SPRING BOOT ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Boot Starter: Web -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-web</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: AOP -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-aop</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: Validation -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-validation</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: Cache -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-cache</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: log4j -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-log4j2</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: Security -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-security</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: Mail -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-mail</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: Actuator -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-actuator</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Configuration: Thymeleaf -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Starter: Devtools -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-devtools</artifactId>
+         <scope>runtime</scope>
+         <optional>true</optional>
+      </dependency>
+      <dependency>
+         <!-- Spring Boot Configuration Processor -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-configuration-processor</artifactId>
+         <optional>true</optional>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =================== CACHE ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.github.ben-manes.caffeine</groupId>
+         <artifactId>caffeine</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>org.checkerframework</groupId>
+               <artifactId>checker-qual</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ============== JPA DEPENDENCIES ============== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JPA API -->
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ HIBERNATE =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Hibernate Core -->
+         <groupId>org.hibernate.orm</groupId>
+         <artifactId>hibernate-core</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Hikari CP -->
+         <groupId>com.zaxxer</groupId>
+         <artifactId>HikariCP</artifactId>
+         <exclusions>
+            <exclusion>
+               <!-- SL4J API -->
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ LIQUIBASE =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Liquibase -->
+         <groupId>org.liquibase</groupId>
+         <artifactId>liquibase-core</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ POSTGRES ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Postgres connector -->
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== MAIL ====================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>jakarta.mail</groupId>
+         <artifactId>jakarta.mail-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ MICROMETER ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-registry-prometheus</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-observation</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-commons</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.micrometer</groupId>
+         <artifactId>micrometer-core</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-core</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-common</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-config</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-model</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-exposition-formats</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-initializer</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-otel-agent</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>io.prometheus</groupId>
+         <artifactId>prometheus-metrics-tracer-otel</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== APACHE POI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Apache POI -->
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Apache POI OOXML -->
+         <groupId>org.apache.poi</groupId>
+         <artifactId>poi-ooxml</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>commons-codec</groupId>
+         <artifactId>commons-codec</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Architecture Tests -->
+         <groupId>com.bernardomg.framework.testing</groupId>
+         <artifactId>architecture-tests</artifactId>
+      </dependency>
+   </dependencies>
+
+   <!-- ********************************************** -->
+   <!-- ******************* BUILD ******************** -->
+   <!-- ********************************************** -->
+
+   <build>
+      <defaultGoal>clean package</defaultGoal>
+      <plugins>
+         <plugin>
+            <!-- WAR -->
+            <!-- Generates the WAR package. -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+         </plugin>
+         <plugin>
+            <!-- Spring Boot -->
+            <!-- Takes care of running Spring Boot application -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>${plugin.spring.boot.version}</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>repackage</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+
+</project>
