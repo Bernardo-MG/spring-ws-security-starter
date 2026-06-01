@@ -25,6 +25,16 @@
    <name>Security core</name>
 
    <!-- ********************************************** -->
+   <!-- **************** PROPERTIES ****************** -->
+   <!-- ********************************************** -->
+
+   <properties>
+     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/security.yml</openapi.generator.maven.plugin.inputSpec>
+     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.security.openapi.api</openapi.generator.maven.plugin.apiPackage>
+     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.security.openapi.model</openapi.generator.maven.plugin.modelPackage>
+   </properties>
+
+   <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
@@ -425,5 +435,19 @@
          <scope>test</scope>
       </dependency>
    </dependencies>
+
+   <!-- ********************************************** -->
+   <!-- ******************* BUILD ******************** -->
+   <!-- ********************************************** -->
+
+   <build>
+      <plugins>
+         <plugin>
+            <!-- OpenApi -->
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+         </plugin>
+      </plugins>
+   </build>
 
 </project>
