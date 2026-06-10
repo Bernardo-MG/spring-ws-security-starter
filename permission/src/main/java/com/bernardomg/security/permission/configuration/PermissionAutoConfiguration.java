@@ -41,9 +41,6 @@ import com.bernardomg.security.permission.domain.repository.ResourcePermissionRe
 import com.bernardomg.security.permission.domain.repository.ResourceRepository;
 import com.bernardomg.security.permission.usecase.service.DefaultPermissionService;
 import com.bernardomg.security.permission.usecase.service.PermissionService;
-import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
-import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
-import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 
 /**
  * Security configuration.
@@ -80,12 +77,6 @@ public class PermissionAutoConfiguration {
     @Bean("resourceRepository")
     public ResourceRepository getResourceRepository(final ResourceSpringRepository resourceRepo) {
         return new JpaResourceRepository(resourceRepo);
-    }
-
-    @Bean("userPermissionRepository")
-    public UserPermissionRepository getUserPermissionRepository(final UserSpringRepository userRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo) {
-        return new JpaUserPermissionRepository(userRepo, resourcePermissionRepo);
     }
 
 }
