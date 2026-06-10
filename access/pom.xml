@@ -46,101 +46,12 @@
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== LOGGING =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- SL4J API -->
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Log4j SLF4J Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-slf4j2-impl</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <!-- Log4j core -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-core</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <!-- Log4j Commons Logging Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-jcl</artifactId>
-         <scope>provided</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>commons-logging</groupId>
-               <artifactId>commons-logging</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================= ASPECTJ ==================== -->
       <!-- ============================================== -->
       <dependency>
          <!-- Aspectj Weaver -->
          <groupId>org.aspectj</groupId>
          <artifactId>aspectjweaver</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JUnit Jupiter Engine -->
-         <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter-engine</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Mockito -->
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-core</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Mockito JUnit Jupiter -->
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-junit-jupiter</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- AssertJ -->
-         <groupId>org.assertj</groupId>
-         <artifactId>assertj-core</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- ArchUnit -->
-         <groupId>com.tngtech.archunit</groupId>
-         <artifactId>archunit</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- ArchUnit JUnit 5 -->
-         <groupId>com.tngtech.archunit</groupId>
-         <artifactId>archunit-junit5</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- ArchUnit JUnit 5 API -->
-         <groupId>com.tngtech.archunit</groupId>
-         <artifactId>archunit-junit5-api</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Test containers -->
-         <groupId>org.testcontainers</groupId>
-         <artifactId>testcontainers</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Architecture Tests -->
-         <groupId>com.bernardomg.framework.testing</groupId>
-         <artifactId>architecture-tests</artifactId>
-         <scope>test</scope>
       </dependency>
    </dependencies>
 

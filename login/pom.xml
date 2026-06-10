@@ -52,21 +52,13 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>access</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>permission</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>role</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Event -->
+         <!-- Pagination -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>event</artifactId>
       </dependency>
@@ -79,11 +71,6 @@
          <!-- Validation -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring WS Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-starter</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->

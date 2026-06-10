@@ -26,9 +26,6 @@ package com.bernardomg.test;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-
-import com.bernardomg.test.config.TestConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.
@@ -37,7 +34,6 @@ import com.bernardomg.test.config.TestConfiguration;
  *
  */
 @SpringBootApplication
-@Import({ TestConfiguration.class })
 public class TestApplication {
 
     /**
