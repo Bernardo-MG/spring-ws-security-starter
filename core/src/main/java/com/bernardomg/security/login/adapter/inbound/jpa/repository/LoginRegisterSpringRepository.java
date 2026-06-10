@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.login.adapter.inbound.jpa.repository;
 
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -38,6 +39,6 @@ import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEnti
  */
 public interface LoginRegisterSpringRepository extends JpaRepository<LoginRegisterEntity, Long> {
 
-    public Optional<LoginRegisterEntity> findByUsername(final String username);
+    public Optional<LoginRegisterEntity> findByUsernameAndDate(final String username, final Instant date);
 
 }
