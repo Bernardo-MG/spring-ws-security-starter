@@ -26,4 +26,4 @@
  * Interceptor components based on Spring.
  */
 
-package com.bernardomg.security.access.springframework.interceptor;
+package com.bernardomg.security.springframework.interceptor;

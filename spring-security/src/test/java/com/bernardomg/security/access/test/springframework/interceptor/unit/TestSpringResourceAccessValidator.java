@@ -9,9 +9,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
-import com.bernardomg.security.access.springframework.interceptor.SpringResourceAccessValidator;
-import com.bernardomg.security.access.test.config.factory.Authentications;
-import com.bernardomg.security.access.test.config.factory.PermissionConstants;
+import com.bernardomg.security.auth.test.config.factory.Authentications;
+import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
+import com.bernardomg.security.springframework.interceptor.SpringResourceAccessValidator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringResourceAccessValidator")

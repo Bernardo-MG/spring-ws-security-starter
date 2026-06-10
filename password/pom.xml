@@ -435,6 +435,11 @@
          <artifactId>architecture-tests</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>spring-security</artifactId>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
 
    <!-- ********************************************** -->

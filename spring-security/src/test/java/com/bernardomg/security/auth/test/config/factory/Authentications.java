@@ -1,11 +1,13 @@
 
-package com.bernardomg.security.access.test.config.factory;
+package com.bernardomg.security.auth.test.config.factory;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+
+import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 public final class Authentications {
 

@@ -22,7 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.access.springframework.interceptor;
+package com.bernardomg.security.springframework.interceptor;
+
 
 import java.util.Objects;
 import java.util.function.Predicate;

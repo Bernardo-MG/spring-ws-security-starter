@@ -29,6 +29,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.security.springframework.interceptor.SpringResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -51,6 +53,11 @@ public class SpringAutoConfiguration {
     public UserDetailsService getUserDetailsService(final UserRepository userRepository,
             final UserPermissionRepository userPermissionRepository) {
         return new UserDomainDetailsService(userRepository, userPermissionRepository);
+    }
+
+    @Bean("springResourceAccessValidator")
+    public ResourceAccessValidator springResourceAccessValidator() {
+        return new SpringResourceAccessValidator();
     }
 
 }

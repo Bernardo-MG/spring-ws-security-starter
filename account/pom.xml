@@ -168,44 +168,6 @@
          <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== LOGGING =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- SL4J API -->
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Log4j SLF4J Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-slf4j2-impl</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <!-- Log4j core -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-core</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <!-- Log4j Commons Logging Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-jcl</artifactId>
-         <scope>provided</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>commons-logging</groupId>
-               <artifactId>commons-logging</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <!-- Log4j Web -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-web</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================= JACKSON ==================== -->
       <!-- ============================================== -->
       <dependency>
@@ -429,6 +391,11 @@
          <!-- Architecture Tests -->
          <groupId>com.bernardomg.framework.testing</groupId>
          <artifactId>architecture-tests</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>spring-security</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

@@ -1,5 +1,5 @@
 
-package com.bernardomg.test.config.factory;
+package com.bernardomg.security.auth.test.config.factory;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
