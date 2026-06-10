@@ -43,6 +43,7 @@
 
    <modules>
      <module>jwt</module>
+     <module>web</module>
      <module>access</module>
      <module>permission</module>
      <module>core</module>
@@ -252,6 +253,11 @@
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>jwt</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>web</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

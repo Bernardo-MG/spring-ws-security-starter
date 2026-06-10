@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>core</artifactId>
+   <artifactId>web</artifactId>
    <packaging>jar</packaging>
 
-   <name>Security core</name>
+   <name>Security web</name>
 
    <!-- ********************************************** -->
    <!-- **************** PROPERTIES ****************** -->
@@ -45,18 +45,6 @@
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>jwt</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>web</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>access</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>permission</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
