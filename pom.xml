@@ -46,6 +46,7 @@
      <module>web</module>
      <module>access</module>
      <module>permission</module>
+     <module>role</module>
      <module>core</module>
      <module>starter</module>
    </modules>
@@ -268,6 +269,11 @@
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>permission</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>role</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>core</artifactId>
+   <artifactId>role</artifactId>
    <packaging>jar</packaging>
 
-   <name>Security core</name>
+   <name>Security role</name>
 
    <!-- ********************************************** -->
    <!-- **************** PROPERTIES ****************** -->
@@ -57,10 +57,6 @@
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>permission</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>role</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
