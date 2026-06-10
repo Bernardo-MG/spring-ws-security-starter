@@ -35,7 +35,7 @@
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>core</artifactId>
+         <artifactId>access</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
