@@ -51,6 +51,7 @@
      <module>user</module>
      <module>account</module>
      <module>password</module>
+     <module>initializer</module>
      <module>spring-security</module>
      <module>core</module>
      <module>starter</module>
