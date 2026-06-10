@@ -179,7 +179,7 @@
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.test.version>1.0.7</bernardomg.framework.test.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.5.1</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.version>0.6.0</bernardomg.framework.ws.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jackson.version>2.20.1</jackson.version>
