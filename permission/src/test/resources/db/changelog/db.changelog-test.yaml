@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: auth/access.yaml
+      relativeToChangelogFile: true
