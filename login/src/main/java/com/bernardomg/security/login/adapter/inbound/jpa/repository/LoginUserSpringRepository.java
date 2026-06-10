@@ -37,7 +37,7 @@ import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginUserEntity;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserSpringRepository extends JpaRepository<LoginUserEntity, Long> {
+public interface LoginUserSpringRepository extends JpaRepository<LoginUserEntity, Long> {
 
     /**
      * Deletes the user with the received username.

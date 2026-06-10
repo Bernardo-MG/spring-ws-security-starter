@@ -51,9 +51,9 @@ public final class JpaUserRepository implements UserRepository {
     /**
      * User repository.
      */
-    private final UserSpringRepository userSpringRepository;
+    private final LoginUserSpringRepository userSpringRepository;
 
-    public JpaUserRepository(final UserSpringRepository userSpringRepo) {
+    public JpaUserRepository(final LoginUserSpringRepository userSpringRepo) {
         super();
 
         userSpringRepository = Objects.requireNonNull(userSpringRepo);
