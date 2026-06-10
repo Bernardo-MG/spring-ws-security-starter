@@ -50,6 +50,7 @@
      <module>login</module>
      <module>user</module>
      <module>account</module>
+     <module>spring-security</module>
      <module>core</module>
      <module>starter</module>
    </modules>
