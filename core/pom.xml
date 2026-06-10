@@ -62,6 +62,10 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>role</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>login</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->

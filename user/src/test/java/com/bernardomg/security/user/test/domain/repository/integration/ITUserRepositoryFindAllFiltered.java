@@ -1,0 +1,131 @@
+
+package com.bernardomg.security.user.test.domain.repository.integration;
+
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Pagination;
+import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.user.domain.model.UserQuery;
+import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.user.test.config.annotation.OnlyUser;
+import com.bernardomg.security.user.test.config.factory.UserQueries;
+import com.bernardomg.test.config.annotation.IntegrationTest;
+
+@IntegrationTest
+@DisplayName("User repository - find all - filtered")
+class ITUserRepositoryFindAllFiltered {
+
+    @Autowired
+    private UserRepository repository;
+
+    public ITUserRepositoryFindAllFiltered() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Filters by name")
+    @OnlyUser
+    void testFindAll_Name() {
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        sample = UserQueries.name();
+
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Filtering by an invalid name returns nothing")
+    @OnlyUser
+    void testFindAll_NameNotExisting() {
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        sample = UserQueries.invalidName();
+
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .isEmpty();
+    }
+
+    @Test
+    @DisplayName("Filters by username")
+    @OnlyUser
+    void testFindAll_Username() {
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        sample = UserQueries.username();
+
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .hasSize(1);
+    }
+
+    @Test
+    @DisplayName("Filtering by an invalid username returns nothing")
+    @OnlyUser
+    void testFindAll_UsernameNotExisting() {
+        final Page<User> result;
+        final UserQuery  sample;
+        final Pagination pagination;
+        final Sorting    sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        sample = UserQueries.invalidUsername();
+
+        // WHEN
+        result = repository.findAll(sample, pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(result)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .isEmpty();
+    }
+
+}
