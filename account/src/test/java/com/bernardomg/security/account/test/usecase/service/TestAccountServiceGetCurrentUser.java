@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.bernardomg.security.access.test.config.factory.Authentications;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.test.config.factory.Accounts;
 import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
-import com.bernardomg.test.config.factory.Authentications;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultAccountService - get current user")

@@ -49,6 +49,7 @@
      <module>role</module>
      <module>login</module>
      <module>user</module>
+     <module>account</module>
      <module>core</module>
      <module>starter</module>
    </modules>
