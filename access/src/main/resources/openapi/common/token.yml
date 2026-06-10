@@ -1,5 +1,0 @@
-components:
-  schemas:
-    Id:
-      type: integer
-      format: int64
