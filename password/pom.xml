@@ -29,9 +29,9 @@
    <!-- ********************************************** -->
 
    <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/security.yml</openapi.generator.maven.plugin.inputSpec>
-     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.security.openapi.api</openapi.generator.maven.plugin.apiPackage>
-     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.security.openapi.model</openapi.generator.maven.plugin.modelPackage>
+     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/password.yml</openapi.generator.maven.plugin.inputSpec>
+     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.security.password.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
+     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.security.password.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
    </properties>
 
    <!-- ********************************************** -->

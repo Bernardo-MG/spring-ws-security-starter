@@ -8,17 +8,16 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.security.openapi.model.PropertyDto;
-import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.security.openapi.model.RoleDto;
-import com.bernardomg.security.openapi.model.SortingDto;
-import com.bernardomg.security.openapi.model.UserChangeDto;
-import com.bernardomg.security.openapi.model.UserCreationDto;
-import com.bernardomg.security.openapi.model.UserDto;
-import com.bernardomg.security.openapi.model.UserPageResponseDto;
-import com.bernardomg.security.openapi.model.UserResponseDto;
-import com.bernardomg.security.role.adapter.outbound.rest.model.RoleDtoMapper;
 import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.SortingDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserChangeDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserCreationDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserPageResponseDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserResponseDto;
 import com.bernardomg.security.user.domain.model.User;
 
 public final class UserDtoMapper {

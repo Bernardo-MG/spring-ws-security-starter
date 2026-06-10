@@ -28,12 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
-import com.bernardomg.security.openapi.api.UserOnboardingApi;
-import com.bernardomg.security.openapi.model.UserActivationDto;
-import com.bernardomg.security.openapi.model.UserCreationDto;
-import com.bernardomg.security.openapi.model.UserResponseDto;
-import com.bernardomg.security.openapi.model.UserTokenStatusResponseDto;
 import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserActivationDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserCreationDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserResponseDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenStatusResponseDto;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserActivationDtoMapper;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserDtoMapper;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;

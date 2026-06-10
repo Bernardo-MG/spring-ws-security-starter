@@ -6,12 +6,12 @@ import java.util.List;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.login.adapter.outbound.rest.dto.LoginRegisterDto;
+import com.bernardomg.security.login.adapter.outbound.rest.dto.LoginRegisterPageResponseDto;
+import com.bernardomg.security.login.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.security.login.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.security.login.adapter.outbound.rest.dto.SortingDto;
 import com.bernardomg.security.login.domain.model.LoginRegister;
-import com.bernardomg.security.openapi.model.LoginRegisterDto;
-import com.bernardomg.security.openapi.model.LoginRegisterPageResponseDto;
-import com.bernardomg.security.openapi.model.PropertyDto;
-import com.bernardomg.security.openapi.model.PropertyDto.DirectionEnum;
-import com.bernardomg.security.openapi.model.SortingDto;
 
 public final class LoginRegisterDtoMapper {
 
