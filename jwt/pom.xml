@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>core</artifactId>
+   <artifactId>jwt</artifactId>
    <packaging>jar</packaging>
 
-   <name>Security core</name>
+   <name>Security JWT</name>
 
    <!-- ********************************************** -->
    <!-- **************** PROPERTIES ****************** -->
@@ -42,10 +42,6 @@
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>jwt</artifactId>
-      </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>access</artifactId>

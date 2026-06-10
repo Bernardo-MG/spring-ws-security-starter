@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.jwt.test.configuration;
+package com.bernardomg.security.jwt.test.config.factory;
 
 public final class JwtTokens {
 

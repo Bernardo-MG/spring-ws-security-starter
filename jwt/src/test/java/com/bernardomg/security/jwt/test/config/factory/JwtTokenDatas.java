@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.jwt.test.configuration;
+package com.bernardomg.security.jwt.test.config.factory;
 
 import java.util.List;
 import java.util.Map;

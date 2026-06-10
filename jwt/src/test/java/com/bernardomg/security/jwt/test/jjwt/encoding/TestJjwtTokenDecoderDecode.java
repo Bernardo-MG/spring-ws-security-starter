@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.security.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenDecoder;
-import com.bernardomg.security.jwt.test.configuration.JwtTokens;
-import com.bernardomg.security.jwt.test.configuration.Tokens;
-import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
+import com.bernardomg.security.jwt.test.config.factory.JwtTokens;
+import com.bernardomg.security.jwt.test.config.factory.PermissionConstants;
+import com.bernardomg.security.jwt.test.config.factory.Tokens;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
