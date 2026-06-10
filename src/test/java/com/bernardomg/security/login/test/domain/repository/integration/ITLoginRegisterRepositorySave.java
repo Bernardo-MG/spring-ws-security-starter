@@ -32,6 +32,47 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
+    @DisplayName("When changing a logged in event to not logged in, it is persisted")
+    @LoggedInLoginRegister
+    void testSave_Existing_Logged_UpdateToNotLogged_Persisted() {
+        final LoginRegister                   register;
+        final Collection<LoginRegisterEntity> registers;
+
+        // GIVEN
+        register = LoginRegisters.notLoggedIn();
+
+        // WHEN
+        repository.save(register);
+
+        // THEN
+        registers = springRepository.findAll();
+
+        Assertions.assertThat(registers)
+            .as("login registers")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .containsExactly(LoginRegisterEntities.notLoggedIn());
+    }
+
+    @Test
+    @DisplayName("When changing a logged in event to not logged in, it is returned")
+    @LoggedInLoginRegister
+    void testSave_Existing_Logged_UpdateToNotLogged_Returned() {
+        final LoginRegister register;
+        final LoginRegister returned;
+
+        // GIVEN
+        register = LoginRegisters.notLoggedIn();
+
+        // WHEN
+        returned = repository.save(register);
+
+        // THEN
+        Assertions.assertThat(returned)
+            .as("login register")
+            .isEqualTo(LoginRegisters.notLoggedIn());
+    }
+
+    @Test
     @DisplayName("When saving a logged in event, it is persisted")
     void testSave_Logged_Persisted() {
         final LoginRegister                   register;
@@ -68,28 +109,6 @@ class ITLoginRegisterRepositorySave {
         Assertions.assertThat(returned)
             .as("login register")
             .isEqualTo(LoginRegisters.loggedIn());
-    }
-
-    @Test
-    @DisplayName("When changing a logged in event to not logged in, it is persisted")
-    @LoggedInLoginRegister
-    void testSave_Logged_UpdateToNotLogged_Persisted() {
-        final LoginRegister                   register;
-        final Collection<LoginRegisterEntity> registers;
-
-        // GIVEN
-        register = LoginRegisters.notLoggedIn();
-
-        // WHEN
-        repository.save(register);
-
-        // THEN
-        registers = springRepository.findAll();
-
-        Assertions.assertThat(registers)
-            .as("login registers")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
-            .containsExactly(LoginRegisterEntities.notLoggedIn());
     }
 
     @Test
