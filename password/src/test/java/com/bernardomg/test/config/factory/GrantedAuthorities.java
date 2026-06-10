@@ -1,0 +1,31 @@
+
+package com.bernardomg.test.config.factory;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
+import com.bernardomg.security.user.test.config.factory.PermissionConstants;
+
+public final class GrantedAuthorities {
+
+    public static ResourceActionGrantedAuthority alternativeResourceCreate() {
+        return new ResourceActionGrantedAuthority(PermissionConstants.ALTERNATIVE_RESOURCE, PermissionConstants.CREATE);
+    }
+
+    public static ResourceActionGrantedAuthority resourceCreate() {
+        return new ResourceActionGrantedAuthority(PermissionConstants.DATA, PermissionConstants.CREATE);
+    }
+
+    public static ResourceActionGrantedAuthority resourceRead() {
+        return new ResourceActionGrantedAuthority(PermissionConstants.DATA, PermissionConstants.READ);
+    }
+
+    public static SimpleGrantedAuthority simpleCreate() {
+        return new SimpleGrantedAuthority(PermissionConstants.DATA + ":" + PermissionConstants.READ);
+    }
+
+    private GrantedAuthorities() {
+        super();
+    }
+
+}

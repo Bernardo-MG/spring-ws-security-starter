@@ -1,0 +1,35 @@
+components:
+  parameters:
+    permissionSortParam:
+      name: sort
+      description: Sorting to apply.
+      in: query
+      style: form
+      explode: true
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: '^(resource|action)\|(asc|desc)$'
+          example: username|asc
+  schemas:
+    ResourcePermission:
+      type: object
+      required: [resource, action, name]
+      properties:
+        resource:
+          type: string
+          description: Name of the secured resource.
+        action:
+          type: string
+          description: Action permitted on the resource.
+    ResourcePermissionPageResponse:
+      allOf:
+        - $ref: '../common/responses.yml#/components/schemas/PageResponse'
+        - type: object
+          properties:
+            content:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResourcePermission'
