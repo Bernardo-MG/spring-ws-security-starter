@@ -28,7 +28,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import com.bernardomg.security.initializer.configuration.PermissionLoaderAutoConfiguration;
 import com.bernardomg.test.config.TestConfiguration;
 
 /**
@@ -37,7 +36,7 @@ import com.bernardomg.test.config.TestConfiguration;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@SpringBootApplication(exclude = { PermissionLoaderAutoConfiguration.class })
+@SpringBootApplication
 @Import({ TestConfiguration.class })
 public class TestApplication {
 

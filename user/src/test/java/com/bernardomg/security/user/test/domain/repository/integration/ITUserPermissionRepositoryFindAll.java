@@ -12,8 +12,8 @@ import com.bernardomg.security.permission.test.config.annotation.UserWithCrudPer
 import com.bernardomg.security.permission.test.config.annotation.UserWithTwoRoles;
 import com.bernardomg.security.permission.test.config.annotation.UserWithTwoRolesPermissionsAndNotPermissions;
 import com.bernardomg.security.permission.test.config.annotation.UserWithoutPermissions;
-import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.user.test.config.factory.ResourcePermissions;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;
 

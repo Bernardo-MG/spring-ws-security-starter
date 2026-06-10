@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.test.config.factory.RoleConstants;
-import com.bernardomg.security.role.test.config.factory.Roles;
 import com.bernardomg.security.user.domain.model.User;
 
 public final class Users {
