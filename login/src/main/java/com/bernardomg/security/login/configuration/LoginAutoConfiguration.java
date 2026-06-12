@@ -40,20 +40,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.configuration.JwtProperties;
 import com.bernardomg.security.jwt.encoding.TokenEncoder;
-import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterListener;
-import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
-import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
+import com.bernardomg.security.login.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.login.domain.model.Credentials;
-import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.login.domain.repository.UserRepository;
 import com.bernardomg.security.login.springframework.usecase.validation.SpringValidLoginPredicate;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
-import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
-import com.bernardomg.security.login.usecase.service.LoginRegisterService;
+import com.bernardomg.security.login.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.login.usecase.service.LoginService;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
+import com.bernardomg.security.login.usecase.service.UserLoginAttempsService;
+import com.bernardomg.security.user.configuration.LoginProperties;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**
@@ -73,21 +71,6 @@ public class LoginAutoConfiguration {
      */
     private static final Logger log = LoggerFactory.getLogger(LoginAutoConfiguration.class);
 
-    @Bean("loginEventRegisterListener")
-    public LoginEventRegisterListener getLoginEventRegisterListener(final LoginRegisterService loginRegisterService) {
-        return new LoginEventRegisterListener(loginRegisterService);
-    }
-
-    @Bean("loginRegisterRepository")
-    public LoginRegisterRepository getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterRepo) {
-        return new JpaLoginRegisterRepository(loginRegisterRepo);
-    }
-
-    @Bean("loginRegisterService")
-    public LoginRegisterService getLoginRegisterService(final LoginRegisterRepository loginRegisterRepository) {
-        return new DefaultLoginRegisterService(loginRegisterRepository);
-    }
-
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
@@ -103,6 +86,17 @@ public class LoginAutoConfiguration {
             jwtProperties.validity());
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventEmitter);
+    }
+
+    @Bean("loginFailureBlockerListener")
+    public LoginFailureBlockerListener getLoginFailureBlockerListener(final UserLoginAttempsService userAccessService) {
+        return new LoginFailureBlockerListener(userAccessService);
+    }
+
+    @Bean("userLoginAttempsService")
+    public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
+            final LoginProperties userAccessProperties) {
+        return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepo);
     }
 
     @Bean("loginWhitelist")

@@ -23,7 +23,7 @@
  */
 
 /**
- * Login spring adapters.
+ * User event adapters.
  */
 
 package com.bernardomg.security.login.adapter.inbound.event;

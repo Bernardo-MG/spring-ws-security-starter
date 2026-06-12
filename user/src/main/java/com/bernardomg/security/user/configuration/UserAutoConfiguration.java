@@ -44,7 +44,6 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
-import com.bernardomg.security.user.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificationListener;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
@@ -52,12 +51,10 @@ import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRep
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
-import com.bernardomg.security.user.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.service.DisabledUserNotificationService;
 import com.bernardomg.security.user.usecase.service.SpringMailUserNotificationService;
-import com.bernardomg.security.user.usecase.service.UserLoginAttempsService;
 import com.bernardomg.security.user.usecase.service.UserNotificationService;
 import com.bernardomg.security.user.usecase.service.UserOnboardingService;
 import com.bernardomg.security.user.usecase.service.UserService;
@@ -96,21 +93,10 @@ public class UserAutoConfiguration {
         return new DisabledUserNotificationService();
     }
 
-    @Bean("loginFailureBlockerListener")
-    public LoginFailureBlockerListener getLoginFailureBlockerListener(final UserLoginAttempsService userAccessService) {
-        return new LoginFailureBlockerListener(userAccessService);
-    }
-
     @Bean("userInvitationNotificationListener")
     public UserInvitationNotificationListener
             getUserInvitationNotificationListener(final UserNotificationService userNotificationService) {
         return new UserInvitationNotificationListener(userNotificationService);
-    }
-
-    @Bean("userLoginAttempsService")
-    public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
-            final LoginProperties userAccessProperties) {
-        return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepo);
     }
 
     @Bean("userNotificationService")

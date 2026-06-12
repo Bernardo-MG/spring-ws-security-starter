@@ -17,9 +17,9 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
-import com.bernardomg.security.login.domain.repository.UserRepository;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.TokenLoginService;
+import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 

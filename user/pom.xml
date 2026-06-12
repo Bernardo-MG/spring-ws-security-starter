@@ -39,9 +39,18 @@
    <!-- ********************************************** -->
 
    <dependencies>
+      <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-starter</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>web</artifactId>
+      </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>domain</artifactId>
@@ -49,10 +58,6 @@
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>role</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
