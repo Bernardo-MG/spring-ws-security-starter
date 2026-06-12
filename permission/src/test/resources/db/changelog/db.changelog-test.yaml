@@ -1,4 +1,4 @@
 databaseChangeLog:
   - include:
-      file: auth/access.yaml
+      file: auth/permission.yaml
       relativeToChangelogFile: true
