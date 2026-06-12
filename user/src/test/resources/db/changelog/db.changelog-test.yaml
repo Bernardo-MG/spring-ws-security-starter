@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: auth/permission.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: auth/role.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: auth/user.yaml
+      relativeToChangelogFile: true

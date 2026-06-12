@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;

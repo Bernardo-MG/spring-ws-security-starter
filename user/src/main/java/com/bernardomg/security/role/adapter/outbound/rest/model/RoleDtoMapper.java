@@ -1,17 +1,26 @@
 
-package com.bernardomg.security.user.adapter.outbound.rest.model;
+package com.bernardomg.security.role.adapter.outbound.rest.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.bernardomg.pagination.domain.Page;
+import com.bernardomg.pagination.domain.Sorting.Direction;
+import com.bernardomg.pagination.domain.Sorting.Property;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.ResourcePermissionDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleChangeDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleCreationDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.RolePageResponseDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleResponseDto;
+import com.bernardomg.security.user.adapter.outbound.rest.dto.SortingDto;
 
 public final class RoleDtoMapper {
 
@@ -52,6 +61,52 @@ public final class RoleDtoMapper {
             .collect(Collectors.toCollection(ArrayList::new));
         return new RoleDto().name(role.name())
             .permissions(permissions);
+    }
+
+    public static final RoleResponseDto toResponseDto(final Optional<Role> role) {
+        return new RoleResponseDto().content(role.map(RoleDtoMapper::toDto)
+            .orElse(null));
+    }
+
+    public static final RolePageResponseDto toResponseDto(final Page<Role> page) {
+        final SortingDto    sortingResponse;
+        final List<RoleDto> content;
+
+        sortingResponse = new SortingDto().properties(page.sort()
+            .properties()
+            .stream()
+            .map(RoleDtoMapper::toDto)
+            .collect(Collectors.toCollection(ArrayList::new)));
+
+        content = page.content()
+            .stream()
+            .map(RoleDtoMapper::toDto)
+            .toList();
+        return new RolePageResponseDto().content(content)
+            .size(page.size())
+            .page(page.page())
+            .totalElements(page.totalElements())
+            .totalPages(page.totalPages())
+            .elementsInPage(page.elementsInPage())
+            .first(page.first())
+            .last(page.last())
+            .sort(sortingResponse);
+    }
+
+    public static final RoleResponseDto toResponseDto(final Role role) {
+        return new RoleResponseDto().content(toDto(role));
+    }
+
+    private static final PropertyDto toDto(final Property property) {
+        final DirectionEnum direction;
+
+        if (property.direction() == Direction.ASC) {
+            direction = DirectionEnum.ASC;
+        } else {
+            direction = DirectionEnum.DESC;
+        }
+        return new PropertyDto().name(property.name())
+            .direction(direction);
     }
 
     private static final ResourcePermissionDto toDto(final ResourcePermission permission) {

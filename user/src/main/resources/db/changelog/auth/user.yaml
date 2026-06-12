@@ -86,6 +86,35 @@ databaseChangeLog:
             incrementBy: 1
             startWith: 1
   - changeSet:
+      id: user_roles
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: security
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_roles_user_id
+                    references: security.users(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_roles_role_id
+                    references: security.roles(id)
+                    nullable: false
+                    deleteCascade: true
+        - addPrimaryKey:
+            constraintName: user_roles_key
+            schemaName: security
+            tableName: user_roles
+            columnNames: 'user_id, role_id'
+  - changeSet:
       id: token_tables
       author: Bernardo
       changes:
