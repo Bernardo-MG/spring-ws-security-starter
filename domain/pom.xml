@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <!-- ********************************************** -->
+   <!-- ****************** BASE POM ****************** -->
+   <!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.framework</groupId>
+      <artifactId>security</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROJECT INFO **************** -->
+   <!-- ********************************************** -->
+
+   <groupId>com.bernardomg.framework.security</groupId>
+   <artifactId>domain</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Security domain</name>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencies>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+          <!-- Spring Security Configuration -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-config</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- =============== SPRING BOOT ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Boot autoconfiguration -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-autoconfigure</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= ASPECTJ ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Aspectj Weaver -->
+         <groupId>org.aspectj</groupId>
+         <artifactId>aspectjweaver</artifactId>
+      </dependency>
+   </dependencies>
+
+</project>

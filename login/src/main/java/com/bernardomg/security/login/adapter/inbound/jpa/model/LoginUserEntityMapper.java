@@ -29,10 +29,10 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.login.domain.model.User;
 import com.bernardomg.security.role.adapter.inbound.jpa.model.RoleEntityMapper;
 import com.bernardomg.security.role.domain.comparator.RoleComparator;
 import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.user.domain.model.User;
 
 /**
  * User repository mapper.

@@ -46,6 +46,10 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>access</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>domain</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
