@@ -49,7 +49,8 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     /**
      * Logger for the class.
      */
-    private static final Logger                      log = LoggerFactory.getLogger(JpaUserPermissionRepository.class);
+    private static final Logger                          log = LoggerFactory
+        .getLogger(JpaUserPermissionRepository.class);
 
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
@@ -59,7 +60,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     /**
      * User repository.
      */
-    private final UserSpringRepository               userRepository;
+    private final UserSpringRepository                   userRepository;
 
     public JpaUserPermissionRepository(final UserSpringRepository userSpringRepo,
             final UserResourcePermissionSpringRepository resourcePermissionSpringRepo) {

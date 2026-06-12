@@ -136,8 +136,8 @@ class ITRoleRepositoryDelete {
         repository.delete(RoleConstants.NAME);
 
         // THEN
-//        Assertions.assertThat(userSpringRepository.count())
-//            .isNotZero();
+        // Assertions.assertThat(userSpringRepository.count())
+        // .isNotZero();
     }
 
 }

@@ -71,6 +71,11 @@ public class LoginAutoConfiguration {
      */
     private static final Logger log = LoggerFactory.getLogger(LoginAutoConfiguration.class);
 
+    @Bean("loginFailureBlockerListener")
+    public LoginFailureBlockerListener getLoginFailureBlockerListener(final UserLoginAttempsService userAccessService) {
+        return new LoginFailureBlockerListener(userAccessService);
+    }
+
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
@@ -88,20 +93,15 @@ public class LoginAutoConfiguration {
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventEmitter);
     }
 
-    @Bean("loginFailureBlockerListener")
-    public LoginFailureBlockerListener getLoginFailureBlockerListener(final UserLoginAttempsService userAccessService) {
-        return new LoginFailureBlockerListener(userAccessService);
+    @Bean("loginWhitelist")
+    public WhitelistRoute getLoginWhitelist() {
+        return WhitelistRoute.of("/login/**", HttpMethod.POST);
     }
 
     @Bean("userLoginAttempsService")
     public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
             final LoginProperties userAccessProperties) {
         return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepo);
-    }
-
-    @Bean("loginWhitelist")
-    public WhitelistRoute getLoginWhitelist() {
-        return WhitelistRoute.of("/login/**", HttpMethod.POST);
     }
 
 }

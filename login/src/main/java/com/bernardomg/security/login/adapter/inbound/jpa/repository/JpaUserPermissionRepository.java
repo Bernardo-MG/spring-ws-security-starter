@@ -36,7 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginUserEntity;
 import com.bernardomg.security.login.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserResourcePermissionSpringRepository;
 
@@ -51,7 +50,8 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     /**
      * Logger for the class.
      */
-    private static final Logger                      log = LoggerFactory.getLogger(JpaUserPermissionRepository.class);
+    private static final Logger                          log = LoggerFactory
+        .getLogger(JpaUserPermissionRepository.class);
 
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
@@ -61,7 +61,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     /**
      * User repository.
      */
-    private final LoginUserSpringRepository               userRepository;
+    private final LoginUserSpringRepository              userRepository;
 
     public JpaUserPermissionRepository(final LoginUserSpringRepository userSpringRepo,
             final UserResourcePermissionSpringRepository resourcePermissionSpringRepo) {
@@ -73,7 +73,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
 
     @Override
     public final Collection<ResourcePermission> findAll(final String username) {
-        final Optional<LoginUserEntity>           user;
+        final Optional<LoginUserEntity>      user;
         final Collection<ResourcePermission> permissions;
 
         log.trace("Finding permissions for user {}", username);

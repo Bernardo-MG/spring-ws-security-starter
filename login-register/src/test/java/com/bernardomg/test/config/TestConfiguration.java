@@ -51,14 +51,14 @@ import com.bernardomg.security.user.configuration.UserAutoConfiguration;
         "com.bernardomg.security.user.adapter.inbound.jpa" })
 public class TestConfiguration {
 
-    @Bean("passwordEncoder")
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(10, new SecureRandom());
-    }
-
     @Bean("eventEmitter")
     public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
         return new SynchronousEventEmitter(listeners);
+    }
+
+    @Bean("passwordEncoder")
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
 }
