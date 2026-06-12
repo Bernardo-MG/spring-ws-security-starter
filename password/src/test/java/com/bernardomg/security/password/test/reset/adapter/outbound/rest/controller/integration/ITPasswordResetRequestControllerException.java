@@ -22,13 +22,11 @@ import com.bernardomg.security.password.reset.adapter.outbound.rest.controller.P
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.test.TestApplication;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.config.annotation.MvcIntegrationTest;
 import com.bernardomg.test.json.JsonUtils;
 
 @MvcIntegrationTest
 @ComponentScan(basePackageClasses = PasswordResetRequestController.class)
-@AllAuthoritiesMockUser
 @ContextConfiguration(classes = TestApplication.class)
 @DisplayName("PasswordResetRequestController - Exceptions")
 class ITPasswordResetRequestControllerException {
