@@ -3,10 +3,10 @@ databaseChangeLog:
       file: auth/permission.yaml
       relativeToChangelogFile: true
   - include:
-      file: auth/user.yaml
+      file: auth/role.yaml
       relativeToChangelogFile: true
   - include:
-      file: auth/role.yaml
+      file: auth/user.yaml
       relativeToChangelogFile: true
   - include:
       file: auth/login.yaml
