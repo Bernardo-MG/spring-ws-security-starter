@@ -55,7 +55,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final UserResourcePermissionSpringRepository resourcePermissionRepository;
 
     /**
      * User repository.
@@ -63,7 +63,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     private final UserSpringRepository               userRepository;
 
     public JpaUserPermissionRepository(final UserSpringRepository userSpringRepo,
-            final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
+            final UserResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userSpringRepo);

@@ -41,12 +41,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
 import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificationListener;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserResourcePermissionSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.domain.repository.UserRepository;
@@ -130,7 +130,7 @@ public class UserAutoConfiguration {
 
     @Bean("userPermissionRepository")
     public UserPermissionRepository getUserPermissionRepository(final UserSpringRepository userRepo,
-            final ResourcePermissionSpringRepository resourcePermissionRepo) {
+            final UserResourcePermissionSpringRepository resourcePermissionRepo) {
         return new JpaUserPermissionRepository(userRepo, resourcePermissionRepo);
     }
 

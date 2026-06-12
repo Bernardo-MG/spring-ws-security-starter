@@ -22,11 +22,16 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.permission.adapter.inbound.jpa.repository;
+package com.bernardomg.security.user.adapter.inbound.jpa.repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
 
@@ -36,9 +41,26 @@ import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePerm
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface ResourcePermissionSpringRepository extends JpaRepository<ResourcePermissionEntity, Long> {
+public interface UserResourcePermissionSpringRepository extends JpaRepository<ResourcePermissionEntity, Long> {
 
     public boolean existsByResourceAndAction(final String resource, final String action);
+
+    /**
+     * Returns all the permissions available to a user.
+     *
+     * @param userId
+     *            user id
+     * @return a page with the permissions
+     */
+    @Query("""
+               SELECT p
+               FROM Role r
+                 INNER JOIN r.permissions p
+                 INNER JOIN UserRole ur ON ur.roleId = r.id
+                 INNER JOIN User u ON u.id = ur.userId
+               WHERE u.id = :userId
+            """)
+    public Collection<ResourcePermissionEntity> findAllForUser(@Param("userId") final Long userId);
 
     public Optional<ResourcePermissionEntity> findByResourceAndAction(final String resource, final String action);
 

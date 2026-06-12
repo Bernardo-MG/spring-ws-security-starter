@@ -38,6 +38,7 @@ import com.bernardomg.security.login.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntityMapper;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserResourcePermissionSpringRepository;
 
 /**
  * Resource permissions repository based on JPA entities.
@@ -55,7 +56,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
      */
-    private final ResourcePermissionSpringRepository resourcePermissionRepository;
+    private final UserResourcePermissionSpringRepository resourcePermissionRepository;
 
     /**
      * User repository.
@@ -63,7 +64,7 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     private final LoginUserSpringRepository               userRepository;
 
     public JpaUserPermissionRepository(final LoginUserSpringRepository userSpringRepo,
-            final ResourcePermissionSpringRepository resourcePermissionSpringRepo) {
+            final UserResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userSpringRepo);
