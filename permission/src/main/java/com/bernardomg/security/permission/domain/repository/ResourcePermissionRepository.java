@@ -63,7 +63,7 @@ public interface ResourcePermissionRepository {
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return all the roles for the received query
+     * @return all the resource permissions for the received query
      */
     public Page<ResourcePermission> findAll(final Pagination pagination, final Sorting sorting);
 

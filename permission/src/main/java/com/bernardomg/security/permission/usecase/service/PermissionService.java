@@ -44,7 +44,7 @@ public interface PermissionService {
      *            pagination to apply
      * @param sorting
      *            sorting to apply
-     * @return a page for the roles matching the sample
+     * @return a page for the resource permissions matching the sample
      */
     public Page<ResourcePermission> getAll(final Pagination pagination, final Sorting sorting);
 

@@ -63,15 +63,15 @@ public final class DefaultPermissionService implements PermissionService {
 
     @Override
     public final Page<ResourcePermission> getAll(final Pagination pagination, final Sorting sorting) {
-        final Page<ResourcePermission> roles;
+        final Page<ResourcePermission> permissions;
 
         log.trace("Reading roles with pagination {} and sorting {}", pagination, sorting);
 
-        roles = resourcePermissionRepository.findAll(pagination, sorting);
+        permissions = resourcePermissionRepository.findAll(pagination, sorting);
 
         log.trace("Read roles with pagination {} and sorting {}", pagination, sorting);
 
-        return roles;
+        return permissions;
     }
 
 }
