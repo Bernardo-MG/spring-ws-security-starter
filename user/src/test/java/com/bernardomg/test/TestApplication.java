@@ -55,11 +55,6 @@ public class TestApplication {
         SpringApplication.run(TestApplication.class, args);
     }
 
-    @Bean("passwordEncoder")
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(10, new SecureRandom());
-    }
-
     /**
      * Default constructor.
      */
