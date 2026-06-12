@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginUserEntityMapper;
-import com.bernardomg.security.login.domain.model.User;
 import com.bernardomg.security.login.domain.repository.UserRepository;
+import com.bernardomg.security.user.domain.model.User;
 
 /**
  * User repository based on JPA entities.

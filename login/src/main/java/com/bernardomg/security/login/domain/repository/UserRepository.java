@@ -26,7 +26,7 @@ package com.bernardomg.security.login.domain.repository;
 
 import java.util.Optional;
 
-import com.bernardomg.security.login.domain.model.User;
+import com.bernardomg.security.user.domain.model.User;
 
 /**
  * User repository.
