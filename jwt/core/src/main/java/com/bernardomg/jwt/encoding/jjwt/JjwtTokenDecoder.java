@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.jjwt.encoding;
+package com.bernardomg.jwt.encoding.jjwt;
 
 import java.time.Instant;
 import java.util.List;
@@ -31,8 +31,8 @@ import java.util.Objects;
 
 import javax.crypto.SecretKey;
 
-import com.bernardomg.security.jwt.encoding.JwtTokenData;
-import com.bernardomg.security.jwt.encoding.TokenDecoder;
+import com.bernardomg.jwt.encoding.JwtTokenData;
+import com.bernardomg.jwt.encoding.TokenDecoder;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;

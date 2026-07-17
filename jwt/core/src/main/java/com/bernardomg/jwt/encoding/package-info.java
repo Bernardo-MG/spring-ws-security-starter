@@ -23,7 +23,7 @@
  */
 
 /**
- * JJWT implementation of the JWT token encoding/decoding components.
+ * JWT token encoding/decoding components.
  */
 
-package com.bernardomg.security.jwt.jjwt.encoding;
+package com.bernardomg.jwt.encoding;

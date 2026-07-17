@@ -1,15 +1,15 @@
 
-package com.bernardomg.security.jwt.test.jjwt.encoding;
+package com.bernardomg.jwt.test.jjwt.encoding;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.jwt.encoding.JwtTokenData;
-import com.bernardomg.security.jwt.encoding.TokenEncoder;
-import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenEncoder;
-import com.bernardomg.security.jwt.test.config.factory.JwtTokenDatas;
-import com.bernardomg.security.jwt.test.config.factory.Tokens;
+import com.bernardomg.jwt.encoding.JwtTokenData;
+import com.bernardomg.jwt.encoding.TokenEncoder;
+import com.bernardomg.jwt.encoding.jjwt.JjwtTokenEncoder;
+import com.bernardomg.jwt.test.config.factory.JwtTokenDatas;
+import com.bernardomg.jwt.test.config.factory.Tokens;
 
 @DisplayName("JjwtTokenEncoder - encode")
 class TestJjwtTokenEncoderEncode {

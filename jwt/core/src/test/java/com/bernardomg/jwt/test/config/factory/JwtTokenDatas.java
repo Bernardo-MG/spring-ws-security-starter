@@ -1,10 +1,10 @@
 
-package com.bernardomg.security.jwt.test.config.factory;
+package com.bernardomg.jwt.test.config.factory;
 
 import java.util.List;
 import java.util.Map;
 
-import com.bernardomg.security.jwt.encoding.JwtTokenData;
+import com.bernardomg.jwt.encoding.JwtTokenData;
 
 public final class JwtTokenDatas {
 

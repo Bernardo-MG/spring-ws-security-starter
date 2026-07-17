@@ -22,22 +22,23 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.encoding;
+package com.bernardomg.jwt.encoding;
 
 /**
- * Creates a JWT token from a {@link JwtTokenData}.
+ * Validates a JWT token.
  *
  * @author Bernardo Mart&iacute;nez Garrido
+ *
  */
-public interface TokenEncoder {
+public interface TokenValidator {
 
     /**
-     * Returns a JWT token encoding the {@code JwtTokenData}.
+     * Check if the token has expired.
      *
-     * @param data
-     *            data to encode into the token
-     * @return token decoded from the {@code JwtTokenData}
+     * @param token
+     *            token to validate
+     * @return {@code true} if the token has expired, {@code false} otherwise
      */
-    public String encode(final JwtTokenData data);
+    public boolean hasExpired(final String token);
 
 }

@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.jjwt.encoding;
+package com.bernardomg.jwt.encoding.jjwt;
 
 import javax.crypto.SecretKey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.jwt.encoding.TokenValidator;
+import com.bernardomg.jwt.encoding.TokenDecoder;
+import com.bernardomg.jwt.encoding.TokenValidator;
 
 import io.jsonwebtoken.JwtException;
 

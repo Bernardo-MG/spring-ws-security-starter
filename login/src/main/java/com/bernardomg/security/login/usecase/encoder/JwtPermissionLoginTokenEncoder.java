@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import com.bernardomg.security.jwt.encoding.JwtTokenData;
-import com.bernardomg.security.jwt.encoding.TokenEncoder;
+import com.bernardomg.jwt.encoding.JwtTokenData;
+import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.login.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 

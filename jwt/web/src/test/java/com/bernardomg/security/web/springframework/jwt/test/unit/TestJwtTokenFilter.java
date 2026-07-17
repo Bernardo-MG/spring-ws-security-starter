@@ -18,9 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.jwt.encoding.JwtTokenData;
-import com.bernardomg.security.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.jwt.encoding.TokenValidator;
+import com.bernardomg.jwt.encoding.JwtTokenData;
+import com.bernardomg.jwt.encoding.TokenDecoder;
+import com.bernardomg.jwt.encoding.TokenValidator;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.web.springframework.jwt.JwtTokenFilter;

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.jwt.encoding;
+package com.bernardomg.jwt.encoding;
 
 import java.time.Instant;
 import java.util.Collection;

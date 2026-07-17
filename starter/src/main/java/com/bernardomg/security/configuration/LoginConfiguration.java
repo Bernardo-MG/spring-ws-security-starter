@@ -36,7 +36,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.security.jwt.encoding.TokenEncoder;
+import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.login.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.repository.UserPermissionRepository;

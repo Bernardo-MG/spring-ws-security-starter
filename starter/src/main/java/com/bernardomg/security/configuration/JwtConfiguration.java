@@ -33,12 +33,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.jwt.encoding.TokenEncoder;
-import com.bernardomg.security.jwt.encoding.TokenValidator;
-import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenDecoder;
-import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenEncoder;
-import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenValidator;
+import com.bernardomg.jwt.encoding.TokenDecoder;
+import com.bernardomg.jwt.encoding.TokenEncoder;
+import com.bernardomg.jwt.encoding.TokenValidator;
+import com.bernardomg.jwt.encoding.jjwt.JjwtTokenDecoder;
+import com.bernardomg.jwt.encoding.jjwt.JjwtTokenEncoder;
+import com.bernardomg.jwt.encoding.jjwt.JjwtTokenValidator;
 
 import io.jsonwebtoken.security.Keys;
 

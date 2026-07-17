@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.jwt.test.config.factory;
+package com.bernardomg.jwt.test.config.factory;
 
 public final class PermissionConstants {
 

@@ -47,8 +47,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-import com.bernardomg.security.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.jwt.encoding.TokenValidator;
+import com.bernardomg.jwt.encoding.TokenDecoder;
+import com.bernardomg.jwt.encoding.TokenValidator;
 import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
 import com.bernardomg.security.web.cors.CorsProperties;
 import com.bernardomg.security.web.springframework.ErrorResponseAuthenticationEntryPoint;

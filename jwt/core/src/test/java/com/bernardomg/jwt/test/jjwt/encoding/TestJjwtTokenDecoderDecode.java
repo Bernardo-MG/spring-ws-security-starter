@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.jwt.test.jjwt.encoding;
+package com.bernardomg.jwt.test.jjwt.encoding;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.bernardomg.security.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.jwt.jjwt.encoding.JjwtTokenDecoder;
-import com.bernardomg.security.jwt.test.config.factory.JwtTokens;
-import com.bernardomg.security.jwt.test.config.factory.PermissionConstants;
-import com.bernardomg.security.jwt.test.config.factory.Tokens;
+import com.bernardomg.jwt.encoding.TokenDecoder;
+import com.bernardomg.jwt.encoding.jjwt.JjwtTokenDecoder;
+import com.bernardomg.jwt.test.config.factory.JwtTokens;
+import com.bernardomg.jwt.test.config.factory.PermissionConstants;
+import com.bernardomg.jwt.test.config.factory.Tokens;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
