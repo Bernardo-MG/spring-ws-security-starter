@@ -18,35 +18,19 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.framework.security</groupId>
+   <groupId>com.bernardomg.framework.jwt</groupId>
    <artifactId>jwt</artifactId>
-   <packaging>jar</packaging>
+   <packaging>pom</packaging>
 
    <name>Security JWT</name>
 
    <!-- ********************************************** -->
-   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ******************* MODULES ****************** -->
    <!-- ********************************************** -->
 
-   <dependencies>
-      <!-- ============================================== -->
-      <!-- =============== JSON WEB TOKEN =============== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JSON Web Token API -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-api</artifactId>
-      </dependency>
-      <dependency>
-         <!-- JSON Web Token Impl -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-impl</artifactId>
-      </dependency>
-      <dependency>
-         <!-- JSON Jackson -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-jackson</artifactId>
-      </dependency>
-   </dependencies>
+   <modules>
+     <module>core</module>
+     <module>web</module>
+   </modules>
 
 </project>

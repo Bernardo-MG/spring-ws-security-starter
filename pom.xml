@@ -257,8 +257,13 @@
          <!-- ================= PROJECT ==================== -->
          <!-- ============================================== -->
          <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>jwt</artifactId>
+            <groupId>com.bernardomg.framework.jwt</groupId>
+            <artifactId>jwt-core</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.jwt</groupId>
+            <artifactId>jwt-web</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
