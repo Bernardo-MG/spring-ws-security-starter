@@ -22,37 +22,32 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.access.configuration;
+package com.bernardomg.security.configuration;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
+import java.time.Duration;
 
-import com.bernardomg.security.access.interceptor.RequireResourceAuthorizationInterceptor;
-import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.constraints.NotEmpty;
 
 /**
- * Access configuration.
+ * JWT configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
-@Configuration(proxyBeanMethods = false)
-public class AccessAutoConfiguration {
+@Validated
+@ConfigurationProperties(prefix = "security.jwt")
+public final record JwtProperties(@NotEmpty String secret, Duration validity) {
 
-    public AccessAutoConfiguration() {
-        super();
-    }
-
-    @Bean("requireResourceAuthorizationInterceptor")
-    @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public RequireResourceAuthorizationInterceptor
-            requireResourceAuthorizationInterceptor(final ResourceAccessValidator validator) {
-        return new RequireResourceAuthorizationInterceptor(validator,
-            () -> new AccessDeniedException("Missing authentication"));
+    public JwtProperties(final String secret, final Duration validity) {
+        this.secret = secret;
+        if (validity == null) {
+            this.validity = Duration.ofHours(1);
+        } else {
+            this.validity = validity;
+        }
     }
 
 }

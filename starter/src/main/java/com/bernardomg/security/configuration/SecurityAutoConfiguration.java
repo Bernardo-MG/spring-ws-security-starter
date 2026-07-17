@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Import;
  *
  */
 @AutoConfiguration
-@Import({ SecurityConfiguration.class })
+@Import({ SecurityConfiguration.class, AccessConfiguration.class, JwtConfiguration.class, LoginConfiguration.class })
 public class SecurityAutoConfiguration {
 
     public SecurityAutoConfiguration() {

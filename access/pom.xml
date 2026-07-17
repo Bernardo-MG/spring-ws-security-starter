@@ -30,22 +30,6 @@
 
    <dependencies>
       <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-          <!-- Spring Security Configuration -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-config</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =============== SPRING BOOT ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring Boot autoconfiguration -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================= ASPECTJ ==================== -->
       <!-- ============================================== -->
       <dependency>
