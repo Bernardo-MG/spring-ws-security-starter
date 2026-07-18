@@ -33,11 +33,6 @@
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>event</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
       </dependency>
