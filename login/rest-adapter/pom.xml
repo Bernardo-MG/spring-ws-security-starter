@@ -25,16 +25,6 @@
    <name>Security login REST adapter</name>
 
    <!-- ********************************************** -->
-   <!-- **************** PROPERTIES ****************** -->
-   <!-- ********************************************** -->
-
-   <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/login.yml</openapi.generator.maven.plugin.inputSpec>
-     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
-     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
-   </properties>
-
-   <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
@@ -107,11 +97,34 @@
 
    <build>
       <plugins>
-         <plugin>
-            <!-- OpenApi -->
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-maven-plugin</artifactId>
-         </plugin>
+          <plugin>
+             <groupId>org.openapitools</groupId>
+             <artifactId>openapi-generator-maven-plugin</artifactId>
+             <executions>
+                <execution>
+                   <id>login</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/login.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>login-register</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/login-register.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+             </executions>
+          </plugin>
       </plugins>
    </build>
 

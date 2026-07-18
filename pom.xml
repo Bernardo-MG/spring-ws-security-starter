@@ -46,7 +46,6 @@
      <module>domain</module>
      <module>access</module>
      <module>login</module>
-     <module>login-register</module>
      <module>user</module>
      <module>account</module>
      <module>password</module>
@@ -305,6 +304,11 @@
 	     <dependency>
 	        <groupId>com.bernardomg.framework.security</groupId>
 	        <artifactId>login-event-adapter</artifactId>
+            <version>${project.version}</version>
+	     </dependency>
+	     <dependency>
+	        <groupId>com.bernardomg.framework.security</groupId>
+	        <artifactId>login-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
 	     </dependency>
          <!-- ============================================== -->
@@ -626,41 +630,31 @@
                <groupId>org.openapitools</groupId>
                <artifactId>openapi-generator-maven-plugin</artifactId>
                <version>${plugin.openapi.version}</version>
-               <executions>
-                  <execution>
-                     <goals>
-                        <goal>generate</goal>
-                     </goals>
-                     <configuration>
-                        <generatorName>spring</generatorName>
-                        <library>spring-boot</library>
-                        <modelNameSuffix>Dto</modelNameSuffix>
-                        <generateSupportingFiles>false</generateSupportingFiles>
-                        <typeMappings>
-                          <typeMapping>string+date-time=Instant</typeMapping>
-                          <typeMapping>string+month=YearMonth</typeMapping>
-                          <typeMapping>InstantDto=Instant</typeMapping>
-                          <typeMapping>YearMonthDto=YearMonth</typeMapping>
-                        </typeMappings>
-                        <importMappings>
-                          <importMapping>InstantDto=java.time.Instant</importMapping>
-                          <importMapping>YearMonthDto=java.time.YearMonth</importMapping>
-                        </importMappings>
-                        <configOptions>
-                           <interfaceOnly>true</interfaceOnly>
-                           <skipDefaultInterface>true</skipDefaultInterface>
-                           <requestMappingMode>api_interface</requestMappingMode>
-                           <useTags>true</useTags>
-                           <dateLibrary>java8</dateLibrary>
-                           <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                           <useSpringBoot3>true</useSpringBoot3>
-                           <useSpringBuiltInValidation>true</useSpringBuiltInValidation>
-                           <useSpringController>true</useSpringController>
-                           <useResponseEntity>false</useResponseEntity>
-                        </configOptions>
-                     </configuration>
-                  </execution>
-               </executions>
+               <configuration>
+                  <generatorName>spring</generatorName>
+                  <library>spring-boot</library>
+                  <modelNameSuffix>Dto</modelNameSuffix>
+                  <generateSupportingFiles>false</generateSupportingFiles>
+                  <typeMappings>
+                    <typeMapping>string+date-time=Instant</typeMapping>
+                    <typeMapping>InstantDto=Instant</typeMapping>
+                  </typeMappings>
+                  <importMappings>
+                    <importMapping>InstantDto=java.time.Instant</importMapping>
+                  </importMappings>
+                  <configOptions>
+                     <interfaceOnly>true</interfaceOnly>
+                     <skipDefaultInterface>true</skipDefaultInterface>
+                     <requestMappingMode>api_interface</requestMappingMode>
+                     <useTags>true</useTags>
+                     <dateLibrary>java8</dateLibrary>
+                     <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                     <useSpringBoot3>true</useSpringBoot3>
+                     <useSpringBuiltInValidation>true</useSpringBuiltInValidation>
+                     <useSpringController>true</useSpringController>
+                     <useResponseEntity>false</useResponseEntity>
+                  </configOptions>
+               </configuration>
             </plugin>
          </plugins>
       </pluginManagement>

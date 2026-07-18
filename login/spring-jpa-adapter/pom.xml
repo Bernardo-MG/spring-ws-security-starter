@@ -19,10 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>login-domain</artifactId>
+   <artifactId>login-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
-   <name>Security login domain</name>
+   <name>Security login Spring JPA adapter</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -30,27 +30,31 @@
 
    <dependencies>
       <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>event</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>pagination</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>event</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>domain</artifactId>
+         <artifactId>login-domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>user</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ============== JPA DEPENDENCIES ============== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JPA API -->
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Data JPA -->
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-jpa</artifactId>
       </dependency>
    </dependencies>
 

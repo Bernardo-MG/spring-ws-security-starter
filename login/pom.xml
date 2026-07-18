@@ -32,6 +32,7 @@
      <module>domain</module>
      <module>testing</module>
      <module>usecase</module>
+     <module>spring-jpa-adapter</module>
      <module>event-adapter</module>
      <module>rest-adapter</module>
    </modules>

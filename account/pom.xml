@@ -390,33 +390,15 @@
             <!-- OpenApi -->
             <groupId>org.openapitools</groupId>
             <artifactId>openapi-generator-maven-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-                <failOnError>false</failOnError>
-                <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
-            </configuration>
+             <executions>
+                <execution>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                </execution>
+             </executions>
          </plugin>
       </plugins>
    </build>
-
-   <!-- ********************************************** -->
-   <!-- ****************** REPORTS ******************* -->
-   <!-- ********************************************** -->
-
-   <reporting>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-                <failOnError>false</failOnError>
-                <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
-            </configuration>
-         </plugin>
-      </plugins>
-   </reporting>
 
 </project>

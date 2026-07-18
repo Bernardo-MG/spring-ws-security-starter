@@ -61,6 +61,10 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>login-event-adapter</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>login-spring-jpa-adapter</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
