@@ -28,7 +28,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntity;
 
 /**
  * Resource permission repository based on Spring Data repositories.

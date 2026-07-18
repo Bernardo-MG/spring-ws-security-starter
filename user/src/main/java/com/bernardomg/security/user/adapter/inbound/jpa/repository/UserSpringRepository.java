@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 /**
  * User repository.

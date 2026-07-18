@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.role.test.config.factory;
 
-import com.bernardomg.security.role.adapter.inbound.jpa.model.UserRoleEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.role.UserRoleEntity;
 
 public final class UserRoleEntities {
 

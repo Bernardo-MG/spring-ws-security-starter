@@ -39,10 +39,10 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserDataTokenEntity;
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserDataTokenEntityMapper;
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserTokenEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserDataTokenEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserDataTokenEntityMapper;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserTokenEntity;
 import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 

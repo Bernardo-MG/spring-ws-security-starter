@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.permission.adapter.inbound.jpa.model.ActionEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.permission.ActionEntity;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
 import com.bernardomg.security.permission.domain.model.Action;
 import com.bernardomg.security.permission.domain.repository.ActionRepository;

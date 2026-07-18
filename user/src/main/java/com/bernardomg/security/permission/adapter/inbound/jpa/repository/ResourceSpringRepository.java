@@ -30,7 +30,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourceEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourceEntity;
 
 /**
  * Resource repository based on Spring Data repositories.

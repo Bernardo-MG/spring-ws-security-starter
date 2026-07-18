@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.permission.adapter.inbound.jpa.model.ResourcePermissionEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntity;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;

@@ -1,7 +1,7 @@
 
 package com.bernardomg.security.login.test.config.factory;
 
-import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntity;
 
 public final class LoginRegisterEntities {
 

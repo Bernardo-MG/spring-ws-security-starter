@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserDataTokenEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserDataTokenEntity;
 
 /**
  * User tokens data repository. This allows querying a view joining user tokens with their users.

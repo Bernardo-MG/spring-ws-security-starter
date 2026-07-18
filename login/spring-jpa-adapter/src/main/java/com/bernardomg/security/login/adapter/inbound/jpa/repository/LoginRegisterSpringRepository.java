@@ -29,7 +29,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntity;
 
 /**
  * Login register Spring repository.

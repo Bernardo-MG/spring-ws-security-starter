@@ -36,8 +36,8 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
-import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntity;
-import com.bernardomg.security.login.adapter.inbound.jpa.model.LoginRegisterEntityMapper;
+import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntityMapper;
 import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 

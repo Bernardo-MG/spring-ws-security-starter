@@ -3,7 +3,7 @@ package com.bernardomg.security.user.test.config.factory;
 
 import java.util.List;
 
-import com.bernardomg.security.user.adapter.inbound.jpa.model.UserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 public final class UserEntities {
 

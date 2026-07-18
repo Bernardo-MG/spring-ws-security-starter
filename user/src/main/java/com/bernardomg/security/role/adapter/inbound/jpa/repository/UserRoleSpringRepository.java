@@ -26,8 +26,8 @@ package com.bernardomg.security.role.adapter.inbound.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bernardomg.security.role.adapter.inbound.jpa.model.UserRoleEntity;
-import com.bernardomg.security.role.adapter.inbound.jpa.model.UserRoleKey;
+import com.bernardomg.security.adapter.inbound.jpa.model.role.UserRoleEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.role.UserRoleKey;
 
 /**
  * User role repository.
