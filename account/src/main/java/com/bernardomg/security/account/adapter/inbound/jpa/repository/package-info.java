@@ -26,4 +26,4 @@
  * Account repositories.
  */
 
-package com.bernardomg.security.account.adapter.inbound.repository;
+package com.bernardomg.security.account.adapter.inbound.jpa.repository;

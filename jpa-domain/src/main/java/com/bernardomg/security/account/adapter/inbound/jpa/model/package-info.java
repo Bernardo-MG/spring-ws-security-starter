@@ -26,4 +26,4 @@
  * Account persistence model.
  */
 
-package com.bernardomg.security.account.adapter.inbound.model;
+package com.bernardomg.security.account.adapter.inbound.jpa.model;

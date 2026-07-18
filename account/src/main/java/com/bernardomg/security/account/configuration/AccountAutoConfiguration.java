@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.bernardomg.security.account.adapter.inbound.repository.JpaUserAccountRepository;
+import com.bernardomg.security.account.adapter.inbound.jpa.repository.JpaUserAccountRepository;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.usecase.service.AccountService;
 import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;

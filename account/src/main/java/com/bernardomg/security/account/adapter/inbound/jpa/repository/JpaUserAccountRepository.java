@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.account.adapter.inbound.repository;
+package com.bernardomg.security.account.adapter.inbound.jpa.repository;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.account.adapter.inbound.model.AccountEntityMapper;
+import com.bernardomg.security.account.adapter.inbound.jpa.model.AccountEntityMapper;
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;

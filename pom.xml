@@ -44,6 +44,7 @@
    <modules>
      <module>web</module>
      <module>domain</module>
+     <module>jpa-domain</module>
      <module>access</module>
      <module>login</module>
      <module>user</module>
@@ -202,7 +203,6 @@
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jackson.version>2.20.1</jackson.version>
-      <jjwt.version>0.13.0</jjwt.version>
       <openapitools.jackson>0.2.8</openapitools.jackson>
       <spring.boot.version>3.5.9</spring.boot.version>
       <spring.data.version>2025.1.1</spring.data.version>
@@ -264,6 +264,11 @@
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>security-jpa-domain</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
@@ -343,27 +348,6 @@
             <groupId>com.bernardomg.framework.spring</groupId>
             <artifactId>spring-ws-starter</artifactId>
             <version>${bernardomg.framework.ws.version}</version>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- =============== JSON WEB TOKEN =============== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- JSON Web Token API -->
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jjwt.version}</version>
-         </dependency>
-         <dependency>
-            <!-- JSON Web Token Impl -->
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jjwt.version}</version>
-         </dependency>
-         <dependency>
-            <!-- JSON Jackson -->
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jjwt.version}</version>
          </dependency>
          <!-- ============================================== -->
          <!-- ================== OpenAPI =================== -->

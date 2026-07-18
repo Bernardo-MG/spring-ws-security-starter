@@ -34,19 +34,15 @@
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-domain</artifactId>
+         <artifactId>domain</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
+         <artifactId>security-jpa-domain</artifactId>
       </dependency>
-      <!-- ============================================== -->
-      <!-- ============== JPA DEPENDENCIES ============== -->
-      <!-- ============================================== -->
       <dependency>
-         <!-- JPA API -->
-         <groupId>jakarta.persistence</groupId>
-         <artifactId>jakarta.persistence-api</artifactId>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>login-domain</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
@@ -55,6 +51,15 @@
          <!-- Spring Data JPA -->
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-jpa</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JWT Encoding -->
+         <groupId>com.bernardomg.framework.jwt</groupId>
+         <artifactId>jwt-encoding</artifactId>
+         <scope>test</scope>
       </dependency>
    </dependencies>
 

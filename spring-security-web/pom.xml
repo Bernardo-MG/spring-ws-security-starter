@@ -109,24 +109,6 @@
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- =============== JSON WEB TOKEN =============== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JSON Web Token API -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-api</artifactId>
-      </dependency>
-      <dependency>
-         <!-- JSON Web Token Impl -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-impl</artifactId>
-      </dependency>
-      <dependency>
-         <!-- JSON Jackson -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-jackson</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== OpenAPI =================== -->
       <!-- ============================================== -->
       <dependency>

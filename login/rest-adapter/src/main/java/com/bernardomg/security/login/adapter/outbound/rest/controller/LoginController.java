@@ -34,7 +34,6 @@ import com.bernardomg.security.login.domain.model.Credentials;
 import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.service.LoginService;
 
-import jakarta.validation.Valid;
 
 /**
  * Handles login requests. All the logic is delegated to a {@link LoginService}.
@@ -58,7 +57,7 @@ public class LoginController implements LoginApi {
 
     @Override
     @Unsecured
-    public TokenLoginStatusResponseDto login(@Valid final LoginRequestDto loginRequestDto) {
+    public TokenLoginStatusResponseDto login( final LoginRequestDto loginRequestDto) {
         final Credentials      credentials;
         final TokenLoginStatus status;
 

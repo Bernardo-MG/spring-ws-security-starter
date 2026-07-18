@@ -46,6 +46,10 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>user</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-jpa-domain</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
@@ -109,24 +113,6 @@
          <!-- Spring Boot autoconfiguration -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =============== JSON WEB TOKEN =============== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JSON Web Token API -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-api</artifactId>
-      </dependency>
-      <dependency>
-         <!-- JSON Web Token Impl -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-impl</artifactId>
-      </dependency>
-      <dependency>
-         <!-- JSON Jackson -->
-         <groupId>io.jsonwebtoken</groupId>
-         <artifactId>jjwt-jackson</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== OpenAPI =================== -->

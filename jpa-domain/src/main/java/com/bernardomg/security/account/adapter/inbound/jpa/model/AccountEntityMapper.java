@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.account.adapter.inbound.model;
+package com.bernardomg.security.account.adapter.inbound.jpa.model;
 
 import com.bernardomg.security.account.domain.model.Account;
 import com.bernardomg.security.account.domain.model.BasicAccount;

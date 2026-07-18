@@ -30,48 +30,22 @@
 
    <dependencies>
       <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JWT Encoding -->
-         <groupId>com.bernardomg.framework.jwt</groupId>
-         <artifactId>jwt-encoding</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>access</artifactId>
+      </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>domain</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>login-usecase</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>event</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>pagination</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Validation -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>validation</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== OpenAPI =================== -->
+      <!-- ================== OPENAPI =================== -->
       <!-- ============================================== -->
       <dependency>
         <groupId>org.openapitools</groupId>
@@ -82,12 +56,12 @@
         <artifactId>swagger-annotations</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ============== JPA DEPENDENCIES ============== -->
+      <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- JPA API -->
-         <groupId>jakarta.persistence</groupId>
-         <artifactId>jakarta.persistence-api</artifactId>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
       </dependency>
    </dependencies>
 
