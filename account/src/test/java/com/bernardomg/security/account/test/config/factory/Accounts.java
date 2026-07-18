@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.account.test.config.factory;
 
-import com.bernardomg.security.account.domain.model.Account;
-import com.bernardomg.security.account.domain.model.BasicAccount;
+import com.bernardomg.security.domain.account.model.Account;
+import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 public final class Accounts {

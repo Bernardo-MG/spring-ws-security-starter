@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.user.usecase.service;
 
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.model.UserTokenStatus;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.UserTokenStatus;
 
 /**
  * User onboarding service.

@@ -3,7 +3,7 @@ package com.bernardomg.security.role.test.config.factory;
 
 import java.util.Optional;
 
-import com.bernardomg.security.role.domain.model.RoleQuery;
+import com.bernardomg.security.domain.role.model.RoleQuery;
 
 public final class RolesQuery {
 

@@ -35,8 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntityMapper;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 
 /**
  * Resource permissions repository based on JPA entities.

@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.login.domain.model.Credentials;
+import com.bernardomg.security.domain.login.model.Credentials;
 
 /**
  * Login validator which integrates with Spring Security. It makes use of {@link UserDetailsService} to find the user

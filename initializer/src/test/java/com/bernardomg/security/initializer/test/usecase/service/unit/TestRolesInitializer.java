@@ -17,11 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.initializer.usecase.service.DefaultRolesInitializerService;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
 import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.Roles;
 
 @ExtendWith(MockitoExtension.class)

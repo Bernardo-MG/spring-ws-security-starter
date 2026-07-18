@@ -27,7 +27,7 @@ package com.bernardomg.security.permission.usecase.service;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
 
 /**
  * Permission service.

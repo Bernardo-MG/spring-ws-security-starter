@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
-import com.bernardomg.security.password.reset.domain.event.PasswordResetEvent;
+import com.bernardomg.security.domain.password.reset.event.PasswordResetEvent;
 import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 
 /**

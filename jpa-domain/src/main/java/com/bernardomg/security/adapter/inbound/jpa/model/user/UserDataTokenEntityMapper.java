@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.adapter.inbound.jpa.model.user;
 
-import com.bernardomg.security.user.domain.model.UserToken;
+import com.bernardomg.security.domain.user.model.UserToken;
 
 /**
  * User token repository mapper.

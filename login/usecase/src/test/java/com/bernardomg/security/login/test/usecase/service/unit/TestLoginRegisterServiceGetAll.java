@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.login.domain.model.LoginRegister;
-import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
+import com.bernardomg.security.domain.login.model.LoginRegister;
+import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
 

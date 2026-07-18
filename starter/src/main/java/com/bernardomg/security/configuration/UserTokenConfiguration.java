@@ -28,11 +28,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserTokenRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserDataTokenSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserTokenSpringRepository;
-import com.bernardomg.security.user.domain.repository.UserTokenRepository;
 import com.bernardomg.security.user.usecase.service.SpringUserTokenService;
 import com.bernardomg.security.user.usecase.service.UserTokenService;
 

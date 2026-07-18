@@ -29,7 +29,7 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.user.domain.model.UserToken;
+import com.bernardomg.security.domain.user.model.UserToken;
 
 /**
  * User token service.

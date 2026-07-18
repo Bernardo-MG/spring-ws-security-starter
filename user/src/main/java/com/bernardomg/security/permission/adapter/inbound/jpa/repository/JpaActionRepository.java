@@ -36,8 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ActionEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ActionEntityMapper;
-import com.bernardomg.security.permission.domain.model.Action;
-import com.bernardomg.security.permission.domain.repository.ActionRepository;
+import com.bernardomg.security.domain.permission.model.Action;
+import com.bernardomg.security.domain.permission.repository.ActionRepository;
 
 /**
  * Action repository based on JPA entities.

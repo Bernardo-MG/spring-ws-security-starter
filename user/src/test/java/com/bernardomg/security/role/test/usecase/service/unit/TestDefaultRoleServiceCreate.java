@@ -14,10 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.permission.domain.exception.MissingResourcePermissionException;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.domain.permission.exception.MissingResourcePermissionException;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.PermissionConstants;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.role.test.config.factory.Roles;

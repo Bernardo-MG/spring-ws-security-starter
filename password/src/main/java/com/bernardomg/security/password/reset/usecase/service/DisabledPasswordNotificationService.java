@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.domain.user.model.User;
 
 /**
  * Disabled password notification service. For disabling messages.

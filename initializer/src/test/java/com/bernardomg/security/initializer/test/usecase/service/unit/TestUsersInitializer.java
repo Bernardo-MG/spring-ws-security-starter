@@ -17,10 +17,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.domain.role.repository.RoleRepository;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.initializer.usecase.service.DefaultUsersInitializerService;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.Roles;
-import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)

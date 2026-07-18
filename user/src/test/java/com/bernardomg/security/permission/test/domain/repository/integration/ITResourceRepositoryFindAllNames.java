@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.permission.domain.repository.ResourceRepository;
+import com.bernardomg.security.domain.permission.repository.ResourceRepository;
 import com.bernardomg.security.permission.test.config.annotation.DataResource;
 import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
 import com.bernardomg.test.config.annotation.IntegrationTest;

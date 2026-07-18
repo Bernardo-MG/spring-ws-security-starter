@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.usecase.store;
 
-import com.bernardomg.security.user.domain.exception.InvalidTokenException;
+import com.bernardomg.security.domain.user.exception.InvalidTokenException;
 
 /**
  * Store for tokens linked to users.

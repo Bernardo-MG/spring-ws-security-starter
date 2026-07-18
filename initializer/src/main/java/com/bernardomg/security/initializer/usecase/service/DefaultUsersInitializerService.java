@@ -32,10 +32,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 
 /**
  * Creates initial test users on app start. These are meant to help local development.

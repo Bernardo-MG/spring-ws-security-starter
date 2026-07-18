@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.login.usecase.service;
 
-import com.bernardomg.security.login.domain.model.Credentials;
-import com.bernardomg.security.login.domain.model.TokenLoginStatus;
+import com.bernardomg.security.domain.login.model.Credentials;
+import com.bernardomg.security.domain.login.model.TokenLoginStatus;
 
 /**
  * Login service. Handles the login process, which receives a user credentials and returns the login status, which tells

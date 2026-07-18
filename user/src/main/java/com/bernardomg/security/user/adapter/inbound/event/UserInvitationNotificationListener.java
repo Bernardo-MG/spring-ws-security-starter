@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
-import com.bernardomg.security.user.domain.event.UserInvitationEvent;
+import com.bernardomg.security.domain.user.event.UserInvitationEvent;
 import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
 /**

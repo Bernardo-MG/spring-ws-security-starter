@@ -43,11 +43,11 @@ import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntityMapper;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.model.RoleQuery;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.model.RoleQuery;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
 
 /**
  * Role repository based on JPA entities.

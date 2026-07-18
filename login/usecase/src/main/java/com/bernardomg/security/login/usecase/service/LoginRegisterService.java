@@ -27,7 +27,7 @@ package com.bernardomg.security.login.usecase.service;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.login.domain.model.LoginRegister;
+import com.bernardomg.security.domain.login.model.LoginRegister;
 
 /**
  * Registers log in attempts.

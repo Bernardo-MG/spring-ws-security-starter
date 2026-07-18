@@ -31,11 +31,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.permission.domain.constant.Actions;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.domain.permission.constant.Actions;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 
 /**
  * Creates initial test roles on app start. These are meant to help local development.

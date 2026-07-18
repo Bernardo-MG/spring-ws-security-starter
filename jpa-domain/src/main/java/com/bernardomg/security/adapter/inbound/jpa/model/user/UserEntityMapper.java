@@ -30,10 +30,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntityMapper;
-import com.bernardomg.security.role.domain.comparator.RoleComparator;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.model.UserQuery;
+import com.bernardomg.security.domain.role.comparator.RoleComparator;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.UserQuery;
 
 /**
  * User repository mapper.

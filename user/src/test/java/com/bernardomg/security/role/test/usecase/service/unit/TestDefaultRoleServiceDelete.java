@@ -38,9 +38,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.role.domain.exception.MissingRoleException;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.role.exception.MissingRoleException;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.factory.RoleConstants;
 import com.bernardomg.security.role.test.config.factory.Roles;
 import com.bernardomg.security.role.usecase.service.DefaultRoleService;

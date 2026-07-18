@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.adapter.inbound.jpa.model.permission;
 
-import com.bernardomg.security.permission.domain.model.Action;
+import com.bernardomg.security.domain.permission.model.Action;
 
 /**
  * Action repository mapper.

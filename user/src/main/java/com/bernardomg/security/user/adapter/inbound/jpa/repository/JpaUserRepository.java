@@ -43,11 +43,11 @@ import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntityMapper;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.UserQuery;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.model.UserQuery;
-import com.bernardomg.security.user.domain.repository.UserRepository;
 
 /**
  * User repository based on JPA entities.

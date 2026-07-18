@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.role.test.config.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.role.test.config.annotation.RoleWithPermission;
 import com.bernardomg.security.role.test.config.annotation.RoleWithoutPermissions;

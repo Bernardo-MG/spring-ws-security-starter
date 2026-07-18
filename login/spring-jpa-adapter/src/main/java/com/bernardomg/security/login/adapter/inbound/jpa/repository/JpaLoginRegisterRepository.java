@@ -38,8 +38,8 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntityMapper;
-import com.bernardomg.security.login.domain.model.LoginRegister;
-import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
+import com.bernardomg.security.domain.login.model.LoginRegister;
+import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 
 /**
  * Login register repository based on JPA entities.

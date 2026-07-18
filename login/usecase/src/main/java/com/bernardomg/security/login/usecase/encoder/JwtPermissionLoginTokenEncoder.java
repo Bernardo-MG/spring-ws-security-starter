@@ -15,8 +15,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenEncoder;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 
 /**
  * Encodes a JWT token including the permissions for the user.

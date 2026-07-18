@@ -30,10 +30,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.interceptor.SpringResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
-import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.user.domain.repository.UserRepository;
 
 /**
  * Spring components configuration.

@@ -8,7 +8,8 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleDto;
@@ -18,7 +19,6 @@ import com.bernardomg.security.user.adapter.outbound.rest.dto.UserCreationDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.UserDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.UserPageResponseDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.UserResponseDto;
-import com.bernardomg.security.user.domain.model.User;
 
 public final class UserDtoMapper {
 

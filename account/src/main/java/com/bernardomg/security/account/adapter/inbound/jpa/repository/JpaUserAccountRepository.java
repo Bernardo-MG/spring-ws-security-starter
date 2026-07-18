@@ -31,11 +31,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.account.domain.model.Account;
-import com.bernardomg.security.account.domain.model.BasicAccount;
 import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.adapter.inbound.jpa.model.account.AccountEntityMapper;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
+import com.bernardomg.security.domain.account.model.Account;
+import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserSpringRepository;
 
 /**

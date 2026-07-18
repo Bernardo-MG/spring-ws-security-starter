@@ -37,10 +37,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
+import com.bernardomg.security.domain.permission.repository.ActionRepository;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.permission.repository.ResourceRepository;
 import com.bernardomg.security.initializer.usecase.loader.PermissionsLoader;
-import com.bernardomg.security.permission.domain.repository.ActionRepository;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.permission.domain.repository.ResourceRepository;
 
 /**
  * Permission loader auto configuration.

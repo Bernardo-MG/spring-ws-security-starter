@@ -29,9 +29,9 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.user.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.domain.user.exception.MissingUsernameException;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 

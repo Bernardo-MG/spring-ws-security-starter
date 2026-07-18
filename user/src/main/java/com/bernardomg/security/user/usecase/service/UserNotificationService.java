@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.user.usecase.service;
 
-import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.domain.user.model.User;
 
 /**
  * User notification service. Sends emails related to the user workflow, such as when a new user is registered.

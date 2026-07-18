@@ -14,9 +14,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.login.usecase.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.login.usecase.service.UserLoginAttempsService;
-import com.bernardomg.security.user.domain.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 

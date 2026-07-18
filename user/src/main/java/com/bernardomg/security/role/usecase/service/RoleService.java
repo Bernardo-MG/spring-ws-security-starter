@@ -29,8 +29,8 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.model.RoleQuery;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.model.RoleQuery;
 
 /**
  * User service.

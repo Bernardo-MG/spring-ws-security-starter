@@ -1,11 +1,11 @@
 
 package com.bernardomg.security.login.adapter.outbound.rest.model;
 
+import com.bernardomg.security.domain.login.model.Credentials;
+import com.bernardomg.security.domain.login.model.TokenLoginStatus;
 import com.bernardomg.security.login.adapter.outbound.rest.dto.LoginRequestDto;
 import com.bernardomg.security.login.adapter.outbound.rest.dto.TokenLoginStatusDto;
 import com.bernardomg.security.login.adapter.outbound.rest.dto.TokenLoginStatusResponseDto;
-import com.bernardomg.security.login.domain.model.Credentials;
-import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 
 public final class LoginDtoMapper {
 

@@ -3,7 +3,7 @@ package com.bernardomg.security.user.test.config.factory;
 
 import java.util.List;
 
-import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.domain.user.model.User;
 
 public final class Users {
 

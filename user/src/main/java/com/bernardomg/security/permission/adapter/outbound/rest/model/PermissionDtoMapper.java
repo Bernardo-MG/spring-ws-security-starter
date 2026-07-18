@@ -6,7 +6,7 @@ import java.util.List;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.ResourcePermissionDto;

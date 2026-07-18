@@ -40,9 +40,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
-import com.bernardomg.security.user.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.domain.repository.UserRepository;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
+import com.bernardomg.security.domain.user.exception.MissingUsernameException;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;

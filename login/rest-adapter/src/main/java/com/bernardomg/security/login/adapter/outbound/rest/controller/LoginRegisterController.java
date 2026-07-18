@@ -33,11 +33,11 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.security.domain.login.model.LoginRegister;
+import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.login.adapter.outbound.rest.dto.LoginRegisterPageResponseDto;
 import com.bernardomg.security.login.adapter.outbound.rest.model.LoginRegisterDtoMapper;
-import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
-import com.bernardomg.security.permission.domain.constant.Actions;
 
 
 /**

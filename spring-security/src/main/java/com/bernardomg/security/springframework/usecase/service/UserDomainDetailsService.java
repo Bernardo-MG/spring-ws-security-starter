@@ -36,12 +36,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
-import com.bernardomg.security.user.domain.repository.UserRepository;
 
 /**
  * User details service which takes the user data from the domain layer.

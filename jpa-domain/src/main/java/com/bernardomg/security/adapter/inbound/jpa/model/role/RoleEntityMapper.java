@@ -29,10 +29,10 @@ import java.util.List;
 import java.util.Objects;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntityMapper;
-import com.bernardomg.security.permission.domain.comparator.ResourcePermissionComparator;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.model.RoleQuery;
+import com.bernardomg.security.domain.permission.comparator.ResourcePermissionComparator;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.model.RoleQuery;
 
 /**
  * Role repository mapper.

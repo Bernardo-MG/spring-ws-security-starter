@@ -37,14 +37,14 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import com.bernardomg.security.domain.permission.model.Action;
+import com.bernardomg.security.domain.permission.model.Resource;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.permission.repository.ActionRepository;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.permission.repository.ResourceRepository;
 import com.bernardomg.security.initializer.domain.model.PermissionConfig;
 import com.bernardomg.security.initializer.domain.model.ResourcePermissionConfig;
-import com.bernardomg.security.permission.domain.model.Action;
-import com.bernardomg.security.permission.domain.model.Resource;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.domain.repository.ActionRepository;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
-import com.bernardomg.security.permission.domain.repository.ResourceRepository;
 
 /**
  * Loads the permissions configuration for the application. These are loaded from a list of {@link PermissionConfig}.

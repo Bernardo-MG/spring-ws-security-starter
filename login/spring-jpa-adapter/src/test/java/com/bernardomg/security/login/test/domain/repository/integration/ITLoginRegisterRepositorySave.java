@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntity;
+import com.bernardomg.security.domain.login.model.LoginRegister;
+import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
-import com.bernardomg.security.login.domain.model.LoginRegister;
-import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
 import com.bernardomg.security.login.test.config.annotation.LoggedInLoginRegister;
 import com.bernardomg.security.login.test.config.factory.LoginRegisterEntities;
 import com.bernardomg.security.login.test.config.factory.LoginRegisters;

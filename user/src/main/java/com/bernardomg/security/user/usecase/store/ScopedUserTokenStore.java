@@ -31,13 +31,13 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.user.domain.exception.ConsumedTokenException;
-import com.bernardomg.security.user.domain.exception.MissingUserTokenException;
-import com.bernardomg.security.user.domain.exception.MissingUsernameException;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.model.UserToken;
-import com.bernardomg.security.user.domain.repository.UserRepository;
-import com.bernardomg.security.user.domain.repository.UserTokenRepository;
+import com.bernardomg.security.domain.user.exception.ConsumedTokenException;
+import com.bernardomg.security.domain.user.exception.MissingUserTokenException;
+import com.bernardomg.security.domain.user.exception.MissingUsernameException;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.UserToken;
+import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 
 /**
  * User token store which handles a scope for the tokens. This scope allows keeping a single table for all the tokens,

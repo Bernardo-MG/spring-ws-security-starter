@@ -34,12 +34,12 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.permission.domain.constant.Actions;
+import com.bernardomg.security.domain.permission.constant.Actions;
+import com.bernardomg.security.domain.user.model.UserToken;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenChangeDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenPageResponseDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenResponseDto;
 import com.bernardomg.security.user.adapter.outbound.rest.model.UserTokenDtoMapper;
-import com.bernardomg.security.user.domain.model.UserToken;
 import com.bernardomg.security.user.usecase.service.UserTokenService;
 
 import jakarta.validation.Valid;

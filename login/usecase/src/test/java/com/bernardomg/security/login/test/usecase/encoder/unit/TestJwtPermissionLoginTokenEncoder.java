@@ -16,8 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.jwt.encoding.TokenEncoder;
+import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
-import com.bernardomg.security.user.domain.repository.UserPermissionRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)

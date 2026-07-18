@@ -33,8 +33,8 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.login.domain.model.LoginRegister;
-import com.bernardomg.security.login.domain.repository.LoginRegisterRepository;
+import com.bernardomg.security.domain.login.model.LoginRegister;
+import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 
 import jakarta.transaction.Transactional;
 

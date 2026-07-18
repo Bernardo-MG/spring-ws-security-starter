@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.role.domain.model.Role;
-import com.bernardomg.security.role.domain.repository.RoleRepository;
+import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRule;
 

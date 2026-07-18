@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.login.domain.model.Credentials;
+import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.springframework.login.usecase.validation.SpringValidLoginPredicate;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 

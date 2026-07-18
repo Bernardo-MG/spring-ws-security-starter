@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.role.domain.model.Role;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.ResourcePermissionDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleChangeDto;
 import com.bernardomg.security.user.adapter.outbound.rest.dto.RoleCreationDto;

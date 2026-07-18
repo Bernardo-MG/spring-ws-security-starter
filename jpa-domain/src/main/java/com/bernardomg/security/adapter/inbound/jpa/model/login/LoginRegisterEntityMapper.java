@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.adapter.inbound.jpa.model.login;
 
-import com.bernardomg.security.login.domain.model.LoginRegister;
+import com.bernardomg.security.domain.login.model.LoginRegister;
 
 /**
  * Login register repository mapper.

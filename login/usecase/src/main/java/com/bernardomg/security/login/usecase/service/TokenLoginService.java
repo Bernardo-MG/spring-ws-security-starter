@@ -35,12 +35,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.security.login.domain.event.LogInEvent;
-import com.bernardomg.security.login.domain.model.Credentials;
-import com.bernardomg.security.login.domain.model.TokenLoginStatus;
+import com.bernardomg.security.domain.login.event.LogInEvent;
+import com.bernardomg.security.domain.login.model.Credentials;
+import com.bernardomg.security.domain.login.model.TokenLoginStatus;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
-import com.bernardomg.security.user.domain.model.User;
-import com.bernardomg.security.user.domain.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 

@@ -43,8 +43,8 @@ import com.bernardomg.security.adapter.inbound.jpa.model.user.UserDataTokenEntit
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserDataTokenEntityMapper;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserTokenEntity;
-import com.bernardomg.security.user.domain.model.UserToken;
-import com.bernardomg.security.user.domain.repository.UserTokenRepository;
+import com.bernardomg.security.domain.user.model.UserToken;
+import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 
 /**
  * User token repository based on JPA entities.

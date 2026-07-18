@@ -40,8 +40,8 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntityMapper;
-import com.bernardomg.security.permission.domain.model.ResourcePermission;
-import com.bernardomg.security.permission.domain.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 
 /**
  * Resource permissions repository based on JPA entities.

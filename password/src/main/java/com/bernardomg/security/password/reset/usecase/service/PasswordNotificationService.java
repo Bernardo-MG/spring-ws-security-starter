@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.password.reset.usecase.service;
 
-import com.bernardomg.security.user.domain.model.User;
+import com.bernardomg.security.domain.user.model.User;
 
 /**
  * Password notification service. Sends emails related to the password workflow, such as password recovery.
