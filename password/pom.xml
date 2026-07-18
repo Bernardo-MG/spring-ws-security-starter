@@ -48,7 +48,7 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
+         <artifactId>domain</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================ FRAMEWORK =================== -->
@@ -62,6 +62,11 @@
          <!-- Validation -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
+      </dependency>
+      <dependency>
+         <!-- JWT Encoding -->
+         <groupId>com.bernardomg.framework.jwt</groupId>
+         <artifactId>jwt-encoding</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->

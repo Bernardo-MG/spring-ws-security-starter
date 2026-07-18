@@ -39,8 +39,6 @@ import com.bernardomg.security.login.domain.model.LoginRegister;
 import com.bernardomg.security.login.usecase.service.LoginRegisterService;
 import com.bernardomg.security.permission.domain.constant.Actions;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 
 /**
  * Login register controller.
@@ -64,8 +62,8 @@ public class LoginRegisterController implements LoginRegisterApi {
 
     @Override
     @RequireResourceAuthorization(resource = "LOGIN_REGISTER", action = Actions.READ)
-    public LoginRegisterPageResponseDto getAllLoginRegisters(@Min(1) @Valid final Integer page,
-            @Min(1) @Valid final Integer size, @Valid final List<String> sort) {
+    public LoginRegisterPageResponseDto getAllLoginRegisters(final Integer page,
+             final Integer size,  final List<String> sort) {
         final Pagination          pagination;
         final Sorting             sorting;
         final Page<LoginRegister> loginRegisters;
