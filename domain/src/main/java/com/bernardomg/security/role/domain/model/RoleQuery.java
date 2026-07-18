@@ -24,6 +24,15 @@
 
 package com.bernardomg.security.role.domain.model;
 
-public record RoleQuery(String name) {
+import java.util.Objects;
+import java.util.Optional;
+
+public record RoleQuery(Optional<String> name) {
+
+    public RoleQuery(final Optional<String> name) {
+        Objects.requireNonNull(name, "Name can't be null");
+
+        this.name = name;
+    }
 
 }

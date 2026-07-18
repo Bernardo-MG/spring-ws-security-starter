@@ -24,6 +24,10 @@
 
 package com.bernardomg.security.user.domain.model;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Immutable implementation of the user token status.
  * <p>
@@ -33,5 +37,13 @@ package com.bernardomg.security.user.domain.model;
  *
  */
 public record UserTokenStatus(String username, Boolean valid) {
+
+    public UserTokenStatus(final String username, final Boolean valid) {
+        Objects.requireNonNull(username, "Username can't be null");
+        Objects.requireNonNull(valid, "Valid flag can't be null");
+
+        this.username = StringUtils.trim(username);
+        this.valid = valid;
+    }
 
 }

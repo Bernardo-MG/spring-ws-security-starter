@@ -25,6 +25,10 @@
 package com.bernardomg.security.role.domain.model;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.bernardomg.security.permission.domain.model.ResourcePermission;
 
@@ -35,5 +39,13 @@ import com.bernardomg.security.permission.domain.model.ResourcePermission;
  *
  */
 public record Role(String name, Collection<ResourcePermission> permissions) {
+
+    public Role(final String name, final Collection<ResourcePermission> permissions) {
+        Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(permissions, "Permissions can't be null");
+
+        this.name = StringUtils.trim(name);
+        this.permissions = List.copyOf(permissions);
+    }
 
 }

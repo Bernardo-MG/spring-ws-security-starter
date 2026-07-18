@@ -24,6 +24,10 @@
 
 package com.bernardomg.security.permission.domain.model;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Action.
  *
@@ -31,5 +35,11 @@ package com.bernardomg.security.permission.domain.model;
  *
  */
 public record Action(String name) {
+
+    public Action(final String name) {
+        Objects.requireNonNull(name, "Name can't be null");
+
+        this.name = StringUtils.trim(name);
+    }
 
 }

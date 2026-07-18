@@ -62,7 +62,7 @@ public final class RoleEntityMapper {
 
         // TODO: does it make sense filtering by name?
         entity = new RoleEntity();
-        entity.setName(role.name());
+        entity.setName(role.name().orElse(null));
 
         return entity;
     }

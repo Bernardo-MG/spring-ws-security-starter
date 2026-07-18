@@ -24,6 +24,10 @@
 
 package com.bernardomg.security.login.domain.model;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Token login status.
  *
@@ -31,5 +35,13 @@ package com.bernardomg.security.login.domain.model;
  *
  */
 public record TokenLoginStatus(Boolean logged, String token) {
+
+    public TokenLoginStatus(final Boolean logged, final String token) {
+        Objects.requireNonNull(logged, "Logged flag can't be null");
+        Objects.requireNonNull(token, "Token can't be null");
+
+        this.logged = logged;
+        this.token = StringUtils.trim(token);
+    }
 
 }

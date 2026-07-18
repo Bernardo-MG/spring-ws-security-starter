@@ -26,8 +26,10 @@ package com.bernardomg.security.user.domain.model;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,27 @@ import com.bernardomg.security.user.domain.exception.RevokedTokenException;
  */
 public record UserToken(String username, String name, String scope, String token, Instant creationDate,
         Instant expirationDate, Boolean consumed, Boolean revoked) {
+
+    public UserToken(final String username, final String name, final String scope, final String token,
+            final Instant creationDate, final Instant expirationDate, final Boolean consumed, final Boolean revoked) {
+        Objects.requireNonNull(username, "Username can't be null");
+        Objects.requireNonNull(name, "Name can't be null");
+        Objects.requireNonNull(scope, "Scope can't be null");
+        Objects.requireNonNull(token, "Token can't be null");
+        Objects.requireNonNull(creationDate, "Creation date can't be null");
+        Objects.requireNonNull(expirationDate, "Expiration date can't be null");
+        Objects.requireNonNull(consumed, "Consumed flag can't be null");
+        Objects.requireNonNull(revoked, "Revoked flag can't be null");
+
+        this.username = StringUtils.trim(username);
+        this.name = StringUtils.trim(name);
+        this.scope = StringUtils.trim(scope);
+        this.token = StringUtils.trim(token);
+        this.creationDate = creationDate;
+        this.expirationDate = expirationDate;
+        this.consumed = consumed;
+        this.revoked = revoked;
+    }
 
     /**
      * Logger for the class.

@@ -24,6 +24,10 @@
 
 package com.bernardomg.security.permission.domain.model;
 
+import java.util.Objects;
+
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Immutable resource permission.
  *
@@ -31,5 +35,13 @@ package com.bernardomg.security.permission.domain.model;
  *
  */
 public record ResourcePermission(String resource, String action) {
+
+    public ResourcePermission(final String resource, final String action) {
+        Objects.requireNonNull(resource, "Resource can't be null");
+        Objects.requireNonNull(action, "Action can't be null");
+
+        this.resource = StringUtils.trim(resource);
+        this.action = StringUtils.trim(action);
+    }
 
 }
