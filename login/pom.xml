@@ -20,120 +20,42 @@
 
    <groupId>com.bernardomg.framework.security</groupId>
    <artifactId>login</artifactId>
-   <packaging>jar</packaging>
+   <packaging>pom</packaging>
 
    <name>Security login</name>
 
    <!-- ********************************************** -->
-   <!-- **************** PROPERTIES ****************** -->
+   <!-- ******************* MODULES ****************** -->
    <!-- ********************************************** -->
 
-   <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/login.yml</openapi.generator.maven.plugin.inputSpec>
-     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
-     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
-   </properties>
+   <modules>
+     <module>domain</module>
+     <module>testing</module>
+     <module>usecase</module>
+     <module>event-adapter</module>
+     <module>rest-adapter</module>
+   </modules>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
-   <dependencies>
-      <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JWT Encoding -->
-         <groupId>com.bernardomg.framework.jwt</groupId>
-         <artifactId>jwt-encoding</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================= PROJECT ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>event</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>pagination</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Validation -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>validation</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== OpenAPI =================== -->
-      <!-- ============================================== -->
-      <dependency>
-        <groupId>org.openapitools</groupId>
-        <artifactId>jackson-databind-nullable</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>io.swagger.core.v3</groupId>
-        <artifactId>swagger-annotations</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ============== JPA DEPENDENCIES ============== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JPA API -->
-         <groupId>jakarta.persistence</groupId>
-         <artifactId>jakarta.persistence-api</artifactId>
-      </dependency>
-   </dependencies>
-
-   <!-- ********************************************** -->
-   <!-- ******************* BUILD ******************** -->
-   <!-- ********************************************** -->
-
-   <build>
-      <plugins>
-         <plugin>
-            <!-- OpenApi -->
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-maven-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-                <failOnError>false</failOnError>
-                <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
-
-   <!-- ********************************************** -->
-   <!-- ****************** REPORTS ******************* -->
-   <!-- ********************************************** -->
-
-   <reporting>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-                <failOnError>false</failOnError>
-                <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
-            </configuration>
-         </plugin>
-      </plugins>
-   </reporting>
+   <dependencyManagement>
+      <dependencies>
+         <!-- ============================================== -->
+         <!-- ================= PROJECT ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>login-domain</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>login-usecase</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
 
 </project>

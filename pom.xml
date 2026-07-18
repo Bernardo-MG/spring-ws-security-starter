@@ -274,11 +274,6 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>login</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>user</artifactId>
             <version>${project.version}</version>
          </dependency>
@@ -297,6 +292,21 @@
             <artifactId>spring-security-web</artifactId>
             <version>${project.version}</version>
          </dependency>
+	     <dependency>
+	        <groupId>com.bernardomg.framework.security</groupId>
+	        <artifactId>login-usecase</artifactId>
+            <version>${project.version}</version>
+	     </dependency>
+	     <dependency>
+	        <groupId>com.bernardomg.framework.security</groupId>
+	        <artifactId>login-rest-adapter</artifactId>
+            <version>${project.version}</version>
+	     </dependency>
+	     <dependency>
+	        <groupId>com.bernardomg.framework.security</groupId>
+	        <artifactId>login-event-adapter</artifactId>
+            <version>${project.version}</version>
+	     </dependency>
          <!-- ============================================== -->
          <!-- ================ FRAMEWORK =================== -->
          <!-- ============================================== -->

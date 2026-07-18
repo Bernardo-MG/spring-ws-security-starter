@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <!-- ********************************************** -->
+   <!-- ****************** BASE POM ****************** -->
+   <!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.framework.security</groupId>
+      <artifactId>login</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROJECT INFO **************** -->
+   <!-- ********************************************** -->
+
+   <groupId>com.bernardomg.framework.security</groupId>
+   <artifactId>login-rest-adapter</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Security login REST adapter</name>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROPERTIES ****************** -->
+   <!-- ********************************************** -->
+
+   <properties>
+     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/login.yml</openapi.generator.maven.plugin.inputSpec>
+     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
+     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
+   </properties>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JWT Encoding -->
+         <groupId>com.bernardomg.framework.jwt</groupId>
+         <artifactId>jwt-encoding</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>domain</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>user</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>login-usecase</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>event</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== OpenAPI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ============== JPA DEPENDENCIES ============== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JPA API -->
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+   </dependencies>
+
+   <!-- ********************************************** -->
+   <!-- ******************* BUILD ******************** -->
+   <!-- ********************************************** -->
+
+   <build>
+      <plugins>
+         <plugin>
+            <!-- OpenApi -->
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-maven-plugin</artifactId>
+         </plugin>
+      </plugins>
+   </build>
+
+</project>
