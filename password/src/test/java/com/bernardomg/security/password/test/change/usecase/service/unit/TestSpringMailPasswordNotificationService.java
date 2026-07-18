@@ -35,10 +35,6 @@ class TestSpringMailPasswordNotificationService {
     @Mock
     private SpringTemplateEngine        templateEng;
 
-    public TestSpringMailPasswordNotificationService() {
-        super();
-    }
-
     @BeforeEach
     private final void initializeSender() {
         passwordNotificationService = new SpringMailPasswordNotificationService(templateEng, javaMailSender,

@@ -43,7 +43,19 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>spring-security</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>login</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>password</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>web</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->

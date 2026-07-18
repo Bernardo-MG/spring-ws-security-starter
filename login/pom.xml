@@ -73,19 +73,6 @@
          <artifactId>validation</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring context support -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context-support</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Core -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-core</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== OpenAPI =================== -->
       <!-- ============================================== -->
       <dependency>

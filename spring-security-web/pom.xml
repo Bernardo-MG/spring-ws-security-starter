@@ -19,20 +19,10 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>account</artifactId>
+   <artifactId>spring-security-web</artifactId>
    <packaging>jar</packaging>
 
-   <name>Security account</name>
-
-   <!-- ********************************************** -->
-   <!-- **************** PROPERTIES ****************** -->
-   <!-- ********************************************** -->
-
-   <properties>
-     <openapi.generator.maven.plugin.inputSpec>${project.basedir}/src/main/resources/openapi/account.yml</openapi.generator.maven.plugin.inputSpec>
-     <openapi.generator.maven.plugin.apiPackage>com.bernardomg.security.account.adapter.outbound.rest.controller</openapi.generator.maven.plugin.apiPackage>
-     <openapi.generator.maven.plugin.modelPackage>com.bernardomg.security.account.adapter.outbound.rest.dto</openapi.generator.maven.plugin.modelPackage>
-   </properties>
+   <name>Security Spring Security Web</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -43,21 +33,8 @@
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ FRAMEWORK =================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Pagination -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>pagination</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Validation -->
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>validation</artifactId>
+         <groupId>com.bernardomg.framework.jwt</groupId>
+         <artifactId>jwt-core</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
@@ -101,6 +78,26 @@
          <!-- Spring Web MVC -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-webmvc</artifactId>
+      </dependency>
+      <dependency>
+          <!-- Spring Security Configuration -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-config</artifactId>
+      </dependency>
+      <dependency>
+          <!-- Spring Security Web -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-web</artifactId>
+      </dependency>
+      <dependency>
+          <!-- Spring Security Core -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-core</artifactId>
+      </dependency>
+      <dependency>
+          <!-- Spring Security Crypto -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-crypto</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== SPRING BOOT ================== -->
@@ -146,6 +143,44 @@
          <!-- JPA API -->
          <groupId>jakarta.persistence</groupId>
          <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== LOGGING =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- SL4J API -->
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Log4j SLF4J Bridge -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-slf4j2-impl</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <!-- Log4j core -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-core</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <!-- Log4j Commons Logging Bridge -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-jcl</artifactId>
+         <scope>provided</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>commons-logging</groupId>
+               <artifactId>commons-logging</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <!-- Log4j Web -->
+         <groupId>org.apache.logging.log4j</groupId>
+         <artifactId>log4j-web</artifactId>
+         <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
       <!-- ================= JACKSON ==================== -->
@@ -373,50 +408,6 @@
          <artifactId>architecture-tests</artifactId>
          <scope>test</scope>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>spring-security</artifactId>
-         <scope>test</scope>
-      </dependency>
    </dependencies>
-
-   <!-- ********************************************** -->
-   <!-- ******************* BUILD ******************** -->
-   <!-- ********************************************** -->
-
-   <build>
-      <plugins>
-         <plugin>
-            <!-- OpenApi -->
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-maven-plugin</artifactId>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-                <failOnError>false</failOnError>
-                <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
-
-   <!-- ********************************************** -->
-   <!-- ****************** REPORTS ******************* -->
-   <!-- ********************************************** -->
-
-   <reporting>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-                <failOnError>false</failOnError>
-                <excludePackageNames>com.bernardomg.security.openapi.*</excludePackageNames>
-            </configuration>
-         </plugin>
-      </plugins>
-   </reporting>
 
 </project>

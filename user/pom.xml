@@ -53,10 +53,6 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>web</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>domain</artifactId>
       </dependency>
       <!-- ============================================== -->
@@ -119,26 +115,6 @@
          <!-- Spring Web MVC -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-webmvc</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Configuration -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-config</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Web -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-web</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Core -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-core</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Crypto -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-crypto</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== SPRING BOOT ================== -->

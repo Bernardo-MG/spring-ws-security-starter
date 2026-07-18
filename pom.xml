@@ -53,6 +53,7 @@
      <module>password</module>
      <module>initializer</module>
      <module>spring-security</module>
+     <module>spring-security-web</module>
      <module>starter</module>
    </modules>
 
@@ -262,13 +263,13 @@
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.framework.jwt</groupId>
-            <artifactId>jwt-web</artifactId>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>web</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>web</artifactId>
+            <artifactId>jwt-core</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
@@ -293,12 +294,17 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>password</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>spring-security</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
             <version>${project.version}</version>
          </dependency>
          <!-- ============================================== -->

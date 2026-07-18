@@ -39,10 +39,9 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.event.emitter.SynchronousEventEmitter;
 import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.security.login.configuration.LoginRegisterAutoConfiguration;
-import com.bernardomg.security.user.configuration.UserAutoConfiguration;
 
 @Configuration
-@Import({ LoginRegisterAutoConfiguration.class, UserAutoConfiguration.class })
+@Import({ LoginRegisterAutoConfiguration.class })
 @EnableJpaRepositories(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa",
         "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
         "com.bernardomg.security.user.adapter.inbound.jpa" })

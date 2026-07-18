@@ -106,26 +106,6 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-webmvc</artifactId>
       </dependency>
-      <dependency>
-          <!-- Spring Security Configuration -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-config</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Web -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-web</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Core -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-core</artifactId>
-      </dependency>
-      <dependency>
-          <!-- Spring Security Crypto -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-crypto</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- =============== SPRING BOOT ================== -->
       <!-- ============================================== -->
@@ -330,6 +310,12 @@
          <scope>test</scope>
       </dependency>
       <dependency>
+         <!-- Spring Security Test -->
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
          <!-- Spring Boot Test -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-test</artifactId>
@@ -433,11 +419,6 @@
          <!-- Architecture Tests -->
          <groupId>com.bernardomg.framework.testing</groupId>
          <artifactId>architecture-tests</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>spring-security</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
