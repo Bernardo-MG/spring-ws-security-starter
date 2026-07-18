@@ -34,7 +34,7 @@
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-domain</artifactId>
+         <artifactId>domain</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>

@@ -29,7 +29,6 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>domain</module>
      <module>testing</module>
      <module>usecase</module>
      <module>spring-jpa-adapter</module>

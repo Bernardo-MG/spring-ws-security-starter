@@ -201,6 +201,7 @@
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
+      <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
       <jackson.version>2.20.1</jackson.version>
       <openapitools.jackson>0.2.8</openapitools.jackson>
@@ -379,6 +380,15 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation.version}</version>
+         </dependency>
+      <!-- ============================================== -->
+      <!-- ================= JAKARTA ==================== -->
+      <!-- ============================================== -->
+         <dependency>
+            <!-- Jakarta validation -->
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>${jakarta.annotation.version}</version>
          </dependency>
          <!-- ============================================== -->
          <!-- ========= DEPENDENCY CONVERGENCE ============= -->

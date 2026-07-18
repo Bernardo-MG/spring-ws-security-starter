@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.login.domain.event.LogInEvent;
@@ -42,6 +41,8 @@ import com.bernardomg.security.login.domain.model.TokenLoginStatus;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.user.domain.model.User;
 import com.bernardomg.security.user.domain.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Login service which generates a token for the logged in user.

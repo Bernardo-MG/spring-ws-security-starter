@@ -44,13 +44,12 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>domain</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- =============== TRANSACTIONAL ================ -->
+      <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-domain</artifactId>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
    </dependencies>
 

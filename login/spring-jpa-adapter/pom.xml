@@ -40,10 +40,6 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>security-jpa-domain</artifactId>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-domain</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
