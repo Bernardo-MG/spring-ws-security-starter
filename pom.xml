@@ -42,7 +42,6 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>jwt</module>
      <module>web</module>
      <module>domain</module>
      <module>access</module>
@@ -196,6 +195,7 @@
       <!-- ============================================== -->
       <archunit.version>1.4.1</archunit.version>
       <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
+      <bernardomg.framework.jwt.version>1.0.0</bernardomg.framework.jwt.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.test.version>1.0.7</bernardomg.framework.test.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
@@ -258,18 +258,8 @@
          <!-- ================= PROJECT ==================== -->
          <!-- ============================================== -->
          <dependency>
-            <groupId>com.bernardomg.framework.jwt</groupId>
-            <artifactId>jwt-core</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>web</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>jwt-core</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
@@ -327,6 +317,12 @@
             <groupId>com.bernardomg.framework</groupId>
             <artifactId>validation</artifactId>
             <version>${bernardomg.framework.validation.version}</version>
+         </dependency>
+         <dependency>
+            <!-- JWT Encoding -->
+            <groupId>com.bernardomg.framework.jwt</groupId>
+            <artifactId>jwt-encoding</artifactId>
+            <version>${bernardomg.framework.jwt.version}</version>
          </dependency>
          <dependency>
             <!-- Spring WS Starter -->

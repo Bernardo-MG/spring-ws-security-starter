@@ -38,10 +38,6 @@
          <artifactId>access</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.framework.jwt</groupId>
-         <artifactId>jwt-core</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>spring-security</artifactId>
       </dependency>

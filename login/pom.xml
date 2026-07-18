@@ -40,12 +40,16 @@
 
    <dependencies>
       <!-- ============================================== -->
-      <!-- ================= PROJECT ==================== -->
+      <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
       <dependency>
+         <!-- JWT Encoding -->
          <groupId>com.bernardomg.framework.jwt</groupId>
-         <artifactId>jwt-core</artifactId>
+         <artifactId>jwt-encoding</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>domain</artifactId>
