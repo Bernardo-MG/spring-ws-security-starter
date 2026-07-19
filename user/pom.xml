@@ -203,11 +203,6 @@
          <artifactId>jakarta.servlet-api</artifactId>
          <scope>provided</scope>
       </dependency>
-      <dependency>
-          <!-- Jakarta Mail -->
-         <groupId>org.eclipse.angus</groupId>
-         <artifactId>jakarta.mail</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- ================ VALIDATION ================== -->
       <!-- ============================================== -->

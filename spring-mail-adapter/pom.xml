@@ -44,18 +44,17 @@
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Spring Data JPA -->
-         <groupId>org.springframework.data</groupId>
-         <artifactId>spring-data-jpa</artifactId>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ================= JAKARTA ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- JWT Encoding -->
-         <groupId>com.bernardomg.framework.jwt</groupId>
-         <artifactId>jwt-encoding</artifactId>
-         <scope>test</scope>
+          <!-- Jakarta Mail -->
+         <groupId>org.eclipse.angus</groupId>
+         <artifactId>jakarta.mail</artifactId>
       </dependency>
    </dependencies>
 
