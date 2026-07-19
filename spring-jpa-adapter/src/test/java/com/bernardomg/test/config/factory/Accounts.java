@@ -1,9 +1,9 @@
 
 package com.bernardomg.test.config.factory;
 
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.model.BasicAccount;
-import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 public final class Accounts {
 

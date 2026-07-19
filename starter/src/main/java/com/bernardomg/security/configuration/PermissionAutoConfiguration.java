@@ -30,15 +30,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ActionSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaActionRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaResourcePermissionRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaResourceRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourceSpringRepository;
 import com.bernardomg.security.domain.permission.repository.ActionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ActionSpringRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.JpaActionRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.JpaResourcePermissionRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.JpaResourceRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourceSpringRepository;
 import com.bernardomg.security.permission.usecase.service.DefaultPermissionService;
 import com.bernardomg.security.permission.usecase.service.PermissionService;
 

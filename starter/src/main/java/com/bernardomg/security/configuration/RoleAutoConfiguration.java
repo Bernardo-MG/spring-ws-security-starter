@@ -30,12 +30,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.JpaRoleRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.UserRoleSpringRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.JpaRoleRepository;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.role.adapter.inbound.jpa.repository.UserRoleSpringRepository;
 import com.bernardomg.security.role.usecase.service.DefaultRoleService;
 import com.bernardomg.security.role.usecase.service.RoleService;
 
