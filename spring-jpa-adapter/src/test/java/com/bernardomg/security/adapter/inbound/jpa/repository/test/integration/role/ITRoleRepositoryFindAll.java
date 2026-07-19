@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithPermission;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithoutPermissions;
@@ -18,7 +19,6 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.f
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("RoleRepository - find all")

@@ -1,5 +1,5 @@
 
-package com.bernardomg.test.pagination;
+package com.bernardomg.security.adapter.inbound.jpa.repository.test.pagination;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 public abstract class AbstractPaginationIT<T> {

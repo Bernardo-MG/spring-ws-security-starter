@@ -13,10 +13,10 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.Roles;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.RolesQuery;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.pagination.AbstractPaginationIT;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
-import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @DisplayName("RoleRepository - find all - pagination")
 @RoleWithoutPermissions

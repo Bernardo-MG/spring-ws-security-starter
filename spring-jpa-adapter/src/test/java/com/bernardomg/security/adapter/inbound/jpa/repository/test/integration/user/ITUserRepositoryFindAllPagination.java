@@ -13,10 +13,10 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserQueries;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.Users;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.pagination.AbstractPaginationIT;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.test.pagination.AbstractPaginationIT;
 
 @DisplayName("User repository - find all - pagination")
 @EnabledUserWithRole

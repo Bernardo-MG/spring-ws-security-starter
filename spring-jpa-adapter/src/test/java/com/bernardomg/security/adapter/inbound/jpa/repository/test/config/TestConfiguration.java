@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.test.config;
+package com.bernardomg.security.adapter.inbound.jpa.repository.test.config;
 
 import java.security.SecureRandom;
 

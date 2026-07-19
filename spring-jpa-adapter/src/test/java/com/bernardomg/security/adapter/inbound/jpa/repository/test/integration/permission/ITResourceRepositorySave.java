@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourceEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourceSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.annotation.DataResource;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.factory.ResourceEntities;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.factory.Resources;
 import com.bernardomg.security.domain.permission.model.Resource;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("RolePermissionRepository - save")

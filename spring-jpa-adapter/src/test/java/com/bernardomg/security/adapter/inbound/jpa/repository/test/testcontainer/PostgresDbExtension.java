@@ -1,5 +1,5 @@
 
-package com.bernardomg.test.testcontainer;
+package com.bernardomg.security.adapter.inbound.jpa.repository.test.testcontainer;
 
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.Extension;

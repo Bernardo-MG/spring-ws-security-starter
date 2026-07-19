@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.DisabledUserWithRole;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithoutPermissions;
@@ -19,7 +20,6 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.f
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.Users;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("User repository - find one")

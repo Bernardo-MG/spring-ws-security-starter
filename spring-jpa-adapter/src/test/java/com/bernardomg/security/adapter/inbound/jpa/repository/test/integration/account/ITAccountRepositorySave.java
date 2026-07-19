@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.account.factory.Accounts;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithoutRole;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserEntities;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.test.config.annotation.IntegrationTest;
-import com.bernardomg.test.config.factory.Accounts;
 
 @IntegrationTest
 @DisplayName("AccountRepository - save")

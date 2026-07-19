@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.OnlyUser;
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserQueries;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.test.config.annotation.IntegrationTest;
 
 @IntegrationTest
 @DisplayName("User repository - find all - filtered")

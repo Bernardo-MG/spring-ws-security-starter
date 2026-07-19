@@ -1,5 +1,5 @@
 
-package com.bernardomg.test.config.factory;
+package com.bernardomg.security.adapter.inbound.jpa.repository.test.config.account.factory;
 
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.account.model.Account;
