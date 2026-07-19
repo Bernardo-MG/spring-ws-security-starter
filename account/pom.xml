@@ -64,57 +64,6 @@
          <artifactId>validation</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring beans -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-beans</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring context -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring context support -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context-support</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Data JPA -->
-         <groupId>org.springframework.data</groupId>
-         <artifactId>spring-data-jpa</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Data Commons -->
-         <groupId>org.springframework.data</groupId>
-         <artifactId>spring-data-commons</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring transactions -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-tx</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Web -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-web</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring Web MVC -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-webmvc</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =============== SPRING BOOT ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring Boot autoconfiguration -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ================== OpenAPI =================== -->
       <!-- ============================================== -->
       <dependency>
@@ -124,14 +73,6 @@
       <dependency>
         <groupId>io.swagger.core.v3</groupId>
         <artifactId>swagger-annotations</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ============== JPA DEPENDENCIES ============== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- JPA API -->
-         <groupId>jakarta.persistence</groupId>
-         <artifactId>jakarta.persistence-api</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================= JACKSON ==================== -->

@@ -47,6 +47,10 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>spring-mail-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>event-adapter</artifactId>
       </dependency>
       <dependency>
