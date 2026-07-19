@@ -34,7 +34,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.interceptor.SpringResourceAccessValidator;
+import com.bernardomg.security.springframework.access.interceptor.SpringResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 
 /**

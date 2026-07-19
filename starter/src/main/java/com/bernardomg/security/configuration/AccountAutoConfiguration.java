@@ -29,10 +29,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.account.usecase.service.AccountService;
-import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
 import com.bernardomg.security.adapter.inbound.jpa.repository.account.JpaUserAccountRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
+import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountService;
 
 /**
  * Account auto configuration.
