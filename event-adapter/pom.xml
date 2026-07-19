@@ -19,7 +19,7 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>event-adapter</artifactId>
+   <artifactId>security-event-adapter</artifactId>
    <packaging>jar</packaging>
 
    <name>Security event adapter</name>

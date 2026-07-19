@@ -284,12 +284,12 @@
          </dependency>
 	     <dependency>
 	        <groupId>com.bernardomg.framework.security</groupId>
-	        <artifactId>rest-adapter</artifactId>
+	        <artifactId>security-rest-adapter</artifactId>
             <version>${project.version}</version>
 	     </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>event-adapter</artifactId>
+            <artifactId>security-event-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

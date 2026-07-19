@@ -19,7 +19,7 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>rest-adapter</artifactId>
+   <artifactId>security-rest-adapter</artifactId>
    <packaging>jar</packaging>
 
    <name>Security REST adapter</name>
