@@ -19,16 +19,24 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>event-adapter</artifactId>
+   <artifactId>usecase</artifactId>
    <packaging>jar</packaging>
 
-   <name>Security event adapter</name>
+   <name>Security usecase</name>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
    <!-- ********************************************** -->
 
    <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- JWT Encoding -->
+         <groupId>com.bernardomg.framework.jwt</groupId>
+         <artifactId>jwt-encoding</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
@@ -38,15 +46,14 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>usecase</artifactId>
+         <artifactId>spring-security</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- =============== TRANSACTIONAL ================ -->
+      <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>password</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
    </dependencies>
 

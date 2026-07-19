@@ -29,10 +29,9 @@ import java.util.Optional;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.annotation.Unsecured;
-import com.bernardomg.security.account.adapter.outbound.rest.controller.AccountApi;
-import com.bernardomg.security.account.adapter.outbound.rest.dto.AccountChangeDto;
-import com.bernardomg.security.account.adapter.outbound.rest.dto.AccountResponseDto;
 import com.bernardomg.security.account.usecase.service.AccountService;
+import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountChangeDto;
+import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.account.model.AccountDtoMapper;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.model.BasicAccount;

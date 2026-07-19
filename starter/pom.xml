@@ -39,7 +39,7 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>account</artifactId>
+         <artifactId>usecase</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
@@ -68,10 +68,6 @@
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>web</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-usecase</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->

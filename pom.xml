@@ -46,13 +46,12 @@
      <module>access</module>
      <module>domain</module>
      <module>jpa-domain</module>
+     <module>usecase</module>
      <module>spring-jpa-adapter</module>
      <module>spring-mail-adapter</module>
      <module>rest-adapter</module>
      <module>event-adapter</module>
-     <module>login</module>
      <module>user</module>
-     <module>account</module>
      <module>password</module>
      <module>initializer</module>
      <module>spring-security</module>
@@ -271,6 +270,11 @@
             <artifactId>domain</artifactId>
             <version>${project.version}</version>
          </dependency>
+	     <dependency>
+	        <groupId>com.bernardomg.framework.security</groupId>
+	        <artifactId>usecase</artifactId>
+            <version>${project.version}</version>
+	     </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>security-jpa-domain</artifactId>
@@ -303,11 +307,6 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>account</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>user</artifactId>
             <version>${project.version}</version>
          </dependency>
@@ -326,11 +325,6 @@
             <artifactId>spring-security-web</artifactId>
             <version>${project.version}</version>
          </dependency>
-	     <dependency>
-	        <groupId>com.bernardomg.framework.security</groupId>
-	        <artifactId>login-usecase</artifactId>
-            <version>${project.version}</version>
-	     </dependency>
          <!-- ============================================== -->
          <!-- ================ FRAMEWORK =================== -->
          <!-- ============================================== -->

@@ -26,8 +26,8 @@ package com.bernardomg.security.adapter.outbound.rest.account.model;
 
 import java.util.Optional;
 
-import com.bernardomg.security.account.adapter.outbound.rest.dto.AccountDto;
-import com.bernardomg.security.account.adapter.outbound.rest.dto.AccountResponseDto;
+import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountDto;
+import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountResponseDto;
 import com.bernardomg.security.domain.account.model.Account;
 
 /**
