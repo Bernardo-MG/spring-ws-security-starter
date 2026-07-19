@@ -19,7 +19,7 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>domain</artifactId>
+   <artifactId>security-domain</artifactId>
    <packaging>jar</packaging>
 
    <name>Security domain</name>

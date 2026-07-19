@@ -19,7 +19,7 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>usecase</artifactId>
+   <artifactId>security-usecase</artifactId>
    <packaging>jar</packaging>
 
    <name>Security usecase</name>
@@ -47,7 +47,7 @@
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>domain</artifactId>
+         <artifactId>security-domain</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== TRANSACTIONAL ================ -->
