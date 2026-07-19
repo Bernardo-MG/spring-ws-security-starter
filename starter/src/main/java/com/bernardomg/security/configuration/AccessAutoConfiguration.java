@@ -24,6 +24,7 @@
 
 package com.bernardomg.security.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,10 +39,11 @@ import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-public class AccessConfiguration {
+public class AccessAutoConfiguration {
 
-    public AccessConfiguration() {
+    public AccessAutoConfiguration() {
         super();
     }
 

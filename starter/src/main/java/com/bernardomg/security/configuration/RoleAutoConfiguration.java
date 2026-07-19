@@ -25,9 +25,7 @@
 package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
@@ -47,8 +45,6 @@ import com.bernardomg.security.role.usecase.service.RoleService;
  */
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.role.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.role.adapter.inbound.jpa" })
 public class RoleAutoConfiguration {
 
     public RoleAutoConfiguration() {

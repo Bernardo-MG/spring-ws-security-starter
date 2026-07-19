@@ -26,7 +26,6 @@ package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.account.usecase.service.AccountService;
@@ -43,7 +42,6 @@ import com.bernardomg.security.domain.account.repository.AccountRepository;
  */
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.account.adapter.outbound.rest.controller" })
 public class AccountAutoConfiguration {
 
     @Bean("accountRepository")

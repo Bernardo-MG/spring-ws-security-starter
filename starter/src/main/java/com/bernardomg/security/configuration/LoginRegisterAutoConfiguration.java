@@ -25,9 +25,7 @@
 package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.adapter.inbound.event.login.LoginEventRegisterListener;
@@ -45,8 +43,6 @@ import com.bernardomg.security.login.usecase.service.LoginRegisterService;
  */
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.login.adapter.outbound.rest.controller" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa" })
 public class LoginRegisterAutoConfiguration {
 
     @Bean("loginEventRegisterListener")

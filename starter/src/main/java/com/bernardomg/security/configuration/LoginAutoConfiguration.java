@@ -28,8 +28,8 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -56,15 +56,14 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.login.adapter.outbound.rest.controller",
-        "com.bernardomg.security.login.adapter.inbound.jpa" })
-public class LoginConfiguration {
+public class LoginAutoConfiguration {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(LoginConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(LoginAutoConfiguration.class);
 
     @Bean("loginFailureBlockerListener")
     public LoginFailureBlockerListener getLoginFailureBlockerListener(final UserLoginAttempsService userAccessService) {

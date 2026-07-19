@@ -33,7 +33,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -65,8 +64,6 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
  */
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-@ComponentScan({ "com.bernardomg.security.password.reset.adapter.outbound.rest.controller",
-        "com.bernardomg.security.password.change.adapter.outbound.rest.controller" })
 @EnableConfigurationProperties({ PasswordNotificationProperties.class })
 public class PasswordAutoConfiguration {
 

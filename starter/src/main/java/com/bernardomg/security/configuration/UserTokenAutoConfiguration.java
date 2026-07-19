@@ -25,39 +25,42 @@
 package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
-import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.interceptor.SpringResourceAccessValidator;
-import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
+import com.bernardomg.security.domain.user.repository.UserTokenRepository;
+import com.bernardomg.security.user.usecase.service.SpringUserTokenService;
+import com.bernardomg.security.user.usecase.service.UserTokenService;
 
 /**
- * Spring components configuration.
+ * User token configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
 @AutoConfiguration
 @Configuration(proxyBeanMethods = false)
-public class SpringAutoConfiguration {
+@EnableConfigurationProperties(UserTokenProperties.class)
+public class UserTokenAutoConfiguration {
 
-    public SpringAutoConfiguration() {
+    public UserTokenAutoConfiguration() {
         super();
     }
 
-    @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final UserPermissionRepository userPermissionRepository) {
-        return new UserDomainDetailsService(userRepository, userPermissionRepository);
+    @Bean("userTokenRepository")
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepo,
+            final UserDataTokenSpringRepository userDataTokenRepo, final UserSpringRepository userRepo) {
+        return new JpaUserTokenRepository(userTokenRepo, userDataTokenRepo, userRepo);
     }
 
-    @Bean("springResourceAccessValidator")
-    public ResourceAccessValidator springResourceAccessValidator() {
-        return new SpringResourceAccessValidator();
+    @Bean("userTokenService")
+    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo) {
+        return new SpringUserTokenService(userTokenRepo);
     }
 
 }

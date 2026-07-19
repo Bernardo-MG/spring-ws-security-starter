@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -48,14 +49,15 @@ import io.jsonwebtoken.security.Keys;
  * @author Bernardo Martínez Garrido
  *
  */
+@AutoConfiguration
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(JwtProperties.class)
-public class JwtConfiguration {
+public class JwtAutoConfiguration {
 
     /**
      * Default constructor.
      */
-    public JwtConfiguration() {
+    public JwtAutoConfiguration() {
         super();
     }
 
