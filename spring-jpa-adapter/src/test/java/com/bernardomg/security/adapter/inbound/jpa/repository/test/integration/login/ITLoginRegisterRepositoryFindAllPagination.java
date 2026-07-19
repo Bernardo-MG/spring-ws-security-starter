@@ -14,10 +14,8 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.login.
 import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.login.factory.LoginRegisters;
 import com.bernardomg.security.domain.login.model.LoginRegister;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
-import com.bernardomg.test.config.annotation.AllAuthoritiesMockUser;
 import com.bernardomg.test.pagination.AbstractPaginationIT;
 
-@AllAuthoritiesMockUser
 @DisplayName("LoginRegisterRepository - find all - pagination")
 @LoggedInLoginRegister
 class ITLoginRegisterRepositoryFindAllPagination extends AbstractPaginationIT<LoginRegister> {

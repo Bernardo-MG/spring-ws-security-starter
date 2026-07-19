@@ -25,7 +25,6 @@
 package com.bernardomg.test.config;
 
 import java.security.SecureRandom;
-import java.util.Collection;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -34,23 +33,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.event.emitter.EventEmitter;
-import com.bernardomg.event.emitter.SynchronousEventEmitter;
-import com.bernardomg.event.listener.EventListener;
-
 @Configuration
-@EnableJpaRepositories(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa",
-        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
-        "com.bernardomg.security.user.adapter.inbound.jpa" })
-@EntityScan(basePackages = { "com.bernardomg.security.login.adapter.inbound.jpa",
-        "com.bernardomg.security.role.adapter.inbound.jpa", "com.bernardomg.security.permission.adapter.inbound.jpa",
-        "com.bernardomg.security.user.adapter.inbound.jpa" })
+@EnableJpaRepositories(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
+@EntityScan(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
-
-    @Bean("eventEmitter")
-    public EventEmitter getEventEmitter(final Collection<EventListener<?>> listeners) {
-        return new SynchronousEventEmitter(listeners);
-    }
 
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
