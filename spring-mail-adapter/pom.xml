@@ -19,7 +19,7 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>spring-mail-adapter</artifactId>
+   <artifactId>security-spring-mail-adapter</artifactId>
    <packaging>jar</packaging>
 
    <name>Security Spring Mail adapter</name>

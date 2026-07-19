@@ -19,7 +19,7 @@
    <!-- ********************************************** -->
 
    <groupId>com.bernardomg.framework.security</groupId>
-   <artifactId>spring-jpa-adapter</artifactId>
+   <artifactId>security-spring-jpa-adapter</artifactId>
    <packaging>jar</packaging>
 
    <name>Security Spring JPA adapter</name>

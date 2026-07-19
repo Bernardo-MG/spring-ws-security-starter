@@ -274,12 +274,12 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>spring-jpa-adapter</artifactId>
+            <artifactId>security-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>spring-mail-adapter</artifactId>
+            <artifactId>security-spring-mail-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
 	     <dependency>
