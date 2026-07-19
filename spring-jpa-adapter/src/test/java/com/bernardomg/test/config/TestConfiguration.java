@@ -33,14 +33,97 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.bernardomg.security.adapter.inbound.jpa.repository.account.JpaUserAccountRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.login.JpaLoginRegisterRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.login.LoginRegisterSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ActionSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaActionRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaResourcePermissionRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaResourceRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourceSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.JpaRoleRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.UserRoleSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserPermissionRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserResourcePermissionSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
+import com.bernardomg.security.domain.account.repository.AccountRepository;
+import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.permission.repository.ResourceRepository;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
+import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
+import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.domain.user.repository.UserTokenRepository;
+
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
 public class TestConfiguration {
 
+    @Bean("accountRepository")
+    public AccountRepository getAccountRepository(final UserSpringRepository userSpringRepository) {
+        return new JpaUserAccountRepository(userSpringRepository);
+    }
+
+    @Bean("actionRepository")
+    public JpaActionRepository getActionRepository(final ActionSpringRepository actionSpringRepository) {
+        return new JpaActionRepository(actionSpringRepository);
+    }
+
+    @Bean("loginRegisterRepository")
+    public LoginRegisterRepository
+            getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepository) {
+        return new JpaLoginRegisterRepository(loginRegisterSpringRepository);
+    }
+
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
+    }
+
+    @Bean("resourcePermissionRepository")
+    public ResourcePermissionRepository getResourcePermissionRepository(
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepository) {
+        return new JpaResourcePermissionRepository(resourcePermissionSpringRepository);
+    }
+
+    @Bean("resourceRepository")
+    public ResourceRepository getResourceRepository(final ResourceSpringRepository resourceSpringRepository) {
+        return new JpaResourceRepository(resourceSpringRepository);
+    }
+
+    @Bean("roleRepository")
+    public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepository,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepository,
+            final UserRoleSpringRepository userRoleSpringRepository) {
+        return new JpaRoleRepository(roleSpringRepository, resourcePermissionSpringRepository,
+            userRoleSpringRepository);
+    }
+
+    @Bean("userPermissionRepository")
+    public UserPermissionRepository getUserPermissionRepository(final UserSpringRepository userSpringRepository,
+            final UserResourcePermissionSpringRepository resourcePermissionSpringRepository) {
+        return new JpaUserPermissionRepository(userSpringRepository, resourcePermissionSpringRepository);
+    }
+
+    @Bean("userRepository")
+    public UserRepository getUserRepository(final UserSpringRepository userSpringRepository,
+            final RoleSpringRepository roleSpringRepository) {
+        return new JpaUserRepository(userSpringRepository, roleSpringRepository);
+    }
+
+    @Bean("userTokenRepository")
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepository,
+            final UserDataTokenSpringRepository userDataTokenSpringRepository,
+            final UserSpringRepository userSpringRepository) {
+        return new JpaUserTokenRepository(userTokenSpringRepository, userDataTokenSpringRepository,
+            userSpringRepository);
     }
 
 }

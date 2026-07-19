@@ -55,19 +55,19 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
     /**
      * Resource permissions repository. Used not only to return the permissions, but also to validate they exist.
      */
-    private final UserResourcePermissionSpringRepository resourcePermissionRepository;
+    private final UserResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
     /**
      * User repository.
      */
-    private final UserSpringRepository                   userRepository;
+    private final UserSpringRepository                   userSpringRepository;
 
     public JpaUserPermissionRepository(final UserSpringRepository userSpringRepo,
             final UserResourcePermissionSpringRepository resourcePermissionSpringRepo) {
         super();
 
-        userRepository = Objects.requireNonNull(userSpringRepo);
-        resourcePermissionRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
+        userSpringRepository = Objects.requireNonNull(userSpringRepo);
+        resourcePermissionSpringRepository = Objects.requireNonNull(resourcePermissionSpringRepo);
     }
 
     @Override
@@ -77,9 +77,9 @@ public final class JpaUserPermissionRepository implements UserPermissionReposito
 
         log.trace("Finding permissions for user {}", username);
 
-        user = userRepository.findByUsername(username);
+        user = userSpringRepository.findByUsername(username);
         if (user.isPresent()) {
-            permissions = resourcePermissionRepository.findAllForUser(user.get()
+            permissions = resourcePermissionSpringRepository.findAllForUser(user.get()
                 .getId())
                 .stream()
                 .map(ResourcePermissionEntityMapper::toDomain)
