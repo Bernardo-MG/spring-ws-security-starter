@@ -53,10 +53,6 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-jpa-domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>access</artifactId>
       </dependency>
       <!-- ============================================== -->
