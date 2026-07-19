@@ -26,8 +26,8 @@ package com.bernardomg.security.adapter.outbound.rest.user.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
-import com.bernardomg.security.access.annotation.Unsecured;
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserActivationDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserCreationDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserResponseDto;

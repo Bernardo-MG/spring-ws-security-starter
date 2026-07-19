@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 
 /**

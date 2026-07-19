@@ -42,7 +42,6 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>access</module>
      <module>domain</module>
      <module>jpa-domain</module>
      <module>usecase</module>
@@ -196,6 +195,7 @@
       <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
       <bernardomg.framework.jwt.version>1.0.0</bernardomg.framework.jwt.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
+      <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
       <bernardomg.framework.test.version>1.0.7</bernardomg.framework.test.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
@@ -274,11 +274,6 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>access</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
@@ -333,6 +328,12 @@
             <groupId>com.bernardomg.framework.jwt</groupId>
             <artifactId>jwt-encoding</artifactId>
             <version>${bernardomg.framework.jwt.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Access decorator -->
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>access-decorator</artifactId>
+            <version>${bernardomg.framework.security.access.version}</version>
          </dependency>
          <dependency>
             <!-- Web service responses -->

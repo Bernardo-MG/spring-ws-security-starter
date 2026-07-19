@@ -28,11 +28,11 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bernardomg.framework.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
-import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.adapter.outbound.rest.permission.model.PermissionDtoMapper;
 import com.bernardomg.security.adapter.outbound.rest.user.controller.PermissionApi;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.ResourcePermissionPageResponseDto;

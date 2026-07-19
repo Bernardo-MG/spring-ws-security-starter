@@ -28,7 +28,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bernardomg.security.access.annotation.Unsecured;
+import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.security.account.usecase.service.AccountService;
 import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountChangeDto;
 import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountResponseDto;

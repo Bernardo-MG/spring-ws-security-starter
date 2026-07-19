@@ -37,13 +37,14 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>ws-response</artifactId>
       </dependency>
+      <dependency>
+         <!-- Access decorator -->
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>access-decorator</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>access</artifactId>
-      </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>domain</artifactId>

@@ -31,12 +31,16 @@
 
    <dependencies>
       <!-- ============================================== -->
-      <!-- ================= PROJECT ==================== -->
+      <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
       <dependency>
+         <!-- Access decorator -->
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>access</artifactId>
+         <artifactId>access-decorator</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>usecase</artifactId>

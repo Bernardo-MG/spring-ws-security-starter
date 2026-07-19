@@ -30,8 +30,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 
-import com.bernardomg.security.access.interceptor.RequireResourceAuthorizationInterceptor;
-import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.framework.security.access.interceptor.RequireResourceAuthorizationInterceptor;
+import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 
 /**
  * Access configuration.

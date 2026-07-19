@@ -31,7 +31,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.interceptor.SpringResourceAccessValidator;
