@@ -28,7 +28,6 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
@@ -174,13 +173,13 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
 
         toCreate = User.newUser(user.username()
             .trim()
-            .toLowerCase(LocaleContextHolder.getLocale()),
+            .toLowerCase(),
             user.email()
                 .trim()
-                .toLowerCase(LocaleContextHolder.getLocale()),
+                .toLowerCase(),
             user.name()
                 .trim()
-                .toLowerCase(LocaleContextHolder.getLocale()),
+                .toLowerCase(),
             user.roles());
 
         validatorInvite.validate(toCreate);

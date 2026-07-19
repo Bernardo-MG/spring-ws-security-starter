@@ -3,9 +3,9 @@ package com.bernardomg.security.role.usecase.validation;
 
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ObjectUtils;
 
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -30,7 +30,7 @@ public final class RoleNameNotEmptyRule implements FieldRule<Role> {
         final Optional<FieldFailure> failure;
         final FieldFailure           fieldFailure;
 
-        if (ObjectUtils.isEmpty(role.name())) {
+        if (StringUtils.isEmpty(role.name())) {
             log.error("Received an empty name for the role");
             fieldFailure = new FieldFailure("empty", "name", role.name());
             failure = Optional.of(fieldFailure);

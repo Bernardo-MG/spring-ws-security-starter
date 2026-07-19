@@ -41,34 +41,6 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>pagination</artifactId>
       </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework</groupId>
-         <artifactId>event</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-          <!-- Spring Security Configuration -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-config</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- =============== SPRING BOOT ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Spring Boot autoconfiguration -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-autoconfigure</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================= ASPECTJ ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Aspectj Weaver -->
-         <groupId>org.aspectj</groupId>
-         <artifactId>aspectjweaver</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- ============== APACHE COMMONS ================ -->
       <!-- ============================================== -->

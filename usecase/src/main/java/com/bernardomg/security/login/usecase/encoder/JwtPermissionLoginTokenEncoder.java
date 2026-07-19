@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenEncoder;
@@ -89,11 +88,11 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
         // Resource name in lower case
         resourceMapper = ResourcePermission::resource;
-        resourceMapper = resourceMapper.andThen(r -> r.toLowerCase(LocaleContextHolder.getLocale()));
+        resourceMapper = resourceMapper.andThen(r -> r.toLowerCase());
 
         // Action name in lower case
         actionMapper = ResourcePermission::action;
-        actionMapper = actionMapper.andThen(a -> a.toLowerCase(LocaleContextHolder.getLocale()));
+        actionMapper = actionMapper.andThen(a -> a.toLowerCase());
 
         // Transform into a map, with the resource as key, and the list of actions as value
         return userPermissionRepository.findAll(username)

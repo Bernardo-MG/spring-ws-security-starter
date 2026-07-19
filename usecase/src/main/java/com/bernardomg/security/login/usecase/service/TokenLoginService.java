@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.login.event.LogInEvent;
@@ -141,12 +140,12 @@ public final class TokenLoginService implements LoginService {
                     .username();
             } else {
                 log.debug("No user found for email {}", username);
-                validUsername = username.toLowerCase(LocaleContextHolder.getLocale());
+                validUsername = username.toLowerCase();
             }
         } else {
             // Using username for login
             log.debug("Login attempt with username");
-            validUsername = username.toLowerCase(LocaleContextHolder.getLocale());
+            validUsername = username.toLowerCase();
         }
 
         return validUsername;

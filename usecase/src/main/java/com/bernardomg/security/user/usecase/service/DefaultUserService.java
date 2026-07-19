@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.pagination.domain.Page;
@@ -123,13 +122,13 @@ public final class DefaultUserService implements UserService {
 
         toCreate = User.newUser(user.username()
             .trim()
-            .toLowerCase(LocaleContextHolder.getLocale()),
+            .toLowerCase(),
             user.email()
                 .trim()
-                .toLowerCase(LocaleContextHolder.getLocale()),
+                .toLowerCase(),
             user.name()
                 .trim()
-                .toLowerCase(LocaleContextHolder.getLocale()),
+                .toLowerCase(),
             user.roles());
 
         validatorCreateUser.validate(toCreate);

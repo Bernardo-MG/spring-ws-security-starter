@@ -30,7 +30,6 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.user.exception.EnabledUserException;
@@ -64,14 +63,14 @@ public record User(String email, String username, String name, boolean enabled, 
 
         if (Objects.nonNull(username)) {
             this.username = username.trim()
-                .toLowerCase(LocaleContextHolder.getLocale());
+                .toLowerCase();
         } else {
             this.username = null;
         }
 
         if (Objects.nonNull(email)) {
             this.email = email.trim()
-                .toLowerCase(LocaleContextHolder.getLocale());
+                .toLowerCase();
         } else {
             this.email = null;
         }
