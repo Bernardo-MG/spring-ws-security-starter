@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.inbound.event;
+package com.bernardomg.security.adapter.inbound.event.login;
 
 import java.util.Objects;
 

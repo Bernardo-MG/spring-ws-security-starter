@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.password.reset.adapter.inbound.event;
+package com.bernardomg.security.adapter.inbound.event.password.reset;
 
 import java.util.Objects;
 

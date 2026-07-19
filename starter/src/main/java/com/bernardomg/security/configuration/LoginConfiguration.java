@@ -37,10 +37,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.jwt.encoding.TokenEncoder;
+import com.bernardomg.security.adapter.inbound.event.login.LoginFailureBlockerListener;
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.login.adapter.inbound.event.LoginFailureBlockerListener;
 import com.bernardomg.security.login.usecase.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.login.usecase.encoder.LoginTokenEncoder;
 import com.bernardomg.security.login.usecase.service.DefaultUserLoginAttempsService;

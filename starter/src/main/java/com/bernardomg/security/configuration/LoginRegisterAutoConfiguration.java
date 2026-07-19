@@ -30,8 +30,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.bernardomg.security.adapter.inbound.event.login.LoginEventRegisterListener;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.adapter.inbound.event.LoginEventRegisterListener;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.JpaLoginRegisterRepository;
 import com.bernardomg.security.login.adapter.inbound.jpa.repository.LoginRegisterSpringRepository;
 import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;

@@ -41,12 +41,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.adapter.inbound.event.user.UserInvitationNotificationListener;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.role.adapter.inbound.jpa.repository.RoleSpringRepository;
-import com.bernardomg.security.user.adapter.inbound.event.UserInvitationNotificationListener;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserPermissionRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.JpaUserRepository;
 import com.bernardomg.security.user.adapter.inbound.jpa.repository.UserResourcePermissionSpringRepository;

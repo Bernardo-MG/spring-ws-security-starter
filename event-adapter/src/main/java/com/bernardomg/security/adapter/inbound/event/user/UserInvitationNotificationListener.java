@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.login.adapter.inbound.event;
+package com.bernardomg.security.adapter.inbound.event.user;
 
 import java.util.Objects;
 
@@ -30,43 +30,39 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
-import com.bernardomg.security.domain.login.event.LogInEvent;
-import com.bernardomg.security.login.usecase.service.UserLoginAttempsService;
+import com.bernardomg.security.domain.user.event.UserInvitationEvent;
+import com.bernardomg.security.user.usecase.service.UserNotificationService;
 
 /**
- * Listens for login failure events, and blocks the user after a number of failures.
+ * Listens of user invitation events, and sends a message.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  */
-public final class LoginFailureBlockerListener implements EventListener<LogInEvent> {
+public final class UserInvitationNotificationListener implements EventListener<UserInvitationEvent> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger           log = LoggerFactory.getLogger(LoginFailureBlockerListener.class);
+    private static final Logger           log = LoggerFactory.getLogger(UserInvitationNotificationListener.class);
 
-    private final UserLoginAttempsService userLoginAttempsService;
+    private final UserNotificationService userNotificationService;
 
-    public LoginFailureBlockerListener(final UserLoginAttempsService userLoginAttempsServ) {
+    public UserInvitationNotificationListener(final UserNotificationService userNotificationService) {
         super();
 
-        userLoginAttempsService = Objects.requireNonNull(userLoginAttempsServ);
+        this.userNotificationService = Objects.requireNonNull(userNotificationService);
     }
 
     @Override
-    public final Class<LogInEvent> getEventType() {
-        return LogInEvent.class;
+    public final Class<UserInvitationEvent> getEventType() {
+        return UserInvitationEvent.class;
     }
 
     @Override
-    public final void handle(final LogInEvent event) {
-        if (event.isLoggedIn()) {
-            log.debug("Handling succesful login event attempt for {}", event.getUsername());
-            userLoginAttempsService.clearLoginAttempts(event.getUsername());
-        } else {
-            log.debug("Handling failed login event attempt for {}", event.getUsername());
-            userLoginAttempsService.checkForLocking(event.getUsername());
-        }
+    public final void handle(final UserInvitationEvent event) {
+        log.debug("Handling invitation notification for user {}", event.getUser()
+            .username());
+        userNotificationService.sendUserInvitation(event.getUser(), event.getToken());
     }
 
 }

@@ -43,11 +43,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.adapter.inbound.event.password.reset.PasswordResetNotificationListener;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 import com.bernardomg.security.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.password.reset.adapter.inbound.event.PasswordResetNotificationListener;
 import com.bernardomg.security.password.reset.usecase.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
