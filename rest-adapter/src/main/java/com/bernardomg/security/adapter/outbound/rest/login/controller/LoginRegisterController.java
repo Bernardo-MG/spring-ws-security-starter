@@ -37,7 +37,7 @@ import com.bernardomg.security.adapter.outbound.rest.login.dto.LoginRegisterPage
 import com.bernardomg.security.adapter.outbound.rest.login.model.LoginRegisterDtoMapper;
 import com.bernardomg.security.domain.login.model.LoginRegister;
 import com.bernardomg.security.domain.permission.constant.Actions;
-import com.bernardomg.security.login.usecase.service.LoginRegisterService;
+import com.bernardomg.security.usecase.login.service.LoginRegisterService;
 
 /**
  * Login register controller.

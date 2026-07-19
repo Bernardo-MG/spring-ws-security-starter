@@ -40,7 +40,7 @@ import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenResponseD
 import com.bernardomg.security.adapter.outbound.rest.user.model.UserTokenDtoMapper;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.user.model.UserToken;
-import com.bernardomg.security.user.usecase.service.UserTokenService;
+import com.bernardomg.security.usecase.user.service.UserTokenService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

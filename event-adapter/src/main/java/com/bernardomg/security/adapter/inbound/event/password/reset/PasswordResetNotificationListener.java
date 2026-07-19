@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.security.domain.password.reset.event.PasswordResetEvent;
-import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
+import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 /**
  * Listens for login failure events, and blocks the user after a number of failures.

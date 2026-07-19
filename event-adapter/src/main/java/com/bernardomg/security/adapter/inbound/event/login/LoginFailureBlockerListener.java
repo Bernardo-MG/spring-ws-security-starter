@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.security.domain.login.event.LogInEvent;
-import com.bernardomg.security.login.usecase.service.UserLoginAttempsService;
+import com.bernardomg.security.usecase.login.service.UserLoginAttempsService;
 
 /**
  * Listens for login failure events, and blocks the user after a number of failures.

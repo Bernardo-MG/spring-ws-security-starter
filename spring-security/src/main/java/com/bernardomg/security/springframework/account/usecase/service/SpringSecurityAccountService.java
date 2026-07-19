@@ -10,11 +10,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bernardomg.security.account.usecase.service.AccountService;
 import com.bernardomg.security.domain.account.exception.MissingAccountException;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
+import com.bernardomg.security.usecase.account.service.AccountService;
 
 import jakarta.transaction.Transactional;
 

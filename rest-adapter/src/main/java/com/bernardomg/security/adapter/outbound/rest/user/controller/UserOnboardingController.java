@@ -38,7 +38,7 @@ import com.bernardomg.security.adapter.outbound.rest.user.model.UserTokenDtoMapp
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
-import com.bernardomg.security.user.usecase.service.UserOnboardingService;
+import com.bernardomg.security.usecase.user.service.UserOnboardingService;
 
 import jakarta.validation.Valid;
 

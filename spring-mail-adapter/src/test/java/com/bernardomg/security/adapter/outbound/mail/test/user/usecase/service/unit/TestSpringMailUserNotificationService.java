@@ -18,7 +18,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.bernardomg.security.adapter.outbound.mail.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.adapter.outbound.mail.test.user.config.factory.Users;
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
-import com.bernardomg.security.user.usecase.service.UserNotificationService;
+import com.bernardomg.security.usecase.user.service.UserNotificationService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailUserNotificationService")

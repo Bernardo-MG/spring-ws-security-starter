@@ -43,7 +43,7 @@ import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleResponseDto;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.model.RoleQuery;
-import com.bernardomg.security.role.usecase.service.RoleService;
+import com.bernardomg.security.usecase.role.service.RoleService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;

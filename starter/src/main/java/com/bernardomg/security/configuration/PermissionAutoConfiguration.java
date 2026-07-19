@@ -37,8 +37,8 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.permission.Resourc
 import com.bernardomg.security.domain.permission.repository.ActionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
-import com.bernardomg.security.permission.usecase.service.DefaultPermissionService;
-import com.bernardomg.security.permission.usecase.service.PermissionService;
+import com.bernardomg.security.usecase.permission.service.DefaultPermissionService;
+import com.bernardomg.security.usecase.permission.service.PermissionService;
 
 /**
  * Security configuration.

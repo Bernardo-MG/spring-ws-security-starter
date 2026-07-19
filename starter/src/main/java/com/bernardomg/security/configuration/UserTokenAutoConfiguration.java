@@ -34,8 +34,8 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataToken
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
-import com.bernardomg.security.user.usecase.service.SpringUserTokenService;
-import com.bernardomg.security.user.usecase.service.UserTokenService;
+import com.bernardomg.security.usecase.user.service.SpringUserTokenService;
+import com.bernardomg.security.usecase.user.service.UserTokenService;
 
 /**
  * User token configuration.

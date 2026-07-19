@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.security.domain.login.event.LogInEvent;
-import com.bernardomg.security.login.usecase.service.LoginRegisterService;
+import com.bernardomg.security.usecase.login.service.LoginRegisterService;
 
 /**
  * Listens for login events and registers them.

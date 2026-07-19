@@ -51,14 +51,14 @@ import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
-import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
-import com.bernardomg.security.user.usecase.service.DefaultUserService;
-import com.bernardomg.security.user.usecase.service.DisabledUserNotificationService;
-import com.bernardomg.security.user.usecase.service.UserNotificationService;
-import com.bernardomg.security.user.usecase.service.UserOnboardingService;
-import com.bernardomg.security.user.usecase.service.UserService;
-import com.bernardomg.security.user.usecase.store.ScopedUserTokenStore;
-import com.bernardomg.security.user.usecase.store.UserTokenStore;
+import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
+import com.bernardomg.security.usecase.user.service.DefaultUserService;
+import com.bernardomg.security.usecase.user.service.DisabledUserNotificationService;
+import com.bernardomg.security.usecase.user.service.UserNotificationService;
+import com.bernardomg.security.usecase.user.service.UserOnboardingService;
+import com.bernardomg.security.usecase.user.service.UserService;
+import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.user.store.UserTokenStore;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
 
 /**

@@ -29,12 +29,12 @@ import java.util.Optional;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.framework.security.access.annotation.Unsecured;
-import com.bernardomg.security.account.usecase.service.AccountService;
 import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountChangeDto;
 import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.account.model.AccountDtoMapper;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.model.BasicAccount;
+import com.bernardomg.security.usecase.account.service.AccountService;
 
 import jakarta.validation.Valid;
 

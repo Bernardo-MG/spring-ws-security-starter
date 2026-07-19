@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardomg.framework.security.access.annotation.Unsecured;
 import com.bernardomg.security.adapter.outbound.rest.password.controller.PasswordResetRequestApi;
 import com.bernardomg.security.adapter.outbound.rest.password.dto.RequestPasswordResetDto;
-import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
 
 import jakarta.validation.Valid;
 

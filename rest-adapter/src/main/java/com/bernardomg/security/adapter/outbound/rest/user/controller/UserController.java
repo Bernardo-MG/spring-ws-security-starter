@@ -42,7 +42,7 @@ import com.bernardomg.security.adapter.outbound.rest.user.model.UserDtoMapper;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserQuery;
-import com.bernardomg.security.user.usecase.service.UserService;
+import com.bernardomg.security.usecase.user.service.UserService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

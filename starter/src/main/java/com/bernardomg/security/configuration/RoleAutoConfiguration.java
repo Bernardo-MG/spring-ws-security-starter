@@ -34,8 +34,8 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRep
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.UserRoleSpringRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
-import com.bernardomg.security.role.usecase.service.DefaultRoleService;
-import com.bernardomg.security.role.usecase.service.RoleService;
+import com.bernardomg.security.usecase.role.service.DefaultRoleService;
+import com.bernardomg.security.usecase.role.service.RoleService;
 
 /**
  * Password handling configuration.

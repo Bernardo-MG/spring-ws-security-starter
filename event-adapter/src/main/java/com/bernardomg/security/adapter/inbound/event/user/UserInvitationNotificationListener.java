@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.listener.EventListener;
 import com.bernardomg.security.domain.user.event.UserInvitationEvent;
-import com.bernardomg.security.user.usecase.service.UserNotificationService;
+import com.bernardomg.security.usecase.user.service.UserNotificationService;
 
 /**
  * Listens of user invitation events, and sends a message.

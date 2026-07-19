@@ -32,7 +32,7 @@ import com.bernardomg.security.adapter.outbound.rest.login.dto.TokenLoginStatusR
 import com.bernardomg.security.adapter.outbound.rest.login.model.LoginDtoMapper;
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.usecase.service.LoginService;
+import com.bernardomg.security.usecase.login.service.LoginService;
 
 /**
  * Handles login requests. All the logic is delegated to a {@link LoginService}.

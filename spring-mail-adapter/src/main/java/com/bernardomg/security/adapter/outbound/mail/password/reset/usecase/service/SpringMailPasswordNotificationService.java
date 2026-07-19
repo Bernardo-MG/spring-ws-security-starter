@@ -37,7 +37,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
+import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

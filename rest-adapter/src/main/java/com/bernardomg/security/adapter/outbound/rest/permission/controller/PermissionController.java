@@ -38,7 +38,7 @@ import com.bernardomg.security.adapter.outbound.rest.user.controller.PermissionA
 import com.bernardomg.security.adapter.outbound.rest.user.dto.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
-import com.bernardomg.security.permission.usecase.service.PermissionService;
+import com.bernardomg.security.usecase.permission.service.PermissionService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;

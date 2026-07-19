@@ -32,7 +32,7 @@ import com.bernardomg.security.adapter.outbound.rest.password.dto.PasswordResetD
 import com.bernardomg.security.adapter.outbound.rest.password.dto.UserTokenStatusResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.password.reset.model.UserTokenDtoMapper;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
-import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
+import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

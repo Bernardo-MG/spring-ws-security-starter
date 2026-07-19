@@ -32,8 +32,8 @@ import com.bernardomg.security.adapter.inbound.event.login.LoginEventRegisterLis
 import com.bernardomg.security.adapter.inbound.jpa.repository.login.JpaLoginRegisterRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.login.LoginRegisterSpringRepository;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
-import com.bernardomg.security.login.usecase.service.DefaultLoginRegisterService;
-import com.bernardomg.security.login.usecase.service.LoginRegisterService;
+import com.bernardomg.security.usecase.login.service.DefaultLoginRegisterService;
+import com.bernardomg.security.usecase.login.service.LoginRegisterService;
 
 /**
  * Login auto configuration.

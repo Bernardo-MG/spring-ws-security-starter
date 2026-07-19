@@ -30,9 +30,9 @@ import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.jwt.test.configuration.Tokens;
 import com.bernardomg.security.springframework.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.usecase.user.store.UserTokenStore;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 import com.bernardomg.security.user.test.config.factory.Users;
-import com.bernardomg.security.user.usecase.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 

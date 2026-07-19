@@ -18,7 +18,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.adapter.outbound.mail.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.adapter.outbound.mail.test.user.config.factory.Users;
-import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
+import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringMailPasswordNotificationService")

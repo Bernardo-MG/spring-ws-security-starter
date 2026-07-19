@@ -44,10 +44,10 @@ import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.password.reset.usecase.service.PasswordResetService;
-import com.bernardomg.security.password.reset.usecase.validation.EmailFormatRule;
-import com.bernardomg.security.password.validation.PasswordResetHasStrongPasswordRule;
-import com.bernardomg.security.user.usecase.store.UserTokenStore;
+import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
+import com.bernardomg.security.usecase.password.reset.validation.EmailFormatRule;
+import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
+import com.bernardomg.security.usecase.user.store.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 
