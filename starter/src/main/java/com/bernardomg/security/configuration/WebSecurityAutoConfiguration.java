@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2023 the original author or authors.
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.web.configuration;
+package com.bernardomg.security.configuration;
 
 import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurer;
@@ -59,25 +59,22 @@ import com.bernardomg.security.web.whitelist.WhitelistRoute;
 import jakarta.servlet.Filter;
 
 /**
- * Web security configuration.
+ * Access auto configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @EnableWebSecurity
 @EnableConfigurationProperties(CorsProperties.class)
-public class WebSecurityConfiguration {
+public class WebSecurityAutoConfiguration {
 
     /**
      * Logger for the class.
      */
-    private static final Logger log = LoggerFactory.getLogger(WebSecurityConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(WebSecurityAutoConfiguration.class);
 
-    /**
-     * Default constructor.
-     */
-    public WebSecurityConfiguration() {
+    public WebSecurityAutoConfiguration() {
         super();
     }
 

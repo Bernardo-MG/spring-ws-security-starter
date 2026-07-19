@@ -9,3 +9,4 @@ com.bernardomg.security.configuration.RoleAutoConfiguration
 com.bernardomg.security.configuration.SecurityAutoConfiguration
 com.bernardomg.security.configuration.UserAutoConfiguration
 com.bernardomg.security.configuration.UserTokenAutoConfiguration
+com.bernardomg.security.configuration.WebSecurityAutoConfiguration

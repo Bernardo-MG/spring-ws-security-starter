@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.web.configuration;
+package com.bernardomg.security.configuration;
 
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
