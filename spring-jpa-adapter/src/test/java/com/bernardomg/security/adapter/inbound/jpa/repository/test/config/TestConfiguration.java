@@ -24,14 +24,10 @@
 
 package com.bernardomg.security.adapter.inbound.jpa.repository.test.config;
 
-import java.security.SecureRandom;
-
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.adapter.inbound.jpa.repository.account.JpaUserAccountRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.login.JpaLoginRegisterRepository;
@@ -80,11 +76,6 @@ public class TestConfiguration {
     public LoginRegisterRepository
             getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepository) {
         return new JpaLoginRegisterRepository(loginRegisterSpringRepository);
-    }
-
-    @Bean("passwordEncoder")
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
     @Bean("resourcePermissionRepository")

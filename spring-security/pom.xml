@@ -109,39 +109,29 @@
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Hamcrest -->
-         <groupId>org.hamcrest</groupId>
-         <artifactId>hamcrest-core</artifactId>
+         <!-- Spring Boot Starter: Test -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-test</artifactId>
          <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>org.junit.vintage</groupId>
+               <artifactId>junit-vintage-engine</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
-         <!-- JSON Path -->
-         <groupId>com.jayway.jsonpath</groupId>
-         <artifactId>json-path</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- JUnit Jupiter Engine -->
-         <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter-engine</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Mockito -->
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-core</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Mockito JUnit Jupiter -->
-         <groupId>org.mockito</groupId>
-         <artifactId>mockito-junit-jupiter</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- AssertJ -->
-         <groupId>org.assertj</groupId>
-         <artifactId>assertj-core</artifactId>
+         <!-- Spring Security Test -->
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-test</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

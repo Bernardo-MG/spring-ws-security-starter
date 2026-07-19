@@ -467,90 +467,10 @@
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Hamcrest -->
-         <groupId>org.hamcrest</groupId>
-         <artifactId>hamcrest-core</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- JSON Path -->
-         <groupId>com.jayway.jsonpath</groupId>
-         <artifactId>json-path</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- JUnit Jupiter Engine -->
-         <groupId>org.junit.jupiter</groupId>
-         <artifactId>junit-jupiter-engine</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
          <!-- Mockito -->
          <groupId>org.mockito</groupId>
          <artifactId>mockito-core</artifactId>
          <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Spring Test -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-test</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Spring Security Test -->
-         <groupId>org.springframework.security</groupId>
-         <artifactId>spring-security-test</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Spring Boot Starter: Test -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-test</artifactId>
-         <scope>test</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.junit.vintage</groupId>
-               <artifactId>junit-vintage-engine</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.apache.logging.log4j</groupId>
-               <artifactId>log4j-to-slf4j</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>ch.qos.logback</groupId>
-               <artifactId>logback-classic</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <!-- Test containers -->
-         <groupId>org.testcontainers</groupId>
-         <artifactId>testcontainers</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Postgresql test container -->
-         <groupId>org.testcontainers</groupId>
-         <artifactId>postgresql </artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- GSON -->
-         <groupId>com.google.code.gson</groupId>
-         <artifactId>gson</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- ArchUnit -->
-         <groupId>com.tngtech.archunit</groupId>
-         <artifactId>archunit-junit5</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.tngtech.archunit</groupId>
-        <artifactId>archunit-junit5-engine</artifactId>
-        <version>${archunit.version}</version>
-        <scope>test</scope>
       </dependency>
       <dependency>
          <!-- AssertJ -->
