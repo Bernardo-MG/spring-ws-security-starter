@@ -115,4 +115,8 @@ public final class Users {
             List.of(Roles.withSinglePermission()));
     }
 
+    private Users() {
+        super();
+    }
+
 }

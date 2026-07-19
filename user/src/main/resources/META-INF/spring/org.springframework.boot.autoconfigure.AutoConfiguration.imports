@@ -1,3 +1,0 @@
-com.bernardomg.security.permission.configuration.PermissionAutoConfiguration
-com.bernardomg.security.role.configuration.RoleAutoConfiguration
-com.bernardomg.security.user.configuration.UserAutoConfiguration

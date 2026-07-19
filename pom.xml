@@ -51,7 +51,6 @@
      <module>spring-mail-adapter</module>
      <module>rest-adapter</module>
      <module>event-adapter</module>
-     <module>user</module>
      <module>initializer</module>
      <module>spring-security</module>
      <module>spring-security-web</module>
@@ -302,11 +301,6 @@
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>event-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>user</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>

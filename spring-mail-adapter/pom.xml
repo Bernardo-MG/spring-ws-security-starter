@@ -38,10 +38,6 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>user</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>usecase</artifactId>
       </dependency>
       <!-- ============================================== -->
@@ -52,6 +48,11 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>
       </dependency>
+      <dependency>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= JAKARTA ==================== -->
       <!-- ============================================== -->
@@ -59,6 +60,23 @@
           <!-- Jakarta Mail -->
          <groupId>org.eclipse.angus</groupId>
          <artifactId>jakarta.mail</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ THYMELEAF =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Thymeleaf -->
+         <groupId>org.thymeleaf</groupId>
+         <artifactId>thymeleaf</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Thymeleaf -->
+         <groupId>org.thymeleaf</groupId>
+         <artifactId>thymeleaf-spring6</artifactId>
       </dependency>
    </dependencies>
 
