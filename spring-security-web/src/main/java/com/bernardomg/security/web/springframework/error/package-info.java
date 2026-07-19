@@ -23,7 +23,7 @@
  */
 
 /**
- * Route whitelist components.
+ * WS error handling.
  */
 
-package com.bernardomg.security.web.whitelist;
+package com.bernardomg.security.web.springframework.error;

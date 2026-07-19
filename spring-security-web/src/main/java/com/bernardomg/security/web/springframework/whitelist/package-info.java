@@ -22,25 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.web.whitelist;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Objects;
-
-import org.springframework.http.HttpMethod;
-
 /**
- * Route to whitelist.
+ * Route whitelist components.
  */
-public record WhitelistRoute(String route, Collection<HttpMethod> methods) {
 
-    public static WhitelistRoute of(final String route, final HttpMethod... methods) {
-        for (final HttpMethod method : methods) {
-            Objects.requireNonNull(method);
-        }
-
-        return new WhitelistRoute(route, Arrays.asList(methods));
-    }
-
-}
+package com.bernardomg.security.web.springframework.whitelist;

@@ -1,12 +1,12 @@
 
-package com.bernardomg.test.config.factory;
+package com.bernardomg.security.web.springframework.test.config.factory;
 
 import java.util.List;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.web.springframework.test.user.config.factory.UserConstants;
 
 public final class SecurityUsers {
 

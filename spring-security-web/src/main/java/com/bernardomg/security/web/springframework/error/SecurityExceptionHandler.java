@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.web.error;
+package com.bernardomg.security.web.springframework.error;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

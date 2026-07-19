@@ -59,7 +59,7 @@ import com.bernardomg.security.usecase.user.service.UserOnboardingService;
 import com.bernardomg.security.usecase.user.service.UserService;
 import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
-import com.bernardomg.security.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.web.springframework.whitelist.WhitelistRoute;
 
 /**
  * Password handling configuration.

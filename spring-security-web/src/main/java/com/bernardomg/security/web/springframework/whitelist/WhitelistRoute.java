@@ -22,8 +22,25 @@
  * SOFTWARE.
  */
 
-/**
- * WS error handling.
- */
+package com.bernardomg.security.web.springframework.whitelist;
 
-package com.bernardomg.security.web.error;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Objects;
+
+import org.springframework.http.HttpMethod;
+
+/**
+ * Route to whitelist.
+ */
+public record WhitelistRoute(String route, Collection<HttpMethod> methods) {
+
+    public static WhitelistRoute of(final String route, final HttpMethod... methods) {
+        for (final HttpMethod method : methods) {
+            Objects.requireNonNull(method);
+        }
+
+        return new WhitelistRoute(route, Arrays.asList(methods));
+    }
+
+}

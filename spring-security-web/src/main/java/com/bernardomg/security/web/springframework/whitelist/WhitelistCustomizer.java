@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.web.whitelist;
+package com.bernardomg.security.web.springframework.whitelist;
 
 import java.util.Collection;
 import java.util.List;

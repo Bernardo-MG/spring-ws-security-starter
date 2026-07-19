@@ -48,7 +48,7 @@ import com.bernardomg.security.usecase.login.service.DefaultUserLoginAttempsServ
 import com.bernardomg.security.usecase.login.service.LoginService;
 import com.bernardomg.security.usecase.login.service.TokenLoginService;
 import com.bernardomg.security.usecase.login.service.UserLoginAttempsService;
-import com.bernardomg.security.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.web.springframework.whitelist.WhitelistRoute;
 
 /**
  * Login auto configuration.
