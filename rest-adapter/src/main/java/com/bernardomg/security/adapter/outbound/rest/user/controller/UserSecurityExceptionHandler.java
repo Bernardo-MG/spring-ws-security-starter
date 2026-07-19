@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.bernardomg.framework.ws.response.ErrorResponse;
 import com.bernardomg.security.domain.user.exception.ConsumedTokenException;
 import com.bernardomg.security.domain.user.exception.InvalidTokenException;
-import com.bernardomg.ws.response.domain.model.ErrorResponse;
 
 /**
  * Captures and handles user exceptions.

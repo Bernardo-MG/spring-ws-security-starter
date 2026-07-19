@@ -201,6 +201,7 @@
       <bernardomg.framework.test.version>1.0.7</bernardomg.framework.test.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
+      <bernardomg.framework.ws.response.version>1.0.0</bernardomg.framework.ws.response.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
       <jackson.annotations.version>2.20</jackson.annotations.version>
@@ -345,6 +346,12 @@
             <groupId>com.bernardomg.framework.spring</groupId>
             <artifactId>spring-ws-starter</artifactId>
             <version>${bernardomg.framework.ws.version}</version>
+         </dependency>
+         <dependency>
+            <!-- Web service responses -->
+            <groupId>com.bernardomg.framework</groupId>
+            <artifactId>ws-response</artifactId>
+            <version>${bernardomg.framework.ws.response.version}</version>
          </dependency>
          <!-- ============================================== -->
          <!-- ================== OpenAPI =================== -->

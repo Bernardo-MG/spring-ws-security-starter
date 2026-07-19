@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.bernardomg.ws.response.domain.model.ErrorResponse;
+import com.bernardomg.framework.ws.response.ErrorResponse;
 
 /**
  * Captures and handles security exceptions.

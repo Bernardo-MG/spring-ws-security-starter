@@ -34,8 +34,8 @@
       <!-- ============================================== -->
       <dependency>
          <!-- Spring WS Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-starter</artifactId>
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>ws-response</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->

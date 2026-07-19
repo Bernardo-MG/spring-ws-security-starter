@@ -62,11 +62,6 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
       </dependency>
-      <dependency>
-         <!-- Spring WS Starter -->
-         <groupId>com.bernardomg.framework.spring</groupId>
-         <artifactId>spring-ws-starter</artifactId>
-      </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
