@@ -46,6 +46,7 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserPermis
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserResourcePermissionSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
+import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
@@ -53,7 +54,6 @@ import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.user.usecase.service.DefaultUserOnboardingService;
 import com.bernardomg.security.user.usecase.service.DefaultUserService;
 import com.bernardomg.security.user.usecase.service.DisabledUserNotificationService;
-import com.bernardomg.security.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.user.usecase.service.UserNotificationService;
 import com.bernardomg.security.user.usecase.service.UserOnboardingService;
 import com.bernardomg.security.user.usecase.service.UserService;
