@@ -44,6 +44,14 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>login-usecase</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>account</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>password</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== OPENAPI =================== -->
       <!-- ============================================== -->
@@ -116,6 +124,39 @@
                       <inputSpec>${project.basedir}/src/main/resources/openapi/login-register.yml</inputSpec>
                       <apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</apiPackage>
                       <modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>account</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/account.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.account.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.account.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>user</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/user.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.user.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.user.adapter.outbound.rest.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>password</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/password.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.password.adapter.outbound.rest.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.password.adapter.outbound.rest.dto</modelPackage>
                    </configuration>
                 </execution>
              </executions>

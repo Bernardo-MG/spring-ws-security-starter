@@ -120,17 +120,6 @@
          <artifactId>spring-boot-autoconfigure</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== OpenAPI =================== -->
-      <!-- ============================================== -->
-      <dependency>
-        <groupId>org.openapitools</groupId>
-        <artifactId>jackson-databind-nullable</artifactId>
-      </dependency>
-      <dependency>
-        <groupId>io.swagger.core.v3</groupId>
-        <artifactId>swagger-annotations</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ============== JPA DEPENDENCIES ============== -->
       <!-- ============================================== -->
       <dependency>
@@ -409,26 +398,5 @@
          <scope>test</scope>
       </dependency>
    </dependencies>
-
-   <!-- ********************************************** -->
-   <!-- ******************* BUILD ******************** -->
-   <!-- ********************************************** -->
-
-   <build>
-      <plugins>
-         <plugin>
-            <!-- OpenApi -->
-            <groupId>org.openapitools</groupId>
-            <artifactId>openapi-generator-maven-plugin</artifactId>
-             <executions>
-                <execution>
-                   <goals>
-                      <goal>generate</goal>
-                   </goals>
-                </execution>
-             </executions>
-         </plugin>
-      </plugins>
-   </build>
 
 </project>
