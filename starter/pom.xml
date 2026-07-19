@@ -39,6 +39,10 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>event-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>spring-security</artifactId>
       </dependency>
       <dependency>
@@ -56,10 +60,6 @@
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>login-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-event-adapter</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>

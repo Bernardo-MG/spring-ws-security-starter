@@ -43,9 +43,10 @@
 
    <modules>
      <module>web</module>
+     <module>access</module>
      <module>domain</module>
      <module>jpa-domain</module>
-     <module>access</module>
+     <module>event-adapter</module>
      <module>login</module>
      <module>user</module>
      <module>account</module>
@@ -279,6 +280,11 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>event-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>user</artifactId>
             <version>${project.version}</version>
          </dependency>
@@ -305,11 +311,6 @@
 	     <dependency>
 	        <groupId>com.bernardomg.framework.security</groupId>
 	        <artifactId>login-rest-adapter</artifactId>
-            <version>${project.version}</version>
-	     </dependency>
-	     <dependency>
-	        <groupId>com.bernardomg.framework.security</groupId>
-	        <artifactId>login-event-adapter</artifactId>
             <version>${project.version}</version>
 	     </dependency>
 	     <dependency>
