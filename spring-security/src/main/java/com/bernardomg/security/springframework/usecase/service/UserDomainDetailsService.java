@@ -40,7 +40,6 @@ import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.permission.adapter.inbound.jpa.repository.ResourcePermissionSpringRepository;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 
 /**

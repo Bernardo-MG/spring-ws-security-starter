@@ -18,11 +18,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.access.test.config.factory.Authentications;
-import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.account.test.config.factory.Accounts;
 import com.bernardomg.security.account.usecase.service.SpringSecurityAccountService;
 import com.bernardomg.security.domain.account.exception.MissingAccountException;
 import com.bernardomg.security.domain.account.model.Account;
+import com.bernardomg.security.domain.account.repository.AccountRepository;
 import com.bernardomg.security.user.test.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)

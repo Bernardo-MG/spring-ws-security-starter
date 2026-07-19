@@ -11,10 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bernardomg.security.account.domain.repository.AccountRepository;
 import com.bernardomg.security.domain.account.exception.MissingAccountException;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.model.BasicAccount;
+import com.bernardomg.security.domain.account.repository.AccountRepository;
 
 /**
  * Account service based on Spring security.

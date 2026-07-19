@@ -31,7 +31,6 @@
    <modules>
      <module>testing</module>
      <module>usecase</module>
-     <module>spring-jpa-adapter</module>
      <module>rest-adapter</module>
    </modules>
 

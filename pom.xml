@@ -46,6 +46,7 @@
      <module>access</module>
      <module>domain</module>
      <module>jpa-domain</module>
+     <module>spring-jpa-adapter</module>
      <module>event-adapter</module>
      <module>login</module>
      <module>user</module>
@@ -280,7 +281,17 @@
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>spring-jpa-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>event-adapter</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.bernardomg.framework.security</groupId>
+            <artifactId>account</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
@@ -311,11 +322,6 @@
 	     <dependency>
 	        <groupId>com.bernardomg.framework.security</groupId>
 	        <artifactId>login-rest-adapter</artifactId>
-            <version>${project.version}</version>
-	     </dependency>
-	     <dependency>
-	        <groupId>com.bernardomg.framework.security</groupId>
-	        <artifactId>login-spring-jpa-adapter</artifactId>
             <version>${project.version}</version>
 	     </dependency>
          <!-- ============================================== -->

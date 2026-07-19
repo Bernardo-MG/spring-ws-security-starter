@@ -39,6 +39,14 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>account</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>spring-jpa-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>event-adapter</artifactId>
       </dependency>
       <dependency>
@@ -60,10 +68,6 @@
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>login-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-spring-jpa-adapter</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
