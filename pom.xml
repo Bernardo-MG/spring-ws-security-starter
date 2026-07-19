@@ -42,7 +42,6 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>web</module>
      <module>access</module>
      <module>domain</module>
      <module>jpa-domain</module>
@@ -258,11 +257,6 @@
          <!-- ============================================== -->
          <!-- ================= PROJECT ==================== -->
          <!-- ============================================== -->
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>web</artifactId>
-            <version>${project.version}</version>
-         </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>domain</artifactId>

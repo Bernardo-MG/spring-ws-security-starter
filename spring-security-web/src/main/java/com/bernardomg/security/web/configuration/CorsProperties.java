@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.web.cors;
+package com.bernardomg.security.web.configuration;
 
 import java.util.List;
 

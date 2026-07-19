@@ -23,7 +23,7 @@
  */
 
 /**
- * JWT entry points.
+ * WS error handling.
  */
 
-package com.bernardomg.security.web.springframework;
+package com.bernardomg.security.web.error;

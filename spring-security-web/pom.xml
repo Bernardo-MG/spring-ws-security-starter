@@ -37,6 +37,11 @@
          <groupId>com.bernardomg.framework.jwt</groupId>
          <artifactId>jwt-encoding</artifactId>
       </dependency>
+      <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>ws-response</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->

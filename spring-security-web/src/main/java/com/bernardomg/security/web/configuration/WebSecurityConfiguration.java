@@ -49,14 +49,12 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.jwt.encoding.TokenValidator;
-import com.bernardomg.security.web.cors.CorsConfigurationPropertiesSource;
-import com.bernardomg.security.web.cors.CorsProperties;
+import com.bernardomg.security.web.error.SecurityExceptionHandler;
 import com.bernardomg.security.web.springframework.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.web.springframework.jwt.JwtTokenFilter;
 import com.bernardomg.security.web.whitelist.WhitelistCustomizer;
 import com.bernardomg.security.web.whitelist.WhitelistFilterSkipWrapper;
 import com.bernardomg.security.web.whitelist.WhitelistRoute;
-import com.bernardomg.security.web.ws.error.SecurityExceptionHandler;
 
 import jakarta.servlet.Filter;
 
