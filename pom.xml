@@ -342,12 +342,6 @@
             <version>${bernardomg.framework.jwt.version}</version>
          </dependency>
          <dependency>
-            <!-- Spring WS Starter -->
-            <groupId>com.bernardomg.framework.spring</groupId>
-            <artifactId>spring-ws-starter</artifactId>
-            <version>${bernardomg.framework.ws.version}</version>
-         </dependency>
-         <dependency>
             <!-- Web service responses -->
             <groupId>com.bernardomg.framework</groupId>
             <artifactId>ws-response</artifactId>
