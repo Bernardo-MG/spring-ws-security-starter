@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.adapter.outbound.mail.test.password.change.usecase.service.unit;
+package com.bernardomg.security.adapter.outbound.mail.test.password.reset.usecase.service.unit;
 
 import static org.mockito.Mockito.verify;
 
@@ -16,7 +16,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
-import com.bernardomg.security.adapter.outbound.mail.test.jwt.configuration.Tokens;
+import com.bernardomg.security.adapter.outbound.mail.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.adapter.outbound.mail.test.user.config.factory.Users;
 import com.bernardomg.security.password.reset.usecase.service.PasswordNotificationService;
 

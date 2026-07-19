@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.adapter.outbound.mail.test.jwt.configuration;
+package com.bernardomg.security.adapter.outbound.mail.test.config.jwt.factory;
 
 import java.nio.charset.Charset;
 import java.time.Instant;
