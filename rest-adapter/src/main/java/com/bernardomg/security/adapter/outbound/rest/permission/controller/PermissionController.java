@@ -34,11 +34,11 @@ import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.web.WebSorting;
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.adapter.outbound.rest.permission.model.PermissionDtoMapper;
+import com.bernardomg.security.adapter.outbound.rest.user.controller.PermissionApi;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.ResourcePermissionPageResponseDto;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.permission.usecase.service.PermissionService;
-import com.bernardomg.security.user.adapter.outbound.rest.controller.PermissionApi;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.ResourcePermissionPageResponseDto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;

@@ -7,17 +7,17 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.SortingDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenChangeDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenPageResponseDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenResponseDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenStatusDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenStatusResponseDto;
 import com.bernardomg.security.domain.user.model.UserToken;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.SortingDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenChangeDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenPageResponseDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenResponseDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenStatusDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenStatusResponseDto;
 
 public final class UserTokenDtoMapper {
 

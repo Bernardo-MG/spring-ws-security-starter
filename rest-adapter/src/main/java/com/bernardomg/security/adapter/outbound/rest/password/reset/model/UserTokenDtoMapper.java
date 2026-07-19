@@ -1,9 +1,9 @@
 
 package com.bernardomg.security.adapter.outbound.rest.password.reset.model;
 
+import com.bernardomg.security.adapter.outbound.rest.password.dto.UserTokenStatusDto;
+import com.bernardomg.security.adapter.outbound.rest.password.dto.UserTokenStatusResponseDto;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
-import com.bernardomg.security.password.adapter.outbound.rest.dto.UserTokenStatusDto;
-import com.bernardomg.security.password.adapter.outbound.rest.dto.UserTokenStatusResponseDto;
 
 public final class UserTokenDtoMapper {
 

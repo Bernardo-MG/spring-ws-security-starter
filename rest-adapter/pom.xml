@@ -111,8 +111,8 @@
                    </goals>
                    <configuration>
                       <inputSpec>${project.basedir}/src/main/resources/openapi/login.yml</inputSpec>
-                      <apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</apiPackage>
-                      <modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</modelPackage>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.login.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.login.dto</modelPackage>
                    </configuration>
                 </execution>
                 <execution>
@@ -122,8 +122,8 @@
                    </goals>
                    <configuration>
                       <inputSpec>${project.basedir}/src/main/resources/openapi/login-register.yml</inputSpec>
-                      <apiPackage>com.bernardomg.security.login.adapter.outbound.rest.controller</apiPackage>
-                      <modelPackage>com.bernardomg.security.login.adapter.outbound.rest.dto</modelPackage>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.login.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.login.dto</modelPackage>
                    </configuration>
                 </execution>
                 <execution>
@@ -133,8 +133,8 @@
                    </goals>
                    <configuration>
                       <inputSpec>${project.basedir}/src/main/resources/openapi/account.yml</inputSpec>
-                      <apiPackage>com.bernardomg.security.account.adapter.outbound.rest.controller</apiPackage>
-                      <modelPackage>com.bernardomg.security.account.adapter.outbound.rest.dto</modelPackage>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.account.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.account.dto</modelPackage>
                    </configuration>
                 </execution>
                 <execution>
@@ -144,8 +144,8 @@
                    </goals>
                    <configuration>
                       <inputSpec>${project.basedir}/src/main/resources/openapi/user.yml</inputSpec>
-                      <apiPackage>com.bernardomg.security.user.adapter.outbound.rest.controller</apiPackage>
-                      <modelPackage>com.bernardomg.security.user.adapter.outbound.rest.dto</modelPackage>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.user.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.user.dto</modelPackage>
                    </configuration>
                 </execution>
                 <execution>
@@ -155,8 +155,8 @@
                    </goals>
                    <configuration>
                       <inputSpec>${project.basedir}/src/main/resources/openapi/password.yml</inputSpec>
-                      <apiPackage>com.bernardomg.security.password.adapter.outbound.rest.controller</apiPackage>
-                      <modelPackage>com.bernardomg.security.password.adapter.outbound.rest.dto</modelPackage>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.password.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.password.dto</modelPackage>
                    </configuration>
                 </execution>
              </executions>

@@ -6,12 +6,12 @@ import java.util.List;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto.DirectionEnum;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.ResourcePermissionDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.ResourcePermissionPageResponseDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.SortingDto;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.PropertyDto.DirectionEnum;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.ResourcePermissionDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.ResourcePermissionPageResponseDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.SortingDto;
 
 public final class PermissionDtoMapper {
 

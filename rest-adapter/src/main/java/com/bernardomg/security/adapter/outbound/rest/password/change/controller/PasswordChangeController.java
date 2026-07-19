@@ -27,8 +27,8 @@ package com.bernardomg.security.adapter.outbound.rest.password.change.controller
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.annotation.Unsecured;
-import com.bernardomg.security.password.adapter.outbound.rest.controller.PasswordChangeApi;
-import com.bernardomg.security.password.adapter.outbound.rest.dto.PasswordChangeDto;
+import com.bernardomg.security.adapter.outbound.rest.password.controller.PasswordChangeApi;
+import com.bernardomg.security.adapter.outbound.rest.password.dto.PasswordChangeDto;
 import com.bernardomg.security.password.change.usecase.service.PasswordChangeService;
 
 import jakarta.validation.Valid;

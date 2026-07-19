@@ -27,12 +27,11 @@ package com.bernardomg.security.adapter.outbound.rest.login.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.annotation.Unsecured;
+import com.bernardomg.security.adapter.outbound.rest.login.dto.LoginRequestDto;
+import com.bernardomg.security.adapter.outbound.rest.login.dto.TokenLoginStatusResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.login.model.LoginDtoMapper;
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.login.model.TokenLoginStatus;
-import com.bernardomg.security.login.adapter.outbound.rest.controller.LoginApi;
-import com.bernardomg.security.login.adapter.outbound.rest.dto.LoginRequestDto;
-import com.bernardomg.security.login.adapter.outbound.rest.dto.TokenLoginStatusResponseDto;
 import com.bernardomg.security.login.usecase.service.LoginService;
 
 /**

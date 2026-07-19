@@ -28,17 +28,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bernardomg.security.access.annotation.RequireResourceAuthorization;
 import com.bernardomg.security.access.annotation.Unsecured;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserActivationDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserCreationDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserResponseDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.UserTokenStatusResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.user.model.UserActivationDtoMapper;
 import com.bernardomg.security.adapter.outbound.rest.user.model.UserDtoMapper;
 import com.bernardomg.security.adapter.outbound.rest.user.model.UserTokenDtoMapper;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
-import com.bernardomg.security.user.adapter.outbound.rest.controller.UserOnboardingApi;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserActivationDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserCreationDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserResponseDto;
-import com.bernardomg.security.user.adapter.outbound.rest.dto.UserTokenStatusResponseDto;
 import com.bernardomg.security.user.usecase.service.UserOnboardingService;
 
 import jakarta.validation.Valid;
