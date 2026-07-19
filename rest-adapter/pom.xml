@@ -30,6 +30,14 @@
 
    <dependencies>
       <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework.spring</groupId>
+         <artifactId>spring-ws-starter</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
@@ -42,11 +50,11 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>usecase</artifactId>
+         <artifactId>user</artifactId>
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>password</artifactId>
+         <artifactId>usecase</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== OPENAPI =================== -->

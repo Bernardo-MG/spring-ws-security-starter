@@ -37,16 +37,17 @@
          <groupId>com.bernardomg.framework.jwt</groupId>
          <artifactId>jwt-encoding</artifactId>
       </dependency>
+      <dependency>
+         <!-- Validation -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>validation</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>domain</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>spring-security</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- =============== TRANSACTIONAL ================ -->
