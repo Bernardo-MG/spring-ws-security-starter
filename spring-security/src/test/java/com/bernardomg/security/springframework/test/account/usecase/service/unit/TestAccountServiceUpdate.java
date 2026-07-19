@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.test.account.usecase.service;
+package com.bernardomg.security.springframework.test.account.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -17,13 +17,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.auth.test.config.factory.Authentications;
 import com.bernardomg.security.domain.account.exception.MissingAccountException;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
 import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountService;
 import com.bernardomg.security.springframework.test.account.config.factory.Accounts;
-import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultAccountService - update")

@@ -20,11 +20,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.permission.test.config.factory.PermissionConstants;
-import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.springframework.test.permission.config.factory.PermissionConstants;
+import com.bernardomg.security.springframework.test.permission.config.factory.ResourcePermissions;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
+import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
-import com.bernardomg.security.user.test.config.factory.UserConstants;
-import com.bernardomg.security.user.test.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserDomainDetailsService")

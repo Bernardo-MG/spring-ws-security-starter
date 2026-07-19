@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.springframework.login.usecase.validation.SpringValidLoginPredicate;
-import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringValidLoginPredicate")

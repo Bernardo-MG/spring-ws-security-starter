@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.permission.test.config.factory;
+package com.bernardomg.security.springframework.test.permission.config.factory;
 
 public final class PermissionConstants {
 

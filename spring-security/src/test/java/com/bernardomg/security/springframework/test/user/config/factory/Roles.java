@@ -1,12 +1,12 @@
 
-package com.bernardomg.security.user.test.config.factory;
+package com.bernardomg.security.springframework.test.user.config.factory;
 
 import java.util.Collection;
 import java.util.List;
 
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.permission.test.config.factory.ResourcePermissions;
+import com.bernardomg.security.springframework.test.permission.config.factory.ResourcePermissions;
 
 public final class Roles {
 

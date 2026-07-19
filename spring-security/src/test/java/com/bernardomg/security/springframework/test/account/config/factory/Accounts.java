@@ -3,7 +3,7 @@ package com.bernardomg.security.springframework.test.account.config.factory;
 
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.model.BasicAccount;
-import com.bernardomg.security.user.test.config.factory.UserConstants;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 
 public final class Accounts {
 

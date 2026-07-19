@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.jwt.test.configuration;
+package com.bernardomg.security.springframework.test.jwt.config;
 
 import java.nio.charset.Charset;
 import java.time.Instant;

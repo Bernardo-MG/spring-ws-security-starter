@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.user.test.config.factory;
+package com.bernardomg.security.springframework.test.user.config.factory;
 
 public final class RoleConstants {
 
