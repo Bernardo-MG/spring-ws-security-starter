@@ -48,6 +48,7 @@
      <module>jpa-domain</module>
      <module>spring-jpa-adapter</module>
      <module>spring-mail-adapter</module>
+     <module>rest-adapter</module>
      <module>event-adapter</module>
      <module>login</module>
      <module>user</module>
@@ -290,6 +291,11 @@
             <artifactId>spring-mail-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
+	     <dependency>
+	        <groupId>com.bernardomg.framework.security</groupId>
+	        <artifactId>rest-adapter</artifactId>
+            <version>${project.version}</version>
+	     </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
             <artifactId>event-adapter</artifactId>
@@ -323,11 +329,6 @@
 	     <dependency>
 	        <groupId>com.bernardomg.framework.security</groupId>
 	        <artifactId>login-usecase</artifactId>
-            <version>${project.version}</version>
-	     </dependency>
-	     <dependency>
-	        <groupId>com.bernardomg.framework.security</groupId>
-	        <artifactId>login-rest-adapter</artifactId>
             <version>${project.version}</version>
 	     </dependency>
          <!-- ============================================== -->

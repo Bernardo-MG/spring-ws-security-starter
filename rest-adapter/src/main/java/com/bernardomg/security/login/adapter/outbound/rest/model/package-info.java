@@ -23,7 +23,7 @@
  */
 
 /**
- * Account configuration.
+ * Login controller model.
  */
 
-package com.bernardomg.security.account.configuration;
+package com.bernardomg.security.login.adapter.outbound.rest.model;

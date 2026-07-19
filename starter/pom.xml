@@ -51,6 +51,10 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>rest-adapter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>event-adapter</artifactId>
       </dependency>
       <dependency>
@@ -68,10 +72,6 @@
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>login-usecase</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>login-rest-adapter</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->
