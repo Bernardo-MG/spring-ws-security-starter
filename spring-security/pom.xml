@@ -9,8 +9,8 @@
    <!-- ********************************************** -->
 
    <parent>
-      <groupId>com.bernardomg.framework</groupId>
-      <artifactId>security</artifactId>
+      <groupId>com.bernardomg.framework.security</groupId>
+      <artifactId>security-starter</artifactId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
@@ -18,11 +18,22 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.framework.security</groupId>
+   <groupId>com.bernardomg.framework.security.spring</groupId>
    <artifactId>spring-security</artifactId>
    <packaging>jar</packaging>
 
    <name>Security Spring Security</name>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROPERTIES ****************** -->
+   <!-- ********************************************** -->
+
+   <properties>
+      <!-- ============================================== -->
+      <!-- =============== MANIFEST DATA ================ -->
+      <!-- ============================================== -->
+      <manifest.name>com/bernardomg/security/security/spring/security</manifest.name>
+   </properties>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -37,6 +48,11 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>access-decorator</artifactId>
       </dependency>
+      <dependency>
+         <!-- WS Response -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>ws-response</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
@@ -45,27 +61,34 @@
          <artifactId>security-usecase</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
+      <!-- ================== JAKARTA =================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Spring Data JPA -->
-         <groupId>org.springframework.data</groupId>
-         <artifactId>spring-data-jpa</artifactId>
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
-      <dependency>
-         <!-- Spring Data Commons -->
-         <groupId>org.springframework.data</groupId>
-         <artifactId>spring-data-commons</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Spring transactions -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-tx</artifactId>
-      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
       <dependency>
           <!-- Spring Security Core -->
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-core</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Web -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-web</artifactId>
+      </dependency>
+      <dependency>
+          <!-- Spring Security Configuration -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-config</artifactId>
+      </dependency>
+      <dependency>
+          <!-- Spring Security Web -->
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-web</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
@@ -103,6 +126,15 @@
          <!-- Log4j Web -->
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-web</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= JAKARTA ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+          <!-- Jakarta Servlet API -->
+         <groupId>jakarta.servlet</groupId>
+         <artifactId>jakarta.servlet-api</artifactId>
          <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->

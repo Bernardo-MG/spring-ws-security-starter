@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.security.domain.password.change.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.domain.user.exception.DisabledUserException;
@@ -47,6 +46,8 @@ import com.bernardomg.validation.domain.exception.FieldFailureException;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Password change service based on Spring security.

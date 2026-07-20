@@ -9,8 +9,8 @@
    <!-- ********************************************** -->
 
    <parent>
-      <groupId>com.bernardomg.framework</groupId>
-      <artifactId>security</artifactId>
+      <groupId>com.bernardomg.framework.security</groupId>
+      <artifactId>security-starter</artifactId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
@@ -47,27 +47,11 @@
       </dependency>
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-spring-jpa-adapter</artifactId>
+         <artifactId>security-adapter</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-spring-mail-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-rest-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-event-adapter</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
+         <groupId>com.bernardomg.framework.security.spring</groupId>
          <artifactId>spring-security</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>spring-security-web</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== SPRING ==================== -->

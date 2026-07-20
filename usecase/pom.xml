@@ -9,8 +9,8 @@
    <!-- ********************************************** -->
 
    <parent>
-      <groupId>com.bernardomg.framework</groupId>
-      <artifactId>security</artifactId>
+      <groupId>com.bernardomg.framework.security</groupId>
+      <artifactId>security-starter</artifactId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
 
@@ -23,6 +23,17 @@
    <packaging>jar</packaging>
 
    <name>Security usecase</name>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROPERTIES ****************** -->
+   <!-- ********************************************** -->
+
+   <properties>
+      <!-- ============================================== -->
+      <!-- =============== MANIFEST DATA ================ -->
+      <!-- ============================================== -->
+      <manifest.name>com/bernardomg/security/security/usecase</manifest.name>
+   </properties>
 
    <!-- ********************************************** -->
    <!-- *************** DEPENDENCIES ***************** -->
@@ -42,15 +53,20 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>validation</artifactId>
       </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
          <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-domain</artifactId>
+         <artifactId>security-model</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- =============== TRANSACTIONAL ================ -->
+      <!-- ================== JAKARTA =================== -->
       <!-- ============================================== -->
       <dependency>
          <groupId>jakarta.transaction</groupId>
@@ -75,29 +91,27 @@
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Spring Boot Starter: Test -->
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-test</artifactId>
+         <!-- AssertJ -->
+         <groupId>org.assertj</groupId>
+         <artifactId>assertj-core</artifactId>
          <scope>test</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.junit.vintage</groupId>
-               <artifactId>junit-vintage-engine</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.apache.logging.log4j</groupId>
-               <artifactId>log4j-to-slf4j</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>ch.qos.logback</groupId>
-               <artifactId>logback-classic</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
       <dependency>
-         <!-- Spring Security Test -->
-         <groupId>org.springframework.security</groupId>
-         <artifactId>spring-security-test</artifactId>
+         <!-- JUnit Jupiter Engine -->
+         <groupId>org.junit.jupiter</groupId>
+         <artifactId>junit-jupiter-engine</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Mockito -->
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-core</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Mockito -->
+         <groupId>org.mockito</groupId>
+         <artifactId>mockito-junit-jupiter</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

@@ -19,8 +19,8 @@
    <!-- **************** PROJECT INFO **************** -->
    <!-- ********************************************** -->
 
-   <groupId>com.bernardomg.framework</groupId>
-   <artifactId>security</artifactId>
+   <groupId>com.bernardomg.framework.security</groupId>
+   <artifactId>security-starter</artifactId>
    <version>1.0.0-SNAPSHOT</version>
    <packaging>pom</packaging>
 
@@ -42,15 +42,11 @@
    <!-- ********************************************** -->
 
    <modules>
-     <module>domain</module>
-     <module>jpa-domain</module>
+     <module>model</module>
+     <module>jpa-model</module>
      <module>usecase</module>
-     <module>spring-jpa-adapter</module>
-     <module>spring-mail-adapter</module>
-     <module>rest-adapter</module>
-     <module>event-adapter</module>
+     <module>adapter</module>
      <module>spring-security</module>
-     <module>spring-security-web</module>
      <module>starter</module>
    </modules>
 
@@ -259,7 +255,7 @@
          <!-- ============================================== -->
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>security-domain</artifactId>
+            <artifactId>security-model</artifactId>
             <version>${project.version}</version>
          </dependency>
 	     <dependency>
@@ -269,37 +265,17 @@
 	     </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>security-jpa-domain</artifactId>
+            <artifactId>security-jpa-model</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
             <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>security-spring-jpa-adapter</artifactId>
+            <artifactId>security-adapter</artifactId>
             <version>${project.version}</version>
          </dependency>
          <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>security-spring-mail-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-	     <dependency>
-	        <groupId>com.bernardomg.framework.security</groupId>
-	        <artifactId>security-rest-adapter</artifactId>
-            <version>${project.version}</version>
-	     </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>security-event-adapter</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
+            <groupId>com.bernardomg.framework.security.spring</groupId>
             <artifactId>spring-security</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.bernardomg.framework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
             <version>${project.version}</version>
          </dependency>
          <!-- ============================================== -->

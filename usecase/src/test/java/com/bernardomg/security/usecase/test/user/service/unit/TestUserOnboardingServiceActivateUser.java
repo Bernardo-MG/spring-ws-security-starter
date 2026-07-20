@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
@@ -89,7 +88,6 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating an enabled user gives a failure")
     void testActivateUser_Enabled_Exception() {
         final ThrowingCallable executable;
@@ -110,7 +108,6 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a expired user gives a failure")
     void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
@@ -161,7 +158,6 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a locked user gives a failure")
     void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
@@ -197,7 +193,6 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Activating a not existing user gives a failure")
     void testActivateUser_NotExistingUser_Exception() {
         final ThrowingCallable executable;

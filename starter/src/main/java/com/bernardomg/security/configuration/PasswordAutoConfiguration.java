@@ -48,13 +48,13 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.springframework.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
 import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
 import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
-import com.bernardomg.security.web.springframework.whitelist.WhitelistRoute;
 
 /**
  * Password handling configuration.

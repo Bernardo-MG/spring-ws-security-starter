@@ -42,13 +42,13 @@ import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.login.usecase.validation.SpringValidLoginPredicate;
+import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 import com.bernardomg.security.usecase.login.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.usecase.login.service.LoginService;
 import com.bernardomg.security.usecase.login.service.TokenLoginService;
 import com.bernardomg.security.usecase.login.service.UserLoginAttempsService;
-import com.bernardomg.security.web.springframework.whitelist.WhitelistRoute;
 
 /**
  * Login auto configuration.

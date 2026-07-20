@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.password.reset.event.PasswordResetEvent;
@@ -50,6 +49,8 @@ import com.bernardomg.security.usecase.password.validation.PasswordResetHasStron
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
+
+import jakarta.transaction.Transactional;
 
 /**
  * Password recovery service which integrates with Spring Security.
