@@ -192,7 +192,7 @@
       <bernardomg.framework.jwt.version>1.0.0</bernardomg.framework.jwt.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
-      <bernardomg.framework.test.version>1.0.7</bernardomg.framework.test.version>
+      <bernardomg.framework.test.version>1.0.8</bernardomg.framework.test.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.response.version>1.0.0</bernardomg.framework.ws.response.version>

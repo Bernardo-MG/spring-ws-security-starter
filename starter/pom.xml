@@ -66,9 +66,21 @@
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
+         <!-- JUnit Jupiter Engine -->
+         <groupId>org.junit.jupiter</groupId>
+         <artifactId>junit-jupiter-engine</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
          <!-- Architecture Tests -->
          <groupId>com.bernardomg.framework.testing</groupId>
          <artifactId>architecture-tests</artifactId>
+      </dependency>
+      <dependency>
+         <!-- ArchUnit -->
+         <groupId>com.tngtech.archunit</groupId>
+         <artifactId>archunit-junit5</artifactId>
+         <scope>test</scope>
       </dependency>
    </dependencies>
 
