@@ -24,8 +24,8 @@
    <version>1.0.0-SNAPSHOT</version>
    <packaging>pom</packaging>
 
-   <name>Starter for Security in Spring Web Services</name>
-   <description>Starter for Security in Spring Web Services.</description>
+   <name>Security Starter</name>
+   <description>Security Starter including code and Spring starter.</description>
    <url>https://github.com/bernardo-mg/spring-ws-security-starter</url>
    <inceptionYear>2023</inceptionYear>
 
