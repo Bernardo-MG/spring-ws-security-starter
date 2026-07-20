@@ -518,7 +518,10 @@
             Updated pagination dependency.
          </action>
       </release>
-      <release version="1.0.0" date="2026-03-18" description="">
+      <release version="0.4.49" date="2026-06-10" description="Fixed login query">
+         <action dev="bmg" type="fix">
+            Update login register correctly.
+         </action>
       </release>
    </body>
 </document>
