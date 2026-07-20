@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Security API
+  version: 1.0.0
+  description: Security API.
+servers:
+  - url: https://localhost
+    description: Local development
+paths:
+  /security/permission:
+    $ref: paths/permissions.yml
+  /security/role:
+    $ref: paths/roles.yml
+  /security/role/{name}:
+    $ref: paths/roles_by_id.yml
+  /security/user:
+    $ref: paths/users.yml
+  /security/user/onboarding/activate/{token}:
+    $ref: paths/users_activation.yml
+  /security/user/onboarding/invite:
+    $ref: paths/users_invite.yml
+  /security/user/{username}:
+    $ref: paths/users_by_id.yml
+  /security/user/token:
+    $ref: paths/users_token.yml
+  /security/user/token/{token}:
+    $ref: paths/users_token_by_id.yml
