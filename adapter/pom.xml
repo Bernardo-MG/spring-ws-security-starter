@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <!-- ********************************************** -->
+   <!-- ****************** BASE POM ****************** -->
+   <!-- ********************************************** -->
+
+   <parent>
+      <groupId>com.bernardomg.framework.security</groupId>
+      <artifactId>security-starter</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+   </parent>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROJECT INFO **************** -->
+   <!-- ********************************************** -->
+
+   <groupId>com.bernardomg.framework.security</groupId>
+   <artifactId>security-adapter</artifactId>
+   <packaging>jar</packaging>
+
+   <name>Security adapter</name>
+
+   <!-- ********************************************** -->
+   <!-- **************** PROPERTIES ****************** -->
+   <!-- ********************************************** -->
+
+   <properties>
+      <!-- ============================================== -->
+      <!-- =============== MANIFEST DATA ================ -->
+      <!-- ============================================== -->
+      <manifest.name>com/bernardomg/security/security/adapter</manifest.name>
+   </properties>
+
+   <!-- ********************************************** -->
+   <!-- *************** DEPENDENCIES ***************** -->
+   <!-- ********************************************** -->
+
+   <dependencies>
+      <!-- ============================================== -->
+      <!-- ================ FRAMEWORK =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring WS Starter -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>ws-response</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Access decorator -->
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>access-decorator</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= PROJECT ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-jpa-model</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-usecase</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== OPENAPI =================== -->
+      <!-- ============================================== -->
+      <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>jackson-databind-nullable</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================== SPRING ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Web MVC -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring context -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Data JPA -->
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-jpa</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================= JAKARTA ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+          <!-- Jakarta Servlet API -->
+         <groupId>jakarta.servlet</groupId>
+         <artifactId>jakarta.servlet-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <!-- Jakarta validation -->
+         <groupId>jakarta.validation</groupId>
+         <artifactId>jakarta.validation-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <!-- Jakarta validation -->
+         <groupId>jakarta.annotation</groupId>
+         <artifactId>jakarta.annotation-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <!-- Jakarta Mail -->
+         <groupId>org.eclipse.angus</groupId>
+         <artifactId>jakarta.mail</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ THYMELEAF =================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Thymeleaf -->
+         <groupId>org.thymeleaf</groupId>
+         <artifactId>thymeleaf</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Thymeleaf -->
+         <groupId>org.thymeleaf</groupId>
+         <artifactId>thymeleaf-spring6</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Spring Boot Starter: Test -->
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-test</artifactId>
+         <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>org.junit.vintage</groupId>
+               <artifactId>junit-vintage-engine</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.apache.logging.log4j</groupId>
+               <artifactId>log4j-to-slf4j</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <!-- Liquibase -->
+         <groupId>org.liquibase</groupId>
+         <artifactId>liquibase-core</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>ch.qos.logback</groupId>
+               <artifactId>logback-classic</artifactId>
+            </exclusion>
+         </exclusions>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Test containers -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>testcontainers</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Postgresql test container -->
+         <groupId>org.testcontainers</groupId>
+         <artifactId>postgresql </artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-data-jpa</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+   <!-- ********************************************** -->
+   <!-- ******************* BUILD ******************** -->
+   <!-- ********************************************** -->
+
+   <build>
+      <plugins>
+          <plugin>
+             <groupId>org.openapitools</groupId>
+             <artifactId>openapi-generator-maven-plugin</artifactId>
+             <executions>
+                <execution>
+                   <id>login</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/login.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.login.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.login.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>login-register</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/login-register.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.login.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.login.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>account</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/account.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.account.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.account.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>user</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/user.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.user.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.user.dto</modelPackage>
+                   </configuration>
+                </execution>
+                <execution>
+                   <id>password</id>
+                   <goals>
+                      <goal>generate</goal>
+                   </goals>
+                   <configuration>
+                      <inputSpec>${project.basedir}/src/main/resources/openapi/password.yml</inputSpec>
+                      <apiPackage>com.bernardomg.security.adapter.outbound.rest.password.controller</apiPackage>
+                      <modelPackage>com.bernardomg.security.adapter.outbound.rest.password.dto</modelPackage>
+                   </configuration>
+                </execution>
+             </executions>
+          </plugin>
+      </plugins>
+   </build>
+
+</project>

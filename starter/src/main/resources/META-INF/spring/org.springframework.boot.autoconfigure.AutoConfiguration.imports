@@ -1,0 +1,12 @@
+com.bernardomg.security.configuration.AccessAutoConfiguration
+com.bernardomg.security.configuration.AccountAutoConfiguration
+com.bernardomg.security.configuration.JwtAutoConfiguration
+com.bernardomg.security.configuration.LoginAutoConfiguration
+com.bernardomg.security.configuration.LoginRegisterAutoConfiguration
+com.bernardomg.security.configuration.PasswordAutoConfiguration
+com.bernardomg.security.configuration.PermissionAutoConfiguration
+com.bernardomg.security.configuration.RoleAutoConfiguration
+com.bernardomg.security.configuration.SecurityAutoConfiguration
+com.bernardomg.security.configuration.UserAutoConfiguration
+com.bernardomg.security.configuration.UserTokenAutoConfiguration
+com.bernardomg.security.configuration.WebSecurityAutoConfiguration

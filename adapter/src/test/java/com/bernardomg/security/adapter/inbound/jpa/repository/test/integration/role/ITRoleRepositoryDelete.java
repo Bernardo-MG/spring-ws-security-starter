@@ -1,0 +1,143 @@
+/**
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2023-2025 the original author or authors.
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.bernardomg.security.adapter.inbound.jpa.repository.test.integration.role;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithPermission;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithoutPermissions;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.RoleConstants;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
+
+@IntegrationTest
+@DisplayName("RoleRepository - delete")
+class ITRoleRepositoryDelete {
+
+    @Autowired
+    private RoleRepository                     repository;
+
+    @Autowired
+    private ResourcePermissionSpringRepository resourcePermissionSpringRepository;
+
+    @Autowired
+    private RoleSpringRepository               springRepository;
+
+    public ITRoleRepositoryDelete() {
+        super();
+    }
+
+    @Test
+    @DisplayName("Deletes a role with no permissions")
+    @RoleWithoutPermissions
+    void testDelete() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When there is no data, nothing is removed")
+    void testDelete_NoData() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("Deletes a role with permissions")
+    @RoleWithPermission
+    void testDelete_WithPermissions() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting a role, the permissions are not deleted")
+    @RoleWithPermission
+    void testDelete_WithPermissions_PermissionsNotDeleted() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(resourcePermissionSpringRepository.count())
+            .isNotZero();
+    }
+
+    @Test
+    @DisplayName("Deletes a role with user and permissions")
+    @EnabledUserWithRole
+    void testDelete_WithUser() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(springRepository.count())
+            .isZero();
+    }
+
+    @Test
+    @DisplayName("When deleting a role with user and permissions, the permissions are not deleted")
+    @EnabledUserWithRole
+    void testDelete_WithUser_PermissionsNotDeleted() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        Assertions.assertThat(resourcePermissionSpringRepository.count())
+            .isNotZero();
+    }
+
+    @Test
+    @DisplayName("When deleting a role with user and permissions, the user is not deleted")
+    @EnabledUserWithRole
+    @Disabled("Should this be redone?")
+    void testDelete_WithUser_UserNotDeleted() {
+        // WHEN
+        repository.delete(RoleConstants.NAME);
+
+        // THEN
+        // Assertions.assertThat(userSpringRepository.count())
+        // .isNotZero();
+    }
+
+}
