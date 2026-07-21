@@ -1,4 +1,3 @@
-
 package com.bernardomg.security.springframework.account.usecase.service;
 
 import java.util.Objects;
@@ -10,38 +9,27 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bernardomg.security.domain.account.exception.MissingAccountException;
 import com.bernardomg.security.domain.account.model.Account;
-import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.usecase.account.service.AccountService;
+import com.bernardomg.security.usecase.account.service.AccountInSessionProvider;
 
-import jakarta.transaction.Transactional;
-
-/**
- * Account service based on Spring security.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@Transactional
-public final class SpringSecurityAccountService implements AccountService {
+public final class SpringSecurityAccountInSessionProvider implements AccountInSessionProvider {
 
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(SpringSecurityAccountService.class);
+    private static final Logger     log = LoggerFactory.getLogger(SpringSecurityAccountInSessionProvider.class);
 
     private final AccountRepository accountRepository;
 
-    public SpringSecurityAccountService(final AccountRepository accountRepo) {
+    public SpringSecurityAccountInSessionProvider(final AccountRepository accountRepo) {
         super();
 
         accountRepository = Objects.requireNonNull(accountRepo);
     }
 
     @Override
-    public final Optional<Account> getCurrentUser() {
+    public final Optional<Account> getCurrentAccount() {
         final Authentication    authentication;
         final Optional<Account> account;
         final UserDetails       userDetails;
@@ -79,30 +67,6 @@ public final class SpringSecurityAccountService implements AccountService {
         log.trace("Got account for user in session");
 
         return account;
-    }
-
-    @Override
-    public final Account update(final Account account) {
-        final Account accountData;
-        final Account current;
-        final Account updated;
-
-        log.trace("Updating account {} using data {}", account.getUsername(), account);
-
-        current = getCurrentUser().orElseThrow(() -> {
-            log.error("Missing account for user in session");
-            // TODO: Use another exception
-            throw new MissingAccountException("");
-        });
-
-        // Can only change name
-        accountData = BasicAccount.of(current.getUsername(), current.getName(), current.getEmail());
-
-        updated = accountRepository.save(accountData);
-
-        log.trace("Updated account {} using data {}", accountData.getUsername(), updated);
-
-        return updated;
     }
 
 }

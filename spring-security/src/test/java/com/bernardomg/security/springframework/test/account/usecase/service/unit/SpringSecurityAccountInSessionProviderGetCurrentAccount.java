@@ -16,28 +16,24 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountService;
+import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountInSessionProvider;
 import com.bernardomg.security.springframework.test.account.config.factory.Accounts;
 import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultAccountService - get current user")
-class TestAccountServiceGetCurrentUser {
+@DisplayName("SpringSecurityAccountInSessionProvider - get current account")
+class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
     @Mock
-    private AccountRepository            accountRepository;
+    private AccountRepository                      accountRepository;
 
     @InjectMocks
-    private SpringSecurityAccountService service;
-
-    public TestAccountServiceGetCurrentUser() {
-        super();
-    }
+    private SpringSecurityAccountInSessionProvider provider;
 
     @Test
     @DisplayName("When the user is authenticated an account is returned")
-    void testGetCurrentUser_Authenticated() {
+    void testgetCurrentAccount_Authenticated() {
         final Optional<Account> account;
 
         // GIVEN
@@ -47,7 +43,7 @@ class TestAccountServiceGetCurrentUser {
         given(accountRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Accounts.valid()));
 
         // WHEN
-        account = service.getCurrentUser();
+        account = provider.getCurrentAccount();
 
         // THEN
         Assertions.assertThat(account)
@@ -56,7 +52,7 @@ class TestAccountServiceGetCurrentUser {
 
     @Test
     @DisplayName("When the principal is invalid no account is returned")
-    void testGetCurrentUser_InvalidPrincipal() {
+    void testgetCurrentAccount_InvalidPrincipal() {
         final Optional<Account> account;
 
         // GIVEN
@@ -64,7 +60,7 @@ class TestAccountServiceGetCurrentUser {
             .setAuthentication(Authentications.missingPrincipal());
 
         // WHEN
-        account = service.getCurrentUser();
+        account = provider.getCurrentAccount();
 
         // THEN
         Assertions.assertThat(account)
@@ -73,7 +69,7 @@ class TestAccountServiceGetCurrentUser {
 
     @Test
     @DisplayName("When there is no authentication no account is returned")
-    void testGetCurrentUser_NoAuthentication() {
+    void testgetCurrentAccount_NoAuthentication() {
         final Optional<Account> account;
 
         // GIVEN
@@ -81,7 +77,7 @@ class TestAccountServiceGetCurrentUser {
             .setAuthentication(null);
 
         // WHEN
-        account = service.getCurrentUser();
+        account = provider.getCurrentAccount();
 
         // THEN
         Assertions.assertThat(account)
@@ -90,7 +86,7 @@ class TestAccountServiceGetCurrentUser {
 
     @Test
     @DisplayName("When the user is not authenticated no account is returned")
-    void testGetCurrentUser_NotAuthenticated() {
+    void testgetCurrentAccount_NotAuthenticated() {
         final Optional<Account> account;
 
         // GIVEN
@@ -98,7 +94,7 @@ class TestAccountServiceGetCurrentUser {
             .setAuthentication(Authentications.notAuthenticated());
 
         // WHEN
-        account = service.getCurrentUser();
+        account = provider.getCurrentAccount();
 
         // THEN
         Assertions.assertThat(account)

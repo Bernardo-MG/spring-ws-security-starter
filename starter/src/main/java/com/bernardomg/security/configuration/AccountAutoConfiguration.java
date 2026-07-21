@@ -31,8 +31,10 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.adapter.inbound.jpa.repository.account.JpaUserAccountRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountService;
+import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountInSessionProvider;
+import com.bernardomg.security.usecase.account.service.AccountInSessionProvider;
 import com.bernardomg.security.usecase.account.service.AccountService;
+import com.bernardomg.security.usecase.account.service.DefaultAccountService;
 
 /**
  * Account auto configuration.
@@ -51,7 +53,10 @@ public class AccountAutoConfiguration {
 
     @Bean("accountService")
     public AccountService getAccountService(final AccountRepository accountRepository) {
-        return new SpringSecurityAccountService(accountRepository);
+        final AccountInSessionProvider provider;
+
+        provider = new SpringSecurityAccountInSessionProvider(accountRepository);
+        return new DefaultAccountService(accountRepository, provider);
     }
 
 }
