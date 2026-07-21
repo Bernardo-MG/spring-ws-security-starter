@@ -312,7 +312,7 @@
             <version>${bernardomg.framework.security.access.version}</version>
          </dependency>
          <dependency>
-            <!-- Web service responses -->
+            <!-- WS Response -->
             <groupId>com.bernardomg.framework</groupId>
             <artifactId>ws-response</artifactId>
             <version>${bernardomg.framework.ws.response.version}</version>

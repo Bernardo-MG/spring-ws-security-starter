@@ -44,7 +44,7 @@
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Spring WS Starter -->
+         <!-- WS Response -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>ws-response</artifactId>
       </dependency>
