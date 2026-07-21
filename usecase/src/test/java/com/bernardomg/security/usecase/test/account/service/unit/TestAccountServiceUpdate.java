@@ -78,9 +78,9 @@ class TestAccountServiceUpdate {
         final Account account;
 
         // GIVEN
-        data = Accounts.valid();
+        data = Accounts.nameChange();
 
-        given(accountProvider.getCurrentAccount()).willReturn(Optional.of(data));
+        given(accountProvider.getCurrentAccount()).willReturn(Optional.of(Accounts.valid()));
         given(accountRepository.save(data)).willReturn(data);
 
         // WHEN
@@ -88,7 +88,7 @@ class TestAccountServiceUpdate {
 
         // THEN
         Assertions.assertThat(account)
-            .isEqualTo(Accounts.valid());
+            .isEqualTo(data);
     }
 
 }
