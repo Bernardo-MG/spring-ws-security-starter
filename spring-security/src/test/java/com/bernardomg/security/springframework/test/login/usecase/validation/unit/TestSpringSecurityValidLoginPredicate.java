@@ -17,12 +17,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.domain.login.model.Credentials;
-import com.bernardomg.security.springframework.login.usecase.validation.SpringValidLoginPredicate;
+import com.bernardomg.security.springframework.login.usecase.validation.SpringSecurityValidLoginPredicate;
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringValidLoginPredicate")
-class TestSpringValidLoginPredicate {
+@DisplayName("SpringSecurityValidLoginPredicate")
+class TestSpringSecurityValidLoginPredicate {
 
     @Mock
     private PasswordEncoder           passwordEncoder;
@@ -34,7 +34,7 @@ class TestSpringValidLoginPredicate {
     private UserDetailsService        userDetailsService;
 
     @InjectMocks
-    private SpringValidLoginPredicate validator;
+    private SpringSecurityValidLoginPredicate validator;
 
     @Test
     @DisplayName("Doesn't validate a expired user")

@@ -30,12 +30,12 @@ import com.bernardomg.security.domain.login.model.Credentials;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class SpringValidLoginPredicate implements Predicate<Credentials> {
+public final class SpringSecurityValidLoginPredicate implements Predicate<Credentials> {
 
     /**
      * Logger for the class.
      */
-    private static final Logger      log = LoggerFactory.getLogger(SpringValidLoginPredicate.class);
+    private static final Logger      log = LoggerFactory.getLogger(SpringSecurityValidLoginPredicate.class);
 
     /**
      * Password encoder, for validating passwords.
@@ -47,7 +47,7 @@ public final class SpringValidLoginPredicate implements Predicate<Credentials> {
      */
     private final UserDetailsService userDetailsService;
 
-    public SpringValidLoginPredicate(final UserDetailsService userDetService, final PasswordEncoder passEncoder) {
+    public SpringSecurityValidLoginPredicate(final UserDetailsService userDetService, final PasswordEncoder passEncoder) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);
