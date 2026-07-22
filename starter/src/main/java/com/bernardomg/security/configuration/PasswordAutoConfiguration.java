@@ -47,11 +47,13 @@ import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.serv
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.session.UsernameInSessionProvider;
-import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordChangeService;
+import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordEncrypter;
 import com.bernardomg.security.springframework.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.springframework.sesssion.SpringSecurityUsernameInSessionProvider;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
+import com.bernardomg.security.usecase.password.change.service.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.change.service.DefaultPasswordChangeService;
 import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
@@ -91,9 +93,11 @@ public class PasswordAutoConfiguration {
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final PasswordEncoder passwordEncoder) {
         final UsernameInSessionProvider usernameInSessionProvider;
+        final PasswordEncrypter passwordEncrypter;
 
+        passwordEncrypter = new SpringSecurityPasswordEncrypter(passwordEncoder);
         usernameInSessionProvider = new SpringSecurityUsernameInSessionProvider();
-        return new SpringSecurityPasswordChangeService(userRepository, passwordEncoder, usernameInSessionProvider);
+        return new DefaultPasswordChangeService(userRepository, passwordEncrypter, usernameInSessionProvider);
     }
 
     @Bean("passwordEncoder")

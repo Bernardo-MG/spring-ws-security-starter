@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.test.password.change.usecase.service.unit;
+package com.bernardomg.security.usecase.test.password.change.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -15,8 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import com.bernardomg.security.domain.password.change.exception.InvalidPasswordChangeException;
 import com.bernardomg.security.domain.user.exception.DisabledUserException;
@@ -25,9 +23,10 @@ import com.bernardomg.security.domain.user.exception.LockedUserException;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.session.UsernameInSessionProvider;
-import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
-import com.bernardomg.security.springframework.test.user.config.factory.Users;
+import com.bernardomg.security.usecase.password.change.service.DefaultPasswordChangeService;
+import com.bernardomg.security.usecase.password.change.service.PasswordEncrypter;
+import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
+import com.bernardomg.security.usecase.test.user.config.factory.Users;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
@@ -36,36 +35,31 @@ import com.bernardomg.validation.test.assertion.ValidationAssertions;
 class TestSpringSecurityPasswordChangeService {
 
     @Mock
-    private PasswordEncoder                     passwordEncoder;
+    private PasswordEncrypter            passwordEncrypter;
 
     @Mock
-    private UserRepository                      repository;
+    private UserRepository               repository;
 
     @InjectMocks
-    private SpringSecurityPasswordChangeService service;
+    private DefaultPasswordChangeService service;
 
     @Mock
-    private UsernameInSessionProvider           usernameInSessionProvider;
-
-    public TestSpringSecurityPasswordChangeService() {
-        super();
-    }
+    private UsernameInSessionProvider    usernameInSessionProvider;
 
     @BeforeEach
-    void setUp() {
+    void setUpUsername() {
         Mockito.when(usernameInSessionProvider.getCurrentUsername())
             .thenReturn(Optional.of(UserConstants.USERNAME));
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a disabled user gives a failure")
     void testChangePasswordForUserInSession_Disabled() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
@@ -80,14 +74,14 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a expired user gives a failure")
     void testChangePasswordForUserInSession_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
@@ -102,14 +96,13 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with an invalid password throws an exception")
     void testChangePasswordForUserInSession_InvalidPassword() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
 
         // GIVEN
-        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
@@ -123,14 +116,13 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a locked user gives a failure")
     void testChangePasswordForUserInSession_Locked() {
         final ThrowingCallable executable;
         final Exception        exception;
 
         // GIVEN
-        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
@@ -165,7 +157,6 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("Changing password with a not existing user gives a failure")
     void testChangePasswordForUserInSession_NotExistingUser() {
         final ThrowingCallable executable;
@@ -191,7 +182,7 @@ class TestSpringSecurityPasswordChangeService {
         final FieldFailure     failure;
 
         // GIVEN
-        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(false);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(false);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
@@ -221,13 +212,12 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @WithMockUser(username = UserConstants.USERNAME)
     @DisplayName("When changing password with a user with expired password the password is reset")
     void testChangePasswordForUserInSession_PasswordExpired() {
 
         // GIVEN
-        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
-        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(passwordEncrypter.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
@@ -244,8 +234,8 @@ class TestSpringSecurityPasswordChangeService {
     void testChangePasswordForUserInSession_Resets() {
 
         // GIVEN
-        given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
-        given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
+        given(passwordEncrypter.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
+        given(passwordEncrypter.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
