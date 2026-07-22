@@ -28,12 +28,15 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
+import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.access.interceptor.SpringResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 
@@ -60,8 +63,12 @@ public class SecurityAutoConfiguration {
     }
 
     @Bean("springResourceAccessValidator")
-    public ResourceAccessValidator springResourceAccessValidator() {
-        return new SpringResourceAccessValidator();
+    public ResourceAccessValidator springResourceAccessValidator(
+            final AuthenticationTrustResolver trustResolver) {
+        final ResourcePermissionEvaluator permissionEvaluator;
+        
+        permissionEvaluator = new AuthorityResourcePermissionEvaluator();
+        return new SpringResourceAccessValidator(permissionEvaluator, trustResolver);
     }
 
 }
