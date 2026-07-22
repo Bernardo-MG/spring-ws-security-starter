@@ -51,9 +51,9 @@ import com.bernardomg.security.springframework.password.change.usecase.service.S
 import com.bernardomg.security.springframework.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.springframework.sesssion.SpringSecurityUsernameInSessionProvider;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
-import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
-import com.bernardomg.security.usecase.password.change.service.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.change.service.DefaultPasswordChangeService;
+import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
 import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
@@ -93,7 +93,7 @@ public class PasswordAutoConfiguration {
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final PasswordEncoder passwordEncoder) {
         final UsernameInSessionProvider usernameInSessionProvider;
-        final PasswordEncrypter passwordEncrypter;
+        final PasswordEncrypter         passwordEncrypter;
 
         passwordEncrypter = new SpringSecurityPasswordEncrypter(passwordEncoder);
         usernameInSessionProvider = new SpringSecurityUsernameInSessionProvider();

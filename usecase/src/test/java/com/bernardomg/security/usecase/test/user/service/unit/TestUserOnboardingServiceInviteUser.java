@@ -35,7 +35,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.role.exception.MissingRoleException;
@@ -43,6 +42,7 @@ import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.event.UserInvitationEvent;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.password.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.usecase.test.user.config.factory.RoleConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
@@ -60,7 +60,7 @@ class TestUserOnboardingServiceInviteUser {
     private EventEmitter                 eventEmitter;
 
     @Mock
-    private PasswordEncoder              passwordEncoder;
+    private PasswordEncrypter            passwordEncrypt;
 
     @Mock
     private RoleRepository               roleRepository;
@@ -78,7 +78,7 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("Sends the user to the repository, ignoring case")
     void testInviteUser_Case_AddsEntity() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
@@ -96,7 +96,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
@@ -200,7 +200,7 @@ class TestUserOnboardingServiceInviteUser {
         final UserInvitationEvent userInvitationEvent;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
@@ -218,7 +218,7 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("Sends the user to the repository, padded with whitespace")
     void testInviteUser_Padded_AddsEntity() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
@@ -236,7 +236,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
@@ -253,7 +253,7 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("With a user with roles, it is sent to the repository")
     void testInviteUser_Role_PersistedData() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
@@ -272,7 +272,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
@@ -290,7 +290,7 @@ class TestUserOnboardingServiceInviteUser {
     @DisplayName("With a user without roles, it is sent to the repository")
     void testInviteUser_WithoutRoles_PersistedData() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
@@ -308,7 +308,7 @@ class TestUserOnboardingServiceInviteUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());

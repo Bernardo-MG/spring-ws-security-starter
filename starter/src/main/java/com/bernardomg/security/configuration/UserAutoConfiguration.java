@@ -36,7 +36,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.event.emitter.EventEmitter;
@@ -52,6 +51,7 @@ import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.usecase.password.PasswordEncrypter;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.service.DisabledUserNotificationService;
@@ -115,9 +115,9 @@ public class UserAutoConfiguration {
 
     @Bean("userOnboardingService")
     public UserOnboardingService getUserOnboardingService(final UserRepository userRepository,
-            final RoleRepository roleRepository, final PasswordEncoder passwordEncoder,
+            final RoleRepository roleRepository, final PasswordEncrypter passwordEncrypter,
             @Qualifier("userTokenStore") final UserTokenStore tokenStore, final EventEmitter eventEmitter) {
-        return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncoder, tokenStore,
+        return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncrypter, tokenStore,
             eventEmitter);
     }
 
@@ -140,8 +140,8 @@ public class UserAutoConfiguration {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final PasswordEncoder passwordEncoder) {
-        return new DefaultUserService(userRepo, roleRepo, passwordEncoder);
+            final PasswordEncrypter passwordEncrypter) {
+        return new DefaultUserService(userRepo, roleRepo, passwordEncrypter);
     }
 
     @Bean("userTokenStore")

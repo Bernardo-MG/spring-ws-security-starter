@@ -73,14 +73,6 @@
          <artifactId>jakarta.transaction-api</artifactId>
       </dependency>
       <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-          <!-- Spring Security Crypto -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-crypto</artifactId>
-      </dependency>
-      <!-- ============================================== -->
       <!-- ============== APACHE COMMONS ================ -->
       <!-- ============================================== -->
       <dependency>

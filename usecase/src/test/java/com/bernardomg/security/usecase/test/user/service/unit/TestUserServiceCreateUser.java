@@ -12,13 +12,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.role.exception.MissingRoleException;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.password.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.user.config.factory.RoleConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;
@@ -35,7 +35,7 @@ class TestUserServiceCreateUser {
     private EventEmitter       eventEmitter;
 
     @Mock
-    private PasswordEncoder    passwordEncoder;
+    private PasswordEncrypter  passwordEncrypt;
 
     @Mock
     private RoleRepository     roleRepository;
@@ -53,7 +53,7 @@ class TestUserServiceCreateUser {
     @DisplayName("Sends the user to the repository, ignoring case")
     void testCreate_Case_AddsEntity() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
 
@@ -70,7 +70,7 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
 
@@ -171,7 +171,7 @@ class TestUserServiceCreateUser {
     @DisplayName("Sends the user to the repository, padded with whitespace")
     void testCreate_Padded_AddsEntity() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
 
@@ -188,7 +188,7 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
 
@@ -204,7 +204,7 @@ class TestUserServiceCreateUser {
     @DisplayName("With a user with roles, it is sent to the repository")
     void testCreate_Role_PersistedData() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
@@ -222,7 +222,7 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
         given(userRepository.save(Users.newlyCreatedWithRole(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreatedWithRole());
@@ -239,7 +239,7 @@ class TestUserServiceCreateUser {
     @DisplayName("With a user without roles, it is sent to the repository")
     void testCreate_WithoutRoles_PersistedData() {
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreatedWithRole());
 
@@ -256,7 +256,7 @@ class TestUserServiceCreateUser {
         final User user;
 
         // GIVEN
-        given(passwordEncoder.encode("")).willReturn(UserConstants.ENCODED_PASSWORD);
+        given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
 

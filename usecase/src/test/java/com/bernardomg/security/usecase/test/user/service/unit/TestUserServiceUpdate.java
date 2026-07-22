@@ -38,7 +38,6 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.role.exception.MissingRoleException;
@@ -46,6 +45,7 @@ import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.password.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.user.config.factory.RoleConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;
@@ -62,7 +62,7 @@ class TestUserServiceUpdate {
     private EventEmitter       eventEmitter;
 
     @Mock
-    private PasswordEncoder    passwordEncoder;
+    private PasswordEncrypter  passwordEncrypter;
 
     @Mock
     private RoleRepository     roleRepository;
