@@ -47,7 +47,7 @@ import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.serv
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.session.UsernameInSessionProvider;
-import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordEncrypter;
+import com.bernardomg.security.springframework.password.SpringSecurityPasswordEncrypter;
 import com.bernardomg.security.springframework.password.reset.usecase.service.SpringSecurityPasswordResetService;
 import com.bernardomg.security.springframework.sesssion.SpringSecurityUsernameInSessionProvider;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
