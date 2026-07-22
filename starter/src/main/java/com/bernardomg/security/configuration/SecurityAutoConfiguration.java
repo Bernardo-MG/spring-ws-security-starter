@@ -63,10 +63,9 @@ public class SecurityAutoConfiguration {
     }
 
     @Bean("springResourceAccessValidator")
-    public ResourceAccessValidator springResourceAccessValidator(
-            final AuthenticationTrustResolver trustResolver) {
+    public ResourceAccessValidator springResourceAccessValidator(final AuthenticationTrustResolver trustResolver) {
         final ResourcePermissionEvaluator permissionEvaluator;
-        
+
         permissionEvaluator = new AuthorityResourcePermissionEvaluator();
         return new SpringResourceAccessValidator(permissionEvaluator, trustResolver);
     }

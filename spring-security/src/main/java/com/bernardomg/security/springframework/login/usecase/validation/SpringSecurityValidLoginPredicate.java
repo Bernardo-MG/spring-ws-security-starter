@@ -47,7 +47,8 @@ public final class SpringSecurityValidLoginPredicate implements Predicate<Creden
      */
     private final UserDetailsService userDetailsService;
 
-    public SpringSecurityValidLoginPredicate(final UserDetailsService userDetService, final PasswordEncoder passEncoder) {
+    public SpringSecurityValidLoginPredicate(final UserDetailsService userDetService,
+            final PasswordEncoder passEncoder) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);

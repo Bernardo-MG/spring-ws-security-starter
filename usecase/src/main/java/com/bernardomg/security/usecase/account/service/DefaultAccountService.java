@@ -60,11 +60,12 @@ public final class DefaultAccountService implements AccountService {
 
         log.trace("Updating account {} using data {}", account.getUsername(), account);
 
-        current = accountProvider.getCurrentAccount().orElseThrow(() -> {
-            log.error("Missing account for user in session");
-            // TODO: Use another exception
-            throw new MissingAccountException("");
-        });
+        current = accountProvider.getCurrentAccount()
+            .orElseThrow(() -> {
+                log.error("Missing account for user in session");
+                // TODO: Use another exception
+                throw new MissingAccountException("");
+            });
 
         // Can only change name
         // FIXME: Is this really updating anything?

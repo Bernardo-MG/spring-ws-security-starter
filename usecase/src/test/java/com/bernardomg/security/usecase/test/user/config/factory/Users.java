@@ -93,8 +93,7 @@ public final class Users {
     }
 
     public static final User upperCase() {
-        return new User(UserConstants.EMAIL.toUpperCase(),
-            UserConstants.USERNAME.toUpperCase(),
+        return new User(UserConstants.EMAIL.toUpperCase(), UserConstants.USERNAME.toUpperCase(),
             UserConstants.NAME.toUpperCase(), true, true, true, false, List.of());
     }
 

@@ -52,47 +52,6 @@ public final class Authentications {
         };
     }
 
-    public static final Authentication withAuthorities(final Collection<? extends GrantedAuthority> authorities) {
-        return new Authentication() {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return authorities;
-            }
-
-            @Override
-            public Object getCredentials() {
-                return null;
-            }
-
-            @Override
-            public Object getDetails() {
-                return null;
-            }
-
-            @Override
-            public String getName() {
-                return UserConstants.USERNAME;
-            }
-
-            @Override
-            public Object getPrincipal() {
-                return SecurityUsers.enabled();
-            }
-
-            @Override
-            public boolean isAuthenticated() {
-                return true;
-            }
-
-            @Override
-            public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {}
-
-        };
-    }
-
     public static final Authentication authenticatedWithAlternativeCreateAuthorities() {
         return new Authentication() {
 
@@ -331,6 +290,47 @@ public final class Authentications {
             @Override
             public boolean isAuthenticated() {
                 return false;
+            }
+
+            @Override
+            public void setAuthenticated(final boolean isAuthenticated) throws IllegalArgumentException {}
+
+        };
+    }
+
+    public static final Authentication withAuthorities(final Collection<? extends GrantedAuthority> authorities) {
+        return new Authentication() {
+
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return authorities;
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return UserConstants.USERNAME;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return SecurityUsers.enabled();
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return true;
             }
 
             @Override

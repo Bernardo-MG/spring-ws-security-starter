@@ -25,13 +25,13 @@ import com.bernardomg.security.springframework.test.user.config.factory.UserCons
 class TestSpringSecurityValidLoginPredicate {
 
     @Mock
-    private PasswordEncoder           passwordEncoder;
+    private PasswordEncoder                   passwordEncoder;
 
     @Mock
-    private UserDetails               user;
+    private UserDetails                       user;
 
     @Mock
-    private UserDetailsService        userDetailsService;
+    private UserDetailsService                userDetailsService;
 
     @InjectMocks
     private SpringSecurityValidLoginPredicate validator;

@@ -1,3 +1,4 @@
+
 package com.bernardomg.security.springframework.account.usecase.service;
 
 import java.util.Objects;
