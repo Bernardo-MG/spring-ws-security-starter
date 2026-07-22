@@ -46,8 +46,10 @@ import com.bernardomg.security.adapter.inbound.event.password.reset.PasswordRese
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
+import com.bernardomg.security.session.UsernameInSessionProvider;
 import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordChangeService;
 import com.bernardomg.security.springframework.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.springframework.sesssion.SpringSecurityUsernameInSessionProvider;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
 import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNotificationService;
@@ -88,7 +90,10 @@ public class PasswordAutoConfiguration {
     @Bean("passwordChangeService")
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final PasswordEncoder passwordEncoder) {
-        return new SpringSecurityPasswordChangeService(userRepository, passwordEncoder);
+        final UsernameInSessionProvider usernameInSessionProvider;
+
+        usernameInSessionProvider = new SpringSecurityUsernameInSessionProvider();
+        return new SpringSecurityPasswordChangeService(userRepository, passwordEncoder, usernameInSessionProvider);
     }
 
     @Bean("passwordEncoder")

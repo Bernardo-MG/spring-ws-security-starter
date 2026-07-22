@@ -29,8 +29,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.security.domain.password.change.exception.InvalidPasswordChangeException;
@@ -40,6 +38,7 @@ import com.bernardomg.security.domain.user.exception.LockedUserException;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.session.UsernameInSessionProvider;
 import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
 import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.validation.domain.exception.FieldFailureException;
@@ -61,28 +60,32 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(SpringSecurityPasswordChangeService.class);
+    private static final Logger             log = LoggerFactory.getLogger(SpringSecurityPasswordChangeService.class);
 
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder   passwordEncoder;
+    private final PasswordEncoder           passwordEncoder;
 
     /**
      * User repository.
      */
-    private final UserRepository    repository;
+    private final UserRepository            repository;
+
+    private final UsernameInSessionProvider usernameInSessionProvider;
 
     /**
      * Change password validator.
      */
-    private final Validator<String> validatorChange;
+    private final Validator<String>         validatorChange;
 
-    public SpringSecurityPasswordChangeService(final UserRepository userRepo, final PasswordEncoder passEncoder) {
+    public SpringSecurityPasswordChangeService(final UserRepository userRepo, final PasswordEncoder passEncoder,
+            final UsernameInSessionProvider usernameInSessionProv) {
         super();
 
         repository = Objects.requireNonNull(userRepo);
         passwordEncoder = Objects.requireNonNull(passEncoder);
+        usernameInSessionProvider = Objects.requireNonNull(usernameInSessionProv);
 
         validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
 
@@ -91,20 +94,24 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
 
     @Override
     public final void changePasswordForUserInSession(final String oldPassword, final String newPassword) {
-        final String         username;
-        final Optional<User> user;
-        final String         encodedPassword;
+        final Optional<String> username;
+        final Optional<User>   user;
+        final String           encodedPassword;
 
-        username = getCurrentUsername();
+        // TODO: handle missing username
+        username = usernameInSessionProvider.getCurrentUsername();
+        if (username.isEmpty()) {
+            throw new InvalidPasswordChangeException("No user authenticated", "");
+        }
 
         log.trace("Changing password for user {}", username);
 
         // Validate the user exists
-        user = repository.findOne(username);
+        user = repository.findOne(username.get());
         if (user.isEmpty()) {
             // TODO: Is this exception being hid?
             log.error("Missing user {}", username);
-            throw new MissingUsernameException(username);
+            throw new MissingUsernameException(username.get());
         }
 
         // TODO: Move to validator
@@ -117,9 +124,9 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
         authorizePasswordChange(user.get());
 
         encodedPassword = passwordEncoder.encode(newPassword);
-        repository.resetPassword(username, encodedPassword);
+        repository.resetPassword(username.get(), encodedPassword);
 
-        log.trace("Changed password for user {}", username);
+        log.trace("Changed password for user {}", username.get());
     }
 
     /**
@@ -145,20 +152,6 @@ public final class SpringSecurityPasswordChangeService implements PasswordChange
             log.error("User {} is disabled", user.username());
             throw new DisabledUserException(user.username());
         }
-    }
-
-    private final String getCurrentUsername() {
-        final Authentication auth;
-
-        auth = SecurityContextHolder.getContext()
-            .getAuthentication();
-        if ((auth == null) || (!auth.isAuthenticated())) {
-            // TODO: Use an exception matching the actual error
-            log.error("Missing authentication in session");
-            throw new InvalidPasswordChangeException("No user authenticated", "");
-        }
-
-        return auth.getName();
     }
 
     private final void validatePassword(final User user, final String oldPassword) {

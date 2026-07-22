@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -25,8 +24,8 @@ import com.bernardomg.security.domain.user.exception.ExpiredUserException;
 import com.bernardomg.security.domain.user.exception.LockedUserException;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.session.UsernameInSessionProvider;
 import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.validation.domain.model.FieldFailure;
@@ -45,14 +44,17 @@ class TestSpringSecurityPasswordChangeService {
     @InjectMocks
     private SpringSecurityPasswordChangeService service;
 
+    @Mock
+    private UsernameInSessionProvider           usernameInSessionProvider;
+
     public TestSpringSecurityPasswordChangeService() {
         super();
     }
 
     @BeforeEach
-    public final void initializeAuthentication() {
-        SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.authenticated());
+    void setUp() {
+        Mockito.when(usernameInSessionProvider.getCurrentUsername())
+            .thenReturn(Optional.of(UserConstants.USERNAME));
     }
 
     @Test
@@ -63,8 +65,6 @@ class TestSpringSecurityPasswordChangeService {
         final Exception        exception;
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.authenticated());
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
@@ -87,8 +87,6 @@ class TestSpringSecurityPasswordChangeService {
         final Exception        exception;
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.authenticated());
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
@@ -132,8 +130,6 @@ class TestSpringSecurityPasswordChangeService {
         final Exception        exception;
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.authenticated());
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
@@ -155,28 +151,8 @@ class TestSpringSecurityPasswordChangeService {
         final Exception        exception;
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
-
-        // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
-
-        // THEN
-        exception = Assertions.catchThrowableOfType(InvalidPasswordChangeException.class, executable);
-
-        Assertions.assertThat(exception.getMessage())
-            .isEqualTo("No user authenticated");
-    }
-
-    @Test
-    @DisplayName("Throws an exception when the user is not authenticated")
-    void testChangePasswordForUserInSession_NotAuthenticated() {
-        final ThrowingCallable executable;
-        final Exception        exception;
-
-        // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.notAuthenticated());
+        Mockito.when(usernameInSessionProvider.getCurrentUsername())
+            .thenReturn(Optional.ofNullable(null));
 
         // WHEN
         executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
@@ -196,8 +172,6 @@ class TestSpringSecurityPasswordChangeService {
         final Exception        exception;
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.authenticated());
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
@@ -252,8 +226,6 @@ class TestSpringSecurityPasswordChangeService {
     void testChangePasswordForUserInSession_PasswordExpired() {
 
         // GIVEN
-        SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.authenticated());
         given(passwordEncoder.encode(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
         given(passwordEncoder.matches(UserConstants.PASSWORD, UserConstants.PASSWORD)).willReturn(true);
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));

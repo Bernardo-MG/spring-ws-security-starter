@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.usecase.account.service.AccountInSessionProvider;
+import com.bernardomg.security.session.AccountInSessionProvider;
 import com.bernardomg.security.usecase.account.service.DefaultAccountService;
 import com.bernardomg.security.usecase.test.account.config.factory.Accounts;
 

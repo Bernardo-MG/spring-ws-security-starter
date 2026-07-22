@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.test.account.usecase.service.unit;
+package com.bernardomg.security.springframework.test.sesssion.unit;
 
 import static org.mockito.BDDMockito.given;
 
@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.springframework.account.usecase.service.SpringSecurityAccountInSessionProvider;
+import com.bernardomg.security.springframework.sesssion.SpringSecurityAccountInSessionProvider;
 import com.bernardomg.security.springframework.test.account.config.factory.Accounts;
 import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;

@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.usecase.account.service;
+package com.bernardomg.security.session;
 
 import java.util.Optional;
 
