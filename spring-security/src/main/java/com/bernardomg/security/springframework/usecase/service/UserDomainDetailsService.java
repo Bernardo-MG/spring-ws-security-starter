@@ -25,11 +25,11 @@
 package com.bernardomg.security.springframework.usecase.service;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -104,13 +104,16 @@ public final class UserDomainDetailsService implements UserDetailsService {
         final Collection<? extends GrantedAuthority> authorities;
         final UserDetails                            details;
         final String                                 password;
+        final String                                 cleanedUsername;
 
-        log.trace("Loading user {}", username);
+        cleanedUsername = username.toLowerCase(Locale.ROOT);
 
-        user = userRepository.findOne(username.toLowerCase(LocaleContextHolder.getLocale()))
+        log.trace("Loading user {}", cleanedUsername);
+
+        user = userRepository.findOne(cleanedUsername)
             .orElseThrow(() -> {
-                log.error("Username {} not found in database", username);
-                throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
+                log.debug("Username {} not found in database", cleanedUsername);
+                throw new UsernameNotFoundException("Invalid username or credentials");
             });
 
         authorities = userPermissionRepository.findAll(user.username())
@@ -119,20 +122,23 @@ public final class UserDomainDetailsService implements UserDetailsService {
             .toList();
 
         if (authorities.isEmpty()) {
-            log.error("Username {} has no authorities", username);
-            throw new UsernameNotFoundException(String.format("Username %s has no authorities", username));
+            log.debug("Username {} has no authorities", cleanedUsername);
+            throw new UsernameNotFoundException("Invalid username or credentials");
         }
 
-        password = userRepository.findPassword(username)
-            .get();
+        password = userRepository.findPassword(cleanedUsername)
+            .orElseThrow(() -> {
+                log.debug("Username {} not found in database", cleanedUsername);
+                throw new UsernameNotFoundException("Invalid username or credentials");
+            });
         details = toUserDetails(user, password, authorities);
 
-        log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}", username,
-            details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),
+        log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}",
+            cleanedUsername, details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),
             details.isCredentialsNonExpired());
-        log.debug("Authorities for {}: {}", username, details.getAuthorities());
+        log.debug("Authorities for {}: {}", cleanedUsername, details.getAuthorities());
 
-        log.trace("Loaded user {}", username);
+        log.trace("Loaded user {}", cleanedUsername);
 
         return details;
     }

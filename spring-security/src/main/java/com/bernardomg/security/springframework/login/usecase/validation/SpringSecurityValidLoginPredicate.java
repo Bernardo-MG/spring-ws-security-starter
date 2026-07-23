@@ -1,13 +1,13 @@
 
 package com.bernardomg.security.springframework.login.usecase.validation;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -59,53 +59,55 @@ public final class SpringSecurityValidLoginPredicate implements Predicate<Creden
     public final boolean test(final Credentials credentials) {
         final boolean         valid;
         Optional<UserDetails> details;
+        final String          cleanedUsername;
+
+        cleanedUsername = credentials.username()
+            .toLowerCase(Locale.ROOT);
 
         // TODO: Throw exceptions
-        log.debug("Validating login for user {}", credentials.username());
+        log.debug("Validating login for user {}", cleanedUsername);
 
         // Find the user
         try {
-            details = Optional.ofNullable(userDetailsService.loadUserByUsername(credentials.username()
-                .toLowerCase(LocaleContextHolder.getLocale())));
+            details = Optional.ofNullable(userDetailsService.loadUserByUsername(cleanedUsername));
         } catch (final UsernameNotFoundException e) {
             details = Optional.empty();
         }
 
         if (details.isEmpty()) {
-            // No user found for credentials.username()
-            log.debug("No user for credentials.username() {}. Failed login", credentials.username());
+            // No user found for username
+            log.debug("No user for username {}. Failed login", cleanedUsername);
             valid = false;
         } else if (isValid(details.get())) {
             // User exists
             // Validate password
-            log.debug("User {} exists, validating password", credentials.username());
+            log.debug("User {} exists, validating password", cleanedUsername);
             valid = passwordEncoder.matches(credentials.password(), details.get()
                 .getPassword());
             if (!valid) {
-                log.debug(
-                    "Received a password which doesn't match the one stored for credentials.username() {}. Failed login",
-                    credentials.username());
+                log.debug("Received a password which doesn't match the one stored for username {}. Failed login",
+                    cleanedUsername);
             } else {
-                log.debug("Received valid password for user {}", credentials.username());
+                log.debug("Received valid password for user {}", cleanedUsername);
             }
         } else {
             // Invalid user
-            log.debug("User {} is in an invalid state. Failed login", credentials.username());
+            log.debug("User {} is in an invalid state. Failed login", cleanedUsername);
             if (!details.get()
                 .isAccountNonExpired()) {
-                log.debug("User {} account expired", credentials.username());
+                log.debug("User {} account expired", cleanedUsername);
             }
             if (!details.get()
                 .isAccountNonLocked()) {
-                log.debug("User {} account is locked", credentials.username());
+                log.debug("User {} account is locked", cleanedUsername);
             }
             if (!details.get()
                 .isCredentialsNonExpired()) {
-                log.debug("User {} credentials expired", credentials.username());
+                log.debug("User {} credentials expired", cleanedUsername);
             }
             if (!details.get()
                 .isEnabled()) {
-                log.debug("User {} is disabled", credentials.username());
+                log.debug("User {} is disabled", cleanedUsername);
             }
             valid = false;
         }

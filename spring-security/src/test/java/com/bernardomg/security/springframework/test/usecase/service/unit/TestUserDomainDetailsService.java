@@ -314,6 +314,56 @@ class TestUserDomainDetailsService {
     }
 
     @Test
+    @DisplayName("When the username is in uppercase it is returned")
+    void testLoadByUsername_UpperCase() {
+        final UserDetails userDetails;
+
+        // GIVEN
+        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
+        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of(ResourcePermissions.read()));
+
+        // WHEN
+        userDetails = service.loadUserByUsername(UserConstants.USERNAME.toUpperCase());
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(userDetails.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+            softly.assertThat(userDetails.getPassword())
+                .as("password")
+                .isEqualTo(UserConstants.PASSWORD);
+            softly.assertThat(userDetails.isAccountNonExpired())
+                .as("non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isAccountNonLocked())
+                .as("non locked")
+                .isTrue();
+            softly.assertThat(userDetails.isCredentialsNonExpired())
+                .as("credentials non expired")
+                .isTrue();
+            softly.assertThat(userDetails.isEnabled())
+                .as("enabled")
+                .isTrue();
+
+            softly.assertThat(userDetails.getAuthorities())
+                .as("authorities size")
+                .hasSize(1);
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("resource")
+                .first()
+                .as("authority resource")
+                .isEqualTo(PermissionConstants.DATA);
+            softly.assertThat(userDetails.getAuthorities())
+                .extracting("action")
+                .first()
+                .as("authority action")
+                .isEqualTo(PermissionConstants.READ);
+        });
+    }
+
+    @Test
     @DisplayName("When the user doesn't exist an exception is thrown")
     void testLoadByUsername_UserNotExisting() {
         final ThrowingCallable executable;
