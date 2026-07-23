@@ -32,6 +32,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -101,6 +102,8 @@ public class WebSecurityAutoConfiguration {
      *            token decoder
      * @param tokenValidator
      *            token validator
+     * @param trustResolver
+     *            trust resolver
      * @param userDetailsService
      *            user details service
      * @param whitelist
@@ -113,6 +116,7 @@ public class WebSecurityAutoConfiguration {
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final TokenValidator tokenValidator,
+            final AuthenticationTrustResolver trustResolver,
             final UserDetailsService userDetailsService, final Collection<WhitelistRoute> whitelist) throws Exception {
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
@@ -122,7 +126,7 @@ public class WebSecurityAutoConfiguration {
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
         // TODO: move to JWT config
-        jwtFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
+        jwtFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder, trustResolver);
         jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
         http
             // Whitelist access

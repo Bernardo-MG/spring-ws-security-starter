@@ -31,6 +31,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -65,28 +66,30 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     /**
      * Logger for the class.
      */
-    private static final Logger      log                     = LoggerFactory.getLogger(JwtTokenFilter.class);
+    private static final Logger               log                     = LoggerFactory.getLogger(JwtTokenFilter.class);
 
     /**
      * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the
      * authentication header is valid.
      */
-    private static final String      TOKEN_HEADER_IDENTIFIER = "Bearer";
+    private static final String               TOKEN_HEADER_IDENTIFIER = "Bearer";
 
     /**
      * Token decoder. Required to acquire the subject.
      */
-    private final TokenDecoder       tokenDecoder;
+    private final TokenDecoder                tokenDecoder;
 
     /**
      * Token validator. Expired tokens are rejected.
      */
-    private final TokenValidator     tokenValidator;
+    private final TokenValidator              tokenValidator;
+
+    private final AuthenticationTrustResolver trustResolver;
 
     /**
      * User details service. Gives access to the user, to validate the token against it.
      */
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsService          userDetailsService;
 
     /**
      * Constructs a filter with the received arguments.
@@ -97,14 +100,17 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *            token validator
      * @param decoder
      *            token decoder
+     * @param trustRes
+     *            trust resolver
      */
     public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator,
-            final TokenDecoder decoder) {
+            final TokenDecoder decoder, final AuthenticationTrustResolver trustRes) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);
         tokenValidator = Objects.requireNonNull(validator);
         tokenDecoder = Objects.requireNonNull(decoder);
+        trustResolver = Objects.requireNonNull(trustRes);
     }
 
     /**
@@ -220,7 +226,11 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         if (token.isEmpty()) {
             // Missing header
             log.debug("Missing authorization token");
-        } else {
+        } else if ((SecurityContextHolder.getContext()
+            .getAuthentication() == null) || (trustResolver.isAnonymous(
+                SecurityContextHolder.getContext()
+                    .getAuthentication()))) {
+            // Not authenticated
             loadToken(token.get(), request);
         }
 

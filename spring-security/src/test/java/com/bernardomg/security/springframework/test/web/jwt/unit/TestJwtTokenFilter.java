@@ -6,13 +6,15 @@ import static org.mockito.BDDMockito.given;
 import java.io.IOException;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,37 +38,39 @@ import jakarta.servlet.http.HttpServletResponse;
 @DisplayName("JwtTokenFilter")
 class TestJwtTokenFilter {
 
-    private static final String HEADER_BEARER = "Bearer " + Tokens.TOKEN;
+    private static final String         HEADER_BEARER = "Bearer " + Tokens.TOKEN;
 
     @Mock
-    private TokenDecoder        decoder;
+    private TokenDecoder                decoder;
 
     @InjectMocks
-    private JwtTokenFilter      filter;
+    private JwtTokenFilter              filter;
 
     @Mock
-    private FilterChain         filterChain;
+    private FilterChain                 filterChain;
 
     @Mock
-    private HttpServletRequest  request;
+    private HttpServletRequest          request;
 
     @Mock
-    private HttpServletResponse response;
+    private HttpServletResponse         response;
 
     @Mock
-    private UserDetailsService  userDetailsService;
+    private AuthenticationTrustResolver trustResolver;
 
     @Mock
-    private TokenValidator      validator;
+    private UserDetailsService          userDetailsService;
+
+    @Mock
+    private TokenValidator              validator;
 
     public TestJwtTokenFilter() {
         super();
     }
 
-    @BeforeEach
-    public final void clearUpSecurityContext() {
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
+    @AfterEach
+    void clearSecurityContext() {
+        SecurityContextHolder.clearContext();
     }
 
     @Test
@@ -78,6 +82,41 @@ class TestJwtTokenFilter {
 
         // GIVEN
         given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
+
+        userDetails = SecurityUsers.enabled();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = JwtTokenDatas.valid();
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication.getName())
+            .isEqualTo(UserConstants.USERNAME);
+    }
+
+    @Test
+    @DisplayName("With a valid token and anonymous session, the user is stored")
+    void testDoFilter_Anonymous() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+        final Authentication anonymous;
+
+        // GIVEN
+        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
+
+        anonymous = Mockito.mock(Authentication.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(anonymous);
+        given(trustResolver.isAnonymous(anonymous)).willReturn(true);
 
         userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
@@ -242,6 +281,31 @@ class TestJwtTokenFilter {
             .getAuthentication();
         Assertions.assertThat(authentication)
             .isNull();
+    }
+
+    @Test
+    @DisplayName("With a valid token and a not anonymous session, the user isn't stored")
+    void testDoFilter_NotAnonymous() throws ServletException, IOException {
+        final Authentication authentication;
+        final Authentication existing;
+
+        // GIVEN
+        existing = Mockito.mock(Authentication.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(existing);
+        given(trustResolver.isAnonymous(existing)).willReturn(false);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isEqualTo(existing);
     }
 
 }

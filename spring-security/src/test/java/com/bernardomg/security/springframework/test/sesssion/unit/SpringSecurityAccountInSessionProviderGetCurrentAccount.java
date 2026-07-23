@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +31,11 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
     @InjectMocks
     private SpringSecurityAccountInSessionProvider provider;
+
+    @AfterEach
+    void clearSecurityContext() {
+        SecurityContextHolder.clearContext();
+    }
 
     @Test
     @DisplayName("When the user is authenticated an account is returned")
