@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,7 +84,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -116,7 +117,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -142,7 +143,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -168,7 +169,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -194,7 +195,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -216,7 +217,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.expired();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -238,7 +239,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.notBeforeInFuture();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -264,7 +265,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -304,7 +305,7 @@ class TestJwtTokenFilter {
             .setAuthentication(existing);
         given(trustResolver.isAnonymous(existing)).willReturn(false);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -330,7 +331,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.notExpired();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -356,7 +357,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.notBeforeInPast();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -382,7 +383,7 @@ class TestJwtTokenFilter {
         jwtTokenData = JwtTokenDatas.notExpiredAndNotBeforeInPast();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
 
-        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
