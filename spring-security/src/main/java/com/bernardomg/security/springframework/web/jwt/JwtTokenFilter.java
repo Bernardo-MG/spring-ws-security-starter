@@ -151,7 +151,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         if (header == null) {
             // No token received
             token = Optional.empty();
-            log.warn("Missing authorization header, can't return token", header);
+            log.trace("Missing authorization header, can't return token");
         } else if (((header != null) && !header.trim()
             .isEmpty()) && (header.trim()
                 .startsWith(TOKEN_HEADER_IDENTIFIER + " "))) {
@@ -163,7 +163,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         } else {
             // Invalid token received
             token = Optional.empty();
-            log.warn("Authorization header {} has an invalid structure, can't return token", header);
+            log.trace("Authorization header {} has an invalid structure, can't return token", header);
         }
 
         return token;
@@ -202,15 +202,13 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
                     .setAuthentication(authentication);
 
                 // User valid
-                log.debug("Authenticated {} request for {} to {}", request.getMethod(), username,
+                log.trace("Authenticated {} request for {} to {}", request.getMethod(), username,
                     request.getServletPath());
             } else {
-                // TODO: shouldn't set anonymous auth?
-                log.debug("Invalid user {}", username);
+                log.trace("Invalid user {}", username);
             }
         } else {
-            // TODO: shouldn't set anonymous auth?
-            log.debug("JWT validation failed");
+            log.trace("JWT validation failed");
         }
     }
 
@@ -219,13 +217,13 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             final FilterChain chain) throws ServletException, IOException {
         final Optional<String> token;
 
-        log.debug("Authenticating {} request to {}", request.getMethod(), request.getServletPath());
+        log.trace("Authenticating {} request to {}", request.getMethod(), request.getServletPath());
 
         token = getToken(request);
 
         if (token.isEmpty()) {
             // Missing header
-            log.debug("Missing authorization token");
+            log.trace("Missing authorization token");
         } else if ((SecurityContextHolder.getContext()
             .getAuthentication() == null) || (trustResolver.isAnonymous(
                 SecurityContextHolder.getContext()
