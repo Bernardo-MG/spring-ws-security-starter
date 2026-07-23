@@ -199,9 +199,11 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
                     request.getServletPath());
             } else {
                 log.trace("Invalid user {}", username);
+                SecurityContextHolder.clearContext();
             }
         } else {
             log.trace("JWT validation failed");
+            SecurityContextHolder.clearContext();
         }
     }
 
