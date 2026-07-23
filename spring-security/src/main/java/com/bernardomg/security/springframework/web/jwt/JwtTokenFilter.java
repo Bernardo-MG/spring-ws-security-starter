@@ -204,7 +204,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             }
         } else {
             // TODO: shouldn't set anonymous auth?
-            log.debug("Invalid token {}", token);
+            log.debug("JWT validation failed");
         }
     }
 
