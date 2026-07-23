@@ -180,13 +180,12 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         final JwtTokenData   tokenData;
 
         tokenData = tokenDecoder.decode(token);
-        if (!tokenData.isExpired()) {
+        if ((!tokenData.isExpired()) && (!tokenData.isBeforeStart())) {
             // Token not expired
             // Will load a new authentication from the token
 
             // Takes subject from the token
-            username = tokenDecoder.decode(token)
-                .subject();
+            username = tokenData.subject();
             userDetails = userDetailsService.loadUserByUsername(username);
 
             if (isValid(userDetails)) {

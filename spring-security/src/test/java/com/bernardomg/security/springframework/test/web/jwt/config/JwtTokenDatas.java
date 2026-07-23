@@ -10,13 +10,36 @@ import com.bernardomg.security.springframework.test.web.user.config.factory.User
 
 public final class JwtTokenDatas {
 
-    public static final JwtTokenData valid() {
-        return new JwtTokenData(null, UserConstants.USERNAME, null, null, null, null, null, null);
+    public static final JwtTokenData expired() {
+        return new JwtTokenData(null, UserConstants.USERNAME, null, null, null, Instant.now()
+            .minusSeconds(60), List.of(), Map.of());
     }
 
-    public static final JwtTokenData expired() {
-        return new JwtTokenData(null, null, null, null, null, Instant.now()
-            .minusSeconds(60), List.of(), Map.of());
+    public static final JwtTokenData notBeforeInFuture() {
+        return new JwtTokenData(null, UserConstants.USERNAME, null, null, Instant.now()
+            .plusSeconds(60), null, List.of(), Map.of());
+    }
+
+    public static final JwtTokenData notBeforeInPast() {
+        return new JwtTokenData(null, UserConstants.USERNAME, null, null, Instant.now()
+            .minusSeconds(60), null, List.of(), Map.of());
+    }
+
+    public static final JwtTokenData notExpired() {
+        return new JwtTokenData(null, UserConstants.USERNAME, null, null, null, Instant.now()
+            .plusSeconds(60), List.of(), Map.of());
+    }
+
+    public static final JwtTokenData notExpiredAndNotBeforeInPast() {
+        return new JwtTokenData(null, UserConstants.USERNAME, null, null, Instant.now()
+            .minusSeconds(60),
+            Instant.now()
+                .plusSeconds(60),
+            List.of(), Map.of());
+    }
+
+    public static final JwtTokenData valid() {
+        return new JwtTokenData(null, UserConstants.USERNAME, null, null, null, null, null, null);
     }
 
     private JwtTokenDatas() {

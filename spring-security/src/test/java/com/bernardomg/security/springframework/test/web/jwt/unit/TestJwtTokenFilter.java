@@ -215,7 +215,29 @@ class TestJwtTokenFilter {
         // GIVEN
         jwtTokenData = JwtTokenDatas.expired();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-        
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication)
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("With a token for a future date no user is stored")
+    void testDoFilter_FutureToken() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final Authentication authentication;
+
+        // GIVEN
+        jwtTokenData = JwtTokenDatas.notBeforeInFuture();
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
         given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
 
         // WHEN
@@ -292,6 +314,84 @@ class TestJwtTokenFilter {
             .getAuthentication();
         Assertions.assertThat(authentication)
             .isEqualTo(existing);
+    }
+
+    @Test
+    @DisplayName("With a not expired token the user is stored")
+    void testDoFilter_NotExpiredToken() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+
+        // GIVEN
+        userDetails = SecurityUsers.enabled();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = JwtTokenDatas.notExpired();
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication.getName())
+            .isEqualTo(UserConstants.USERNAME);
+    }
+
+    @Test
+    @DisplayName("With a token for a past date the user is stored")
+    void testDoFilter_PastToken() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+
+        // GIVEN
+        userDetails = SecurityUsers.enabled();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = JwtTokenDatas.notBeforeInPast();
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication.getName())
+            .isEqualTo(UserConstants.USERNAME);
+    }
+
+    @Test
+    @DisplayName("With a token for a past date and a not expired token the user is stored")
+    void testDoFilter_PastToken_NotExpiredToken() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
+        final UserDetails    userDetails;
+        final Authentication authentication;
+
+        // GIVEN
+        userDetails = SecurityUsers.enabled();
+        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
+
+        jwtTokenData = JwtTokenDatas.notExpiredAndNotBeforeInPast();
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+
+        given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        Assertions.assertThat(authentication.getName())
+            .isEqualTo(UserConstants.USERNAME);
     }
 
 }
