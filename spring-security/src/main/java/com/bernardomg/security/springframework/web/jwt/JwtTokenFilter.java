@@ -120,7 +120,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             final String token) {
         final AbstractAuthenticationToken authenticationToken;
 
-        authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
+        authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         return authenticationToken;
