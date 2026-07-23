@@ -40,8 +40,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
-import com.bernardomg.jwt.encoding.TokenValidator;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -79,11 +79,6 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      */
     private final TokenDecoder                tokenDecoder;
 
-    /**
-     * Token validator. Expired tokens are rejected.
-     */
-    private final TokenValidator              tokenValidator;
-
     private final AuthenticationTrustResolver trustResolver;
 
     /**
@@ -96,19 +91,16 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *
      * @param userDetService
      *            user details service
-     * @param validator
-     *            token validator
      * @param decoder
      *            token decoder
      * @param trustRes
      *            trust resolver
      */
-    public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator,
-            final TokenDecoder decoder, final AuthenticationTrustResolver trustRes) {
+    public JwtTokenFilter(final UserDetailsService userDetService, final TokenDecoder decoder,
+            final AuthenticationTrustResolver trustRes) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);
-        tokenValidator = Objects.requireNonNull(validator);
         tokenDecoder = Objects.requireNonNull(decoder);
         trustResolver = Objects.requireNonNull(trustRes);
     }
@@ -185,8 +177,10 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         final String         username;
         final UserDetails    userDetails;
         final Authentication authentication;
+        final JwtTokenData   tokenData;
 
-        if (!tokenValidator.hasExpired(token)) {
+        tokenData = tokenDecoder.decode(token);
+        if (!tokenData.isExpired()) {
             // Token not expired
             // Will load a new authentication from the token
 

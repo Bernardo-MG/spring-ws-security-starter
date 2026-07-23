@@ -22,7 +22,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
-import com.bernardomg.jwt.encoding.TokenValidator;
 import com.bernardomg.security.springframework.test.web.config.factory.SecurityUsers;
 import com.bernardomg.security.springframework.test.web.jwt.config.JwtTokenDatas;
 import com.bernardomg.security.springframework.test.web.jwt.config.Tokens;
@@ -61,9 +60,6 @@ class TestJwtTokenFilter {
     @Mock
     private UserDetailsService          userDetailsService;
 
-    @Mock
-    private TokenValidator              validator;
-
     public TestJwtTokenFilter() {
         super();
     }
@@ -81,8 +77,6 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
-        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
-
         userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
@@ -110,8 +104,6 @@ class TestJwtTokenFilter {
         final Authentication anonymous;
 
         // GIVEN
-        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
-
         anonymous = Mockito.mock(Authentication.class);
 
         SecurityContextHolder.getContext()
@@ -144,8 +136,6 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
-        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
-
         userDetails = SecurityUsers.credentialsExpired();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
@@ -172,8 +162,6 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
-        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
-
         userDetails = SecurityUsers.disabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
@@ -200,8 +188,6 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
-        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
-
         userDetails = SecurityUsers.expired();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
@@ -223,11 +209,13 @@ class TestJwtTokenFilter {
     @Test
     @DisplayName("With a expired token no user is stored")
     void testDoFilter_ExpiredToken() throws ServletException, IOException {
+        final JwtTokenData   jwtTokenData;
         final Authentication authentication;
 
         // GIVEN
-        given(validator.hasExpired(Tokens.TOKEN)).willReturn(true);
-
+        jwtTokenData = JwtTokenDatas.expired();
+        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+        
         given(request.getHeader("Authorization")).willReturn(HEADER_BEARER);
 
         // WHEN
@@ -248,8 +236,6 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
-        given(validator.hasExpired(Tokens.TOKEN)).willReturn(false);
-
         userDetails = SecurityUsers.locked();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
