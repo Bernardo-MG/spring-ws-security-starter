@@ -260,7 +260,7 @@ class TestUserDomainDetailsService {
         exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username " + UserConstants.USERNAME + " has no authorities");
+            .isEqualTo("Invalid username or credentials");
     }
 
     @Test
@@ -379,7 +379,7 @@ class TestUserDomainDetailsService {
         exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, executable);
 
         Assertions.assertThat(exception.getMessage())
-            .isEqualTo("Username " + UserConstants.USERNAME + " not found in database");
+            .isEqualTo("Invalid username or credentials");
     }
 
 }
