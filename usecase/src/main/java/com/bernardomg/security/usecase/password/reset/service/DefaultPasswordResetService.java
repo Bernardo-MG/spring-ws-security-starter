@@ -22,16 +22,13 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.springframework.password.reset.usecase.service;
+package com.bernardomg.security.usecase.password.reset.service;
 
 import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.password.reset.event.PasswordResetEvent;
@@ -43,7 +40,7 @@ import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
+import com.bernardomg.security.usecase.password.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.reset.validation.EmailFormatRule;
 import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
@@ -72,55 +69,49 @@ import jakarta.transaction.Transactional;
  *
  */
 @Transactional
-public final class SpringSecurityPasswordResetService implements PasswordResetService {
+public final class DefaultPasswordResetService implements PasswordResetService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger      log = LoggerFactory.getLogger(SpringSecurityPasswordResetService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultPasswordResetService.class);
 
     /**
      * Event emitter.
      */
-    private final EventEmitter       eventEmitter;
+    private final EventEmitter      eventEmitter;
 
     /**
      * Password encoder, for validating passwords.
      */
-    private final PasswordEncoder    passwordEncoder;
+    private final PasswordEncrypter passwordEncrypter;
 
     /**
      * Token store for password reset tokens.
      */
-    private final UserTokenStore     passwordResetTokenStore;
-
-    /**
-     * User details service, to find and validate users.
-     */
-    private final UserDetailsService userDetailsService;
+    private final UserTokenStore    passwordResetTokenStore;
 
     /**
      * User repository.
      */
-    private final UserRepository     userRepository;
+    private final UserRepository    userRepository;
 
     /**
      * Change password validator.
      */
-    private final Validator<String>  validatorChange;
+    private final Validator<String> validatorChange;
 
     /**
      * Start password change validator.
      */
-    private final Validator<String>  validatorStart;
+    private final Validator<String> validatorStart;
 
-    public SpringSecurityPasswordResetService(final UserRepository repo, final UserDetailsService userDetsService,
-            final PasswordEncoder passEncoder, final UserTokenStore tStore, final EventEmitter eventEmit) {
+    public DefaultPasswordResetService(final UserRepository repo, final PasswordEncrypter PasswordEncrypt,
+            final UserTokenStore tStore, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(repo);
-        userDetailsService = Objects.requireNonNull(userDetsService);
-        passwordEncoder = Objects.requireNonNull(passEncoder);
+        passwordEncrypter = Objects.requireNonNull(PasswordEncrypt);
         passwordResetTokenStore = Objects.requireNonNull(tStore);
         eventEmitter = Objects.requireNonNull(eventEmit);
 
@@ -148,9 +139,10 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
 
         user = getUserByUsername(username);
 
-        authorizePasswordChange(user.username());
+        // Make sure the user can change the password
+        authorizePasswordChange(user);
 
-        encodedPassword = passwordEncoder.encode(password);
+        encodedPassword = passwordEncrypter.encrypt(password);
         userRepository.resetPassword(user.username(), encodedPassword);
         passwordResetTokenStore.consumeToken(token);
 
@@ -174,7 +166,7 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
         // TODO: Reject authenticated users? Allow only password recovery for the anonymous user
 
         // Make sure the user can change the password
-        authorizePasswordChange(user.username());
+        authorizePasswordChange(user);
 
         // Revoke previous tokens
         log.debug("Revoking existing password reset tokens for {}", user.username());
@@ -225,28 +217,24 @@ public final class SpringSecurityPasswordResetService implements PasswordResetSe
      * @param username
      *            username for which the password is changed
      */
-    private final void authorizePasswordChange(final String username) {
-        final UserDetails userDetails;
-
-        userDetails = userDetailsService.loadUserByUsername(username);
-
+    private final void authorizePasswordChange(final User user) {
         // Accepts users with expired credentials, as they have an expired password
 
         // TODO: This should be contained in a common class
-        if (!userDetails.isAccountNonExpired()) {
-            log.error("Can't reset password. User {} is expired", userDetails.getUsername());
-            throw new ExpiredUserException(userDetails.getUsername());
+        if (!user.notExpired()) {
+            log.error("Can't reset password. User {} is expired", user.username());
+            throw new ExpiredUserException(user.username());
         }
-        if (!userDetails.isAccountNonLocked()) {
-            log.error("Can't reset password. User {} is locked", userDetails.getUsername());
-            throw new LockedUserException(userDetails.getUsername());
+        if (!user.notLocked()) {
+            log.error("Can't reset password. User {} is locked", user.username());
+            throw new LockedUserException(user.username());
         }
-        if (!userDetails.isEnabled()) {
-            log.error("Can't reset password. User {} is disabled", userDetails.getUsername());
-            throw new DisabledUserException(userDetails.getUsername());
+        if (!user.enabled()) {
+            log.error("Can't reset password. User {} is disabled", user.username());
+            throw new DisabledUserException(user.username());
         }
 
-        log.debug("Can reset password for user {}", username);
+        log.debug("Can reset password for user {}", user.username());
     }
 
     private final User getUserByEmail(final String email) {
