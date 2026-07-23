@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.session;
+package com.bernardomg.security.usecase.session;
 
 import java.util.Optional;
 

@@ -45,17 +45,17 @@ import com.bernardomg.security.adapter.inbound.event.password.reset.PasswordRese
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
-import com.bernardomg.security.session.UsernameInSessionProvider;
 import com.bernardomg.security.springframework.password.SpringSecurityPasswordEncrypter;
-import com.bernardomg.security.springframework.sesssion.SpringSecurityUsernameInSessionProvider;
+import com.bernardomg.security.springframework.session.SpringSecurityUsernameInSessionProvider;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
-import com.bernardomg.security.usecase.password.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.change.service.DefaultPasswordChangeService;
 import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.reset.service.DefaultPasswordResetService;
 import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
+import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
 import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 

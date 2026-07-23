@@ -24,7 +24,7 @@ import com.bernardomg.security.domain.user.exception.ExpiredUserException;
 import com.bernardomg.security.domain.user.exception.LockedUserException;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.password.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.reset.service.DefaultPasswordResetService;
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;

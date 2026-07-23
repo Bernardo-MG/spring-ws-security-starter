@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.springframework.sesssion.SpringSecurityUsernameInSessionProvider;
+import com.bernardomg.security.springframework.session.SpringSecurityUsernameInSessionProvider;
 
 @DisplayName("SpringSecurityUsernameInSessionProvider")
 class TestSpringSecurityUsernameInSessionProvider {

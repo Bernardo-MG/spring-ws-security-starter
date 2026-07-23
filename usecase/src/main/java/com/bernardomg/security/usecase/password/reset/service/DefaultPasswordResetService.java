@@ -40,7 +40,7 @@ import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.password.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.reset.validation.EmailFormatRule;
 import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;

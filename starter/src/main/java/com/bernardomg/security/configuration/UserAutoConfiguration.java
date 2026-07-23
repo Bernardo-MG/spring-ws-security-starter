@@ -51,7 +51,7 @@ import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
-import com.bernardomg.security.usecase.password.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.service.DisabledUserNotificationService;

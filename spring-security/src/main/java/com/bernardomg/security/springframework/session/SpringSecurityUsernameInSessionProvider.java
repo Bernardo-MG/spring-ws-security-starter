@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.sesssion;
+package com.bernardomg.security.springframework.session;
 
 import java.util.Optional;
 
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.session.UsernameInSessionProvider;
+import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
 
 public final class SpringSecurityUsernameInSessionProvider implements UsernameInSessionProvider {
 

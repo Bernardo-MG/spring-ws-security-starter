@@ -17,24 +17,27 @@ public class TestLayeredArchitectureRules {
     static final ArchRule layer_dependencies_are_respected = layeredArchitecture().consideringAllDependencies()
 
         .layer("Use case")
-        .definedBy("com.bernardomg.security..usecase..")
+        .definedBy("com.bernardomg.security.usecase..")
         .layer("Domain")
-        .definedBy("com.bernardomg.security..domain..")
+        .definedBy("com.bernardomg.security.domain..")
         .layer("Infrastructure - Inbound")
-        .definedBy("com.bernardomg.security..adapter.inbound..")
+        .definedBy("com.bernardomg.security.adapter.inbound..")
         .layer("Infrastructure - Outbound")
-        .definedBy("com.bernardomg.security..adapter.outbound..")
+        .definedBy("com.bernardomg.security.adapter.outbound..")
+        .layer("Spring adapter")
+        .definedBy("com.bernardomg.security.springframework..")
         .layer("Configuration")
-        .definedBy("com.bernardomg.security..configuration..")
+        .definedBy("com.bernardomg.security.configuration..")
 
         .whereLayer("Infrastructure - Outbound")
         .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Infrastructure - Inbound")
         .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Use case")
-        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound")
+        .mayOnlyBeAccessedByLayers("Use case", "Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound",
+            "Spring adapter")
         .whereLayer("Domain")
-        .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound",
-            "Infrastructure - Outbound");
+        .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound", "Infrastructure - Outbound",
+            "Spring adapter");
 
 }

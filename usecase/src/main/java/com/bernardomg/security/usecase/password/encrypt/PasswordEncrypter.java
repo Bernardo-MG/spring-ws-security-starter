@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.usecase.password;
+package com.bernardomg.security.usecase.password.encrypt;
 
 public interface PasswordEncrypter {
 

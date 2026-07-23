@@ -45,7 +45,7 @@ import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.password.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.user.config.factory.RoleConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;

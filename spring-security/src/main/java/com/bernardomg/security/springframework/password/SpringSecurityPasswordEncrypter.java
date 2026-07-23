@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.security.usecase.password.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 
 public final class SpringSecurityPasswordEncrypter implements PasswordEncrypter {
 

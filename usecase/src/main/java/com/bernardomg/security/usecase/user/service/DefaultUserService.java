@@ -40,7 +40,7 @@ import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.password.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.user.validation.UserEmailFormatRule;
 import com.bernardomg.security.usecase.user.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.usecase.user.validation.UserEmailNotExistsRule;

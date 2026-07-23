@@ -11,7 +11,7 @@ import com.bernardomg.security.domain.account.exception.MissingAccountException;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.session.AccountInSessionProvider;
+import com.bernardomg.security.usecase.session.AccountInSessionProvider;
 
 import jakarta.transaction.Transactional;
 

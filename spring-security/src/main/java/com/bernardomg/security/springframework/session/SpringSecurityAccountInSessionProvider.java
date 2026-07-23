@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.sesssion;
+package com.bernardomg.security.springframework.session;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
-import com.bernardomg.security.session.AccountInSessionProvider;
+import com.bernardomg.security.usecase.session.AccountInSessionProvider;
 
 public final class SpringSecurityAccountInSessionProvider implements AccountInSessionProvider {
 
