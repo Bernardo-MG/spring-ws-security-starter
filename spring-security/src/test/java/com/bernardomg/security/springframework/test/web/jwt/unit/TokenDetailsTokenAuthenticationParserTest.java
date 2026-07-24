@@ -10,12 +10,15 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,8 +34,6 @@ import jakarta.servlet.http.HttpServletRequest;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenDetailsTokenAuthenticationParser")
 public class TokenDetailsTokenAuthenticationParserTest {
-
-    private static final String                   SUBJECT = "test-user";
 
     @InjectMocks
     private TokenDetailsTokenAuthenticationParser parser;
@@ -53,6 +54,7 @@ public class TokenDetailsTokenAuthenticationParserTest {
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
         when(tokenData.isExpired()).thenReturn(false);
         when(tokenData.isBeforeStart()).thenReturn(true);
 
@@ -70,6 +72,7 @@ public class TokenDetailsTokenAuthenticationParserTest {
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
         when(tokenData.isExpired()).thenReturn(true);
 
         // WHEN
@@ -88,7 +91,7 @@ public class TokenDetailsTokenAuthenticationParserTest {
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
         when(tokenData.isExpired()).thenReturn(false);
         when(tokenData.isBeforeStart()).thenReturn(false);
-        when(tokenData.subject()).thenReturn(SUBJECT);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
         when(tokenData.permissions()).thenReturn(Map.of("users", List.of(), "reports", List.of()));
 
         // WHEN
@@ -97,6 +100,22 @@ public class TokenDetailsTokenAuthenticationParserTest {
 
         // THEN
         assertThat(authentication.getAuthorities()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("When parsing a token without subject, an exception is thrown")
+    void testParse_NoSubject() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+
+        // WHEN
+        executable = () -> parser.parse(Tokens.TOKEN, request);
+
+        // THEN
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(BadCredentialsException.class);
     }
 
     @Test
@@ -109,7 +128,7 @@ public class TokenDetailsTokenAuthenticationParserTest {
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
         when(tokenData.isExpired()).thenReturn(false);
         when(tokenData.isBeforeStart()).thenReturn(false);
-        when(tokenData.subject()).thenReturn(SUBJECT);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
         when(tokenData.permissions()).thenReturn(Map.of("users", List.of("read", "write"), "reports", List.of("view")));
 
         // WHEN
@@ -134,7 +153,7 @@ public class TokenDetailsTokenAuthenticationParserTest {
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
         when(tokenData.isExpired()).thenReturn(false);
         when(tokenData.isBeforeStart()).thenReturn(false);
-        when(tokenData.subject()).thenReturn(SUBJECT);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
         when(tokenData.permissions()).thenReturn(Map.of());
 
         when(request.getRemoteAddr()).thenReturn("192.0.2.10");
@@ -161,7 +180,7 @@ public class TokenDetailsTokenAuthenticationParserTest {
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
         when(tokenData.isExpired()).thenReturn(false);
         when(tokenData.isBeforeStart()).thenReturn(false);
-        when(tokenData.subject()).thenReturn(SUBJECT);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
         when(tokenData.permissions()).thenReturn(Map.of());
 
         // WHEN
@@ -174,11 +193,11 @@ public class TokenDetailsTokenAuthenticationParserTest {
 
         assertThat(authentication.isAuthenticated()).isTrue();
         assertThat(authentication.getCredentials()).isNull();
-        assertThat(authentication.getName()).isEqualTo(SUBJECT);
+        assertThat(authentication.getName()).isEqualTo(Tokens.SUBJECT);
         assertThat(authentication.getAuthorities()).isEmpty();
 
         assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(UserDetails.class, principal -> {
-            assertThat(principal.getUsername()).isEqualTo(SUBJECT);
+            assertThat(principal.getUsername()).isEqualTo(Tokens.SUBJECT);
             assertThat(principal.getPassword()).isEmpty();
         });
     }

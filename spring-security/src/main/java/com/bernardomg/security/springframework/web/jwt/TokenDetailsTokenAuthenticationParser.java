@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,6 +48,11 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
         final JwtTokenData             tokenData;
 
         tokenData = tokenDecoder.decode(token);
+        if ((tokenData.subject() == null) || tokenData.subject()
+            .isBlank()) {
+            throw new BadCredentialsException("JWT subject is missing");
+        }
+
         if ((!tokenData.isExpired()) && (!tokenData.isBeforeStart())) {
             // Token not expired or for the future
             // Will load a new authentication from the token
