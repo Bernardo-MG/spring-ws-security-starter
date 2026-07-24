@@ -87,6 +87,35 @@ class TestUserDomainDetailsService {
     }
 
     @Test
+    @DisplayName("When logging with an email the user details are returned")
+    void testLoadByUsername_Email() {
+        final UserDetails userDetails;
+
+        // GIVEN
+        given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
+
+        // WHEN
+        userDetails = service.loadUserByUsername(UserConstants.EMAIL);
+
+        // THEN
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(userDetails.getUsername())
+                .isEqualTo(UserConstants.USERNAME);
+            softly.assertThat(userDetails.getPassword())
+                .isEqualTo(UserConstants.PASSWORD);
+            softly.assertThat(userDetails.isEnabled())
+                .isTrue();
+            softly.assertThat(userDetails.isAccountNonExpired())
+                .isTrue();
+            softly.assertThat(userDetails.isAccountNonLocked())
+                .isTrue();
+            softly.assertThat(userDetails.isCredentialsNonExpired())
+                .isTrue();
+        });
+    }
+
+    @Test
     @DisplayName("When the user is enabled it is returned")
     void testLoadByUsername_Enabled() {
         final UserDetails userDetails;

@@ -53,7 +53,7 @@ public record User(String email, String username, String name, boolean enabled, 
 
     public User(final String email, final String username, final String name, final boolean enabled,
             final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,
-            final Collection<Role> roles, Collection<ResourcePermission> permissions) {
+            final Collection<Role> roles, final Collection<ResourcePermission> permissions) {
         // TODO: reject nulls
 
         if (Objects.nonNull(name)) {

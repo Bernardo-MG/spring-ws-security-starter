@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.configuration;
 
-import java.util.function.Predicate;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -38,15 +36,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.adapter.inbound.event.login.LoginFailureBlockerListener;
-import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.login.usecase.validation.SpringSecurityValidLoginPredicate;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 import com.bernardomg.security.usecase.login.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.usecase.login.service.LoginService;
 import com.bernardomg.security.usecase.login.service.TokenLoginService;
+import com.bernardomg.security.usecase.login.service.UserAuthenticator;
 import com.bernardomg.security.usecase.login.service.UserLoginAttempsService;
 
 /**
@@ -72,16 +69,14 @@ public class LoginAutoConfiguration {
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final JwtProperties jwtProperties, final EventEmitter eventEmitter) {
-        final Predicate<Credentials> valid;
-        final LoginTokenEncoder      loginTokenEncoder;
-
-        valid = new SpringSecurityValidLoginPredicate(userDetailsService, passwordEncoder);
+            final JwtProperties jwtProperties, final EventEmitter eventEmitter,
+            final UserAuthenticator userAuthenticator) {
+        final LoginTokenEncoder loginTokenEncoder;
 
         log.info("Security tokens will have a validity of {}", jwtProperties.validity());
         loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userRepository, jwtProperties.validity());
 
-        return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventEmitter);
+        return new TokenLoginService(userAuthenticator, loginTokenEncoder, eventEmitter);
     }
 
     @Bean("loginWhitelist")

@@ -27,6 +27,8 @@ package com.bernardomg.security.springframework.usecase.service;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +71,9 @@ public final class UserDomainDetailsService implements UserDetailsService {
     /**
      * Logger for the class.
      */
-    private static final Logger  log = LoggerFactory.getLogger(UserDomainDetailsService.class);
+    private static final Logger  log          = LoggerFactory.getLogger(UserDomainDetailsService.class);
+
+    private final Pattern        emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
     /**
      * User repository.
@@ -95,16 +99,26 @@ public final class UserDomainDetailsService implements UserDetailsService {
         final UserDetails                            details;
         final String                                 password;
         final String                                 cleanedUsername;
+        final Matcher                                emailMatcher;
 
         cleanedUsername = username.toLowerCase(Locale.ROOT);
 
         log.trace("Loading user {}", cleanedUsername);
 
-        user = userRepository.findOne(cleanedUsername)
-            .orElseThrow(() -> {
-                log.debug("Username {} not found in database", cleanedUsername);
-                throw new UsernameNotFoundException("Invalid username or credentials");
-            });
+        emailMatcher = emailPattern.matcher(username);
+        if (emailMatcher.find()) {
+            user = userRepository.findOneByEmail(cleanedUsername)
+                .orElseThrow(() -> {
+                    log.debug("Username {} not found in database", cleanedUsername);
+                    throw new UsernameNotFoundException("Invalid username or credentials");
+                });
+        } else {
+            user = userRepository.findOne(cleanedUsername)
+                .orElseThrow(() -> {
+                    log.debug("Username {} not found in database", cleanedUsername);
+                    throw new UsernameNotFoundException("Invalid username or credentials");
+                });
+        }
 
         authorities = user.permissions()
             .stream()
@@ -116,7 +130,7 @@ public final class UserDomainDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or credentials");
         }
 
-        password = userRepository.findPassword(cleanedUsername)
+        password = userRepository.findPassword(user.username())
             .orElseThrow(() -> {
                 log.debug("Username {} not found in database", cleanedUsername);
                 throw new UsernameNotFoundException("Invalid username or credentials");

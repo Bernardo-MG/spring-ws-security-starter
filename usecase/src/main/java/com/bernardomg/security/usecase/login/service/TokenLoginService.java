@@ -25,20 +25,16 @@
 package com.bernardomg.security.usecase.login.service;
 
 import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.login.event.LogInEvent;
+import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.login.model.TokenLoginStatus;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 
 import jakarta.transaction.Transactional;
@@ -55,100 +51,56 @@ public final class TokenLoginService implements LoginService {
     /**
      * Logger for the class.
      */
-    private static final Logger          log          = LoggerFactory.getLogger(TokenLoginService.class);
+    private static final Logger     log = LoggerFactory.getLogger(TokenLoginService.class);
 
-    private final Pattern                emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    private final EventEmitter      eventEmitter;
 
-    private final EventEmitter           eventEmitter;
+    private final LoginTokenEncoder loginTokenEncoder;
 
-    private final Predicate<Credentials> isValid;
+    private final UserAuthenticator userAuthenticator;
 
-    private final LoginTokenEncoder      loginTokenEncoder;
-
-    private final UserRepository         userRepository;
-
-    public TokenLoginService(final Predicate<Credentials> valid, final UserRepository userRepo,
-            final LoginTokenEncoder loginTokenEnc, final EventEmitter emitter) {
+    public TokenLoginService(final UserAuthenticator userAuthent, final LoginTokenEncoder loginTokenEnc,
+            final EventEmitter emitter) {
         super();
 
-        isValid = Objects.requireNonNull(valid);
-        userRepository = Objects.requireNonNull(userRepo);
+        userAuthenticator = Objects.requireNonNull(userAuthent);
         loginTokenEncoder = Objects.requireNonNull(loginTokenEnc);
         eventEmitter = Objects.requireNonNull(emitter);
     }
 
     @Override
     public final TokenLoginStatus login(final Credentials credentials) {
-        final Boolean          valid;
-        final String           validUsername;
-        final TokenLoginStatus status;
-        final LogInEvent       event;
-        final Credentials      validCredentials;
+        final LogInEvent event;
+        final User       user;
+        final String     token;
+        TokenLoginStatus status;
 
         log.trace("Log in attempt for {}", credentials.username());
 
-        validUsername = loadLoginName(credentials.username()
-            .trim());
+        try {
+            user = userAuthenticator.load(credentials.username(), credentials.password());
 
-        validCredentials = new Credentials(validUsername, credentials.password()
-            .trim());
-        valid = isValid.test(validCredentials);
+            token = loginTokenEncoder.encode(user.username());
 
-        status = buildStatus(validUsername, valid);
+            status = new TokenLoginStatus(true, token);
+
+            log.debug("Successful login for {}", credentials.username());
+        } catch (final InvalidCredentialsException exception) {
+            status = new TokenLoginStatus(false, "");
+
+            log.debug("Failed login for {}", credentials.username());
+        }
 
         log.debug("Log in for {} with status {}", credentials.username(), status);
 
         // FIXME: the event root should be an object
         // TODO: Set source
-        event = new LogInEvent(null, validUsername, valid);
+        event = new LogInEvent(null, credentials.username(), status.logged());
         eventEmitter.emit(event);
 
         log.trace("Finished log in attempt for {}", credentials.username());
 
         return status;
-    }
-
-    private final TokenLoginStatus buildStatus(final String username, final boolean logged) {
-        final TokenLoginStatus status;
-        final String           token;
-
-        if (logged) {
-            token = loginTokenEncoder.encode(username);
-            status = new TokenLoginStatus(logged, token);
-        } else {
-            status = new TokenLoginStatus(logged, "");
-        }
-
-        return status;
-    }
-
-    private final String loadLoginName(final String username) {
-        final Matcher        emailMatcher;
-        final Optional<User> readUser;
-        final String         validUsername;
-
-        emailMatcher = emailPattern.matcher(username);
-
-        if (emailMatcher.find()) {
-            // Using email for login
-            log.debug("Login attempt with email");
-            // TODO: To lower case
-            readUser = userRepository.findOneByEmail(username);
-            if (readUser.isPresent()) {
-                // Get the actual username and continue
-                validUsername = readUser.get()
-                    .username();
-            } else {
-                log.debug("No user found for email {}", username);
-                validUsername = username.toLowerCase();
-            }
-        } else {
-            // Using username for login
-            log.debug("Login attempt with username");
-            validUsername = username.toLowerCase();
-        }
-
-        return validUsername;
     }
 
 }

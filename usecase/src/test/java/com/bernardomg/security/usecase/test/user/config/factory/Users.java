@@ -49,7 +49,8 @@ public final class Users {
     }
 
     public static final User invalidEmail() {
-        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true, true, List.of(), List.of());
+        return new User("abc", UserConstants.USERNAME, UserConstants.NAME, true, true, true, true, List.of(),
+            List.of());
     }
 
     public static final User locked() {
