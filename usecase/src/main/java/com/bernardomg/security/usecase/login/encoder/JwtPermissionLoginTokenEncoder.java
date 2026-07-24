@@ -67,7 +67,6 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
         // Issued right now
         issuedAt = Instant.now();
         // Expires in a number of seconds equal to validity
-        // TODO: handle validity in the encoder
         expiration = Instant.now()
             .plus(validity);
 
