@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ActionEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ActionSpringRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.annotation.CreateAction;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.factory.ActionEntities;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.factory.Actions;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.permission.annotation.CreateAction;
+import com.bernardomg.security.adapter.test.config.permission.factory.ActionEntities;
+import com.bernardomg.security.adapter.test.config.permission.factory.Actions;
 import com.bernardomg.security.domain.permission.model.Action;
 import com.bernardomg.security.domain.permission.repository.ActionRepository;
 

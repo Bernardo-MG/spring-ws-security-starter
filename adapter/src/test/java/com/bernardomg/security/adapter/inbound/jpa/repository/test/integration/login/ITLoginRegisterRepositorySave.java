@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.login.LoginRegisterSpringRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.login.annotation.LoggedInLoginRegister;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.login.factory.LoginRegisterEntities;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.login.factory.LoginRegisters;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.login.annotation.LoggedInLoginRegister;
+import com.bernardomg.security.adapter.test.config.login.factory.LoginRegisterEntities;
+import com.bernardomg.security.adapter.test.config.login.factory.LoginRegisters;
 import com.bernardomg.security.domain.login.model.LoginRegister;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 
