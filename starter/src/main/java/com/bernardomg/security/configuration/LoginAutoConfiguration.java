@@ -39,7 +39,6 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.adapter.inbound.event.login.LoginFailureBlockerListener;
 import com.bernardomg.security.domain.login.model.Credentials;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.login.usecase.validation.SpringSecurityValidLoginPredicate;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
@@ -73,16 +72,14 @@ public class LoginAutoConfiguration {
     @Bean("loginService")
     public LoginService getLoginService(final UserDetailsService userDetailsService,
             final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final UserPermissionRepository userPermissionRepository, final JwtProperties jwtProperties,
-            final EventEmitter eventEmitter) {
+            final JwtProperties jwtProperties, final EventEmitter eventEmitter) {
         final Predicate<Credentials> valid;
         final LoginTokenEncoder      loginTokenEncoder;
 
         valid = new SpringSecurityValidLoginPredicate(userDetailsService, passwordEncoder);
 
         log.info("Security tokens will have a validity of {}", jwtProperties.validity());
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userPermissionRepository,
-            jwtProperties.validity());
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userRepository, jwtProperties.validity());
 
         return new TokenLoginService(valid, userRepository, loginTokenEncoder, eventEmitter);
     }
