@@ -69,7 +69,6 @@ public final class DefaultAccountService implements AccountService {
             });
 
         // Can only change name
-        // FIXME: Is this really updating anything?
         accountData = BasicAccount.of(current.getUsername(), account.getName(), current.getEmail());
 
         updated = accountRepository.save(accountData);
