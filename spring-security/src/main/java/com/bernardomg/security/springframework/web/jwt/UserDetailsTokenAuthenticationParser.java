@@ -18,6 +18,7 @@ import com.bernardomg.jwt.encoding.TokenDecoder;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+@Deprecated
 public final class UserDetailsTokenAuthenticationParser implements TokenAuthenticationParser {
 
     /**

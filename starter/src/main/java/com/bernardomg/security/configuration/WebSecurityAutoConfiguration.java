@@ -53,6 +53,8 @@ import com.bernardomg.security.springframework.web.ErrorResponseAuthenticationEn
 import com.bernardomg.security.springframework.web.error.SecurityExceptionHandler;
 import com.bernardomg.security.springframework.web.jwt.BearerHeaderTokenResolver;
 import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
+import com.bernardomg.security.springframework.web.jwt.TokenAuthenticationParser;
+import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenticationParser;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistCustomizer;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistFilterSkipWrapper;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
@@ -119,11 +121,13 @@ public class WebSecurityAutoConfiguration {
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
         final Filter                                                                                               jwtFilterWrapped;
+        final TokenAuthenticationParser                                                                            tokenAuthenticationParser;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
         // TODO: move to JWT config
-        jwtFilter = new JwtTokenFilter(userDetailsService, decoder, trustResolver, new BearerHeaderTokenResolver());
+        tokenAuthenticationParser = new TokenDetailsTokenAuthenticationParser(decoder);
+        jwtFilter = new JwtTokenFilter(trustResolver, new BearerHeaderTokenResolver(), tokenAuthenticationParser);
         jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
         http
             // Whitelist access
