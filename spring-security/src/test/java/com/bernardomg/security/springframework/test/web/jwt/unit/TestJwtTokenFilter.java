@@ -2,6 +2,7 @@
 package com.bernardomg.security.springframework.test.web.jwt.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -18,16 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.bernardomg.jwt.encoding.JwtTokenData;
-import com.bernardomg.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.springframework.test.web.config.factory.SecurityUsers;
-import com.bernardomg.security.springframework.test.web.jwt.config.JwtTokenDatas;
 import com.bernardomg.security.springframework.test.web.jwt.config.Tokens;
-import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
 import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
+import com.bernardomg.security.springframework.web.jwt.TokenAuthenticationParser;
 import com.bernardomg.security.springframework.web.jwt.TokenResolver;
 
 import jakarta.servlet.FilterChain;
@@ -38,9 +33,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("JwtTokenFilter")
 class TestJwtTokenFilter {
-
-    @Mock
-    private TokenDecoder                decoder;
 
     @InjectMocks
     private JwtTokenFilter              filter;
@@ -55,17 +47,13 @@ class TestJwtTokenFilter {
     private HttpServletResponse         response;
 
     @Mock
+    private TokenAuthenticationParser   tokenAuthenticationParser;
+
+    @Mock
     private TokenResolver               tokenResolver;
 
     @Mock
     private AuthenticationTrustResolver trustResolver;
-
-    @Mock
-    private UserDetailsService          userDetailsService;
-
-    public TestJwtTokenFilter() {
-        super();
-    }
 
     @AfterEach
     void clearSecurityContext() {
@@ -73,330 +61,190 @@ class TestJwtTokenFilter {
     }
 
     @Test
-    @DisplayName("With a valid token the user is stored")
-    void testDoFilter() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.enabled();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.valid();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication.getName())
-            .isEqualTo(UserConstants.USERNAME);
-    }
-
-    @Test
-    @DisplayName("With a valid token and anonymous session, the user is stored")
-    void testDoFilter_Anonymous() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-        final Authentication anonymous;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        anonymous = Mockito.mock(Authentication.class);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(anonymous);
-        given(trustResolver.isAnonymous(anonymous)).willReturn(true);
-
-        userDetails = SecurityUsers.enabled();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.valid();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication.getName())
-            .isEqualTo(UserConstants.USERNAME);
-    }
-
-    @Test
-    @DisplayName("When the user has expired credentials, it is not stored")
-    void testDoFilter_CredentialsExpired() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.credentialsExpired();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.valid();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("When the user is disabled, it is not stored")
-    void testDoFilter_Disabled() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.disabled();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.valid();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("When the user is expired, it is not stored")
-    void testDoFilter_Expired() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.expired();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.valid();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("With a expired token no user is stored")
-    void testDoFilter_ExpiredToken() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final Authentication authentication;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        jwtTokenData = JwtTokenDatas.expired();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("With a token for a future date no user is stored")
-    void testDoFilter_FutureToken() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final Authentication authentication;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        jwtTokenData = JwtTokenDatas.notBeforeInFuture();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("When the user is locked, it is not stored")
-    void testDoFilter_Locked() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.locked();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.valid();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("With no authorization header no user is stored")
-    void testDoFilter_NoHeader() throws ServletException, IOException {
-        final Authentication authentication;
-
-        // WHEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.empty());
-
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("With a valid token and a not anonymous session, the user isn't stored")
-    void testDoFilter_NotAnonymous() throws ServletException, IOException {
-        final Authentication authentication;
+    @DisplayName("With an existing authenticated session the token is not parsed")
+    void testDoFilter_AlreadyAuthenticated() throws ServletException, IOException {
         final Authentication existing;
 
         // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
         existing = Mockito.mock(Authentication.class);
 
         SecurityContextHolder.getContext()
             .setAuthentication(existing);
+
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
         given(trustResolver.isAnonymous(existing)).willReturn(false);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication)
-            .isEqualTo(existing);
+        Assertions.assertThat(SecurityContextHolder.getContext()
+            .getAuthentication())
+            .isSameAs(existing);
+
+        then(filterChain).should()
+            .doFilter(request, response);
     }
 
     @Test
-    @DisplayName("With a not expired token the user is stored")
-    void testDoFilter_NotExpiredToken() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
+    @DisplayName("With a valid token and anonymous authentication the new authentication is stored")
+    void testDoFilter_Anonymous() throws ServletException, IOException {
+        final Authentication anonymous;
         final Authentication authentication;
 
         // GIVEN
+        anonymous = Mockito.mock(Authentication.class);
+        authentication = Mockito.mock(Authentication.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(anonymous);
+
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.enabled();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.notExpired();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+        given(trustResolver.isAnonymous(anonymous)).willReturn(true);
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
 
         // WHEN
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication.getName())
-            .isEqualTo(UserConstants.USERNAME);
+        Assertions.assertThat(SecurityContextHolder.getContext()
+            .getAuthentication())
+            .isSameAs(authentication);
+
+        then(filterChain).should()
+            .doFilter(request, response);
     }
 
     @Test
-    @DisplayName("With a token for a past date the user is stored")
-    void testDoFilter_PastToken() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-
+    @DisplayName("When the authentication parsing fails, the authentication chain continues")
+    void testDoFilter_EmptyAuthenticationContinuesChain() throws ServletException, IOException {
         // GIVEN
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.enabled();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.notBeforeInPast();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.empty());
 
         // WHEN
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication.getName())
-            .isEqualTo(UserConstants.USERNAME);
+        Assertions.assertThat(SecurityContextHolder.getContext()
+            .getAuthentication())
+            .isNull();
+
+        then(filterChain).should()
+            .doFilter(request, response);
     }
 
     @Test
-    @DisplayName("With a token for a past date and a not expired token the user is stored")
-    void testDoFilter_PastToken_NotExpiredToken() throws ServletException, IOException {
-        final JwtTokenData   jwtTokenData;
-        final UserDetails    userDetails;
+    @DisplayName("When the user is authenticated, the filter chain continues")
+    void testDoFilter_FilterChain() throws ServletException, IOException {
+        final Authentication anonymous;
         final Authentication authentication;
 
         // GIVEN
+        anonymous = Mockito.mock(Authentication.class);
+        authentication = Mockito.mock(Authentication.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(anonymous);
+
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-
-        userDetails = SecurityUsers.enabled();
-        given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
-
-        jwtTokenData = JwtTokenDatas.notExpiredAndNotBeforeInPast();
-        given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
+        given(trustResolver.isAnonymous(anonymous)).willReturn(true);
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
 
         // WHEN
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        Assertions.assertThat(authentication.getName())
-            .isEqualTo(UserConstants.USERNAME);
+        then(filterChain).should()
+            .doFilter(request, response);
+    }
+
+    @Test
+    @DisplayName("When the parser returns empty the security context is cleared")
+    void testDoFilter_InvalidToken() throws ServletException, IOException {
+        final Authentication existing;
+
+        // GIVEN
+        existing = Mockito.mock(Authentication.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(existing);
+
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+        given(trustResolver.isAnonymous(existing)).willReturn(true);
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.empty());
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        Assertions.assertThat(SecurityContextHolder.getContext()
+            .getAuthentication())
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("With a valid token and no authentication the new authentication is stored")
+    void testDoFilter_NoAuthentication() throws ServletException, IOException {
+        final Authentication authentication;
+
+        Mockito.mock(Authentication.class);
+        authentication = Mockito.mock(Authentication.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(null);
+
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        Assertions.assertThat(SecurityContextHolder.getContext()
+            .getAuthentication())
+            .isSameAs(authentication);
+
+        then(filterChain).should()
+            .doFilter(request, response);
+    }
+
+    @Test
+    @DisplayName("With no token the security context is not modified")
+    void testDoFilter_NoToken() throws ServletException, IOException {
+        // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.empty());
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        Assertions.assertThat(SecurityContextHolder.getContext()
+            .getAuthentication())
+            .isNull();
+    }
+
+    @Test
+    @DisplayName("With a valid token the authentication is stored")
+    void testDoFilter_ValidToken() throws ServletException, IOException {
+        final Authentication authentication;
+
+        // GIVEN
+        authentication = Mockito.mock(Authentication.class);
+
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        Assertions.assertThat(SecurityContextHolder.getContext()
+            .getAuthentication())
+            .isSameAs(authentication);
+
+        then(filterChain).should()
+            .doFilter(request, response);
     }
 
 }
