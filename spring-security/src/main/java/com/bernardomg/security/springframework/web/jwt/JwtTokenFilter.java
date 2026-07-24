@@ -27,12 +27,9 @@ package com.bernardomg.security.springframework.web.jwt;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -66,24 +63,17 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public final class JwtTokenFilter extends OncePerRequestFilter {
 
-    private static final Pattern              authorizationPattern    = Pattern
-        .compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$", Pattern.CASE_INSENSITIVE);
-
     /**
      * Logger for the class.
      */
-    private static final Logger               log                     = LoggerFactory.getLogger(JwtTokenFilter.class);
-
-    /**
-     * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the
-     * authentication header is valid.
-     */
-    private static final String               TOKEN_HEADER_IDENTIFIER = "Bearer";
+    private static final Logger               log = LoggerFactory.getLogger(JwtTokenFilter.class);
 
     /**
      * Token decoder. Required to acquire the subject.
      */
     private final TokenDecoder                tokenDecoder;
+
+    private final TokenResolver               tokenResolver;
 
     private final AuthenticationTrustResolver trustResolver;
 
@@ -101,14 +91,17 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
      *            token decoder
      * @param trustRes
      *            trust resolver
+     * @param tokenResolv
+     *            token resolver
      */
     public JwtTokenFilter(final UserDetailsService userDetService, final TokenDecoder decoder,
-            final AuthenticationTrustResolver trustRes) {
+            final AuthenticationTrustResolver trustRes, final TokenResolver tokenResolv) {
         super();
 
         userDetailsService = Objects.requireNonNull(userDetService);
         tokenDecoder = Objects.requireNonNull(decoder);
         trustResolver = Objects.requireNonNull(trustRes);
+        tokenResolver = Objects.requireNonNull(tokenResolv);
     }
 
     /**
@@ -130,45 +123,6 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         return authenticationToken;
-    }
-
-    /**
-     * Takes the token from the authorization header. This is expected to be something like
-     * {@code Authorization: Bearer [token]}.
-     *
-     * @param request
-     *            request containing the header with the token
-     * @return the token if found, or an empty {@code Optional} otherwise
-     */
-    private final Optional<String> getToken(final HttpServletRequest request) {
-        final String           header;
-        final Optional<String> token;
-        final Matcher          matcher;
-
-        header = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        if (header == null) {
-            // No token received
-            token = Optional.empty();
-            log.trace("Missing authorization header, can't return token");
-        } else if (header.startsWith(TOKEN_HEADER_IDENTIFIER)) {
-            // Token received
-            // Take it by removing the identifier
-            // TODO: Should be case insensitive
-            matcher = authorizationPattern.matcher(header);
-            if (matcher.matches()) {
-                token = Optional.ofNullable(matcher.group("token"));
-            } else {
-                log.debug("Malformed token");
-                token = Optional.empty();
-            }
-        } else {
-            // Invalid token received
-            token = Optional.empty();
-            log.trace("Authorization header {} has an invalid structure, can't return token", header);
-        }
-
-        return token;
     }
 
     /**
@@ -224,7 +178,7 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
 
         log.trace("Authenticating {} request to {}", request.getMethod(), request.getServletPath());
 
-        token = getToken(request);
+        token = tokenResolver.resolve(request);
 
         if (token.isEmpty()) {
             // Missing header

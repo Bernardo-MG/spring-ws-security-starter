@@ -4,6 +4,7 @@ package com.bernardomg.security.springframework.test.web.jwt.unit;
 import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +28,7 @@ import com.bernardomg.security.springframework.test.web.jwt.config.JwtTokenDatas
 import com.bernardomg.security.springframework.test.web.jwt.config.Tokens;
 import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
 import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
+import com.bernardomg.security.springframework.web.jwt.TokenResolver;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,8 +38,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("JwtTokenFilter")
 class TestJwtTokenFilter {
-
-    private static final String         HEADER_BEARER = "Bearer " + Tokens.TOKEN;
 
     @Mock
     private TokenDecoder                decoder;
@@ -54,6 +53,9 @@ class TestJwtTokenFilter {
 
     @Mock
     private HttpServletResponse         response;
+
+    @Mock
+    private TokenResolver               tokenResolver;
 
     @Mock
     private AuthenticationTrustResolver trustResolver;
@@ -78,13 +80,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -105,6 +107,8 @@ class TestJwtTokenFilter {
         final Authentication anonymous;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         anonymous = Mockito.mock(Authentication.class);
 
         SecurityContextHolder.getContext()
@@ -116,8 +120,6 @@ class TestJwtTokenFilter {
 
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -137,13 +139,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.credentialsExpired();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -163,13 +165,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.disabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -189,13 +191,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.expired();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -214,10 +216,10 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         jwtTokenData = JwtTokenDatas.expired();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -236,10 +238,10 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         jwtTokenData = JwtTokenDatas.notBeforeInFuture();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -259,13 +261,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.locked();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.valid();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -283,6 +285,8 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // WHEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.empty());
+
         filter.doFilter(request, response, filterChain);
 
         // THEN
@@ -299,13 +303,13 @@ class TestJwtTokenFilter {
         final Authentication existing;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         existing = Mockito.mock(Authentication.class);
 
         SecurityContextHolder.getContext()
             .setAuthentication(existing);
         given(trustResolver.isAnonymous(existing)).willReturn(false);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -325,13 +329,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.notExpired();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -351,13 +355,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.notBeforeInPast();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -377,13 +381,13 @@ class TestJwtTokenFilter {
         final Authentication authentication;
 
         // GIVEN
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+
         userDetails = SecurityUsers.enabled();
         given(userDetailsService.loadUserByUsername(UserConstants.USERNAME)).willReturn(userDetails);
 
         jwtTokenData = JwtTokenDatas.notExpiredAndNotBeforeInPast();
         given(decoder.decode(Tokens.TOKEN)).willReturn(jwtTokenData);
-
-        given(request.getHeader(HttpHeaders.AUTHORIZATION)).willReturn(HEADER_BEARER);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
