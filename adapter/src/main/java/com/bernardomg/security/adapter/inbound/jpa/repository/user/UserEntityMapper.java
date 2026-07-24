@@ -26,12 +26,14 @@ package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionEntityMapper;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleEntityMapper;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.comparator.RoleComparator;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.user.model.User;
@@ -43,7 +45,8 @@ import com.bernardomg.security.domain.user.model.UserQuery;
 public final class UserEntityMapper {
 
     public static final User toDomain(final UserEntity user) {
-        final Collection<Role> roles;
+        final Collection<Role>               roles;
+        final Collection<ResourcePermission> permissions;
 
         roles = user.getRoles()
             .stream()
@@ -51,8 +54,18 @@ public final class UserEntityMapper {
             .map(RoleEntityMapper::toDomain)
             .sorted(new RoleComparator())
             .collect(Collectors.toCollection(ArrayList::new));
+        permissions = user.getRoles()
+            .stream()
+            .filter(Objects::nonNull)
+            .map(RoleEntity::getPermissions)
+            .filter(Objects::nonNull)
+            .flatMap(Collection::stream)
+            .filter(Objects::nonNull)
+            .map(ResourcePermissionEntityMapper::toDomain)
+            .distinct()
+            .collect(Collectors.toCollection(ArrayList::new));
         return new User(user.getEmail(), user.getUsername(), user.getName(), user.getEnabled(), user.getNotExpired(),
-            user.getNotLocked(), user.getPasswordNotExpired(), roles, List.of());
+            user.getNotLocked(), user.getPasswordNotExpired(), roles, permissions);
     }
 
     public static final UserEntity toEntity(final UserQuery user) {

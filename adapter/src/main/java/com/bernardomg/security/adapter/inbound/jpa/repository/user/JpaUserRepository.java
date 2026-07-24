@@ -100,7 +100,7 @@ public final class JpaUserRepository implements UserRepository {
         } else {
             // TODO: Maybe return an optional
             log.warn("User {} not found", username);
-            result = new User(null, null, null, false, false, false, false, null,null);
+            result = new User(null, null, null, false, false, false, false, null, null);
         }
 
         return result;
