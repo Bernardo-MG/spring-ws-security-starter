@@ -217,7 +217,7 @@ public final class DefaultUserService implements UserService {
 
         // TODO: why only the password expired can be changed?
         toSave = new User(user.email(), existing.username(), user.name(), user.enabled(), existing.notExpired(),
-            existing.notLocked(), user.passwordNotExpired(), user.roles());
+            existing.notLocked(), user.passwordNotExpired(), user.roles(),user.permissions());
 
         updated = userRepository.save(toSave);
 

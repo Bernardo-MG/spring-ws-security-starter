@@ -26,6 +26,7 @@ package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -99,7 +100,7 @@ public final class JpaUserRepository implements UserRepository {
         } else {
             // TODO: Maybe return an optional
             log.warn("User {} not found", username);
-            result = new User(null, null, null, false, false, false, false, null);
+            result = new User(null, null, null, false, false, false, false, null,null);
         }
 
         return result;
@@ -297,7 +298,7 @@ public final class JpaUserRepository implements UserRepository {
             log.trace("Locked user {}", username);
         } else {
             // TODO: Maybe return an optional
-            result = new User(null, null, null, false, false, false, false, null);
+            result = new User(null, null, null, false, false, false, false, null, List.of());
             log.warn("User {} doesn't exist", username);
         }
 
@@ -326,7 +327,7 @@ public final class JpaUserRepository implements UserRepository {
             log.trace("Resetted pasword for {}", username);
         } else {
             // TODO: Maybe return an optional
-            result = new User(null, null, null, false, false, false, false, null);
+            result = new User(null, null, null, false, false, false, false, null, List.of());
             log.warn("User {} doesn't exist", username);
         }
 

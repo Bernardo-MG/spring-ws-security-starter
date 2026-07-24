@@ -26,6 +26,7 @@ package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public final class UserEntityMapper {
             .sorted(new RoleComparator())
             .collect(Collectors.toCollection(ArrayList::new));
         return new User(user.getEmail(), user.getUsername(), user.getName(), user.getEnabled(), user.getNotExpired(),
-            user.getNotLocked(), user.getPasswordNotExpired(), roles);
+            user.getNotLocked(), user.getPasswordNotExpired(), roles, List.of());
     }
 
     public static final UserEntity toEntity(final UserQuery user) {
