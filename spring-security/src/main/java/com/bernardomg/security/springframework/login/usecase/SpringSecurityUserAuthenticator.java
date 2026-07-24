@@ -33,7 +33,7 @@ public final class SpringSecurityUserAuthenticator implements UserAuthenticator 
 
         try {
             authentication = authenticationManager
-                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(loginName.trim(), password));
+                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(loginName, password));
         } catch (final AuthenticationException exception) {
             throw new InvalidCredentialsException(exception);
         }
