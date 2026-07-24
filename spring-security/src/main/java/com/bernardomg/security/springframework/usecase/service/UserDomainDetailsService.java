@@ -37,7 +37,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 
@@ -70,32 +69,23 @@ public final class UserDomainDetailsService implements UserDetailsService {
     /**
      * Logger for the class.
      */
-    private static final Logger            log = LoggerFactory.getLogger(UserDomainDetailsService.class);
-
-    /**
-     * User permissions repository.
-     */
-    private final UserPermissionRepository userPermissionRepository;
+    private static final Logger  log = LoggerFactory.getLogger(UserDomainDetailsService.class);
 
     /**
      * User repository.
      */
-    private final UserRepository           userRepository;
+    private final UserRepository userRepository;
 
     /**
      * Constructs a user details service.
      *
      * @param userRepo
      *            users repository
-     * @param userPermissionRepo
-     *            user permissions repository
      */
-    public UserDomainDetailsService(final UserRepository userRepo, final UserPermissionRepository userPermissionRepo) {
+    public UserDomainDetailsService(final UserRepository userRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");
-        userPermissionRepository = Objects.requireNonNull(userPermissionRepo,
-            "Received a null pointer as user permission repository");
     }
 
     @Override
@@ -116,7 +106,7 @@ public final class UserDomainDetailsService implements UserDetailsService {
                 throw new UsernameNotFoundException("Invalid username or credentials");
             });
 
-        authorities = userPermissionRepository.findAll(user.username())
+        authorities = user.permissions()
             .stream()
             .map(this::toAuthority)
             .toList();

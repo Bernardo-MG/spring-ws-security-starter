@@ -41,11 +41,9 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.permission.Resourc
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.JpaRoleRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.UserRoleSpringRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserPermissionRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserResourcePermissionSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
@@ -53,7 +51,6 @@ import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 
@@ -95,12 +92,6 @@ public class TestConfiguration {
             final UserRoleSpringRepository userRoleSpringRepository) {
         return new JpaRoleRepository(roleSpringRepository, resourcePermissionSpringRepository,
             userRoleSpringRepository);
-    }
-
-    @Bean("userPermissionRepository")
-    public UserPermissionRepository getUserPermissionRepository(final UserSpringRepository userSpringRepository,
-            final UserResourcePermissionSpringRepository resourcePermissionSpringRepository) {
-        return new JpaUserPermissionRepository(userSpringRepository, resourcePermissionSpringRepository);
     }
 
     @Bean("userRepository")

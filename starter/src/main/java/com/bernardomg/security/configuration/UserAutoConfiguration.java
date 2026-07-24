@@ -41,13 +41,10 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.adapter.inbound.event.user.UserInvitationNotificationListener;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserPermissionRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserResourcePermissionSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
@@ -124,12 +121,6 @@ public class UserAutoConfiguration {
     @Bean("userOnboardingWhitelist")
     public WhitelistRoute getUserOnboardingWhitelist() {
         return WhitelistRoute.of("/security/user/onboarding/activate/**", HttpMethod.GET, HttpMethod.POST);
-    }
-
-    @Bean("userPermissionRepository")
-    public UserPermissionRepository getUserPermissionRepository(final UserSpringRepository userRepo,
-            final UserResourcePermissionSpringRepository resourcePermissionRepo) {
-        return new JpaUserPermissionRepository(userRepo, resourcePermissionRepo);
     }
 
     @Bean("userRepository")

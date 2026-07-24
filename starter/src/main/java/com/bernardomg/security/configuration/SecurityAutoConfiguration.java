@@ -33,7 +33,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
@@ -57,9 +56,8 @@ public class SecurityAutoConfiguration {
     }
 
     @Bean("userDetailsService")
-    public UserDetailsService getUserDetailsService(final UserRepository userRepository,
-            final UserPermissionRepository userPermissionRepository) {
-        return new UserDomainDetailsService(userRepository, userPermissionRepository);
+    public UserDetailsService getUserDetailsService(final UserRepository userRepository) {
+        return new UserDomainDetailsService(userRepository);
     }
 
     @Bean("springResourceAccessValidator")

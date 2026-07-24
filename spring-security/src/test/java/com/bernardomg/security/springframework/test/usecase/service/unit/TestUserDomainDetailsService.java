@@ -3,7 +3,6 @@ package com.bernardomg.security.springframework.test.usecase.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
@@ -18,10 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.test.permission.config.factory.PermissionConstants;
-import com.bernardomg.security.springframework.test.permission.config.factory.ResourcePermissions;
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
@@ -32,9 +29,6 @@ class TestUserDomainDetailsService {
 
     @InjectMocks
     private UserDomainDetailsService service;
-
-    @Mock
-    private UserPermissionRepository userPermissionRepository;
 
     @Mock
     private UserRepository           userRepository;
@@ -51,7 +45,6 @@ class TestUserDomainDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
@@ -89,7 +82,7 @@ class TestUserDomainDetailsService {
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo(PermissionConstants.READ);
+                .isEqualTo(PermissionConstants.CREATE);
         });
     }
 
@@ -101,7 +94,6 @@ class TestUserDomainDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
@@ -139,7 +131,7 @@ class TestUserDomainDetailsService {
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo(PermissionConstants.READ);
+                .isEqualTo(PermissionConstants.CREATE);
         });
     }
 
@@ -151,7 +143,6 @@ class TestUserDomainDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
@@ -189,7 +180,7 @@ class TestUserDomainDetailsService {
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo(PermissionConstants.READ);
+                .isEqualTo(PermissionConstants.CREATE);
         });
     }
 
@@ -201,7 +192,6 @@ class TestUserDomainDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
@@ -239,7 +229,7 @@ class TestUserDomainDetailsService {
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo(PermissionConstants.READ);
+                .isEqualTo(PermissionConstants.CREATE);
         });
     }
 
@@ -251,7 +241,6 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
-        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of());
 
         // WHEN
         executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
@@ -271,7 +260,6 @@ class TestUserDomainDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME);
@@ -309,7 +297,7 @@ class TestUserDomainDetailsService {
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo(PermissionConstants.READ);
+                .isEqualTo(PermissionConstants.CREATE);
         });
     }
 
@@ -321,7 +309,6 @@ class TestUserDomainDetailsService {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
-        given(userPermissionRepository.findAll(UserConstants.USERNAME)).willReturn(List.of(ResourcePermissions.read()));
 
         // WHEN
         userDetails = service.loadUserByUsername(UserConstants.USERNAME.toUpperCase());
@@ -359,7 +346,7 @@ class TestUserDomainDetailsService {
                 .extracting("action")
                 .first()
                 .as("authority action")
-                .isEqualTo(PermissionConstants.READ);
+                .isEqualTo(PermissionConstants.CREATE);
         });
     }
 
