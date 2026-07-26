@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithoutPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.Roles;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.RolesQuery;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
+import com.bernardomg.security.adapter.test.config.role.factory.RoleFilters;
+import com.bernardomg.security.adapter.test.config.role.factory.Roles;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 
 @DisplayName("RoleRepository - find all - pagination")
@@ -34,7 +34,7 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
         final Sorting sorting;
 
         sorting = Sorting.unsorted();
-        return repository.findAll(RolesQuery.empty(), pagination, sorting);
+        return repository.findAll(RoleFilters.empty(), pagination, sorting);
     }
 
     @Test
@@ -46,7 +46,7 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     @Test
     @DisplayName("Returns all the data for the second page")
     void testFindAll_Page2_Data() {
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Page<Role> roles;
         final Pagination pagination;
         final Sorting    sorting;
@@ -55,7 +55,7 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.empty();
+        sample = RoleFilters.empty();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);

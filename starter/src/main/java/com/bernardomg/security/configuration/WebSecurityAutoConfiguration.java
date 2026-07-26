@@ -32,6 +32,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,10 +49,12 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bernardomg.jwt.encoding.TokenDecoder;
-import com.bernardomg.jwt.encoding.TokenValidator;
 import com.bernardomg.security.springframework.web.ErrorResponseAuthenticationEntryPoint;
 import com.bernardomg.security.springframework.web.error.SecurityExceptionHandler;
+import com.bernardomg.security.springframework.web.jwt.BearerHeaderTokenResolver;
 import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
+import com.bernardomg.security.springframework.web.jwt.TokenAuthenticationParser;
+import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenticationParser;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistCustomizer;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistFilterSkipWrapper;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
@@ -99,8 +102,8 @@ public class WebSecurityAutoConfiguration {
      *            security configurers
      * @param decoder
      *            token decoder
-     * @param tokenValidator
-     *            token validator
+     * @param trustResolver
+     *            trust resolver
      * @param userDetailsService
      *            user details service
      * @param whitelist
@@ -112,17 +115,19 @@ public class WebSecurityAutoConfiguration {
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
-            final TokenDecoder decoder, final TokenValidator tokenValidator,
+            final TokenDecoder decoder, final AuthenticationTrustResolver trustResolver,
             final UserDetailsService userDetailsService, final Collection<WhitelistRoute> whitelist) throws Exception {
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
         final Filter                                                                                               jwtFilterWrapped;
+        final TokenAuthenticationParser                                                                            tokenAuthenticationParser;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
         // TODO: move to JWT config
-        jwtFilter = new JwtTokenFilter(userDetailsService, tokenValidator, decoder);
+        tokenAuthenticationParser = new TokenDetailsTokenAuthenticationParser(decoder);
+        jwtFilter = new JwtTokenFilter(trustResolver, new BearerHeaderTokenResolver(), tokenAuthenticationParser);
         jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
         http
             // Whitelist access

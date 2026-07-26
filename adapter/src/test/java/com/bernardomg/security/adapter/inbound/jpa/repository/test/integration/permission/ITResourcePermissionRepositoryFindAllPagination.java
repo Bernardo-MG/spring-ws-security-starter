@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.annotation.SinglePermission;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.factory.ResourcePermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.test.config.permission.annotation.SinglePermission;
+import com.bernardomg.security.adapter.test.config.permission.factory.ResourcePermissions;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 

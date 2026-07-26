@@ -29,7 +29,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
@@ -38,9 +37,10 @@ import com.bernardomg.security.domain.role.exception.MissingRoleException;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.user.validation.UserEmailFormatRule;
 import com.bernardomg.security.usecase.user.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.usecase.user.validation.UserEmailNotExistsRule;
@@ -63,40 +63,40 @@ public final class DefaultUserService implements UserService {
     /**
      * Logger for the class.
      */
-    private static final Logger   log = LoggerFactory.getLogger(DefaultUserService.class);
+    private static final Logger     log = LoggerFactory.getLogger(DefaultUserService.class);
 
     /**
      * Password encoder.
      */
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncrypter passwordEncrypt;
 
     /**
      * Role repository.
      */
-    private final RoleRepository  roleRepository;
+    private final RoleRepository    roleRepository;
 
     /**
      * User repository.
      */
-    private final UserRepository  userRepository;
+    private final UserRepository    userRepository;
 
     /**
      * User registration validator.
      */
-    private final Validator<User> validatorCreateUser;
+    private final Validator<User>   validatorCreateUser;
 
     /**
      * Update user validator.
      */
-    private final Validator<User> validatorUpdateUser;
+    private final Validator<User>   validatorUpdateUser;
 
     public DefaultUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final PasswordEncoder passEncoder) {
+            final PasswordEncrypter passEncrypt) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
-        passwordEncoder = Objects.requireNonNull(passEncoder);
+        passwordEncrypt = Objects.requireNonNull(passEncrypt);
 
         validatorCreateUser = new FieldRuleValidator<>(new UserEmailFormatRule(), new UserRolesNotDuplicatedRule(),
             new UserEmailNotExistsRule(userRepo), new UserUsernameNotExistsRule(userRepository));
@@ -133,7 +133,7 @@ public final class DefaultUserService implements UserService {
 
         validatorCreateUser.validate(toCreate);
 
-        encodedPassword = passwordEncoder.encode("");
+        encodedPassword = passwordEncrypt.encrypt("");
         created = userRepository.save(toCreate, encodedPassword);
 
         log.trace("Created user {} with email {} and name {}", created.username(), created.email(), user.name());
@@ -161,7 +161,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Page<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<User> getAll(final UserFilter query, final Pagination pagination, final Sorting sorting) {
         final Page<User> users;
 
         log.trace("Reading users with sample {}, pagination {} and sorting {}", query, pagination, sorting);
@@ -217,7 +217,7 @@ public final class DefaultUserService implements UserService {
 
         // TODO: why only the password expired can be changed?
         toSave = new User(user.email(), existing.username(), user.name(), user.enabled(), existing.notExpired(),
-            existing.notLocked(), user.passwordNotExpired(), user.roles());
+            existing.notLocked(), user.passwordNotExpired(), user.roles(), user.permissions());
 
         updated = userRepository.save(toSave);
 

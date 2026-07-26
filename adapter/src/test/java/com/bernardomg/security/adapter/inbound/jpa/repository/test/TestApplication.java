@@ -28,7 +28,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.TestConfiguration;
+import com.bernardomg.security.adapter.test.config.TestConfiguration;
 
 /**
  * Application runnable class. This allows Spring Boot to run the application.

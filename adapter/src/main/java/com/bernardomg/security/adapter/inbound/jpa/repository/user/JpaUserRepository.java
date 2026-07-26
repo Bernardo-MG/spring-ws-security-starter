@@ -26,6 +26,7 @@ package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,8 +44,8 @@ import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
 import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 /**
@@ -99,7 +100,7 @@ public final class JpaUserRepository implements UserRepository {
         } else {
             // TODO: Maybe return an optional
             log.warn("User {} not found", username);
-            result = new User(null, null, null, false, false, false, false, null);
+            result = new User(null, null, null, false, false, false, false, List.of(), List.of());
         }
 
         return result;
@@ -174,7 +175,7 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final Page<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<User> findAll(final UserFilter query, final Pagination pagination, final Sorting sorting) {
         final UserEntity                                 entity;
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<User> page;
@@ -297,7 +298,7 @@ public final class JpaUserRepository implements UserRepository {
             log.trace("Locked user {}", username);
         } else {
             // TODO: Maybe return an optional
-            result = new User(null, null, null, false, false, false, false, null);
+            result = new User(null, null, null, false, false, false, false, List.of(), List.of());
             log.warn("User {} doesn't exist", username);
         }
 
@@ -326,7 +327,7 @@ public final class JpaUserRepository implements UserRepository {
             log.trace("Resetted pasword for {}", username);
         } else {
             // TODO: Maybe return an optional
-            result = new User(null, null, null, false, false, false, false, null);
+            result = new User(null, null, null, false, false, false, false, List.of(), List.of());
             log.warn("User {} doesn't exist", username);
         }
 

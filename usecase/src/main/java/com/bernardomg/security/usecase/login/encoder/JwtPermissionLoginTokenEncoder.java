@@ -15,7 +15,8 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
+import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.repository.UserRepository;
 
 /**
  * Encodes a JWT token including the permissions for the user.
@@ -28,29 +29,29 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     /**
      * Logger for the class.
      */
-    private static final Logger            log = LoggerFactory.getLogger(JwtPermissionLoginTokenEncoder.class);
+    private static final Logger  log = LoggerFactory.getLogger(JwtPermissionLoginTokenEncoder.class);
 
     /**
      * Token encoder for creating authentication tokens.
      */
-    private final TokenEncoder             tokenEncoder;
+    private final TokenEncoder   tokenEncoder;
 
     /**
-     * User permissions repository.
+     * User repository.
      */
-    private final UserPermissionRepository userPermissionRepository;
+    private final UserRepository userRepository;
 
     /**
      * Token validity time in seconds.
      */
-    private final Duration                 validity;
+    private final Duration       validity;
 
-    public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder,
-            final UserPermissionRepository userPermissionRepo, final Duration vldt) {
+    public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder, final UserRepository userRepo,
+            final Duration vldt) {
         super();
 
         tokenEncoder = Objects.requireNonNull(tknEncoder);
-        userPermissionRepository = Objects.requireNonNull(userPermissionRepo);
+        userRepository = Objects.requireNonNull(userRepo);
         validity = Objects.requireNonNull(vldt);
     }
 
@@ -67,7 +68,6 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
         // Issued right now
         issuedAt = Instant.now();
         // Expires in a number of seconds equal to validity
-        // TODO: handle validity in the encoder
         expiration = Instant.now()
             .plus(validity);
 
@@ -88,14 +88,16 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
         // Resource name in lower case
         resourceMapper = ResourcePermission::resource;
-        resourceMapper = resourceMapper.andThen(r -> r.toLowerCase());
+        resourceMapper = resourceMapper.andThen(String::toLowerCase);
 
         // Action name in lower case
         actionMapper = ResourcePermission::action;
-        actionMapper = actionMapper.andThen(a -> a.toLowerCase());
+        actionMapper = actionMapper.andThen(String::toLowerCase);
 
         // Transform into a map, with the resource as key, and the list of actions as value
-        return userPermissionRepository.findAll(username)
+        return userRepository.findOne(username)
+            .map(User::permissions)
+            .orElse(List.of())
             .stream()
             .collect(Collectors.groupingBy(resourceMapper, Collectors.mapping(actionMapper, Collectors.toList())));
     }

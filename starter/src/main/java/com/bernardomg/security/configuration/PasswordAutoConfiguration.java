@@ -36,7 +36,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -46,13 +45,17 @@ import com.bernardomg.security.adapter.inbound.event.password.reset.PasswordRese
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
-import com.bernardomg.security.springframework.password.change.usecase.service.SpringSecurityPasswordChangeService;
-import com.bernardomg.security.springframework.password.reset.usecase.service.SpringSecurityPasswordResetService;
+import com.bernardomg.security.springframework.password.SpringSecurityPasswordEncrypter;
+import com.bernardomg.security.springframework.session.SpringSecurityUsernameInSessionProvider;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.usecase.password.change.service.DefaultPasswordChangeService;
 import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
+import com.bernardomg.security.usecase.password.reset.service.DefaultPasswordResetService;
 import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
+import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
 import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
@@ -88,7 +91,12 @@ public class PasswordAutoConfiguration {
     @Bean("passwordChangeService")
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
             final PasswordEncoder passwordEncoder) {
-        return new SpringSecurityPasswordChangeService(userRepository, passwordEncoder);
+        final UsernameInSessionProvider usernameInSessionProvider;
+        final PasswordEncrypter         passwordEncrypter;
+
+        passwordEncrypter = new SpringSecurityPasswordEncrypter(passwordEncoder);
+        usernameInSessionProvider = new SpringSecurityUsernameInSessionProvider();
+        return new DefaultPasswordChangeService(userRepository, passwordEncrypter, usernameInSessionProvider);
     }
 
     @Bean("passwordEncoder")
@@ -114,16 +122,14 @@ public class PasswordAutoConfiguration {
 
     @Bean("passwordRecoveryService")
     public PasswordResetService getPasswordRecoveryService(final UserRepository userRepository,
-            final UserDetailsService userDetailsService, final PasswordEncoder passwordEncoder,
-            final UserTokenRepository userTokenRepository, final UserTokenProperties tokenProperties,
-            final EventEmitter eventEmit) {
+            final PasswordEncrypter passwordEncrypter, final UserTokenRepository userTokenRepository,
+            final UserTokenProperties tokenProperties, final EventEmitter eventEmit) {
         final UserTokenStore tokenStore;
 
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
             tokenProperties.validity());
 
-        return new SpringSecurityPasswordResetService(userRepository, userDetailsService, passwordEncoder, tokenStore,
-            eventEmit);
+        return new DefaultPasswordResetService(userRepository, passwordEncrypter, tokenStore, eventEmit);
     }
 
     @Bean("passwordResetNotificationListener")

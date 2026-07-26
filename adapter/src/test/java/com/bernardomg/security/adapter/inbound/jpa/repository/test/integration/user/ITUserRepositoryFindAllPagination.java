@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserQueries;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.Users;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithRole;
+import com.bernardomg.security.adapter.test.config.user.factory.UserFilters;
+import com.bernardomg.security.adapter.test.config.user.factory.Users;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @DisplayName("User repository - find all - pagination")
@@ -34,7 +34,7 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
         final Sorting sorting;
 
         sorting = Sorting.unsorted();
-        return repository.findAll(UserQueries.empty(), pagination, sorting);
+        return repository.findAll(UserFilters.empty(), pagination, sorting);
     }
 
     @Test
@@ -46,7 +46,7 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
     @Test
     @DisplayName("Returns all the data for the second page")
     void testGetAll_Page2_Data() {
-        final UserQuery  sample;
+        final UserFilter sample;
         final Page<User> users;
         final Pagination pagination;
         final Sorting    sorting;
@@ -55,7 +55,7 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
         pagination = new Pagination(2, 1);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.empty();
+        sample = UserFilters.empty();
 
         // WHEN
         users = repository.findAll(sample, pagination, sorting);

@@ -15,7 +15,7 @@ public final class Tokens {
 
     public static final String    ALTERNATIVE_SCOPE = "scope2";
 
-    public static final String    ALTERNATIVE_TOKEN = "bd656aaf-0c18-4178-bcdf-71ccb7f320fb";
+    public static final String    ALTERNATIVE_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdWJqZWN0In0.8fhjRsjPswScvhcPnN56SHmpKtqO53EpCmCIZg0SDp_sjeaMEAV4GfqPK5spRYdSZPKfdjz1FxvF7re9Sc6nZg";
 
     public static final String    AUDIENCE          = "audience";
 
@@ -46,7 +46,7 @@ public final class Tokens {
 
     public static final String    SUBJECT           = "subject";
 
-    public static final String    TOKEN             = "bd656aaf-0c18-4178-bcdf-71ccb7f320fa";
+    public static final String    TOKEN             = "eyJhbGciOiJIUzUxMiJ9.eyJhdWQiOlsiYXVkaWVuY2UiXX0.MC9oB7dYxYp6yrzZwKazSZ484NUwTQrs_sgAMeBdVPMpF0aU83GRF3fLD8FhiamG5f0yWH6LxsWUUARVqdA6pA";
 
     private Tokens() {
         super();

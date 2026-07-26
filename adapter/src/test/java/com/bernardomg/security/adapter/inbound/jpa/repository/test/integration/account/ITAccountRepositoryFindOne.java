@@ -8,11 +8,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.account.factory.Accounts;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithoutRole;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserConstants;
+import com.bernardomg.security.adapter.test.config.account.factory.Accounts;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithRole;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithoutRole;
+import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
 

@@ -30,17 +30,10 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.bernardomg.jwt.encoding.TokenDecoder;
-import com.bernardomg.jwt.encoding.TokenValidator;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -65,163 +58,64 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     /**
      * Logger for the class.
      */
-    private static final Logger      log                     = LoggerFactory.getLogger(JwtTokenFilter.class);
+    private static final Logger               log = LoggerFactory.getLogger(JwtTokenFilter.class);
 
-    /**
-     * Token header identifier. This is added before the token to tell which kind of token it is. Used to make sure the
-     * authentication header is valid.
-     */
-    private static final String      TOKEN_HEADER_IDENTIFIER = "Bearer";
+    private final TokenAuthenticationParser   tokenAuthenticationParser;
 
-    /**
-     * Token decoder. Required to acquire the subject.
-     */
-    private final TokenDecoder       tokenDecoder;
+    private final TokenResolver               tokenResolver;
 
-    /**
-     * Token validator. Expired tokens are rejected.
-     */
-    private final TokenValidator     tokenValidator;
-
-    /**
-     * User details service. Gives access to the user, to validate the token against it.
-     */
-    private final UserDetailsService userDetailsService;
+    private final AuthenticationTrustResolver trustResolver;
 
     /**
      * Constructs a filter with the received arguments.
      *
-     * @param userDetService
-     *            user details service
-     * @param validator
-     *            token validator
-     * @param decoder
-     *            token decoder
+     * @param trustRes
+     *            trust resolver
+     * @param tokenResolv
+     *            token resolver
+     * @param tokenAuthenticationPars
+     *            token authentication parser
      */
-    public JwtTokenFilter(final UserDetailsService userDetService, final TokenValidator validator,
-            final TokenDecoder decoder) {
+    public JwtTokenFilter(final AuthenticationTrustResolver trustRes, final TokenResolver tokenResolv,
+            final TokenAuthenticationParser tokenAuthenticationPars) {
         super();
 
-        userDetailsService = Objects.requireNonNull(userDetService);
-        tokenValidator = Objects.requireNonNull(validator);
-        tokenDecoder = Objects.requireNonNull(decoder);
+        trustResolver = Objects.requireNonNull(trustRes);
+        tokenResolver = Objects.requireNonNull(tokenResolv);
+        tokenAuthenticationParser = Objects.requireNonNull(tokenAuthenticationPars);
     }
 
-    /**
-     * Returns an {@link UsernamePasswordAuthenticationToken} created from the user and request.
-     *
-     * @param userDetails
-     *            user for the authentication
-     * @param request
-     *            request details for the authentication
-     * @param token
-     *            parsed security token
-     * @return an authentication object
-     */
-    private final Authentication getAuthentication(final UserDetails userDetails, final HttpServletRequest request,
-            final String token) {
-        final AbstractAuthenticationToken authenticationToken;
-
-        authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-        return authenticationToken;
-    }
-
-    /**
-     * Takes the token from the authorization header. This is expected to be something like
-     * {@code Authorization: Bearer [token]}.
-     *
-     * @param request
-     *            request containing the header with the token
-     * @return the token if found, or an empty {@code Optional} otherwise
-     */
-    private final Optional<String> getToken(final HttpServletRequest request) {
-        final String           header;
-        final Optional<String> token;
-
-        header = request.getHeader("Authorization");
-
-        if (header == null) {
-            // No token received
-            token = Optional.empty();
-            log.warn("Missing authorization header, can't return token", header);
-        } else if (((header != null) && !header.trim()
-            .isEmpty()) && (header.trim()
-                .startsWith(TOKEN_HEADER_IDENTIFIER + " "))) {
-            // Token received
-            // Take it by removing the identifier
-            // TODO: Should be case insensitive
-            token = Optional.of(header.substring(TOKEN_HEADER_IDENTIFIER.length())
-                .trim());
-        } else {
-            // Invalid token received
-            token = Optional.empty();
-            log.warn("Authorization header {} has an invalid structure, can't return token", header);
-        }
-
-        return token;
-    }
-
-    /**
-     * Checks if the user is valid. This means it has no flag marking it as not usable.
-     *
-     * @param userDetails
-     *            user the check
-     * @return {@code true} if the user is valid, {@code false} otherwise
-     */
-    private final boolean isValid(final UserDetails userDetails) {
-        return userDetails.isAccountNonExpired() && userDetails.isAccountNonLocked()
-                && userDetails.isCredentialsNonExpired() && userDetails.isEnabled();
-    }
-
-    private final void loadToken(final String token, final HttpServletRequest request) {
-        final String         username;
-        final UserDetails    userDetails;
-        final Authentication authentication;
-
-        if (!tokenValidator.hasExpired(token)) {
-            // Token not expired
-            // Will load a new authentication from the token
-
-            // Takes subject from the token
-            username = tokenDecoder.decode(token)
-                .subject();
-            userDetails = userDetailsService.loadUserByUsername(username);
-
-            if (isValid(userDetails)) {
-                // Create and register authentication
-                authentication = getAuthentication(userDetails, request, token);
+    private final boolean isAuthenticated() {
+        return ((SecurityContextHolder.getContext()
+            .getAuthentication() != null) && !trustResolver.isAnonymous(
                 SecurityContextHolder.getContext()
-                    .setAuthentication(authentication);
-
-                // User valid
-                log.debug("Authenticated {} request for {} to {}", request.getMethod(), username,
-                    request.getServletPath());
-            } else {
-                // TODO: shouldn't set anonymous auth?
-                log.debug("Invalid user {}", username);
-            }
-        } else {
-            // TODO: shouldn't set anonymous auth?
-            log.debug("Invalid token {}", token);
-        }
+                    .getAuthentication()));
     }
 
     @Override
     protected final void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
             final FilterChain chain) throws ServletException, IOException {
-        final Optional<String> token;
+        final Optional<String>         token;
+        final Optional<Authentication> authentication;
 
-        log.debug("Authenticating {} request to {}", request.getMethod(), request.getServletPath());
+        log.trace("Authenticating {} request to {}", request.getMethod(), request.getServletPath());
 
-        token = getToken(request);
+        token = tokenResolver.resolve(request);
 
         if (token.isEmpty()) {
             // Missing header
-            log.debug("Missing authorization token");
-        } else {
-            loadToken(token.get(), request);
+            log.trace("Missing authorization token");
+        } else if (!isAuthenticated()) {
+            authentication = tokenAuthenticationParser.parse(token.get(), request);
+            if (authentication.isEmpty()) {
+                SecurityContextHolder.clearContext();
+            } else {
+                // User valid
+                log.trace("Authenticated {} request for {} to {}", request.getMethod(), authentication.get()
+                    .getName(), request.getServletPath());
+                SecurityContextHolder.getContext()
+                    .setAuthentication(authentication.get());
+            }
         }
 
         chain.doFilter(request, response);

@@ -38,8 +38,8 @@ import com.bernardomg.security.domain.permission.exception.MissingResourcePermis
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.role.exception.MissingRoleException;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.usecase.role.validation.RoleHasNoUserRule;
 import com.bernardomg.security.usecase.role.validation.RoleNameNotEmptyRule;
@@ -148,7 +148,7 @@ public final class DefaultRoleService implements RoleService {
     }
 
     @Override
-    public final Page<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting) {
+    public final Page<Role> getAll(final RoleFilter sample, final Pagination pagination, final Sorting sorting) {
         final Page<Role> roles;
 
         log.trace("Reading roles with sample {} and pagination {} and sorting {}", sample, pagination, sorting);

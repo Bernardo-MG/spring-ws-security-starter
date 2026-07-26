@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.framework.security</groupId>
       <artifactId>security-starter</artifactId>
-      <version>0.5.0</version>
+      <version>0.5.1</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -71,14 +71,6 @@
       <dependency>
          <groupId>jakarta.transaction</groupId>
          <artifactId>jakarta.transaction-api</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================== SPRING ==================== -->
-      <!-- ============================================== -->
-      <dependency>
-          <!-- Spring Security Crypto -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-crypto</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ============== APACHE COMMONS ================ -->

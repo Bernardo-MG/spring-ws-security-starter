@@ -41,8 +41,8 @@ import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleCreationDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RolePageResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleResponseDto;
 import com.bernardomg.security.domain.permission.constant.Actions;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.usecase.role.service.RoleService;
 
 import jakarta.validation.Valid;
@@ -97,12 +97,12 @@ public class RoleController implements RoleApi {
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Role> roles;
-        final RoleQuery  query;
+        final RoleFilter query;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
-        query = new RoleQuery(Optional.ofNullable(name));
+        query = new RoleFilter(Optional.ofNullable(name));
         roles = service.getAll(query, pagination, sorting);
 
         return RoleDtoMapper.toResponseDto(roles);

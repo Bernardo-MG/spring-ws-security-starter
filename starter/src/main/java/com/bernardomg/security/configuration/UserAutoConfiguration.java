@@ -36,22 +36,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.adapter.inbound.event.user.UserInvitationNotificationListener;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserPermissionRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserResourcePermissionSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.service.DisabledUserNotificationService;
@@ -115,21 +112,15 @@ public class UserAutoConfiguration {
 
     @Bean("userOnboardingService")
     public UserOnboardingService getUserOnboardingService(final UserRepository userRepository,
-            final RoleRepository roleRepository, final PasswordEncoder passwordEncoder,
+            final RoleRepository roleRepository, final PasswordEncrypter passwordEncrypter,
             @Qualifier("userTokenStore") final UserTokenStore tokenStore, final EventEmitter eventEmitter) {
-        return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncoder, tokenStore,
+        return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncrypter, tokenStore,
             eventEmitter);
     }
 
     @Bean("userOnboardingWhitelist")
     public WhitelistRoute getUserOnboardingWhitelist() {
         return WhitelistRoute.of("/security/user/onboarding/activate/**", HttpMethod.GET, HttpMethod.POST);
-    }
-
-    @Bean("userPermissionRepository")
-    public UserPermissionRepository getUserPermissionRepository(final UserSpringRepository userRepo,
-            final UserResourcePermissionSpringRepository resourcePermissionRepo) {
-        return new JpaUserPermissionRepository(userRepo, resourcePermissionRepo);
     }
 
     @Bean("userRepository")
@@ -140,8 +131,8 @@ public class UserAutoConfiguration {
 
     @Bean("userService")
     public UserService getUserService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final PasswordEncoder passwordEncoder) {
-        return new DefaultUserService(userRepo, roleRepo, passwordEncoder);
+            final PasswordEncrypter passwordEncrypter) {
+        return new DefaultUserService(userRepo, roleRepo, passwordEncrypter);
     }
 
     @Bean("userTokenStore")

@@ -16,8 +16,8 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
-import com.bernardomg.security.adapter.outbound.mail.test.config.jwt.factory.Tokens;
-import com.bernardomg.security.adapter.outbound.mail.test.user.config.factory.Users;
+import com.bernardomg.security.adapter.test.config.jwt.factory.Tokens;
+import com.bernardomg.security.adapter.test.config.user.factory.Users;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 @ExtendWith(MockitoExtension.class)

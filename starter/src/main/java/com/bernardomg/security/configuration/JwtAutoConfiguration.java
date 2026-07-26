@@ -36,10 +36,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.jwt.encoding.TokenEncoder;
-import com.bernardomg.jwt.encoding.TokenValidator;
 import com.bernardomg.jwt.encoding.jjwt.JjwtTokenDecoder;
 import com.bernardomg.jwt.encoding.jjwt.JjwtTokenEncoder;
-import com.bernardomg.jwt.encoding.jjwt.JjwtTokenValidator;
 
 import io.jsonwebtoken.security.Keys;
 
@@ -85,19 +83,6 @@ public class JwtAutoConfiguration {
     @ConditionalOnMissingBean({ TokenEncoder.class })
     public TokenEncoder getTokenEncoder(final SecretKey key) {
         return new JjwtTokenEncoder(key);
-    }
-
-    /**
-     * Returns the token validator.
-     *
-     * @param key
-     *            secret key for the token
-     * @return the token validator
-     */
-    @Bean("jwtTokenValidator")
-    @ConditionalOnMissingBean({ TokenValidator.class })
-    public TokenValidator getTokenValidator(final SecretKey key) {
-        return new JjwtTokenValidator(key);
     }
 
     /**

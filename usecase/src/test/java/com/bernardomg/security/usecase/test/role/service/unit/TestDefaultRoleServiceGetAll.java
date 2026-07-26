@@ -18,12 +18,12 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.usecase.role.service.DefaultRoleService;
+import com.bernardomg.security.usecase.test.role.config.factory.RoleFilters;
 import com.bernardomg.security.usecase.test.role.config.factory.Roles;
-import com.bernardomg.security.usecase.test.role.config.factory.RolesQuery;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultRoleService - get all")
@@ -42,7 +42,7 @@ class TestDefaultRoleServiceGetAll {
     @DisplayName("When there are roles they are returned")
     void testGetAll() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Role> existing;
@@ -51,7 +51,7 @@ class TestDefaultRoleServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.empty();
+        sample = RoleFilters.empty();
 
         existing = new Page<>(List.of(Roles.withPermissions()), 0, 0, 0, 0, 0, false, false, sorting);
         given(roleRepository.findAll(sample, pagination, sorting)).willReturn(existing);
@@ -70,7 +70,7 @@ class TestDefaultRoleServiceGetAll {
     @DisplayName("When there are no roles nothing is returned")
     void testGetAll_NoData() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
         final Page<Role> existing;
@@ -79,7 +79,7 @@ class TestDefaultRoleServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.empty();
+        sample = RoleFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(roleRepository.findAll(sample, pagination, sorting)).willReturn(existing);

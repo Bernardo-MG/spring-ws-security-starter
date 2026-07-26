@@ -40,8 +40,8 @@ import com.bernardomg.security.adapter.outbound.rest.user.dto.UserPageResponseDt
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.user.model.UserDtoMapper;
 import com.bernardomg.security.domain.permission.constant.Actions;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.usecase.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -99,12 +99,12 @@ public class UserController implements UserApi {
         final Pagination pagination;
         final Sorting    sorting;
         final Page<User> users;
-        final UserQuery  query;
+        final UserFilter query;
 
         pagination = new Pagination(page, size);
         sorting = WebSorting.toSorting(sort);
 
-        query = new UserQuery(email, username, name, enabled, notLocked, notExpired, passwordNotExpired);
+        query = new UserFilter(email, username, name, enabled, notLocked, notExpired, passwordNotExpired);
         users = service.getAll(query, pagination, sorting);
 
         return UserDtoMapper.toResponseDto(users);

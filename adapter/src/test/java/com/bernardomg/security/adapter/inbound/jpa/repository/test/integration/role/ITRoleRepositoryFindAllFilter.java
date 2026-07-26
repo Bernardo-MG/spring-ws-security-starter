@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithoutPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.Roles;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.RolesQuery;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
+import com.bernardomg.security.adapter.test.config.role.factory.RoleFilters;
+import com.bernardomg.security.adapter.test.config.role.factory.Roles;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 
 @IntegrationTest
@@ -34,7 +34,7 @@ class ITRoleRepositoryFindAllFilter {
     @RoleWithoutPermissions
     void testFindAll_FilterByName() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -42,7 +42,7 @@ class ITRoleRepositoryFindAllFilter {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.byName();
+        sample = RoleFilters.byName();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);
@@ -59,7 +59,7 @@ class ITRoleRepositoryFindAllFilter {
     @RoleWithoutPermissions
     void testFindAll_FilterByName_NotExiting() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -67,7 +67,7 @@ class ITRoleRepositoryFindAllFilter {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.byNameNotExisting();
+        sample = RoleFilters.byNameNotExisting();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);
@@ -83,7 +83,7 @@ class ITRoleRepositoryFindAllFilter {
     @DisplayName("When filtering by name and there is no data nothing is returned")
     void testFindAll_NoData() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -91,7 +91,7 @@ class ITRoleRepositoryFindAllFilter {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.byName();
+        sample = RoleFilters.byName();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);

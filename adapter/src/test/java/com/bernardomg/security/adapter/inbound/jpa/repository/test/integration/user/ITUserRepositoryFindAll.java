@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithoutPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.OnlyUser;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserQueries;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.Users;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithRole;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithoutPermissions;
+import com.bernardomg.security.adapter.test.config.user.annotation.OnlyUser;
+import com.bernardomg.security.adapter.test.config.user.factory.UserFilters;
+import com.bernardomg.security.adapter.test.config.user.factory.Users;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
@@ -36,7 +36,7 @@ class ITUserRepositoryFindAll {
     @EnabledUserWithRole
     void testFindAll() {
         final Page<User> users;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -44,7 +44,7 @@ class ITUserRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.empty();
+        sample = UserFilters.empty();
 
         // WHEN
         users = repository.findAll(sample, pagination, sorting);
@@ -61,7 +61,7 @@ class ITUserRepositoryFindAll {
     @DisplayName("With no data it returns nothing")
     void testFindAll_NoData() {
         final Page<User> users;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -69,7 +69,7 @@ class ITUserRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.empty();
+        sample = UserFilters.empty();
 
         // WHEN
         users = repository.findAll(sample, pagination, sorting);
@@ -87,7 +87,7 @@ class ITUserRepositoryFindAll {
     @EnabledUserWithoutPermissions
     void testFindAll_WithoutPermissions() {
         final Page<User> users;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -95,7 +95,7 @@ class ITUserRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.empty();
+        sample = UserFilters.empty();
 
         // WHEN
         users = repository.findAll(sample, pagination, sorting);
@@ -113,7 +113,7 @@ class ITUserRepositoryFindAll {
     @OnlyUser
     void testFindAll_WithoutRole() {
         final Page<User> users;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -121,7 +121,7 @@ class ITUserRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.empty();
+        sample = UserFilters.empty();
 
         // WHEN
         users = repository.findAll(sample, pagination, sorting);

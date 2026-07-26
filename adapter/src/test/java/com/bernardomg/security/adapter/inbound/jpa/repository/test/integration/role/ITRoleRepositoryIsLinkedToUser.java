@@ -6,12 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.annotation.UserWithPermission;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.annotation.UserWithoutPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.annotation.UserWithoutRole;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithoutPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.RoleConstants;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.permission.annotation.UserWithPermission;
+import com.bernardomg.security.adapter.test.config.permission.annotation.UserWithoutPermissions;
+import com.bernardomg.security.adapter.test.config.permission.annotation.UserWithoutRole;
+import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
+import com.bernardomg.security.adapter.test.config.role.factory.RoleConstants;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 
 @IntegrationTest

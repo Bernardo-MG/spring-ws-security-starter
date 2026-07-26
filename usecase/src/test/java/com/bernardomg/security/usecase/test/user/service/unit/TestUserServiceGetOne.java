@@ -13,13 +13,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
@@ -33,7 +33,7 @@ class TestUserServiceGetOne {
     private EventEmitter       eventEmitter;
 
     @Mock
-    private PasswordEncoder    passwordEncoder;
+    private PasswordEncrypter  passwordEncrypter;
 
     @Mock
     private RoleRepository     roleRepository;

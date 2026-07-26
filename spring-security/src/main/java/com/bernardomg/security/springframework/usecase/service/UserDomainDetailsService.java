@@ -25,11 +25,13 @@
 package com.bernardomg.security.springframework.usecase.service;
 
 import java.util.Collection;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,7 +39,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.repository.UserPermissionRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 
@@ -70,32 +71,25 @@ public final class UserDomainDetailsService implements UserDetailsService {
     /**
      * Logger for the class.
      */
-    private static final Logger            log = LoggerFactory.getLogger(UserDomainDetailsService.class);
+    private static final Logger  log          = LoggerFactory.getLogger(UserDomainDetailsService.class);
 
-    /**
-     * User permissions repository.
-     */
-    private final UserPermissionRepository userPermissionRepository;
+    private final Pattern        emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
     /**
      * User repository.
      */
-    private final UserRepository           userRepository;
+    private final UserRepository userRepository;
 
     /**
      * Constructs a user details service.
      *
      * @param userRepo
      *            users repository
-     * @param userPermissionRepo
-     *            user permissions repository
      */
-    public UserDomainDetailsService(final UserRepository userRepo, final UserPermissionRepository userPermissionRepo) {
+    public UserDomainDetailsService(final UserRepository userRepo) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo, "Received a null pointer as user repository");
-        userPermissionRepository = Objects.requireNonNull(userPermissionRepo,
-            "Received a null pointer as user permission repository");
     }
 
     @Override
@@ -104,35 +98,51 @@ public final class UserDomainDetailsService implements UserDetailsService {
         final Collection<? extends GrantedAuthority> authorities;
         final UserDetails                            details;
         final String                                 password;
+        final String                                 cleanedUsername;
+        final Matcher                                emailMatcher;
 
-        log.trace("Loading user {}", username);
+        cleanedUsername = username.toLowerCase(Locale.ROOT);
 
-        user = userRepository.findOne(username.toLowerCase(LocaleContextHolder.getLocale()))
-            .orElseThrow(() -> {
-                log.error("Username {} not found in database", username);
-                throw new UsernameNotFoundException(String.format("Username %s not found in database", username));
-            });
+        log.trace("Loading user {}", cleanedUsername);
 
-        authorities = userPermissionRepository.findAll(user.username())
+        emailMatcher = emailPattern.matcher(username);
+        if (emailMatcher.find()) {
+            user = userRepository.findOneByEmail(cleanedUsername)
+                .orElseThrow(() -> {
+                    log.debug("Username {} not found in database", cleanedUsername);
+                    throw new UsernameNotFoundException("Invalid username or credentials");
+                });
+        } else {
+            user = userRepository.findOne(cleanedUsername)
+                .orElseThrow(() -> {
+                    log.debug("Username {} not found in database", cleanedUsername);
+                    throw new UsernameNotFoundException("Invalid username or credentials");
+                });
+        }
+
+        authorities = user.permissions()
             .stream()
             .map(this::toAuthority)
             .toList();
 
         if (authorities.isEmpty()) {
-            log.error("Username {} has no authorities", username);
-            throw new UsernameNotFoundException(String.format("Username %s has no authorities", username));
+            log.debug("Username {} has no authorities", cleanedUsername);
+            throw new UsernameNotFoundException("Invalid username or credentials");
         }
 
-        password = userRepository.findPassword(username)
-            .get();
+        password = userRepository.findPassword(user.username())
+            .orElseThrow(() -> {
+                log.debug("Username {} not found in database", cleanedUsername);
+                throw new UsernameNotFoundException("Invalid username or credentials");
+            });
         details = toUserDetails(user, password, authorities);
 
-        log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}", username,
-            details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),
+        log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}",
+            cleanedUsername, details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),
             details.isCredentialsNonExpired());
-        log.debug("Authorities for {}: {}", username, details.getAuthorities());
+        log.debug("Authorities for {}: {}", cleanedUsername, details.getAuthorities());
 
-        log.trace("Loaded user {}", username);
+        log.trace("Loaded user {}", cleanedUsername);
 
         return details;
     }
@@ -154,19 +164,8 @@ public final class UserDomainDetailsService implements UserDetailsService {
      */
     private final UserDetails toUserDetails(final User user, final String password,
             final Collection<? extends GrantedAuthority> authorities) {
-        final Boolean enabled;
-        final Boolean accountNonExpired;
-        final Boolean credentialsNonExpired;
-        final Boolean accountNonLocked;
-
-        // Loads status
-        enabled = user.enabled();
-        accountNonExpired = user.notExpired();
-        credentialsNonExpired = user.passwordNotExpired();
-        accountNonLocked = user.notLocked();
-
-        return new org.springframework.security.core.userdetails.User(user.username(), password, enabled,
-            accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        return new org.springframework.security.core.userdetails.User(user.username(), password, user.enabled(),
+            user.notExpired(), user.passwordNotExpired(), user.notLocked(), authorities);
     }
 
 }

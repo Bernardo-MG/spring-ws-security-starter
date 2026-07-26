@@ -24,6 +24,8 @@ public class TestLayeredArchitectureRules {
         .definedBy("com.bernardomg.security..adapter.inbound..")
         .layer("Infrastructure - Outbound")
         .definedBy("com.bernardomg.security..adapter.outbound..")
+        .layer("Spring adapter")
+        .definedBy("com.bernardomg.security..springframework..")
         .layer("Configuration")
         .definedBy("com.bernardomg.security..configuration..")
 
@@ -32,9 +34,10 @@ public class TestLayeredArchitectureRules {
         .whereLayer("Infrastructure - Inbound")
         .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Use case")
-        .mayOnlyBeAccessedByLayers("Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound")
+        .mayOnlyBeAccessedByLayers("Use case", "Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound",
+            "Spring adapter")
         .whereLayer("Domain")
-        .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound",
-            "Infrastructure - Outbound");
+        .mayOnlyBeAccessedByLayers("Configuration", "Use case", "Infrastructure - Inbound", "Infrastructure - Outbound",
+            "Spring adapter");
 
 }

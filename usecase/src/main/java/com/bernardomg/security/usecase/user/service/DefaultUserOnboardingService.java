@@ -28,7 +28,6 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.role.exception.MissingRoleException;
@@ -40,6 +39,7 @@ import com.bernardomg.security.domain.user.exception.MissingUsernameException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.model.UserTokenStatus;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 import com.bernardomg.security.usecase.user.validation.UserEmailFormatRule;
@@ -73,7 +73,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     /**
      * Password encoder.
      */
-    private final PasswordEncoder   passwordEncoder;
+    private final PasswordEncrypter passwordEncrypter;
 
     /**
      * Role repository.
@@ -101,12 +101,12 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     private final Validator<User>   validatorInvite;
 
     public DefaultUserOnboardingService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final PasswordEncoder passEncoder, final UserTokenStore tStore, final EventEmitter eventEmit) {
+            final PasswordEncrypter passEncrypt, final UserTokenStore tStore, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
-        passwordEncoder = Objects.requireNonNull(passEncoder);
+        passwordEncrypter = Objects.requireNonNull(passEncrypt);
         tokenStore = Objects.requireNonNull(tStore);
         eventEmitter = Objects.requireNonNull(eventEmit);
 
@@ -144,7 +144,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         // TODO: validate somehow that it is actually a new user
         user.checkStatus();
 
-        encodedPassword = passwordEncoder.encode(password.trim());
+        encodedPassword = passwordEncrypter.encrypt(password.trim());
         saved = userRepository.activate(username, encodedPassword);
         tokenStore.consumeToken(token);
 
@@ -184,7 +184,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
 
         validatorInvite.validate(toCreate);
 
-        encodedPassword = passwordEncoder.encode("");
+        encodedPassword = passwordEncrypter.encrypt("");
         created = userRepository.save(toCreate, encodedPassword);
 
         // Register new token for activation
