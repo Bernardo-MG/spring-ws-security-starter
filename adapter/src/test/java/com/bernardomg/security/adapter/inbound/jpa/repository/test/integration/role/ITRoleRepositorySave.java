@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.permission.annotation.CrudPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithCrudPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.annotation.RoleWithoutPermissions;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.RoleEntities;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.role.factory.Roles;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.permission.annotation.CrudPermissions;
+import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithCrudPermissions;
+import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
+import com.bernardomg.security.adapter.test.config.role.factory.RoleEntities;
+import com.bernardomg.security.adapter.test.config.role.factory.Roles;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 

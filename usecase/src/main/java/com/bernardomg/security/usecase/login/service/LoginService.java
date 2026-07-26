@@ -38,6 +38,8 @@ public interface LoginService {
 
     /**
      * Receives credentials, attempts a login and returns the resulting status.
+     * <p>
+     * TODO: the interface is leaking the token implementation
      *
      * @param credentials
      *            login credentials

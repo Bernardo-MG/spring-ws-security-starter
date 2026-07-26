@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.login.annotation.LoggedInLoginRegister;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.login.factory.LoginRegisters;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.test.config.login.annotation.LoggedInLoginRegister;
+import com.bernardomg.security.adapter.test.config.login.factory.LoginRegisters;
 import com.bernardomg.security.domain.login.model.LoginRegister;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 

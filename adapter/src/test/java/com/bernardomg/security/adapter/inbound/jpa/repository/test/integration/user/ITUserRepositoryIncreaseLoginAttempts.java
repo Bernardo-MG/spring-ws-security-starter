@@ -32,11 +32,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.annotation.IntegrationTest;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.EnabledUserWithRole;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.annotation.MaxLoginAttemptsUser;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.user.factory.UserConstants;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithRole;
+import com.bernardomg.security.adapter.test.config.user.annotation.MaxLoginAttemptsUser;
+import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest

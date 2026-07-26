@@ -31,6 +31,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.user.exception.EnabledUserException;
 import com.bernardomg.security.domain.user.exception.ExpiredUserException;
@@ -43,7 +44,7 @@ import com.bernardomg.security.domain.user.exception.LockedUserException;
  *
  */
 public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean notLocked,
-        boolean passwordNotExpired, Collection<Role> roles) {
+        boolean passwordNotExpired, Collection<Role> roles, Collection<ResourcePermission> permissions) {
 
     /**
      * Logger for the class.
@@ -52,7 +53,7 @@ public record User(String email, String username, String name, boolean enabled, 
 
     public User(final String email, final String username, final String name, final boolean enabled,
             final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,
-            final Collection<Role> roles) {
+            final Collection<Role> roles, final Collection<ResourcePermission> permissions) {
         // TODO: reject nulls
 
         if (Objects.nonNull(name)) {
@@ -80,15 +81,16 @@ public record User(String email, String username, String name, boolean enabled, 
         this.notLocked = notLocked;
         this.passwordNotExpired = passwordNotExpired;
         this.roles = roles;
+        this.permissions = permissions;
     }
 
     public static final User newUser(final String username, final String email, final String name) {
-        return new User(email, username, name, false, true, true, false, List.of());
+        return new User(email, username, name, false, true, true, false, List.of(), List.of());
     }
 
     public static final User newUser(final String username, final String email, final String name,
             final Collection<Role> roles) {
-        return new User(email, username, name, false, true, true, false, roles);
+        return new User(email, username, name, false, true, true, false, roles, List.of());
     }
 
     public final void checkStatus() {
