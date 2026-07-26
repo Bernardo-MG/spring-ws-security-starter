@@ -14,10 +14,10 @@ import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithCrudPermissions;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithPermission;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
+import com.bernardomg.security.adapter.test.config.role.factory.RoleFilters;
 import com.bernardomg.security.adapter.test.config.role.factory.Roles;
-import com.bernardomg.security.adapter.test.config.role.factory.RolesQuery;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 
 @IntegrationTest
@@ -36,7 +36,7 @@ class ITRoleRepositoryFindAll {
     @RoleWithoutPermissions
     void testFindAll() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -44,7 +44,7 @@ class ITRoleRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.empty();
+        sample = RoleFilters.empty();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);
@@ -60,7 +60,7 @@ class ITRoleRepositoryFindAll {
     @DisplayName("When there are no roles nothing is returned")
     void testFindAll_NoData() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -68,7 +68,7 @@ class ITRoleRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.empty();
+        sample = RoleFilters.empty();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);
@@ -85,7 +85,7 @@ class ITRoleRepositoryFindAll {
     @RoleWithCrudPermissions
     void testFindAll_WithPermissions() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -93,7 +93,7 @@ class ITRoleRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.empty();
+        sample = RoleFilters.empty();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);
@@ -110,7 +110,7 @@ class ITRoleRepositoryFindAll {
     @RoleWithPermission
     void testFindAll_WithSinglePermission() {
         final Page<Role> roles;
-        final RoleQuery  sample;
+        final RoleFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -118,7 +118,7 @@ class ITRoleRepositoryFindAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = RolesQuery.empty();
+        sample = RoleFilters.empty();
 
         // WHEN
         roles = repository.findAll(sample, pagination, sorting);

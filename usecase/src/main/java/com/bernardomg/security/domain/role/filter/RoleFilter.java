@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.domain.role.model;
+package com.bernardomg.security.domain.role.filter;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public record RoleQuery(Optional<String> name) {
+public record RoleFilter(Optional<String> name) {
 
-    public RoleQuery(final Optional<String> name) {
+    public RoleFilter(final Optional<String> name) {
         Objects.requireNonNull(name, "Name can't be null");
 
         this.name = name;

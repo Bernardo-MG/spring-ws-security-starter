@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.user.query;
+package com.bernardomg.security.domain.user.filter;
 
 import java.util.Objects;
 
@@ -32,10 +32,10 @@ import java.util.Objects;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public record UserQuery(String email, String username, String name, Boolean enabled, Boolean notExpired,
+public record UserFilter(String email, String username, String name, Boolean enabled, Boolean notExpired,
         Boolean notLocked, Boolean passwordNotExpired) {
 
-    public UserQuery(final String email, final String username, final String name, final Boolean enabled,
+    public UserFilter(final String email, final String username, final String name, final Boolean enabled,
             final Boolean notExpired, final Boolean notLocked, final Boolean passwordNotExpired) {
         if (Objects.nonNull(name)) {
             this.name = name.trim();

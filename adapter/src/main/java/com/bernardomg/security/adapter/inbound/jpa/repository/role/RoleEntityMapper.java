@@ -32,8 +32,8 @@ import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionEntityMapper;
 import com.bernardomg.security.domain.permission.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 
 /**
  * Role repository mapper.
@@ -58,7 +58,7 @@ public final class RoleEntityMapper {
         return new Role(role.getName(), permissions);
     }
 
-    public static final RoleEntity toEntity(final RoleQuery role) {
+    public static final RoleEntity toEntity(final RoleFilter role) {
         final RoleEntity entity;
 
         // TODO: does it make sense filtering by name?

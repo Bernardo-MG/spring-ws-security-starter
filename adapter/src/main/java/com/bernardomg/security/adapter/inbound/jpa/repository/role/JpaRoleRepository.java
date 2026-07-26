@@ -43,8 +43,8 @@ import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePerm
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 
 /**
@@ -107,7 +107,7 @@ public final class JpaRoleRepository implements RoleRepository {
     }
 
     @Override
-    public final Page<Role> findAll(final RoleQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<Role> findAll(final RoleFilter query, final Pagination pagination, final Sorting sorting) {
         final RoleEntity                                 sample;
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<Role> page;
