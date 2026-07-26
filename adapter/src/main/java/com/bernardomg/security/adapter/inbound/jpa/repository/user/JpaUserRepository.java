@@ -100,7 +100,7 @@ public final class JpaUserRepository implements UserRepository {
         } else {
             // TODO: Maybe return an optional
             log.warn("User {} not found", username);
-            result = new User(null, null, null, false, false, false, false, null, null);
+            result = new User(null, null, null, false, false, false, false, List.of(), List.of());
         }
 
         return result;
@@ -298,7 +298,7 @@ public final class JpaUserRepository implements UserRepository {
             log.trace("Locked user {}", username);
         } else {
             // TODO: Maybe return an optional
-            result = new User(null, null, null, false, false, false, false, null, List.of());
+            result = new User(null, null, null, false, false, false, false, List.of(), List.of());
             log.warn("User {} doesn't exist", username);
         }
 
@@ -327,7 +327,7 @@ public final class JpaUserRepository implements UserRepository {
             log.trace("Resetted pasword for {}", username);
         } else {
             // TODO: Maybe return an optional
-            result = new User(null, null, null, false, false, false, false, null, List.of());
+            result = new User(null, null, null, false, false, false, false, List.of(), List.of());
             log.warn("User {} doesn't exist", username);
         }
 
