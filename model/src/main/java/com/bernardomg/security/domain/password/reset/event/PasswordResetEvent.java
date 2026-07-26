@@ -75,7 +75,7 @@ public final class PasswordResetEvent extends AbstractEvent {
 
     @Override
     public final String toString() {
-        return "UserInvitationEvent [user=" + user + ", token=" + token + "]";
+        return "PasswordResetEvent [user=" + user + ", token=" + token + "]";
     }
 
 }
