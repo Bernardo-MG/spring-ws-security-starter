@@ -44,9 +44,9 @@ import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
 import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.user.query.UserQuery;
 
 /**
  * User repository based on JPA entities.
@@ -175,7 +175,7 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public final Page<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<User> findAll(final UserFilter query, final Pagination pagination, final Sorting sorting) {
         final UserEntity                                 entity;
         final Pageable                                   pageable;
         final org.springframework.data.domain.Page<User> page;

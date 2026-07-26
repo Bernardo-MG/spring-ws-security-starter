@@ -29,8 +29,8 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 
 /**
  * User service.
@@ -69,7 +69,7 @@ public interface RoleService {
      *            sorting to apply
      * @return a page for the roles matching the sample
      */
-    public Page<Role> getAll(final RoleQuery sample, final Pagination pagination, final Sorting sorting);
+    public Page<Role> getAll(final RoleFilter sample, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the role for the received name, if it exists. Otherwise an empty {@code Optional} is returned.

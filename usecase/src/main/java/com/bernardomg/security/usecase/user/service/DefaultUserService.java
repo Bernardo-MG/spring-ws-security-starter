@@ -37,10 +37,10 @@ import com.bernardomg.security.domain.role.exception.MissingRoleException;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.exception.MissingUsernameException;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
-import com.bernardomg.security.usecase.user.query.UserQuery;
 import com.bernardomg.security.usecase.user.validation.UserEmailFormatRule;
 import com.bernardomg.security.usecase.user.validation.UserEmailNotExistsForAnotherRule;
 import com.bernardomg.security.usecase.user.validation.UserEmailNotExistsRule;
@@ -161,7 +161,7 @@ public final class DefaultUserService implements UserService {
     }
 
     @Override
-    public final Page<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting) {
+    public final Page<User> getAll(final UserFilter query, final Pagination pagination, final Sorting sorting) {
         final Page<User> users;
 
         log.trace("Reading users with sample {}, pagination {} and sorting {}", query, pagination, sorting);

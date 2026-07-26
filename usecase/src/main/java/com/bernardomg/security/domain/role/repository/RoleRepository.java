@@ -29,8 +29,8 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.role.filter.RoleFilter;
 import com.bernardomg.security.domain.role.model.Role;
-import com.bernardomg.security.domain.role.model.RoleQuery;
 
 /**
  * Role repository.
@@ -67,7 +67,7 @@ public interface RoleRepository {
      *            sorting to apply
      * @return all the roles for the received query
      */
-    public Page<Role> findAll(final RoleQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<Role> findAll(final RoleFilter query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the role for the received name.

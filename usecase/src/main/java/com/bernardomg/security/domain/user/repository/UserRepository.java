@@ -29,8 +29,8 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.usecase.user.query.UserQuery;
 
 /**
  * User repository.
@@ -106,7 +106,7 @@ public interface UserRepository {
      *            sorting to apply
      * @return all the user for the received query
      */
-    public Page<User> findAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<User> findAll(final UserFilter query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the number of login attempts which the user has done.

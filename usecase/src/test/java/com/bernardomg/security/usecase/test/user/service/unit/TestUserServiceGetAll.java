@@ -19,12 +19,12 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
-import com.bernardomg.security.usecase.test.user.config.factory.UserQueries;
+import com.bernardomg.security.usecase.test.user.config.factory.UserFilters;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;
-import com.bernardomg.security.usecase.user.query.UserQuery;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
@@ -59,7 +59,7 @@ class TestUserServiceGetAll {
     void testGetAll() {
         final Page<User> users;
         final Page<User> existing;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -67,7 +67,7 @@ class TestUserServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.empty();
+        sample = UserFilters.empty();
 
         existing = new Page<>(List.of(Users.enabled()), 0, 0, 0, 0, 0, false, false, sorting);
         given(userRepository.findAll(sample, pagination, sorting)).willReturn(existing);
@@ -88,7 +88,7 @@ class TestUserServiceGetAll {
     void testGetAll_NoData() {
         final Page<User> users;
         final Page<User> existing;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -96,7 +96,7 @@ class TestUserServiceGetAll {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.empty();
+        sample = UserFilters.empty();
 
         existing = new Page<>(List.of(), 0, 0, 0, 0, 0, false, false, sorting);
         given(userRepository.findAll(sample, pagination, sorting)).willReturn(existing);

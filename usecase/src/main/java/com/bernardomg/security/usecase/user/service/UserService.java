@@ -29,8 +29,8 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.usecase.user.query.UserQuery;
 
 /**
  * User service.
@@ -70,7 +70,7 @@ public interface UserService {
      *            sorting to apply
      * @return a page for the users matching the sample
      */
-    public Page<User> getAll(final UserQuery query, final Pagination pagination, final Sorting sorting);
+    public Page<User> getAll(final UserFilter query, final Pagination pagination, final Sorting sorting);
 
     /**
      * Returns the user for the received username, if it exists. Otherwise an empty {@code Optional} is returned.

@@ -36,8 +36,8 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleEntityMap
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.comparator.RoleComparator;
 import com.bernardomg.security.domain.role.model.Role;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.usecase.user.query.UserQuery;
 
 /**
  * User repository mapper.
@@ -68,7 +68,7 @@ public final class UserEntityMapper {
             user.getNotLocked(), user.getPasswordNotExpired(), roles, permissions);
     }
 
-    public static final UserEntity toEntity(final UserQuery user) {
+    public static final UserEntity toEntity(final UserFilter user) {
         final UserEntity entity;
 
         entity = new UserEntity();

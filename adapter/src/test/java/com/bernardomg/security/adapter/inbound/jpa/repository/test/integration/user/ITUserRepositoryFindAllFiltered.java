@@ -12,10 +12,10 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.user.annotation.OnlyUser;
-import com.bernardomg.security.adapter.test.config.user.factory.UserQueries;
+import com.bernardomg.security.adapter.test.config.user.factory.UserFilters;
+import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.user.query.UserQuery;
 
 @IntegrationTest
 @DisplayName("User repository - find all - filtered")
@@ -33,7 +33,7 @@ class ITUserRepositoryFindAllFiltered {
     @OnlyUser
     void testFindAll_Name() {
         final Page<User> result;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -41,7 +41,7 @@ class ITUserRepositoryFindAllFiltered {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.name();
+        sample = UserFilters.name();
 
         // WHEN
         result = repository.findAll(sample, pagination, sorting);
@@ -58,7 +58,7 @@ class ITUserRepositoryFindAllFiltered {
     @OnlyUser
     void testFindAll_NameNotExisting() {
         final Page<User> result;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -66,7 +66,7 @@ class ITUserRepositoryFindAllFiltered {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.invalidName();
+        sample = UserFilters.invalidName();
 
         // WHEN
         result = repository.findAll(sample, pagination, sorting);
@@ -83,7 +83,7 @@ class ITUserRepositoryFindAllFiltered {
     @OnlyUser
     void testFindAll_Username() {
         final Page<User> result;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -91,7 +91,7 @@ class ITUserRepositoryFindAllFiltered {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.username();
+        sample = UserFilters.username();
 
         // WHEN
         result = repository.findAll(sample, pagination, sorting);
@@ -108,7 +108,7 @@ class ITUserRepositoryFindAllFiltered {
     @OnlyUser
     void testFindAll_UsernameNotExisting() {
         final Page<User> result;
-        final UserQuery  sample;
+        final UserFilter sample;
         final Pagination pagination;
         final Sorting    sorting;
 
@@ -116,7 +116,7 @@ class ITUserRepositoryFindAllFiltered {
         pagination = new Pagination(1, 10);
         sorting = Sorting.unsorted();
 
-        sample = UserQueries.invalidUsername();
+        sample = UserFilters.invalidUsername();
 
         // WHEN
         result = repository.findAll(sample, pagination, sorting);
