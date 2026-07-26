@@ -20,11 +20,11 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.user.config.factory.UserQueries;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;
+import com.bernardomg.security.usecase.user.query.UserQuery;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 

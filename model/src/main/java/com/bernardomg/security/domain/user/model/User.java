@@ -80,8 +80,8 @@ public record User(String email, String username, String name, boolean enabled, 
         this.notExpired = notExpired;
         this.notLocked = notLocked;
         this.passwordNotExpired = passwordNotExpired;
-        this.roles = roles;
-        this.permissions = permissions;
+        this.roles = List.copyOf(roles);
+        this.permissions = List.copyOf(permissions);
     }
 
     public static final User newUser(final String username, final String email, final String name) {

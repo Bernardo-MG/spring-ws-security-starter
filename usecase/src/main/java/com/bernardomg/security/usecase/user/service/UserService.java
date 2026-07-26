@@ -30,7 +30,7 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
+import com.bernardomg.security.usecase.user.query.UserQuery;
 
 /**
  * User service.

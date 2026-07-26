@@ -14,8 +14,8 @@ import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.user.annotation.OnlyUser;
 import com.bernardomg.security.adapter.test.config.user.factory.UserQueries;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.user.query.UserQuery;
 
 @IntegrationTest
 @DisplayName("User repository - find all - filtered")

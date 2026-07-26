@@ -15,8 +15,8 @@ import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWi
 import com.bernardomg.security.adapter.test.config.user.factory.UserQueries;
 import com.bernardomg.security.adapter.test.config.user.factory.Users;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.user.query.UserQuery;
 
 @DisplayName("User repository - find all - pagination")
 @EnabledUserWithRole

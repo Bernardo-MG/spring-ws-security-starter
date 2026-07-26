@@ -37,7 +37,7 @@ import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.comparator.RoleComparator;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
+import com.bernardomg.security.usecase.user.query.UserQuery;
 
 /**
  * User repository mapper.

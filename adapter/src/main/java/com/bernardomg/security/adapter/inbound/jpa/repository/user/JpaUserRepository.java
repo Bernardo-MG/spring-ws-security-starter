@@ -45,8 +45,8 @@ import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.usecase.user.query.UserQuery;
 
 /**
  * User repository based on JPA entities.

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.domain.user.model;
+package com.bernardomg.security.usecase.user.query;
 
 import java.util.Objects;
 

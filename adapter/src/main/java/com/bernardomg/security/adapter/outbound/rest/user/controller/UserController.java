@@ -41,7 +41,7 @@ import com.bernardomg.security.adapter.outbound.rest.user.dto.UserResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.user.model.UserDtoMapper;
 import com.bernardomg.security.domain.permission.constant.Actions;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.model.UserQuery;
+import com.bernardomg.security.usecase.user.query.UserQuery;
 import com.bernardomg.security.usecase.user.service.UserService;
 
 import jakarta.validation.Valid;
