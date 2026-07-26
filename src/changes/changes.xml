@@ -536,5 +536,10 @@
             Cleaned up login and JWT generation.
          </action>
       </release>
+      <release version="0.5.2" date="2026-07-26" description="Fixed config">
+         <action dev="bmg" type="fix">
+            Fixed configuration.
+         </action>
+      </release>
    </body>
 </document>

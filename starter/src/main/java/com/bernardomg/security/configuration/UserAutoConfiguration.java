@@ -36,6 +36,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.bernardomg.event.emitter.EventEmitter;
@@ -47,6 +48,7 @@ import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.Spring
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
+import com.bernardomg.security.springframework.password.SpringSecurityPasswordEncrypter;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
@@ -112,8 +114,11 @@ public class UserAutoConfiguration {
 
     @Bean("userOnboardingService")
     public UserOnboardingService getUserOnboardingService(final UserRepository userRepository,
-            final RoleRepository roleRepository, final PasswordEncrypter passwordEncrypter,
+            final RoleRepository roleRepository, final PasswordEncoder passwordEncoder,
             @Qualifier("userTokenStore") final UserTokenStore tokenStore, final EventEmitter eventEmitter) {
+        final PasswordEncrypter passwordEncrypter;
+
+        passwordEncrypter = new SpringSecurityPasswordEncrypter(passwordEncoder);
         return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncrypter, tokenStore,
             eventEmitter);
     }
