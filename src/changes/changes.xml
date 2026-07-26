@@ -531,7 +531,10 @@
             Extracted code.
          </action>
       </release>
-      <release version="1.0.0" date="2026-07-21" description="">
+      <release version="0.5.1" date="2026-07-26" description="Login and JWT">
+         <action dev="bmg" type="update">
+            Cleaned up login and JWT generation.
+         </action>
       </release>
    </body>
 </document>
