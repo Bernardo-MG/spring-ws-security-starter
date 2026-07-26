@@ -38,12 +38,12 @@ import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.adapter.inbound.event.login.LoginFailureBlockerListener;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
+import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 import com.bernardomg.security.usecase.login.service.DefaultUserLoginAttempsService;
 import com.bernardomg.security.usecase.login.service.LoginService;
 import com.bernardomg.security.usecase.login.service.TokenLoginService;
-import com.bernardomg.security.usecase.login.service.UserAuthenticator;
 import com.bernardomg.security.usecase.login.service.UserLoginAttempsService;
 
 /**

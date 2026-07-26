@@ -25,7 +25,7 @@ import org.springframework.security.core.AuthenticationException;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.login.usecase.SpringSecurityUserAuthenticator;
+import com.bernardomg.security.springframework.login.authentication.SpringSecurityUserAuthenticator;
 import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
 

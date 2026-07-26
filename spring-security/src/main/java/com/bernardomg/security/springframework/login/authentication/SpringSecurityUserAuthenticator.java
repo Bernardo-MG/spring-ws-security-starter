@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.login.usecase;
+package com.bernardomg.security.springframework.login.authentication;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -12,7 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.usecase.login.service.UserAuthenticator;
+import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 
 public final class SpringSecurityUserAuthenticator implements UserAuthenticator {
 

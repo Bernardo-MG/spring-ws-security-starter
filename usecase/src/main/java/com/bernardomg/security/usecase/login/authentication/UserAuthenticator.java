@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.usecase.login.service;
+package com.bernardomg.security.usecase.login.authentication;
 
 import com.bernardomg.security.domain.user.model.User;
 

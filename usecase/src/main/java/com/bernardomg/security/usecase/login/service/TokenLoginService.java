@@ -35,6 +35,7 @@ import com.bernardomg.security.domain.login.exception.InvalidCredentialsExceptio
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.login.model.TokenLoginStatus;
 import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 
 import jakarta.transaction.Transactional;
