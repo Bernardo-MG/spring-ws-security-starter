@@ -28,9 +28,14 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.domain.user.repository.UserRepository;
@@ -53,6 +58,22 @@ public class SecurityAutoConfiguration {
 
     public SecurityAutoConfiguration() {
         super();
+    }
+
+    @Bean("authenticationManager")
+    public AuthenticationManager getAuthenticationManager(final UserDetailsService userDetailsService,
+            final PasswordEncoder passwordEncoder) {
+
+        final DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+
+        provider.setPasswordEncoder(passwordEncoder);
+
+        return new ProviderManager(provider);
+    }
+
+    @Bean("authenticationTrustResolver")
+    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
     }
 
     @Bean("userDetailsService")

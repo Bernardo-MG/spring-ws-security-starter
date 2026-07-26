@@ -30,6 +30,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -37,6 +38,7 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.adapter.inbound.event.login.LoginFailureBlockerListener;
 import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.springframework.login.authentication.SpringSecurityUserAuthenticator;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEncoder;
@@ -82,6 +84,12 @@ public class LoginAutoConfiguration {
     @Bean("loginWhitelist")
     public WhitelistRoute getLoginWhitelist() {
         return WhitelistRoute.of("/login/**", HttpMethod.POST);
+    }
+
+    @Bean("userAuthenticator")
+    public UserAuthenticator getUserAuthenticator(final AuthenticationManager authenticationManager,
+            final UserRepository userRepository) {
+        return new SpringSecurityUserAuthenticator(authenticationManager, userRepository);
     }
 
     @Bean("userLoginAttempsService")
