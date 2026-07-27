@@ -546,7 +546,10 @@
             Fixed configuration.
          </action>
       </release>
-      <release version="1.0.0" date="2026-07-27" description="">
+      <release version="0.5.4" date="2026-07-27" description="Recovered permission loader">
+         <action dev="bmg" type="fix">
+            Recovered permission loader.
+         </action>
       </release>
    </body>
 </document>
