@@ -80,6 +80,13 @@
          <artifactId>commons-lang3</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================= SNAKEYAML ================== -->
+      <!-- ============================================== -->
+      <dependency>
+	     <groupId>org.yaml</groupId>
+	     <artifactId>snakeyaml</artifactId>
+	  </dependency>
+      <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
       <dependency>
