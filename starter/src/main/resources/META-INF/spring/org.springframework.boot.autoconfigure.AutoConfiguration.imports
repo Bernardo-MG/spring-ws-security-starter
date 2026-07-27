@@ -5,6 +5,7 @@ com.bernardomg.security.configuration.LoginAutoConfiguration
 com.bernardomg.security.configuration.LoginRegisterAutoConfiguration
 com.bernardomg.security.configuration.PasswordAutoConfiguration
 com.bernardomg.security.configuration.PermissionAutoConfiguration
+com.bernardomg.security.configuration.PermissionLoaderAutoConfiguration
 com.bernardomg.security.configuration.RoleAutoConfiguration
 com.bernardomg.security.configuration.SecurityAutoConfiguration
 com.bernardomg.security.configuration.UserAutoConfiguration
