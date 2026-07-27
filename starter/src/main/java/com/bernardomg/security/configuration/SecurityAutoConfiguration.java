@@ -63,9 +63,9 @@ public class SecurityAutoConfiguration {
     @Bean("authenticationManager")
     public AuthenticationManager getAuthenticationManager(final UserDetailsService userDetailsService,
             final PasswordEncoder passwordEncoder) {
+        final DaoAuthenticationProvider provider;
 
-        final DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
-
+        provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
 
         return new ProviderManager(provider);
