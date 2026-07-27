@@ -25,7 +25,6 @@
 package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -48,7 +47,6 @@ public class AccessAutoConfiguration {
     }
 
     @Bean("requireResourceAuthorizationInterceptor")
-    @ConditionalOnProperty(prefix = "security.resource", name = "enabled", havingValue = "true", matchIfMissing = true)
     public RequireResourceAuthorizationInterceptor
             requireResourceAuthorizationInterceptor(final ResourceAccessValidator validator) {
         return new RequireResourceAuthorizationInterceptor(validator,
