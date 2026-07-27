@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("BearerHeaderTokenResolver")
-class BearerHeaderTokenResolverTest {
+class TestBearerHeaderTokenResolver {
 
     private static Stream<String> malformedBearerHeaders() {
         return Stream.of("Bearer", "Bearer ", "Bearer  token", "Bearer token with spaces", "Bearer token!",

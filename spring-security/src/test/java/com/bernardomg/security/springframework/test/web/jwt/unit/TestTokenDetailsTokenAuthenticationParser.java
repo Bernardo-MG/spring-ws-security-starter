@@ -33,7 +33,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenDetailsTokenAuthenticationParser")
-public class TokenDetailsTokenAuthenticationParserTest {
+public class TestTokenDetailsTokenAuthenticationParser {
 
     @InjectMocks
     private TokenDetailsTokenAuthenticationParser parser;

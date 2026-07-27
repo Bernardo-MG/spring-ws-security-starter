@@ -14,13 +14,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
+import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -98,7 +98,7 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
             .stream()
             .flatMap(entry -> entry.getValue()
                 .stream()
-                .map(permission -> new SimpleGrantedAuthority(entry.getKey() + ":" + permission)))
+                .map(permission -> new ResourceActionGrantedAuthority(entry.getKey(), permission)))
             .toList();
     }
 
