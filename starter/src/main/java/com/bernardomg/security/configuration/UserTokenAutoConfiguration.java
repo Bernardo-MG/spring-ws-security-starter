@@ -53,14 +53,14 @@ public class UserTokenAutoConfiguration {
     }
 
     @Bean("userTokenRepository")
-    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepo,
-            final UserDataTokenSpringRepository userDataTokenRepo, final UserSpringRepository userRepo) {
-        return new JpaUserTokenRepository(userTokenRepo, userDataTokenRepo, userRepo);
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepository,
+            final UserDataTokenSpringRepository userDataTokenRepository, final UserSpringRepository userRepository) {
+        return new JpaUserTokenRepository(userTokenRepository, userDataTokenRepository, userRepository);
     }
 
     @Bean("userTokenService")
-    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepo) {
-        return new SpringUserTokenService(userTokenRepo);
+    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepository) {
+        return new SpringUserTokenService(userTokenRepository);
     }
 
 }

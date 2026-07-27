@@ -31,8 +31,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.jwt.encoding.TokenEncoder;
@@ -69,10 +67,9 @@ public class LoginAutoConfiguration {
     }
 
     @Bean("loginService")
-    public LoginService getLoginService(final UserDetailsService userDetailsService,
-            final UserRepository userRepository, final PasswordEncoder passwordEncoder, final TokenEncoder tokenEncoder,
-            final JwtProperties jwtProperties, final EventEmitter eventEmitter,
-            final UserAuthenticator userAuthenticator) {
+    public LoginService getLoginService(final UserRepository userRepository, final TokenEncoder tokenEncoder,
+            final EventEmitter eventEmitter, final UserAuthenticator userAuthenticator,
+            final JwtProperties jwtProperties) {
         final LoginTokenEncoder loginTokenEncoder;
 
         log.info("Security tokens will have a validity of {}", jwtProperties.validity());
@@ -93,9 +90,9 @@ public class LoginAutoConfiguration {
     }
 
     @Bean("userLoginAttempsService")
-    public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepo,
+    public UserLoginAttempsService getUserLoginAttempsService(final UserRepository userRepository,
             final LoginProperties userAccessProperties) {
-        return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepo);
+        return new DefaultUserLoginAttempsService(userAccessProperties.maxLoginAttempts(), userRepository);
     }
 
 }

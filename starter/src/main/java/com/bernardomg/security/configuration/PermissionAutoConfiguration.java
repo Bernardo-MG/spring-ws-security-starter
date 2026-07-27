@@ -55,8 +55,8 @@ public class PermissionAutoConfiguration {
     }
 
     @Bean("actionRepository")
-    public ActionRepository getActionRepository(final ActionSpringRepository actionRepo) {
-        return new JpaActionRepository(actionRepo);
+    public ActionRepository getActionRepository(final ActionSpringRepository actionRepository) {
+        return new JpaActionRepository(actionRepository);
     }
 
     @Bean("permissionService")
@@ -66,13 +66,13 @@ public class PermissionAutoConfiguration {
 
     @Bean("resourcePermissionRepository")
     public ResourcePermissionRepository
-            getResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionRepo) {
-        return new JpaResourcePermissionRepository(resourcePermissionRepo);
+            getResourcePermissionRepository(final ResourcePermissionSpringRepository resourcePermissionRepository) {
+        return new JpaResourcePermissionRepository(resourcePermissionRepository);
     }
 
     @Bean("resourceRepository")
-    public ResourceRepository getResourceRepository(final ResourceSpringRepository resourceRepo) {
-        return new JpaResourceRepository(resourceRepo);
+    public ResourceRepository getResourceRepository(final ResourceSpringRepository resourceRepository) {
+        return new JpaResourceRepository(resourceRepository);
     }
 
 }

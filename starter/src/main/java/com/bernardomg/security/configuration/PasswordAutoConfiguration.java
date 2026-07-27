@@ -104,6 +104,11 @@ public class PasswordAutoConfiguration {
         return new BCryptPasswordEncoder(10, new SecureRandom());
     }
 
+    @Bean("passwordEncrypter")
+    public PasswordEncrypter getPasswordEncrypter(final PasswordEncoder passwordEncoder) {
+        return new SpringSecurityPasswordEncrypter(passwordEncoder);
+    }
+
     @Bean("passwordNotificationService")
     // @ConditionalOnBean(EmailSender.class)
     @ConditionalOnProperty(prefix = "spring.mail", name = "host")
