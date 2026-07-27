@@ -46,21 +46,6 @@ import jakarta.transaction.Transactional;
 
 /**
  * User details service which takes the user data from the domain layer.
- * <h2>User names</h2>
- * <p>
- * Users are located through the username, with a case insensitive search. The persisted user details are expected to
- * contain the username in lower case, to avoid repeated usernames.
- * <h2>Granted authorities</h2>
- * <p>
- * Permissions will be acquired through a {@link ResourcePermissionSpringRepository}, which queries a permissions view.
- * This contains the resource and action pairs assigned to the user, and will be used to create the granted authorities.
- * <h2>Exceptions</h2>
- * <p>
- * When loading users any of these cases throws a {@code UsernameNotFoundException}:
- * <ul>
- * <li>There is no user for the username</li>
- * <li>There is a user, but he has no action</li>
- * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
