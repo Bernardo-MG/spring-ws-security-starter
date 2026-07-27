@@ -1,0 +1,269 @@
+
+package com.bernardomg.security.usecase.test.initializer.loader.unit;
+
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.bernardomg.security.domain.permission.repository.ActionRepository;
+import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
+import com.bernardomg.security.domain.permission.repository.ResourceRepository;
+import com.bernardomg.security.usecase.initializer.loader.PermissionsLoader;
+import com.bernardomg.security.usecase.test.permission.config.factory.Actions;
+import com.bernardomg.security.usecase.test.permission.config.factory.PermissionConstants;
+import com.bernardomg.security.usecase.test.permission.config.factory.ResourcePermissions;
+import com.bernardomg.security.usecase.test.permission.config.factory.Resources;
+
+@ExtendWith(MockitoExtension.class)
+@DisplayName("PermissionsLoader")
+public class TestPermissionsLoader {
+
+    @Mock
+    private ActionRepository             actionRepository;
+
+    @Mock
+    private ResourcePermissionRepository resourcePermissionRepository;
+
+    @Mock
+    private ResourceRepository           resourceRepository;
+
+    private final PermissionsLoader getPermissionsLoader() {
+        final String      yaml;
+        final InputStream inputStream;
+
+        // GIVEN
+        yaml = """
+                actions:
+                  - create
+                permissions:
+                  - resource: data
+                    actions:
+                      - create
+                """;
+        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
+
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
+            List.of(inputStream));
+    }
+
+    private final PermissionsLoader getPermissionsLoaderNoData() {
+        final String      yaml;
+        final InputStream inputStream;
+
+        // GIVEN
+        yaml = """
+                """;
+        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
+
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
+            List.of(inputStream));
+    }
+
+    private final PermissionsLoader getPermissionsLoaderNoSource() {
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, List.of());
+    }
+
+    private final PermissionsLoader getPermissionsLoaderWithDuplicates() {
+        final String      yaml;
+        final InputStream inputStream;
+
+        // GIVEN
+        yaml = """
+                actions:
+                  - create
+                permissions:
+                  - resource: data
+                    actions:
+                      - create
+                  - resource: data
+                    actions:
+                      - create
+                """;
+        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
+
+        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
+            List.of(inputStream));
+    }
+
+    @Test
+    @DisplayName("When the action doesn't exist it is saved")
+    void testLoad_Action() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of());
+        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(actionRepository).saveAll(List.of(Actions.create()));
+    }
+
+    @Test
+    @DisplayName("When the action exists it is not saved")
+    void testLoad_ActionExists() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
+        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(actionRepository).saveAll(List.of());
+    }
+
+    @Test
+    @DisplayName("When loading the permissions duplicates are removed")
+    @SuppressWarnings("unchecked")
+    void testLoad_Duplicates() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.CREATE));
+        given(resourceRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.DATA));
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoaderWithDuplicates().load();
+
+        // THEN
+        verify(actionRepository).saveAll(List.of(Actions.create()));
+        verify(resourceRepository).saveAll(List.of(Resources.data()));
+        verify(resourcePermissionRepository).saveAll(List.of(ResourcePermissions.create()));
+    }
+
+    @Test
+    @DisplayName("When there is no data nothing is saved")
+    void testLoad_NoData() {
+        // WHEN
+        getPermissionsLoaderNoData().load();
+
+        // THEN
+        verify(actionRepository).saveAll(List.of());
+        verify(resourceRepository).saveAll(List.of());
+        verify(resourcePermissionRepository).saveAll(List.of());
+    }
+
+    @Test
+    @DisplayName("When there is no source nothing is saved")
+    void testLoad_NoSource() {
+        // WHEN
+        getPermissionsLoaderNoSource().load();
+
+        // THEN
+        verify(actionRepository).saveAll(List.of());
+        verify(resourceRepository).saveAll(List.of());
+        verify(resourcePermissionRepository).saveAll(List.of());
+    }
+
+    @Test
+    @DisplayName("When the permission doesn't exist it is saved")
+    void testLoad_Permission() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
+        given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourcePermissionRepository).saveAll(List.of(ResourcePermissions.create()));
+    }
+
+    @Test
+    @DisplayName("When the action doesn't exist nothing is saved")
+    void testLoad_Permission_NoActions() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of());
+        given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourcePermissionRepository).saveAll(List.of());
+    }
+
+    @Test
+    @DisplayName("When the resource doesn't exist nothing is saved")
+    void testLoad_Permission_NoResource() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
+        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourcePermissionRepository).saveAll(List.of());
+    }
+
+    @Test
+    @DisplayName("When the permissions exists it is not saved")
+    void testLoad_PermissionExists() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of());
+        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of(ResourcePermissions.create()));
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourcePermissionRepository).saveAll(List.of());
+    }
+
+    @Test
+    @DisplayName("When the resource doesn't exist it is saved")
+    void testLoad_Resource() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of());
+        given(resourceRepository.findAllNames()).willReturn(List.of());
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourceRepository).saveAll(List.of(Resources.data()));
+    }
+
+    @Test
+    @DisplayName("When the resource exists it is not saved")
+    void testLoad_ResourceExists() {
+
+        // GIVEN
+        given(actionRepository.findAllNames()).willReturn(List.of());
+        given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
+        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+
+        // WHEN
+        getPermissionsLoader().load();
+
+        // THEN
+        verify(resourceRepository).saveAll(List.of());
+    }
+
+}

@@ -22,35 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.configuration;
+package com.bernardomg.security.usecase.initializer.loader;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
+public interface Loader {
 
-import com.bernardomg.framework.security.access.interceptor.RequireResourceAuthorizationInterceptor;
-import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
-
-/**
- * Access configuration.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-@AutoConfiguration
-@Configuration(proxyBeanMethods = false)
-public class AccessAutoConfiguration {
-
-    public AccessAutoConfiguration() {
-        super();
-    }
-
-    @Bean("requireResourceAuthorizationInterceptor")
-    public RequireResourceAuthorizationInterceptor
-            requireResourceAuthorizationInterceptor(final ResourceAccessValidator validator) {
-        return new RequireResourceAuthorizationInterceptor(validator,
-            () -> new AccessDeniedException("Missing authentication"));
-    }
+    void load();
 
 }
