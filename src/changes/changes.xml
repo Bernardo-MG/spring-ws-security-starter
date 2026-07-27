@@ -541,5 +541,10 @@
             Fixed configuration.
          </action>
       </release>
+      <release version="0.5.3" date="2026-07-27" description="Fixed config">
+         <action dev="bmg" type="fix">
+            Fixed configuration.
+         </action>
+      </release>
    </body>
 </document>

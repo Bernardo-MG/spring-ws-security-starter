@@ -90,11 +90,9 @@ public class PasswordAutoConfiguration {
 
     @Bean("passwordChangeService")
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
-            final PasswordEncoder passwordEncoder) {
+            final PasswordEncrypter passwordEncrypter) {
         final UsernameInSessionProvider usernameInSessionProvider;
-        final PasswordEncrypter         passwordEncrypter;
 
-        passwordEncrypter = new SpringSecurityPasswordEncrypter(passwordEncoder);
         usernameInSessionProvider = new SpringSecurityUsernameInSessionProvider();
         return new DefaultPasswordChangeService(userRepository, passwordEncrypter, usernameInSessionProvider);
     }
@@ -102,6 +100,11 @@ public class PasswordAutoConfiguration {
     @Bean("passwordEncoder")
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
+    }
+
+    @Bean("passwordEncrypter")
+    public PasswordEncrypter getPasswordEncrypter(final PasswordEncoder passwordEncoder) {
+        return new SpringSecurityPasswordEncrypter(passwordEncoder);
     }
 
     @Bean("passwordNotificationService")
