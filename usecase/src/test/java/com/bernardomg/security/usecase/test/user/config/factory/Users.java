@@ -25,27 +25,27 @@ public final class Users {
 
     public static final User disabled() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, true,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User duplicatedRole() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of(Roles.withSinglePermission(), Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission(), Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User emailChange() {
         return new User(UserConstants.ALTERNATIVE_EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true,
-            true, List.of(Roles.withSinglePermission()), List.of());
+            true, List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User enabled() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User expired() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, false, true, true,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User invalidEmail() {
@@ -55,12 +55,12 @@ public final class Users {
 
     public static final User locked() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, false, true,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User nameChange() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.CHANGED_NAME, true, true, true, true,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User newlyCreated() {
@@ -75,7 +75,7 @@ public final class Users {
 
     public static final User noName() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, "", true, true, true, true,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User padded() {
@@ -85,12 +85,12 @@ public final class Users {
 
     public static final User passwordExpired() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, false,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User passwordExpiredAndDisabled() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, false, true, true, false,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     public static final User upperCase() {
@@ -100,7 +100,7 @@ public final class Users {
 
     public static final User withoutPermissions() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of(Roles.withoutPermissions()), List.of());
+            List.of(Roles.withoutPermissions()), List.of(ResourcePermissions.create()));
     }
 
     public static final User withoutRoles() {
@@ -110,7 +110,7 @@ public final class Users {
 
     public static final User withRole() {
         return new User(UserConstants.EMAIL, UserConstants.USERNAME, UserConstants.NAME, true, true, true, true,
-            List.of(Roles.withSinglePermission()), List.of());
+            List.of(Roles.withSinglePermission()), List.of(ResourcePermissions.create()));
     }
 
     private Users() {
