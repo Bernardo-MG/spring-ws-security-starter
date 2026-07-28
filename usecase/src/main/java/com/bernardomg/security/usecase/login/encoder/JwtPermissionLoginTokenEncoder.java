@@ -16,7 +16,6 @@ import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.repository.UserRepository;
 
 /**
  * Encodes a JWT token including the permissions for the user.
@@ -29,41 +28,34 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     /**
      * Logger for the class.
      */
-    private static final Logger  log = LoggerFactory.getLogger(JwtPermissionLoginTokenEncoder.class);
+    private static final Logger log = LoggerFactory.getLogger(JwtPermissionLoginTokenEncoder.class);
 
     /**
      * Token encoder for creating authentication tokens.
      */
-    private final TokenEncoder   tokenEncoder;
-
-    /**
-     * User repository.
-     */
-    private final UserRepository userRepository;
+    private final TokenEncoder  tokenEncoder;
 
     /**
      * Token validity time in seconds.
      */
-    private final Duration       validity;
+    private final Duration      validity;
 
-    public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder, final UserRepository userRepo,
-            final Duration vldt) {
+    public JwtPermissionLoginTokenEncoder(final TokenEncoder tknEncoder, final Duration vldt) {
         super();
 
         tokenEncoder = Objects.requireNonNull(tknEncoder);
-        userRepository = Objects.requireNonNull(userRepo);
         validity = Objects.requireNonNull(vldt);
     }
 
     @Override
-    public final String encode(final String username) {
+    public final String encode(final User user) {
         final Map<String, List<String>> permissions;
         final Instant                   expiration;
         final Instant                   issuedAt;
         final String                    token;
         final JwtTokenData              data;
 
-        permissions = getPermissionsMap(username);
+        permissions = getPermissionsMap(user);
 
         // Issued right now
         issuedAt = Instant.now();
@@ -73,16 +65,16 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
 
         // Build token data for the wrapped encoder
         // TODO: Test that permissions are added
-        data = new JwtTokenData("", username, "", issuedAt, issuedAt, expiration, List.of(), permissions);
+        data = new JwtTokenData("", user.username(), "", issuedAt, issuedAt, expiration, List.of(), permissions);
 
         token = tokenEncoder.encode(data);
 
-        log.debug("Created token for subject {} with expiration date {}", username, expiration);
+        log.debug("Created token for subject {} with expiration date {}", user.username(), expiration);
 
         return token;
     }
 
-    private final Map<String, List<String>> getPermissionsMap(final String username) {
+    private final Map<String, List<String>> getPermissionsMap(final User user) {
         Function<ResourcePermission, String> resourceMapper;
         Function<ResourcePermission, String> actionMapper;
 
@@ -95,9 +87,7 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
         actionMapper = actionMapper.andThen(String::toLowerCase);
 
         // Transform into a map, with the resource as key, and the list of actions as value
-        return userRepository.findOne(username)
-            .map(User::permissions)
-            .orElse(List.of())
+        return user.permissions()
             .stream()
             .collect(Collectors.groupingBy(resourceMapper, Collectors.mapping(actionMapper, Collectors.toList())));
     }

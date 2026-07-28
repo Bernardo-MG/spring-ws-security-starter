@@ -68,7 +68,7 @@ class TestTokenLoginService {
         // GIVEN
         given(userAuthenticator.load(UserConstants.EMAIL, UserConstants.PASSWORD)).willReturn(Users.enabled());
 
-        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+        given(loginTokenEncoder.encode(Users.enabled())).willReturn(Tokens.TOKEN);
 
         // WHEN
         status = service.login(new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD));
@@ -115,7 +115,7 @@ class TestTokenLoginService {
 
         given(userAuthenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(Users.enabled());
 
-        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+        given(loginTokenEncoder.encode(Users.enabled())).willReturn(Tokens.TOKEN);
 
         // WHEN
         status = service.login(new Credentials(paddedUsername, UserConstants.PASSWORD));
@@ -133,7 +133,7 @@ class TestTokenLoginService {
         // GIVEN
         given(userAuthenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(Users.enabled());
 
-        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+        given(loginTokenEncoder.encode(Users.enabled())).willReturn(Tokens.TOKEN);
 
         // WHEN
         status = service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
