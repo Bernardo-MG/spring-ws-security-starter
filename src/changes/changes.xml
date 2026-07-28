@@ -556,5 +556,10 @@
             Registered permission loader auto configuration.
          </action>
       </release>
+      <release version="0.5.6" date="2026-07-27" description="Fixed permissions check">
+         <action dev="bmg" type="fix">
+            Permissions are stored and checked with the correct domain.
+         </action>
+      </release>
    </body>
 </document>
