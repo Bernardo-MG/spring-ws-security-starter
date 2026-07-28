@@ -67,13 +67,12 @@ public class LoginAutoConfiguration {
     }
 
     @Bean("loginService")
-    public LoginService getLoginService(final UserRepository userRepository, final TokenEncoder tokenEncoder,
-            final EventEmitter eventEmitter, final UserAuthenticator userAuthenticator,
-            final JwtProperties jwtProperties) {
+    public LoginService getLoginService(final TokenEncoder tokenEncoder, final EventEmitter eventEmitter,
+            final UserAuthenticator userAuthenticator, final JwtProperties jwtProperties) {
         final LoginTokenEncoder loginTokenEncoder;
 
         log.info("Security tokens will have a validity of {}", jwtProperties.validity());
-        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, userRepository, jwtProperties.validity());
+        loginTokenEncoder = new JwtPermissionLoginTokenEncoder(tokenEncoder, jwtProperties.validity());
 
         return new TokenLoginService(userAuthenticator, loginTokenEncoder, eventEmitter);
     }

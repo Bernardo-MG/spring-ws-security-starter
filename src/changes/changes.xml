@@ -561,5 +561,10 @@
             Permissions are stored and checked with the correct domain.
          </action>
       </release>
+      <release version="0.5.7" date="2026-07-28" description="Permissions are not set to lowercase">
+         <action dev="bmg" type="fix">
+            JWT permissions are not set to lowercase.
+         </action>
+      </release>
    </body>
 </document>

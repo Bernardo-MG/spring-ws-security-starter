@@ -81,7 +81,7 @@ public final class TokenLoginService implements LoginService {
         try {
             user = userAuthenticator.load(credentials.username(), credentials.password());
 
-            token = loginTokenEncoder.encode(user.username());
+            token = loginTokenEncoder.encode(user);
 
             status = new TokenLoginStatus(true, token);
 

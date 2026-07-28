@@ -83,7 +83,7 @@ class TestTokenLoginServiceEvent {
         // GIVEN
         given(userAuthenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(Users.enabled());
 
-        given(loginTokenEncoder.encode(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
+        given(loginTokenEncoder.encode(Users.enabled())).willReturn(Tokens.TOKEN);
 
         // WHEN
         service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));
