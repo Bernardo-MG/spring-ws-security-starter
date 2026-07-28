@@ -54,7 +54,7 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
             // Not authenticated user
             log.debug("User is not authenticated");
             authorized = false;
-        } else if (isAuthenticated(authentication)) {
+        } else if (trustResolver.isAuthenticated(authentication)) {
             // Authenticated user
 
             authorized = permissionEvaluator.isAuthorized(authentication, resource, action);
@@ -68,10 +68,6 @@ public final class SpringResourceAccessValidator implements ResourceAccessValida
         }
 
         return authorized;
-    }
-
-    private boolean isAuthenticated(final Authentication authentication) {
-        return authentication.isAuthenticated() && !trustResolver.isAnonymous(authentication);
     }
 
 }

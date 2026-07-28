@@ -4,7 +4,7 @@ package com.bernardomg.security.springframework.test.access.interceptor.unit;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,12 +18,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.access.interceptor.SpringResourceAccessValidator;
-import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
 import com.bernardomg.security.springframework.test.permission.config.factory.PermissionConstants;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringResourceAccessValidator")
 class TestSpringResourceAccessValidator {
+
+    @Mock
+    private Authentication                authentication;
 
     @Mock
     private ResourcePermissionEvaluator   permissionEvaluator;
@@ -34,25 +36,21 @@ class TestSpringResourceAccessValidator {
     @InjectMocks
     private SpringResourceAccessValidator validator;
 
-    @AfterEach
-    void clearSecurityContext() {
-        SecurityContextHolder.clearContext();
+    @BeforeEach
+    void loadAuthentication() {
+        SecurityContextHolder.getContext()
+            .setAuthentication(authentication);
     }
 
     @Test
     @DisplayName("An authorized authenticated user is authorized")
     void testIsAuthorized() {
-        final boolean        authorized;
-        final Authentication authentication;
+        final boolean authorized;
 
         // GIVEN
-        authentication = Authentications.authenticatedWithCreateAuthorities();
+        Mockito.when(trustResolver.isAuthenticated(authentication))
+            .thenReturn(true);
 
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        Mockito.when(trustResolver.isAnonymous(authentication))
-            .thenReturn(false);
         Mockito
             .when(permissionEvaluator.isAuthorized(authentication, PermissionConstants.DATA, PermissionConstants.READ))
             .thenReturn(true);
@@ -66,42 +64,13 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("When the user is anonymous the user is not authorized")
-    void testIsAuthorized_AnonymousAuthentication() {
-        final Authentication authentication;
-        final boolean        authorized;
-
-        // GIVEN
-        authentication = Authentications.authenticated();
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        Mockito.when(trustResolver.isAnonymous(authentication))
-            .thenReturn(true);
-
-        // WHEN
-        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.READ);
-
-        // THEN
-        Assertions.assertThat(authorized)
-            .isFalse();
-    }
-
-    @Test
     @DisplayName("When the evaluator rejects the permission the user is not authorized")
     void testIsAuthorized_EvaluatorRejectsPermission() {
-        final Authentication authentication;
-        final boolean        authorized;
+        final boolean authorized;
 
         // GIVEN
-        authentication = Authentications.authenticatedWithCreateAuthorities();
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        Mockito.when(trustResolver.isAnonymous(authentication))
-            .thenReturn(false);
+        Mockito.when(trustResolver.isAuthenticated(authentication))
+            .thenReturn(true);
         Mockito
             .when(permissionEvaluator.isAuthorized(authentication, PermissionConstants.DATA, PermissionConstants.READ))
             .thenReturn(false);
@@ -131,45 +100,9 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("A non-anonymous authenticated user is evaluated")
-    void testIsAuthorized_NonAnonymousAuthentication() {
-        final Authentication authentication;
-        final boolean        authorized;
-
-        // GIVEN
-        authentication = Authentications.authenticated();
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
-
-        Mockito.when(trustResolver.isAnonymous(authentication))
-            .thenReturn(false);
-        Mockito
-            .when(permissionEvaluator.isAuthorized(authentication, PermissionConstants.DATA, PermissionConstants.READ))
-            .thenReturn(true);
-
-        // WHEN
-        authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.READ);
-
-        // THEN
-        Assertions.assertThat(authorized)
-            .isTrue();
-
-        Mockito.verify(permissionEvaluator)
-            .isAuthorized(authentication, PermissionConstants.DATA, PermissionConstants.READ);
-    }
-
-    @Test
     @DisplayName("When the user is not authenticated the user is not authorized")
     void testIsAuthorized_NotAuthenticated() {
-        final Authentication authentication;
-        final boolean        authorized;
-
-        // GIVEN
-        authentication = Authentications.notAuthenticated();
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(authentication);
+        final boolean authorized;
 
         // WHEN
         authorized = validator.isAuthorized(PermissionConstants.DATA, PermissionConstants.READ);
