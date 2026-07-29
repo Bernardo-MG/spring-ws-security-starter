@@ -10,16 +10,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.repository.audit.AuditUserSpringRepository;
 
-public class UserAuditorAware implements AuditorAware<UserEntity> {
+public class UserAuditorAware implements AuditorAware<AuditUserEntity> {
 
-    private final UserSpringRepository        repository;
+    private final AuditUserSpringRepository   repository;
 
     private final AuthenticationTrustResolver trustResolver;
 
-    public UserAuditorAware(final UserSpringRepository repo, final AuthenticationTrustResolver trustResolv) {
+    public UserAuditorAware(final AuditUserSpringRepository repo, final AuthenticationTrustResolver trustResolv) {
         super();
 
         repository = Objects.requireNonNull(repo);
@@ -27,10 +27,10 @@ public class UserAuditorAware implements AuditorAware<UserEntity> {
     }
 
     @Override
-    public Optional<UserEntity> getCurrentAuditor() {
-        final Optional<UserEntity> user;
-        final Authentication       authentication;
-        UserDetails                principal;
+    public Optional<AuditUserEntity> getCurrentAuditor() {
+        final Optional<AuditUserEntity> user;
+        final Authentication            authentication;
+        UserDetails                     principal;
 
         authentication = SecurityContextHolder.getContext()
             .getAuthentication();

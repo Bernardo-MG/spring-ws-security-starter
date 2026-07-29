@@ -10,8 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
@@ -35,7 +33,7 @@ public class AuditMetadata implements Serializable {
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
-    private UserEntity        createdBy;
+    private AuditUserEntity   createdBy;
 
     @LastModifiedDate
     @Column(name = "updated_at")
@@ -44,7 +42,7 @@ public class AuditMetadata implements Serializable {
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by", referencedColumnName = "id")
-    private UserEntity        updatedBy;
+    private AuditUserEntity   updatedBy;
 
     @Override
     public boolean equals(final Object obj) {
@@ -63,7 +61,7 @@ public class AuditMetadata implements Serializable {
         return createdAt;
     }
 
-    public UserEntity getCreatedBy() {
+    public AuditUserEntity getCreatedBy() {
         return createdBy;
     }
 
@@ -71,7 +69,7 @@ public class AuditMetadata implements Serializable {
         return updatedAt;
     }
 
-    public UserEntity getUpdatedBy() {
+    public AuditUserEntity getUpdatedBy() {
         return updatedBy;
     }
 

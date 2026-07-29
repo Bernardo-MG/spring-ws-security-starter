@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2022-2025 Bernardo Martínez Garrido
+ * Copyright (c) 2023-2025 the original author or authors.
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,36 +22,29 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.configuration;
+package com.bernardomg.security.adapter.inbound.jpa.repository.audit;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
-import com.bernardomg.security.adapter.inbound.jpa.repository.audit.AuditUserSpringRepository;
-import com.bernardomg.security.springframework.audit.UserAuditorAware;
 
 /**
- * Audit configuration.
+ * User repository.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
-public class AuditAutoConfiguration {
+public interface AuditUserSpringRepository extends JpaRepository<AuditUserEntity, Long> {
 
-    public AuditAutoConfiguration() {
-        super();
-    }
-
-    @Bean("auditorAware")
-    public AuditorAware<AuditUserEntity> getAuditorAware(final AuditUserSpringRepository repository,
-            final AuthenticationTrustResolver trustResolver) {
-        return new UserAuditorAware(repository, trustResolver);
-    }
+    /**
+     * Returns the user for the received username.
+     *
+     * @param username
+     *            username to search for
+     * @return the user for the received username
+     */
+    public Optional<AuditUserEntity> findByUsername(final String username);
 
 }

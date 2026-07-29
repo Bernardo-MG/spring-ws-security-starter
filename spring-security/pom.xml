@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.framework.security</groupId>
       <artifactId>security-starter</artifactId>
-      <version>0.5.9</version>
+      <version>0.5.10</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -98,6 +98,11 @@
           <!-- Spring Security Web -->
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-web</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Aspects -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-aspects</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->

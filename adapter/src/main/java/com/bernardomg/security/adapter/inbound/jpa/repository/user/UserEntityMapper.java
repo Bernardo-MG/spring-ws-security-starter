@@ -30,6 +30,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionEntityMapper;
@@ -90,7 +91,7 @@ public final class UserEntityMapper {
         return entity;
     }
 
-    private static final AuditUser toAuditDomain(final UserEntity user) {
+    private static final AuditUser toAuditDomain(final AuditUserEntity user) {
         final AuditUser auditUser;
 
         if (user == null) {
