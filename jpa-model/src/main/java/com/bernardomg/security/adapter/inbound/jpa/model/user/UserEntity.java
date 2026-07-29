@@ -144,6 +144,10 @@ public class UserEntity implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    public AuditMetadata getAudit() {
+        return audit;
+    }
+
     public String getEmail() {
         return email;
     }

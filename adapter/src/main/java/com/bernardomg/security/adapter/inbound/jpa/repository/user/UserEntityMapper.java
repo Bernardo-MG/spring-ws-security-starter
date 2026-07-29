@@ -29,10 +29,13 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionEntityMapper;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleEntityMapper;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.comparator.RoleComparator;
 import com.bernardomg.security.domain.role.model.Role;
@@ -47,6 +50,7 @@ public final class UserEntityMapper {
     public static final User toDomain(final UserEntity user) {
         final Collection<Role>               roles;
         final Collection<ResourcePermission> permissions;
+        final AuditDetails                   audit;
 
         roles = user.getRoles()
             .stream()
@@ -64,8 +68,11 @@ public final class UserEntityMapper {
             .map(ResourcePermissionEntityMapper::toDomain)
             .distinct()
             .collect(Collectors.toCollection(ArrayList::new));
+
+        audit = toDomain(user.getAudit());
+
         return new User(user.getEmail(), user.getUsername(), user.getName(), user.getEnabled(), user.getNotExpired(),
-            user.getNotLocked(), user.getPasswordNotExpired(), roles, permissions);
+            user.getNotLocked(), user.getPasswordNotExpired(), roles, permissions, audit);
     }
 
     public static final UserEntity toEntity(final UserFilter user) {
@@ -81,6 +88,15 @@ public final class UserEntityMapper {
         entity.setPasswordNotExpired(user.passwordNotExpired());
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final UserEntity user) {
+        return new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        return new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()), audit.getUpdatedAt(),
+            toAuditDomain(audit.getUpdatedBy()));
     }
 
     private UserEntityMapper() {
