@@ -89,8 +89,16 @@ public final class RoleEntityMapper {
     }
 
     private static final AuditDetails toDomain(final AuditMetadata audit) {
-        return new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()), audit.getUpdatedAt(),
-            toAuditDomain(audit.getUpdatedBy()));
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private RoleEntityMapper() {

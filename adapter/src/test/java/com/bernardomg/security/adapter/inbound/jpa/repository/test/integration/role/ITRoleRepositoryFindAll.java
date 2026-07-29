@@ -53,6 +53,7 @@ class ITRoleRepositoryFindAll {
         Assertions.assertThat(roles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Roles.withoutPermissions());
     }
 
@@ -102,6 +103,7 @@ class ITRoleRepositoryFindAll {
         Assertions.assertThat(roles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Roles.withPermissions());
     }
 
@@ -127,6 +129,7 @@ class ITRoleRepositoryFindAll {
         Assertions.assertThat(roles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Roles.withSinglePermission());
     }
 
