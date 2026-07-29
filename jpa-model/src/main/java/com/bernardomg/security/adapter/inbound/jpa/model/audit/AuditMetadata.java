@@ -1,6 +1,7 @@
 
 package com.bernardomg.security.adapter.inbound.jpa.model.audit;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -16,27 +17,34 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 @Embeddable
-public class AuditMetadata {
+public class AuditMetadata implements Serializable {
+
+    /**
+     * Serialization id.
+     */
+    @Transient
+    private static final long serialVersionUID = 6571072545115490466L;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    private Instant    createdAt;
+    private Instant           createdAt;
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
-    private UserEntity createdBy;
+    private UserEntity        createdBy;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private Instant    updatedAt;
+    private Instant           updatedAt;
 
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by", referencedColumnName = "id")
-    private UserEntity updatedBy;
+    private UserEntity        updatedBy;
 
     @Override
     public boolean equals(final Object obj) {
