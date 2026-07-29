@@ -567,8 +567,13 @@
          </action>
       </release>
       <release version="0.5.8" date="2026-07-28" description="Audit">
-         <action dev="bmg" type="fix">
+         <action dev="bmg" type="add">
             Audit entities.
+         </action>
+      </release>
+      <release version="0.5.9" date="2026-07-28" description="Audit">
+         <action dev="bmg" type="fix">
+            Registered audit config.
          </action>
       </release>
    </body>
