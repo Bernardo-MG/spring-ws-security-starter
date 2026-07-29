@@ -64,7 +64,7 @@ public class RoleEntity implements Serializable {
     private static final long                    serialVersionUID = 8513041662486312372L;
 
     @Embedded
-    private final AuditMetadata                  audit            = new AuditMetadata();
+    private AuditMetadata                        audit            = new AuditMetadata();
 
     /**
      * Entity id.
@@ -119,6 +119,10 @@ public class RoleEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setId(final Long id) {

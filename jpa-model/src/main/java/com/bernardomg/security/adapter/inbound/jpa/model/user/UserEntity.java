@@ -64,7 +64,7 @@ public class UserEntity implements Serializable {
     private static final long      serialVersionUID = 4807136960800402795L;
 
     @Embedded
-    private final AuditMetadata    audit            = new AuditMetadata();
+    private AuditMetadata          audit            = new AuditMetadata();
 
     /**
      * User email.
@@ -199,6 +199,10 @@ public class UserEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setEmail(final String email) {
