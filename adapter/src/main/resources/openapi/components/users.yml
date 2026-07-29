@@ -53,6 +53,8 @@ components:
           description: Roles assigned to the user.
           items:
             $ref: 'roles.yml#/components/schemas/Role'
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     UserActivation:
       type: object
       required: [password]

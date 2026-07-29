@@ -33,6 +33,8 @@ components:
           description: List of resource permissions.
           items:
             $ref: 'permissions.yml/#/components/schemas/ResourcePermission'
+        audit:
+          $ref: 'audit.yml#/components/schemas/AuditDetails'
     RoleCreation:
       type: object
       required: [name, permissions]

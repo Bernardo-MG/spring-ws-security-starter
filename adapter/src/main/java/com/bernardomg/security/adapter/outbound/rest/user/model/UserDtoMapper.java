@@ -8,6 +8,8 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditDetailsDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditUserDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleDto;
@@ -17,6 +19,8 @@ import com.bernardomg.security.adapter.outbound.rest.user.dto.UserCreationDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserPageResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserResponseDto;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.user.model.User;
 
@@ -90,6 +94,34 @@ public final class UserDtoMapper {
         return new UserResponseDto().content(toDto(user));
     }
 
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
+    }
+
     private static final PropertyDto toDto(final Property property) {
         final DirectionEnum direction;
 
@@ -116,7 +148,8 @@ public final class UserDtoMapper {
             .notExpired(user.notExpired())
             .notLocked(user.notLocked())
             .passwordNotExpired(user.passwordNotExpired())
-            .roles(roles);
+            .roles(roles)
+            .audit(toDto(user.audit()));
     }
 
     private UserDtoMapper() {
