@@ -62,7 +62,8 @@ class ITUserRepositoryClearLoginAttempts {
         // THEN
         Assertions.assertThat(userSpringRepository.findAll())
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "roles.permissions.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "roles.permissions.id", "audit",
+                "roles.audit")
             .containsExactly(UserEntities.enabled());
     }
 
@@ -77,7 +78,8 @@ class ITUserRepositoryClearLoginAttempts {
         // THEN
         Assertions.assertThat(userSpringRepository.findAll())
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "roles.permissions.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "roles.permissions.id", "audit",
+                "roles.audit")
             .containsExactly(UserEntities.enabled());
     }
 

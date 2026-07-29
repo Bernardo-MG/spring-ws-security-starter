@@ -82,7 +82,7 @@ class ITUserRepositoryLock {
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "password", "roles", "audit")
             .containsExactly(UserEntities.locked());
     }
 
