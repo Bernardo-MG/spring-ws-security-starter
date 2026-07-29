@@ -60,6 +60,10 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>security-usecase</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-adapter</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================== JAKARTA =================== -->
       <!-- ============================================== -->
@@ -71,9 +75,14 @@
       <!-- ================== SPRING ==================== -->
       <!-- ============================================== -->
       <dependency>
-          <!-- Spring Security Core -->
-          <groupId>org.springframework.security</groupId>
-          <artifactId>spring-security-core</artifactId>
+         <!-- Spring Security Core -->
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-core</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Data Commons -->
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-commons</artifactId>
       </dependency>
       <dependency>
          <!-- Spring Web -->
