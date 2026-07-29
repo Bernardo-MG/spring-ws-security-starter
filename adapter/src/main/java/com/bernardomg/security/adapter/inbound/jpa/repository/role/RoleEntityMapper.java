@@ -76,13 +76,21 @@ public final class RoleEntityMapper {
         return entity;
     }
 
+    private static final AuditUser toAuditDomain(final UserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
     private static final AuditDetails toDomain(final AuditMetadata audit) {
         return new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()), audit.getUpdatedAt(),
             toAuditDomain(audit.getUpdatedBy()));
-    }
-
-    private static final AuditUser toAuditDomain(final UserEntity user) {
-        return new AuditUser(user.getEmail(), user.getUsername(), user.getName());
     }
 
     private RoleEntityMapper() {

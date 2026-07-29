@@ -91,7 +91,15 @@ public final class UserEntityMapper {
     }
 
     private static final AuditUser toAuditDomain(final UserEntity user) {
-        return new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
     }
 
     private static final AuditDetails toDomain(final AuditMetadata audit) {
