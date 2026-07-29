@@ -28,12 +28,15 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,6 +54,7 @@ import jakarta.persistence.Transient;
  */
 @Entity(name = "Role")
 @Table(schema = "security", name = "roles")
+@EntityListeners(AuditingEntityListener.class)
 public class RoleEntity implements Serializable {
 
     /**
