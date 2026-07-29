@@ -50,7 +50,7 @@ class ITAccountRepositorySave {
 
         Assertions.assertThat(users)
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "roles.permissions.id")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "roles.permissions.id", "audit")
             .containsExactly(UserEntities.nameChange());
     }
 

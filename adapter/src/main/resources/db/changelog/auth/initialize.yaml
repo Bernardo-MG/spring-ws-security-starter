@@ -78,6 +78,31 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   defaultValue: '0'
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: security
             tableName: users
@@ -193,6 +218,31 @@ databaseChangeLog:
                   constraints:
                     unique: true
                     nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_created_by_user
+                    references: security.users(id)
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_fees_updated_by_user
+                    references: security.users(id)
         - addAutoIncrement:
             schemaName: security
             tableName: roles

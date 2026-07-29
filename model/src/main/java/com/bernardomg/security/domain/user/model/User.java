@@ -31,6 +31,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.bernardomg.security.domain.audit.model.AuditDetails;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.user.exception.EnabledUserException;
@@ -44,7 +45,8 @@ import com.bernardomg.security.domain.user.exception.LockedUserException;
  *
  */
 public record User(String email, String username, String name, boolean enabled, boolean notExpired, boolean notLocked,
-        boolean passwordNotExpired, Collection<Role> roles, Collection<ResourcePermission> permissions) {
+        boolean passwordNotExpired, Collection<Role> roles, Collection<ResourcePermission> permissions,
+        AuditDetails audit) {
 
     /**
      * Logger for the class.
@@ -53,7 +55,7 @@ public record User(String email, String username, String name, boolean enabled, 
 
     public User(final String email, final String username, final String name, final boolean enabled,
             final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,
-            final Collection<Role> roles, final Collection<ResourcePermission> permissions) {
+            final Collection<Role> roles, final Collection<ResourcePermission> permissions, final AuditDetails audit) {
         // TODO: reject nulls
 
         if (Objects.nonNull(name)) {
@@ -82,15 +84,23 @@ public record User(String email, String username, String name, boolean enabled, 
         this.passwordNotExpired = passwordNotExpired;
         this.roles = List.copyOf(roles);
         this.permissions = List.copyOf(permissions);
+        this.audit = audit;
+    }
+
+    public User(final String email, final String username, final String name, final boolean enabled,
+            final boolean notExpired, final boolean notLocked, final boolean passwordNotExpired,
+            final Collection<Role> roles, final Collection<ResourcePermission> permissions) {
+        this(email, username, name, enabled, notExpired, notLocked, passwordNotExpired, roles, permissions,
+            new AuditDetails());
     }
 
     public static final User newUser(final String username, final String email, final String name) {
-        return new User(email, username, name, false, true, true, false, List.of(), List.of());
+        return new User(email, username, name, false, true, true, false, List.of(), List.of(), new AuditDetails());
     }
 
     public static final User newUser(final String username, final String email, final String name,
             final Collection<Role> roles) {
-        return new User(email, username, name, false, true, true, false, roles, List.of());
+        return new User(email, username, name, false, true, true, false, roles, List.of(), new AuditDetails());
     }
 
     public final void checkStatus() {

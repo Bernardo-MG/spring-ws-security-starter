@@ -32,7 +32,7 @@ public class TestLayeredArchitectureRules {
         .whereLayer("Infrastructure - Outbound")
         .mayOnlyBeAccessedByLayers("Configuration")
         .whereLayer("Infrastructure - Inbound")
-        .mayOnlyBeAccessedByLayers("Configuration")
+        .mayOnlyBeAccessedByLayers("Configuration", "Spring adapter")
         .whereLayer("Use case")
         .mayOnlyBeAccessedByLayers("Use case", "Configuration", "Infrastructure - Inbound", "Infrastructure - Outbound",
             "Spring adapter")

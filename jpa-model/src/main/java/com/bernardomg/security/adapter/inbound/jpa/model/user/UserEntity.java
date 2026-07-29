@@ -28,9 +28,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -56,6 +58,9 @@ public class UserEntity implements Serializable {
      */
     @Transient
     private static final long      serialVersionUID = 4807136960800402795L;
+
+    @Embedded
+    private final AuditMetadata    audit            = new AuditMetadata();
 
     /**
      * User email.
@@ -137,6 +142,10 @@ public class UserEntity implements Serializable {
         }
         final UserEntity other = (UserEntity) obj;
         return Objects.equals(id, other.id);
+    }
+
+    public AuditMetadata getAudit() {
+        return audit;
     }
 
     public String getEmail() {
@@ -237,7 +246,7 @@ public class UserEntity implements Serializable {
         return "UserEntity [id=" + id + ", username=" + username + ", name=" + name + ", roles=" + roles + ", email="
                 + email + ", enabled=" + enabled + ", loginAttempts=" + loginAttempts + ", notExpired=" + notExpired
                 + ", notLocked=" + notLocked + ", password=" + password + ", passwordNotExpired=" + passwordNotExpired
-                + "]";
+                + ", audit=" + audit + "]";
     }
 
 }
