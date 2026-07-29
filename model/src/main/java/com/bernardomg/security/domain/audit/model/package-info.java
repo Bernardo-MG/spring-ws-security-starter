@@ -22,37 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.domain.role.model;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.bernardomg.security.domain.audit.model.AuditDetails;
-import com.bernardomg.security.domain.permission.model.ResourcePermission;
-
 /**
- * Role.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Login model.
  */
-public record Role(String name, Collection<ResourcePermission> permissions, AuditDetails audit) {
 
-    public Role(final String name, final Collection<ResourcePermission> permissions, final AuditDetails audit) {
-        Objects.requireNonNull(name, "Name can't be null");
-        Objects.requireNonNull(permissions, "Permissions can't be null");
-        Objects.requireNonNull(audit, "Audit details can't be null");
-
-        this.name = StringUtils.trim(name);
-        this.permissions = List.copyOf(permissions);
-        this.audit = audit;
-    }
-
-    public Role(final String name, final Collection<ResourcePermission> permissions) {
-        this(name, permissions, new AuditDetails());
-    }
-
-}
+package com.bernardomg.security.domain.audit.model;

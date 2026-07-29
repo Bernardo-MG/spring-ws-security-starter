@@ -1,7 +1,7 @@
 /**
  * The MIT License (MIT)
  * <p>
- * Copyright (c) 2023-2025 the original author or authors.
+ * Copyright (c) 2022-2025 Bernardo Martínez Garrido
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,37 +22,36 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.domain.role.model;
+package com.bernardomg.security.configuration;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.bernardomg.security.domain.audit.model.AuditDetails;
-import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
+import com.bernardomg.security.springframework.audit.UserAuditorAware;
 
 /**
- * Role.
+ * Audit configuration.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public record Role(String name, Collection<ResourcePermission> permissions, AuditDetails audit) {
+@Configuration
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
+public class AuditAutoConfiguration {
 
-    public Role(final String name, final Collection<ResourcePermission> permissions, final AuditDetails audit) {
-        Objects.requireNonNull(name, "Name can't be null");
-        Objects.requireNonNull(permissions, "Permissions can't be null");
-        Objects.requireNonNull(audit, "Audit details can't be null");
-
-        this.name = StringUtils.trim(name);
-        this.permissions = List.copyOf(permissions);
-        this.audit = audit;
+    public AuditAutoConfiguration() {
+        super();
     }
 
-    public Role(final String name, final Collection<ResourcePermission> permissions) {
-        this(name, permissions, new AuditDetails());
+    @Bean("auditorAware")
+    public AuditorAware<UserEntity> getAuditorAware(final UserSpringRepository repository,
+            final AuthenticationTrustResolver trustResolver) {
+        return new UserAuditorAware(repository, trustResolver);
     }
 
 }

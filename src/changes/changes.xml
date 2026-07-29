@@ -566,5 +566,10 @@
             JWT permissions are not set to lowercase.
          </action>
       </release>
+      <release version="0.5.8" date="2026-07-28" description="Audit">
+         <action dev="bmg" type="fix">
+            Audit entities.
+         </action>
+      </release>
    </body>
 </document>

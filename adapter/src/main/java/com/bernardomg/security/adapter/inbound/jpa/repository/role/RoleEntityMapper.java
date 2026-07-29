@@ -28,8 +28,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionEntityMapper;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 import com.bernardomg.security.domain.permission.comparator.ResourcePermissionComparator;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.filter.RoleFilter;
@@ -42,6 +46,7 @@ public final class RoleEntityMapper {
 
     public static final Role toDomain(final RoleEntity role) {
         final Collection<ResourcePermission> permissions;
+        final AuditDetails                   audit;
 
         if (role.getPermissions() == null) {
             permissions = List.of();
@@ -55,7 +60,9 @@ public final class RoleEntityMapper {
                 .toList();
         }
 
-        return new Role(role.getName(), permissions);
+        audit = toDomain(role.getAudit());
+
+        return new Role(role.getName(), permissions, audit);
     }
 
     public static final RoleEntity toEntity(final RoleFilter role) {
@@ -67,6 +74,31 @@ public final class RoleEntityMapper {
             .orElse(null));
 
         return entity;
+    }
+
+    private static final AuditUser toAuditDomain(final UserEntity user) {
+        final AuditUser auditUser;
+
+        if (user == null) {
+            auditUser = null;
+        } else {
+            auditUser = new AuditUser(user.getEmail(), user.getUsername(), user.getName());
+        }
+
+        return auditUser;
+    }
+
+    private static final AuditDetails toDomain(final AuditMetadata audit) {
+        final AuditDetails auditDetails;
+
+        if (audit == null) {
+            auditDetails = new AuditDetails();
+        } else {
+            auditDetails = new AuditDetails(audit.getCreatedAt(), toAuditDomain(audit.getCreatedBy()),
+                audit.getUpdatedAt(), toAuditDomain(audit.getUpdatedBy()));
+        }
+
+        return auditDetails;
     }
 
     private RoleEntityMapper() {

@@ -82,7 +82,7 @@ class ITUserRepositoryResetPassword {
         entities = userSpringRepository.findAll();
         Assertions.assertThat(entities)
             .as("users")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("password", "roles")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("password", "roles", "audit")
             .containsExactly(UserEntities.updatedPassword());
     }
 

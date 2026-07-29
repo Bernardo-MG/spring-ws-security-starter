@@ -6,10 +6,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditDetailsDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditUserDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.ResourcePermissionDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleChangeDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleCreationDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleDto;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.model.Role;
 
@@ -51,7 +55,36 @@ public final class RoleDtoMapper {
             .map(RoleDtoMapper::toDto)
             .collect(Collectors.toCollection(ArrayList::new));
         return new RoleDto().name(role.name())
-            .permissions(permissions);
+            .permissions(permissions)
+            .audit(toDto(role.audit()));
+    }
+
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
     }
 
     private static final ResourcePermissionDto toDto(final ResourcePermission permission) {
