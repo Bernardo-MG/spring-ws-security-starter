@@ -128,7 +128,7 @@ public class AuditUserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UserEntity [id=" + id + ", username=" + username + ", name=" + name + ", email=" + email + "]";
+        return "AuditUserEntity [id=" + id + ", username=" + username + ", name=" + name + ", email=" + email + "]";
     }
 
 }
