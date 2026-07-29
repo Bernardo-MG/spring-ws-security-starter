@@ -28,9 +28,11 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.permission.ResourcePermissionEntity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -56,6 +58,9 @@ public class RoleEntity implements Serializable {
      */
     @Transient
     private static final long                    serialVersionUID = 8513041662486312372L;
+
+    @Embedded
+    private final AuditMetadata                  audit            = new AuditMetadata();
 
     /**
      * Entity id.
@@ -122,7 +127,7 @@ public class RoleEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "RoleEntity [id=" + id + ", name=" + name + ", permissions=" + permissions + "]";
+        return "RoleEntity [id=" + id + ", name=" + name + ", permissions=" + permissions + ", audit=" + audit + "]";
     }
 
 }
