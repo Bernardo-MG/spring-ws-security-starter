@@ -82,7 +82,6 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
-                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -95,7 +94,6 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   type: datetime
-                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -224,7 +222,6 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
-                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
@@ -237,7 +234,6 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   type: datetime
-                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
