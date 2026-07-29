@@ -1,5 +1,6 @@
 com.bernardomg.security.configuration.AccessAutoConfiguration
 com.bernardomg.security.configuration.AccountAutoConfiguration
+com.bernardomg.security.configuration.AuditAutoConfiguration
 com.bernardomg.security.configuration.JwtAutoConfiguration
 com.bernardomg.security.configuration.LoginAutoConfiguration
 com.bernardomg.security.configuration.LoginRegisterAutoConfiguration
