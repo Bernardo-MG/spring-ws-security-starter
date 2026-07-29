@@ -27,6 +27,7 @@ package com.bernardomg.security.adapter.test.config;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.bernardomg.security.adapter.inbound.jpa.repository.account.JpaUserAccountRepository;
@@ -57,6 +58,7 @@ import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 @Configuration
 @EnableJpaRepositories(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
 @EntityScan(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
+@EnableJpaAuditing
 public class TestConfiguration {
 
     @Bean("accountRepository")
