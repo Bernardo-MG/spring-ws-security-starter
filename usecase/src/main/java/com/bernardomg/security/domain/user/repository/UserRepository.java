@@ -49,6 +49,7 @@ public interface UserRepository {
      * @return the activated user
      */
     public User activate(final String username, final String password);
+    public Optional<Long> findIdByUsername(final String username);
 
     /**
      * Removes all login attempts for the user.
