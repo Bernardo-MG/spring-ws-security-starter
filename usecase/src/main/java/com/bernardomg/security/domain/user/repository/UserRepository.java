@@ -49,7 +49,6 @@ public interface UserRepository {
      * @return the activated user
      */
     public User activate(final String username, final String password);
-    public Optional<Long> findIdByUsername(final String username);
 
     /**
      * Removes all login attempts for the user.
@@ -108,6 +107,8 @@ public interface UserRepository {
      * @return all the user for the received query
      */
     public Page<User> findAll(final UserFilter query, final Pagination pagination, final Sorting sorting);
+
+    public Optional<Long> findIdByUsername(final String username);
 
     /**
      * Returns the number of login attempts which the user has done.
