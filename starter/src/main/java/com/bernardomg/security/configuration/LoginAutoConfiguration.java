@@ -83,9 +83,8 @@ public class LoginAutoConfiguration {
     }
 
     @Bean("userAuthenticator")
-    public UserAuthenticator getUserAuthenticator(final AuthenticationManager authenticationManager,
-            final UserRepository userRepository) {
-        return new SpringSecurityUserAuthenticator(authenticationManager, userRepository);
+    public UserAuthenticator getUserAuthenticator(final AuthenticationManager authenticationManager) {
+        return new SpringSecurityUserAuthenticator(authenticationManager);
     }
 
     @Bean("userLoginAttempsService")

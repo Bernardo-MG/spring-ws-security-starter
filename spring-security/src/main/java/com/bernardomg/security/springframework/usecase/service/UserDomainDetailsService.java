@@ -128,8 +128,8 @@ public final class UserDomainDetailsService implements UserDetailsService {
                 throw new UsernameNotFoundException("Invalid username or credentials");
             });
 
-        details = new SecurityUserDetails(id, user.username(), password, user.enabled(), user.notExpired(),
-            user.passwordNotExpired(), user.notLocked(), authorities);
+        details = new SecurityUserDetails(id, user.email(), user.username(), user.name(), password, user.enabled(),
+            user.notExpired(), user.passwordNotExpired(), user.notLocked(), authorities);
 
         log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}",
             cleanedUsername, details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),

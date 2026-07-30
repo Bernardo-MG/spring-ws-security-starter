@@ -24,7 +24,7 @@
 
 package com.bernardomg.security.usecase.login.encoder;
 
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 /**
  * Token encoder for login.
@@ -41,6 +41,6 @@ public interface LoginTokenEncoder {
      *            user to encode a token for
      * @return token encoded for user
      */
-    public String encode(final User user);
+    public String encode(final LoginUser user);
 
 }

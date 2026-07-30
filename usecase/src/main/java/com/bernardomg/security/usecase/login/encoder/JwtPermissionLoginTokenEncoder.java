@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 /**
  * Encodes a JWT token including the permissions for the user.
@@ -48,12 +48,13 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
     }
 
     @Override
-    public final String encode(final User user) {
+    public final String encode(final LoginUser user) {
         final Map<String, List<String>> permissions;
         final Instant                   expiration;
         final Instant                   issuedAt;
         final String                    token;
         final JwtTokenData              data;
+        final Map<String, String>       values;
 
         permissions = getPermissionsMap(user);
 
@@ -63,10 +64,14 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
         expiration = Instant.now()
             .plus(validity);
 
+        // TODO: Add roles?
+        values = Map.of("id", String.valueOf(user.id()));
+
         // Build token data for the wrapped encoder
         // TODO: Test that permissions are added
+        // TODO: Test that id is added
         data = new JwtTokenData("", user.username(), "", issuedAt, issuedAt, expiration, List.of(), permissions,
-            Map.of());
+            values);
 
         token = tokenEncoder.encode(data);
 
@@ -75,7 +80,7 @@ public class JwtPermissionLoginTokenEncoder implements LoginTokenEncoder {
         return token;
     }
 
-    private final Map<String, List<String>> getPermissionsMap(final User user) {
+    private final Map<String, List<String>> getPermissionsMap(final LoginUser user) {
         final Function<ResourcePermission, String> resourceMapper;
         final Function<ResourcePermission, String> actionMapper;
 

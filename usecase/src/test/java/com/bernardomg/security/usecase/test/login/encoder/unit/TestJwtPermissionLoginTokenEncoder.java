@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEncoder;
-import com.bernardomg.security.usecase.test.user.config.factory.Users;
+import com.bernardomg.security.usecase.test.user.config.factory.LoginUsers;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("JwtPermissionLoginTokenEncoder")
@@ -47,7 +47,7 @@ class TestJwtPermissionLoginTokenEncoder {
         given(tokenEncoder.encode(any())).willReturn(TOKEN);
 
         // WHEN
-        token = encoder.encode(Users.enabled());
+        token = encoder.encode(LoginUsers.valid());
 
         // THEN
         Assertions.assertThat(token)

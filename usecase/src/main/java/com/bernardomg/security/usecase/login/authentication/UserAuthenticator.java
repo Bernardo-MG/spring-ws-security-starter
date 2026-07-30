@@ -1,10 +1,10 @@
 
 package com.bernardomg.security.usecase.login.authentication;
 
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 public interface UserAuthenticator {
 
-    public User load(final String username, final String password);
+    public LoginUser load(final String username, final String password);
 
 }

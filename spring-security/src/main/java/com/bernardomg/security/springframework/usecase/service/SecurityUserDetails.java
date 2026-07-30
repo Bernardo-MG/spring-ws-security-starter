@@ -17,9 +17,13 @@ public final class SecurityUserDetails implements UserDetails {
 
     private final Collection<? extends GrantedAuthority> authorities;
 
+    private final String                                 email;
+
     private final boolean                                enabled;
 
     private final Long                                   id;
+
+    private final String                                 name;
 
     private final boolean                                notExpired;
 
@@ -31,12 +35,14 @@ public final class SecurityUserDetails implements UserDetails {
 
     private final String                                 username;
 
-    public SecurityUserDetails(final Long id, final String username, final String password, final boolean enabled,
-            final boolean notExpired, final boolean passwordNotExpired, final boolean notLocked,
-            final Collection<? extends GrantedAuthority> authorities) {
+    public SecurityUserDetails(final Long id, final String email, final String username, final String name,
+            final String password, final boolean enabled, final boolean notExpired, final boolean passwordNotExpired,
+            final boolean notLocked, final Collection<? extends GrantedAuthority> authorities) {
 
         this.id = Objects.requireNonNull(id);
+        this.email = Objects.requireNonNull(email);
         this.username = Objects.requireNonNull(username);
+        this.name = Objects.requireNonNull(name);
         this.password = Objects.requireNonNull(password);
         this.enabled = enabled;
         this.notExpired = notExpired;
@@ -50,8 +56,16 @@ public final class SecurityUserDetails implements UserDetails {
         return authorities;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -82,5 +96,17 @@ public final class SecurityUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean isNotExpired() {
+        return notExpired;
+    }
+
+    public boolean isNotLocked() {
+        return notLocked;
+    }
+
+    public boolean isPasswordNotExpired() {
+        return passwordNotExpired;
     }
 }

@@ -34,8 +34,8 @@ import com.bernardomg.security.domain.login.event.LogInEvent;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.login.model.TokenLoginStatus;
-import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
+import com.bernardomg.security.usecase.login.domain.LoginUser;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 
 import jakarta.transaction.Transactional;
@@ -72,7 +72,7 @@ public final class TokenLoginService implements LoginService {
     @Override
     public final TokenLoginStatus login(final Credentials credentials) {
         final LogInEvent event;
-        final User       user;
+        final LoginUser  user;
         final String     token;
         TokenLoginStatus status;
 

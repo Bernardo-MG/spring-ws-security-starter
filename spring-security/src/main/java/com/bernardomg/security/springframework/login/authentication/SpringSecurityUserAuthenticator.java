@@ -1,34 +1,33 @@
 
 package com.bernardomg.security.springframework.login.authentication;
 
-import java.util.Locale;
+import java.util.Collection;
 import java.util.Objects;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
-import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.repository.UserRepository;
+import com.bernardomg.security.domain.permission.model.ResourcePermission;
+import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
+import com.bernardomg.security.springframework.usecase.service.SecurityUserDetails;
 import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
+import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 public final class SpringSecurityUserAuthenticator implements UserAuthenticator {
 
     private final AuthenticationManager authenticationManager;
 
-    private final UserRepository        userRepository;
-
-    public SpringSecurityUserAuthenticator(final AuthenticationManager authenticationManager,
-            final UserRepository userRepository) {
+    public SpringSecurityUserAuthenticator(final AuthenticationManager authenticationManager) {
 
         this.authenticationManager = Objects.requireNonNull(authenticationManager);
-        this.userRepository = Objects.requireNonNull(userRepository);
     }
 
     @Override
-    public User load(final String loginName, final String password) {
+    public LoginUser load(final String loginName, final String password) {
         final Authentication authentication;
 
         try {
@@ -41,11 +40,29 @@ public final class SpringSecurityUserAuthenticator implements UserAuthenticator 
         return toDomain(authentication);
     }
 
-    private final User toDomain(final Authentication authentication) {
-        final String username = authentication.getName();
+    private final LoginUser toDomain(final Authentication authentication) {
+        final SecurityUserDetails            details;
+        final Collection<ResourcePermission> permissions;
 
-        return userRepository.findOne(username.toLowerCase(Locale.ROOT))
-            .orElseThrow(InvalidCredentialsException::new);
+        if (!(authentication.getDetails() instanceof SecurityUserDetails)) {
+            // TODO: use a better exception
+            throw new UsernameNotFoundException("Invalid username or credentials");
+        }
+
+        details = (SecurityUserDetails) authentication.getDetails();
+
+        permissions = details.getAuthorities()
+            .stream()
+            .filter(ResourceActionGrantedAuthority.class::isInstance)
+            .map(ResourceActionGrantedAuthority.class::cast)
+            .map(this::toResourcePermission)
+            .toList();
+        return new LoginUser(details.getId(), details.getEmail(), details.getUsername(), details.getName(),
+            permissions);
+    }
+
+    private final ResourcePermission toResourcePermission(final ResourceActionGrantedAuthority permission) {
+        return new ResourcePermission(permission.resource(), permission.action());
     }
 
 }

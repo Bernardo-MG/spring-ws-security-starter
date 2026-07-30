@@ -22,8 +22,8 @@ import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 import com.bernardomg.security.usecase.login.service.TokenLoginService;
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
+import com.bernardomg.security.usecase.test.user.config.factory.LoginUsers;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
-import com.bernardomg.security.usecase.test.user.config.factory.Users;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenLoginService - login event handling")
@@ -81,9 +81,9 @@ class TestTokenLoginServiceEvent {
         final LogInEvent event;
 
         // GIVEN
-        given(userAuthenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(Users.enabled());
+        given(userAuthenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD)).willReturn(LoginUsers.valid());
 
-        given(loginTokenEncoder.encode(Users.enabled())).willReturn(Tokens.TOKEN);
+        given(loginTokenEncoder.encode(LoginUsers.valid())).willReturn(Tokens.TOKEN);
 
         // WHEN
         service.login(new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD));

@@ -28,6 +28,7 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.login.authentication.SpringSecurityUserAuthenticator;
 import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
+import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityUserAuthenticator")
@@ -94,9 +95,9 @@ class TestSpringSecurityUserAuthenticator {
     @Test
     @DisplayName("Loads the domain user using the authenticated username")
     void testLoad_UsesAuthenticatedUsername() {
-        final User   expected;
-        final String authenticatedUsername;
-        final User   result;
+        final User      expected;
+        final String    authenticatedUsername;
+        final LoginUser result;
 
         // GIVEN
         expected = Users.enabled();
@@ -123,8 +124,8 @@ class TestSpringSecurityUserAuthenticator {
     @Test
     @DisplayName("Authenticates and returns the domain user")
     void testLoad_ValidCredentials() {
-        final User expected;
-        final User result;
+        final User      expected;
+        final LoginUser result;
 
         // GIVEN
         expected = Users.enabled();
