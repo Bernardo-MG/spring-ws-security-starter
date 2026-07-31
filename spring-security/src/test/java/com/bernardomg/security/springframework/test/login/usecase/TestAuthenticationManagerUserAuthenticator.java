@@ -25,14 +25,14 @@ import org.springframework.security.core.AuthenticationException;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.login.authentication.SpringSecurityUserAuthenticator;
+import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerUserAuthenticator;
 import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringSecurityUserAuthenticator")
-class TestSpringSecurityUserAuthenticator {
+@DisplayName("AuthenticationManagerUserAuthenticator")
+class TestAuthenticationManagerUserAuthenticator {
 
     @Mock
     private Authentication                  authentication;
@@ -41,7 +41,7 @@ class TestSpringSecurityUserAuthenticator {
     private AuthenticationManager           authenticationManager;
 
     @InjectMocks
-    private SpringSecurityUserAuthenticator authenticator;
+    private AuthenticationManagerUserAuthenticator authenticator;
 
     @Mock
     private UserRepository                  userRepository;

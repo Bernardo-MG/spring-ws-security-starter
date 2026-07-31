@@ -36,7 +36,7 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.adapter.inbound.event.login.LoginFailureBlockerListener;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.login.authentication.SpringSecurityUserAuthenticator;
+import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerUserAuthenticator;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEncoder;
@@ -84,7 +84,7 @@ public class LoginAutoConfiguration {
 
     @Bean("userAuthenticator")
     public UserAuthenticator getUserAuthenticator(final AuthenticationManager authenticationManager) {
-        return new SpringSecurityUserAuthenticator(authenticationManager);
+        return new AuthenticationManagerUserAuthenticator(authenticationManager);
     }
 
     @Bean("userLoginAttempsService")

@@ -17,11 +17,11 @@ import com.bernardomg.security.springframework.usecase.service.SecurityUserDetai
 import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 import com.bernardomg.security.usecase.login.domain.LoginUser;
 
-public final class SpringSecurityUserAuthenticator implements UserAuthenticator {
+public final class AuthenticationManagerUserAuthenticator implements UserAuthenticator {
 
     private final AuthenticationManager authenticationManager;
 
-    public SpringSecurityUserAuthenticator(final AuthenticationManager authenticationManager) {
+    public AuthenticationManagerUserAuthenticator(final AuthenticationManager authenticationManager) {
 
         this.authenticationManager = Objects.requireNonNull(authenticationManager);
     }
