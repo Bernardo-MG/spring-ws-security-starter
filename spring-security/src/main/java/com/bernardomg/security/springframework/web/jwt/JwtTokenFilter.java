@@ -86,10 +86,11 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private final boolean isAuthenticated() {
-        return ((SecurityContextHolder.getContext()
-            .getAuthentication() != null) && !trustResolver.isAnonymous(
-                SecurityContextHolder.getContext()
-                    .getAuthentication()));
+        final Authentication authentication;
+
+        authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        return ((authentication != null) && trustResolver.isAuthenticated(authentication));
     }
 
     @Override
