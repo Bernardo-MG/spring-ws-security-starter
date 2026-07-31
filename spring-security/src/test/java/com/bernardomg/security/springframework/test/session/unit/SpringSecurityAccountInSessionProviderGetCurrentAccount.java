@@ -13,13 +13,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.domain.account.model.Account;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
 import com.bernardomg.security.springframework.session.SpringSecurityAccountInSessionProvider;
 import com.bernardomg.security.springframework.test.account.config.factory.Accounts;
-import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
+import com.bernardomg.security.springframework.test.auth.config.factory.SecurityUsers;
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,8 +31,14 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
     @Mock
     private AccountRepository                      accountRepository;
 
+    @Mock
+    private Authentication                         authentication;
+
     @InjectMocks
     private SpringSecurityAccountInSessionProvider provider;
+
+    @Mock
+    private AuthenticationTrustResolver            trustResolver;
 
     @AfterEach
     void clearSecurityContext() {
@@ -44,9 +52,11 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
         // GIVEN
         SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.authenticated());
+            .setAuthentication(authentication);
 
+        given(authentication.getPrincipal()).willReturn(SecurityUsers.enabled());
         given(accountRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Accounts.valid()));
+        given(trustResolver.isAuthenticated(authentication)).willReturn(true);
 
         // WHEN
         account = provider.getCurrentAccount();
@@ -63,7 +73,9 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
         // GIVEN
         SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.missingPrincipal());
+            .setAuthentication(authentication);
+
+        given(trustResolver.isAuthenticated(authentication)).willReturn(true);
 
         // WHEN
         account = provider.getCurrentAccount();
@@ -97,7 +109,9 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
         // GIVEN
         SecurityContextHolder.getContext()
-            .setAuthentication(Authentications.notAuthenticated());
+            .setAuthentication(authentication);
+
+        given(trustResolver.isAuthenticated(authentication)).willReturn(false);
 
         // WHEN
         account = provider.getCurrentAccount();

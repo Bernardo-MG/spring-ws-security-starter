@@ -35,16 +35,16 @@ import com.bernardomg.security.usecase.login.domain.LoginUser;
 class TestAuthenticationManagerUserAuthenticator {
 
     @Mock
-    private Authentication                  authentication;
+    private Authentication                         authentication;
 
     @Mock
-    private AuthenticationManager           authenticationManager;
+    private AuthenticationManager                  authenticationManager;
 
     @InjectMocks
     private AuthenticationManagerUserAuthenticator authenticator;
 
     @Mock
-    private UserRepository                  userRepository;
+    private UserRepository                         userRepository;
 
     @Test
     @DisplayName("Throws invalid credentials when the authenticated user is not found")
