@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
@@ -46,7 +45,7 @@ public final class AuthenticationManagerUserAuthenticator implements UserAuthent
 
         if (!(authentication.getDetails() instanceof SecurityUserDetails)) {
             // TODO: use a better exception
-            throw new UsernameNotFoundException("Invalid username or credentials");
+            throw new InvalidCredentialsException();
         }
 
         details = (SecurityUserDetails) authentication.getDetails();

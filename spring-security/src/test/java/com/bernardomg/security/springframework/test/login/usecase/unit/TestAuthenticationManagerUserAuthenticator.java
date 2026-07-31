@@ -1,12 +1,7 @@
 
-package com.bernardomg.security.springframework.test.login.usecase;
+package com.bernardomg.security.springframework.test.login.usecase.unit;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-
-import java.util.Locale;
-import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -23,11 +18,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
-import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerUserAuthenticator;
-import com.bernardomg.security.springframework.test.user.config.factory.Users;
-import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
+import com.bernardomg.security.springframework.test.auth.config.factory.SecurityUsersDetails;
+import com.bernardomg.security.springframework.test.login.usecase.config.factory.LoginUsers;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,31 +36,6 @@ class TestAuthenticationManagerUserAuthenticator {
 
     @InjectMocks
     private AuthenticationManagerUserAuthenticator authenticator;
-
-    @Mock
-    private UserRepository                         userRepository;
-
-    @Test
-    @DisplayName("Throws invalid credentials when the authenticated user is not found")
-    void testLoad_AuthenticatedUserNotFound() {
-        final ThrowingCallable executable;
-
-        // GIVEN
-        given(authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.USERNAME, UserConstants.PASSWORD)))
-                .willReturn(authentication);
-
-        given(authentication.getName()).willReturn(UserConstants.USERNAME);
-
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
-
-        // WHEN
-        executable = () -> authenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD);
-
-        // THEN
-        Assertions.assertThatThrownBy(executable)
-            .isInstanceOf(InvalidCredentialsException.class);
-    }
 
     @Test
     @DisplayName("Converts an authentication failure into invalid credentials")
@@ -88,67 +57,44 @@ class TestAuthenticationManagerUserAuthenticator {
         Assertions.assertThatThrownBy(executable)
             .isInstanceOf(InvalidCredentialsException.class)
             .hasCause(cause);
-
-        verifyNoInteractions(userRepository);
     }
 
     @Test
-    @DisplayName("Loads the domain user using the authenticated username")
-    void testLoad_UsesAuthenticatedUsername() {
-        final User      expected;
-        final String    authenticatedUsername;
-        final LoginUser result;
+    @DisplayName("Throws invalid credentials when the authenticated user is not found")
+    void testLoad_UserNotFound() {
+        final ThrowingCallable executable;
 
         // GIVEN
-        expected = Users.enabled();
-        authenticatedUsername = UserConstants.USERNAME.toUpperCase(Locale.ROOT);
-
         given(authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.EMAIL, UserConstants.PASSWORD)))
+            UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.USERNAME, UserConstants.PASSWORD)))
                 .willReturn(authentication);
 
-        given(authentication.getName()).willReturn(authenticatedUsername);
-
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(expected));
-
         // WHEN
-        result = authenticator.load(UserConstants.EMAIL, UserConstants.PASSWORD);
+        executable = () -> authenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
-        Assertions.assertThat(result)
-            .isSameAs(expected);
-
-        verify(userRepository).findOne(UserConstants.USERNAME);
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(InvalidCredentialsException.class);
     }
 
     @Test
     @DisplayName("Authenticates and returns the domain user")
     void testLoad_ValidCredentials() {
-        final User      expected;
         final LoginUser result;
 
         // GIVEN
-        expected = Users.enabled();
-
         given(authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.USERNAME, UserConstants.PASSWORD)))
                 .willReturn(authentication);
 
-        given(authentication.getName()).willReturn(UserConstants.USERNAME);
-
-        given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(expected));
+        given(authentication.getDetails()).willReturn(SecurityUsersDetails.permission());
 
         // WHEN
         result = authenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD);
 
         // THEN
         Assertions.assertThat(result)
-            .isSameAs(expected);
-
-        verify(authenticationManager).authenticate(
-            UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.USERNAME, UserConstants.PASSWORD));
-
-        verify(userRepository).findOne(UserConstants.USERNAME);
+            .isEqualTo(LoginUsers.valid());
     }
 
 }

@@ -12,6 +12,7 @@ public interface AccountInSessionProvider {
 
     /**
      * Returns the account for the user in session.
+     *
      * @return the account for the user in session
      */
     public Optional<Account> getCurrentAccount();

@@ -39,8 +39,8 @@ public final class SecurityUserDetails implements UserDetails {
             final String password, final boolean enabled, final boolean notExpired, final boolean passwordNotExpired,
             final boolean notLocked, final Collection<? extends GrantedAuthority> authorities) {
 
-        Objects.requireNonNull(id);
-         Objects.requireNonNull(email);
+        // Objects.requireNonNull(id);
+        Objects.requireNonNull(email);
         Objects.requireNonNull(username);
         Objects.requireNonNull(name);
         Objects.requireNonNull(password);
@@ -49,7 +49,7 @@ public final class SecurityUserDetails implements UserDetails {
         Objects.requireNonNull(passwordNotExpired);
         Objects.requireNonNull(notLocked);
         Objects.requireNonNull(authorities);
-        
+
         this.id = id;
         this.email = email;
         this.username = username;

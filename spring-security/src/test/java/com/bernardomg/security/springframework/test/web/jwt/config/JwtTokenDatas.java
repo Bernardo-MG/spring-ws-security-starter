@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bernardomg.jwt.encoding.JwtTokenData;
-import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 
 public final class JwtTokenDatas {
 
