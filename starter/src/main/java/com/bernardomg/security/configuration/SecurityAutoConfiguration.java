@@ -41,7 +41,7 @@ import com.bernardomg.framework.security.access.interceptor.ResourceAccessValida
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
-import com.bernardomg.security.springframework.access.interceptor.SpringResourceAccessValidator;
+import com.bernardomg.security.springframework.access.interceptor.SecurityContextHolderResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 
 /**
@@ -86,7 +86,7 @@ public class SecurityAutoConfiguration {
         final ResourcePermissionEvaluator permissionEvaluator;
 
         permissionEvaluator = new AuthorityResourcePermissionEvaluator();
-        return new SpringResourceAccessValidator(permissionEvaluator, trustResolver);
+        return new SecurityContextHolderResourceAccessValidator(permissionEvaluator, trustResolver);
     }
 
 }

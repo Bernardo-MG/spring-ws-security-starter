@@ -13,26 +13,26 @@ import com.bernardomg.framework.security.access.interceptor.ResourceAccessValida
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 
 /**
- * Validates permissions over a resource with the help of Spring. Permissions are checked through the user authorities,
- * concretely it will look for a {@link ResourceActionGrantedAuthority} matching the permission.
- * <p>
- * This security validation is applied against the user in session.
+ * Validates permissions over a resource with the {@link Authentication} taken from {@link SecurityContextHolder}.
+ * Permissions are validated through the authorities, it will look for any {@link ResourceActionGrantedAuthority}
+ * matching the permission.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public final class SpringResourceAccessValidator implements ResourceAccessValidator {
+public final class SecurityContextHolderResourceAccessValidator implements ResourceAccessValidator {
 
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(SpringResourceAccessValidator.class);
+    private static final Logger               log = LoggerFactory
+        .getLogger(SecurityContextHolderResourceAccessValidator.class);
 
     private final ResourcePermissionEvaluator permissionEvaluator;
 
     private final AuthenticationTrustResolver trustResolver;
 
-    public SpringResourceAccessValidator(final ResourcePermissionEvaluator permissionEvaluator,
+    public SecurityContextHolderResourceAccessValidator(final ResourcePermissionEvaluator permissionEvaluator,
             final AuthenticationTrustResolver trustResolver) {
 
         this.permissionEvaluator = Objects.requireNonNull(permissionEvaluator,

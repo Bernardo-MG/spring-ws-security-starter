@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.test.sesssion.unit;
+package com.bernardomg.security.springframework.test.session.unit;
 
 import static org.mockito.BDDMockito.given;
 
