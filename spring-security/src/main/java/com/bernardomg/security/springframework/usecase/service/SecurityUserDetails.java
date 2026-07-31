@@ -39,11 +39,22 @@ public final class SecurityUserDetails implements UserDetails {
             final String password, final boolean enabled, final boolean notExpired, final boolean passwordNotExpired,
             final boolean notLocked, final Collection<? extends GrantedAuthority> authorities) {
 
-        this.id = Objects.requireNonNull(id);
-        this.email = Objects.requireNonNull(email);
-        this.username = Objects.requireNonNull(username);
-        this.name = Objects.requireNonNull(name);
-        this.password = Objects.requireNonNull(password);
+        Objects.requireNonNull(id);
+         Objects.requireNonNull(email);
+        Objects.requireNonNull(username);
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(password);
+        Objects.requireNonNull(enabled);
+        Objects.requireNonNull(notExpired);
+        Objects.requireNonNull(passwordNotExpired);
+        Objects.requireNonNull(notLocked);
+        Objects.requireNonNull(authorities);
+        
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.name = name;
+        this.password = password;
         this.enabled = enabled;
         this.notExpired = notExpired;
         this.passwordNotExpired = passwordNotExpired;
