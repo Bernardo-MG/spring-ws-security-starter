@@ -90,6 +90,7 @@ public final class TokenLoginService implements LoginService {
             status = new TokenLoginStatus(false, "");
 
             log.debug("Failed login for {}", credentials.username());
+            log.debug("Failed login", exception);
         }
 
         log.debug("Log in for {} with status {}", credentials.username(), status);

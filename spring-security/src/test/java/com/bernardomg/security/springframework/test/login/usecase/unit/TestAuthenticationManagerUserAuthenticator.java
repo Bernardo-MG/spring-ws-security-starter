@@ -71,7 +71,7 @@ class TestAuthenticationManagerUserAuthenticator {
             UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.USERNAME, UserConstants.PASSWORD)))
                 .willReturn(authentication);
 
-        given(authentication.getDetails()).willReturn(User.builder()
+        given(authentication.getPrincipal()).willReturn(User.builder()
             .username(UserConstants.USERNAME)
             .password(UserConstants.PASSWORD)
             .build());
@@ -112,7 +112,7 @@ class TestAuthenticationManagerUserAuthenticator {
             UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.USERNAME, UserConstants.PASSWORD)))
                 .willReturn(authentication);
 
-        given(authentication.getDetails()).willReturn(SecurityUsersDetails.permission());
+        given(authentication.getPrincipal()).willReturn(SecurityUsersDetails.permission());
 
         // WHEN
         result = authenticator.authenticate(Credentialses.valid());

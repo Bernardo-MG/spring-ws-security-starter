@@ -44,12 +44,12 @@ public final class AuthenticationManagerLoginUserAuthenticator implements LoginU
         final SecurityUserDetails            details;
         final Collection<ResourcePermission> permissions;
 
-        if (!(authentication.getDetails() instanceof SecurityUserDetails)) {
+        if (!(authentication.getPrincipal() instanceof SecurityUserDetails)) {
             // TODO: use a better exception
             throw new InvalidCredentialsException();
         }
 
-        details = (SecurityUserDetails) authentication.getDetails();
+        details = (SecurityUserDetails) authentication.getPrincipal();
 
         permissions = details.getAuthorities()
             .stream()

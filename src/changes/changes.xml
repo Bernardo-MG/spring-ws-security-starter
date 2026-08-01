@@ -592,5 +592,13 @@
             Fixed audit in entities.
          </action>
       </release>
+      <release version="0.5.12" date="2026-08-02" description="Auth fix">
+         <action dev="bmg" type="fix">
+            Using correct method to acquire principal.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed auditor aware.
+         </action>
+      </release>
    </body>
 </document>
