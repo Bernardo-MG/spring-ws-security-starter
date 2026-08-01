@@ -5,10 +5,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public final class SecurityUserDetails implements UserDetails {
+public final class SecurityUserDetails implements UserDetails, CredentialsContainer {
 
     /**
      *
@@ -29,7 +30,7 @@ public final class SecurityUserDetails implements UserDetails {
 
     private final boolean                                notLocked;
 
-    private final String                                 password;
+    private String                                       password;
 
     private final boolean                                passwordNotExpired;
 
@@ -60,6 +61,11 @@ public final class SecurityUserDetails implements UserDetails {
         this.passwordNotExpired = passwordNotExpired;
         this.notLocked = notLocked;
         this.authorities = List.copyOf(authorities);
+    }
+
+    @Override
+    public void eraseCredentials() {
+        password = null;
     }
 
     @Override
