@@ -14,14 +14,14 @@ import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
-import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
+import com.bernardomg.security.usecase.login.authentication.LoginUserAuthenticator;
 import com.bernardomg.security.usecase.login.domain.LoginUser;
 
-public final class AuthenticationManagerUserAuthenticator implements UserAuthenticator {
+public final class AuthenticationManagerLoginUserAuthenticator implements LoginUserAuthenticator {
 
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationManagerUserAuthenticator(final AuthenticationManager authenticationManager) {
+    public AuthenticationManagerLoginUserAuthenticator(final AuthenticationManager authenticationManager) {
 
         this.authenticationManager = Objects.requireNonNull(authenticationManager);
     }

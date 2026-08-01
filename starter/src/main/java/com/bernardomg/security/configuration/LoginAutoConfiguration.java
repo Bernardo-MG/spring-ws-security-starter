@@ -36,9 +36,9 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.adapter.inbound.event.login.LoginFailureBlockerListener;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerUserAuthenticator;
+import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerLoginUserAuthenticator;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
-import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
+import com.bernardomg.security.usecase.login.authentication.LoginUserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEncoder;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 import com.bernardomg.security.usecase.login.service.DefaultUserLoginAttempsService;
@@ -68,7 +68,7 @@ public class LoginAutoConfiguration {
 
     @Bean("loginService")
     public LoginService getLoginService(final TokenEncoder tokenEncoder, final EventEmitter eventEmitter,
-            final UserAuthenticator userAuthenticator, final JwtProperties jwtProperties) {
+            final LoginUserAuthenticator userAuthenticator, final JwtProperties jwtProperties) {
         final LoginTokenEncoder loginTokenEncoder;
 
         log.info("Security tokens will have a validity of {}", jwtProperties.validity());
@@ -77,14 +77,14 @@ public class LoginAutoConfiguration {
         return new TokenLoginService(userAuthenticator, loginTokenEncoder, eventEmitter);
     }
 
+    @Bean("LoginUserAuthenticator")
+    public LoginUserAuthenticator getLoginUserAuthenticator(final AuthenticationManager authenticationManager) {
+        return new AuthenticationManagerLoginUserAuthenticator(authenticationManager);
+    }
+
     @Bean("loginWhitelist")
     public WhitelistRoute getLoginWhitelist() {
         return WhitelistRoute.of("/login/**", HttpMethod.POST);
-    }
-
-    @Bean("userAuthenticator")
-    public UserAuthenticator getUserAuthenticator(final AuthenticationManager authenticationManager) {
-        return new AuthenticationManagerUserAuthenticator(authenticationManager);
     }
 
     @Bean("userLoginAttempsService")

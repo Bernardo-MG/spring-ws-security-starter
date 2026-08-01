@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.login.model.TokenLoginStatus;
-import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
+import com.bernardomg.security.usecase.login.authentication.LoginUserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 import com.bernardomg.security.usecase.login.service.TokenLoginService;
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
@@ -27,16 +27,16 @@ import com.bernardomg.security.usecase.test.user.config.factory.LoginUsers;
 class TestTokenLoginService {
 
     @Mock
-    private EventEmitter      eventEmitter;
+    private EventEmitter           eventEmitter;
 
     @Mock
-    private LoginTokenEncoder loginTokenEncoder;
+    private LoginTokenEncoder      loginTokenEncoder;
 
     @InjectMocks
-    private TokenLoginService service;
+    private TokenLoginService      service;
 
     @Mock
-    private UserAuthenticator userAuthenticator;
+    private LoginUserAuthenticator userAuthenticator;
 
     @Test
     @DisplayName("When loggin in the status and token is returned")

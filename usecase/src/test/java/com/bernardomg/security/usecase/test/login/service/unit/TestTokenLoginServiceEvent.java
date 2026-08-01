@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.domain.login.event.LogInEvent;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
-import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
+import com.bernardomg.security.usecase.login.authentication.LoginUserAuthenticator;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 import com.bernardomg.security.usecase.login.service.TokenLoginService;
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
@@ -42,7 +42,7 @@ class TestTokenLoginServiceEvent {
     private TokenLoginService          service;
 
     @Mock
-    private UserAuthenticator          userAuthenticator;
+    private LoginUserAuthenticator     userAuthenticator;
 
     public TestTokenLoginServiceEvent() {
         super();

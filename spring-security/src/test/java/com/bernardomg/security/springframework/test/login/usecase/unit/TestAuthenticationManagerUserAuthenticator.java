@@ -19,7 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
-import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerUserAuthenticator;
+import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerLoginUserAuthenticator;
 import com.bernardomg.security.springframework.test.auth.config.factory.SecurityUsersDetails;
 import com.bernardomg.security.springframework.test.login.config.factory.Credentialses;
 import com.bernardomg.security.springframework.test.login.usecase.config.factory.LoginUsers;
@@ -27,17 +27,17 @@ import com.bernardomg.security.springframework.test.user.config.factory.UserCons
 import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AuthenticationManagerUserAuthenticator")
+@DisplayName("AuthenticationManagerLoginUserAuthenticator")
 class TestAuthenticationManagerUserAuthenticator {
 
     @Mock
-    private Authentication                         authentication;
+    private Authentication                              authentication;
 
     @Mock
-    private AuthenticationManager                  authenticationManager;
+    private AuthenticationManager                       authenticationManager;
 
     @InjectMocks
-    private AuthenticationManagerUserAuthenticator authenticator;
+    private AuthenticationManagerLoginUserAuthenticator authenticator;
 
     @Test
     @DisplayName("Converts an authentication failure into invalid credentials")
