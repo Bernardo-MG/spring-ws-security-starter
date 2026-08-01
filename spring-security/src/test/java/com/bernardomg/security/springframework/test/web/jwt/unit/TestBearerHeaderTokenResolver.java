@@ -1,8 +1,7 @@
 
 package com.bernardomg.security.springframework.test.web.jwt.unit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -62,7 +61,7 @@ class TestBearerHeaderTokenResolver {
         result = resolver.resolve(request);
 
         // THEN
-        assertTrue(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
     @ParameterizedTest(name = "Header: {0}")
@@ -78,7 +77,7 @@ class TestBearerHeaderTokenResolver {
         result = resolver.resolve(request);
 
         // THEN
-        assertTrue(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
     @ParameterizedTest(name = "Header: {0}")
@@ -94,7 +93,7 @@ class TestBearerHeaderTokenResolver {
         result = resolver.resolve(request);
 
         // THEN
-        assertTrue(result.isEmpty());
+        assertThat(result).isEmpty();
     }
 
     @ParameterizedTest(name = "Header: {0}")
@@ -110,7 +109,7 @@ class TestBearerHeaderTokenResolver {
         result = resolver.resolve(request);
 
         // THEN
-        assertEquals(Optional.of(expectedToken), result);
+        assertThat(result).contains(expectedToken);
     }
 
 }
