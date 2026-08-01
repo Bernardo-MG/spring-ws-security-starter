@@ -581,5 +581,16 @@
             Using smaller user entity for audit.
          </action>
       </release>
+      <release version="0.5.11" date="2026-08-01" description="Audit">
+         <action dev="bmg" type="add">
+            Added id to authentication.
+         </action>
+         <action dev="bmg" type="fix">
+            Reviewed login and audit.
+         </action>
+         <action dev="bmg" type="fix">
+            Fixed audit in entities.
+         </action>
+      </release>
    </body>
 </document>
