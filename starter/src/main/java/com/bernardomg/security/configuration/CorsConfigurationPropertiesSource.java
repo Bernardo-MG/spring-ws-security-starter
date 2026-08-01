@@ -23,7 +23,7 @@ public final class CorsConfigurationPropertiesSource implements CorsConfiguratio
         configuration.setExposedHeaders(corsProperties.exposedHeaders());
 
         wrapped = new UrlBasedCorsConfigurationSource();
-        wrapped.registerCorsConfiguration("/**", configuration);
+        wrapped.registerCorsConfiguration(corsProperties.pattern(), configuration);
     }
 
     @Override
