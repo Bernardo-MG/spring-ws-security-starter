@@ -196,6 +196,19 @@ public final class JpaUserRepository implements UserRepository {
     }
 
     @Override
+    public final Optional<Long> findIdByUsername(final String username) {
+        final Optional<Long> id;
+
+        log.trace("Finding id for user {}", username);
+
+        id = userSpringRepository.findIdByUsername(username);
+
+        log.trace("Finding id for user {}: {}", username, id.isPresent());
+
+        return id;
+    }
+
+    @Override
     public final int findLoginAttempts(final String username) {
         final int attempts;
 

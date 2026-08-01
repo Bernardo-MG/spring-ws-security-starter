@@ -27,6 +27,7 @@ package com.bernardomg.security.configuration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 
 import com.bernardomg.security.adapter.inbound.jpa.repository.account.JpaUserAccountRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
@@ -52,10 +53,11 @@ public class AccountAutoConfiguration {
     }
 
     @Bean("accountService")
-    public AccountService getAccountService(final AccountRepository accountRepository) {
+    public AccountService getAccountService(final AuthenticationTrustResolver trustResolver,
+            final AccountRepository accountRepository) {
         final AccountInSessionProvider provider;
 
-        provider = new SpringSecurityAccountInSessionProvider(accountRepository);
+        provider = new SpringSecurityAccountInSessionProvider(trustResolver, accountRepository);
         return new DefaultAccountService(accountRepository, provider);
     }
 

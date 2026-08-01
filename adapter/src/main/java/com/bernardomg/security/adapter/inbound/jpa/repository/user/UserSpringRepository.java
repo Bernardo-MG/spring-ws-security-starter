@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
@@ -95,5 +97,8 @@ public interface UserSpringRepository extends JpaRepository<UserEntity, Long> {
      * @return the user for the received username
      */
     public Optional<UserEntity> findByUsername(final String username);
+
+    @Query("select u.id from User u where u.username = :username")
+    public Optional<Long> findIdByUsername(@Param("username") String username);
 
 }

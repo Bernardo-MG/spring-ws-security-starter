@@ -18,10 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
-import com.bernardomg.security.springframework.test.web.config.factory.SecurityUsers;
+import com.bernardomg.security.springframework.test.auth.config.factory.SecurityUsers;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 import com.bernardomg.security.springframework.test.web.jwt.config.JwtTokenDatas;
 import com.bernardomg.security.springframework.test.web.jwt.config.Tokens;
-import com.bernardomg.security.springframework.test.web.user.config.factory.UserConstants;
 import com.bernardomg.security.springframework.web.jwt.UserDetailsTokenAuthenticationParser;
 
 import jakarta.servlet.http.HttpServletRequest;

@@ -14,13 +14,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -80,12 +80,18 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
         final AbstractAuthenticationToken            authenticationToken;
         final Collection<? extends GrantedAuthority> authorities;
         final UserDetails                            userDetails;
+        final Long                                   id;
 
         authorities = mapPermissions(tokenData.permissions());
-        userDetails = User.withUsername(tokenData.subject())
-            .password("")
-            .authorities(authorities)
-            .build();
+        if (tokenData.values()
+            .containsKey("id")) {
+            id = Long.valueOf(tokenData.values()
+                .get("id"));
+        } else {
+            id = null;
+        }
+        // TODO: load all values
+        userDetails = new SecurityUserDetails(id, "", tokenData.subject(), "", "", true, true, true, true, authorities);
 
         authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

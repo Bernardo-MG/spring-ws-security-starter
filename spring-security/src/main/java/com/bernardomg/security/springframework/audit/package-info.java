@@ -22,25 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.login.encoder;
-
-import com.bernardomg.security.usecase.login.domain.LoginUser;
-
 /**
- * Token encoder for login.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Audit.
  */
-public interface LoginTokenEncoder {
 
-    /**
-     * Encodes a token for a successful login. It will use the data from the received user.
-     *
-     * @param user
-     *            user to encode a token for
-     * @return token encoded for user
-     */
-    public String encode(final LoginUser user);
-
-}
+package com.bernardomg.security.springframework.audit;

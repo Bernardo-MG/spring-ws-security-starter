@@ -17,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
-import com.bernardomg.security.springframework.access.interceptor.SpringResourceAccessValidator;
+import com.bernardomg.security.springframework.access.interceptor.SecurityContextHolderResourceAccessValidator;
 import com.bernardomg.security.springframework.test.permission.config.factory.PermissionConstants;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,16 +25,16 @@ import com.bernardomg.security.springframework.test.permission.config.factory.Pe
 class TestSpringResourceAccessValidator {
 
     @Mock
-    private Authentication                authentication;
+    private Authentication                               authentication;
 
     @Mock
-    private ResourcePermissionEvaluator   permissionEvaluator;
+    private ResourcePermissionEvaluator                  permissionEvaluator;
 
     @Mock
-    private AuthenticationTrustResolver   trustResolver;
+    private AuthenticationTrustResolver                  trustResolver;
 
     @InjectMocks
-    private SpringResourceAccessValidator validator;
+    private SecurityContextHolderResourceAccessValidator validator;
 
     @BeforeEach
     void loadAuthentication() {

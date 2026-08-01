@@ -34,8 +34,8 @@ import com.bernardomg.security.domain.login.event.LogInEvent;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.login.model.TokenLoginStatus;
-import com.bernardomg.security.domain.user.model.User;
-import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
+import com.bernardomg.security.usecase.login.authentication.LoginUserAuthenticator;
+import com.bernardomg.security.usecase.login.domain.LoginUser;
 import com.bernardomg.security.usecase.login.encoder.LoginTokenEncoder;
 
 import jakarta.transaction.Transactional;
@@ -52,15 +52,15 @@ public final class TokenLoginService implements LoginService {
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(TokenLoginService.class);
+    private static final Logger          log = LoggerFactory.getLogger(TokenLoginService.class);
 
-    private final EventEmitter      eventEmitter;
+    private final EventEmitter           eventEmitter;
 
-    private final LoginTokenEncoder loginTokenEncoder;
+    private final LoginTokenEncoder      loginTokenEncoder;
 
-    private final UserAuthenticator userAuthenticator;
+    private final LoginUserAuthenticator userAuthenticator;
 
-    public TokenLoginService(final UserAuthenticator userAuthent, final LoginTokenEncoder loginTokenEnc,
+    public TokenLoginService(final LoginUserAuthenticator userAuthent, final LoginTokenEncoder loginTokenEnc,
             final EventEmitter emitter) {
         super();
 
@@ -72,14 +72,14 @@ public final class TokenLoginService implements LoginService {
     @Override
     public final TokenLoginStatus login(final Credentials credentials) {
         final LogInEvent event;
-        final User       user;
+        final LoginUser  user;
         final String     token;
         TokenLoginStatus status;
 
         log.trace("Log in attempt for {}", credentials.username());
 
         try {
-            user = userAuthenticator.load(credentials.username(), credentials.password());
+            user = userAuthenticator.authenticate(credentials);
 
             token = loginTokenEncoder.encode(user);
 
