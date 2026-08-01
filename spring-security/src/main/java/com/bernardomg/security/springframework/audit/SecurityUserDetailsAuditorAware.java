@@ -32,7 +32,8 @@ public class SecurityUserDetailsAuditorAware implements AuditorAware<Long> {
             .getAuthentication();
 
         if ((trustResolver.isAuthenticated(authentication))
-                && (authentication.getPrincipal() instanceof UsernamePasswordAuthenticationToken)) {
+                && (authentication instanceof UsernamePasswordAuthenticationToken)
+                && (authentication.getPrincipal() instanceof SecurityUserDetails)) {
             principal = (UsernamePasswordAuthenticationToken) authentication;
             id = Optional.ofNullable(((SecurityUserDetails) principal.getPrincipal()).getId());
         } else {
