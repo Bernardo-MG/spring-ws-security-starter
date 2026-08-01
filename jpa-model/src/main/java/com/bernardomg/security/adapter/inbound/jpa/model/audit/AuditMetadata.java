@@ -30,19 +30,25 @@ public class AuditMetadata implements Serializable {
     @Column(name = "created_at", updatable = false)
     private Instant           createdAt;
 
-    @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "created_by", referencedColumnName = "id", insertable = false, updatable = false)
     private AuditUserEntity   createdBy;
+
+    @CreatedBy
+    @Column(name = "created_by", updatable = false)
+    private Long              createdById;
 
     @LastModifiedDate
     @Column(name = "updated_at")
     private Instant           updatedAt;
 
-    @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by", referencedColumnName = "id")
+    @JoinColumn(name = "updated_by", referencedColumnName = "id", insertable = false, updatable = false)
     private AuditUserEntity   updatedBy;
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    private Long              updatedById;
 
     @Override
     public boolean equals(final Object obj) {
@@ -53,8 +59,8 @@ public class AuditMetadata implements Serializable {
             return false;
         }
         final AuditMetadata other = (AuditMetadata) obj;
-        return Objects.equals(createdAt, other.createdAt) && Objects.equals(createdBy, other.createdBy)
-                && Objects.equals(updatedAt, other.updatedAt) && Objects.equals(updatedBy, other.updatedBy);
+        return Objects.equals(createdAt, other.createdAt) && Objects.equals(createdById, other.createdById)
+                && Objects.equals(updatedAt, other.updatedAt) && Objects.equals(updatedById, other.updatedById);
     }
 
     public Instant getCreatedAt() {
@@ -65,6 +71,10 @@ public class AuditMetadata implements Serializable {
         return createdBy;
     }
 
+    public Long getCreatedById() {
+        return createdById;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -73,15 +83,43 @@ public class AuditMetadata implements Serializable {
         return updatedBy;
     }
 
+    public Long getUpdatedById() {
+        return updatedById;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(createdAt, createdBy, updatedAt, updatedBy);
     }
 
+    public void setCreatedAt(final Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setCreatedBy(final AuditUserEntity createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void setCreatedById(final Long createdById) {
+        this.createdById = createdById;
+    }
+
+    public void setUpdatedAt(final Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setUpdatedBy(final AuditUserEntity updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public void setUpdatedById(final Long updatedById) {
+        this.updatedById = updatedById;
+    }
+
     @Override
     public String toString() {
-        return "AuditMetadata [createdAt=" + createdAt + ", createdBy=" + createdBy + ", updatedAt=" + updatedAt
-                + ", updatedBy=" + updatedBy + "]";
+        return "AuditMetadata [createdAt=" + createdAt + ", createdById=" + createdById + ", updatedAt=" + updatedAt
+                + ", updatedById=" + updatedById + "]";
     }
 
 }
