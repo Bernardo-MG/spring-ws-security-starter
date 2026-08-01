@@ -39,31 +39,12 @@ class TestTokenLoginService {
     private UserAuthenticator userAuthenticator;
 
     @Test
-    @DisplayName("Doesn't log in using the username and with invalid credentials")
-    void testLogIn_InvalidCredentials() {
+    @DisplayName("When loggin in the status and token is returned")
+    void testLogIn() {
         final TokenLoginStatus status;
 
         // GIVEN
-        given(userAuthenticator.load(Credentialses.valid())).willThrow(new InvalidCredentialsException());
-
-        // WHEN
-        status = service.login(Credentialses.valid());
-
-        // THEN
-        Assertions.assertThat(status.logged())
-            .isFalse();
-
-        Assertions.assertThat(status.token())
-            .isEmpty();
-    }
-
-    @Test
-    @DisplayName("Logs in using the username and with valid credentials")
-    void testLogIn_ValidCredentials() {
-        final TokenLoginStatus status;
-
-        // GIVEN
-        given(userAuthenticator.load(Credentialses.valid())).willReturn(LoginUsers.valid());
+        given(userAuthenticator.authenticate(Credentialses.valid())).willReturn(LoginUsers.valid());
 
         given(loginTokenEncoder.encode(LoginUsers.valid())).willReturn(Tokens.TOKEN);
 
@@ -79,6 +60,25 @@ class TestTokenLoginService {
                 .as("token")
                 .isEqualTo(Tokens.TOKEN);
         });
+    }
+
+    @Test
+    @DisplayName("Doesn't log in using the username and with invalid credentials")
+    void testLogIn_InvalidCredentials() {
+        final TokenLoginStatus status;
+
+        // GIVEN
+        given(userAuthenticator.authenticate(Credentialses.valid())).willThrow(new InvalidCredentialsException());
+
+        // WHEN
+        status = service.login(Credentialses.valid());
+
+        // THEN
+        Assertions.assertThat(status.logged())
+            .isFalse();
+
+        Assertions.assertThat(status.token())
+            .isEmpty();
     }
 
 }

@@ -27,12 +27,12 @@ public final class AuthenticationManagerUserAuthenticator implements UserAuthent
     }
 
     @Override
-    public LoginUser load(final Credentials credentials) {
+    public final LoginUser authenticate(final Credentials credentials) {
         final Authentication authentication;
 
         try {
-            authentication = authenticationManager
-                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(credentials.username(), credentials.password()));
+            authentication = authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken.unauthenticated(credentials.username(), credentials.password()));
         } catch (final AuthenticationException exception) {
             throw new InvalidCredentialsException(exception);
         }

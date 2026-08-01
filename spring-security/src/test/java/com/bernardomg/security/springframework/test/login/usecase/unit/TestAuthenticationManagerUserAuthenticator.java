@@ -16,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerUserAuthenticator;
@@ -40,7 +41,7 @@ class TestAuthenticationManagerUserAuthenticator {
 
     @Test
     @DisplayName("Converts an authentication failure into invalid credentials")
-    void testLoad_AuthenticationFailure() {
+    void testAuthenticate_AuthenticationFailure() {
         final AuthenticationException cause;
         final ThrowingCallable        executable;
 
@@ -52,7 +53,7 @@ class TestAuthenticationManagerUserAuthenticator {
                 .willThrow(cause);
 
         // WHEN
-        executable = () -> authenticator.load(Credentialses.valid());
+        executable = () -> authenticator.authenticate(Credentialses.valid());
 
         // THEN
         Assertions.assertThatThrownBy(executable)
@@ -61,8 +62,31 @@ class TestAuthenticationManagerUserAuthenticator {
     }
 
     @Test
+    @DisplayName("Authenticates and returns the domain user")
+    void testAuthenticate_InvalidCredentials() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        given(authenticationManager.authenticate(
+            UsernamePasswordAuthenticationToken.unauthenticated(UserConstants.USERNAME, UserConstants.PASSWORD)))
+                .willReturn(authentication);
+
+        given(authentication.getDetails()).willReturn(User.builder()
+            .username(UserConstants.USERNAME)
+            .password(UserConstants.PASSWORD)
+            .build());
+
+        // WHEN
+        executable = () -> authenticator.authenticate(Credentialses.valid());
+
+        // THEN
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(InvalidCredentialsException.class);
+    }
+
+    @Test
     @DisplayName("Throws invalid credentials when the authenticated user is not found")
-    void testLoad_UserNotFound() {
+    void testAuthenticate_UserNotFound() {
         final ThrowingCallable executable;
 
         // GIVEN
@@ -71,7 +95,7 @@ class TestAuthenticationManagerUserAuthenticator {
                 .willReturn(authentication);
 
         // WHEN
-        executable = () -> authenticator.load(Credentialses.valid());
+        executable = () -> authenticator.authenticate(Credentialses.valid());
 
         // THEN
         Assertions.assertThatThrownBy(executable)
@@ -80,7 +104,7 @@ class TestAuthenticationManagerUserAuthenticator {
 
     @Test
     @DisplayName("Authenticates and returns the domain user")
-    void testLoad_ValidCredentials() {
+    void testAuthenticate_ValidCredentials() {
         final LoginUser result;
 
         // GIVEN
@@ -91,7 +115,7 @@ class TestAuthenticationManagerUserAuthenticator {
         given(authentication.getDetails()).willReturn(SecurityUsersDetails.permission());
 
         // WHEN
-        result = authenticator.load(Credentialses.valid());
+        result = authenticator.authenticate(Credentialses.valid());
 
         // THEN
         Assertions.assertThat(result)

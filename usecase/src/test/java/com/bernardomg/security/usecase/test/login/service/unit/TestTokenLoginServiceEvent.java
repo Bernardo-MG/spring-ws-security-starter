@@ -49,38 +49,12 @@ class TestTokenLoginServiceEvent {
     }
 
     @Test
-    @DisplayName("With an invalid user it generates an event not logged in")
-    void testLogIn_Invalid() {
-        final LogInEvent event;
-
-        // GIVEN
-        given(userAuthenticator.load(Credentialses.valid())).willThrow(new InvalidCredentialsException());
-
-        // WHEN
-        service.login(Credentialses.valid());
-
-        // THEN
-        Mockito.verify(eventEmitter)
-            .emit(eventCaptor.capture());
-
-        event = eventCaptor.getValue();
-        SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(event.isLoggedIn())
-                .as("logged in")
-                .isFalse();
-            softly.assertThat(event.getUsername())
-                .as("username")
-                .isEqualTo(UserConstants.USERNAME);
-        });
-    }
-
-    @Test
     @DisplayName("With a valid account and logging with username it generates a logged in event")
-    void testLogIn_Valid() {
+    void testLogIn() {
         final LogInEvent event;
 
         // GIVEN
-        given(userAuthenticator.load(Credentialses.valid())).willReturn(LoginUsers.valid());
+        given(userAuthenticator.authenticate(Credentialses.valid())).willReturn(LoginUsers.valid());
 
         given(loginTokenEncoder.encode(LoginUsers.valid())).willReturn(Tokens.TOKEN);
 
@@ -96,6 +70,32 @@ class TestTokenLoginServiceEvent {
             softly.assertThat(event.isLoggedIn())
                 .as("logged in")
                 .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
+    @Test
+    @DisplayName("With a user with invalid credentials it generates a not logged in event")
+    void testLogIn_InvalidCredentials() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(userAuthenticator.authenticate(Credentialses.valid())).willThrow(new InvalidCredentialsException());
+
+        // WHEN
+        service.login(Credentialses.valid());
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isFalse();
             softly.assertThat(event.getUsername())
                 .as("username")
                 .isEqualTo(UserConstants.USERNAME);

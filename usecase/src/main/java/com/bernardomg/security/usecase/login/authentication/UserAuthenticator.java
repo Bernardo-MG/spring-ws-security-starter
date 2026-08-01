@@ -6,6 +6,6 @@ import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 public interface UserAuthenticator {
 
-    public LoginUser load(final Credentials credentials);
+    public LoginUser authenticate(final Credentials credentials);
 
 }
