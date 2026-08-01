@@ -81,9 +81,14 @@ public class WebSecurityAutoConfiguration {
         super();
     }
 
-    @Bean("actuatorWhitelist")
-    public WhitelistRoute getActuatorWhitelist() {
-        return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
+    @Bean("healthActuatorWhitelist")
+    public WhitelistRoute getHealthActuatorWhitelist() {
+        return WhitelistRoute.of("/actuator/health", HttpMethod.GET);
+    }
+
+    @Bean("infoActuatorWhitelist")
+    public WhitelistRoute getInfoActuatorWhitelist() {
+        return WhitelistRoute.of("/actuator/info", HttpMethod.GET);
     }
 
     @Bean("securityExceptionHandler")
