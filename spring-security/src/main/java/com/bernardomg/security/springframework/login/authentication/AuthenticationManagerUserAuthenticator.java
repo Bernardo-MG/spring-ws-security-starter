@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
+import com.bernardomg.security.domain.login.model.Credentials;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
 import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
@@ -26,12 +27,12 @@ public final class AuthenticationManagerUserAuthenticator implements UserAuthent
     }
 
     @Override
-    public LoginUser load(final String loginName, final String password) {
+    public LoginUser load(final Credentials credentials) {
         final Authentication authentication;
 
         try {
             authentication = authenticationManager
-                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(loginName, password));
+                .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(credentials.username(), credentials.password()));
         } catch (final AuthenticationException exception) {
             throw new InvalidCredentialsException(exception);
         }

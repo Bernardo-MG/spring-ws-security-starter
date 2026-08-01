@@ -20,6 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.springframework.login.authentication.AuthenticationManagerUserAuthenticator;
 import com.bernardomg.security.springframework.test.auth.config.factory.SecurityUsersDetails;
+import com.bernardomg.security.springframework.test.login.config.factory.Credentialses;
 import com.bernardomg.security.springframework.test.login.usecase.config.factory.LoginUsers;
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.login.domain.LoginUser;
@@ -51,7 +52,7 @@ class TestAuthenticationManagerUserAuthenticator {
                 .willThrow(cause);
 
         // WHEN
-        executable = () -> authenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD);
+        executable = () -> authenticator.load(Credentialses.valid());
 
         // THEN
         Assertions.assertThatThrownBy(executable)
@@ -70,7 +71,7 @@ class TestAuthenticationManagerUserAuthenticator {
                 .willReturn(authentication);
 
         // WHEN
-        executable = () -> authenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD);
+        executable = () -> authenticator.load(Credentialses.valid());
 
         // THEN
         Assertions.assertThatThrownBy(executable)
@@ -90,7 +91,7 @@ class TestAuthenticationManagerUserAuthenticator {
         given(authentication.getDetails()).willReturn(SecurityUsersDetails.permission());
 
         // WHEN
-        result = authenticator.load(UserConstants.USERNAME, UserConstants.PASSWORD);
+        result = authenticator.load(Credentialses.valid());
 
         // THEN
         Assertions.assertThat(result)

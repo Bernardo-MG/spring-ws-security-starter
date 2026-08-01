@@ -79,7 +79,7 @@ public final class TokenLoginService implements LoginService {
         log.trace("Log in attempt for {}", credentials.username());
 
         try {
-            user = userAuthenticator.load(credentials.username(), credentials.password());
+            user = userAuthenticator.load(credentials);
 
             token = loginTokenEncoder.encode(user);
 
