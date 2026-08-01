@@ -36,6 +36,7 @@ public final class UserDetailsTokenAuthenticationParser implements TokenAuthenti
      */
     private final UserDetailsService userDetailsService;
 
+    @Deprecated
     public UserDetailsTokenAuthenticationParser(final TokenDecoder tokenDecoder,
             final UserDetailsService userDetailsService) {
         super();
@@ -44,6 +45,7 @@ public final class UserDetailsTokenAuthenticationParser implements TokenAuthenti
         this.userDetailsService = Objects.requireNonNull(userDetailsService);
     }
 
+    @Deprecated
     @Override
     public final Optional<Authentication> parse(final String token, final HttpServletRequest request) {
         final String                   username;

@@ -52,7 +52,7 @@ class ITRoleRepositorySave {
         roles = springRepository.findAll();
 
         Assertions.assertThat(roles)
-            .as("roles")
+            .as("role")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id")
             .containsExactly(RoleEntities.withPermissions());
     }
@@ -73,7 +73,7 @@ class ITRoleRepositorySave {
 
         // THEN
         Assertions.assertThat(saved)
-            .as("roles")
+            .as("role")
             .isEqualTo(Roles.withPermissions());
     }
 
@@ -94,7 +94,7 @@ class ITRoleRepositorySave {
         roles = springRepository.findAll();
 
         Assertions.assertThat(roles)
-            .as("roles")
+            .as("role")
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
             .containsExactly(RoleEntities.withoutPermissions());
     }
@@ -114,7 +114,7 @@ class ITRoleRepositorySave {
 
         // THEN
         Assertions.assertThat(saved)
-            .as("roles")
+            .as("role")
             .isEqualTo(Roles.withoutPermissions());
     }
 
@@ -134,8 +134,8 @@ class ITRoleRepositorySave {
         roles = springRepository.findAll();
 
         Assertions.assertThat(roles)
-            .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+            .as("role")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "audit")
             .containsExactly(RoleEntities.withoutPermissions());
     }
 
@@ -153,7 +153,9 @@ class ITRoleRepositorySave {
 
         // THEN
         Assertions.assertThat(saved)
-            .as("roles")
+            .as("role")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Roles.withoutPermissions());
     }
 
@@ -174,8 +176,9 @@ class ITRoleRepositorySave {
         roles = springRepository.findAll();
 
         Assertions.assertThat(roles)
-            .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id", "permissions.roleId")
+            .as("role")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.id", "permissions.roleId",
+                "audit")
             .containsExactly(RoleEntities.withPermissions());
     }
 
@@ -196,7 +199,7 @@ class ITRoleRepositorySave {
         roles = springRepository.findAll();
 
         Assertions.assertThat(roles)
-            .as("roles")
+            .as("role")
             .hasSize(1)
             .first()
             .extracting(RoleEntity::getPermissions)
@@ -219,7 +222,7 @@ class ITRoleRepositorySave {
 
         // THEN
         Assertions.assertThat(saved)
-            .as("roles")
+            .as("role")
             .isEqualTo(Roles.withoutPermissions());
     }
 
@@ -238,7 +241,9 @@ class ITRoleRepositorySave {
 
         // THEN
         Assertions.assertThat(saved)
-            .as("roles")
+            .as("role")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Roles.withPermissions());
     }
 
@@ -259,8 +264,8 @@ class ITRoleRepositorySave {
         roles = springRepository.findAll();
 
         Assertions.assertThat(roles)
-            .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.roleId")
+            .as("role")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.roleId", "audit")
             .containsExactly(RoleEntities.withoutPermissions());
     }
 
@@ -279,7 +284,9 @@ class ITRoleRepositorySave {
 
         // THEN
         Assertions.assertThat(saved)
-            .as("roles")
+            .as("role")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Roles.withoutPermissions());
     }
 
@@ -300,8 +307,9 @@ class ITRoleRepositorySave {
         roles = springRepository.findAll();
 
         Assertions.assertThat(roles)
-            .as("roles")
-            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.roleId", "permissions.id")
+            .as("role")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("id", "permissions.roleId", "permissions.id",
+                "audit")
             .containsExactly(RoleEntities.withPermissions());
     }
 
@@ -320,7 +328,9 @@ class ITRoleRepositorySave {
 
         // THEN
         Assertions.assertThat(saved)
-            .as("roles")
+            .as("role")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Roles.withPermissions());
     }
 

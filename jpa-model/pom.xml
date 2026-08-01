@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.framework.security</groupId>
       <artifactId>security-starter</artifactId>
-      <version>0.5.10</version>
+      <version>0.5.11</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -58,6 +58,12 @@
       <dependency>
         <groupId>org.springframework.data</groupId>
         <artifactId>spring-data-commons</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-jpa</artifactId>
+        <scope>provided</scope>
       </dependency>
    </dependencies>
 

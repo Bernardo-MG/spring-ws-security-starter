@@ -44,6 +44,7 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
+        given(userRepository.findIdByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.ID));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
@@ -93,6 +94,7 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.findIdByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.ID));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
@@ -122,6 +124,7 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.findIdByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.ID));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
@@ -171,6 +174,7 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
+        given(userRepository.findIdByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.ID));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
@@ -220,6 +224,7 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
+        given(userRepository.findIdByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.ID));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
@@ -288,6 +293,7 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.passwordExpired()));
+        given(userRepository.findIdByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.ID));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
@@ -337,6 +343,7 @@ class TestUserDomainDetailsService {
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
+        given(userRepository.findIdByUsername(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.ID));
         given(userRepository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN

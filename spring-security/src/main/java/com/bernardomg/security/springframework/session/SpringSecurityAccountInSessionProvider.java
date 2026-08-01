@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,13 +20,18 @@ public final class SpringSecurityAccountInSessionProvider implements AccountInSe
     /**
      * Logger for the class.
      */
-    private static final Logger     log = LoggerFactory.getLogger(SpringSecurityAccountInSessionProvider.class);
+    private static final Logger               log = LoggerFactory
+        .getLogger(SpringSecurityAccountInSessionProvider.class);
 
-    private final AccountRepository accountRepository;
+    private final AccountRepository           accountRepository;
 
-    public SpringSecurityAccountInSessionProvider(final AccountRepository accountRepo) {
+    private final AuthenticationTrustResolver trustResolver;
+
+    public SpringSecurityAccountInSessionProvider(final AuthenticationTrustResolver trustResolv,
+            final AccountRepository accountRepo) {
         super();
 
+        trustResolver = Objects.requireNonNull(trustResolv);
         accountRepository = Objects.requireNonNull(accountRepo);
     }
 
@@ -42,21 +48,19 @@ public final class SpringSecurityAccountInSessionProvider implements AccountInSe
         if (authentication == null) {
             log.debug("Missing authentication object");
             account = Optional.empty();
-        } else if (authentication.isAuthenticated()) {
+        } else if (trustResolver.isAuthenticated(authentication)) {
             if (authentication.getPrincipal() instanceof UserDetails) {
                 userDetails = (UserDetails) authentication.getPrincipal();
                 account = accountRepository.findOne(userDetails.getUsername());
                 log.trace("Found account for {}", userDetails.getUsername());
             } else {
                 // Invalid principal
-                final Object className;
                 if (authentication.getPrincipal() == null) {
-                    className = "null";
+                    log.debug("Invalid principal. Received null");
                 } else {
-                    className = authentication.getPrincipal()
-                        .getClass();
+                    log.debug("Invalid principal. Received instance of {}", authentication.getPrincipal()
+                        .getClass());
                 }
-                log.debug("Invalid principal. Received instance of {}", className);
                 account = Optional.empty();
             }
         } else {

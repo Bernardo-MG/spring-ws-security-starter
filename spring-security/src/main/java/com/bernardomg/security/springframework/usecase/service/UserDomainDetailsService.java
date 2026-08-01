@@ -41,6 +41,7 @@ import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 import jakarta.transaction.Transactional;
 
@@ -85,6 +86,7 @@ public final class UserDomainDetailsService implements UserDetailsService {
         final String                                 password;
         final String                                 cleanedUsername;
         final Matcher                                emailMatcher;
+        final Long                                   id;
 
         cleanedUsername = username.toLowerCase(Locale.ROOT);
 
@@ -120,7 +122,15 @@ public final class UserDomainDetailsService implements UserDetailsService {
                 log.debug("Username {} not found in database", cleanedUsername);
                 throw new UsernameNotFoundException("Invalid username or credentials");
             });
-        details = toUserDetails(user, password, authorities);
+
+        id = userRepository.findIdByUsername(user.username())
+            .orElseThrow(() -> {
+                log.debug("Username {} not found in database", cleanedUsername);
+                throw new UsernameNotFoundException("Invalid username or credentials");
+            });
+
+        details = new SecurityUserDetails(id, user.email(), user.username(), user.name(), password, user.enabled(),
+            user.notExpired(), user.passwordNotExpired(), user.notLocked(), authorities);
 
         log.debug("User {} exists. Enabled: {}. Non expired: {}. Non locked: {}. Credentials non expired: {}",
             cleanedUsername, details.isEnabled(), details.isAccountNonExpired(), details.isAccountNonLocked(),
@@ -134,23 +144,6 @@ public final class UserDomainDetailsService implements UserDetailsService {
 
     private final GrantedAuthority toAuthority(final ResourcePermission permission) {
         return new ResourceActionGrantedAuthority(permission.resource(), permission.action());
-    }
-
-    /**
-     * Transforms a user into a user details object.
-     *
-     * @param user
-     *            user to transform
-     * @param password
-     *            user password
-     * @param authorities
-     *            authorities for the user details
-     * @return equivalent user details
-     */
-    private final UserDetails toUserDetails(final User user, final String password,
-            final Collection<? extends GrantedAuthority> authorities) {
-        return new org.springframework.security.core.userdetails.User(user.username(), password, user.enabled(),
-            user.notExpired(), user.passwordNotExpired(), user.notLocked(), authorities);
     }
 
 }

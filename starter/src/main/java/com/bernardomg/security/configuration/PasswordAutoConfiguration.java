@@ -36,6 +36,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -46,7 +47,7 @@ import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.serv
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.password.SpringSecurityPasswordEncrypter;
-import com.bernardomg.security.springframework.session.SpringSecurityUsernameInSessionProvider;
+import com.bernardomg.security.springframework.session.SecurityContextHolderUsernameInSessionProvider;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.change.service.DefaultPasswordChangeService;
 import com.bernardomg.security.usecase.password.change.service.PasswordChangeService;
@@ -90,10 +91,10 @@ public class PasswordAutoConfiguration {
 
     @Bean("passwordChangeService")
     public PasswordChangeService getPasswordChangeService(final UserRepository userRepository,
-            final PasswordEncrypter passwordEncrypter) {
+            final PasswordEncrypter passwordEncrypter, final AuthenticationTrustResolver trustResolver) {
         final UsernameInSessionProvider usernameInSessionProvider;
 
-        usernameInSessionProvider = new SpringSecurityUsernameInSessionProvider();
+        usernameInSessionProvider = new SecurityContextHolderUsernameInSessionProvider(trustResolver);
         return new DefaultPasswordChangeService(userRepository, passwordEncrypter, usernameInSessionProvider);
     }
 

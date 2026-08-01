@@ -11,7 +11,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -30,7 +30,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -48,7 +48,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.ALTERNATIVE_EMAIL);
@@ -66,7 +66,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -85,7 +85,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -103,7 +103,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -122,7 +122,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.CHANGED_NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -141,7 +141,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -159,7 +159,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -177,7 +177,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
@@ -197,7 +197,7 @@ public final class UserEntities {
         final UserEntity entity;
 
         entity = new UserEntity();
-        entity.setId(1L);
+        entity.setId(UserConstants.ID);
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);

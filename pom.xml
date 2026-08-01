@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.security</groupId>
    <artifactId>security-starter</artifactId>
-   <version>0.5.10</version>
+   <version>0.5.11</version>
    <packaging>pom</packaging>
 
    <name>Security Starter</name>
@@ -189,7 +189,7 @@
       <!-- ============================================== -->
       <archunit.version>1.4.1</archunit.version>
       <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
-      <bernardomg.framework.jwt.version>1.0.1</bernardomg.framework.jwt.version>
+      <bernardomg.framework.jwt.version>1.0.2</bernardomg.framework.jwt.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
       <bernardomg.framework.test.version>1.0.8</bernardomg.framework.test.version>

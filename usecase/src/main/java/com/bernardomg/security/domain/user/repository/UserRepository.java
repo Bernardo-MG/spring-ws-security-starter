@@ -108,6 +108,8 @@ public interface UserRepository {
      */
     public Page<User> findAll(final UserFilter query, final Pagination pagination, final Sorting sorting);
 
+    public Optional<Long> findIdByUsername(final String username);
+
     /**
      * Returns the number of login attempts which the user has done.
      *

@@ -72,7 +72,7 @@ class TestJwtTokenFilter {
             .setAuthentication(existing);
 
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAnonymous(existing)).willReturn(false);
+        given(trustResolver.isAuthenticated(existing)).willReturn(true);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
@@ -100,7 +100,7 @@ class TestJwtTokenFilter {
             .setAuthentication(anonymous);
 
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAnonymous(anonymous)).willReturn(true);
+        given(trustResolver.isAuthenticated(anonymous)).willReturn(false);
         given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
 
         // WHEN
@@ -148,7 +148,7 @@ class TestJwtTokenFilter {
             .setAuthentication(anonymous);
 
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAnonymous(anonymous)).willReturn(true);
+        given(trustResolver.isAuthenticated(anonymous)).willReturn(false);
         given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
 
         // WHEN
@@ -171,7 +171,7 @@ class TestJwtTokenFilter {
             .setAuthentication(existing);
 
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAnonymous(existing)).willReturn(true);
+        given(trustResolver.isAuthenticated(existing)).willReturn(false);
         given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.empty());
 
         // WHEN

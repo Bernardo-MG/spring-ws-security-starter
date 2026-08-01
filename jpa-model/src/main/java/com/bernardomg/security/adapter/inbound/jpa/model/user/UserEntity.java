@@ -28,12 +28,15 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditMetadata;
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,6 +54,7 @@ import jakarta.persistence.Transient;
  */
 @Entity(name = "User")
 @Table(schema = "security", name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity implements Serializable {
 
     /**
@@ -60,7 +64,7 @@ public class UserEntity implements Serializable {
     private static final long      serialVersionUID = 4807136960800402795L;
 
     @Embedded
-    private final AuditMetadata    audit            = new AuditMetadata();
+    private AuditMetadata          audit            = new AuditMetadata();
 
     /**
      * User email.
@@ -195,6 +199,10 @@ public class UserEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void setAudit(final AuditMetadata audit) {
+        this.audit = audit;
     }
 
     public void setEmail(final String email) {
