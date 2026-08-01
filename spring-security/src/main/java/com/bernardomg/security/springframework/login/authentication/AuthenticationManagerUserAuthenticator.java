@@ -12,7 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
-import com.bernardomg.security.springframework.usecase.service.SecurityUserDetails;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 import com.bernardomg.security.usecase.login.authentication.UserAuthenticator;
 import com.bernardomg.security.usecase.login.domain.LoginUser;
 

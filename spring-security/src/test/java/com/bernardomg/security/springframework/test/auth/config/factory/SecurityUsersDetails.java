@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
-import com.bernardomg.security.springframework.usecase.service.SecurityUserDetails;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 public final class SecurityUsersDetails {
 

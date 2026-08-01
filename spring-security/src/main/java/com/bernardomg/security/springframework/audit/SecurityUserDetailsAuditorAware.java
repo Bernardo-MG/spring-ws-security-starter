@@ -10,7 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.bernardomg.security.springframework.usecase.service.SecurityUserDetails;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 public class SecurityUserDetailsAuditorAware implements AuditorAware<Long> {
 

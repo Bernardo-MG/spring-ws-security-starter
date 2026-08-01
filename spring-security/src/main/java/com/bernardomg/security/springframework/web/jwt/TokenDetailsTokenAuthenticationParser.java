@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
-import com.bernardomg.security.springframework.usecase.service.SecurityUserDetails;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 import jakarta.servlet.http.HttpServletRequest;
 

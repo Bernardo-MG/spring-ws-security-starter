@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.springframework.usecase.service;
+package com.bernardomg.security.springframework.userdetails;
 
 import java.util.Collection;
 import java.util.List;

@@ -41,6 +41,7 @@ import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthority;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 import jakarta.transaction.Transactional;
 
