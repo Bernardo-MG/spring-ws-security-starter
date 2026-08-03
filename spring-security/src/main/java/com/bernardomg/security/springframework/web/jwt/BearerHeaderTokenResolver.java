@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -44,12 +45,11 @@ public final class BearerHeaderTokenResolver implements TokenResolver {
             // Take it by removing the identifier
             // TODO: Should be case insensitive
             matcher = authorizationPattern.matcher(header);
-            if (matcher.matches()) {
-                token = Optional.ofNullable(matcher.group("token"));
-            } else {
+            if (!matcher.matches()) {
                 log.debug("Malformed token");
-                token = Optional.empty();
+                throw new BadCredentialsException("Malformed Authorization header");
             }
+            token = Optional.ofNullable(matcher.group("token"));
         } else {
             // Invalid token received
             token = Optional.empty();

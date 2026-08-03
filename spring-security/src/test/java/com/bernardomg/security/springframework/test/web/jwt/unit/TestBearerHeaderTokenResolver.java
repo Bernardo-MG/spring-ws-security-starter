@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import com.bernardomg.security.springframework.test.web.jwt.config.Tokens;
 import com.bernardomg.security.springframework.web.jwt.BearerHeaderTokenResolver;
@@ -68,16 +71,17 @@ class TestBearerHeaderTokenResolver {
     @MethodSource("malformedBearerHeaders")
     @DisplayName("When the bearer header is malformed, then nothing is returned")
     void testResolve_MalformedBearerHeader(final String authorizationHeader) {
-        final Optional<String> result;
+        final ThrowingCallable executable;
 
         // GIVEN
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authorizationHeader);
 
         // WHEN
-        result = resolver.resolve(request);
+        executable = () -> resolver.resolve(request);
 
         // THEN
-        assertThat(result).isEmpty();
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(BadCredentialsException.class);
     }
 
     @ParameterizedTest(name = "Header: {0}")
