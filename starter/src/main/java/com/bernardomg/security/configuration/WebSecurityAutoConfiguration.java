@@ -56,10 +56,7 @@ import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.springframework.web.jwt.TokenAuthenticationParser;
 import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenticationParser;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistCustomizer;
-import com.bernardomg.security.springframework.web.whitelist.WhitelistFilterSkipWrapper;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
-
-import jakarta.servlet.Filter;
 
 /**
  * Access auto configuration.
@@ -122,26 +119,24 @@ public class WebSecurityAutoConfiguration {
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final AuthenticationTrustResolver trustResolver,
             final UserDetailsService userDetailsService, final Collection<WhitelistRoute> whitelist) throws Exception {
+
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
-        final Filter                                                                                               jwtFilterWrapped;
         final TokenAuthenticationParser                                                                            tokenAuthenticationParser;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
-        // TODO: move to JWT config
         tokenAuthenticationParser = new TokenDetailsTokenAuthenticationParser(decoder);
         jwtFilter = new JwtTokenFilter(trustResolver, new BearerHeaderTokenResolver(), tokenAuthenticationParser);
-        jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
+
         http
             // Whitelist access
             .authorizeHttpRequests(whitelister)
             // Authenticate all others
-            .authorizeHttpRequests(c -> c.anyRequest()
+            .authorizeHttpRequests(authorize -> authorize.anyRequest()
                 .authenticated())
-            // TODO: why is it using the basic auth filter?
-            .addFilterBefore(jwtFilterWrapped, BasicAuthenticationFilter.class)
+            .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
             // CSRF and CORS
             .csrf(CsrfConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
