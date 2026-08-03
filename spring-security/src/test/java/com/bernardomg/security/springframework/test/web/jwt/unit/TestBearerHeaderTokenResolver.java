@@ -88,16 +88,17 @@ class TestBearerHeaderTokenResolver {
     @MethodSource("unsupportedAuthorizationHeaders")
     @DisplayName("When the authorization schema is unsupported, then nothing is returned")
     void testResolve_UnsupportedAuthorizationScheme(final String authorizationHeader) {
-        final Optional<String> result;
+        final ThrowingCallable executable;
 
         // GIVEN
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authorizationHeader);
 
         // WHEN
-        result = resolver.resolve(request);
+        executable = () -> resolver.resolve(request);
 
         // THEN
-        assertThat(result).isEmpty();
+        Assertions.assertThatThrownBy(executable)
+            .isInstanceOf(BadCredentialsException.class);
     }
 
     @ParameterizedTest(name = "Header: {0}")
