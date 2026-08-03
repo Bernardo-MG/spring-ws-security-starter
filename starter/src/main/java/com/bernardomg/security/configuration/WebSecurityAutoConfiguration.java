@@ -42,7 +42,6 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -106,8 +105,6 @@ public class WebSecurityAutoConfiguration {
      *            token decoder
      * @param trustResolver
      *            trust resolver
-     * @param userDetailsService
-     *            user details service
      * @param whitelist
      *            routes whitelist
      * @return web security filter chain with all authentication requirements
@@ -118,7 +115,7 @@ public class WebSecurityAutoConfiguration {
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final AuthenticationTrustResolver trustResolver,
-            final UserDetailsService userDetailsService, final Collection<WhitelistRoute> whitelist) throws Exception {
+            final Collection<WhitelistRoute> whitelist) throws Exception {
 
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
