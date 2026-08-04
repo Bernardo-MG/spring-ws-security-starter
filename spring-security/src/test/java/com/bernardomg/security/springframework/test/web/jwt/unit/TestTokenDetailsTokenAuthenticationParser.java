@@ -2,6 +2,7 @@
 package com.bernardomg.security.springframework.test.web.jwt.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -27,6 +28,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.springframework.test.jwt.config.Tokens;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenticationParser;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -80,6 +83,50 @@ public class TestTokenDetailsTokenAuthenticationParser {
 
         // THEN
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("When parsing a token with an invalid id, an exception is thrown")
+    void testParse_InvalidId() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
+        when(tokenData.isExpired()).thenReturn(false);
+        when(tokenData.isBeforeStart()).thenReturn(false);
+        when(tokenData.permissions()).thenReturn(Map.of());
+        when(tokenData.values()).thenReturn(Map.of("id", "invalid"));
+
+        // WHEN
+        executable = () -> parser.parse(Tokens.TOKEN, request);
+
+        // THEN
+        assertThatThrownBy(executable).isInstanceOf(BadCredentialsException.class)
+            .hasMessage("JWT id claim is invalid")
+            .hasCauseInstanceOf(NumberFormatException.class);
+    }
+
+    @Test
+    @DisplayName("When parsing a token without an id, the principal id is null")
+    void testParse_MissingId() {
+        final Authentication authentication;
+
+        // GIVEN
+        when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
+        when(tokenData.isExpired()).thenReturn(false);
+        when(tokenData.isBeforeStart()).thenReturn(false);
+        when(tokenData.permissions()).thenReturn(Map.of());
+        when(tokenData.values()).thenReturn(Map.of());
+
+        // WHEN
+        authentication = parser.parse(Tokens.TOKEN, request)
+            .orElseThrow();
+
+        // THEN
+        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
+            principal -> assertThat(principal.getId()).isNull());
     }
 
     @Test
@@ -168,6 +215,28 @@ public class TestTokenDetailsTokenAuthenticationParser {
             assertThat(details.getRemoteAddress()).isEqualTo("192.0.2.10");
             assertThat(details.getSessionId()).isNull();
         });
+    }
+
+    @Test
+    @DisplayName("When parsing a token with a valid id, the id is added to the principal")
+    void testParse_ValidId() {
+        final Authentication authentication;
+
+        // GIVEN
+        when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
+        when(tokenData.isExpired()).thenReturn(false);
+        when(tokenData.isBeforeStart()).thenReturn(false);
+        when(tokenData.permissions()).thenReturn(Map.of());
+        when(tokenData.values()).thenReturn(Map.of("id", UserConstants.ID.toString()));
+
+        // WHEN
+        authentication = parser.parse(Tokens.TOKEN, request)
+            .orElseThrow();
+
+        // THEN
+        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
+            principal -> assertThat(principal.getId()).isEqualTo(UserConstants.ID));
     }
 
     @Test

@@ -50,6 +50,7 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
         tokenData = tokenDecoder.decode(token);
         if ((tokenData.subject() == null) || tokenData.subject()
             .isBlank()) {
+            log.debug("Missing JWT subject");
             throw new BadCredentialsException("JWT subject is missing");
         }
 
@@ -83,13 +84,7 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
         final Long                                   id;
 
         authorities = mapPermissions(tokenData.permissions());
-        if (tokenData.values()
-            .containsKey("id")) {
-            id = Long.valueOf(tokenData.values()
-                .get("id"));
-        } else {
-            id = null;
-        }
+        id = parseUserId(tokenData.values());
         // TODO: load all values
         userDetails = new SecurityUserDetails(id, "", tokenData.subject(), "", "", true, true, true, true, authorities);
 
@@ -106,6 +101,27 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
                 .stream()
                 .map(permission -> new ResourceActionGrantedAuthority(entry.getKey(), permission)))
             .toList();
+    }
+
+    private final Long parseUserId(final Map<String, String> values) {
+        final String rawId;
+        Long         id;
+
+        rawId = values.get("id");
+
+        if (rawId == null) {
+            id = null;
+        } else {
+            try {
+                id = Long.valueOf(rawId);
+            } catch (final NumberFormatException ex) {
+                id = null;
+                log.debug("JWT id claim is invalid: {}", rawId);
+                throw new BadCredentialsException("JWT id claim is invalid", ex);
+            }
+        }
+
+        return id;
     }
 
 }
