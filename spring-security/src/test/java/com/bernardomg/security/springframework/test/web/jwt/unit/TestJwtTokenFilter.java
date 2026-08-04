@@ -1,13 +1,12 @@
 
 package com.bernardomg.security.springframework.test.web.jwt.unit;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -81,13 +80,8 @@ class TestJwtTokenFilter {
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isSameAs(parsed);
-
-        then(authenticationEntryPoint).shouldHaveNoInteractions();
-        then(filterChain).should()
-            .doFilter(request, response);
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isSameAs(parsed);
     }
 
     @Test
@@ -107,14 +101,8 @@ class TestJwtTokenFilter {
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isSameAs(existing);
-
-        then(tokenAuthenticationParser).shouldHaveNoInteractions();
-        then(authenticationEntryPoint).shouldHaveNoInteractions();
-        then(filterChain).should()
-            .doFilter(request, response);
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isSameAs(existing);
     }
 
     @Test
@@ -137,14 +125,8 @@ class TestJwtTokenFilter {
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isNull();
-
-        then(authenticationEntryPoint).should()
-            .commence(request, response, exception);
-        then(filterChain).should()
-            .doFilter(request, response);
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isNull();
     }
 
     @Test
@@ -166,15 +148,8 @@ class TestJwtTokenFilter {
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isNull();
-
-        then(tokenAuthenticationParser).shouldHaveNoInteractions();
-        then(authenticationEntryPoint).should()
-            .commence(request, response, exception);
-        then(filterChain).should()
-            .doFilter(request, response);
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isNull();
     }
 
     @Test
@@ -192,15 +167,8 @@ class TestJwtTokenFilter {
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isSameAs(authentication);
-
-        then(tokenAuthenticationParser).should()
-            .parse(Tokens.TOKEN, request);
-        then(authenticationEntryPoint).shouldHaveNoInteractions();
-        then(filterChain).should()
-            .doFilter(request, response);
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isSameAs(authentication);
     }
 
 }

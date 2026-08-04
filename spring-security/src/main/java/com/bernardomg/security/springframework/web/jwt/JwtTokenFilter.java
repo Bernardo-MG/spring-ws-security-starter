@@ -131,11 +131,11 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
             } else {
                 authenticate(token.orElseThrow(), request);
             }
+            chain.doFilter(request, response);
         } catch (final AuthenticationException ex) {
             handleAuthenticationFailure(request, response, ex);
         }
 
-        chain.doFilter(request, response);
     }
 
 }
