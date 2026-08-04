@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,7 +45,6 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
 
     @Override
     public final Optional<Authentication> parse(final String token, final HttpServletRequest request) {
-        final Optional<Authentication> authentication;
         final JwtTokenData             tokenData;
 
         tokenData = tokenDecoder.decode(token);
@@ -54,18 +54,19 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
             throw new BadCredentialsException("JWT subject is missing");
         }
 
-        if ((!tokenData.isExpired()) && (!tokenData.isBeforeStart())) {
-            // Token not expired or for the future
-            // Will load a new authentication from the token
-
-            // Create and register authentication
-            authentication = Optional.of(getAuthentication(request, tokenData));
-        } else {
-            log.trace("JWT validation failed");
-            authentication = Optional.empty();
+        if (tokenData.isExpired()) {
+            log.debug("Expired JWT");
+            throw new CredentialsExpiredException("Expired JWT");
         }
 
-        return authentication;
+        if (tokenData.isBeforeStart()) {
+            log.debug("JWT is not yet valid");
+            throw new BadCredentialsException("JWT is not yet valid");
+        }
+
+        // Token not expired or in the future
+        // Will load a new authentication from the token
+        return Optional.of(getAuthentication(request, tokenData));
     }
 
     /**

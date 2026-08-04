@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,9 +52,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
     private TokenDecoder                          tokenDecoder;
 
     @Test
-    @DisplayName("When parsing a token before the start date, no authentication is parsed")
+    @DisplayName("When parsing a token before the start date, an exception is thrown")
     void testParse_BeforeStartDate() {
-        final Optional<Authentication> result;
+        final ThrowingCallable executable;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -62,16 +63,17 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.isBeforeStart()).thenReturn(true);
 
         // WHEN
-        result = parser.parse(Tokens.TOKEN, request);
+        executable = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThatThrownBy(executable).isInstanceOf(BadCredentialsException.class)
+            .hasMessage("JWT is not yet valid");
     }
 
     @Test
-    @DisplayName("When parsing a expired token, no authentication is parsed")
+    @DisplayName("When parsing an expired token, an exception is thrown")
     void testParse_ExpiredToken() {
-        final Optional<Authentication> result;
+        final ThrowingCallable executable;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -79,10 +81,11 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.isExpired()).thenReturn(true);
 
         // WHEN
-        result = parser.parse(Tokens.TOKEN, request);
+        executable = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThatThrownBy(executable).isInstanceOf(CredentialsExpiredException.class)
+            .hasMessage("Expired JWT");
     }
 
     @Test
