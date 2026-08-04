@@ -47,7 +47,7 @@ public final class BearerHeaderTokenResolver implements TokenResolver {
                 log.debug("Malformed token");
                 throw new BadCredentialsException("Malformed Authorization header");
             }
-            token = Optional.ofNullable(matcher.group("token"));
+            token = Optional.of(matcher.group("token"));
         }
 
         return token;

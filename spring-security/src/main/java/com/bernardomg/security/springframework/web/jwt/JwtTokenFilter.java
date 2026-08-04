@@ -30,9 +30,11 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -58,65 +60,79 @@ public final class JwtTokenFilter extends OncePerRequestFilter {
     /**
      * Logger for the class.
      */
-    private static final Logger               log = LoggerFactory.getLogger(JwtTokenFilter.class);
+    private static final Logger             log = LoggerFactory.getLogger(JwtTokenFilter.class);
 
-    private final TokenAuthenticationParser   tokenAuthenticationParser;
+    /**
+     * Handles authentication failures.
+     */
+    private final AuthenticationEntryPoint  authenticationEntryPoint;
 
-    private final TokenResolver               tokenResolver;
+    private final TokenAuthenticationParser tokenAuthenticationParser;
 
-    private final AuthenticationTrustResolver trustResolver;
+    private final TokenResolver             tokenResolver;
 
     /**
      * Constructs a filter with the received arguments.
      *
-     * @param trustRes
-     *            trust resolver
      * @param tokenResolv
      *            token resolver
      * @param tokenAuthenticationPars
      *            token authentication parser
+     * @param authenticationEntry
+     *            authentication failure entry point
      */
-    public JwtTokenFilter(final AuthenticationTrustResolver trustRes, final TokenResolver tokenResolv,
-            final TokenAuthenticationParser tokenAuthenticationPars) {
+    public JwtTokenFilter(final TokenResolver tokenResolv, final TokenAuthenticationParser tokenAuthenticationPars,
+            final AuthenticationEntryPoint authenticationEntry) {
         super();
 
-        trustResolver = Objects.requireNonNull(trustRes);
         tokenResolver = Objects.requireNonNull(tokenResolv);
         tokenAuthenticationParser = Objects.requireNonNull(tokenAuthenticationPars);
+        authenticationEntryPoint = Objects.requireNonNull(authenticationEntry,
+            "The authentication entry point is required");
     }
 
-    private final boolean isAuthenticated() {
-        final Authentication authentication;
+    private void authenticate(final String token, final HttpServletRequest request) {
+        final Authentication  authentication;
+        final SecurityContext context;
 
-        authentication = SecurityContextHolder.getContext()
-            .getAuthentication();
-        return ((authentication != null) && trustResolver.isAuthenticated(authentication));
+        authentication = tokenAuthenticationParser.parse(token, request);
+
+        context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+
+        log.trace("Authenticated {} request for {} to {}", request.getMethod(), authentication.getName(),
+            request.getServletPath());
+    }
+
+    private void handleAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response,
+            final AuthenticationException exception) throws IOException, ServletException {
+        SecurityContextHolder.clearContext();
+
+        log.debug("JWT authentication failed for {} {}: {}", request.getMethod(), request.getServletPath(),
+            exception.getMessage());
+
+        authenticationEntryPoint.commence(request, response, exception);
     }
 
     @Override
-    protected final void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
             final FilterChain chain) throws ServletException, IOException {
-        final Optional<String>         token;
-        final Optional<Authentication> authentication;
+
+        final Optional<String> token;
 
         log.trace("Authenticating {} request to {}", request.getMethod(), request.getServletPath());
 
-        token = tokenResolver.resolve(request);
+        try {
+            token = tokenResolver.resolve(request);
 
-        if (token.isEmpty()) {
-            // Missing header
-            log.trace("Missing authorization token");
-        } else if (!isAuthenticated()) {
-            authentication = tokenAuthenticationParser.parse(token.get(), request);
-            if (authentication.isEmpty()) {
-                SecurityContextHolder.clearContext();
+            if (token.isEmpty()) {
+                log.trace("Missing authorization token");
             } else {
-                // User valid
-                log.trace("Authenticated {} request for {} to {}", request.getMethod(), authentication.get()
-                    .getName(), request.getServletPath());
-                SecurityContextHolder.getContext()
-                    .setAuthentication(authentication.get());
+                authenticate(token.orElseThrow(), request);
             }
+        } catch (final AuthenticationException ex) {
+            handleAuthenticationFailure(request, response, ex);
         }
 
         chain.doFilter(request, response);

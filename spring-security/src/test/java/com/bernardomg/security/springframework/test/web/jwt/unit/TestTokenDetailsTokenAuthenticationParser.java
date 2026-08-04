@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -124,8 +123,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.values()).thenReturn(Map.of());
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
@@ -145,8 +143,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.permissions()).thenReturn(Map.of("users", List.of(), "reports", List.of()));
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         assertThat(authentication.getAuthorities()).isEmpty();
@@ -182,8 +179,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.permissions()).thenReturn(Map.of("users", List.of("read", "write"), "reports", List.of("view")));
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         authorities = authentication.getAuthorities()
@@ -210,8 +206,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(request.getSession(false)).thenReturn(null);
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         assertThat(authentication.getDetails()).isInstanceOfSatisfying(WebAuthenticationDetails.class, details -> {
@@ -234,8 +229,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.values()).thenReturn(Map.of("id", UserConstants.ID.toString()));
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
@@ -245,8 +239,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     @Test
     @DisplayName("When parsing a valid token, all the data is loaded")
     void testParse_ValidToken() {
-        final Optional<Authentication> result;
-        final Authentication           authentication;
+        final Authentication authentication;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -256,13 +249,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.permissions()).thenReturn(Map.of());
 
         // WHEN
-        result = parser.parse(Tokens.TOKEN, request);
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(result).isPresent();
-
-        authentication = result.orElseThrow();
-
         assertThat(authentication.isAuthenticated()).isTrue();
         assertThat(authentication.getCredentials()).isNull();
         assertThat(authentication.getName()).isEqualTo(Tokens.SUBJECT);

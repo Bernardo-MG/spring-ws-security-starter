@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +43,8 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
     }
 
     @Override
-    public final Optional<Authentication> parse(final String token, final HttpServletRequest request) {
-        final JwtTokenData             tokenData;
+    public final Authentication parse(final String token, final HttpServletRequest request) {
+        final JwtTokenData tokenData;
 
         tokenData = tokenDecoder.decode(token);
         if ((tokenData.subject() == null) || tokenData.subject()
@@ -66,7 +65,7 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
 
         // Token not expired or in the future
         // Will load a new authentication from the token
-        return Optional.of(getAuthentication(request, tokenData));
+        return getAuthentication(request, tokenData);
     }
 
     /**
