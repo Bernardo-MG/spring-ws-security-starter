@@ -79,7 +79,7 @@ public class WebSecurityAutoConfiguration {
 
     @Bean("healthActuatorWhitelist")
     public WhitelistRoute getHealthActuatorWhitelist() {
-        return WhitelistRoute.of("/actuator/health", HttpMethod.GET);
+        return WhitelistRoute.of("/actuator/health/liveness", HttpMethod.GET);
     }
 
     @Bean("infoActuatorWhitelist")
