@@ -179,13 +179,13 @@
       <dependency>
          <!-- Test containers -->
          <groupId>org.testcontainers</groupId>
-         <artifactId>testcontainers</artifactId>
+         <artifactId>testcontainers-junit-jupiter</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>
          <!-- Postgresql test container -->
          <groupId>org.testcontainers</groupId>
-         <artifactId>postgresql </artifactId>
+         <artifactId>testcontainers-postgresql</artifactId>
          <scope>test</scope>
       </dependency>
       <dependency>
