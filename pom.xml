@@ -187,7 +187,7 @@
       <!-- ============================================== -->
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
-      <archunit.version>1.4.1</archunit.version>
+      <archunit.version>1.4.2</archunit.version>
       <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
       <bernardomg.framework.jwt.version>1.0.2</bernardomg.framework.jwt.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
@@ -198,13 +198,13 @@
       <bernardomg.framework.ws.response.version>1.0.0</bernardomg.framework.ws.response.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
-      <jackson.annotations.version>2.20</jackson.annotations.version>
-      <jackson.version>2.20.1</jackson.version>
-      <openapitools.jackson>0.2.8</openapitools.jackson>
-      <spring.boot.version>3.5.9</spring.boot.version>
-      <spring.data.version>2025.1.1</spring.data.version>
-      <spring.version>6.2.15</spring.version>
-      <swagger.version>2.2.41</swagger.version>
+      <jackson.annotations.version>2.22</jackson.annotations.version>
+      <jackson.version>2.22.1</jackson.version>
+      <openapitools.jackson>0.2.11</openapitools.jackson>
+      <spring.boot.version>3.5.16</spring.boot.version>
+      <spring.data.version>2025.1.6</spring.data.version>
+      <spring.version>6.2.19</spring.version>
+      <swagger.version>2.2.52</swagger.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
