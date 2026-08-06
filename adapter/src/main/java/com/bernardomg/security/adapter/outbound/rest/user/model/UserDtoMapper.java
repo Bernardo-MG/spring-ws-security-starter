@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.adapter.outbound.rest.role.domain.RoleDtoMapper;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditDetailsDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditUserDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto;
