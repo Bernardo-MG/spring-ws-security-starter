@@ -32,7 +32,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.SecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,7 +41,7 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -56,10 +55,7 @@ import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
 import com.bernardomg.security.springframework.web.jwt.TokenAuthenticationParser;
 import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenticationParser;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistCustomizer;
-import com.bernardomg.security.springframework.web.whitelist.WhitelistFilterSkipWrapper;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
-
-import jakarta.servlet.Filter;
 
 /**
  * Access auto configuration.
@@ -81,9 +77,14 @@ public class WebSecurityAutoConfiguration {
         super();
     }
 
-    @Bean("actuatorWhitelist")
-    public WhitelistRoute getActuatorWhitelist() {
-        return WhitelistRoute.of("/actuator/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT);
+    @Bean("healthActuatorWhitelist")
+    public WhitelistRoute getHealthActuatorWhitelist() {
+        return WhitelistRoute.of("/actuator/health/liveness", HttpMethod.GET);
+    }
+
+    @Bean("infoActuatorWhitelist")
+    public WhitelistRoute getInfoActuatorWhitelist() {
+        return WhitelistRoute.of("/actuator/info", HttpMethod.GET);
     }
 
     @Bean("securityExceptionHandler")
@@ -102,10 +103,8 @@ public class WebSecurityAutoConfiguration {
      *            security configurers
      * @param decoder
      *            token decoder
-     * @param trustResolver
-     *            trust resolver
-     * @param userDetailsService
-     *            user details service
+     * @param authenticationEntry
+     *            authentication failure entry point
      * @param whitelist
      *            routes whitelist
      * @return web security filter chain with all authentication requirements
@@ -115,28 +114,26 @@ public class WebSecurityAutoConfiguration {
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
-            final TokenDecoder decoder, final AuthenticationTrustResolver trustResolver,
-            final UserDetailsService userDetailsService, final Collection<WhitelistRoute> whitelist) throws Exception {
+            final TokenDecoder decoder, final AuthenticationEntryPoint authenticationEntry,
+            final Collection<WhitelistRoute> whitelist) throws Exception {
+
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
-        final Filter                                                                                               jwtFilterWrapped;
         final TokenAuthenticationParser                                                                            tokenAuthenticationParser;
 
         corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
-        // TODO: move to JWT config
         tokenAuthenticationParser = new TokenDetailsTokenAuthenticationParser(decoder);
-        jwtFilter = new JwtTokenFilter(trustResolver, new BearerHeaderTokenResolver(), tokenAuthenticationParser);
-        jwtFilterWrapped = new WhitelistFilterSkipWrapper(jwtFilter, whitelist);
+        jwtFilter = new JwtTokenFilter(new BearerHeaderTokenResolver(), tokenAuthenticationParser, authenticationEntry);
+
         http
             // Whitelist access
             .authorizeHttpRequests(whitelister)
             // Authenticate all others
-            .authorizeHttpRequests(c -> c.anyRequest()
+            .authorizeHttpRequests(authorize -> authorize.anyRequest()
                 .authenticated())
-            // TODO: why is it using the basic auth filter?
-            .addFilterBefore(jwtFilterWrapped, BasicAuthenticationFilter.class)
+            .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
             // CSRF and CORS
             .csrf(CsrfConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource))

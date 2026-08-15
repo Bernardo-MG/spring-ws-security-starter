@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,28 +43,29 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
     }
 
     @Override
-    public final Optional<Authentication> parse(final String token, final HttpServletRequest request) {
-        final Optional<Authentication> authentication;
-        final JwtTokenData             tokenData;
+    public final Authentication parse(final String token, final HttpServletRequest request) {
+        final JwtTokenData tokenData;
 
         tokenData = tokenDecoder.decode(token);
         if ((tokenData.subject() == null) || tokenData.subject()
             .isBlank()) {
+            log.debug("Missing JWT subject");
             throw new BadCredentialsException("JWT subject is missing");
         }
 
-        if ((!tokenData.isExpired()) && (!tokenData.isBeforeStart())) {
-            // Token not expired or for the future
-            // Will load a new authentication from the token
-
-            // Create and register authentication
-            authentication = Optional.of(getAuthentication(request, tokenData));
-        } else {
-            log.trace("JWT validation failed");
-            authentication = Optional.empty();
+        if (tokenData.isExpired()) {
+            log.debug("Expired JWT");
+            throw new CredentialsExpiredException("Expired JWT");
         }
 
-        return authentication;
+        if (tokenData.isBeforeStart()) {
+            log.debug("JWT is not yet valid");
+            throw new BadCredentialsException("JWT is not yet valid");
+        }
+
+        // Token not expired or in the future
+        // Will load a new authentication from the token
+        return getAuthentication(request, tokenData);
     }
 
     /**
@@ -83,13 +84,7 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
         final Long                                   id;
 
         authorities = mapPermissions(tokenData.permissions());
-        if (tokenData.values()
-            .containsKey("id")) {
-            id = Long.valueOf(tokenData.values()
-                .get("id"));
-        } else {
-            id = null;
-        }
+        id = parseUserId(tokenData.values());
         // TODO: load all values
         userDetails = new SecurityUserDetails(id, "", tokenData.subject(), "", "", true, true, true, true, authorities);
 
@@ -106,6 +101,27 @@ public final class TokenDetailsTokenAuthenticationParser implements TokenAuthent
                 .stream()
                 .map(permission -> new ResourceActionGrantedAuthority(entry.getKey(), permission)))
             .toList();
+    }
+
+    private final Long parseUserId(final Map<String, String> values) {
+        final String rawId;
+        Long         id;
+
+        rawId = values.get("id");
+
+        if (rawId == null) {
+            id = null;
+        } else {
+            try {
+                id = Long.valueOf(rawId);
+            } catch (final NumberFormatException ex) {
+                id = null;
+                log.debug("JWT id claim is invalid: {}", rawId);
+                throw new BadCredentialsException("JWT id claim is invalid", ex);
+            }
+        }
+
+        return id;
     }
 
 }

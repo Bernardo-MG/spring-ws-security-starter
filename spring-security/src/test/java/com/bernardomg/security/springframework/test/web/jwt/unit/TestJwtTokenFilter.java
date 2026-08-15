@@ -1,13 +1,12 @@
 
 package com.bernardomg.security.springframework.test.web.jwt.unit;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 
 import java.io.IOException;
 import java.util.Optional;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.bernardomg.security.springframework.test.web.jwt.config.Tokens;
 import com.bernardomg.security.springframework.web.jwt.JwtTokenFilter;
@@ -34,26 +34,26 @@ import jakarta.servlet.http.HttpServletResponse;
 @DisplayName("JwtTokenFilter")
 class TestJwtTokenFilter {
 
+    @Mock
+    private AuthenticationEntryPoint  authenticationEntryPoint;
+
     @InjectMocks
-    private JwtTokenFilter              filter;
+    private JwtTokenFilter            filter;
 
     @Mock
-    private FilterChain                 filterChain;
+    private FilterChain               filterChain;
 
     @Mock
-    private HttpServletRequest          request;
+    private HttpServletRequest        request;
 
     @Mock
-    private HttpServletResponse         response;
+    private HttpServletResponse       response;
 
     @Mock
-    private TokenAuthenticationParser   tokenAuthenticationParser;
+    private TokenAuthenticationParser tokenAuthenticationParser;
 
     @Mock
-    private TokenResolver               tokenResolver;
-
-    @Mock
-    private AuthenticationTrustResolver trustResolver;
+    private TokenResolver             tokenResolver;
 
     @AfterEach
     void clearSecurityContext() {
@@ -61,171 +61,99 @@ class TestJwtTokenFilter {
     }
 
     @Test
-    @DisplayName("With an existing authenticated session the token is not parsed")
-    void testDoFilter_AlreadyAuthenticated() throws ServletException, IOException {
+    @DisplayName("With a valid token, existing authentication is replaced")
+    void testDoFilter_ExistingAuthenticationIsReplaced() throws ServletException, IOException {
         final Authentication existing;
+        final Authentication parsed;
 
         // GIVEN
         existing = Mockito.mock(Authentication.class);
+        parsed = Mockito.mock(Authentication.class);
 
         SecurityContextHolder.getContext()
             .setAuthentication(existing);
 
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAuthenticated(existing)).willReturn(true);
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(parsed);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isSameAs(existing);
-
-        then(filterChain).should()
-            .doFilter(request, response);
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isSameAs(parsed);
     }
 
     @Test
-    @DisplayName("With a valid token and anonymous authentication the new authentication is stored")
-    void testDoFilter_Anonymous() throws ServletException, IOException {
-        final Authentication anonymous;
-        final Authentication authentication;
-
-        // GIVEN
-        anonymous = Mockito.mock(Authentication.class);
-        authentication = Mockito.mock(Authentication.class);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(anonymous);
-
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAuthenticated(anonymous)).willReturn(false);
-        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isSameAs(authentication);
-
-        then(filterChain).should()
-            .doFilter(request, response);
-    }
-
-    @Test
-    @DisplayName("When the authentication parsing fails, the authentication chain continues")
-    void testDoFilter_EmptyAuthenticationContinuesChain() throws ServletException, IOException {
-        // GIVEN
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.empty());
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isNull();
-
-        then(filterChain).should()
-            .doFilter(request, response);
-    }
-
-    @Test
-    @DisplayName("When the user is authenticated, the filter chain continues")
-    void testDoFilter_FilterChain() throws ServletException, IOException {
-        final Authentication anonymous;
-        final Authentication authentication;
-
-        // GIVEN
-        anonymous = Mockito.mock(Authentication.class);
-        authentication = Mockito.mock(Authentication.class);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(anonymous);
-
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAuthenticated(anonymous)).willReturn(false);
-        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        then(filterChain).should()
-            .doFilter(request, response);
-    }
-
-    @Test
-    @DisplayName("When the parser returns empty the security context is cleared")
-    void testDoFilter_InvalidToken() throws ServletException, IOException {
-        final Authentication existing;
-
-        // GIVEN
-        existing = Mockito.mock(Authentication.class);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(existing);
-
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(trustResolver.isAuthenticated(existing)).willReturn(false);
-        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.empty());
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isNull();
-    }
-
-    @Test
-    @DisplayName("With a valid token and no authentication the new authentication is stored")
-    void testDoFilter_NoAuthentication() throws ServletException, IOException {
-        final Authentication authentication;
-
-        Mockito.mock(Authentication.class);
-        authentication = Mockito.mock(Authentication.class);
-
-        SecurityContextHolder.getContext()
-            .setAuthentication(null);
-
-        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
-
-        // WHEN
-        filter.doFilter(request, response, filterChain);
-
-        // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isSameAs(authentication);
-
-        then(filterChain).should()
-            .doFilter(request, response);
-    }
-
-    @Test
-    @DisplayName("With no token the security context is not modified")
+    @DisplayName("With no token, the security context is not modified")
     void testDoFilter_NoToken() throws ServletException, IOException {
+        final Authentication existing;
+
         // GIVEN
+        existing = Mockito.mock(Authentication.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(existing);
+
         given(tokenResolver.resolve(request)).willReturn(Optional.empty());
 
         // WHEN
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isNull();
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isSameAs(existing);
     }
 
     @Test
-    @DisplayName("With a valid token the authentication is stored")
+    @DisplayName("When token parsing fails, the context is cleared and failure is handled")
+    void testDoFilter_ParsingFailure() throws ServletException, IOException {
+        final Authentication          existing;
+        final AuthenticationException exception;
+
+        // GIVEN
+        existing = Mockito.mock(Authentication.class);
+        exception = Mockito.mock(AuthenticationException.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(existing);
+
+        given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willThrow(exception);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isNull();
+    }
+
+    @Test
+    @DisplayName("When token resolution fails, the context is cleared and failure is handled")
+    void testDoFilter_ResolutionFailure() throws ServletException, IOException {
+        final Authentication          existing;
+        final AuthenticationException exception;
+
+        // GIVEN
+        existing = Mockito.mock(Authentication.class);
+        exception = Mockito.mock(AuthenticationException.class);
+
+        SecurityContextHolder.getContext()
+            .setAuthentication(existing);
+
+        given(tokenResolver.resolve(request)).willThrow(exception);
+
+        // WHEN
+        filter.doFilter(request, response, filterChain);
+
+        // THEN
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isNull();
+    }
+
+    @Test
+    @DisplayName("With a valid token, the parsed authentication is stored")
     void testDoFilter_ValidToken() throws ServletException, IOException {
         final Authentication authentication;
 
@@ -233,18 +161,14 @@ class TestJwtTokenFilter {
         authentication = Mockito.mock(Authentication.class);
 
         given(tokenResolver.resolve(request)).willReturn(Optional.of(Tokens.TOKEN));
-        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(Optional.of(authentication));
+        given(tokenAuthenticationParser.parse(Tokens.TOKEN, request)).willReturn(authentication);
 
         // WHEN
         filter.doFilter(request, response, filterChain);
 
         // THEN
-        Assertions.assertThat(SecurityContextHolder.getContext()
-            .getAuthentication())
-            .isSameAs(authentication);
-
-        then(filterChain).should()
-            .doFilter(request, response);
+        assertThat(SecurityContextHolder.getContext()
+            .getAuthentication()).isSameAs(authentication);
     }
 
 }

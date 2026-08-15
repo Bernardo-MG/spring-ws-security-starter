@@ -8,20 +8,19 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 public final class BearerHeaderTokenResolver implements TokenResolver {
 
-    private static final Pattern authorizationPattern    = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$",
+    private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-._~+/]+=*)$",
         Pattern.CASE_INSENSITIVE);
 
     /**
      * Logger for the class.
      */
-    private static final Logger  log                     = LoggerFactory.getLogger(JwtTokenFilter.class);
-
-    private static final String  TOKEN_HEADER_IDENTIFIER = "Bearer";
+    private static final Logger  log                  = LoggerFactory.getLogger(JwtTokenFilter.class);
 
     public BearerHeaderTokenResolver() {
         super();
@@ -39,21 +38,16 @@ public final class BearerHeaderTokenResolver implements TokenResolver {
             // No token received
             token = Optional.empty();
             log.trace("Missing authorization header, can't return token");
-        } else if (header.startsWith(TOKEN_HEADER_IDENTIFIER)) {
-            // Token received
-            // Take it by removing the identifier
+        } else {
+            // Security header received
+            // Check for the token
             // TODO: Should be case insensitive
             matcher = authorizationPattern.matcher(header);
-            if (matcher.matches()) {
-                token = Optional.ofNullable(matcher.group("token"));
-            } else {
+            if (!matcher.matches()) {
                 log.debug("Malformed token");
-                token = Optional.empty();
+                throw new BadCredentialsException("Malformed Authorization header");
             }
-        } else {
-            // Invalid token received
-            token = Optional.empty();
-            log.trace("Authorization header {} has an invalid structure, can't return token", header);
+            token = Optional.of(matcher.group("token"));
         }
 
         return token;

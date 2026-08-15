@@ -2,11 +2,11 @@
 package com.bernardomg.security.springframework.test.web.jwt.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import com.bernardomg.jwt.encoding.JwtTokenData;
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.springframework.test.jwt.config.Tokens;
+import com.bernardomg.security.springframework.test.user.config.factory.UserConstants;
+import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenticationParser;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,9 +51,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
     private TokenDecoder                          tokenDecoder;
 
     @Test
-    @DisplayName("When parsing a token before the start date, no authentication is parsed")
+    @DisplayName("When parsing a token before the start date, an exception is thrown")
     void testParse_BeforeStartDate() {
-        final Optional<Authentication> result;
+        final ThrowingCallable executable;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -59,16 +62,17 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.isBeforeStart()).thenReturn(true);
 
         // WHEN
-        result = parser.parse(Tokens.TOKEN, request);
+        executable = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThatThrownBy(executable).isInstanceOf(BadCredentialsException.class)
+            .hasMessage("JWT is not yet valid");
     }
 
     @Test
-    @DisplayName("When parsing a expired token, no authentication is parsed")
+    @DisplayName("When parsing an expired token, an exception is thrown")
     void testParse_ExpiredToken() {
-        final Optional<Authentication> result;
+        final ThrowingCallable executable;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -76,10 +80,54 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.isExpired()).thenReturn(true);
 
         // WHEN
-        result = parser.parse(Tokens.TOKEN, request);
+        executable = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThatThrownBy(executable).isInstanceOf(CredentialsExpiredException.class)
+            .hasMessage("Expired JWT");
+    }
+
+    @Test
+    @DisplayName("When parsing a token with an invalid id, an exception is thrown")
+    void testParse_InvalidId() {
+        final ThrowingCallable executable;
+
+        // GIVEN
+        when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
+        when(tokenData.isExpired()).thenReturn(false);
+        when(tokenData.isBeforeStart()).thenReturn(false);
+        when(tokenData.permissions()).thenReturn(Map.of());
+        when(tokenData.values()).thenReturn(Map.of("id", "invalid"));
+
+        // WHEN
+        executable = () -> parser.parse(Tokens.TOKEN, request);
+
+        // THEN
+        assertThatThrownBy(executable).isInstanceOf(BadCredentialsException.class)
+            .hasMessage("JWT id claim is invalid")
+            .hasCauseInstanceOf(NumberFormatException.class);
+    }
+
+    @Test
+    @DisplayName("When parsing a token without an id, the principal id is null")
+    void testParse_MissingId() {
+        final Authentication authentication;
+
+        // GIVEN
+        when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
+        when(tokenData.isExpired()).thenReturn(false);
+        when(tokenData.isBeforeStart()).thenReturn(false);
+        when(tokenData.permissions()).thenReturn(Map.of());
+        when(tokenData.values()).thenReturn(Map.of());
+
+        // WHEN
+        authentication = parser.parse(Tokens.TOKEN, request);
+
+        // THEN
+        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
+            principal -> assertThat(principal.getId()).isNull());
     }
 
     @Test
@@ -95,8 +143,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.permissions()).thenReturn(Map.of("users", List.of(), "reports", List.of()));
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         assertThat(authentication.getAuthorities()).isEmpty();
@@ -132,8 +179,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.permissions()).thenReturn(Map.of("users", List.of("read", "write"), "reports", List.of("view")));
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         authorities = authentication.getAuthorities()
@@ -160,8 +206,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(request.getSession(false)).thenReturn(null);
 
         // WHEN
-        authentication = parser.parse(Tokens.TOKEN, request)
-            .orElseThrow();
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
         assertThat(authentication.getDetails()).isInstanceOfSatisfying(WebAuthenticationDetails.class, details -> {
@@ -171,10 +216,30 @@ public class TestTokenDetailsTokenAuthenticationParser {
     }
 
     @Test
+    @DisplayName("When parsing a token with a valid id, the id is added to the principal")
+    void testParse_ValidId() {
+        final Authentication authentication;
+
+        // GIVEN
+        when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
+        when(tokenData.subject()).thenReturn(Tokens.SUBJECT);
+        when(tokenData.isExpired()).thenReturn(false);
+        when(tokenData.isBeforeStart()).thenReturn(false);
+        when(tokenData.permissions()).thenReturn(Map.of());
+        when(tokenData.values()).thenReturn(Map.of("id", UserConstants.ID.toString()));
+
+        // WHEN
+        authentication = parser.parse(Tokens.TOKEN, request);
+
+        // THEN
+        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
+            principal -> assertThat(principal.getId()).isEqualTo(UserConstants.ID));
+    }
+
+    @Test
     @DisplayName("When parsing a valid token, all the data is loaded")
     void testParse_ValidToken() {
-        final Optional<Authentication> result;
-        final Authentication           authentication;
+        final Authentication authentication;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -184,13 +249,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.permissions()).thenReturn(Map.of());
 
         // WHEN
-        result = parser.parse(Tokens.TOKEN, request);
+        authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(result).isPresent();
-
-        authentication = result.orElseThrow();
-
         assertThat(authentication.isAuthenticated()).isTrue();
         assertThat(authentication.getCredentials()).isNull();
         assertThat(authentication.getName()).isEqualTo(Tokens.SUBJECT);

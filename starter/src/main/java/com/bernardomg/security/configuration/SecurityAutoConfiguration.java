@@ -26,6 +26,7 @@ package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,6 +62,7 @@ public class SecurityAutoConfiguration {
     }
 
     @Bean("authenticationManager")
+    @ConditionalOnMissingBean(AuthenticationManager.class)
     public AuthenticationManager getAuthenticationManager(final UserDetailsService userDetailsService,
             final PasswordEncoder passwordEncoder) {
         final DaoAuthenticationProvider provider;
@@ -72,11 +74,13 @@ public class SecurityAutoConfiguration {
     }
 
     @Bean("authenticationTrustResolver")
+    @ConditionalOnMissingBean(AuthenticationTrustResolver.class)
     public AuthenticationTrustResolver getAuthenticationTrustResolver() {
         return new AuthenticationTrustResolverImpl();
     }
 
     @Bean("userDetailsService")
+    @ConditionalOnMissingBean(UserDetailsService.class)
     public UserDetailsService getUserDetailsService(final UserRepository userRepository) {
         return new UserDomainDetailsService(userRepository);
     }

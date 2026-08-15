@@ -3,6 +3,7 @@ package com.bernardomg.security.adapter.outbound.rest.user.model;
 
 import java.util.List;
 
+import com.bernardomg.security.adapter.outbound.rest.role.domain.RoleDtoMapper;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.UserResponseDto;

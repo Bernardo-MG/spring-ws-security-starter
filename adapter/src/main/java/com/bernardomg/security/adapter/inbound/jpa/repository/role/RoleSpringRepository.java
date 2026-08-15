@@ -26,11 +26,7 @@ package com.bernardomg.security.adapter.inbound.jpa.repository.role;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.role.RoleEntity;
 
@@ -60,32 +56,6 @@ public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
     public boolean existsByNameIgnoreCase(final String name);
 
     /**
-     * Returns all the roles available to the user, in a paginated form.
-     *
-     * @param username
-     *            user username
-     * @param page
-     *            pagination to apply
-     * @return a page with the roles
-     */
-    @Query("""
-               SELECT r2
-               FROM Role r2
-               WHERE EXISTS (
-                   SELECT 1
-                   FROM User u
-                   WHERE u.username = :username
-               ) AND r2.id NOT IN (
-                   SELECT r.id
-                   FROM Role r
-                   JOIN UserRole ur ON r.id = ur.roleId
-                   JOIN User u ON ur.userId = u.id
-                   WHERE u.username = :username
-               )
-            """)
-    public Page<RoleEntity> findAllByUser(@Param("username") final String username, final Pageable page);
-
-    /**
      * Returns the role for the received name.
      *
      * @param name
@@ -93,23 +63,5 @@ public interface RoleSpringRepository extends JpaRepository<RoleEntity, Long> {
      * @return the role for the received name
      */
     public Optional<RoleEntity> findByName(final String name);
-
-    /**
-     * Returns all the roles assigned to the user, in a paginated form.
-     *
-     * @param username
-     *            user username
-     * @param page
-     *            pagination to apply
-     * @return a page with the roles
-     */
-    @Query("""
-               SELECT r
-               FROM Role r
-                 JOIN UserRole ur ON r.id = ur.roleId
-                 JOIN User u ON ur.userId = u.id
-               WHERE u.username = :username
-            """)
-    public Page<RoleEntity> findByUser(@Param("username") final String username, final Pageable page);
 
 }

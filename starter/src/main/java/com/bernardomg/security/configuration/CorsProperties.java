@@ -43,24 +43,24 @@ public final record CorsProperties(String pattern, List<String> allowedHeaders, 
             this.pattern = pattern;
         }
         if (allowedHeaders == null) {
-            this.allowedHeaders = List.of("*");
+            this.allowedHeaders = List.of("Authorization", "Content-Type");
         } else {
-            this.allowedHeaders = allowedHeaders;
+            this.allowedHeaders = List.copyOf(allowedHeaders);
         }
         if (allowedMethods == null) {
-            this.allowedMethods = List.of("*");
+            this.allowedMethods = List.of("GET");
         } else {
-            this.allowedMethods = allowedMethods;
+            this.allowedMethods = List.copyOf(allowedMethods);
         }
         if (allowedOrigins == null) {
-            this.allowedOrigins = List.of("*");
+            this.allowedOrigins = List.of();
         } else {
-            this.allowedOrigins = allowedOrigins;
+            this.allowedOrigins = List.copyOf(allowedOrigins);
         }
         if (exposedHeaders == null) {
-            this.exposedHeaders = List.of("*");
+            this.exposedHeaders = List.of();
         } else {
-            this.exposedHeaders = exposedHeaders;
+            this.exposedHeaders = List.copyOf(exposedHeaders);
         }
     }
 

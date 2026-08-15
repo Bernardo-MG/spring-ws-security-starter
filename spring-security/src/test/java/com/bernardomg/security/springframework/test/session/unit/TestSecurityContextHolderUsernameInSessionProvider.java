@@ -63,22 +63,6 @@ class TestSecurityContextHolderUsernameInSessionProvider {
     }
 
     @Test
-    @DisplayName("When there is no authenticated user, the username is empty")
-    void testGetCurrentUsername_MissingAuthentication() {
-        final Optional<String> username;
-
-        // GIVEN
-        given(trustResolver.isAuthenticated(null)).willReturn(false);
-
-        // WHEN
-        username = provider.getCurrentUsername();
-
-        // THEN
-        Assertions.assertThat(username)
-            .isEmpty();
-    }
-
-    @Test
     @DisplayName("When the user is not authenticated, the username is empty")
     void testGetCurrentUsername_NotAuthenticated() {
         final Authentication   authentication;

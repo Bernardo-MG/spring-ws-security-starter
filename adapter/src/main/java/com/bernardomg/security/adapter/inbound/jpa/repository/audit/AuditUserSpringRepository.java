@@ -24,8 +24,6 @@
 
 package com.bernardomg.security.adapter.inbound.jpa.repository.audit;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
@@ -37,14 +35,5 @@ import com.bernardomg.security.adapter.inbound.jpa.model.audit.AuditUserEntity;
  *
  */
 public interface AuditUserSpringRepository extends JpaRepository<AuditUserEntity, Long> {
-
-    /**
-     * Returns the user for the received username.
-     *
-     * @param username
-     *            username to search for
-     * @return the user for the received username
-     */
-    public Optional<AuditUserEntity> findByUsername(final String username);
 
 }
