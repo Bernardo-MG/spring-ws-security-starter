@@ -125,7 +125,8 @@ public class UserAutoConfiguration {
 
     @Bean("userOnboardingWhitelist")
     public WhitelistRoute getUserOnboardingWhitelist() {
-        return WhitelistRoute.of("/security/user/onboarding/activate/**", HttpMethod.GET, HttpMethod.POST);
+        return WhitelistRoute.of("/security/user/onboarding/activate/**", HttpMethod.GET, HttpMethod.POST,
+            HttpMethod.OPTIONS);
     }
 
     @Bean("userRepository")

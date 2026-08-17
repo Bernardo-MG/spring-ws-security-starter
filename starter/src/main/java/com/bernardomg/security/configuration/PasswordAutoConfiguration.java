@@ -144,7 +144,7 @@ public class PasswordAutoConfiguration {
 
     @Bean("passwordResetWhitelist")
     public WhitelistRoute getPasswordResetWhitelist() {
-        return WhitelistRoute.of("/password/reset/**", HttpMethod.GET, HttpMethod.POST);
+        return WhitelistRoute.of("/password/reset/**", HttpMethod.GET, HttpMethod.POST, HttpMethod.OPTIONS);
     }
 
 }

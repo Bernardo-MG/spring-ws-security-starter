@@ -84,7 +84,7 @@ public class LoginAutoConfiguration {
 
     @Bean("loginWhitelist")
     public WhitelistRoute getLoginWhitelist() {
-        return WhitelistRoute.of("/login/**", HttpMethod.POST);
+        return WhitelistRoute.of("/login/**", HttpMethod.POST, HttpMethod.OPTIONS);
     }
 
     @Bean("userLoginAttempsService")
