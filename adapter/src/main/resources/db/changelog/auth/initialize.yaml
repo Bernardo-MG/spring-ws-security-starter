@@ -261,6 +261,7 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_role_id
                     references: security.roles(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: permission_id
                   type: bigint
@@ -268,6 +269,7 @@ databaseChangeLog:
                     foreignKeyName: fk_role_permissions_permission_id
                     references: security.permissions(id)
                     nullable: false
+                    deleteCascade: true
         - addPrimaryKey:
             constraintName: role_permissions_key
             schemaName: security
