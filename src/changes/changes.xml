@@ -600,5 +600,10 @@
             Fixed auditor aware.
          </action>
       </release>
+      <release version="0.5.13" date="2026-08-15" description="Increased default security">
+         <action dev="bmg" type="update">
+            Increased default security.
+         </action>
+      </release>
    </body>
 </document>
