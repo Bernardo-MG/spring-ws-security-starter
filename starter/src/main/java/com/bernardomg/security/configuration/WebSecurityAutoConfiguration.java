@@ -77,14 +77,19 @@ public class WebSecurityAutoConfiguration {
         super();
     }
 
+    @Bean("authenticationEntryPoint")
+    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
+        return new ErrorResponseAuthenticationEntryPoint();
+    }
+
     @Bean("healthActuatorWhitelist")
     public WhitelistRoute getHealthActuatorWhitelist() {
-        return WhitelistRoute.of("/actuator/health/liveness", HttpMethod.GET);
+        return WhitelistRoute.of("/actuator/health/liveness", HttpMethod.GET, HttpMethod.OPTIONS);
     }
 
     @Bean("infoActuatorWhitelist")
     public WhitelistRoute getInfoActuatorWhitelist() {
-        return WhitelistRoute.of("/actuator/info", HttpMethod.GET);
+        return WhitelistRoute.of("/actuator/info", HttpMethod.GET, HttpMethod.OPTIONS);
     }
 
     @Bean("securityExceptionHandler")
@@ -107,6 +112,8 @@ public class WebSecurityAutoConfiguration {
      *            authentication failure entry point
      * @param whitelist
      *            routes whitelist
+     * @param authenticationEntryPoint
+     *            authentication entry point
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
@@ -115,7 +122,8 @@ public class WebSecurityAutoConfiguration {
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final AuthenticationEntryPoint authenticationEntry,
-            final Collection<WhitelistRoute> whitelist) throws Exception {
+            final Collection<WhitelistRoute> whitelist, final AuthenticationEntryPoint authenticationEntryPoint)
+            throws Exception {
 
         final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
@@ -138,7 +146,7 @@ public class WebSecurityAutoConfiguration {
             .csrf(CsrfConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
             // Authentication error handling
-            .exceptionHandling(handler -> handler.authenticationEntryPoint(new ErrorResponseAuthenticationEntryPoint()))
+            .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint))
             // Stateless
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // Disable login and logout forms
