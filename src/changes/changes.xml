@@ -605,5 +605,16 @@
             Increased default security.
          </action>
       </release>
+      <release version="0.5.14" date="2026-08-18" description="Fixes">
+         <action dev="bmg" type="fix">
+            Whitelist options.
+         </action>
+         <action dev="bmg" type="fix">
+            Added missing config.
+         </action>
+         <action dev="bmg" type="fix">
+            Added delete cascade for role permissions.
+         </action>
+      </release>
    </body>
 </document>
