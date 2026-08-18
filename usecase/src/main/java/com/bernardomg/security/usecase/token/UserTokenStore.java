@@ -22,8 +22,50 @@
  * SOFTWARE.
  */
 
-/**
- * Token stores.
- */
+package com.bernardomg.security.usecase.token;
 
-package com.bernardomg.security.usecase.user.store;
+/**
+ * Store for tokens linked to users.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface UserTokenStore {
+
+    /**
+     * Consumes the token, marking it as already used.
+     *
+     * @param token
+     *            token to consume
+     */
+    public void consumeToken(final String token);
+
+    /**
+     * Returns a new token for a user.
+     *
+     * @param username
+     *            username for the user who generates the token
+     * @return token for the subject
+     */
+    public String createToken(final String username);
+
+    /**
+     * Returns the username for the token.
+     * <p>
+     * TODO: maybe return an optional
+     *
+     * @param token
+     *            token to decode as the object
+     * @return username for the token
+     */
+    public String getUsername(final String token);
+
+    /**
+     * Revokes all the tokens for a user, so they can no longer be used.
+     *
+     * @param username
+     *            username for the user to revoke tokens for
+     */
+    public void revokeExistingTokens(final String username);
+
+}

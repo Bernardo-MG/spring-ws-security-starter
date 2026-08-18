@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.usecase.test.user.store.unit;
+package com.bernardomg.security.usecase.test.token.unit;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -23,7 +23,7 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.usecase.test.user.config.factory.UserTokenConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.UserTokens;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Scoped user token store - revoke existing tokens")

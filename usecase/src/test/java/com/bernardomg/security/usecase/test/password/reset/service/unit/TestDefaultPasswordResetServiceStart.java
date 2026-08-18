@@ -29,8 +29,8 @@ import com.bernardomg.security.usecase.password.reset.service.DefaultPasswordRes
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;
-import com.bernardomg.security.usecase.user.store.TokenValidator;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 

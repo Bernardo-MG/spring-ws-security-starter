@@ -43,8 +43,8 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.reset.validation.EmailFormatRule;
 import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
-import com.bernardomg.security.usecase.user.store.TokenValidator;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
 

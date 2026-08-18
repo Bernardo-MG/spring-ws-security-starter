@@ -57,10 +57,10 @@ import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNo
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
 import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenValidator;
-import com.bernardomg.security.usecase.user.store.TokenValidator;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 
 /**
  * Password handling configuration.

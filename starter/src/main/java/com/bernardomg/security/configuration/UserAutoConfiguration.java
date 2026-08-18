@@ -48,16 +48,16 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
+import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.service.DisabledUserNotificationService;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
 import com.bernardomg.security.usecase.user.service.UserOnboardingService;
 import com.bernardomg.security.usecase.user.service.UserService;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenValidator;
-import com.bernardomg.security.usecase.user.store.TokenValidator;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
 /**
  * Password handling configuration.

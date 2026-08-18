@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.user.store;
+package com.bernardomg.security.usecase.token;
 
 import java.util.Objects;
 

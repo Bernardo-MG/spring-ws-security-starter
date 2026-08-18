@@ -43,9 +43,9 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
-import com.bernardomg.security.usecase.user.store.TokenValidator;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("UserActivationService - token validation")

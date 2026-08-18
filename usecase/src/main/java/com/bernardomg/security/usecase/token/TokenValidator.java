@@ -22,50 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.user.store;
+package com.bernardomg.security.usecase.token;
 
 /**
- * Store for tokens linked to users.
+ * Token validator.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface UserTokenStore {
+public interface TokenValidator {
 
     /**
-     * Consumes the token, marking it as already used.
+     *
+     * Check if the token is valid, throwing an exception otherwise. This exception is expected to be an instance of
+     * {@link com.bernardomg.security.domain.user.exception.InvalidTokenException InvalidTokenException}.
      *
      * @param token
-     *            token to consume
+     *            token to validate
      */
-    public void consumeToken(final String token);
-
-    /**
-     * Returns a new token for a user.
-     *
-     * @param username
-     *            username for the user who generates the token
-     * @return token for the subject
-     */
-    public String createToken(final String username);
-
-    /**
-     * Returns the username for the token.
-     * <p>
-     * TODO: maybe return an optional
-     *
-     * @param token
-     *            token to decode as the object
-     * @return username for the token
-     */
-    public String getUsername(final String token);
-
-    /**
-     * Revokes all the tokens for a user, so they can no longer be used.
-     *
-     * @param username
-     *            username for the user to revoke tokens for
-     */
-    public void revokeExistingTokens(final String username);
+    public void validate(final String token);
 
 }

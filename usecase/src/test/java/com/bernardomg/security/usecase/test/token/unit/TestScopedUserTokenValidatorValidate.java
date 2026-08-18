@@ -1,5 +1,5 @@
 
-package com.bernardomg.security.usecase.test.user.store.unit;
+package com.bernardomg.security.usecase.test.token.unit;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
@@ -20,7 +20,7 @@ import com.bernardomg.security.domain.user.exception.RevokedTokenException;
 import com.bernardomg.security.domain.user.model.UserToken;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.usecase.test.user.config.factory.UserTokenConstants;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Scoped user token validator - validate")
