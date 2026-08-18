@@ -207,7 +207,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     @Override
     public final UserTokenStatus validateToken(final String token) {
         final UserTokenStatus status;
-        final String          username;
+        String                username;
         boolean               valid;
 
         log.trace("Validating user activation token");
@@ -219,7 +219,12 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         } catch (final InvalidTokenException ex) {
             valid = false;
         }
-        username = tokenStore.getUsername(token);
+
+        try {
+            username = tokenStore.getUsername(token);
+        } catch (final InvalidTokenException ex) {
+            username = "";
+        }
 
         status = new UserTokenStatus(username, valid);
 
