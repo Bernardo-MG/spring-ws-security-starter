@@ -48,14 +48,16 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
+import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.service.DisabledUserNotificationService;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
 import com.bernardomg.security.usecase.user.service.UserOnboardingService;
 import com.bernardomg.security.usecase.user.service.UserService;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
 /**
  * Password handling configuration.
@@ -115,12 +117,15 @@ public class UserAutoConfiguration {
             final PasswordEncrypter passwordEncrypter, final EventEmitter eventEmitter,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
+        final TokenValidator tokenValidator;
 
+        // TODO: take the scope from a constant, and change to onboarding
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "user_registered",
-            tokenProperties.validity());
+            tokenProperties.validity(), "User onboarding token");
+        tokenValidator = new ScopedUserTokenValidator(userTokenRepository, "user_registered");
 
         return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncrypter, tokenStore,
-            eventEmitter);
+            tokenValidator, eventEmitter);
     }
 
     @Bean("userOnboardingWhitelist")

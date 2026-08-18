@@ -41,7 +41,8 @@ import com.bernardomg.security.domain.user.model.UserTokenStatus;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.validation.UserEmailFormatRule;
 import com.bernardomg.security.usecase.user.validation.UserEmailNotExistsRule;
 import com.bernardomg.security.usecase.user.validation.UserRolesNotDuplicatedRule;
@@ -85,6 +86,8 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
      */
     private final UserTokenStore    tokenStore;
 
+    private final TokenValidator    tokenValidator;
+
     /**
      * User repository.
      */
@@ -101,13 +104,15 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     private final Validator<User>   validatorInvite;
 
     public DefaultUserOnboardingService(final UserRepository userRepo, final RoleRepository roleRepo,
-            final PasswordEncrypter passEncrypt, final UserTokenStore tStore, final EventEmitter eventEmit) {
+            final PasswordEncrypter passEncrypt, final UserTokenStore tStore, final TokenValidator tValidator,
+            final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(userRepo);
         roleRepository = Objects.requireNonNull(roleRepo);
         passwordEncrypter = Objects.requireNonNull(passEncrypt);
         tokenStore = Objects.requireNonNull(tStore);
+        tokenValidator = Objects.requireNonNull(tValidator);
         eventEmitter = Objects.requireNonNull(eventEmit);
 
         validatorActivate = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
@@ -125,7 +130,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         log.trace("Activating new user");
 
         // Validate token
-        tokenStore.validate(token);
+        tokenValidator.validate(token);
 
         // Validate password
         validatorActivate.validate(password.trim());
@@ -202,19 +207,24 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
     @Override
     public final UserTokenStatus validateToken(final String token) {
         final UserTokenStatus status;
-        final String          username;
+        String                username;
         boolean               valid;
 
         log.trace("Validating user activation token");
 
         try {
             // TODO: maybe return a boolean instead of throwing an exception
-            tokenStore.validate(token);
+            tokenValidator.validate(token);
             valid = true;
         } catch (final InvalidTokenException ex) {
             valid = false;
         }
-        username = tokenStore.getUsername(token);
+
+        try {
+            username = tokenStore.getUsername(token);
+        } catch (final InvalidTokenException ex) {
+            username = "";
+        }
 
         status = new UserTokenStatus(username, valid);
 

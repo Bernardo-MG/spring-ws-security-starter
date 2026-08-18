@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.user.store;
-
-import com.bernardomg.security.domain.user.exception.InvalidTokenException;
+package com.bernardomg.security.usecase.token;
 
 /**
  * Store for tokens linked to users.
@@ -69,17 +67,5 @@ public interface UserTokenStore {
      *            username for the user to revoke tokens for
      */
     public void revokeExistingTokens(final String username);
-
-    /**
-     *
-     * Check if the token is valid, throwing an exception otherwise. This exception is expected to be a concrete type,
-     * indicating the actual error.
-     *
-     * @param token
-     *            token to validate
-     * @throws InvalidTokenException
-     *             if the token is invalid
-     */
-    public void validate(final String token) throws InvalidTokenException;
 
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.user.store;
+package com.bernardomg.security.usecase.token;
 
 import java.time.Duration;
 import java.util.Collection;
@@ -58,6 +58,11 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     private static final Logger       log = LoggerFactory.getLogger(ScopedUserTokenStore.class);
 
     /**
+     * Token name.
+     */
+    private final String              tokenName;
+
+    /**
      * Token scope.
      */
     private final String              tokenScope;
@@ -78,7 +83,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     private final Duration            validity;
 
     public ScopedUserTokenStore(final UserTokenRepository tokenRepo, final UserRepository userRepo, final String scope,
-            final Duration duration) {
+            final Duration duration, final String nme) {
         super();
 
         userTokenRepository = Objects.requireNonNull(tokenRepo);
@@ -86,6 +91,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         // TODO: maybe the scope should be received in the method
         tokenScope = Objects.requireNonNull(scope);
         validity = Objects.requireNonNull(duration);
+        tokenName = Objects.requireNonNull(nme);
     }
 
     @Override
@@ -114,6 +120,7 @@ public final class ScopedUserTokenStore implements UserTokenStore {
     @Override
     public final String createToken(final String username) {
         final UserToken token;
+        final UserToken created;
 
         log.trace("Creating token with scope {} for {}", tokenScope, username);
 
@@ -122,13 +129,13 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             throw new MissingUsernameException(username);
         }
 
-        token = UserToken.create(username, tokenScope, validity);
+        token = UserToken.create(username, tokenName, tokenScope, validity);
 
-        userTokenRepository.save(token);
+        created = userTokenRepository.save(token);
 
         log.trace("Created token with scope {} for {}", tokenScope, username);
 
-        return token.token();
+        return created.token();
     }
 
     @Override
@@ -146,7 +153,6 @@ public final class ScopedUserTokenStore implements UserTokenStore {
 
     @Override
     public final void revokeExistingTokens(final String username) {
-        final Collection<UserToken> tokens;
         final Collection<UserToken> revoked;
         final User                  readUser;
 
@@ -159,31 +165,18 @@ public final class ScopedUserTokenStore implements UserTokenStore {
             });
 
         // Find all tokens not revoked, and mark them as revoked
-        tokens = userTokenRepository.findAllNotRevoked(readUser.username(), tokenScope);
-        revoked = tokens.stream()
+        revoked = userTokenRepository.findAllNotRevoked(readUser.username(), tokenScope)
+            .stream()
             .map(UserToken::revoke)
             .toList();
 
         log.debug("Found {} tokens to revoke with scope {}", revoked.size(), tokenScope);
 
-        userTokenRepository.saveAll(revoked);
+        if (!revoked.isEmpty()) {
+            userTokenRepository.saveAll(revoked);
+        }
 
         log.trace("Revoked all existing tokens with scope {} for {}", tokenScope, readUser.username());
-    }
-
-    @Override
-    public final void validate(final String token) {
-        final UserToken read;
-
-        log.trace("Validating token with scope {}", tokenScope);
-
-        read = userTokenRepository.findOne(token)
-            .orElseThrow(() -> {
-                log.warn("Token not registered with scope {}: {}", tokenScope, token);
-                throw new MissingUserTokenException(token);
-            });
-
-        read.checkStatus(tokenScope);
     }
 
 }

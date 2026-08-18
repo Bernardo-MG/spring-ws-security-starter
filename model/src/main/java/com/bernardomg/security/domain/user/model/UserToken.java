@@ -82,7 +82,8 @@ public record UserToken(String username, String name, String scope, String token
         return new UserToken(username, name, scope, token, creationDate, expirationDate, true, revoked);
     }
 
-    public static final UserToken create(final String usrname, final String scpe, final Duration validity) {
+    public static final UserToken create(final String usrname, final String name, final String scpe,
+            final Duration validity) {
         final String  tokenCode;
         final Instant creation;
         final Instant expiration;
@@ -92,7 +93,7 @@ public record UserToken(String username, String name, String scope, String token
 
         tokenCode = UUID.randomUUID()
             .toString();
-        return new UserToken(usrname, "", scpe, tokenCode, creation, expiration, false, false);
+        return new UserToken(usrname, name, scpe, tokenCode, creation, expiration, false, false);
     }
 
     /**
@@ -104,28 +105,39 @@ public record UserToken(String username, String name, String scope, String token
         return new UserToken(username, name, scope, token, creationDate, expirationDate, consumed, true);
     }
 
-    public final void checkStatus(final String tokenScope) {
-        if (!tokenScope.equals(scope)) {
+    /**
+     * Checks if the token is valid.
+     * <p>
+     * This means:
+     * <ul>
+     * <li>Scope matches</li>
+     * <li>Token not consumed</li>
+     * <li>Token not revoked</li>
+     * <li>Token not after expiration date</li>
+     * </ul>
+     * If any fails, an exception is thrown
+     *
+     * @param scope
+     */
+    public final void checkStatus(final String scope) {
+        if (!scope.equals(this.scope)) {
             // Scope mismatch
-            log.warn("Expected scope {}, but the token is for {}", tokenScope, scope);
-            throw new OutOfScopeTokenException(token, tokenScope, scope);
+            log.warn("Expected scope {}, but the token is for {}", scope, this.scope);
+            throw new OutOfScopeTokenException(token, scope, this.scope);
         }
         if (consumed) {
             // Consumed
-            // It isn't a valid token
             log.warn("Consumed token: {}", token);
             throw new ConsumedTokenException(token);
         }
         if (revoked) {
             // Revoked
-            // It isn't a valid token
             log.warn("Revoked token: {}", token);
             throw new RevokedTokenException(token);
         }
         if (Instant.now()
             .isAfter(expirationDate)) {
             // Expired
-            // It isn't a valid token
             log.warn("Expired token: {}", token);
             throw new ExpiredTokenException(token);
         }
