@@ -44,6 +44,7 @@ import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
+import com.bernardomg.security.usecase.user.store.TokenValidator;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
@@ -68,12 +69,15 @@ class TestUserOnboardingServiceValidateToken {
     @Mock
     private UserTokenStore               tokenStore;
 
+    @Mock
+    private TokenValidator               tokenValidator;
+
     @Test
     void testValidateToken_Invalid() {
         final UserTokenStatus status;
 
         // GIVEN
-        willThrow(ConsumedTokenException.class).given(tokenStore)
+        willThrow(ConsumedTokenException.class).given(tokenValidator)
             .validate(Tokens.TOKEN);
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 

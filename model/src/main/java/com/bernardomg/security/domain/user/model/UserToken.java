@@ -115,7 +115,7 @@ public record UserToken(String username, String name, String scope, String token
      * <li>Token not after expiration date</li>
      * </ul>
      * If any fails, an exception is thrown
-     * 
+     *
      * @param scope
      */
     public final void checkStatus(final String scope) {
@@ -126,20 +126,17 @@ public record UserToken(String username, String name, String scope, String token
         }
         if (consumed) {
             // Consumed
-            // It isn't a valid token
             log.warn("Consumed token: {}", token);
             throw new ConsumedTokenException(token);
         }
         if (revoked) {
             // Revoked
-            // It isn't a valid token
             log.warn("Revoked token: {}", token);
             throw new RevokedTokenException(token);
         }
         if (Instant.now()
             .isAfter(expirationDate)) {
             // Expired
-            // It isn't a valid token
             log.warn("Expired token: {}", token);
             throw new ExpiredTokenException(token);
         }

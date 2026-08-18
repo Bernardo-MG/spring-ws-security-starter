@@ -171,19 +171,4 @@ public final class ScopedUserTokenStore implements UserTokenStore {
         log.trace("Revoked all existing tokens with scope {} for {}", tokenScope, readUser.username());
     }
 
-    @Override
-    public final void validate(final String token) {
-        final UserToken read;
-
-        log.trace("Validating token with scope {}", tokenScope);
-
-        read = userTokenRepository.findOne(token)
-            .orElseThrow(() -> {
-                log.warn("Token not registered with scope {}: {}", tokenScope, token);
-                throw new MissingUserTokenException(token);
-            });
-
-        read.checkStatus(tokenScope);
-    }
-
 }

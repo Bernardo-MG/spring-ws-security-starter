@@ -58,6 +58,8 @@ import com.bernardomg.security.usecase.password.reset.service.PasswordNotificati
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
 import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
 import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.user.store.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.user.store.TokenValidator;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
 /**
@@ -129,11 +131,15 @@ public class PasswordAutoConfiguration {
             final PasswordEncrypter passwordEncrypter, final UserTokenRepository userTokenRepository,
             final UserTokenProperties tokenProperties, final EventEmitter eventEmit) {
         final UserTokenStore tokenStore;
+        final TokenValidator tokenValidator;
 
+        // TODO: take the scope from a constant
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
             tokenProperties.validity());
+        tokenValidator = new ScopedUserTokenValidator(userTokenRepository, "password_reset");
 
-        return new DefaultPasswordResetService(userRepository, passwordEncrypter, tokenStore, eventEmit);
+        return new DefaultPasswordResetService(userRepository, passwordEncrypter, tokenStore, tokenValidator,
+            eventEmit);
     }
 
     @Bean("passwordResetNotificationListener")

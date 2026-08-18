@@ -55,6 +55,8 @@ import com.bernardomg.security.usecase.user.service.UserNotificationService;
 import com.bernardomg.security.usecase.user.service.UserOnboardingService;
 import com.bernardomg.security.usecase.user.service.UserService;
 import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.user.store.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.user.store.TokenValidator;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 
 /**
@@ -115,12 +117,14 @@ public class UserAutoConfiguration {
             final PasswordEncrypter passwordEncrypter, final EventEmitter eventEmitter,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
+        final TokenValidator tokenValidator;
 
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "user_registered",
             tokenProperties.validity());
+        tokenValidator = new ScopedUserTokenValidator(userTokenRepository, "user_registered");
 
         return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncrypter, tokenStore,
-            eventEmitter);
+            tokenValidator, eventEmitter);
     }
 
     @Bean("userOnboardingWhitelist")

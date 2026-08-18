@@ -43,6 +43,7 @@ import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
 import com.bernardomg.security.usecase.password.reset.validation.EmailFormatRule;
 import com.bernardomg.security.usecase.password.validation.PasswordResetHasStrongPasswordRule;
+import com.bernardomg.security.usecase.user.store.TokenValidator;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 import com.bernardomg.validation.validator.FieldRuleValidator;
 import com.bernardomg.validation.validator.Validator;
@@ -89,7 +90,9 @@ public final class DefaultPasswordResetService implements PasswordResetService {
     /**
      * Token store for password reset tokens.
      */
-    private final UserTokenStore    passwordResetTokenStore;
+    private final UserTokenStore    tokenStore;
+
+    private final TokenValidator    tokenValidator;
 
     /**
      * User repository.
@@ -107,12 +110,13 @@ public final class DefaultPasswordResetService implements PasswordResetService {
     private final Validator<String> validatorStart;
 
     public DefaultPasswordResetService(final UserRepository repo, final PasswordEncrypter PasswordEncrypt,
-            final UserTokenStore tStore, final EventEmitter eventEmit) {
+            final UserTokenStore tStore, final TokenValidator tValidator, final EventEmitter eventEmit) {
         super();
 
         userRepository = Objects.requireNonNull(repo);
         passwordEncrypter = Objects.requireNonNull(PasswordEncrypt);
-        passwordResetTokenStore = Objects.requireNonNull(tStore);
+        tokenStore = Objects.requireNonNull(tStore);
+        tokenValidator = Objects.requireNonNull(tValidator);
         eventEmitter = Objects.requireNonNull(eventEmit);
 
         validatorChange = new FieldRuleValidator<>(new PasswordResetHasStrongPasswordRule());
@@ -128,12 +132,12 @@ public final class DefaultPasswordResetService implements PasswordResetService {
 
         log.trace("Changing password from token");
 
-        passwordResetTokenStore.validate(token);
+        tokenValidator.validate(token);
 
         log.debug("Validating new password");
         validatorChange.validate(password);
 
-        username = passwordResetTokenStore.getUsername(token);
+        username = tokenStore.getUsername(token);
 
         log.debug("Applying requested password change to {}", username);
 
@@ -144,7 +148,7 @@ public final class DefaultPasswordResetService implements PasswordResetService {
 
         encodedPassword = passwordEncrypter.encrypt(password);
         userRepository.resetPassword(user.username(), encodedPassword);
-        passwordResetTokenStore.consumeToken(token);
+        tokenStore.consumeToken(token);
 
         log.trace("Changed password for {}", username);
     }
@@ -170,11 +174,11 @@ public final class DefaultPasswordResetService implements PasswordResetService {
 
         // Revoke previous tokens
         log.debug("Revoking existing password reset tokens for {}", user.username());
-        passwordResetTokenStore.revokeExistingTokens(user.username());
+        tokenStore.revokeExistingTokens(user.username());
 
         // Register new token
         log.debug("Generating new token to reset password for {}", user.username());
-        token = passwordResetTokenStore.createToken(user.username());
+        token = tokenStore.createToken(user.username());
 
         // TODO: Set source
         passwordResetEvent = new PasswordResetEvent(null, user, token);
@@ -192,14 +196,14 @@ public final class DefaultPasswordResetService implements PasswordResetService {
         log.trace("Validating password change token");
 
         try {
-            passwordResetTokenStore.validate(token);
+            tokenValidator.validate(token);
             valid = true;
         } catch (final InvalidTokenException ex) {
             valid = false;
         }
 
         try {
-            username = passwordResetTokenStore.getUsername(token);
+            username = tokenStore.getUsername(token);
         } catch (final InvalidTokenException ex) {
             username = "";
         }
