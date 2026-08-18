@@ -48,6 +48,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.RoleConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 import com.bernardomg.security.usecase.test.user.config.factory.Users;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
+import com.bernardomg.security.usecase.user.store.TokenValidator;
 import com.bernardomg.security.usecase.user.store.UserTokenStore;
 import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
@@ -70,6 +71,9 @@ class TestUserOnboardingServiceInviteUser {
 
     @Mock
     private UserTokenStore               tokenStore;
+
+    @Mock
+    private TokenValidator               tokenValidator;
 
     @Mock
     private UserRepository               userRepository;

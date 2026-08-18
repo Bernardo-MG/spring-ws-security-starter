@@ -82,7 +82,8 @@ public record UserToken(String username, String name, String scope, String token
         return new UserToken(username, name, scope, token, creationDate, expirationDate, true, revoked);
     }
 
-    public static final UserToken create(final String usrname, final String scpe, final Duration validity) {
+    public static final UserToken create(final String usrname, final String name, final String scpe,
+            final Duration validity) {
         final String  tokenCode;
         final Instant creation;
         final Instant expiration;
@@ -92,7 +93,7 @@ public record UserToken(String username, String name, String scope, String token
 
         tokenCode = UUID.randomUUID()
             .toString();
-        return new UserToken(usrname, "", scpe, tokenCode, creation, expiration, false, false);
+        return new UserToken(usrname, name, scpe, tokenCode, creation, expiration, false, false);
     }
 
     /**

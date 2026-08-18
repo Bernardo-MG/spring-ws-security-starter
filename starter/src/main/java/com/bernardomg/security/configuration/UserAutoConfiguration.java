@@ -119,8 +119,9 @@ public class UserAutoConfiguration {
         final UserTokenStore tokenStore;
         final TokenValidator tokenValidator;
 
+        // TODO: take the scope from a constant, and change to onboarding
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "user_registered",
-            tokenProperties.validity());
+            tokenProperties.validity(), "User onboarding token");
         tokenValidator = new ScopedUserTokenValidator(userTokenRepository, "user_registered");
 
         return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncrypter, tokenStore,

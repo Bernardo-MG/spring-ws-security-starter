@@ -135,7 +135,7 @@ public class PasswordAutoConfiguration {
 
         // TODO: take the scope from a constant
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
-            tokenProperties.validity());
+            tokenProperties.validity(), "Password recovery token");
         tokenValidator = new ScopedUserTokenValidator(userTokenRepository, "password_reset");
 
         return new DefaultPasswordResetService(userRepository, passwordEncrypter, tokenStore, tokenValidator,
