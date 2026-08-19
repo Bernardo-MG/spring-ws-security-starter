@@ -22,10 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.initializer.loader;
+/**
+ * App startup adapters.
+ */
 
-public interface Loader {
-
-    void load();
-
-}
+package com.bernardomg.security.adapter.inbound.startup;
