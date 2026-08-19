@@ -2,13 +2,12 @@
 package com.bernardomg.security.usecase.test.initializer.loader.unit;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +17,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.bernardomg.security.domain.permission.repository.ActionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
-import com.bernardomg.security.usecase.initializer.loader.PermissionsLoader;
+import com.bernardomg.security.usecase.initializer.domain.model.PermissionConfig;
+import com.bernardomg.security.usecase.initializer.domain.model.ResourcePermissionConfig;
+import com.bernardomg.security.usecase.initializer.loader.DefaultPermissionsLoaderService;
+import com.bernardomg.security.usecase.initializer.loader.PermissionConfigLoader;
+import com.bernardomg.security.usecase.initializer.loader.PermissionsLoaderService;
 import com.bernardomg.security.usecase.test.permission.config.factory.Actions;
 import com.bernardomg.security.usecase.test.permission.config.factory.PermissionConstants;
 import com.bernardomg.security.usecase.test.permission.config.factory.ResourcePermissions;
@@ -32,67 +35,29 @@ public class TestPermissionsLoader {
     private ActionRepository             actionRepository;
 
     @Mock
+    private ResourcePermissionConfig     permission;
+
+    @Mock
+    private PermissionConfig             permissionConfig;
+
+    @Mock
+    private PermissionConfigLoader       permissionConfigLoader;
+
+    @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
 
     @Mock
     private ResourceRepository           resourceRepository;
 
-    private final PermissionsLoader getPermissionsLoader() {
-        final String      yaml;
-        final InputStream inputStream;
+    private PermissionsLoaderService     service;
 
-        // GIVEN
-        yaml = """
-                actions:
-                  - create
-                permissions:
-                  - resource: data
-                    actions:
-                      - create
-                """;
-        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
+    @BeforeEach
+    void setupConfig() {}
 
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
-            List.of(inputStream));
-    }
-
-    private final PermissionsLoader getPermissionsLoaderNoData() {
-        final String      yaml;
-        final InputStream inputStream;
-
-        // GIVEN
-        yaml = """
-                """;
-        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
-
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
-            List.of(inputStream));
-    }
-
-    private final PermissionsLoader getPermissionsLoaderNoSource() {
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository, List.of());
-    }
-
-    private final PermissionsLoader getPermissionsLoaderWithDuplicates() {
-        final String      yaml;
-        final InputStream inputStream;
-
-        // GIVEN
-        yaml = """
-                actions:
-                  - create
-                permissions:
-                  - resource: data
-                    actions:
-                      - create
-                  - resource: data
-                    actions:
-                      - create
-                """;
-        inputStream = new ByteArrayInputStream(yaml.getBytes(StandardCharsets.UTF_8));
-
-        return new PermissionsLoader(actionRepository, resourceRepository, resourcePermissionRepository,
-            List.of(inputStream));
+    @BeforeEach
+    void setupService() {
+        service = new DefaultPermissionsLoaderService(actionRepository, resourceRepository,
+            resourcePermissionRepository, permissionConfigLoader);
     }
 
     @Test
@@ -103,9 +68,14 @@ public class TestPermissionsLoader {
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(actionRepository).saveAll(List.of(Actions.create()));
@@ -118,10 +88,14 @@ public class TestPermissionsLoader {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of());
-        given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(actionRepository).saveAll(List.of());
@@ -131,14 +105,18 @@ public class TestPermissionsLoader {
     @DisplayName("When loading the permissions duplicates are removed")
     @SuppressWarnings("unchecked")
     void testLoad_Duplicates() {
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission, permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoaderWithDuplicates().load();
+        service.load();
 
         // THEN
         verify(actionRepository).saveAll(List.of(Actions.create()));
@@ -149,8 +127,16 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When there is no data nothing is saved")
     void testLoad_NoData() {
+        final PermissionConfig config;
+
+        // GIVEN
+        config = mock(PermissionConfig.class);
+        given(config.getActions()).willReturn(List.of());
+        given(config.getPermissions()).willReturn(List.of());
+        given(permissionConfigLoader.load()).willReturn(List.of(config));
+
         // WHEN
-        getPermissionsLoaderNoData().load();
+        service.load();
 
         // THEN
         verify(actionRepository).saveAll(List.of());
@@ -161,8 +147,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When there is no source nothing is saved")
     void testLoad_NoSource() {
+
+        // GIVEN
+        given(permissionConfigLoader.load()).willReturn(List.of());
+
         // WHEN
-        getPermissionsLoaderNoSource().load();
+        service.load();
 
         // THEN
         verify(actionRepository).saveAll(List.of());
@@ -178,9 +168,14 @@ public class TestPermissionsLoader {
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(resourcePermissionRepository).saveAll(List.of(ResourcePermissions.create()));
@@ -194,9 +189,14 @@ public class TestPermissionsLoader {
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(resourcePermissionRepository).saveAll(List.of());
@@ -210,9 +210,14 @@ public class TestPermissionsLoader {
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(resourcePermissionRepository).saveAll(List.of());
@@ -226,9 +231,14 @@ public class TestPermissionsLoader {
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of(ResourcePermissions.create()));
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(resourcePermissionRepository).saveAll(List.of());
@@ -242,9 +252,14 @@ public class TestPermissionsLoader {
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(resourceRepository).saveAll(List.of(Resources.data()));
@@ -258,9 +273,14 @@ public class TestPermissionsLoader {
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
+        given(permissionConfig.getActions()).willReturn(List.of("create"));
+        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permission.getResource()).willReturn("data");
+        given(permission.getActions()).willReturn(List.of("create"));
+        given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
-        getPermissionsLoader().load();
+        service.load();
 
         // THEN
         verify(resourceRepository).saveAll(List.of());

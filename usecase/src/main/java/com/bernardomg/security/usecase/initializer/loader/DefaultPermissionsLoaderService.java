@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.usecase.initializer.loader;
 
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -32,9 +31,6 @@ import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yaml.snakeyaml.LoaderOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 import com.bernardomg.security.domain.permission.model.Action;
 import com.bernardomg.security.domain.permission.model.Resource;
@@ -53,22 +49,19 @@ import jakarta.transaction.Transactional;
  * The {@link #load()} method takes care of persisting all the data.
  */
 @Transactional
-public final class PermissionsLoader implements Loader {
+public final class DefaultPermissionsLoaderService implements PermissionsLoaderService {
 
     /**
      * Logger for the class.
      */
-    private static final Logger                log = LoggerFactory.getLogger(PermissionsLoader.class);
+    private static final Logger                log = LoggerFactory.getLogger(DefaultPermissionsLoaderService.class);
 
     /**
      * Actions repository.
      */
     private final ActionRepository             actionRepository;
 
-    /**
-     * Permissions to load.
-     */
-    private final List<PermissionConfig>       permissionConfigs;
+    private final PermissionConfigLoader       permissionConfigLoader;
 
     /**
      * Resource permissions repository.
@@ -80,17 +73,15 @@ public final class PermissionsLoader implements Loader {
      */
     private final ResourceRepository           resourceRepository;
 
-    public PermissionsLoader(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
-            final ResourcePermissionRepository resourcePermissionRepo, final Collection<InputStream> permissions) {
+    public DefaultPermissionsLoaderService(final ActionRepository actionRepo, final ResourceRepository resourceRepo,
+            final ResourcePermissionRepository resourcePermissionRepo,
+            final PermissionConfigLoader permissionConfigLoad) {
         super();
 
         actionRepository = Objects.requireNonNull(actionRepo);
         resourceRepository = Objects.requireNonNull(resourceRepo);
         resourcePermissionRepository = Objects.requireNonNull(resourcePermissionRepo);
-
-        permissionConfigs = permissions.stream()
-            .map(this::readPermissions)
-            .toList();
+        permissionConfigLoader = Objects.requireNonNull(permissionConfigLoad);
     }
 
     /**
@@ -98,12 +89,15 @@ public final class PermissionsLoader implements Loader {
      */
     @Override
     public final void load() {
-        final List<Action>       actions;
-        final List<Resource>     resources;
-        final Collection<String> actionNames;
-        final Collection<String> resourceNames;
+        final List<Action>                 actions;
+        final List<Resource>               resources;
+        final Collection<String>           actionNames;
+        final Collection<String>           resourceNames;
+        final Collection<PermissionConfig> permissionConfigs;
 
         log.debug("Begins loading permissions");
+
+        permissionConfigs = permissionConfigLoader.load();
 
         // TODO: Load default actions
         // Load actions
@@ -137,12 +131,12 @@ public final class PermissionsLoader implements Loader {
         log.debug("Saved resources");
 
         // Load permissions
-        loadPermissions();
+        loadPermissions(permissionConfigs);
 
         log.debug("Finished loading permissions");
     }
 
-    private final void loadPermissions() {
+    private final void loadPermissions(final Collection<PermissionConfig> permissionConfigs) {
         final List<ResourcePermission> permissions;
         final Collection<String>       actionNames;
         final Collection<String>       resourceNames;
@@ -167,19 +161,6 @@ public final class PermissionsLoader implements Loader {
             .toList();
         resourcePermissionRepository.saveAll(permissions);
         log.debug("Saved permissions");
-    }
-
-    private final PermissionConfig readPermissions(final InputStream permissions) {
-        final Yaml       yaml;
-        PermissionConfig config;
-
-        yaml = new Yaml(new Constructor(PermissionConfig.class, new LoaderOptions()));
-        config = yaml.load(permissions);
-        if (config == null) {
-            config = new PermissionConfig();
-        }
-
-        return config;
     }
 
     private final String toName(final ResourcePermission permission) {
