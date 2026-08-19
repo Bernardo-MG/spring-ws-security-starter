@@ -28,7 +28,8 @@ public final class DefaultPermissionConfigLoader implements PermissionConfigLoad
     private final Collection<File> permissionFiles;
 
     public DefaultPermissionConfigLoader(final Collection<File> permissionFiles) {
-
+        super();
+        
         this.permissionFiles = List.copyOf(Objects.requireNonNull(permissionFiles));
     }
 
@@ -63,4 +64,5 @@ public final class DefaultPermissionConfigLoader implements PermissionConfigLoad
 
         return config;
     }
+
 }

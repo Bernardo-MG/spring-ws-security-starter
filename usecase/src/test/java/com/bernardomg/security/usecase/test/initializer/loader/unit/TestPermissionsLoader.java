@@ -51,6 +51,16 @@ public class TestPermissionsLoader {
 
     private PermissionsLoaderService     service;
 
+    private final ResourcePermissionConfig getPermission() {
+        final ResourcePermissionConfig permission;
+
+        permission = new ResourcePermissionConfig();
+        permission.setResource("data");
+        permission.setActions(List.of("create"));
+
+        return permission;
+    }
+
     @BeforeEach
     void setupConfig() {}
 
@@ -63,16 +73,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the action doesn't exist it is saved")
     void testLoad_Action() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -85,15 +91,11 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the action exists it is not saved")
     void testLoad_ActionExists() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -107,16 +109,12 @@ public class TestPermissionsLoader {
     @DisplayName("When loading the permissions duplicates are removed")
     @SuppressWarnings("unchecked")
     void testLoad_Duplicates() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of(), List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission, permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission(), getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -167,16 +165,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the permission doesn't exist it is saved")
     void testLoad_Permission() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -189,16 +183,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the action doesn't exist nothing is saved")
     void testLoad_Permission_NoActions() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -211,16 +201,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the resource doesn't exist nothing is saved")
     void testLoad_Permission_NoResource() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -233,16 +219,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the permissions exists it is not saved")
     void testLoad_PermissionExists() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of(ResourcePermissions.create()));
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -255,16 +237,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the resource doesn't exist it is saved")
     void testLoad_Resource() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of());
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN
@@ -277,16 +255,12 @@ public class TestPermissionsLoader {
     @Test
     @DisplayName("When the resource exists it is not saved")
     void testLoad_ResourceExists() {
-        final ResourcePermissionConfig permission;
-
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
         given(resourceRepository.findAllNames()).willReturn(List.of(PermissionConstants.DATA));
         given(resourcePermissionRepository.findAll()).willReturn(List.of());
         given(permissionConfig.getActions()).willReturn(List.of("create"));
-
-        permission = new ResourcePermissionConfig("data", List.of("create"));
-        given(permissionConfig.getPermissions()).willReturn(List.of(permission));
+        given(permissionConfig.getPermissions()).willReturn(List.of(getPermission()));
         given(permissionConfigLoader.load()).willReturn(List.of(permissionConfig));
 
         // WHEN

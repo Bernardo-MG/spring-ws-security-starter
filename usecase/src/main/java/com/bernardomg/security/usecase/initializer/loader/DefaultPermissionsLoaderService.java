@@ -121,7 +121,7 @@ public final class DefaultPermissionsLoaderService implements PermissionsLoaderS
         resources = permissionConfigs.stream()
             .map(PermissionConfig::getPermissions)
             .flatMap(Collection::stream)
-            .map(ResourcePermissionConfig::resource)
+            .map(ResourcePermissionConfig::getResource)
             .map(String::toUpperCase)
             .distinct()
             .filter(Predicate.not(resourceNames::contains))
@@ -168,9 +168,9 @@ public final class DefaultPermissionsLoaderService implements PermissionsLoaderS
     }
 
     private final Collection<ResourcePermission> toResourcePermission(final ResourcePermissionConfig config) {
-        return config.actions()
+        return config.getActions()
             .stream()
-            .map(a -> new ResourcePermission(config.resource()
+            .map(a -> new ResourcePermission(config.getResource()
                 .toUpperCase(), a.toUpperCase()))
             .toList();
     }
