@@ -31,7 +31,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * CORS configuration properties.
  */
-@ConfigurationProperties(prefix = "cors")
+@ConfigurationProperties(prefix = "security.cors")
 public final record CorsProperties(String pattern, List<String> allowedHeaders, List<String> allowedMethods,
         List<String> allowedOrigins, List<String> exposedHeaders) {
 
