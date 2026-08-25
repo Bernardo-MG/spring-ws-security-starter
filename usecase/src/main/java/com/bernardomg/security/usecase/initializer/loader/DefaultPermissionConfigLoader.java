@@ -29,7 +29,7 @@ public final class DefaultPermissionConfigLoader implements PermissionConfigLoad
 
     public DefaultPermissionConfigLoader(final Collection<File> permissionFiles) {
         super();
-        
+
         this.permissionFiles = List.copyOf(Objects.requireNonNull(permissionFiles));
     }
 

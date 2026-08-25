@@ -33,7 +33,6 @@ import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountChangeDt
 import com.bernardomg.security.adapter.outbound.rest.account.dto.AccountResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.account.model.AccountDtoMapper;
 import com.bernardomg.security.domain.account.model.Account;
-import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.usecase.account.service.AccountService;
 
 import jakarta.validation.Valid;
@@ -74,7 +73,7 @@ public class AccountController implements AccountApi {
         final Account account;
         final Account updated;
 
-        account = BasicAccount.of(accountChangeDto.getName());
+        account = Account.of(accountChangeDto.getName());
 
         updated = service.update(account);
 

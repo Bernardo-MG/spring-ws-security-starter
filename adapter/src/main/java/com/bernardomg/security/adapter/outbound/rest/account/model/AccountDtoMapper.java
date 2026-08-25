@@ -45,9 +45,9 @@ public final class AccountDtoMapper {
     }
 
     private static final AccountDto toDto(final Account account) {
-        return new AccountDto().name(account.getName())
-            .username(account.getUsername())
-            .email(account.getEmail());
+        return new AccountDto().name(account.name())
+            .username(account.username())
+            .email(account.email());
     }
 
     private AccountDtoMapper() {

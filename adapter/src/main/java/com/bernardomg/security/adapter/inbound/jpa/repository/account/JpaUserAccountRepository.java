@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.domain.account.model.Account;
-import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
 
 /**
@@ -82,16 +81,16 @@ public final class JpaUserAccountRepository implements AccountRepository {
 
         log.trace("Saving account {}", account);
 
-        readUser = userSpringRepository.findByUsername(account.getUsername());
+        readUser = userSpringRepository.findByUsername(account.username());
         if (readUser.isPresent()) {
             user = readUser.get();
-            user.setName(account.getName());
-            user.setEmail(account.getEmail());
+            user.setName(account.name());
+            user.setEmail(account.email());
             updated = userSpringRepository.save(user);
             result = AccountEntityMapper.toDomain(updated);
         } else {
-            log.warn("No account for username {}", account.getUsername());
-            result = new BasicAccount(null, null, null);
+            log.warn("No account for username {}", account.username());
+            result = new Account(null, null, null);
         }
 
         log.trace("Saved account {}", result);
