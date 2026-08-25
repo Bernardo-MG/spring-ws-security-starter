@@ -93,6 +93,7 @@ public class JwtAutoConfiguration {
      * @return
      */
     @Bean("jwtSecretKey")
+    @ConditionalOnMissingBean(SecretKey.class)
     public SecretKey jwtSecretKey(final JwtProperties properties) {
         return Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));
