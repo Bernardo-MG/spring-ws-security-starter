@@ -82,6 +82,11 @@ public class WebSecurityAutoConfiguration {
         return new ErrorResponseAuthenticationEntryPoint();
     }
 
+    @Bean("corsConfigurationSource")
+    public CorsConfigurationSource getCorsConfigurationSource(final CorsProperties corsProperties) {
+        return new CorsConfigurationPropertiesSource(corsProperties);
+    }
+
     @Bean("healthActuatorWhitelist")
     public WhitelistRoute getHealthActuatorWhitelist() {
         return WhitelistRoute.of("/actuator/health/liveness", HttpMethod.GET, HttpMethod.OPTIONS);
@@ -102,8 +107,8 @@ public class WebSecurityAutoConfiguration {
      *
      * @param http
      *            HTTP security component
-     * @param corsProperties
-     *            CORS properties
+     * @param corsConfigurationSource
+     *            CORS configuration source
      * @param securityConfigurers
      *            security configurers
      * @param decoder
@@ -119,18 +124,16 @@ public class WebSecurityAutoConfiguration {
      *             if the setup fails
      */
     @Bean("webSecurityFilterChain")
-    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
+    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
+            final CorsConfigurationSource corsConfigurationSource,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final AuthenticationEntryPoint authenticationEntry,
             final Collection<WhitelistRoute> whitelist, final AuthenticationEntryPoint authenticationEntryPoint)
             throws Exception {
-
-        final CorsConfigurationSource                                                                              corsConfigurationSource;
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
         final TokenAuthenticationParser                                                                            tokenAuthenticationParser;
 
-        corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
         tokenAuthenticationParser = new TokenDetailsTokenAuthenticationParser(decoder);
         jwtFilter = new JwtTokenFilter(new BearerHeaderTokenResolver(), tokenAuthenticationParser, authenticationEntry);
