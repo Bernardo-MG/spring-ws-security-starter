@@ -45,7 +45,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.springframework.web.ErrorResponseAuthenticationEntryPoint;
@@ -84,7 +86,19 @@ public class WebSecurityAutoConfiguration {
 
     @Bean("corsConfigurationSource")
     public CorsConfigurationSource getCorsConfigurationSource(final CorsProperties corsProperties) {
-        return new CorsConfigurationPropertiesSource(corsProperties);
+        final UrlBasedCorsConfigurationSource corsConfigurationSource;
+        final CorsConfiguration               configuration;
+
+        configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(corsProperties.allowedOrigins());
+        configuration.setAllowedMethods(corsProperties.allowedMethods());
+        configuration.setAllowedHeaders(corsProperties.allowedHeaders());
+        configuration.setExposedHeaders(corsProperties.exposedHeaders());
+
+        corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        corsConfigurationSource.registerCorsConfiguration(corsProperties.pattern(), configuration);
+
+        return corsConfigurationSource;
     }
 
     @Bean("healthActuatorWhitelist")
