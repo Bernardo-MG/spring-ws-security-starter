@@ -25,10 +25,8 @@
 package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
@@ -53,8 +51,6 @@ import com.bernardomg.security.springframework.usecase.service.UserDomainDetails
  */
 @AutoConfiguration
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-@ComponentScan({ "com.bernardomg.security.adapter.outbound.rest", "com.bernardomg.security.adapter.inbound.jpa" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
 public class SecurityAutoConfiguration {
 
     public SecurityAutoConfiguration() {
