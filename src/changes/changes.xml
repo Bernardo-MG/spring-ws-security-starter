@@ -616,5 +616,18 @@
             Added delete cascade for role permissions.
          </action>
       </release>
+      <release version="0.15.15" date="2026-08-26" description="Configuration fixes">
+         <action dev="bmg" type="fix">
+            Removed view permission.
+         </action>
+         <action dev="bmg" type="fix">
+            Cleaned up auto configuration.
+         </action>
+      </release>
+      <release version="0.15.16" date="2026-08-27" description="Configuration fixes">
+         <action dev="bmg" type="fix">
+            Corrected permissions file loading.
+         </action>
+      </release>
    </body>
 </document>
