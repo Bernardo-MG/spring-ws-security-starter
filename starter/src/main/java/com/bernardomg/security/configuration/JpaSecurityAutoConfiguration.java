@@ -12,4 +12,8 @@ import jakarta.persistence.EntityManager;
 @ComponentScan("com.bernardomg.security.adapter.inbound.jpa")
 public class JpaSecurityAutoConfiguration {
 
+    public JpaSecurityAutoConfiguration() {
+        super();
+    }
+
 }

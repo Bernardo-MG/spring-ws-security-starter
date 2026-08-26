@@ -65,7 +65,7 @@ import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = { SecurityAutoConfiguration.class, JwtAutoConfiguration.class })
 @EnableWebSecurity
 @EnableConfigurationProperties(CorsProperties.class)
 public class WebSecurityAutoConfiguration {
@@ -131,8 +131,6 @@ public class WebSecurityAutoConfiguration {
      *            authentication failure entry point
      * @param whitelist
      *            routes whitelist
-     * @param authenticationEntryPoint
-     *            authentication entry point
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
@@ -142,8 +140,7 @@ public class WebSecurityAutoConfiguration {
             final CorsConfigurationSource corsConfigurationSource,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final AuthenticationEntryPoint authenticationEntry,
-            final Collection<WhitelistRoute> whitelist, final AuthenticationEntryPoint authenticationEntryPoint)
-            throws Exception {
+            final Collection<WhitelistRoute> whitelist) throws Exception {
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
         final TokenAuthenticationParser                                                                            tokenAuthenticationParser;
@@ -163,7 +160,7 @@ public class WebSecurityAutoConfiguration {
             .csrf(CsrfConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
             // Authentication error handling
-            .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint))
+            .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntry))
             // Stateless
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // Disable login and logout forms

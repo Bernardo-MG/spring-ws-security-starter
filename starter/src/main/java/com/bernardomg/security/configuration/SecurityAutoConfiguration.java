@@ -36,11 +36,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
-import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
-import com.bernardomg.security.springframework.access.interceptor.SecurityContextHolderResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 
 /**
@@ -79,14 +75,6 @@ public class SecurityAutoConfiguration {
     @ConditionalOnMissingBean(UserDetailsService.class)
     public UserDetailsService getUserDetailsService(final UserRepository userRepository) {
         return new UserDomainDetailsService(userRepository);
-    }
-
-    @Bean("springResourceAccessValidator")
-    public ResourceAccessValidator springResourceAccessValidator(final AuthenticationTrustResolver trustResolver) {
-        final ResourcePermissionEvaluator permissionEvaluator;
-
-        permissionEvaluator = new AuthorityResourcePermissionEvaluator();
-        return new SecurityContextHolderResourceAccessValidator(permissionEvaluator, trustResolver);
     }
 
 }

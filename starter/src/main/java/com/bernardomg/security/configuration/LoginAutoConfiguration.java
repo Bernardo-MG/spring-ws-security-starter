@@ -52,7 +52,7 @@ import com.bernardomg.security.usecase.login.service.UserLoginAttempsService;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = { JwtAutoConfiguration.class, SecurityAutoConfiguration.class, UserAutoConfiguration.class })
 @Configuration(proxyBeanMethods = false)
 public class LoginAutoConfiguration {
 

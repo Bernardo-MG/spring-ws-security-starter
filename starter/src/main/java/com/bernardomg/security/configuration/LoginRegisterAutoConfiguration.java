@@ -41,7 +41,7 @@ import com.bernardomg.security.usecase.login.service.LoginRegisterService;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
 public class LoginRegisterAutoConfiguration {
 

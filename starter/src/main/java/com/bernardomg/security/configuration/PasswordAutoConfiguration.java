@@ -29,6 +29,7 @@ import java.security.SecureRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
@@ -68,7 +69,8 @@ import com.bernardomg.security.usecase.token.UserTokenStore;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(
+        after = { SecurityAutoConfiguration.class, UserAutoConfiguration.class })
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({ PasswordNotificationProperties.class })
 public class PasswordAutoConfiguration {
@@ -101,6 +103,7 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordEncoder")
+    @ConditionalOnMissingBean(PasswordEncoder.class)
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
     }

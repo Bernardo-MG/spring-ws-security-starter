@@ -51,7 +51,7 @@ import com.bernardomg.security.usecase.initializer.loader.PermissionsLoaderServi
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = PermissionAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(PermissionsFilesProperties.class)
 public class PermissionLoaderAutoConfiguration {
