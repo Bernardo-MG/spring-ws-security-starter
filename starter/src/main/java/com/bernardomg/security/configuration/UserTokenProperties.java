@@ -30,10 +30,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * Security token configuration properties.
+ * User token configuration properties.
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param validity
+ *            Validity length for the tokens. By default it is one hour
  */
 @Validated
 @ConfigurationProperties(prefix = "security.token")

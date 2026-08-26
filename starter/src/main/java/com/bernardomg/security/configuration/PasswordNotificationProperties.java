@@ -26,6 +26,18 @@ package com.bernardomg.security.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * Password notification properties.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ * @param from
+ *            Source for the email
+ * @param appName
+ *            Application name to show
+ * @param passwordRecovery
+ *            Password recovery properties
+ */
 @ConfigurationProperties(prefix = "email.security")
 public final record PasswordNotificationProperties(String from, String appName,
         PasswordRecoveryProperties passwordRecovery) {
@@ -41,6 +53,14 @@ public final record PasswordNotificationProperties(String from, String appName,
         }
     }
 
+    /**
+     * Password recovery properties. TODO: maybe it should validate it is a URL
+     *
+     * @author Bernardo Mart&iacute;nez Garrido
+     *
+     * @param url
+     *            URL to redirect back when recovering the password
+     */
     public final record PasswordRecoveryProperties(String url) {
 
     }

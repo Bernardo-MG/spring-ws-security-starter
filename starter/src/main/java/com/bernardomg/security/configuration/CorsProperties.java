@@ -30,6 +30,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * CORS configuration properties.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ * @param pattern
+ *            CORS pattern to apply. By default it is {@code /**}
+ * @param allowedHeaders
+ *            CORS allowed headers. By default it is {@code Authorization} and {@code Content-Type}
+ * @param allowedMethods
+ *            CORS allowed methods. By default it is {@code GET}
+ * @param allowedOrigins
+ *            CORS allowed methods. By default it is empty
+ * @param exposedHeaders
+ *            CORS allowed methods. By default it is empty
  */
 @ConfigurationProperties(prefix = "security.cors")
 public final record CorsProperties(String pattern, List<String> allowedHeaders, List<String> allowedMethods,

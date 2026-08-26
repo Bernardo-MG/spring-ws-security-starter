@@ -36,6 +36,10 @@ import jakarta.validation.constraints.NotEmpty;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param secret
+ *            Secret for generating JWT tokens
+ * @param validity
+ *            Validity length for the tokens. By default it is one hour
  */
 @Validated
 @ConfigurationProperties(prefix = "security.jwt")
