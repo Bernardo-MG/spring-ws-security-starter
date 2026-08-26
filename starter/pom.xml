@@ -62,6 +62,19 @@
          <artifactId>jakarta.servlet-api</artifactId>
          <scope>provided</scope>
       </dependency>
+      <dependency>
+         <!-- Jakarta validation -->
+         <groupId>jakarta.validation</groupId>
+         <artifactId>jakarta.validation-api</artifactId>
+      </dependency>
+      <!-- ============================================== -->
+      <!-- ================ VALIDATION ================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Hibernate validator -->
+         <groupId>org.hibernate.validator</groupId>
+         <artifactId>hibernate-validator</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
@@ -87,12 +100,6 @@
          <!-- Spring Boot Test -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-test</artifactId>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <!-- Hibernate validator -->
-         <groupId>org.hibernate.validator</groupId>
-         <artifactId>hibernate-validator</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>
