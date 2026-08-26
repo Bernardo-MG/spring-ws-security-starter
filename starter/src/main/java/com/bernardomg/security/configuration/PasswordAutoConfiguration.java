@@ -84,10 +84,10 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordNotificationService")
-    @ConditionalOnMissingBean(PasswordNotificationService.class)
+    @ConditionalOnMissingBean({ JavaMailSender.class })
     public PasswordNotificationService getDefaultPasswordNotificationService() {
-        // FIXME: This is not handling correctly the missing bean condition
         log.info("Disabled password notification");
+
         return new DisabledPasswordNotificationService();
     }
 
@@ -112,12 +112,10 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordNotificationService")
-    @ConditionalOnBean({ JavaMailSender.class, SpringTemplateEngine.class })
-    @ConditionalOnMissingBean(PasswordNotificationService.class)
+    @ConditionalOnBean({ JavaMailSender.class })
     public PasswordNotificationService getPasswordNotificationService(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final MessageSource messageSource,
             final PasswordNotificationProperties properties) {
-        // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for password notifications", properties.from());
         log.info("Password recovery URL: {}", properties.passwordRecovery()
             .url());
