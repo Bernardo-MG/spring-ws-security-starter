@@ -26,33 +26,18 @@ package com.bernardomg.security.domain.account.model;
 
 /**
  * Representation of an account.
- * <p>
- * TODO: should be no need for an interface
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-public interface Account {
+public final record Account(String email, String username, String name) {
 
-    /**
-     * User email.
-     *
-     * @return the user email
-     */
-    public String getEmail();
+    public static final Account of(final String nam) {
+        return new Account(null, null, nam);
+    }
 
-    /**
-     * User name.
-     *
-     * @return the user name
-     */
-    public String getName();
-
-    /**
-     * User username.
-     *
-     * @return the user username
-     */
-    public String getUsername();
+    public static final Account of(final String usrnm, final String nm, final String eml) {
+        return new Account(eml, usrnm, nm);
+    }
 
 }

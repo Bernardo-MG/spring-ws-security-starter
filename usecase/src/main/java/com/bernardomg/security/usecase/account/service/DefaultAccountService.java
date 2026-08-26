@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import com.bernardomg.security.domain.account.exception.MissingAccountException;
 import com.bernardomg.security.domain.account.model.Account;
-import com.bernardomg.security.domain.account.model.BasicAccount;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
 import com.bernardomg.security.usecase.session.AccountInSessionProvider;
 
@@ -59,7 +58,7 @@ public final class DefaultAccountService implements AccountService {
         final Account current;
         final Account updated;
 
-        log.trace("Updating account {} using data {}", account.getUsername(), account);
+        log.trace("Updating account {} using data {}", account.username(), account);
 
         current = accountProvider.getCurrentAccount()
             .orElseThrow(() -> {
@@ -69,11 +68,11 @@ public final class DefaultAccountService implements AccountService {
             });
 
         // Can only change name
-        accountData = BasicAccount.of(current.getUsername(), account.getName(), current.getEmail());
+        accountData = Account.of(current.username(), account.name(), current.email());
 
         updated = accountRepository.save(accountData);
 
-        log.trace("Updated account {} using data {}", accountData.getUsername(), updated);
+        log.trace("Updated account {} using data {}", accountData.username(), updated);
 
         return updated;
     }

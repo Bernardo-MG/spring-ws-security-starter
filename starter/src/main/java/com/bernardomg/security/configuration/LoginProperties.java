@@ -32,6 +32,8 @@ import org.springframework.validation.annotation.Validated;
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *
+ * @param maxLoginAttempts
+ *            Max number of login attempts before the account is blocked. . By default it is 3
  */
 @Validated
 @ConfigurationProperties(prefix = "security.login")

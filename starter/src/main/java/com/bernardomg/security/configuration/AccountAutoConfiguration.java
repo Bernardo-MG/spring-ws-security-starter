@@ -43,7 +43,7 @@ import com.bernardomg.security.usecase.session.AccountInSessionProvider;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
 public class AccountAutoConfiguration {
 

@@ -25,10 +25,8 @@
 package com.bernardomg.security.configuration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
@@ -38,11 +36,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
 import com.bernardomg.security.domain.user.repository.UserRepository;
-import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
-import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
-import com.bernardomg.security.springframework.access.interceptor.SecurityContextHolderResourceAccessValidator;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 
 /**
@@ -53,8 +47,6 @@ import com.bernardomg.security.springframework.usecase.service.UserDomainDetails
  */
 @AutoConfiguration
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
-@ComponentScan({ "com.bernardomg.security.adapter.outbound.rest", "com.bernardomg.security.adapter.inbound.jpa" })
-@AutoConfigurationPackage(basePackages = { "com.bernardomg.security.adapter.inbound.jpa" })
 public class SecurityAutoConfiguration {
 
     public SecurityAutoConfiguration() {
@@ -83,14 +75,6 @@ public class SecurityAutoConfiguration {
     @ConditionalOnMissingBean(UserDetailsService.class)
     public UserDetailsService getUserDetailsService(final UserRepository userRepository) {
         return new UserDomainDetailsService(userRepository);
-    }
-
-    @Bean("springResourceAccessValidator")
-    public ResourceAccessValidator springResourceAccessValidator(final AuthenticationTrustResolver trustResolver) {
-        final ResourcePermissionEvaluator permissionEvaluator;
-
-        permissionEvaluator = new AuthorityResourcePermissionEvaluator();
-        return new SecurityContextHolderResourceAccessValidator(permissionEvaluator, trustResolver);
     }
 
 }

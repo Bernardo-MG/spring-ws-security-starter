@@ -26,7 +26,19 @@ package com.bernardomg.security.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "email.security")
+/**
+ * User notification properties.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ * @param from
+ *            Source for the email
+ * @param appName
+ *            Application name to show
+ * @param activateUser
+ *            User activation properties
+ */
+@ConfigurationProperties(prefix = "security.email")
 public final record UserNotificationProperties(String from, String appName, ActivateUserProperties activateUser) {
 
     public UserNotificationProperties(final String from, final String appName,
@@ -40,6 +52,14 @@ public final record UserNotificationProperties(String from, String appName, Acti
         }
     }
 
+    /**
+     * User activation properties. TODO: maybe it should validate it is a URL
+     *
+     * @author Bernardo Mart&iacute;nez Garrido
+     *
+     * @param url
+     *            URL to redirect back when recovering the password
+     */
     public final record ActivateUserProperties(String url) {
 
     }

@@ -48,14 +48,6 @@ import jakarta.transaction.Transactional;
 
 /**
  * Spring-based implementation of the user token service.
- * <h2>Unusable tokens</h2>
- * <p>
- * Cleaning up tokens removes all of these:
- * <ul>
- * <li>Consumed tokens</li>
- * <li>Revoked tokens</li>
- * <li>Expired tokens</li>
- * </ul>
  *
  * @author Bernardo Mart&iacute;nez Garrido
  *

@@ -24,8 +24,8 @@
 
 package com.bernardomg.security.configuration;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -38,7 +38,7 @@ import com.bernardomg.security.springframework.audit.SecurityUserDetailsAuditorA
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@Configuration
+@AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class AuditAutoConfiguration {
 

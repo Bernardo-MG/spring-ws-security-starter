@@ -22,37 +22,10 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.domain.account.model;
+package com.bernardomg.security.usecase.initializer.loader;
 
-/**
- * Representation of an account.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public final record BasicAccount(String email, String username, String name) implements Account {
+public interface PermissionsLoaderService {
 
-    public static final BasicAccount of(final String nam) {
-        return new BasicAccount(null, null, nam);
-    }
-
-    public static final BasicAccount of(final String usrnm, final String nm, final String eml) {
-        return new BasicAccount(eml, usrnm, nm);
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
+    void load();
 
 }

@@ -23,7 +23,7 @@
  */
 
 /**
- * Token stores.
+ * App startup adapters.
  */
 
-package com.bernardomg.security.usecase.user.store;
+package com.bernardomg.security.adapter.inbound.startup;

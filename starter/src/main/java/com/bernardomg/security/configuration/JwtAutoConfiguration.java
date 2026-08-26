@@ -28,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -68,7 +69,7 @@ public class JwtAutoConfiguration {
      */
     @Bean("jwtTokenDecoder")
     @ConditionalOnMissingBean({ TokenDecoder.class })
-    public TokenDecoder getTokenDecoder(final SecretKey key) {
+    public TokenDecoder getTokenDecoder(@Qualifier("jwtSecretKey") final SecretKey key) {
         return new JjwtTokenDecoder(key);
     }
 
@@ -81,7 +82,7 @@ public class JwtAutoConfiguration {
      */
     @Bean("jwtTokenEncoder")
     @ConditionalOnMissingBean({ TokenEncoder.class })
-    public TokenEncoder getTokenEncoder(final SecretKey key) {
+    public TokenEncoder getTokenEncoder(@Qualifier("jwtSecretKey") final SecretKey key) {
         return new JjwtTokenEncoder(key);
     }
 
@@ -93,6 +94,7 @@ public class JwtAutoConfiguration {
      * @return
      */
     @Bean("jwtSecretKey")
+    @ConditionalOnMissingBean(name = "jwtSecretKey")
     public SecretKey jwtSecretKey(final JwtProperties properties) {
         return Keys.hmacShaKeyFor(properties.secret()
             .getBytes(StandardCharsets.UTF_8));

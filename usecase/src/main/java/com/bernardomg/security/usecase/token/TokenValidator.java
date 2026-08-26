@@ -22,10 +22,24 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.initializer.loader;
+package com.bernardomg.security.usecase.token;
 
-public interface Loader {
+/**
+ * Token validator.
+ *
+ * @author Bernardo Mart&iacute;nez Garrido
+ *
+ */
+public interface TokenValidator {
 
-    void load();
+    /**
+     *
+     * Check if the token is valid, throwing an exception otherwise. This exception is expected to be an instance of
+     * {@link com.bernardomg.security.domain.user.exception.InvalidTokenException InvalidTokenException}.
+     *
+     * @param token
+     *            token to validate
+     */
+    public void validate(final String token);
 
 }

@@ -45,7 +45,9 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.bernardomg.jwt.encoding.TokenDecoder;
 import com.bernardomg.security.springframework.web.ErrorResponseAuthenticationEntryPoint;
@@ -63,7 +65,7 @@ import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = { SecurityAutoConfiguration.class, JwtAutoConfiguration.class })
 @EnableWebSecurity
 @EnableConfigurationProperties(CorsProperties.class)
 public class WebSecurityAutoConfiguration {
@@ -80,6 +82,23 @@ public class WebSecurityAutoConfiguration {
     @Bean("authenticationEntryPoint")
     public AuthenticationEntryPoint getAuthenticationEntryPoint() {
         return new ErrorResponseAuthenticationEntryPoint();
+    }
+
+    @Bean("corsConfigurationSource")
+    public CorsConfigurationSource getCorsConfigurationSource(final CorsProperties corsProperties) {
+        final UrlBasedCorsConfigurationSource corsConfigurationSource;
+        final CorsConfiguration               configuration;
+
+        configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(corsProperties.allowedOrigins());
+        configuration.setAllowedMethods(corsProperties.allowedMethods());
+        configuration.setAllowedHeaders(corsProperties.allowedHeaders());
+        configuration.setExposedHeaders(corsProperties.exposedHeaders());
+
+        corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        corsConfigurationSource.registerCorsConfiguration(corsProperties.pattern(), configuration);
+
+        return corsConfigurationSource;
     }
 
     @Bean("healthActuatorWhitelist")
@@ -102,8 +121,8 @@ public class WebSecurityAutoConfiguration {
      *
      * @param http
      *            HTTP security component
-     * @param corsProperties
-     *            CORS properties
+     * @param corsConfigurationSource
+     *            CORS configuration source
      * @param securityConfigurers
      *            security configurers
      * @param decoder
@@ -112,25 +131,20 @@ public class WebSecurityAutoConfiguration {
      *            authentication failure entry point
      * @param whitelist
      *            routes whitelist
-     * @param authenticationEntryPoint
-     *            authentication entry point
      * @return web security filter chain with all authentication requirements
      * @throws Exception
      *             if the setup fails
      */
     @Bean("webSecurityFilterChain")
-    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http, final CorsProperties corsProperties,
+    public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
+            final CorsConfigurationSource corsConfigurationSource,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final AuthenticationEntryPoint authenticationEntry,
-            final Collection<WhitelistRoute> whitelist, final AuthenticationEntryPoint authenticationEntryPoint)
-            throws Exception {
-
-        final CorsConfigurationSource                                                                              corsConfigurationSource;
+            final Collection<WhitelistRoute> whitelist) throws Exception {
         final Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> whitelister;
         final JwtTokenFilter                                                                                       jwtFilter;
         final TokenAuthenticationParser                                                                            tokenAuthenticationParser;
 
-        corsConfigurationSource = new CorsConfigurationPropertiesSource(corsProperties);
         whitelister = new WhitelistCustomizer(whitelist);
         tokenAuthenticationParser = new TokenDetailsTokenAuthenticationParser(decoder);
         jwtFilter = new JwtTokenFilter(new BearerHeaderTokenResolver(), tokenAuthenticationParser, authenticationEntry);
@@ -146,7 +160,7 @@ public class WebSecurityAutoConfiguration {
             .csrf(CsrfConfigurer::disable)
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
             // Authentication error handling
-            .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint))
+            .exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntry))
             // Stateless
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // Disable login and logout forms

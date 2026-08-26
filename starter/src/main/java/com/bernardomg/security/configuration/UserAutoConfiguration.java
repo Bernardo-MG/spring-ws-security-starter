@@ -32,7 +32,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -41,21 +40,28 @@ import com.bernardomg.event.emitter.EventEmitter;
 import com.bernardomg.security.adapter.inbound.event.user.UserInvitationNotificationListener;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 import com.bernardomg.security.domain.user.repository.UserTokenRepository;
 import com.bernardomg.security.springframework.web.whitelist.WhitelistRoute;
 import com.bernardomg.security.usecase.password.encrypt.PasswordEncrypter;
+import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 import com.bernardomg.security.usecase.user.service.DisabledUserNotificationService;
+import com.bernardomg.security.usecase.user.service.SpringUserTokenService;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
 import com.bernardomg.security.usecase.user.service.UserOnboardingService;
 import com.bernardomg.security.usecase.user.service.UserService;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
+import com.bernardomg.security.usecase.user.service.UserTokenService;
 
 /**
  * Password handling configuration.
@@ -63,10 +69,9 @@ import com.bernardomg.security.usecase.user.store.UserTokenStore;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class })
-@Import({ UserTokenAutoConfiguration.class })
+@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class, UserTokenProperties.class })
 public class UserAutoConfiguration {
 
     /**
@@ -115,12 +120,15 @@ public class UserAutoConfiguration {
             final PasswordEncrypter passwordEncrypter, final EventEmitter eventEmitter,
             final UserTokenProperties tokenProperties) {
         final UserTokenStore tokenStore;
+        final TokenValidator tokenValidator;
 
+        // TODO: take the scope from a constant, and change to onboarding
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "user_registered",
-            tokenProperties.validity());
+            tokenProperties.validity(), "User onboarding token");
+        tokenValidator = new ScopedUserTokenValidator(userTokenRepository, "user_registered");
 
         return new DefaultUserOnboardingService(userRepository, roleRepository, passwordEncrypter, tokenStore,
-            eventEmitter);
+            tokenValidator, eventEmitter);
     }
 
     @Bean("userOnboardingWhitelist")
@@ -139,6 +147,17 @@ public class UserAutoConfiguration {
     public UserService getUserService(final UserRepository userRepository, final RoleRepository roleRepository,
             final PasswordEncrypter passwordEncrypter) {
         return new DefaultUserService(userRepository, roleRepository, passwordEncrypter);
+    }
+
+    @Bean("userTokenRepository")
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepository,
+            final UserDataTokenSpringRepository userDataTokenRepository, final UserSpringRepository userRepository) {
+        return new JpaUserTokenRepository(userTokenRepository, userDataTokenRepository, userRepository);
+    }
+
+    @Bean("userTokenService")
+    public UserTokenService getUserTokenService(final UserTokenRepository userTokenRepository) {
+        return new SpringUserTokenService(userTokenRepository);
     }
 
 }

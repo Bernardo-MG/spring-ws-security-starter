@@ -29,7 +29,8 @@ import java.security.SecureRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -57,8 +58,10 @@ import com.bernardomg.security.usecase.password.reset.service.DisabledPasswordNo
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 import com.bernardomg.security.usecase.password.reset.service.PasswordResetService;
 import com.bernardomg.security.usecase.session.UsernameInSessionProvider;
-import com.bernardomg.security.usecase.user.store.ScopedUserTokenStore;
-import com.bernardomg.security.usecase.user.store.UserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
+import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
+import com.bernardomg.security.usecase.token.TokenValidator;
+import com.bernardomg.security.usecase.token.UserTokenStore;
 
 /**
  * Password handling configuration.
@@ -66,7 +69,7 @@ import com.bernardomg.security.usecase.user.store.UserTokenStore;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = { SecurityAutoConfiguration.class, UserAutoConfiguration.class })
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({ PasswordNotificationProperties.class })
 public class PasswordAutoConfiguration {
@@ -81,8 +84,7 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordNotificationService")
-    // @ConditionalOnMissingBean(EmailSender.class)
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
+    @ConditionalOnMissingBean(PasswordNotificationService.class)
     public PasswordNotificationService getDefaultPasswordNotificationService() {
         // FIXME: This is not handling correctly the missing bean condition
         log.info("Disabled password notification");
@@ -99,6 +101,7 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordEncoder")
+    @ConditionalOnMissingBean(PasswordEncoder.class)
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(10, new SecureRandom());
     }
@@ -109,8 +112,8 @@ public class PasswordAutoConfiguration {
     }
 
     @Bean("passwordNotificationService")
-    // @ConditionalOnBean(EmailSender.class)
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
+    @ConditionalOnBean({ JavaMailSender.class, SpringTemplateEngine.class })
+    @ConditionalOnMissingBean(PasswordNotificationService.class)
     public PasswordNotificationService getPasswordNotificationService(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final MessageSource messageSource,
             final PasswordNotificationProperties properties) {
@@ -129,11 +132,15 @@ public class PasswordAutoConfiguration {
             final PasswordEncrypter passwordEncrypter, final UserTokenRepository userTokenRepository,
             final UserTokenProperties tokenProperties, final EventEmitter eventEmit) {
         final UserTokenStore tokenStore;
+        final TokenValidator tokenValidator;
 
+        // TODO: take the scope from a constant
         tokenStore = new ScopedUserTokenStore(userTokenRepository, userRepository, "password_reset",
-            tokenProperties.validity());
+            tokenProperties.validity(), "Password recovery token");
+        tokenValidator = new ScopedUserTokenValidator(userTokenRepository, "password_reset");
 
-        return new DefaultPasswordResetService(userRepository, passwordEncrypter, tokenStore, eventEmit);
+        return new DefaultPasswordResetService(userRepository, passwordEncrypter, tokenStore, tokenValidator,
+            eventEmit);
     }
 
     @Bean("passwordResetNotificationListener")

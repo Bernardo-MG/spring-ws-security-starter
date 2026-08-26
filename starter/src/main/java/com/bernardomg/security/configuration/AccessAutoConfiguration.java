@@ -28,9 +28,13 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
 
 import com.bernardomg.framework.security.access.interceptor.RequireResourceAuthorizationInterceptor;
 import com.bernardomg.framework.security.access.interceptor.ResourceAccessValidator;
+import com.bernardomg.security.springframework.access.interceptor.AuthorityResourcePermissionEvaluator;
+import com.bernardomg.security.springframework.access.interceptor.ResourcePermissionEvaluator;
+import com.bernardomg.security.springframework.access.interceptor.SecurityContextHolderResourceAccessValidator;
 
 /**
  * Access configuration.
@@ -38,7 +42,7 @@ import com.bernardomg.framework.security.access.interceptor.ResourceAccessValida
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = SecurityAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
 public class AccessAutoConfiguration {
 
@@ -51,6 +55,14 @@ public class AccessAutoConfiguration {
             requireResourceAuthorizationInterceptor(final ResourceAccessValidator validator) {
         return new RequireResourceAuthorizationInterceptor(validator,
             () -> new AccessDeniedException("Missing authentication"));
+    }
+
+    @Bean("springResourceAccessValidator")
+    public ResourceAccessValidator springResourceAccessValidator(final AuthenticationTrustResolver trustResolver) {
+        final ResourcePermissionEvaluator permissionEvaluator;
+
+        permissionEvaluator = new AuthorityResourcePermissionEvaluator();
+        return new SecurityContextHolderResourceAccessValidator(permissionEvaluator, trustResolver);
     }
 
 }

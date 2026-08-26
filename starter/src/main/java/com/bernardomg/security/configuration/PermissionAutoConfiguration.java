@@ -34,11 +34,17 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaReso
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.JpaResourceRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourceSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.JpaRoleRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.role.UserRoleSpringRepository;
 import com.bernardomg.security.domain.permission.repository.ActionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
+import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.usecase.permission.service.DefaultPermissionService;
 import com.bernardomg.security.usecase.permission.service.PermissionService;
+import com.bernardomg.security.usecase.role.service.DefaultRoleService;
+import com.bernardomg.security.usecase.role.service.RoleService;
 
 /**
  * Security configuration.
@@ -46,7 +52,7 @@ import com.bernardomg.security.usecase.permission.service.PermissionService;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration
+@AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
 public class PermissionAutoConfiguration {
 
@@ -73,6 +79,20 @@ public class PermissionAutoConfiguration {
     @Bean("resourceRepository")
     public ResourceRepository getResourceRepository(final ResourceSpringRepository resourceRepository) {
         return new JpaResourceRepository(resourceRepository);
+    }
+
+    @Bean("roleRepository")
+    public RoleRepository getRoleRepository(final RoleSpringRepository roleSpringRepository,
+            final ResourcePermissionSpringRepository resourcePermissionSpringRepository,
+            final UserRoleSpringRepository userRoleSpringRepository) {
+        return new JpaRoleRepository(roleSpringRepository, resourcePermissionSpringRepository,
+            userRoleSpringRepository);
+    }
+
+    @Bean("roleService")
+    public RoleService getRoleService(final RoleRepository roleRepository,
+            final ResourcePermissionRepository resourcePermissionRepository) {
+        return new DefaultRoleService(roleRepository, resourcePermissionRepository);
     }
 
 }
