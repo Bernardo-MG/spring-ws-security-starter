@@ -24,7 +24,6 @@
 
 package com.bernardomg.security.configuration;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +35,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
+import com.bernardomg.security.adapter.inbound.spring.initializer.loader.SpringResourcePermissionConfigLoader;
 import com.bernardomg.security.adapter.inbound.startup.PermissionsStartupLoader;
 import com.bernardomg.security.domain.permission.repository.ActionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
-import com.bernardomg.security.usecase.initializer.loader.DefaultPermissionConfigLoader;
 import com.bernardomg.security.usecase.initializer.loader.DefaultPermissionsLoaderService;
 import com.bernardomg.security.usecase.initializer.loader.PermissionConfigLoader;
 import com.bernardomg.security.usecase.initializer.loader.PermissionsLoaderService;
@@ -66,20 +65,23 @@ public class PermissionLoaderAutoConfiguration {
             @Value("classpath:security_permissions.yml") final Resource permissionsFile,
             final PermissionsFilesProperties permissionsFilesProperties) throws IOException {
         final PermissionConfigLoader permissionConfigLoader;
-        final List<File>             permissionFiles;
+        final List<Resource>         permissionFiles;
 
         // TODO: load on application ready
 
         permissionFiles = new ArrayList<>();
-        permissionFiles.add(permissionsFile.getFile());
+        permissionFiles.add(permissionsFile);
+        if (!permissionsFile.exists()) {
+            throw new IOException("Missing permissions file " + permissionsFile.getFilename());
+        }
         for (final Resource t : permissionsFilesProperties.files()) {
             if (!t.exists()) {
                 throw new IOException("Missing permissions file " + t.getFilename());
             }
-            permissionFiles.add(t.getFile());
+            permissionFiles.add(t);
         }
 
-        permissionConfigLoader = new DefaultPermissionConfigLoader(permissionFiles);
+        permissionConfigLoader = new SpringResourcePermissionConfigLoader(permissionFiles);
         return new DefaultPermissionsLoaderService(actionRepo, resourceRepo, resourcePermissionRepo,
             permissionConfigLoader);
     }
