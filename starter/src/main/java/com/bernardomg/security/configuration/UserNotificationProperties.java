@@ -38,7 +38,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @param activateUser
  *            User activation properties
  */
-@ConfigurationProperties(prefix = "email.security")
+@ConfigurationProperties(prefix = "security.email")
 public final record UserNotificationProperties(String from, String appName, ActivateUserProperties activateUser) {
 
     public UserNotificationProperties(final String from, final String appName,
