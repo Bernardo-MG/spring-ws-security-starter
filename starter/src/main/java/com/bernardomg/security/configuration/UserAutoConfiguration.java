@@ -27,7 +27,8 @@ package com.bernardomg.security.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -84,10 +85,8 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userNotificationService")
-    // @ConditionalOnMissingBean(EmailSender.class)
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host", havingValue = "false", matchIfMissing = true)
+    @ConditionalOnMissingBean({ JavaMailSender.class })
     public UserNotificationService getDefaultUserNotificationService() {
-        // FIXME: This is not handling correctly the missing bean condition
         log.info("Disabled user notification service");
         return new DisabledUserNotificationService();
     }
@@ -99,12 +98,10 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userNotificationService")
-    // @ConditionalOnBean(EmailSender.class)
-    @ConditionalOnProperty(prefix = "spring.mail", name = "host")
+    @ConditionalOnBean({ JavaMailSender.class })
     public UserNotificationService getUserNotificationService(final SpringTemplateEngine templateEng,
             final JavaMailSender mailSender, final MessageSource messageSource,
             final UserNotificationProperties properties) {
-        // FIXME: This is not handling correctly the bean condition
         log.info("Using email {} for user notifications", properties.from());
         log.info("Activate user URL: {}", properties.activateUser()
             .url());

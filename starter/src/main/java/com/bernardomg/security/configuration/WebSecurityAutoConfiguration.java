@@ -28,6 +28,7 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -137,7 +138,7 @@ public class WebSecurityAutoConfiguration {
      */
     @Bean("webSecurityFilterChain")
     public SecurityFilterChain getWebSecurityFilterChain(final HttpSecurity http,
-            final CorsConfigurationSource corsConfigurationSource,
+            @Qualifier("corsConfigurationSource") final CorsConfigurationSource corsConfigurationSource,
             final Collection<SecurityConfigurer<DefaultSecurityFilterChain, HttpSecurity>> securityConfigurers,
             final TokenDecoder decoder, final AuthenticationEntryPoint authenticationEntry,
             final Collection<WhitelistRoute> whitelist) throws Exception {
