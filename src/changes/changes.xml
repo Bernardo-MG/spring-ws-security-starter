@@ -629,5 +629,10 @@
             Corrected permissions file loading.
          </action>
       </release>
+      <release version="0.15.17" date="2026-08-27" description="Email fixes">
+         <action dev="bmg" type="fix">
+            Corrected email config.
+         </action>
+      </release>
    </body>
 </document>
