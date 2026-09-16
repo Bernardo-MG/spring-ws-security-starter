@@ -29,10 +29,6 @@ class ITLoginRegisterRepositorySave {
     @Autowired
     private LoginRegisterSpringRepository springRepository;
 
-    public ITLoginRegisterRepositorySave() {
-        super();
-    }
-
     @Test
     @DisplayName("When changing a login register to not logged in, it is persisted")
     @LoggedInLoginRegister

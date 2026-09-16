@@ -25,14 +25,10 @@ class ITLoginRegisterRepositoryFindAll {
     @Autowired
     private LoginRegisterRepository repository;
 
-    public ITLoginRegisterRepositoryFindAll() {
-        super();
-    }
-
     @Test
     @DisplayName("Returns all data")
     @LoggedInLoginRegister
-    void testGetAll_Data() {
+    void testGetAll() {
         final Page<LoginRegister> logins;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -50,28 +46,6 @@ class ITLoginRegisterRepositoryFindAll {
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("logins")
             .containsExactly(LoginRegisters.loggedIn());
-    }
-
-    @Test
-    @DisplayName("With no data it returns nothing")
-    void testGetAll_Empty_Count() {
-        final Page<LoginRegister> logins;
-        final Pagination          pagination;
-        final Sorting             sorting;
-
-        // GIVEN
-        pagination = new Pagination(1, 10);
-        sorting = Sorting.unsorted();
-
-        // WHEN
-        logins = repository.findAll(pagination, sorting);
-
-        // THEN
-        Assertions.assertThat(logins)
-            .extracting(Page::content)
-            .asInstanceOf(InstanceOfAssertFactories.LIST)
-            .as("logins")
-            .isEmpty();
     }
 
     @Test
@@ -95,6 +69,28 @@ class ITLoginRegisterRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(LoginRegisters.loggedIn());
+    }
+
+    @Test
+    @DisplayName("With no data it returns nothing")
+    void testGetAll_NoData() {
+        final Page<LoginRegister> logins;
+        final Pagination          pagination;
+        final Sorting             sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        logins = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(logins)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .as("logins")
+            .isEmpty();
     }
 
 }
