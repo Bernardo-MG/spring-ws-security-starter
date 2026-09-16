@@ -25,13 +25,13 @@
 package com.bernardomg.security.adapter.inbound.jpa.repository.test.integration.role;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithPermission;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
@@ -51,6 +51,9 @@ class ITRoleRepositoryDelete {
 
     @Autowired
     private RoleSpringRepository               springRepository;
+
+    @Autowired
+    private UserSpringRepository               userSpringRepository;
 
     public ITRoleRepositoryDelete() {
         super();
@@ -130,14 +133,13 @@ class ITRoleRepositoryDelete {
     @Test
     @DisplayName("When deleting a role with user and permissions, the user is not deleted")
     @EnabledUserWithRole
-    @Disabled("Should this be redone?")
     void testDelete_WithUser_UserNotDeleted() {
         // WHEN
         repository.delete(RoleConstants.NAME);
 
         // THEN
-        // Assertions.assertThat(userSpringRepository.count())
-        // .isNotZero();
+        Assertions.assertThat(userSpringRepository.count())
+            .isNotZero();
     }
 
 }
