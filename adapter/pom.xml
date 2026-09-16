@@ -53,6 +53,16 @@
          <groupId>com.bernardomg.framework.security</groupId>
          <artifactId>access-decorator</artifactId>
       </dependency>
+      <dependency>
+         <!-- Event -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>event</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Pagination -->
+         <groupId>com.bernardomg.framework</groupId>
+         <artifactId>pagination</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
@@ -93,6 +103,16 @@
          <!-- Spring Web MVC -->
          <groupId>org.springframework</groupId>
          <artifactId>spring-webmvc</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Web -->
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-web</artifactId>
+      </dependency>
+      <dependency>
+         <!-- Spring Data Commons -->
+         <groupId>org.springframework.data</groupId>
+         <artifactId>spring-data-commons</artifactId>
       </dependency>
       <dependency>
          <!-- Spring context -->
@@ -164,6 +184,12 @@
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
       <!-- ============================================== -->
+      <dependency>
+         <!-- JJWT API -->
+         <groupId>io.jsonwebtoken</groupId>
+         <artifactId>jjwt-api</artifactId>
+         <scope>test</scope>
+      </dependency>
       <dependency>
          <!-- Spring Boot Starter: Test -->
          <groupId>org.springframework.boot</groupId>
