@@ -34,14 +34,6 @@
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-usecase</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-adapter</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.framework.security.spring</groupId>
          <artifactId>spring-security</artifactId>
       </dependency>
@@ -56,6 +48,11 @@
       <!-- ============================================== -->
       <!-- ================== JAKARTA =================== -->
       <!-- ============================================== -->
+      <dependency>
+         <!-- JPA API -->
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
       <dependency>
           <!-- Jakarta Servlet API -->
          <groupId>jakarta.servlet</groupId>

@@ -119,6 +119,11 @@
          <scope>provided</scope>
       </dependency>
       <dependency>
+         <!-- Jakarta Transactions -->
+         <groupId>jakarta.transaction</groupId>
+         <artifactId>jakarta.transaction-api</artifactId>
+      </dependency>
+      <dependency>
          <!-- Jakarta validation -->
          <groupId>jakarta.validation</groupId>
          <artifactId>jakarta.validation-api</artifactId>
