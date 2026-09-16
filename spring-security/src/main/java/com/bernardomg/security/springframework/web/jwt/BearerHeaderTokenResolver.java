@@ -20,7 +20,7 @@ public final class BearerHeaderTokenResolver implements TokenResolver {
     /**
      * Logger for the class.
      */
-    private static final Logger  log                  = LoggerFactory.getLogger(JwtTokenFilter.class);
+    private static final Logger  log                  = LoggerFactory.getLogger(BearerHeaderTokenResolver.class);
 
     public BearerHeaderTokenResolver() {
         super();
@@ -41,7 +41,6 @@ public final class BearerHeaderTokenResolver implements TokenResolver {
         } else {
             // Security header received
             // Check for the token
-            // TODO: Should be case insensitive
             matcher = authorizationPattern.matcher(header);
             if (!matcher.matches()) {
                 log.debug("Malformed token");
