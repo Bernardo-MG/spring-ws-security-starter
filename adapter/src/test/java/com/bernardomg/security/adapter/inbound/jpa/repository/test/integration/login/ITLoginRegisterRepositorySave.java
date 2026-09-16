@@ -12,8 +12,10 @@ import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEnti
 import com.bernardomg.security.adapter.inbound.jpa.repository.login.LoginRegisterSpringRepository;
 import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.login.annotation.LoggedInLoginRegister;
+import com.bernardomg.security.adapter.test.config.login.factory.LoginConstants;
 import com.bernardomg.security.adapter.test.config.login.factory.LoginRegisterEntities;
 import com.bernardomg.security.adapter.test.config.login.factory.LoginRegisters;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithoutRole;
 import com.bernardomg.security.domain.login.model.LoginRegister;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 
@@ -27,12 +29,8 @@ class ITLoginRegisterRepositorySave {
     @Autowired
     private LoginRegisterSpringRepository springRepository;
 
-    public ITLoginRegisterRepositorySave() {
-        super();
-    }
-
     @Test
-    @DisplayName("When changing a logged in event to not logged in, it is persisted")
+    @DisplayName("When changing a login register to not logged in, it is persisted")
     @LoggedInLoginRegister
     void testSave_Existing_Logged_UpdateToNotLogged_Persisted() {
         final LoginRegister                   register;
@@ -54,7 +52,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a logged in event to not logged in, it is returned")
+    @DisplayName("When changing a login register to not logged in, it is returned")
     @LoggedInLoginRegister
     void testSave_Existing_Logged_UpdateToNotLogged_Returned() {
         final LoginRegister register;
@@ -73,7 +71,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a logged in event, it is persisted")
+    @DisplayName("When saving a login register, it is persisted")
     void testSave_Logged_Persisted() {
         final LoginRegister                   register;
         final Collection<LoginRegisterEntity> registers;
@@ -94,7 +92,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a logged in event, it is returned")
+    @DisplayName("When saving a login register, it is returned")
     void testSave_Logged_Returned() {
         final LoginRegister register;
         final LoginRegister returned;
@@ -112,7 +110,31 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a not logged in event, it is persisted")
+    @DisplayName("When saving a login register for an existing user, it is linked to the user")
+    @EnabledUserWithoutRole
+    void testSave_Logged_UserExists_Linked() {
+        final LoginRegister                   register;
+        final Collection<LoginRegisterEntity> registers;
+
+        // GIVEN
+        register = LoginRegisters.loggedIn();
+
+        // WHEN
+        repository.save(register);
+
+        // THEN
+        registers = springRepository.findAll();
+
+        Assertions.assertThat(registers)
+            .as("login registers")
+            .singleElement()
+            .extracting(login -> login.getUser()
+                .getUsername())
+            .isEqualTo(LoginConstants.USERNAME);
+    }
+
+    @Test
+    @DisplayName("When saving a not login register, it is persisted")
     void testSave_NotLogged_Persisted() {
         final LoginRegister                   register;
         final Collection<LoginRegisterEntity> registers;
@@ -133,7 +155,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a not logged in event, it is returned")
+    @DisplayName("When saving a not login register, it is returned")
     void testSave_NotLogged_Returned() {
         final LoginRegister register;
         final LoginRegister returned;

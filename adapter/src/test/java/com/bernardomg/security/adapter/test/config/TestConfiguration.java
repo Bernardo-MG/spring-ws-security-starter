@@ -72,9 +72,10 @@ public class TestConfiguration {
     }
 
     @Bean("loginRegisterRepository")
-    public LoginRegisterRepository
-            getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepository) {
-        return new JpaLoginRegisterRepository(loginRegisterSpringRepository);
+    public LoginRegisterRepository getLoginRegisterRepository(
+            final LoginRegisterSpringRepository loginRegisterSpringRepository,
+            final UserSpringRepository userSpringRepository) {
+        return new JpaLoginRegisterRepository(loginRegisterSpringRepository, userSpringRepository);
     }
 
     @Bean("resourcePermissionRepository")

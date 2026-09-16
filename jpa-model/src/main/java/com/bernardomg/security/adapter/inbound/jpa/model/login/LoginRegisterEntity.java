@@ -28,11 +28,16 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -78,6 +83,13 @@ public class LoginRegisterEntity implements Serializable {
     @Column(name = "username", nullable = false, unique = true, length = 60)
     private String            username;
 
+    /**
+     * User.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity        user;
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -106,6 +118,10 @@ public class LoginRegisterEntity implements Serializable {
         return username;
     }
 
+    public UserEntity getUser() {
+        return user;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -125,6 +141,10 @@ public class LoginRegisterEntity implements Serializable {
 
     public void setUsername(final String username) {
         this.username = username;
+    }
+
+    public void setUser(final UserEntity user) {
+        this.user = user;
     }
 
     @Override

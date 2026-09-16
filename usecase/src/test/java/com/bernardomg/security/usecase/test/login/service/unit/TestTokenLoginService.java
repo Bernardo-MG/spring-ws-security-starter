@@ -3,7 +3,6 @@ package com.bernardomg.security.usecase.test.login.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,11 +73,14 @@ class TestTokenLoginService {
         status = service.login(Credentialses.valid());
 
         // THEN
-        Assertions.assertThat(status.logged())
-            .isFalse();
-
-        Assertions.assertThat(status.token())
-            .isEmpty();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.logged())
+                .as("logged")
+                .isFalse();
+            softly.assertThat(status.token())
+                .as("token")
+                .isEmpty();
+        });
     }
 
 }

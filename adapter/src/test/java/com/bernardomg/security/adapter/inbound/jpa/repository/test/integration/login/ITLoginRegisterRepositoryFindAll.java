@@ -11,8 +11,10 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
+import com.bernardomg.security.adapter.test.config.login.annotation.LinkedLoginRegister;
 import com.bernardomg.security.adapter.test.config.login.annotation.LoggedInLoginRegister;
 import com.bernardomg.security.adapter.test.config.login.factory.LoginRegisters;
+import com.bernardomg.security.adapter.test.config.user.annotation.EnabledUserWithoutRole;
 import com.bernardomg.security.domain.login.model.LoginRegister;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 
@@ -23,14 +25,10 @@ class ITLoginRegisterRepositoryFindAll {
     @Autowired
     private LoginRegisterRepository repository;
 
-    public ITLoginRegisterRepositoryFindAll() {
-        super();
-    }
-
     @Test
     @DisplayName("Returns all data")
     @LoggedInLoginRegister
-    void testGetAll_Data() {
+    void testGetAll() {
         final Page<LoginRegister> logins;
         final Pagination          pagination;
         final Sorting             sorting;
@@ -51,8 +49,31 @@ class ITLoginRegisterRepositoryFindAll {
     }
 
     @Test
+    @DisplayName("When linked to a user, returns the user username")
+    @EnabledUserWithoutRole
+    @LinkedLoginRegister
+    void testGetAll_LinkedUser_UsernameFromUser() {
+        final Page<LoginRegister> logins;
+        final Pagination          pagination;
+        final Sorting             sorting;
+
+        // GIVEN
+        pagination = new Pagination(1, 10);
+        sorting = Sorting.unsorted();
+
+        // WHEN
+        logins = repository.findAll(pagination, sorting);
+
+        // THEN
+        Assertions.assertThat(logins)
+            .extracting(Page::content)
+            .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .containsExactly(LoginRegisters.loggedIn());
+    }
+
+    @Test
     @DisplayName("With no data it returns nothing")
-    void testGetAll_Empty_Count() {
+    void testGetAll_NoData() {
         final Page<LoginRegister> logins;
         final Pagination          pagination;
         final Sorting             sorting;
