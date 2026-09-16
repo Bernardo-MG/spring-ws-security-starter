@@ -136,6 +136,14 @@
          <artifactId>jakarta.mail</artifactId>
       </dependency>
       <!-- ============================================== -->
+      <!-- ================= JACKSON ==================== -->
+      <!-- ============================================== -->
+      <dependency>
+         <!-- Jackson annotations -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-annotations</artifactId>
+      </dependency>
+      <!-- ============================================== -->
       <!-- ================ THYMELEAF =================== -->
       <!-- ============================================== -->
       <dependency>
@@ -203,6 +211,12 @@
       <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-data-jpa</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Jackson databinding -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

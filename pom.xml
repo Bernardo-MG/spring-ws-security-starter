@@ -196,15 +196,10 @@
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.response.version>1.0.0</bernardomg.framework.ws.response.version>
-      <commons.codec.version>1.19.0</commons.codec.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
-      <jackson.annotations.version>2.22</jackson.annotations.version>
-      <jackson.version>2.22.1</jackson.version>
       <openapitools.jackson>0.2.11</openapitools.jackson>
       <spring.boot.version>3.5.16</spring.boot.version>
-      <spring.data.version>2025.1.6</spring.data.version>
-      <spring.version>6.2.19</spring.version>
       <testcontainers.version>2.0.5</testcontainers.version>
       <swagger.version>2.2.52</swagger.version>
       <!-- ============================================== -->
@@ -229,26 +224,10 @@
    <dependencyManagement>
       <dependencies>
          <dependency>
-            <!-- Spring Framework BOM -->
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-framework-bom</artifactId>
-            <version>${spring.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
             <!-- Spring Boot Dependencies BOM -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-dependencies</artifactId>
             <version>${spring.boot.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-         <dependency>
-            <!-- Spring Data BOM -->
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-bom</artifactId>
-            <version>${spring.data.version}</version>
             <type>pom</type>
             <scope>import</scope>
          </dependency>
@@ -341,15 +320,6 @@
            <version>${swagger.version}</version>
          </dependency>
          <!-- ============================================== -->
-         <!-- ================= JACKSON ==================== -->
-         <!-- ============================================== -->
-         <dependency>
-            <!-- Jackson databinding -->
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-           <version>${jackson.version}</version>
-         </dependency>
-         <!-- ============================================== -->
          <!-- ================ VALIDATION ================== -->
          <!-- ============================================== -->
          <dependency>
@@ -367,33 +337,6 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${jakarta.annotation.version}</version>
          </dependency>
-         <!-- ============================================== -->
-         <!-- ========= DEPENDENCY CONVERGENCE ============= -->
-         <!-- ============================================== -->
-         <dependency>
-           <groupId>com.fasterxml.jackson.core</groupId>
-           <artifactId>jackson-core</artifactId>
-           <version>${jackson.version}</version>
-         </dependency>
-         <dependency>
-           <groupId>com.fasterxml.jackson.core</groupId>
-           <artifactId>jackson-annotations</artifactId>
-           <version>${jackson.annotations.version}</version>
-         </dependency>
-         <!-- ============================================== -->
-         <!-- ============ TEST CONTAINERS ================= -->
-         <!-- ============================================== -->
-	     <dependency>
-	        <!-- Test containers -->
-	        <groupId>org.testcontainers</groupId>
-	        <artifactId>testcontainers</artifactId>
-	        <version>${testcontainers.version}</version>
-	     </dependency>
-	     <dependency>
-	        <groupId>commons-codec</groupId>
-	        <artifactId>commons-codec</artifactId>
-	        <version>${commons.codec.version}</version>
-	     </dependency>
          <!-- ============================================== -->
          <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
          <!-- ============================================== -->
@@ -436,32 +379,6 @@
          <!-- SL4J API -->
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Log4j SLF4J Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-slf4j2-impl</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Log4j core -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-core</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Log4j Commons Logging Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-jcl</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>commons-logging</groupId>
-               <artifactId>commons-logging</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <!-- Log4j Web -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-web</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
