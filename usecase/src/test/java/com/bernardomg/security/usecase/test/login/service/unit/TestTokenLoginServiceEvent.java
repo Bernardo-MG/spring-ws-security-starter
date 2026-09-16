@@ -102,4 +102,32 @@ class TestTokenLoginServiceEvent {
         });
     }
 
+    @Test
+    @DisplayName("When logging in, the event received the user username")
+    void testLogIn_UserUsername() {
+        final LogInEvent event;
+
+        // GIVEN
+        given(userAuthenticator.authenticate(Credentialses.email())).willReturn(LoginUsers.valid());
+
+        given(loginTokenEncoder.encode(LoginUsers.valid())).willReturn(Tokens.TOKEN);
+
+        // WHEN
+        service.login(Credentialses.email());
+
+        // THEN
+        Mockito.verify(eventEmitter)
+            .emit(eventCaptor.capture());
+
+        event = eventCaptor.getValue();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(event.isLoggedIn())
+                .as("logged in")
+                .isTrue();
+            softly.assertThat(event.getUsername())
+                .as("username")
+                .isEqualTo(UserConstants.USERNAME);
+        });
+    }
+
 }

@@ -4,6 +4,8 @@ package com.bernardomg.security.springframework.login.authentication;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,12 @@ import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 public final class AuthenticationManagerLoginUserAuthenticator implements LoginUserAuthenticator {
 
+    /**
+     * Logger for the class.
+     */
+    private static final Logger         log = LoggerFactory
+        .getLogger(AuthenticationManagerLoginUserAuthenticator.class);
+
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationManagerLoginUserAuthenticator(final AuthenticationManager authenticationManager) {
@@ -28,16 +36,23 @@ public final class AuthenticationManagerLoginUserAuthenticator implements LoginU
 
     @Override
     public final LoginUser authenticate(final Credentials credentials) {
-        final Authentication authentication;
+        final Authentication toAuthenticate;
+        final Authentication authenticated;
+
+        log.debug("Authenticating {}", credentials.username());
 
         try {
-            authentication = authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken.unauthenticated(credentials.username(), credentials.password()));
+            toAuthenticate = UsernamePasswordAuthenticationToken.unauthenticated(credentials.username(),
+                credentials.password());
+            authenticated = authenticationManager.authenticate(toAuthenticate);
         } catch (final AuthenticationException exception) {
+            log.error("Invalid credentials for {}", credentials.username());
             throw new InvalidCredentialsException(exception);
         }
 
-        return toDomain(authentication);
+        log.debug("Authenticated {}", credentials.username());
+
+        return toDomain(authenticated);
     }
 
     private final LoginUser toDomain(final Authentication authentication) {
@@ -46,6 +61,7 @@ public final class AuthenticationManagerLoginUserAuthenticator implements LoginU
 
         if (!(authentication.getPrincipal() instanceof SecurityUserDetails)) {
             // TODO: use a better exception
+            log.error("Credentials principal is not of type SecurityUserDetails");
             throw new InvalidCredentialsException();
         }
 
