@@ -382,6 +382,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_login_registers_user_id
+                    references: security.users(id)
+                    deleteCascade: true
+              - column:
                   name: logged_in
                   type: boolean
                   constraints:
