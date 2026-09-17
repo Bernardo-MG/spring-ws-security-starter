@@ -25,6 +25,7 @@
 package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

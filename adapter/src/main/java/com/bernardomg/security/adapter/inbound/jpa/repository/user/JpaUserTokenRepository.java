@@ -53,14 +53,14 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaUserTokenRepository.class);
+    private static final Logger             log = LoggerFactory.getLogger(JpaUserTokenRepository.class);
 
-    private final UserSpringRepository          userSpringRepository;
+    private final UserSpringRepository      userSpringRepository;
 
     /**
      * User token repository.
      */
-    private final UserTokenSpringRepository     userTokenSpringRepository;
+    private final UserTokenSpringRepository userTokenSpringRepository;
 
     public JpaUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepo,
             final UserSpringRepository userSpringRepo) {
