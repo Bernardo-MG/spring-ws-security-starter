@@ -52,9 +52,9 @@ public class LoginRegisterAutoConfiguration {
     }
 
     @Bean("loginRegisterRepository")
-    public LoginRegisterRepository
-            getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepository,
-                    final UserSpringRepository userSpringRepository) {
+    public LoginRegisterRepository getLoginRegisterRepository(
+            final LoginRegisterSpringRepository loginRegisterSpringRepository,
+            final UserSpringRepository userSpringRepository) {
         return new JpaLoginRegisterRepository(loginRegisterSpringRepository, userSpringRepository);
     }
 

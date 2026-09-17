@@ -32,9 +32,9 @@ import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -78,17 +78,17 @@ public class LoginRegisterEntity implements Serializable {
     private Boolean           loggedIn;
 
     /**
-     * User name.
-     */
-    @Column(name = "username", nullable = false, unique = true, length = 60)
-    private String            username;
-
-    /**
      * User.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity        user;
+
+    /**
+     * User name.
+     */
+    @Column(name = "username", nullable = false, unique = true, length = 60)
+    private String            username;
 
     @Override
     public boolean equals(final Object obj) {
@@ -114,12 +114,12 @@ public class LoginRegisterEntity implements Serializable {
         return loggedIn;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public UserEntity getUser() {
         return user;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     @Override
@@ -139,12 +139,12 @@ public class LoginRegisterEntity implements Serializable {
         this.loggedIn = loggedIn;
     }
 
-    public void setUsername(final String username) {
-        this.username = username;
-    }
-
     public void setUser(final UserEntity user) {
         this.user = user;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
     }
 
     @Override
