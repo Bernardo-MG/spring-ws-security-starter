@@ -24,23 +24,17 @@
 
 package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
-import com.bernardomg.security.adapter.inbound.jpa.model.user.UserDataTokenEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserTokenEntity;
 import com.bernardomg.security.domain.user.model.UserToken;
 
 /**
  * User token repository mapper.
  */
-public final class UserDataTokenEntityMapper {
+public final class UserTokenEntityMapper {
 
-    public static final UserToken toDomain(final UserDataTokenEntity data) {
+    public static final UserToken toDomain(final UserTokenData data) {
         return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
             data.getCreationDate(), data.getExpirationDate(), data.isConsumed(), data.isRevoked());
-    }
-
-    public static final UserToken toDomain(final UserDataTokenEntity data, final UserTokenEntity created) {
-        return new UserToken(data.getUsername(), data.getName(), data.getScope(), data.getToken(),
-            data.getCreationDate(), created.getExpirationDate(), data.isConsumed(), created.isRevoked());
     }
 
     public static final UserTokenEntity toEntity(final UserToken dataToken) {
@@ -57,7 +51,7 @@ public final class UserDataTokenEntityMapper {
         return entity;
     }
 
-    private UserDataTokenEntityMapper() {
+    private UserTokenEntityMapper() {
         super();
     }
 
