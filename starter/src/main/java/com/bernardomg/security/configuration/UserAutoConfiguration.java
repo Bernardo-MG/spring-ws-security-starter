@@ -42,7 +42,6 @@ import com.bernardomg.security.adapter.inbound.event.user.UserInvitationNotifica
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
@@ -147,9 +146,8 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userTokenRepository")
-    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepository,
-            final UserDataTokenSpringRepository userDataTokenRepository, final UserSpringRepository userRepository) {
-        return new JpaUserTokenRepository(userTokenRepository, userDataTokenRepository, userRepository);
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepository, final UserSpringRepository userRepository) {
+        return new JpaUserTokenRepository(userTokenRepository, userRepository);
     }
 
     @Bean("userTokenService")

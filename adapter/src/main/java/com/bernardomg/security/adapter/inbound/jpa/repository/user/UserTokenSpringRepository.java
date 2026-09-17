@@ -27,7 +27,11 @@ package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserTokenEntity;
 
@@ -47,5 +51,52 @@ public interface UserTokenSpringRepository extends JpaRepository<UserTokenEntity
      * @return all the tokens with any of the received codes
      */
     public Optional<UserTokenEntity> findAllByTokenIn(final Collection<String> tokens);
+
+    @Query(value = """
+            SELECT t.id AS id, t.userId AS userId, u.name AS name, u.username AS username, t.scope AS scope,
+                t.token AS token, t.creationDate AS creationDate, t.expirationDate AS expirationDate,
+                t.consumed AS consumed, t.revoked AS revoked
+            FROM UserToken t, User u
+            WHERE t.userId = u.id
+            """, countQuery = "SELECT COUNT(t) FROM UserToken t, User u WHERE t.userId = u.id")
+    public Page<UserTokenData> findAllData(final Pageable pageable);
+
+    @Query("""
+            SELECT t.id AS id, t.userId AS userId, u.name AS name, u.username AS username, t.scope AS scope,
+                t.token AS token, t.creationDate AS creationDate, t.expirationDate AS expirationDate,
+                t.consumed AS consumed, t.revoked AS revoked
+            FROM UserToken t, User u
+            WHERE t.userId = u.id AND t.revoked = false AND u.username = :username AND t.scope = :scope
+            """)
+    public Collection<UserTokenData> findAllDataByRevokedFalseAndUsernameAndScope(
+            @Param("username") final String username, @Param("scope") final String scope);
+
+    /**
+     * Returns the token with the received code.
+     *
+     * @param token
+     *            token code to search for
+     * @return the token, if found
+     */
+    public Optional<UserTokenEntity> findByToken(final String token);
+
+    @Query("""
+            SELECT t.id AS id, t.userId AS userId, u.name AS name, u.username AS username, t.scope AS scope,
+                t.token AS token, t.creationDate AS creationDate, t.expirationDate AS expirationDate,
+                t.consumed AS consumed, t.revoked AS revoked
+            FROM UserToken t, User u
+            WHERE t.userId = u.id AND t.token = :token
+            """)
+    public Optional<UserTokenData> findDataByToken(@Param("token") final String token);
+
+    @Query("""
+            SELECT t.id AS id, t.userId AS userId, u.name AS name, u.username AS username, t.scope AS scope,
+                t.token AS token, t.creationDate AS creationDate, t.expirationDate AS expirationDate,
+                t.consumed AS consumed, t.revoked AS revoked
+            FROM UserToken t, User u
+            WHERE t.userId = u.id AND t.token = :token AND t.scope = :scope
+            """)
+    public Optional<UserTokenData> findDataByTokenAndScope(@Param("token") final String token,
+            @Param("scope") final String scope);
 
 }
