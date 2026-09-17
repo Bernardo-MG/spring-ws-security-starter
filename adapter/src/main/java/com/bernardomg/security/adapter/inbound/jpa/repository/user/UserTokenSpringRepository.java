@@ -25,7 +25,6 @@
 package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -46,6 +45,6 @@ public interface UserTokenSpringRepository extends JpaRepository<UserTokenEntity
      *            token codes to search for
      * @return all the tokens with any of the received codes
      */
-    public Optional<UserTokenEntity> findAllByTokenIn(final Collection<String> tokens);
+    public Collection<UserTokenEntity> findAllByTokenIn(final Collection<String> tokens);
 
 }
