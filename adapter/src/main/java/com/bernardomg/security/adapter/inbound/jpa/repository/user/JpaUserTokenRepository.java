@@ -25,6 +25,7 @@
 package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -169,20 +170,25 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Collection<UserToken>       created;
         final Map<String, Long>           userIdsByUsername;
         final Map<String, Long>           tokenIdsByToken;
+        final Collection<UserToken> uniqueTokens;
 
         log.trace("Saving multiple tokens");
         // TODO: Reject duplicated tokens
 
-        userIdsByUsername = loadUserIds(tokens);
-        tokenIdsByToken = loadTokenIds(tokens);
+        uniqueTokens = tokens.stream()
+            .collect(Collectors.toMap(UserToken::token, t -> t, (first, duplicate) -> first, LinkedHashMap::new))
+            .values();
 
-        toSave = tokens.stream()
+        userIdsByUsername = loadUserIds(uniqueTokens);
+        tokenIdsByToken = loadTokenIds(uniqueTokens);
+
+        toSave = uniqueTokens.stream()
             .map(t -> toEntity(t, userIdsByUsername.get(t.username()), tokenIdsByToken.get(t.token())))
             .toList();
 
         saved = userTokenSpringRepository.saveAll(toSave);
         created = saved.stream()
-            .map(s -> tokens.stream()
+            .map(s -> uniqueTokens.stream()
                 .filter(t -> t.token()
                     .equals(s.getToken()))
                 .findFirst()
