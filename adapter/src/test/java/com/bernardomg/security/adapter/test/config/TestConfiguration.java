@@ -44,7 +44,6 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRep
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.UserRoleSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
@@ -104,11 +103,8 @@ public class TestConfiguration {
     }
 
     @Bean("userTokenRepository")
-    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepository,
-            final UserDataTokenSpringRepository userDataTokenSpringRepository,
-            final UserSpringRepository userSpringRepository) {
-        return new JpaUserTokenRepository(userTokenSpringRepository, userDataTokenSpringRepository,
-            userSpringRepository);
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepository, final UserSpringRepository userSpringRepository) {
+        return new JpaUserTokenRepository(userTokenSpringRepository, userSpringRepository);
     }
 
 }

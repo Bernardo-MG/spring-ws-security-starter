@@ -411,12 +411,3 @@ databaseChangeLog:
             schemaName: security
             tableName: login_registers
             columnNames: 'username, date'
-  - changeSet:
-      id: token_views
-      author: Bernardo
-      changes:
-        - createView:
-            remarks: User tokens with user data
-            schemaName: security
-            viewName: user_data_tokens
-            selectQuery: SELECT t.id AS id, t.user_id AS user_id, u.name AS name, u.username AS username, t.scope AS scope, t.token AS token, t.creation_date AS creation_date, t.expiration_date AS expiration_date, t.consumed AS consumed, t.revoked AS revoked FROM security.user_tokens t JOIN security.users u ON t.user_id = u.id
