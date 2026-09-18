@@ -173,8 +173,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Collection<UserToken> uniqueTokens;
 
         log.trace("Saving multiple tokens");
-        // TODO: Reject duplicated tokens
 
+        // TODO: maybe this should go the service
         uniqueTokens = tokens.stream()
             .collect(Collectors.toMap(UserToken::token, t -> t, (first, duplicate) -> first, LinkedHashMap::new))
             .values();
