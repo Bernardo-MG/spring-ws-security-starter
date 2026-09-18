@@ -103,7 +103,8 @@ public class TestConfiguration {
     }
 
     @Bean("userTokenRepository")
-    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepository, final UserSpringRepository userSpringRepository) {
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepository,
+            final UserSpringRepository userSpringRepository) {
         return new JpaUserTokenRepository(userTokenSpringRepository, userSpringRepository);
     }
 
