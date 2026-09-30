@@ -17,7 +17,7 @@ import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.junit.ArchTests;
 
 @AnalyzeClasses(packages = "com.bernardomg.security",
-    importOptions = { ImportOption.DoNotIncludeTests.class, IgnoreGenerated.class })
+        importOptions = { ImportOption.DoNotIncludeTests.class, IgnoreGenerated.class })
 public class TestArchitectureRules {
 
     @ArchTest

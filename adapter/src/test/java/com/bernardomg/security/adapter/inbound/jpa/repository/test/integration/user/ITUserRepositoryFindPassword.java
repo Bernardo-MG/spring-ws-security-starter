@@ -30,8 +30,10 @@ class ITUserRepositoryFindPassword {
     void testGetOne() {
         final Optional<String> password;
 
+        // WHEN
         password = repository.findPassword(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(password)
             .as("password")
             .contains(UserConstants.ENCODED_PASSWORD);
@@ -42,8 +44,10 @@ class ITUserRepositoryFindPassword {
     void testGetOne_NoData() {
         final Optional<String> password;
 
+        // WHEN
         password = repository.findPassword(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(password)
             .as("password")
             .isEmpty();

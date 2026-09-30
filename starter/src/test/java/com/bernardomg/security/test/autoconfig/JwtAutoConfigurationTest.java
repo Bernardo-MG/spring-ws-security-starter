@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.test.autoconfig;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import javax.crypto.SecretKey;
@@ -25,22 +24,27 @@ final class JwtAutoConfigurationTest {
     @Test
     @DisplayName("When auto-configuration uses default settings, then the default beans are created")
     void test_DefaultBeans() {
+        // GIVEN
         contextRunner.withPropertyValues("security.jwt.secret=" + JwtConstants.SECRET)
+            // WHEN
             .run(context -> {
-                assertThat(context).hasNotFailed();
-
+                // THEN
                 assertSoftly(softly -> {
-                    softly.assertThat(context.getBeansOfType(SecretKey.class))
-                        .as("SecretKey beans")
-                        .containsOnlyKeys("jwtSecretKey");
+                    softly.assertThat(context.getStartupFailure())
+                        .isNull();
+                    if (context.getStartupFailure() == null) {
+                        softly.assertThat(context.getBeansOfType(SecretKey.class))
+                            .as("SecretKey beans")
+                            .containsOnlyKeys("jwtSecretKey");
 
-                    softly.assertThat(context.getBeansOfType(TokenDecoder.class))
-                        .as("TokenDecoder beans")
-                        .containsOnlyKeys("jwtTokenDecoder");
+                        softly.assertThat(context.getBeansOfType(TokenDecoder.class))
+                            .as("TokenDecoder beans")
+                            .containsOnlyKeys("jwtTokenDecoder");
 
-                    softly.assertThat(context.getBeansOfType(TokenEncoder.class))
-                        .as("TokenEncoder beans")
-                        .containsOnlyKeys("jwtTokenEncoder");
+                        softly.assertThat(context.getBeansOfType(TokenEncoder.class))
+                            .as("TokenEncoder beans")
+                            .containsOnlyKeys("jwtTokenEncoder");
+                    }
                 });
             });
     }
@@ -48,7 +52,9 @@ final class JwtAutoConfigurationTest {
     @Test
     @DisplayName("When the secret is missing, then application startup fails")
     void test_SecretIsMissing() {
+        // WHEN
         contextRunner.run(context -> {
+            // THEN
             assertSoftly(softly -> {
                 softly.assertThat(context.getStartupFailure())
                     .as("startup failure")
@@ -64,9 +70,12 @@ final class JwtAutoConfigurationTest {
     @Test
     @DisplayName("When the secret is too short, then application startup fails")
     void test_SecretIsTooShort() {
+        // GIVEN
         contextRunner.withPropertyValues("security.jwt.secret=" + JwtConstants.SECRET)
             .withPropertyValues("security.jwt.secret=short")
+            // WHEN
             .run(context -> {
+                // THEN
                 assertSoftly(softly -> {
                     softly.assertThat(context.getStartupFailure())
                         .as("startup failure")

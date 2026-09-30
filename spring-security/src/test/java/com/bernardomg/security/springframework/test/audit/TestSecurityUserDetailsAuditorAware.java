@@ -40,6 +40,7 @@ public class TestSecurityUserDetailsAuditorAware {
     @DisplayName("When the current user has no id, then the auditor is empty")
     void testGetCurrentAuditor_CurrentUserIdIsNull() {
         final Authentication authentication;
+        final Optional<Long> result;
 
         // GIVEN
         authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
@@ -51,7 +52,7 @@ public class TestSecurityUserDetailsAuditorAware {
             .setAuthentication(authentication);
 
         // WHEN
-        final Optional<Long> result = auditorAware.getCurrentAuditor();
+        result = auditorAware.getCurrentAuditor();
 
         // THEN
         assertThat(result).isEmpty();
@@ -61,6 +62,7 @@ public class TestSecurityUserDetailsAuditorAware {
     @DisplayName("When the current user is authenticated, then the auditor is returned")
     void testGetCurrentAuditor_IsAuthenticated() {
         final Authentication authentication;
+        final Optional<Long> result;
 
         // GIVEN
         authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
@@ -72,7 +74,7 @@ public class TestSecurityUserDetailsAuditorAware {
             .setAuthentication(authentication);
 
         // WHEN
-        final Optional<Long> result = auditorAware.getCurrentAuditor();
+        result = auditorAware.getCurrentAuditor();
 
         // THEN
         assertThat(result).contains(UserConstants.ID);
@@ -82,6 +84,7 @@ public class TestSecurityUserDetailsAuditorAware {
     @DisplayName("When the current user is not authenticated, then the auditor is empty")
     void testGetCurrentAuditor_IsNotAuthenticated() {
         final Authentication authentication;
+        final Optional<Long> result;
 
         // GIVEN
         authentication = new UsernamePasswordAuthenticationToken(userDetails, null);
@@ -92,7 +95,7 @@ public class TestSecurityUserDetailsAuditorAware {
             .setAuthentication(authentication);
 
         // WHEN
-        final Optional<Long> result = auditorAware.getCurrentAuditor();
+        result = auditorAware.getCurrentAuditor();
 
         // THEN
         assertThat(result).isEmpty();
@@ -102,6 +105,7 @@ public class TestSecurityUserDetailsAuditorAware {
     @DisplayName("When the current user auth is not of the expected type, then the auditor is returned")
     void testGetCurrentAuditor_IsNotCorrectAuth() {
         final Authentication authentication;
+        final Optional<Long> result;
 
         // GIVEN
         authentication = mock(Authentication.class);
@@ -112,7 +116,7 @@ public class TestSecurityUserDetailsAuditorAware {
             .setAuthentication(authentication);
 
         // WHEN
-        final Optional<Long> result = auditorAware.getCurrentAuditor();
+        result = auditorAware.getCurrentAuditor();
 
         // THEN
         assertThat(result).isEmpty();
@@ -123,6 +127,7 @@ public class TestSecurityUserDetailsAuditorAware {
     void testGetCurrentAuditor_IsNotCorrectDetails() {
         final Authentication authentication;
         final UserDetails    userDetails;
+        final Optional<Long> result;
 
         // GIVEN
         userDetails = mock(UserDetails.class);
@@ -134,7 +139,7 @@ public class TestSecurityUserDetailsAuditorAware {
             .setAuthentication(authentication);
 
         // WHEN
-        final Optional<Long> result = auditorAware.getCurrentAuditor();
+        result = auditorAware.getCurrentAuditor();
 
         // THEN
         assertThat(result).isEmpty();
@@ -143,8 +148,10 @@ public class TestSecurityUserDetailsAuditorAware {
     @Test
     @DisplayName("When there is no authentication, then the auditor is empty")
     void testGetCurrentAuditor_NoAuthentication() {
+        final Optional<Long> result;
+
         // WHEN
-        final Optional<Long> result = auditorAware.getCurrentAuditor();
+        result = auditorAware.getCurrentAuditor();
 
         // THEN
         assertThat(result).isEmpty();

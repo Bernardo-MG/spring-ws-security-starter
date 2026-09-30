@@ -38,8 +38,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_Disabled() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.disabled());
     }
@@ -50,8 +52,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_Enabled() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.enabled());
     }
@@ -62,8 +66,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_Expired() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.expired());
     }
@@ -74,8 +80,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_ExpiredPassword() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.passwordExpired());
     }
@@ -86,8 +94,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_Locked() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.locked());
     }
@@ -97,8 +107,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_NoData() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .isEmpty();
     }
@@ -109,8 +121,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_WithoutPermissions() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.withoutPermissions());
     }
@@ -121,8 +135,10 @@ class ITUserRepositoryFindOneByEmail {
     void testFindOneByEmail_WithoutRoles() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.withoutRoles());
     }

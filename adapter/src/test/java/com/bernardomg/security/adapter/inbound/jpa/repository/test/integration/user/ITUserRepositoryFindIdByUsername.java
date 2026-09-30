@@ -26,8 +26,10 @@ class ITUserRepositoryFindIdByUsername {
     void testFindOne_Enabled() {
         final Optional<Long> result;
 
+        // WHEN
         result = repository.findIdByUsername(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(UserConstants.ID);
     }
@@ -37,8 +39,10 @@ class ITUserRepositoryFindIdByUsername {
     void testFindOne_NoData() {
         final Optional<Long> result;
 
+        // WHEN
         result = repository.findIdByUsername(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .isEmpty();
     }

@@ -38,8 +38,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_Disabled() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.disabled());
     }
@@ -50,8 +52,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_Enabled() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.enabled());
     }
@@ -62,8 +66,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_Expired() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.expired());
     }
@@ -74,8 +80,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_ExpiredPassword() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.passwordExpired());
     }
@@ -86,8 +94,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_Locked() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.locked());
     }
@@ -97,8 +107,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_NoData() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .isEmpty();
     }
@@ -109,8 +121,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_WithoutPermissions() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.withoutPermissions());
     }
@@ -121,8 +135,10 @@ class ITUserRepositoryFindOne {
     void testFindOne_WithoutRoles() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOne(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.withoutRoles());
     }

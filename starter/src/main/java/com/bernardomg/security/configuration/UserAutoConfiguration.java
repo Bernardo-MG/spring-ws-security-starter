@@ -146,7 +146,8 @@ public class UserAutoConfiguration {
     }
 
     @Bean("userTokenRepository")
-    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepository, final UserSpringRepository userRepository) {
+    public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepository,
+            final UserSpringRepository userRepository) {
         return new JpaUserTokenRepository(userTokenRepository, userRepository);
     }
 

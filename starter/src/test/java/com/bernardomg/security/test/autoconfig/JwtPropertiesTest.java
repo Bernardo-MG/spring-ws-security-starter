@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.test.autoconfig;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.time.Duration;
@@ -30,20 +29,26 @@ final class JwtPropertiesTest {
     @Test
     @DisplayName("When properties are provided, then they are bound")
     void testProperties_BindsJwtProperties() {
+        // GIVEN
         contextRunner.withPropertyValues("security.jwt.validity=30m")
+            // WHEN
             .run(context -> {
-                assertThat(context).hasNotFailed();
-
-                final JwtProperties properties = context.getBean(JwtProperties.class);
-
+                // THEN
                 assertSoftly(softly -> {
-                    softly.assertThat(properties.secret())
-                        .as("JWT secret")
-                        .isEqualTo(JwtConstants.SECRET);
+                    softly.assertThat(context.getStartupFailure())
+                        .isNull();
+                    if (context.getStartupFailure() == null) {
+                        final JwtProperties properties;
 
-                    softly.assertThat(properties.validity())
-                        .as("JWT validity")
-                        .isEqualTo(Duration.ofMinutes(30));
+                        properties = context.getBean(JwtProperties.class);
+                        softly.assertThat(properties.secret())
+                            .as("JWT secret")
+                            .isEqualTo(JwtConstants.SECRET);
+
+                        softly.assertThat(properties.validity())
+                            .as("JWT validity")
+                            .isEqualTo(Duration.ofMinutes(30));
+                    }
                 });
             });
     }
@@ -51,19 +56,24 @@ final class JwtPropertiesTest {
     @Test
     @DisplayName("When validity is missing, then the default value is used")
     void testProperties_UsesDefaultValidity() {
+        // WHEN
         contextRunner.run(context -> {
-            assertThat(context).hasNotFailed();
-
-            final JwtProperties properties = context.getBean(JwtProperties.class);
-
+            // THEN
             assertSoftly(softly -> {
-                softly.assertThat(properties.secret())
-                    .as("JWT secret")
-                    .isEqualTo(JwtConstants.SECRET);
+                softly.assertThat(context.getStartupFailure())
+                    .isNull();
+                if (context.getStartupFailure() == null) {
+                    final JwtProperties properties;
 
-                softly.assertThat(properties.validity())
-                    .as("default JWT validity")
-                    .isEqualTo(Duration.ofHours(1));
+                    properties = context.getBean(JwtProperties.class);
+                    softly.assertThat(properties.secret())
+                        .as("JWT secret")
+                        .isEqualTo(JwtConstants.SECRET);
+
+                    softly.assertThat(properties.validity())
+                        .as("default JWT validity")
+                        .isEqualTo(Duration.ofHours(1));
+                }
             });
         });
     }

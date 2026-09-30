@@ -3,6 +3,7 @@ package com.bernardomg.security.adapter.inbound.spring.initializer.loader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -43,8 +44,6 @@ class TestSpringResourcePermissionConfigLoader {
         final Collection<PermissionConfig> result;
         final PermissionConfigLoader       loader;
         final Resource                     resource;
-        final PermissionConfig             config;
-        final ResourcePermissionConfig     permission;
 
         // GIVEN
         resource = createResource("permissions.yml", """
@@ -61,18 +60,28 @@ class TestSpringResourcePermissionConfigLoader {
         result = loader.load();
 
         // THEN
-        assertThat(result).hasSize(1);
+        assertSoftly(softly -> {
+            final PermissionConfig         config;
+            final ResourcePermissionConfig permission;
 
-        config = result.iterator()
-            .next();
-        assertThat(config.getActions()).containsExactly("create");
-        assertThat(config.getPermissions()).hasSize(1);
+            softly.assertThat(result)
+                .hasSize(1);
 
-        permission = config.getPermissions()
-            .iterator()
-            .next();
-        assertThat(permission.getResource()).isEqualTo("data");
-        assertThat(permission.getActions()).containsExactly("create");
+            config = result.iterator()
+                .next();
+            softly.assertThat(config.getActions())
+                .containsExactly("create");
+            softly.assertThat(config.getPermissions())
+                .hasSize(1);
+
+            permission = config.getPermissions()
+                .iterator()
+                .next();
+            softly.assertThat(permission.getResource())
+                .isEqualTo("data");
+            softly.assertThat(permission.getActions())
+                .containsExactly("create");
+        });
     }
 
     @Test
@@ -80,7 +89,6 @@ class TestSpringResourcePermissionConfigLoader {
     void testLoad_EmptyResource() throws IOException {
         final Collection<PermissionConfig> result;
         final PermissionConfigLoader       loader;
-        final PermissionConfig             config;
         final Resource                     resource;
 
         // GIVEN
@@ -91,12 +99,19 @@ class TestSpringResourcePermissionConfigLoader {
         result = loader.load();
 
         // THEN
-        assertThat(result).hasSize(1);
+        assertSoftly(softly -> {
+            final PermissionConfig config;
 
-        config = result.iterator()
-            .next();
-        assertThat(config.getActions()).isEmpty();
-        assertThat(config.getPermissions()).isEmpty();
+            softly.assertThat(result)
+                .hasSize(1);
+
+            config = result.iterator()
+                .next();
+            softly.assertThat(config.getActions())
+                .isEmpty();
+            softly.assertThat(config.getPermissions())
+                .isEmpty();
+        });
     }
 
     @Test
@@ -149,13 +164,16 @@ class TestSpringResourcePermissionConfigLoader {
             .toList();
 
         // THEN
-        assertThat(result).hasSize(2);
-
-        assertThat(result.get(0)
-            .getActions()).containsExactly("create");
-
-        assertThat(result.get(1)
-            .getActions()).containsExactly("read");
+        assertSoftly(softly -> {
+            softly.assertThat(result)
+                .hasSize(2);
+            softly.assertThat(result.get(0)
+                .getActions())
+                .containsExactly("create");
+            softly.assertThat(result.get(1)
+                .getActions())
+                .containsExactly("read");
+        });
     }
 
     @Test

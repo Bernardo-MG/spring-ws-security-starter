@@ -170,7 +170,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         final Collection<UserToken>       created;
         final Map<String, Long>           userIdsByUsername;
         final Map<String, Long>           tokenIdsByToken;
-        final Collection<UserToken> uniqueTokens;
+        final Collection<UserToken>       uniqueTokens;
 
         log.trace("Saving multiple tokens");
 

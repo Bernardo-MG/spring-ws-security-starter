@@ -3,6 +3,7 @@ package com.bernardomg.security.springframework.test.web.jwt.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -126,8 +127,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
-            principal -> assertThat(principal.getId()).isNull());
+        assertSoftly(softly -> softly.assertThat(authentication.getPrincipal())
+            .isInstanceOfSatisfying(SecurityUserDetails.class, principal -> softly.assertThat(principal.getId())
+                .isNull()));
     }
 
     @Test
@@ -209,10 +211,13 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.getDetails()).isInstanceOfSatisfying(WebAuthenticationDetails.class, details -> {
-            assertThat(details.getRemoteAddress()).isEqualTo("192.0.2.10");
-            assertThat(details.getSessionId()).isNull();
-        });
+        assertSoftly(softly -> softly.assertThat(authentication.getDetails())
+            .isInstanceOfSatisfying(WebAuthenticationDetails.class, details -> {
+                softly.assertThat(details.getRemoteAddress())
+                    .isEqualTo("192.0.2.10");
+                softly.assertThat(details.getSessionId())
+                    .isNull();
+            }));
     }
 
     @Test
@@ -232,8 +237,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
-            principal -> assertThat(principal.getId()).isEqualTo(UserConstants.ID));
+        assertSoftly(softly -> softly.assertThat(authentication.getPrincipal())
+            .isInstanceOfSatisfying(SecurityUserDetails.class, principal -> softly.assertThat(principal.getId())
+                .isEqualTo(UserConstants.ID)));
     }
 
     @Test
@@ -252,14 +258,23 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.isAuthenticated()).isTrue();
-        assertThat(authentication.getCredentials()).isNull();
-        assertThat(authentication.getName()).isEqualTo(Tokens.SUBJECT);
-        assertThat(authentication.getAuthorities()).isEmpty();
+        assertSoftly(softly -> {
+            softly.assertThat(authentication.isAuthenticated())
+                .isTrue();
+            softly.assertThat(authentication.getCredentials())
+                .isNull();
+            softly.assertThat(authentication.getName())
+                .isEqualTo(Tokens.SUBJECT);
+            softly.assertThat(authentication.getAuthorities())
+                .isEmpty();
 
-        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(UserDetails.class, principal -> {
-            assertThat(principal.getUsername()).isEqualTo(Tokens.SUBJECT);
-            assertThat(principal.getPassword()).isEmpty();
+            softly.assertThat(authentication.getPrincipal())
+                .isInstanceOfSatisfying(UserDetails.class, principal -> {
+                    softly.assertThat(principal.getUsername())
+                        .isEqualTo(Tokens.SUBJECT);
+                    softly.assertThat(principal.getPassword())
+                        .isEmpty();
+                });
         });
     }
 
