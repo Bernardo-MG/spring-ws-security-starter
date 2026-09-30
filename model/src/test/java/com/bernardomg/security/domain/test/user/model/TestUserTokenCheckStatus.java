@@ -17,7 +17,7 @@ import com.bernardomg.security.domain.user.exception.RevokedTokenException;
 import com.bernardomg.security.domain.user.model.UserToken;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User token - check status")
+@DisplayName("UserToken - check status")
 class TestUserTokenCheckStatus {
 
     public TestUserTokenCheckStatus() {

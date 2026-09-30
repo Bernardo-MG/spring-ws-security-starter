@@ -18,7 +18,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find all - filtered")
+@DisplayName("UserRepository - find all filtered")
 class ITUserRepositoryFindAllFiltered {
 
     @Autowired

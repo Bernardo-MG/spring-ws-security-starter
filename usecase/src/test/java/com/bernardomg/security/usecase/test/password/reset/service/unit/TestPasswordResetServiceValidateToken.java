@@ -25,7 +25,7 @@ import com.bernardomg.security.usecase.token.TokenValidator;
 import com.bernardomg.security.usecase.token.UserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Password reset service - validate token")
+@DisplayName("DefaultPasswordResetService - validate token")
 class TestPasswordResetServiceValidateToken {
 
     @Mock

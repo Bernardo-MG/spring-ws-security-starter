@@ -22,7 +22,7 @@ import com.bernardomg.security.usecase.test.login.config.factory.Credentialses;
 import com.bernardomg.security.usecase.test.user.config.factory.LoginUsers;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TokenLoginService")
+@DisplayName("TokenLoginService - log in")
 class TestTokenLoginService {
 
     @Mock

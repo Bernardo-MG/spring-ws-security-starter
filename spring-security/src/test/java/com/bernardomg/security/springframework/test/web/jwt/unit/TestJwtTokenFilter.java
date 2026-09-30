@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("JwtTokenFilter")
+@DisplayName("JwtTokenFilter - filter")
 class TestJwtTokenFilter {
 
     @Mock

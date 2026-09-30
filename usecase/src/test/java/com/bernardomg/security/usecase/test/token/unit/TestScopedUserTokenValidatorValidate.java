@@ -23,7 +23,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserTokenConstan
 import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Scoped user token validator - validate")
+@DisplayName("ScopedUserTokenValidator - validate")
 class TestScopedUserTokenValidatorValidate {
 
     @Mock

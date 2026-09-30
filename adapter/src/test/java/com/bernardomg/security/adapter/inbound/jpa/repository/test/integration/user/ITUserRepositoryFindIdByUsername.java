@@ -14,7 +14,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find id by username")
+@DisplayName("UserRepository - find id by username")
 class ITUserRepositoryFindIdByUsername {
 
     @Autowired

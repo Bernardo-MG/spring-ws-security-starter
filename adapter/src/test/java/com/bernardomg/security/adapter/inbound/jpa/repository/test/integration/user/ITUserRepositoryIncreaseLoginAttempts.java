@@ -40,7 +40,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - increase login attempts")
+@DisplayName("UserRepository - increase login attempts")
 class ITUserRepositoryIncreaseLoginAttempts {
 
     @Autowired

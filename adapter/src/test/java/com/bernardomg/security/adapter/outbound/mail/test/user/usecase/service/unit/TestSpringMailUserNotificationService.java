@@ -21,7 +21,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.Users;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringMailUserNotificationService")
+@DisplayName("SpringMailUserNotificationService - send invitation")
 class TestSpringMailUserNotificationService {
 
     @Mock

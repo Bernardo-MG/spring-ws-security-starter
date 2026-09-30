@@ -24,7 +24,7 @@ import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserDomainDetailsService")
+@DisplayName("UserDomainDetailsService - load by username")
 class TestUserDomainDetailsService {
 
     @InjectMocks

@@ -21,7 +21,7 @@ import com.bernardomg.security.usecase.initializer.domain.model.PermissionConfig
 import com.bernardomg.security.usecase.initializer.domain.model.ResourcePermissionConfig;
 import com.bernardomg.security.usecase.initializer.loader.PermissionConfigLoader;
 
-@DisplayName("SpringResourcePermissionConfigLoader")
+@DisplayName("SpringResourcePermissionConfigLoader - load")
 class TestSpringResourcePermissionConfigLoader {
 
     @TempDir

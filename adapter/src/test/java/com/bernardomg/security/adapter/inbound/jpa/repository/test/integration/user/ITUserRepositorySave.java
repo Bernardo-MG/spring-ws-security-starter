@@ -43,7 +43,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - save")
+@DisplayName("UserRepository - save")
 class ITUserRepositorySave {
 
     @Autowired

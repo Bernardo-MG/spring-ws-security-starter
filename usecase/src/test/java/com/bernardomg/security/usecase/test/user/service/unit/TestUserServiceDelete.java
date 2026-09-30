@@ -49,7 +49,7 @@ import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User service - delete without roles")
+@DisplayName("DefaultUserService - delete")
 class TestUserServiceDelete {
 
     @Mock

@@ -38,7 +38,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserEntities;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - clear login attempts")
+@DisplayName("UserRepository - clear login attempts")
 class ITUserRepositoryClearLoginAttempts {
 
     @Autowired

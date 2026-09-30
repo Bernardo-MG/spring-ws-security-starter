@@ -36,7 +36,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find login attempts")
+@DisplayName("UserRepository - get login attempts")
 class ITUserRepositoryGetLoginAttempts {
 
     @Autowired

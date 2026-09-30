@@ -29,7 +29,7 @@ import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.service.DefaultUserService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User service - get all")
+@DisplayName("DefaultUserService - get all")
 class TestUserServiceGetAll {
 
     @Mock

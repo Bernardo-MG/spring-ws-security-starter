@@ -24,7 +24,7 @@ import com.bernardomg.security.springframework.test.user.config.factory.UserCons
 import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SecurityUserDetailsAuditorAware")
+@DisplayName("SecurityUserDetailsAuditorAware - get current auditor")
 public class TestSecurityUserDetailsAuditorAware {
 
     @InjectMocks

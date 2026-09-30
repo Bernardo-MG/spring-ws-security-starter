@@ -42,7 +42,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - lock")
+@DisplayName("UserRepository - lock")
 class ITUserRepositoryLock {
 
     @Autowired

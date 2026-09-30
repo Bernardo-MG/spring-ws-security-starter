@@ -35,7 +35,7 @@ import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenti
 import jakarta.servlet.http.HttpServletRequest;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TokenDetailsTokenAuthenticationParser")
+@DisplayName("TokenDetailsTokenAuthenticationParser - parse")
 public class TestTokenDetailsTokenAuthenticationParser {
 
     @InjectMocks

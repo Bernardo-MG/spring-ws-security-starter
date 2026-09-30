@@ -21,7 +21,7 @@ import com.bernardomg.security.springframework.access.interceptor.SecurityContex
 import com.bernardomg.security.springframework.test.permission.config.factory.PermissionConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringResourceAccessValidator")
+@DisplayName("SecurityContextHolderResourceAccessValidator - is authorized")
 class TestSpringResourceAccessValidator {
 
     @Mock

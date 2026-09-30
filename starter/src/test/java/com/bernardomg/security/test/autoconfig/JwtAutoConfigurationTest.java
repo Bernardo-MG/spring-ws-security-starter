@@ -16,7 +16,7 @@ import com.bernardomg.jwt.encoding.TokenEncoder;
 import com.bernardomg.security.configuration.JwtAutoConfiguration;
 import com.bernardomg.security.test.config.factory.JwtConstants;
 
-@DisplayName("JwtAutoConfiguration")
+@DisplayName("JwtAutoConfiguration - configure")
 final class JwtAutoConfigurationTest {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()

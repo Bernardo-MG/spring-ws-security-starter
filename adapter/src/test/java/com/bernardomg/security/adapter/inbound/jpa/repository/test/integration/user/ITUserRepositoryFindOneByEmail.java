@@ -22,7 +22,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find one by email")
+@DisplayName("UserRepository - find one by email")
 class ITUserRepositoryFindOneByEmail {
 
     @Autowired

@@ -38,7 +38,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - delete without roles")
+@DisplayName("UserRepository - delete")
 class ITUserRepositoryDelete {
 
     @Autowired

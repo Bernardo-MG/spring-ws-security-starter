@@ -31,7 +31,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringSecurityPasswordChangeService - change password")
+@DisplayName("DefaultPasswordChangeService - change password")
 class TestSpringSecurityPasswordChangeService {
 
     @Mock

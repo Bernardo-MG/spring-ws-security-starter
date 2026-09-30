@@ -21,7 +21,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.Users;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringMailPasswordNotificationService")
+@DisplayName("SpringMailPasswordNotificationService - send email")
 class TestSpringMailPasswordNotificationService {
 
     @Mock

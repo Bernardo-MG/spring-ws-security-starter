@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.configuration.JwtProperties;
 import com.bernardomg.security.test.config.factory.JwtConstants;
 
-@DisplayName("JwtProperties")
+@DisplayName("JwtProperties - bind properties")
 final class JwtPropertiesTest {
 
     @Configuration(proxyBeanMethods = false)

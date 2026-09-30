@@ -16,7 +16,7 @@ import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthor
 import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
 import com.bernardomg.security.springframework.test.permission.config.factory.PermissionConstants;
 
-@DisplayName("AuthorityResourcePermissionEvaluator")
+@DisplayName("AuthorityResourcePermissionEvaluator - is authorized")
 class TestAuthorityResourcePermissionEvaluator {
 
     private static final String                  ACTION   = PermissionConstants.CREATE;

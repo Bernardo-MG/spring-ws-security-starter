@@ -23,7 +23,7 @@ import com.bernardomg.security.usecase.login.service.DefaultLoginRegisterService
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("LoginRegisterService - register log in")
+@DisplayName("DefaultLoginRegisterService - register log in")
 class TestLoginRegisterServiceRegister {
 
     private final Instant                 dayEnd   = LocalDate.now()

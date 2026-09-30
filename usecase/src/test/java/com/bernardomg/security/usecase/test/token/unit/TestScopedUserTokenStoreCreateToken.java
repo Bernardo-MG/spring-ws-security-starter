@@ -24,7 +24,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserTokens;
 import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Scoped user token store - create token")
+@DisplayName("ScopedUserTokenStore - create token")
 class TestScopedUserTokenStoreCreateToken {
 
     private ScopedUserTokenStore store;

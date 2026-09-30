@@ -28,7 +28,7 @@ import com.bernardomg.security.usecase.test.permission.config.factory.ResourcePe
 import com.bernardomg.security.usecase.test.permission.config.factory.Resources;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PermissionsLoader")
+@DisplayName("PermissionsLoader - load")
 public class TestPermissionsLoader {
 
     @Mock

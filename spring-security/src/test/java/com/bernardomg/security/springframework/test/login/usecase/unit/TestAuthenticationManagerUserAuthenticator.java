@@ -27,7 +27,7 @@ import com.bernardomg.security.springframework.test.user.config.factory.UserCons
 import com.bernardomg.security.usecase.login.domain.LoginUser;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("AuthenticationManagerLoginUserAuthenticator")
+@DisplayName("AuthenticationManagerLoginUserAuthenticator - authenticate")
 class TestAuthenticationManagerUserAuthenticator {
 
     @Mock

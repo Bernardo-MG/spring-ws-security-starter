@@ -22,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.bernardomg.security.springframework.session.SecurityContextHolderUsernameInSessionProvider;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SecurityContextHolderUsernameInSessionProvider")
+@DisplayName("SecurityContextHolderUsernameInSessionProvider - get current username")
 class TestSecurityContextHolderUsernameInSessionProvider {
 
     @InjectMocks

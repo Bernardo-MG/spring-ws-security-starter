@@ -18,7 +18,7 @@ import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
-@DisplayName("User repository - find all - pagination")
+@DisplayName("UserRepository - find all paginated")
 @EnabledUserWithRole
 class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
 

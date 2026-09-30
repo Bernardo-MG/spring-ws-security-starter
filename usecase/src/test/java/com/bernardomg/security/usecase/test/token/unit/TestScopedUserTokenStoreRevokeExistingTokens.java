@@ -26,7 +26,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserTokens;
 import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Scoped user token store - revoke existing tokens")
+@DisplayName("ScopedUserTokenStore - revoke existing tokens")
 class TestScopedUserTokenStoreRevokeExistingTokens {
 
     @Mock

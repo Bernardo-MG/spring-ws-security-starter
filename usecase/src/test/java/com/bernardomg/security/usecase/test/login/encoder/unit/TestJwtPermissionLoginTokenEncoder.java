@@ -19,7 +19,7 @@ import com.bernardomg.security.usecase.login.encoder.JwtPermissionLoginTokenEnco
 import com.bernardomg.security.usecase.test.user.config.factory.LoginUsers;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("JwtPermissionLoginTokenEncoder")
+@DisplayName("JwtPermissionLoginTokenEncoder - encode")
 class TestJwtPermissionLoginTokenEncoder {
 
     @InjectMocks

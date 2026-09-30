@@ -19,7 +19,7 @@ import com.bernardomg.security.domain.permission.model.Resource;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
 
 @IntegrationTest
-@DisplayName("RolePermissionRepository - save")
+@DisplayName("ResourceRepository - save")
 class ITResourceRepositorySave {
 
     @Autowired
