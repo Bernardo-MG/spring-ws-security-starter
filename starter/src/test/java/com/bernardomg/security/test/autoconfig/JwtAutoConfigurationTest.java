@@ -23,7 +23,7 @@ final class JwtAutoConfigurationTest {
         .withConfiguration(AutoConfigurations.of(JwtAutoConfiguration.class));
 
     @Test
-    @DisplayName("Default beans are created")
+    @DisplayName("When auto-configuration uses default settings, then the default beans are created")
     void test_DefaultBeans() {
         contextRunner.withPropertyValues("security.jwt.secret=" + JwtConstants.SECRET)
             .run(context -> {
@@ -46,7 +46,7 @@ final class JwtAutoConfigurationTest {
     }
 
     @Test
-    @DisplayName("When the secret is missing, statup fails")
+    @DisplayName("When the secret is missing, then application startup fails")
     void test_SecretIsMissing() {
         contextRunner.run(context -> {
             assertSoftly(softly -> {
@@ -62,7 +62,7 @@ final class JwtAutoConfigurationTest {
     }
 
     @Test
-    @DisplayName("When the secret is too short, statup fails")
+    @DisplayName("When the secret is too short, then application startup fails")
     void test_SecretIsTooShort() {
         contextRunner.withPropertyValues("security.jwt.secret=" + JwtConstants.SECRET)
             .withPropertyValues("security.jwt.secret=short")

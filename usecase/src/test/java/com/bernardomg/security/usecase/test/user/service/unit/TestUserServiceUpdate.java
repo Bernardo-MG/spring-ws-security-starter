@@ -81,7 +81,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Throws an exception when the role is duplicated")
+    @DisplayName("When updating a user with a duplicated role, then a validation error is raised")
     void testUpdate_DuplicatedRole() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -100,7 +100,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Throws an exception when the email already exists")
+    @DisplayName("When updating a user with an existing email, then a validation error is raised")
     void testUpdate_ExistingMail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -121,7 +121,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Throws an exception when the email has an invalid format")
+    @DisplayName("When updating a user with an invalid email, then a validation error is raised")
     void testUpdate_InvalidMail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -139,7 +139,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the role doesn't exists an exception is thrown")
+    @DisplayName("When the role does not exist, then an exception is thrown")
     void testUpdate_NotExistingRole() {
         final ThrowingCallable execution;
 
@@ -156,7 +156,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the user doesn't exists an exception is thrown")
+    @DisplayName("When the user does not exist, then an exception is thrown")
     void testUpdate_NotExistingUser() {
         final ThrowingCallable execution;
 
@@ -172,7 +172,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Sends the user with an updated email to the repository")
+    @DisplayName("When updating a user's email, then the user is sent to the repository")
     void testUpdate_UpdateEmail_PersistedData() {
 
         // GIVEN
@@ -187,7 +187,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the created user with an updated email")
+    @DisplayName("When updating a user's email, then the updated user is returned")
     void testUpdate_UpdateEmail_ReturnedData() {
         final User result;
 
@@ -205,7 +205,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Sends the user without roles to the repository")
+    @DisplayName("When updating a user without roles, then the user is sent to the repository")
     void testUpdate_withoutRoles_PersistedData() {
 
         // GIVEN
@@ -219,7 +219,7 @@ class TestUserServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the created user without roles")
+    @DisplayName("When updating a user without roles, then the updated user is returned")
     void testUpdate_withoutRoles_ReturnedData() {
         final User result;
 

@@ -54,7 +54,7 @@ class ITUserRepositoryIncreaseLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has login attempts, these are persisted")
+    @DisplayName("When increasing attempts for a user with login attempts, then the updated attempts are persisted")
     @MaxLoginAttemptsUser
     void testLoginAttempts_MaxAttempts_PersistedData() {
         final List<UserEntity> users;
@@ -74,7 +74,7 @@ class ITUserRepositoryIncreaseLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has login attempts, these are returned")
+    @DisplayName("When increasing attempts for a user with login attempts, then the updated attempts are returned")
     @MaxLoginAttemptsUser
     void testLoginAttempts_MaxAttempts_ReturnedData() {
         final int attempts;
@@ -89,7 +89,7 @@ class ITUserRepositoryIncreaseLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has no login attempts, a single attempt is persisted")
+    @DisplayName("When increasing attempts for a user without login attempts, then one attempt is persisted")
     @EnabledUserWithRole
     void testLoginAttempts_NoAttempts_PersistedData() {
         final List<UserEntity> users;
@@ -109,7 +109,7 @@ class ITUserRepositoryIncreaseLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has no login attempts, a single attempt is returned")
+    @DisplayName("When increasing attempts for a user without login attempts, then one attempt is returned")
     @EnabledUserWithRole
     void testLoginAttempts_NoAttempts_ReturnedData() {
         final int attempts;
@@ -124,7 +124,7 @@ class ITUserRepositoryIncreaseLoginAttempts {
     }
 
     @Test
-    @DisplayName("When there is no data, zero attempts are returned")
+    @DisplayName("When the user does not exist, then zero attempts are returned")
     void testLoginAttempts_NoData_ReturnedData() {
         final int attempts;
 

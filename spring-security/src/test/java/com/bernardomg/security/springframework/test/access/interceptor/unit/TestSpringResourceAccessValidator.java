@@ -43,7 +43,7 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("An authorized authenticated user is authorized")
+    @DisplayName("When an authenticated user has permission, then access is authorized")
     void testIsAuthorized() {
         final boolean authorized;
 
@@ -64,7 +64,7 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("When the evaluator rejects the permission the user is not authorized")
+    @DisplayName("When the evaluator rejects the permission, then access is denied")
     void testIsAuthorized_EvaluatorRejectsPermission() {
         final boolean authorized;
 
@@ -84,7 +84,7 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("When authentication is missing the user is not authorized")
+    @DisplayName("When authentication is missing, then access is denied")
     void testIsAuthorized_MissingAuthentication() {
         final boolean authorized;
 
@@ -100,7 +100,7 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("When the user is not authenticated the user is not authorized")
+    @DisplayName("When the user is not authenticated, then access is denied")
     void testIsAuthorized_NotAuthenticated() {
         final boolean authorized;
 
@@ -113,7 +113,7 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("A null action is rejected")
+    @DisplayName("When the action is null, then it is rejected")
     void testIsAuthorized_NullAction() {
         Assertions.assertThatNullPointerException()
             .isThrownBy(() -> validator.isAuthorized(PermissionConstants.DATA, null))
@@ -123,7 +123,7 @@ class TestSpringResourceAccessValidator {
     }
 
     @Test
-    @DisplayName("A null resource is rejected")
+    @DisplayName("When the resource is null, then it is rejected")
     void testIsAuthorized_NullResource() {
         Assertions.assertThatNullPointerException()
             .isThrownBy(() -> validator.isAuthorized(null, PermissionConstants.READ))

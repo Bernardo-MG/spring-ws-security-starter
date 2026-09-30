@@ -56,7 +56,7 @@ class ITUserRepositoryLock {
     }
 
     @Test
-    @DisplayName("When there is no data an empty user is returned")
+    @DisplayName("When locking a nonexistent user, then an empty user is returned")
     void testLock_NoData_Returned() {
         final User updated;
 
@@ -70,7 +70,7 @@ class ITUserRepositoryLock {
     }
 
     @Test
-    @DisplayName("When locking a user it is updated")
+    @DisplayName("When locking a user, then the user is updated")
     @EnabledUserWithRole
     void testLock_PersistedData() {
         final List<UserEntity> entities;
@@ -87,7 +87,7 @@ class ITUserRepositoryLock {
     }
 
     @Test
-    @DisplayName("When locking a user it is returned")
+    @DisplayName("When locking a user, then the updated user is returned")
     @EnabledUserWithRole
     void testLock_ReturnedData() {
         final User user;

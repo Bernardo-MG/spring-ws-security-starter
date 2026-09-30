@@ -63,7 +63,7 @@ class TestDefaultRoleServiceDelete {
     }
 
     @Test
-    @DisplayName("Deleting calls the repository")
+    @DisplayName("When deleting a role, then the repository is called")
     void testDelete() {
 
         // GIVEN
@@ -77,7 +77,7 @@ class TestDefaultRoleServiceDelete {
     }
 
     @Test
-    @DisplayName("Deleting a not existing role throws an exception")
+    @DisplayName("When deleting a nonexistent role, then an exception is thrown")
     void testDelete_NotExisting() {
         final ThrowingCallable executable;
 

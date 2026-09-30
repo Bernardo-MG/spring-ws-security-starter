@@ -49,7 +49,7 @@ class TestTokenLoginServiceEvent {
     }
 
     @Test
-    @DisplayName("With a valid account and logging with username it generates a logged in event")
+    @DisplayName("When login succeeds with a username, then a logged-in event is generated")
     void testLogIn() {
         final LogInEvent event;
 
@@ -77,7 +77,7 @@ class TestTokenLoginServiceEvent {
     }
 
     @Test
-    @DisplayName("With a user with invalid credentials it generates a not logged in event")
+    @DisplayName("When login uses invalid credentials, then a not-logged-in event is generated")
     void testLogIn_InvalidCredentials() {
         final LogInEvent event;
 
@@ -103,7 +103,7 @@ class TestTokenLoginServiceEvent {
     }
 
     @Test
-    @DisplayName("When logging in, the event received the user username")
+    @DisplayName("When login succeeds, then the event contains the user's username")
     void testLogIn_UserUsername() {
         final LogInEvent event;
 

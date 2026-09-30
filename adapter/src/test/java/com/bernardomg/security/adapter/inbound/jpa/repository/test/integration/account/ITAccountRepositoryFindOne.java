@@ -28,7 +28,7 @@ class ITAccountRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("When there is no data, then nothing is returned")
     void testGetAll_Empty() {
         final Optional<Account> account;
 
@@ -42,7 +42,7 @@ class ITAccountRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the user has no role, the account is returned")
+    @DisplayName("When the user has no role, then the account is returned")
     @EnabledUserWithoutRole
     void testGetAll_NoRole() {
         final Optional<Account> account;
@@ -57,7 +57,7 @@ class ITAccountRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the user has a role and permissions, the account is returned")
+    @DisplayName("When the user has a role and permissions, then the account is returned")
     @EnabledUserWithRole
     void testGetAll_RoleAndPermissions() {
         final Optional<Account> account;

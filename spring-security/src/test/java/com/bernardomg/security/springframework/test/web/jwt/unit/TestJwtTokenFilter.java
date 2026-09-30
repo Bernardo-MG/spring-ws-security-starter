@@ -61,7 +61,7 @@ class TestJwtTokenFilter {
     }
 
     @Test
-    @DisplayName("With a valid token, existing authentication is replaced")
+    @DisplayName("When a valid token is provided, then existing authentication is replaced")
     void testDoFilter_ExistingAuthenticationIsReplaced() throws ServletException, IOException {
         final Authentication existing;
         final Authentication parsed;
@@ -85,7 +85,7 @@ class TestJwtTokenFilter {
     }
 
     @Test
-    @DisplayName("With no token, the security context is not modified")
+    @DisplayName("When no token is provided, then the security context is not modified")
     void testDoFilter_NoToken() throws ServletException, IOException {
         final Authentication existing;
 
@@ -106,7 +106,7 @@ class TestJwtTokenFilter {
     }
 
     @Test
-    @DisplayName("When token parsing fails, the context is cleared and failure is handled")
+    @DisplayName("When token parsing fails, then the context is cleared and the failure is handled")
     void testDoFilter_ParsingFailure() throws ServletException, IOException {
         final Authentication          existing;
         final AuthenticationException exception;
@@ -130,7 +130,7 @@ class TestJwtTokenFilter {
     }
 
     @Test
-    @DisplayName("When token resolution fails, the context is cleared and failure is handled")
+    @DisplayName("When token resolution fails, then the context is cleared and the failure is handled")
     void testDoFilter_ResolutionFailure() throws ServletException, IOException {
         final Authentication          existing;
         final AuthenticationException exception;
@@ -153,7 +153,7 @@ class TestJwtTokenFilter {
     }
 
     @Test
-    @DisplayName("With a valid token, the parsed authentication is stored")
+    @DisplayName("When a valid token is provided, then the parsed authentication is stored")
     void testDoFilter_ValidToken() throws ServletException, IOException {
         final Authentication authentication;
 

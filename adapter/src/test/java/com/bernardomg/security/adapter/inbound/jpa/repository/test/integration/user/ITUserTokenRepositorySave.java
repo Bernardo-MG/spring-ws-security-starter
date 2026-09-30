@@ -29,7 +29,7 @@ class ITUserTokenRepositorySave {
     private UserTokenSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving an existing token, it is updated")
+    @DisplayName("When saving an existing token, then it is updated")
     @EnabledUserWithoutRole
     @ActiveToken
     void testSave_Existing_Updated() {
@@ -47,7 +47,7 @@ class ITUserTokenRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a token, it is persisted")
+    @DisplayName("When saving a token, then it is persisted")
     @EnabledUserWithoutRole
     void testSave_Persisted() {
         final Collection<UserTokenEntity> tokens;
@@ -65,7 +65,7 @@ class ITUserTokenRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a token, it is returned")
+    @DisplayName("When saving a token, then it is returned")
     @EnabledUserWithoutRole
     void testSave_Returned() {
         final UserToken token;

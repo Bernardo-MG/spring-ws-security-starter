@@ -30,7 +30,7 @@ class ITRoleRepositoryFindAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by name the correct role is returned")
+    @DisplayName("When filtering by name, then the matching role is returned")
     @RoleWithoutPermissions
     void testFindAll_FilterByName() {
         final Page<Role> roles;
@@ -55,7 +55,7 @@ class ITRoleRepositoryFindAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by a not existing name nothing is returned")
+    @DisplayName("When filtering by a nonexistent name, then nothing is returned")
     @RoleWithoutPermissions
     void testFindAll_FilterByName_NotExiting() {
         final Page<Role> roles;
@@ -80,7 +80,7 @@ class ITRoleRepositoryFindAllFilter {
     }
 
     @Test
-    @DisplayName("When filtering by name and there is no data nothing is returned")
+    @DisplayName("When filtering by name with no data, then nothing is returned")
     void testFindAll_NoData() {
         final Page<Role> roles;
         final RoleFilter sample;

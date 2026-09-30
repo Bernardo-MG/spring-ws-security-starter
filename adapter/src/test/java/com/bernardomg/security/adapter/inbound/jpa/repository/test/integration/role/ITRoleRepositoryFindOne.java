@@ -29,7 +29,7 @@ class ITRoleRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the role exists it is returned")
+    @DisplayName("When the role exists, then it is returned")
     @RoleWithoutPermissions
     void testFindOne_Existing() {
         final Optional<Role> role;
@@ -43,7 +43,7 @@ class ITRoleRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<Role> role;
 
@@ -56,7 +56,7 @@ class ITRoleRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the role doesn't exist nothing is returned")
+    @DisplayName("When the role doesn't exist, then nothing is returned")
     @RoleWithoutPermissions
     void testFindOne_NotExisting() {
         final Optional<Role> role;
@@ -70,7 +70,7 @@ class ITRoleRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the role exists, and it has permissions, it is returned")
+    @DisplayName("When the role has permissions, then it is returned")
     @RoleWithCrudPermissions
     void testFindOne_WithPermissions() {
         final Optional<Role> role;
@@ -84,7 +84,7 @@ class ITRoleRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When the role exists, and it has a permission, it is returned")
+    @DisplayName("When the role has one permission, then it is returned")
     @RoleWithPermission
     void testFindOne_WithSinglePermission() {
         final Optional<Role> role;

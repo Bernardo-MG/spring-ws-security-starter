@@ -55,7 +55,7 @@ class TestUserServiceGetAll {
     }
 
     @Test
-    @DisplayName("When there are users they are returned")
+    @DisplayName("When users exist, then they are returned")
     void testGetAll() {
         final Page<User> users;
         final Page<User> existing;
@@ -84,7 +84,7 @@ class TestUserServiceGetAll {
     }
 
     @Test
-    @DisplayName("When there are no users nothing is returned")
+    @DisplayName("When no users exist, then nothing is returned")
     void testGetAll_NoData() {
         final Page<User> users;
         final Page<User> existing;

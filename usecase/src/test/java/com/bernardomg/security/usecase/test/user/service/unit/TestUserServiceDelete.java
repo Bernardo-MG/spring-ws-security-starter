@@ -75,7 +75,7 @@ class TestUserServiceDelete {
     }
 
     @Test
-    @DisplayName("Deletes a user")
+    @DisplayName("When deleting a user, then it is removed")
     void testDelete() {
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
@@ -88,7 +88,7 @@ class TestUserServiceDelete {
     }
 
     @Test
-    @DisplayName("With a not existing user, an exception is thrown")
+    @DisplayName("When deleting a nonexistent user, then an exception is thrown")
     void testDelete_NotExisting() {
         final ThrowingCallable execution;
 

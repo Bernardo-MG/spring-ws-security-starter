@@ -56,7 +56,7 @@ class ITUserRepositoryResetPassword {
     }
 
     @Test
-    @DisplayName("When there is no data an empty user is returned")
+    @DisplayName("When resetting the password of a nonexistent user, then an empty user is returned")
     void testResetPassword_NoData_Returned() {
         final User updated;
 
@@ -70,7 +70,7 @@ class ITUserRepositoryResetPassword {
     }
 
     @Test
-    @DisplayName("When refreshing a user password it is updated")
+    @DisplayName("When refreshing a user's password, then the user is updated")
     @EnabledUserWithRole
     void testResetPassword_PersistedData() {
         final List<UserEntity> entities;
@@ -87,7 +87,7 @@ class ITUserRepositoryResetPassword {
     }
 
     @Test
-    @DisplayName("When refreshing a user password it is returned")
+    @DisplayName("When refreshing a user's password, then the updated user is returned")
     @EnabledUserWithRole
     void testResetPassword_ReturnedData() {
         final User user;

@@ -55,7 +55,7 @@ class ITUserRepositoryDelete {
     }
 
     @Test
-    @DisplayName("Removes an entity when deleting")
+    @DisplayName("When deleting a user, then the entity is removed")
     @OnlyUser
     void testDelete() {
         // WHEN
@@ -67,7 +67,7 @@ class ITUserRepositoryDelete {
     }
 
     @Test
-    @DisplayName("Does not remove roles when deleting")
+    @DisplayName("When deleting a user, then its roles are retained")
     @EnabledUserWithRole
     void testDelete_DoesNotRemoveRelations() {
         // WHEN
@@ -79,7 +79,7 @@ class ITUserRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
+    @DisplayName("When deleting a nonexistent user, then nothing is removed")
     void testDelete_NoData() {
         // WHEN
         userRepository.delete(UserConstants.USERNAME);

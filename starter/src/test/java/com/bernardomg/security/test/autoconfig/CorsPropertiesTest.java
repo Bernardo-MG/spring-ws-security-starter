@@ -23,7 +23,7 @@ final class CorsPropertiesTest {
         .withUserConfiguration(CorsPropertiesConfiguration.class);
 
     @Test
-    @DisplayName("When no properties are received, defaults are applied")
+    @DisplayName("When no properties are provided, then the defaults are applied")
     void testProperties_AppliesDefaults() {
         contextRunner.run(context -> {
             final CorsProperties properties;
@@ -57,7 +57,7 @@ final class CorsPropertiesTest {
     }
 
     @Test
-    @DisplayName("When properties are received, they are binded")
+    @DisplayName("When properties are provided, then they are bound")
     void testProperties_BindsConfiguredValues() {
         contextRunner
             .withPropertyValues("security.cors.pattern=/api/**", "security.cors.allowed-origins=https://example.com",

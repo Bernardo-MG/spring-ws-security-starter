@@ -33,7 +33,7 @@ class TestAccountServiceGetCurrentUser {
     private DefaultAccountService    service;
 
     @Test
-    @DisplayName("When there is an account, it is returned")
+    @DisplayName("When an account exists, then it is returned")
     void testGetCurrentUser_Data() {
         final Optional<Account> account;
 
@@ -49,7 +49,7 @@ class TestAccountServiceGetCurrentUser {
     }
 
     @Test
-    @DisplayName("When there is no account, nothing is returned")
+    @DisplayName("When no account exists, then nothing is returned")
     void testGetCurrentUser_NoData() {
         final Optional<Account> account;
 

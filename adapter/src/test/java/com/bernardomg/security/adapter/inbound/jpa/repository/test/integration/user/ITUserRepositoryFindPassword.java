@@ -25,7 +25,7 @@ class ITUserRepositoryFindPassword {
     }
 
     @Test
-    @DisplayName("Returns the password")
+    @DisplayName("When looking up an existing user, then the password is returned")
     @OnlyUser
     void testGetOne() {
         final Optional<String> password;
@@ -38,7 +38,7 @@ class ITUserRepositoryFindPassword {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When the user does not exist, then nothing is returned")
     void testGetOne_NoData() {
         final Optional<String> password;
 

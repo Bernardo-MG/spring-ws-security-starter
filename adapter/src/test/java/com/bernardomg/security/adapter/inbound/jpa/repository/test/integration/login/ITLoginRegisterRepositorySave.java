@@ -30,7 +30,7 @@ class ITLoginRegisterRepositorySave {
     private LoginRegisterSpringRepository springRepository;
 
     @Test
-    @DisplayName("When changing a login register to not logged in, it is persisted")
+    @DisplayName("When changing a login register to not logged in, then it is persisted")
     @LoggedInLoginRegister
     void testSave_Existing_Logged_UpdateToNotLogged_Persisted() {
         final LoginRegister                   register;
@@ -52,7 +52,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing a login register to not logged in, it is returned")
+    @DisplayName("When changing a login register to not logged in, then it is returned")
     @LoggedInLoginRegister
     void testSave_Existing_Logged_UpdateToNotLogged_Returned() {
         final LoginRegister register;
@@ -71,7 +71,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a login register, it is persisted")
+    @DisplayName("When saving a login register, then it is persisted")
     void testSave_Logged_Persisted() {
         final LoginRegister                   register;
         final Collection<LoginRegisterEntity> registers;
@@ -92,7 +92,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a login register, it is returned")
+    @DisplayName("When saving a login register, then it is returned")
     void testSave_Logged_Returned() {
         final LoginRegister register;
         final LoginRegister returned;
@@ -110,7 +110,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a login register for an existing user, it is linked to the user")
+    @DisplayName("When saving a login register for an existing user, then it is linked to the user")
     @EnabledUserWithoutRole
     void testSave_Logged_UserExists_Linked() {
         final LoginRegister                   register;
@@ -134,7 +134,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a not login register, it is persisted")
+    @DisplayName("When saving a not logged-in register, then it is persisted")
     void testSave_NotLogged_Persisted() {
         final LoginRegister                   register;
         final Collection<LoginRegisterEntity> registers;
@@ -155,7 +155,7 @@ class ITLoginRegisterRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a not login register, it is returned")
+    @DisplayName("When saving a not logged-in register, then it is returned")
     void testSave_NotLogged_Returned() {
         final LoginRegister register;
         final LoginRegister returned;

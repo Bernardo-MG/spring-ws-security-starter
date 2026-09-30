@@ -32,7 +32,7 @@ class ITRoleRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there are roles they are returned")
+    @DisplayName("When roles exist, then they are returned")
     @RoleWithoutPermissions
     void testFindAll() {
         final Page<Role> roles;
@@ -58,7 +58,7 @@ class ITRoleRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there are no roles nothing is returned")
+    @DisplayName("When no roles exist, then nothing is returned")
     void testFindAll_NoData() {
         final Page<Role> roles;
         final RoleFilter sample;
@@ -82,7 +82,7 @@ class ITRoleRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there are roles with permissions they are returned")
+    @DisplayName("When roles have permissions, then they are returned")
     @RoleWithCrudPermissions
     void testFindAll_WithPermissions() {
         final Page<Role> roles;
@@ -108,7 +108,7 @@ class ITRoleRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there are roles with a single permission they are returned")
+    @DisplayName("When roles have a single permission, then they are returned")
     @RoleWithPermission
     void testFindAll_WithSinglePermission() {
         final Page<Role> roles;

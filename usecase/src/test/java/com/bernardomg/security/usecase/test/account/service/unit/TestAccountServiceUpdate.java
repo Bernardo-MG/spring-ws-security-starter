@@ -36,7 +36,7 @@ class TestAccountServiceUpdate {
     private DefaultAccountService    service;
 
     @Test
-    @DisplayName("When there is no data, an exception is thrown")
+    @DisplayName("When the account does not exist, then an exception is thrown")
     void testUpdate_NoData() {
         final ThrowingCallable execution;
         final Account          data;
@@ -55,7 +55,7 @@ class TestAccountServiceUpdate {
     }
 
     @Test
-    @DisplayName("Sends the account to the repository")
+    @DisplayName("When updating an account, then it is sent to the repository")
     void testUpdate_PersistedData() {
         final Account data;
 
@@ -72,7 +72,7 @@ class TestAccountServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the updated data")
+    @DisplayName("When updating an account, then the updated account is returned")
     void testUpdate_ReturnedData() {
         final Account data;
         final Account account;

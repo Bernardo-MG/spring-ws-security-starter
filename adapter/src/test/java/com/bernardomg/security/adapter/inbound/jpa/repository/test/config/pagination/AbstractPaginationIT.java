@@ -45,7 +45,7 @@ public abstract class AbstractPaginationIT<T> {
     }
 
     @Test
-    @DisplayName("When a page is returned, it returns the correct page data")
+    @DisplayName("When a page is returned, then it contains the correct data")
     void testReadPaged_PageData() {
         final Page<T>    data;
         final Pagination pagination;
@@ -77,7 +77,7 @@ public abstract class AbstractPaginationIT<T> {
     }
 
     @Test
-    @DisplayName("When a page request is received, the response size is the same as the page size")
+    @DisplayName("When a page request is received, then the response size matches the requested page size")
     void testReadPaged_PageMax() {
         final Page<T>    data;
         final Pagination pagination;

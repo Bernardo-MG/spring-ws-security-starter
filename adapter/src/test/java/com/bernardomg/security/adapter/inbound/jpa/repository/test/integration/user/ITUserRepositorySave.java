@@ -57,7 +57,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When adding a role to a user it is updated")
+    @DisplayName("When adding a role to a user, then the user is updated")
     @EnabledUserWithRole
     @AlternativeRole
     void testSave_AddRole_PersistedData() {
@@ -80,7 +80,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When adding a role to a user it is returned")
+    @DisplayName("When adding a role to a user, then the updated user is returned")
     @EnabledUserWithRole
     @AlternativeRole
     void testSave_AddRole_Returned() {
@@ -100,7 +100,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When adding a not existing role to a user it is updated")
+    @DisplayName("When adding a new role to a user, then the user is updated")
     @OnlyUser
     void testSave_AddRoleRole_PersistedData() {
         final User             user;
@@ -121,7 +121,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When adding a not existing role to a user it is returned")
+    @DisplayName("When adding a new role to a user, then the updated user is returned")
     @OnlyUser
     void testSave_AddRoleRole_Returned() {
         final User user;
@@ -140,7 +140,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing the name, the user is persisted")
+    @DisplayName("When changing the user's name, then the user is persisted")
     void testSave_NameChange_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
@@ -160,7 +160,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a newly created user")
+    @DisplayName("When saving a new user, then the user is persisted")
     void testSave_PersistedData() {
         final User             user;
         final List<UserEntity> entities;
@@ -180,7 +180,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When removing the roles to a user it is updated")
+    @DisplayName("When removing a user's roles, then the user is updated")
     @EnabledUserWithRole
     void testSave_RemoveRoles_PersistedData() {
         final User             user;
@@ -201,7 +201,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When removing the roles to a user it is returned")
+    @DisplayName("When removing a user's roles, then the updated user is returned")
     @EnabledUserWithRole
     void testSave_RemoveRoles_Returned() {
         final User user;
@@ -220,7 +220,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns a newly created user")
+    @DisplayName("When saving a new user, then the created user is returned")
     void testSave_Returned() {
         final User user;
         final User created;
@@ -240,7 +240,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When a user has no roles it is updated")
+    @DisplayName("When saving a user without roles, then the user is updated")
     @OnlyUser
     void testSave_WithoutRoles_PersistedData() {
         final User             user;
@@ -261,7 +261,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When a user has no roles it is returned")
+    @DisplayName("When saving a user without roles, then the user is returned")
     @OnlyUser
     void testSave_WithoutRoles_Returned() {
         final User user;
@@ -280,7 +280,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When a user has roles it is updated")
+    @DisplayName("When saving a user with roles, then the user is updated")
     @EnabledUserWithRole
     void testSave_WithRoles_PersistedData() {
         final User             user;
@@ -302,7 +302,7 @@ class ITUserRepositorySave {
     }
 
     @Test
-    @DisplayName("When a user has roles it is returned")
+    @DisplayName("When saving a user with roles, then the user is returned")
     @EnabledUserWithRole
     void testSave_WithRoles_Returned() {
         final User user;

@@ -24,7 +24,7 @@ class ITRoleRepositoryExists {
     }
 
     @Test
-    @DisplayName("When the role exists it is returned as existing")
+    @DisplayName("When the role exists, then it is reported as existing")
     @RoleWithoutPermissions
     void testExists() {
         final boolean exists;
@@ -38,7 +38,7 @@ class ITRoleRepositoryExists {
     }
 
     @Test
-    @DisplayName("When the role exists, ignoring case, it is returned as existing")
+    @DisplayName("When the role exists with different casing, then it is reported as existing")
     @RoleWithoutPermissions
     void testExists_IgnoreCase() {
         final boolean exists;
@@ -52,7 +52,7 @@ class ITRoleRepositoryExists {
     }
 
     @Test
-    @DisplayName("When there is no data it is returned as not existing")
+    @DisplayName("When there is no role, then it is reported as not existing")
     void testExists_NotData() {
         final boolean exists;
 
@@ -65,7 +65,7 @@ class ITRoleRepositoryExists {
     }
 
     @Test
-    @DisplayName("When the role doesn't exists it is returned as not existing")
+    @DisplayName("When the role doesn't exist, then it is reported as not existing")
     @RoleWithoutPermissions
     void testExists_NotExisting() {
         final boolean exists;

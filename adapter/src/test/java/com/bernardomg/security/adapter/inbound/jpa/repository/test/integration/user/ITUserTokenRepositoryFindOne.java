@@ -24,7 +24,7 @@ class ITUserTokenRepositoryFindOne {
     private UserTokenRepository repository;
 
     @Test
-    @DisplayName("When the token exists, it is returned")
+    @DisplayName("When the token exists, then it is returned")
     @EnabledUserWithoutRole
     @ActiveToken
     void testFindOne_Existing() {
@@ -40,7 +40,7 @@ class ITUserTokenRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When the token does not exist, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<UserToken> token;
 

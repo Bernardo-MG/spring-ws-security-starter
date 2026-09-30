@@ -79,7 +79,7 @@ class TestUserOnboardingServiceInviteUser {
     private UserRepository               userRepository;
 
     @Test
-    @DisplayName("Sends the user to the repository, ignoring case")
+    @DisplayName("When inviting a user with case-insensitive input, then the user is sent to the repository")
     void testInviteUser_Case_AddsEntity() {
         // GIVEN
         given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -95,7 +95,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Returns the created user, ignoring case")
+    @DisplayName("When inviting a user with case-insensitive input, then the created user is returned")
     void testInviteUser_Case_ReturnedData() {
         final User user;
 
@@ -114,7 +114,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Throws an exception when the role is duplicated")
+    @DisplayName("When inviting a user with a duplicated role, then a validation error is raised")
     void testInviteUser_DuplicatedRole() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -132,7 +132,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Throws an exception when the email already exists")
+    @DisplayName("When inviting a user with an existing email, then a validation error is raised")
     void testInviteUser_ExistingEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -150,7 +150,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Throws an exception when the username already exists")
+    @DisplayName("When inviting a user with an existing username, then a validation error is raised")
     void testInviteUser_ExistingUsername() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -168,7 +168,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Throws an exception when the email has an invalid format")
+    @DisplayName("When inviting a user with an invalid email, then a validation error is raised")
     void testInviteUser_InvalidEmail() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -183,7 +183,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("When the role doesn't exists an exception is thrown")
+    @DisplayName("When the role does not exist, then an exception is thrown")
     void testInviteUser_NotExistingRole() {
         final ThrowingCallable execution;
 
@@ -199,7 +199,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("When inviting a new user, an event is sent")
+    @DisplayName("When a user is invited, then an invitation event is sent")
     void testInviteUser_Notification() {
         final UserInvitationEvent userInvitationEvent;
 
@@ -219,7 +219,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Sends the user to the repository, padded with whitespace")
+    @DisplayName("When inviting a user with padded input, then the user is sent to the repository")
     void testInviteUser_Padded_AddsEntity() {
         // GIVEN
         given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -235,7 +235,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("Returns the created user, padded with whitespace")
+    @DisplayName("When inviting a user with padded input, then the created user is returned")
     void testInviteUser_Padded_ReturnedData() {
         final User user;
 
@@ -254,7 +254,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("With a user with roles, it is sent to the repository")
+    @DisplayName("When inviting a user with roles, then the user is sent to the repository")
     void testInviteUser_Role_PersistedData() {
         // GIVEN
         given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -271,7 +271,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("With a user with roles, it is returned")
+    @DisplayName("When inviting a user with roles, then the created user is returned")
     void testInviteUser_Role_ReturnedData() {
         final User user;
 
@@ -291,7 +291,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("With a user without roles, it is sent to the repository")
+    @DisplayName("When inviting a user without roles, then the user is sent to the repository")
     void testInviteUser_WithoutRoles_PersistedData() {
         // GIVEN
         given(passwordEncrypt.encrypt("")).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -307,7 +307,7 @@ class TestUserOnboardingServiceInviteUser {
     }
 
     @Test
-    @DisplayName("With a user without roles, it is returned")
+    @DisplayName("When inviting a user without roles, then the created user is returned")
     void testInviteUser_WithoutRoles_ReturnedData() {
         final User user;
 

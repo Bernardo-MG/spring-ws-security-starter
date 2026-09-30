@@ -54,7 +54,7 @@ class TestDefaultPasswordResetServiceChange {
     private UserRepository              userRepository;
 
     @Test
-    @DisplayName("Changing password with a disabled user throws an exception")
+    @DisplayName("When changing the password of a disabled user, then an exception is thrown")
     void testChangePassword_Disabled() {
         final ThrowingCallable execution;
         final Exception        exception;
@@ -75,7 +75,7 @@ class TestDefaultPasswordResetServiceChange {
     }
 
     @Test
-    @DisplayName("Changing password with a expired user throws an exception")
+    @DisplayName("When changing the password of an expired user, then an exception is thrown")
     void testChangePassword_Expired() {
         final ThrowingCallable execution;
         final Exception        exception;
@@ -96,7 +96,7 @@ class TestDefaultPasswordResetServiceChange {
     }
 
     @Test
-    @DisplayName("Changing password with an invalid password throws an exception")
+    @DisplayName("When changing the password with invalid input, then an exception is thrown")
     void testChangePassword_InvalidPassword() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -111,7 +111,7 @@ class TestDefaultPasswordResetServiceChange {
     }
 
     @Test
-    @DisplayName("Changing password with a locked user throws an exception")
+    @DisplayName("When changing the password of a locked user, then an exception is thrown")
     void testChangePassword_Locked() {
         final ThrowingCallable execution;
         final Exception        exception;
@@ -132,7 +132,7 @@ class TestDefaultPasswordResetServiceChange {
     }
 
     @Test
-    @DisplayName("Changing password for a not existing user throws an exception")
+    @DisplayName("When changing the password of a nonexistent user, then an exception is thrown")
     void testChangePassword_NotExistingUser() {
         final ThrowingCallable execution;
         final Exception        exception;
@@ -152,7 +152,7 @@ class TestDefaultPasswordResetServiceChange {
     }
 
     @Test
-    @DisplayName("Changing password when the user is expired resets the flag")
+    @DisplayName("When changing the password of an expired user, then the expired-password flag is reset")
     void testChangePassword_PasswordExpired_ResetsPassword() {
         // GIVEN
         given(passwordEncrypter.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
@@ -167,7 +167,7 @@ class TestDefaultPasswordResetServiceChange {
     }
 
     @Test
-    @DisplayName("Changing password sends the data to the repository")
+    @DisplayName("When changing a password, then the updated data is sent to the repository")
     void testChangePassword_ResetsPassword() {
         // GIVEN
         given(passwordEncrypter.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_NEW_PASSWORD);
@@ -182,7 +182,7 @@ class TestDefaultPasswordResetServiceChange {
     }
 
     @Test
-    @DisplayName("Changing password consumes the token")
+    @DisplayName("When changing a password with a reset token, then the token is consumed")
     void testChangePassword_TokenConsumed() {
         // GIVEN
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);

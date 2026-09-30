@@ -38,7 +38,7 @@ class TestSpringResourcePermissionConfigLoader {
     }
 
     @Test
-    @DisplayName("Loads a permission configuration")
+    @DisplayName("When a permission configuration is available, then it is loaded")
     void testLoad() throws IOException {
         final Collection<PermissionConfig> result;
         final PermissionConfigLoader       loader;
@@ -76,7 +76,7 @@ class TestSpringResourcePermissionConfigLoader {
     }
 
     @Test
-    @DisplayName("An empty resource produces an empty configuration")
+    @DisplayName("When the resource is empty, then an empty configuration is produced")
     void testLoad_EmptyResource() throws IOException {
         final Collection<PermissionConfig> result;
         final PermissionConfigLoader       loader;
@@ -100,7 +100,7 @@ class TestSpringResourcePermissionConfigLoader {
     }
 
     @Test
-    @DisplayName("A missing permissions resource causes an exception")
+    @DisplayName("When the permissions resource is missing, then an exception is thrown")
     void testLoad_MissingResource() {
         final PermissionConfigLoader loader;
         final UncheckedIOException   exception;
@@ -121,7 +121,7 @@ class TestSpringResourcePermissionConfigLoader {
     }
 
     @Test
-    @DisplayName("Loads all permission configuration resources")
+    @DisplayName("When multiple permission configuration resources are available, then all are loaded")
     void testLoad_MultipleResources() throws IOException {
         final List<PermissionConfig> result;
         final PermissionConfigLoader loader;
@@ -159,7 +159,7 @@ class TestSpringResourcePermissionConfigLoader {
     }
 
     @Test
-    @DisplayName("No resources produce no configurations")
+    @DisplayName("When no resources are available, then no configurations are produced")
     void testLoad_NoResources() {
         final Collection<PermissionConfig> result;
         final PermissionConfigLoader       loader;

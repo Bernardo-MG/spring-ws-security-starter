@@ -48,7 +48,7 @@ import com.bernardomg.security.usecase.token.UserTokenStore;
 import com.bernardomg.security.usecase.user.service.DefaultUserOnboardingService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserActivationService - token validation")
+@DisplayName("DefaultUserOnboardingService - validate token")
 class TestUserOnboardingServiceValidateToken {
 
     @Mock
@@ -73,6 +73,7 @@ class TestUserOnboardingServiceValidateToken {
     private TokenValidator               tokenValidator;
 
     @Test
+    @DisplayName("When token validation fails, then an invalid status and the username are returned")
     void testValidateToken_Invalid() {
         final UserTokenStatus status;
 
@@ -94,6 +95,7 @@ class TestUserOnboardingServiceValidateToken {
     }
 
     @Test
+    @DisplayName("When token validation succeeds, then a valid status and the username are returned")
     void testValidateToken_Valid() {
         final UserTokenStatus status;
 

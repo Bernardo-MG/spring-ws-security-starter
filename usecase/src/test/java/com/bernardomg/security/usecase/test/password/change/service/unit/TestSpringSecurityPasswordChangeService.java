@@ -53,7 +53,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("Changing password with a disabled user gives a failure")
+    @DisplayName("When changing the password of a disabled user, then the operation fails")
     void testChangePasswordForUserInSession_Disabled() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -74,7 +74,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("Changing password with a expired user gives a failure")
+    @DisplayName("When changing the password of an expired user, then the operation fails")
     void testChangePasswordForUserInSession_Expired() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -96,7 +96,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("Changing password with an invalid password throws an exception")
+    @DisplayName("When changing the password with invalid input, then an exception is thrown")
     void testChangePasswordForUserInSession_InvalidPassword() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -116,7 +116,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("Changing password with a locked user gives a failure")
+    @DisplayName("When changing the password of a locked user, then the operation fails")
     void testChangePasswordForUserInSession_Locked() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -137,7 +137,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("Throws an exception when there is no authentication data")
+    @DisplayName("When authentication data is missing, then an exception is thrown")
     void testChangePasswordForUserInSession_MissingAuthentication() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -157,7 +157,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("Changing password with a not existing user gives a failure")
+    @DisplayName("When changing the password of a nonexistent user, then the operation fails")
     void testChangePasswordForUserInSession_NotExistingUser() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -176,7 +176,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("When the password doesn't match an exception is thrown")
+    @DisplayName("When the current password does not match, then an exception is thrown")
     void testChangePasswordForUserInSession_NotMatchingPassword() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -196,7 +196,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist an exception is thrown")
+    @DisplayName("When the user does not exist, then an exception is thrown")
     void testChangePasswordForUserInSession_NoUser() {
         final ThrowingCallable execution;
 
@@ -212,7 +212,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("When changing password with a user with expired password the password is reset")
+    @DisplayName("When changing the password of a user with an expired password, then the password is reset")
     void testChangePasswordForUserInSession_PasswordExpired() {
 
         // GIVEN
@@ -230,7 +230,7 @@ class TestSpringSecurityPasswordChangeService {
     }
 
     @Test
-    @DisplayName("When changing a password the password is reset")
+    @DisplayName("When changing a password successfully, then the password is reset")
     void testChangePasswordForUserInSession_Resets() {
 
         // GIVEN

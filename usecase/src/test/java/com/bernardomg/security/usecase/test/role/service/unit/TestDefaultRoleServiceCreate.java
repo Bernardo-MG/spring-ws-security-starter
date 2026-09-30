@@ -43,7 +43,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("When the role name is empty, an exception is thrown")
+    @DisplayName("When the role name is empty, then a validation exception is thrown")
     void testCreate_NameEmpty() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -62,7 +62,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("When the role name already exists, an exception is thrown")
+    @DisplayName("When the role name already exists, then a validation exception is thrown")
     void testCreate_NameExists() {
         final ThrowingCallable executable;
         final FieldFailure     failure;
@@ -84,7 +84,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Sends a role without permissions to the repository")
+    @DisplayName("When creating a role without permissions, then it is sent to the repository")
     void testCreate_NoPermissions_PersistedData() {
         final Role toCreate;
 
@@ -99,7 +99,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Returns the created role without permissions")
+    @DisplayName("When creating a role without permissions, then the created role is returned")
     void testCreate_NoPermissions_ReturnedData() {
         final Role result;
         final Role toCreate;
@@ -119,7 +119,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Sends a role with permissions to the repository")
+    @DisplayName("When creating a role with permissions, then it is sent to the repository")
     void testCreate_Permissions_PersistedData() {
         final Role toCreate;
 
@@ -136,7 +136,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("Returns the created role with permissions")
+    @DisplayName("When creating a role with permissions, then the created role is returned")
     void testCreate_Permissions_ReturnedData() {
         final Role result;
         final Role toCreate;
@@ -158,7 +158,7 @@ class TestDefaultRoleServiceCreate {
     }
 
     @Test
-    @DisplayName("When the permission doesn't exists an exception is thrown")
+    @DisplayName("When a permission does not exist, then an exception is thrown")
     void testUpdate_NotExistingPermission() {
         final ThrowingCallable execution;
         final Role             data;

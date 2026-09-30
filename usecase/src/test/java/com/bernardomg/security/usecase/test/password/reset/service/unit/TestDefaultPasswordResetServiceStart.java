@@ -57,7 +57,7 @@ class TestDefaultPasswordResetServiceStart {
     private UserRepository              userRepository;
 
     @Test
-    @DisplayName("When starting the password reset the token is regenerated")
+    @DisplayName("When starting a password reset, then existing tokens are revoked and a new token is created")
     void testStartPasswordReset_CredentialsExpired_NewToken() {
 
         // GIVEN
@@ -73,7 +73,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("When starting the password reset, with expired credentials, a message is sent to the user")
+    @DisplayName("When starting a password reset for a user with an expired password, then a reset message is sent")
     void testStartPasswordReset_CredentialsExpired_SendMessage() {
         final PasswordResetEvent passwordResetEvent;
 
@@ -91,7 +91,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("Activating a new user for a disabled user throws an exception")
+    @DisplayName("When starting a password reset for a disabled user, then a DisabledUserException is thrown")
     void testStartPasswordReset_Disabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -111,7 +111,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("Activating a new user for a disabled user, no token is generated")
+    @DisplayName("When starting a password reset for a disabled user, then no token is generated")
     void testStartPasswordReset_Disabled_NoToken() {
         final ThrowingCallable executable;
 
@@ -129,7 +129,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("Activating a new user for an expired user throws an exception")
+    @DisplayName("When starting a password reset for an expired user, then an ExpiredUserException is thrown")
     void testStartPasswordReset_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -149,7 +149,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("Activating a new user for an expired user, no token is generated")
+    @DisplayName("When starting a password reset for an expired user, then no token is generated")
     void testStartPasswordReset_Expired_NoToken() {
         final ThrowingCallable executable;
 
@@ -167,7 +167,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("Activating a new user with an invalid email throws an exception")
+    @DisplayName("When starting a password reset with an invalid email, then a validation error is raised")
     void testStartPasswordReset_InvalidEmail() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -182,7 +182,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("Activating a new user for a locked user throws an exception")
+    @DisplayName("When starting a password reset for a locked user, then a LockedUserException is thrown")
     void testStartPasswordReset_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -202,7 +202,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("Activating a new user for a locked user, no token is generated")
+    @DisplayName("When starting a password reset for a locked user, then no token is generated")
     void testStartPasswordReset_Locked_NoToken() {
         final ThrowingCallable executable;
 
@@ -220,7 +220,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("When recovering the password the correct message arguments are used")
+    @DisplayName("When starting a password reset, then the message contains the correct arguments")
     void testStartPasswordReset_Message() {
         final PasswordResetEvent passwordResetEvent;
 
@@ -238,7 +238,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("When starting the password reset the token is regenerated")
+    @DisplayName("When starting a password reset, then existing tokens are revoked and a new token is created")
     void testStartPasswordReset_NewToken() {
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
@@ -253,7 +253,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("When there is no user an exception is thrown")
+    @DisplayName("When no user matches the email, then a MissingUsernameException is thrown")
     void testStartPasswordReset_NoUser() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -273,7 +273,7 @@ class TestDefaultPasswordResetServiceStart {
     }
 
     @Test
-    @DisplayName("When starting the password reset a message is sent to the user")
+    @DisplayName("When starting a password reset for an enabled user, then a reset message is sent")
     void testStartPasswordReset_SendMessage() {
         final PasswordResetEvent passwordResetEvent;
 

@@ -29,7 +29,7 @@ class ITUserTokenRepositorySaveAll {
     private UserTokenSpringRepository springRepository;
 
     @Test
-    @DisplayName("When saving duplicated tokens, a single token is persisted")
+    @DisplayName("When saving duplicate tokens, then only one token is persisted")
     @EnabledUserWithoutRole
     void testSaveAll_Duplicated_SinglePersisted() {
         final Collection<UserTokenEntity> tokens;
@@ -47,7 +47,7 @@ class ITUserTokenRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When saving duplicated tokens, a single token is returned")
+    @DisplayName("When saving duplicate tokens, then only one token is returned")
     @EnabledUserWithoutRole
     void testSaveAll_Duplicated_SingleReturned() {
         final Collection<UserToken> tokens;
@@ -62,7 +62,7 @@ class ITUserTokenRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When saving multiple tokens, they are persisted")
+    @DisplayName("When saving multiple tokens, then they are persisted")
     @EnabledUserWithoutRole
     void testSaveAll_Multiple_Persisted() {
         final Collection<UserTokenEntity> tokens;
@@ -80,7 +80,7 @@ class ITUserTokenRepositorySaveAll {
     }
 
     @Test
-    @DisplayName("When saving multiple tokens, they are returned")
+    @DisplayName("When saving multiple tokens, then they are returned")
     @EnabledUserWithoutRole
     void testSaveAll_Multiple_Returned() {
         final Collection<UserToken> tokens;

@@ -47,7 +47,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
     }
 
     @Test
-    @DisplayName("When there is another user with the email it exists")
+    @DisplayName("When another user has the email, then the email is reported as existing")
     @EnabledUserWithRole
     @AlternativeUser
     void testExistsEmailForAnotherUser_AnotherUser() {
@@ -63,7 +63,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
     }
 
     @Test
-    @DisplayName("When there is no data the email doesn't exist")
+    @DisplayName("When no other user has the email, then it is reported as not existing")
     void testExistsEmailForAnotherUser_NoData() {
         final boolean exists;
 
@@ -77,7 +77,7 @@ class ITUserRepositoryExistsEmailForAnotherUser {
     }
 
     @Test
-    @DisplayName("When the user exists and there is not another user the email doesn't exist")
+    @DisplayName("When only the current user has the email, then it is reported as not existing for another user")
     @EnabledUserWithRole
     void testExistsEmailForAnotherUser_SingleUser() {
         final boolean exists;

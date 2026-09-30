@@ -40,7 +40,7 @@ class TestAuthenticationManagerUserAuthenticator {
     private AuthenticationManagerLoginUserAuthenticator authenticator;
 
     @Test
-    @DisplayName("Converts an authentication failure into invalid credentials")
+    @DisplayName("When authentication fails, then an invalid-credentials exception is thrown")
     void testAuthenticate_AuthenticationFailure() {
         final AuthenticationException cause;
         final ThrowingCallable        executable;
@@ -62,7 +62,7 @@ class TestAuthenticationManagerUserAuthenticator {
     }
 
     @Test
-    @DisplayName("Authenticates and returns the domain user")
+    @DisplayName("When the authenticated principal has an unexpected type, then an invalid-credentials exception is thrown")
     void testAuthenticate_InvalidCredentials() {
         final ThrowingCallable executable;
 
@@ -85,7 +85,7 @@ class TestAuthenticationManagerUserAuthenticator {
     }
 
     @Test
-    @DisplayName("Throws invalid credentials when the authenticated user is not found")
+    @DisplayName("When the authenticated user is not found, then an invalid-credentials exception is thrown")
     void testAuthenticate_UserNotFound() {
         final ThrowingCallable executable;
 
@@ -103,7 +103,7 @@ class TestAuthenticationManagerUserAuthenticator {
     }
 
     @Test
-    @DisplayName("Authenticates and returns the domain user")
+    @DisplayName("When authentication succeeds with a valid principal, then the domain user is returned")
     void testAuthenticate_ValidCredentials() {
         final LoginUser result;
 

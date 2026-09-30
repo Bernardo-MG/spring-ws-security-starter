@@ -27,7 +27,7 @@ class ITUserTokenRepositoryFindAll {
     private UserTokenRepository repository;
 
     @Test
-    @DisplayName("When there is an active token, it is returned")
+    @DisplayName("When an active token exists, then it is returned")
     @EnabledUserWithoutRole
     @ActiveToken
     void testFindAll_Active() {
@@ -49,7 +49,7 @@ class ITUserTokenRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is a consumed token, it is returned")
+    @DisplayName("When a consumed token exists, then it is returned")
     @EnabledUserWithoutRole
     @ConsumedToken
     void testFindAll_Consumed() {
@@ -71,7 +71,7 @@ class ITUserTokenRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is an expired token, it is returned")
+    @DisplayName("When an expired token exists, then it is returned")
     @EnabledUserWithoutRole
     @ExpiredToken
     void testFindAll_Expired() {
@@ -93,7 +93,7 @@ class ITUserTokenRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When no tokens exist, then nothing is returned")
     void testFindAll_NoData() {
         final Page<UserToken> tokens;
         final Pagination      pagination;
@@ -113,7 +113,7 @@ class ITUserTokenRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is a revoked token, it is returned")
+    @DisplayName("When a revoked token exists, then it is returned")
     @EnabledUserWithoutRole
     @RevokedToken
     void testFindAll_Revoked() {

@@ -54,7 +54,7 @@ class TestPasswordResetServiceValidateToken {
     }
 
     @Test
-    @DisplayName("When the token is valid its username and valid status are returned")
+    @DisplayName("When the token is valid, then its username and valid status are returned")
     void testValidateToken() {
         final UserTokenStatus status;
 
@@ -75,7 +75,7 @@ class TestPasswordResetServiceValidateToken {
     }
 
     @Test
-    @DisplayName("When validation fails the username and invalid status are returned")
+    @DisplayName("When token validation fails, then the username and invalid status are returned")
     void testValidateToken_Invalid() {
         final UserTokenStatus status;
 
@@ -93,7 +93,7 @@ class TestPasswordResetServiceValidateToken {
     }
 
     @Test
-    @DisplayName("When validation and username retrieval fail an empty invalid status is returned")
+    @DisplayName("When validation and username retrieval fail, then an empty invalid status is returned")
     void testValidateToken_InvalidAndMissingUsername() {
         final UserTokenStatus status;
 
@@ -111,7 +111,7 @@ class TestPasswordResetServiceValidateToken {
     }
 
     @Test
-    @DisplayName("When the username can't be obtained an empty username is returned")
+    @DisplayName("When the username cannot be obtained, then an empty username is returned")
     void testValidateToken_MissingUsername() {
         final UserTokenStatus status;
 

@@ -36,7 +36,7 @@ class ITResourcePermissionRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving no data nothing is persisted")
+    @DisplayName("When no data is saved, then nothing is persisted")
     @ResourceAndActions
     void testSaveAll_Empty() {
         final Iterable<ResourcePermissionEntity> permissions;
@@ -53,7 +53,7 @@ class ITResourcePermissionRepositorySave {
     }
 
     @Test
-    @DisplayName("When updating a resource the data is persisted")
+    @DisplayName("When updating a resource, then the data is persisted")
     @SinglePermission
     void testSaveAll_Existing_Persisted() {
         final Iterable<ResourcePermissionEntity> permissions;
@@ -75,7 +75,7 @@ class ITResourcePermissionRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a resource the data is persisted")
+    @DisplayName("When saving a resource, then the data is persisted")
     @DataResource
     @CreateAction
     void testSaveAll_Persisted() {
@@ -98,7 +98,7 @@ class ITResourcePermissionRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a resource the data is returned")
+    @DisplayName("When saving a resource, then the data is returned")
     @DataResource
     @CreateAction
     void testSaveAll_Returned() {

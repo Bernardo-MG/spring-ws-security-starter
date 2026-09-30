@@ -21,7 +21,7 @@ class ITUserRepositoryFindIdByUsername {
     private UserRepository repository;
 
     @Test
-    @DisplayName("Returns an id for an enabled user")
+    @DisplayName("When looking up an enabled user by username, then its id is returned")
     @EnabledUserWithRole
     void testFindOne_Enabled() {
         final Optional<Long> result;
@@ -33,7 +33,7 @@ class ITUserRepositoryFindIdByUsername {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When no user matches the username, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<Long> result;
 

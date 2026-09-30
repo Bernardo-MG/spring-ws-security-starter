@@ -46,7 +46,7 @@ class TestScopedUserTokenStoreGetUsername {
     }
 
     @Test
-    @DisplayName("When the token exists its username is returned")
+    @DisplayName("When the token exists, then its username is returned")
     void testGetUsername() {
         final UserToken userToken;
         final String    result;
@@ -66,7 +66,7 @@ class TestScopedUserTokenStoreGetUsername {
     }
 
     @Test
-    @DisplayName("When the token doesn't exist an exception is thrown")
+    @DisplayName("When the token does not exist, then an exception is thrown")
     void testGetUsername_MissingToken() {
         final ThrowingCallable execution;
 

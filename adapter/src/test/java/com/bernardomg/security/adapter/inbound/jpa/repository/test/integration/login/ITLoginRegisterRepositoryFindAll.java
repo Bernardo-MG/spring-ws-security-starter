@@ -26,7 +26,7 @@ class ITLoginRegisterRepositoryFindAll {
     private LoginRegisterRepository repository;
 
     @Test
-    @DisplayName("Returns all data")
+    @DisplayName("When all login registers are requested, then all data is returned")
     @LoggedInLoginRegister
     void testGetAll() {
         final Page<LoginRegister> logins;
@@ -49,7 +49,7 @@ class ITLoginRegisterRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When linked to a user, returns the user username")
+    @DisplayName("When a login register is linked to a user, then the user's username is returned")
     @EnabledUserWithoutRole
     @LinkedLoginRegister
     void testGetAll_LinkedUser_UsernameFromUser() {
@@ -72,7 +72,7 @@ class ITLoginRegisterRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("When there is no data, then nothing is returned")
     void testGetAll_NoData() {
         final Page<LoginRegister> logins;
         final Pagination          pagination;

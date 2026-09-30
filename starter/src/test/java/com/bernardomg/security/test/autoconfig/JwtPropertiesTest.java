@@ -28,7 +28,7 @@ final class JwtPropertiesTest {
         .withPropertyValues("security.jwt.secret=" + JwtConstants.SECRET);
 
     @Test
-    @DisplayName("When properties are received, they are binded")
+    @DisplayName("When properties are provided, then they are bound")
     void testProperties_BindsJwtProperties() {
         contextRunner.withPropertyValues("security.jwt.validity=30m")
             .run(context -> {
@@ -49,7 +49,7 @@ final class JwtPropertiesTest {
     }
 
     @Test
-    @DisplayName("When validity is missing, the default value is used")
+    @DisplayName("When validity is missing, then the default value is used")
     void testProperties_UsesDefaultValidity() {
         contextRunner.run(context -> {
             assertThat(context).hasNotFailed();

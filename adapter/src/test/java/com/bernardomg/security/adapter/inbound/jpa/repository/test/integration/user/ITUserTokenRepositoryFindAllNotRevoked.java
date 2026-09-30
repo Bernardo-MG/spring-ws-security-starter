@@ -26,7 +26,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
     private UserTokenRepository repository;
 
     @Test
-    @DisplayName("When there is an active token in scope, it is returned")
+    @DisplayName("When an active token exists in scope, then it is returned")
     @EnabledUserWithoutRole
     @ActiveToken
     void testFindAllNotRevoked_Active() {
@@ -42,7 +42,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When no tokens exist in scope, then nothing is returned")
     void testFindAllNotRevoked_NoData() {
         final Collection<UserToken> tokens;
 
@@ -56,7 +56,7 @@ class ITUserTokenRepositoryFindAllNotRevoked {
     }
 
     @Test
-    @DisplayName("When the token is revoked, it is not returned")
+    @DisplayName("When a token is revoked, then it is not returned")
     @EnabledUserWithoutRole
     @RevokedToken
     void testFindAllNotRevoked_Revoked() {

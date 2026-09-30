@@ -33,7 +33,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a disabled user")
+    @DisplayName("When reading a disabled user, then the correct data is returned")
     @DisabledUserWithRole
     void testFindOne_Disabled() {
         final Optional<User> result;
@@ -45,7 +45,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading an enabled user")
+    @DisplayName("When reading an enabled user, then the correct data is returned")
     @EnabledUserWithRole
     void testFindOne_Enabled() {
         final Optional<User> result;
@@ -57,7 +57,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading an expired user")
+    @DisplayName("When reading an expired user, then the correct data is returned")
     @ExpiredUser
     void testFindOne_Expired() {
         final Optional<User> result;
@@ -69,7 +69,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a user with expired password")
+    @DisplayName("When reading a user with an expired password, then the correct data is returned")
     @ExpiredPasswordUser
     void testFindOne_ExpiredPassword() {
         final Optional<User> result;
@@ -81,7 +81,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a locked user")
+    @DisplayName("When reading a locked user, then the correct data is returned")
     @LockedUser
     void testFindOne_Locked() {
         final Optional<User> result;
@@ -93,7 +93,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When the user does not exist, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<User> result;
 
@@ -104,7 +104,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading an enabled user without permissions")
+    @DisplayName("When reading an enabled user without permissions, then the correct data is returned")
     @EnabledUserWithoutPermissions
     void testFindOne_WithoutPermissions() {
         final Optional<User> result;
@@ -116,7 +116,7 @@ class ITUserRepositoryFindOne {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a user without roles")
+    @DisplayName("When reading a user without roles, then the correct data is returned")
     @OnlyUser
     void testFindOne_WithoutRoles() {
         final Optional<User> result;

@@ -36,13 +36,13 @@ class ITLoginRegisterRepositoryFindAllPagination extends AbstractPaginationIT<Lo
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
+    @DisplayName("When the first page is requested, then all page data is returned")
     void testGetAll_Page1() {
         testPageData(1, LoginRegisters.loggedIn());
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
+    @DisplayName("When the second page is requested, then all page data is returned")
     void testGetAll_Page2() {
         final Page<LoginRegister> logins;
         final Pagination          pagination;

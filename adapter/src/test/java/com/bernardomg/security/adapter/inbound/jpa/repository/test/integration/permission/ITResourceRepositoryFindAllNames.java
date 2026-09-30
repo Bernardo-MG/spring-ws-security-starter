@@ -21,7 +21,7 @@ class ITResourceRepositoryFindAllNames {
     private ResourceRepository repository;
 
     @Test
-    @DisplayName("When there is an resource its name is returned")
+    @DisplayName("When a resource exists, then its name is returned")
     @DataResource
     void testFindAllNames() {
         final Collection<String> names;
@@ -36,7 +36,7 @@ class ITResourceRepositoryFindAllNames {
     }
 
     @Test
-    @DisplayName("When there is no data an empty list is returned")
+    @DisplayName("When there is no data, then an empty list is returned")
     void testFindAllNames_NoData() {
         final Collection<String> names;
 

@@ -24,7 +24,7 @@ class ITUserTokenRepositoryFindOneByScope {
     private UserTokenRepository repository;
 
     @Test
-    @DisplayName("When the token exists in scope, it is returned")
+    @DisplayName("When the token exists in scope, then it is returned")
     @EnabledUserWithoutRole
     @ActiveToken
     void testFindOneByScope() {
@@ -40,7 +40,7 @@ class ITUserTokenRepositoryFindOneByScope {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is returned")
+    @DisplayName("When no token exists in scope, then nothing is returned")
     void testFindOneByScope_NoData() {
         final Optional<UserToken> token;
 
@@ -54,7 +54,7 @@ class ITUserTokenRepositoryFindOneByScope {
     }
 
     @Test
-    @DisplayName("When the token exists in another scope, nothing is returned")
+    @DisplayName("When the token exists in another scope, then nothing is returned")
     @EnabledUserWithoutRole
     @ActiveToken
     void testFindOneByScope_OtherScope() {

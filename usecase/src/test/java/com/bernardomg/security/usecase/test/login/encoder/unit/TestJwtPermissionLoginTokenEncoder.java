@@ -39,7 +39,7 @@ class TestJwtPermissionLoginTokenEncoder {
     }
 
     @Test
-    @DisplayName("Returns the generated token")
+    @DisplayName("When encoding a permission login, then the generated token is returned")
     void testEncode_NoData() {
         final String token;
 

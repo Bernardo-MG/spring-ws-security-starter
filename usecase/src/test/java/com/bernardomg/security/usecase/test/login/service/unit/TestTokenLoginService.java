@@ -38,7 +38,7 @@ class TestTokenLoginService {
     private LoginUserAuthenticator userAuthenticator;
 
     @Test
-    @DisplayName("When loggin in the status and token is returned")
+    @DisplayName("When login succeeds, then the status and token are returned")
     void testLogIn() {
         final TokenLoginStatus status;
 
@@ -62,7 +62,7 @@ class TestTokenLoginService {
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username and with invalid credentials")
+    @DisplayName("When login uses a username with invalid credentials, then authentication fails")
     void testLogIn_InvalidCredentials() {
         final TokenLoginStatus status;
 

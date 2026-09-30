@@ -37,7 +37,7 @@ class TestSecurityContextHolderUsernameInSessionProvider {
     }
 
     @Test
-    @DisplayName("When there is an authenticated user, the username is returned")
+    @DisplayName("When an authenticated user is present, then the username is returned")
     void testGetCurrentUsername() {
         final Authentication   authentication;
         final UserDetails      userDetails;
@@ -63,7 +63,7 @@ class TestSecurityContextHolderUsernameInSessionProvider {
     }
 
     @Test
-    @DisplayName("When the user is not authenticated, the username is empty")
+    @DisplayName("When the user is not authenticated, then the username is empty")
     void testGetCurrentUsername_NotAuthenticated() {
         final Authentication   authentication;
         final Optional<String> username;
@@ -85,7 +85,7 @@ class TestSecurityContextHolderUsernameInSessionProvider {
     }
 
     @Test
-    @DisplayName("When the principal is not UserDetails, the username is empty")
+    @DisplayName("When the principal is not UserDetails, then the username is empty")
     void testGetCurrentUsername_PrincipalIsNotUserDetails() {
         final Authentication   authentication;
         final Optional<String> username;

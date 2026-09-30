@@ -29,7 +29,7 @@ class ITUserRepositoryFindAllFiltered {
     }
 
     @Test
-    @DisplayName("Filters by name")
+    @DisplayName("When filtering by name, then matching users are returned")
     @OnlyUser
     void testFindAll_Name() {
         final Page<User> result;
@@ -54,7 +54,7 @@ class ITUserRepositoryFindAllFiltered {
     }
 
     @Test
-    @DisplayName("Filtering by an invalid name returns nothing")
+    @DisplayName("When filtering by an invalid name, then no users are returned")
     @OnlyUser
     void testFindAll_NameNotExisting() {
         final Page<User> result;
@@ -79,7 +79,7 @@ class ITUserRepositoryFindAllFiltered {
     }
 
     @Test
-    @DisplayName("Filters by username")
+    @DisplayName("When filtering by username, then matching users are returned")
     @OnlyUser
     void testFindAll_Username() {
         final Page<User> result;
@@ -104,7 +104,7 @@ class ITUserRepositoryFindAllFiltered {
     }
 
     @Test
-    @DisplayName("Filtering by an invalid username returns nothing")
+    @DisplayName("When filtering by an invalid username, then no users are returned")
     @OnlyUser
     void testFindAll_UsernameNotExisting() {
         final Page<User> result;

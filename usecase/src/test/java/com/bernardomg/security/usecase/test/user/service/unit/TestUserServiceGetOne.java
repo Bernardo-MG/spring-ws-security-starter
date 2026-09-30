@@ -52,7 +52,7 @@ class TestUserServiceGetOne {
     }
 
     @Test
-    @DisplayName("When there is a user it is returned")
+    @DisplayName("When the user exists, then it is returned")
     void testGetOne() {
         final Optional<User> user;
 
@@ -69,7 +69,7 @@ class TestUserServiceGetOne {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist an exception is thrown")
+    @DisplayName("When the user does not exist, then an exception is thrown")
     void testGetOne_NoData() {
         final ThrowingCallable execution;
 

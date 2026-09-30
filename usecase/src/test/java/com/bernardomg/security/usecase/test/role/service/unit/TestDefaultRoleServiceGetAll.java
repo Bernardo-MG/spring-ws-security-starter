@@ -39,7 +39,7 @@ class TestDefaultRoleServiceGetAll {
     private DefaultRoleService           service;
 
     @Test
-    @DisplayName("When there are roles they are returned")
+    @DisplayName("When roles exist, then they are returned")
     void testGetAll() {
         final Page<Role> roles;
         final RoleFilter sample;
@@ -67,7 +67,7 @@ class TestDefaultRoleServiceGetAll {
     }
 
     @Test
-    @DisplayName("When there are no roles nothing is returned")
+    @DisplayName("When no roles exist, then nothing is returned")
     void testGetAll_NoData() {
         final Page<Role> roles;
         final RoleFilter sample;
