@@ -1,3 +1,4 @@
+
 package com.bernardomg.security.architecture.test;
 
 import com.bernardomg.security.architecture.config.IgnoreGenerated;

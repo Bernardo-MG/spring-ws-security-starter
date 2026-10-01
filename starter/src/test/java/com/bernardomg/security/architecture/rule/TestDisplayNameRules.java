@@ -1,3 +1,4 @@
+
 package com.bernardomg.security.architecture.rule;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -19,17 +20,23 @@ import com.tngtech.archunit.lang.SimpleConditionEvent;
 public class TestDisplayNameRules {
 
     @ArchTest
-    static final ArchRule test_classes_should_have_structured_display_names = classes().that(
-            new DescribedPredicate<JavaClass>("JUnit test classes") {
+    static final ArchRule test_classes_should_have_structured_display_names = classes()
+        .that(new DescribedPredicate<JavaClass>("JUnit test classes") {
 
-                @Override
-                public boolean test(final JavaClass item) {
-                    return !item.getModifiers()
-                        .contains(JavaModifier.ABSTRACT) && item.getMethods()
-                        .stream()
-                        .anyMatch(method -> method.isAnnotatedWith(Test.class));
-                }
-            })
+                                                                                    @Override
+                                                                                    public boolean
+                                                                                            test(final JavaClass item) {
+                                                                                        return !item.getModifiers()
+                                                                                            .contains(
+                                                                                                JavaModifier.ABSTRACT)
+                                                                                                && item.getMethods()
+                                                                                                    .stream()
+                                                                                                    .anyMatch(
+                                                                                                        method -> method
+                                                                                                            .isAnnotatedWith(
+                                                                                                                Test.class));
+                                                                                    }
+                                                                                })
         .should(new ArchCondition<JavaClass>("have a display name in the form 'subject - operation'") {
 
             @Override
@@ -38,7 +45,7 @@ public class TestDisplayNameRules {
 
                 if (!item.isAnnotatedWith(DisplayName.class)) {
                     events.add(SimpleConditionEvent.violated(item,
-                            String.format("Test class %s has no @DisplayName", item.getName())));
+                        String.format("Test class %s has no @DisplayName", item.getName())));
                     return;
                 }
 
@@ -46,7 +53,7 @@ public class TestDisplayNameRules {
                     .value();
                 if (!displayName.matches(".+ - .+")) {
                     events.add(SimpleConditionEvent.violated(item,
-                            String.format("Test class %s has invalid display name '%s'", item.getName(), displayName)));
+                        String.format("Test class %s has invalid display name '%s'", item.getName(), displayName)));
                 }
             }
         });
@@ -62,16 +69,15 @@ public class TestDisplayNameRules {
 
                 if (!item.isAnnotatedWith(DisplayName.class)) {
                     events.add(SimpleConditionEvent.violated(item,
-                            String.format("Test method %s has no @DisplayName", item.getFullName())));
+                        String.format("Test method %s has no @DisplayName", item.getFullName())));
                     return;
                 }
 
                 displayName = item.getAnnotationOfType(DisplayName.class)
                     .value();
                 if (!displayName.matches("When .+, then .+")) {
-                    events.add(SimpleConditionEvent.violated(item,
-                            String.format("Test method %s has invalid display name '%s'", item.getFullName(),
-                                    displayName)));
+                    events.add(SimpleConditionEvent.violated(item, String
+                        .format("Test method %s has invalid display name '%s'", item.getFullName(), displayName)));
                 }
             }
         });
