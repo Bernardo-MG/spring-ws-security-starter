@@ -38,7 +38,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @param passwordRecovery
  *            Password recovery properties
  */
-@ConfigurationProperties(prefix = "security.email")
+@ConfigurationProperties(prefix = "security.mail")
 public final record PasswordNotificationProperties(String from, String appName,
         PasswordRecoveryProperties passwordRecovery) {
 
