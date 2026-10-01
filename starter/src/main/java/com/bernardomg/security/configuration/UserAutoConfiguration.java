@@ -70,10 +70,9 @@ import com.bernardomg.security.usecase.user.service.UserTokenService;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
+@AutoConfiguration(after = { JpaSecurityAutoConfiguration.class, MailSenderAutoConfiguration.class })
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class, UserTokenProperties.class,
-        MailSenderAutoConfiguration.class })
+@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class, UserTokenProperties.class })
 public class UserAutoConfiguration {
 
     /**
