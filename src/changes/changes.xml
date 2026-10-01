@@ -634,5 +634,13 @@
             Corrected email config.
          </action>
       </release>
+      <release version="0.15.18" date="2026-09-01" description="Corrections">
+         <action dev="bmg" type="fix">
+            Corrected email config.
+         </action>
+         <action dev="bmg" type="fix">
+            Store correct username in login register.
+         </action>
+      </release>
    </body>
 </document>
