@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -71,7 +72,8 @@ import com.bernardomg.security.usecase.user.service.UserTokenService;
  */
 @AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class, UserTokenProperties.class })
+@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class, UserTokenProperties.class,
+        MailSenderAutoConfiguration.class })
 public class UserAutoConfiguration {
 
     /**

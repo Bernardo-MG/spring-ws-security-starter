@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -69,7 +70,8 @@ import com.bernardomg.security.usecase.token.UserTokenStore;
  * @author Bernardo Mart&iacute;nez Garrido
  *
  */
-@AutoConfiguration(after = { SecurityAutoConfiguration.class, UserAutoConfiguration.class })
+@AutoConfiguration(
+        after = { SecurityAutoConfiguration.class, UserAutoConfiguration.class, MailSenderAutoConfiguration.class })
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({ PasswordNotificationProperties.class })
 public class PasswordAutoConfiguration {
