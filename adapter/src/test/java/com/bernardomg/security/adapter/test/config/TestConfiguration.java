@@ -44,7 +44,6 @@ import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRep
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.UserRoleSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
 import com.bernardomg.security.domain.account.repository.AccountRepository;
@@ -72,9 +71,10 @@ public class TestConfiguration {
     }
 
     @Bean("loginRegisterRepository")
-    public LoginRegisterRepository
-            getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepository) {
-        return new JpaLoginRegisterRepository(loginRegisterSpringRepository);
+    public LoginRegisterRepository getLoginRegisterRepository(
+            final LoginRegisterSpringRepository loginRegisterSpringRepository,
+            final UserSpringRepository userSpringRepository) {
+        return new JpaLoginRegisterRepository(loginRegisterSpringRepository, userSpringRepository);
     }
 
     @Bean("resourcePermissionRepository")
@@ -104,10 +104,8 @@ public class TestConfiguration {
 
     @Bean("userTokenRepository")
     public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepository,
-            final UserDataTokenSpringRepository userDataTokenSpringRepository,
             final UserSpringRepository userSpringRepository) {
-        return new JpaUserTokenRepository(userTokenSpringRepository, userDataTokenSpringRepository,
-            userSpringRepository);
+        return new JpaUserTokenRepository(userTokenSpringRepository, userSpringRepository);
     }
 
 }

@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.framework.security</groupId>
       <artifactId>security-starter</artifactId>
-      <version>0.15.17</version>
+      <version>0.15.18</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -34,14 +34,6 @@
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
       <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-usecase</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>com.bernardomg.framework.security</groupId>
-         <artifactId>security-adapter</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.bernardomg.framework.security.spring</groupId>
          <artifactId>spring-security</artifactId>
       </dependency>
@@ -57,6 +49,11 @@
       <!-- ================== JAKARTA =================== -->
       <!-- ============================================== -->
       <dependency>
+         <!-- JPA API -->
+         <groupId>jakarta.persistence</groupId>
+         <artifactId>jakarta.persistence-api</artifactId>
+      </dependency>
+      <dependency>
           <!-- Jakarta Servlet API -->
          <groupId>jakarta.servlet</groupId>
          <artifactId>jakarta.servlet-api</artifactId>
@@ -66,14 +63,6 @@
          <!-- Jakarta validation -->
          <groupId>jakarta.validation</groupId>
          <artifactId>jakarta.validation-api</artifactId>
-      </dependency>
-      <!-- ============================================== -->
-      <!-- ================ VALIDATION ================== -->
-      <!-- ============================================== -->
-      <dependency>
-         <!-- Hibernate validator -->
-         <groupId>org.hibernate.validator</groupId>
-         <artifactId>hibernate-validator</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
@@ -100,6 +89,12 @@
          <!-- Spring Boot Test -->
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-test</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <!-- Hibernate validator -->
+         <groupId>org.hibernate.validator</groupId>
+         <artifactId>hibernate-validator</artifactId>
          <scope>test</scope>
       </dependency>
    </dependencies>

@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.framework.security</groupId>
       <artifactId>security-starter</artifactId>
-      <version>0.15.17</version>
+      <version>0.15.18</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -44,7 +44,7 @@
       <!-- ================ FRAMEWORK =================== -->
       <!-- ============================================== -->
       <dependency>
-         <!-- Pagination -->
+         <!-- Event -->
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>event</artifactId>
       </dependency>

@@ -36,13 +36,13 @@ class ITResourcePermissionRepositoryFindAllPagination extends AbstractPagination
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
+    @DisplayName("When the first page is requested, then all page data is returned")
     void testFindAll_Page1_Data() {
         testPageData(1, ResourcePermissions.create());
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
+    @DisplayName("When the second page is requested, then all page data is returned")
     void testFindAll_Page2_Data() {
         final Page<ResourcePermission> permissions;
         final Pagination               pagination;

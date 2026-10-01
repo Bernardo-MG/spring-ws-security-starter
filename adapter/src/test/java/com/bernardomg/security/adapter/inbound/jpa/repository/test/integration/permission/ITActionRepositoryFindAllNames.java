@@ -21,7 +21,7 @@ class ITActionRepositoryFindAllNames {
     private ActionRepository repository;
 
     @Test
-    @DisplayName("When there is an action its name is returned")
+    @DisplayName("When an action exists, then its name is returned")
     @CreateAction
     void testFindAllNames() {
         final Collection<String> names;
@@ -36,7 +36,7 @@ class ITActionRepositoryFindAllNames {
     }
 
     @Test
-    @DisplayName("When there is no data an empty list is returned")
+    @DisplayName("When there is no data, then an empty list is returned")
     void testFindAllNames_NoData() {
         final Collection<String> names;
 

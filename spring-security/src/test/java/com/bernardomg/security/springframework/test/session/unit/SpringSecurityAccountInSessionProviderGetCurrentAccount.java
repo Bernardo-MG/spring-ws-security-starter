@@ -46,7 +46,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
     }
 
     @Test
-    @DisplayName("When the user is authenticated an account is returned")
+    @DisplayName("When the user is authenticated, then the account is returned")
     void testgetCurrentAccount_Authenticated() {
         final Optional<Account> account;
 
@@ -67,7 +67,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
     }
 
     @Test
-    @DisplayName("When the principal is invalid no account is returned")
+    @DisplayName("When the principal is invalid, then no account is returned")
     void testgetCurrentAccount_InvalidPrincipal() {
         final Optional<Account> account;
 
@@ -86,7 +86,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
     }
 
     @Test
-    @DisplayName("When there is no authentication no account is returned")
+    @DisplayName("When authentication is missing, then no account is returned")
     void testgetCurrentAccount_NoAuthentication() {
         final Optional<Account> account;
 
@@ -103,7 +103,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
     }
 
     @Test
-    @DisplayName("When the user is not authenticated no account is returned")
+    @DisplayName("When the user is not authenticated, then no account is returned")
     void testgetCurrentAccount_NotAuthenticated() {
         final Optional<Account> account;
 

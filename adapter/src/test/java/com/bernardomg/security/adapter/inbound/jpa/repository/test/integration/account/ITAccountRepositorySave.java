@@ -33,7 +33,7 @@ class ITAccountRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing the name, the data is persisted")
+    @DisplayName("When changing the name, then the data is persisted")
     @EnabledUserWithoutRole
     void testSave_NameChange_PersistedData() {
         final List<UserEntity> users;
@@ -55,7 +55,7 @@ class ITAccountRepositorySave {
     }
 
     @Test
-    @DisplayName("When changing the name, the data is returned")
+    @DisplayName("When changing the name, then the data is returned")
     @EnabledUserWithRole
     void testSave_NameChange_ReturnedData() {
         final Account saved;
@@ -74,7 +74,7 @@ class ITAccountRepositorySave {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist, the account is not persisted")
+    @DisplayName("When the user doesn't exist, then the account is not persisted")
     void testSave_PersistedData() {
         final List<UserEntity> users;
         final Account          account;
@@ -94,7 +94,7 @@ class ITAccountRepositorySave {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist, an empty account is returned")
+    @DisplayName("When the user doesn't exist, then an empty account is returned")
     void testSave_ReturnedData() {
         final Account saved;
         final Account account;

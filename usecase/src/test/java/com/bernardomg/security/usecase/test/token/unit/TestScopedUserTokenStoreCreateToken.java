@@ -24,7 +24,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserTokens;
 import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Scoped user token store - create token")
+@DisplayName("ScopedUserTokenStore - create token")
 class TestScopedUserTokenStoreCreateToken {
 
     private ScopedUserTokenStore store;
@@ -46,7 +46,7 @@ class TestScopedUserTokenStoreCreateToken {
     }
 
     @Test
-    @DisplayName("When the user exists a token is created and returned")
+    @DisplayName("When the user exists, then a token is created and returned")
     void testCreateToken() {
         final UserToken userToken;
         final String    result;
@@ -66,7 +66,7 @@ class TestScopedUserTokenStoreCreateToken {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist an exception is thrown")
+    @DisplayName("When the user does not exist, then an exception is thrown")
     void testCreateToken_MissingUser() {
         final ThrowingCallable execution;
 

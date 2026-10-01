@@ -28,7 +28,7 @@ import com.bernardomg.security.usecase.test.permission.config.factory.ResourcePe
 import com.bernardomg.security.usecase.test.permission.config.factory.Resources;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("PermissionsLoader")
+@DisplayName("PermissionsLoader - load")
 public class TestPermissionsLoader {
 
     @Mock
@@ -71,7 +71,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the action doesn't exist it is saved")
+    @DisplayName("When an action does not exist, then it is saved")
     void testLoad_Action() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
@@ -89,7 +89,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the action exists it is not saved")
+    @DisplayName("When an action already exists, then it is not saved again")
     void testLoad_ActionExists() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
@@ -106,7 +106,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When loading the permissions duplicates are removed")
+    @DisplayName("When permissions are loaded with duplicates, then duplicate entries are removed")
     @SuppressWarnings("unchecked")
     void testLoad_Duplicates() {
         // GIVEN
@@ -127,7 +127,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is saved")
+    @DisplayName("When no permission data is provided, then nothing is saved")
     void testLoad_NoData() {
         final PermissionConfig config;
 
@@ -147,7 +147,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When there is no source nothing is saved")
+    @DisplayName("When no permission source is provided, then nothing is saved")
     void testLoad_NoSource() {
 
         // GIVEN
@@ -163,7 +163,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the permission doesn't exist it is saved")
+    @DisplayName("When a permission does not exist, then it is saved")
     void testLoad_Permission() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
@@ -181,7 +181,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the action doesn't exist nothing is saved")
+    @DisplayName("When a permission's action does not exist, then nothing is saved")
     void testLoad_Permission_NoActions() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
@@ -199,7 +199,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the resource doesn't exist nothing is saved")
+    @DisplayName("When a permission's resource does not exist, then nothing is saved")
     void testLoad_Permission_NoResource() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of(PermissionConstants.CREATE));
@@ -217,7 +217,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the permissions exists it is not saved")
+    @DisplayName("When a permission already exists, then it is not saved again")
     void testLoad_PermissionExists() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
@@ -235,7 +235,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the resource doesn't exist it is saved")
+    @DisplayName("When a resource does not exist, then it is saved")
     void testLoad_Resource() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());
@@ -253,7 +253,7 @@ public class TestPermissionsLoader {
     }
 
     @Test
-    @DisplayName("When the resource exists it is not saved")
+    @DisplayName("When a resource already exists, then it is not saved again")
     void testLoad_ResourceExists() {
         // GIVEN
         given(actionRepository.findAllNames()).willReturn(List.of());

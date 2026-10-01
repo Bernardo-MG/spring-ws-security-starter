@@ -1,7 +1,6 @@
 
 package com.bernardomg.security.test.autoconfig;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.bernardomg.security.configuration.CorsProperties;
 
-@DisplayName("CorsProperties")
+@DisplayName("CorsProperties - bind properties")
 final class CorsPropertiesTest {
 
     @Configuration(proxyBeanMethods = false)
@@ -23,41 +22,44 @@ final class CorsPropertiesTest {
         .withUserConfiguration(CorsPropertiesConfiguration.class);
 
     @Test
-    @DisplayName("When no properties are received, defaults are applied")
+    @DisplayName("When no properties are provided, then the defaults are applied")
     void testProperties_AppliesDefaults() {
+        // WHEN
         contextRunner.run(context -> {
-            final CorsProperties properties;
-
-            assertThat(context).hasNotFailed();
-
-            properties = context.getBean(CorsProperties.class);
-
+            // THEN
             assertSoftly(softly -> {
-                softly.assertThat(properties.pattern())
-                    .as("pattern")
-                    .isEqualTo("/**");
+                softly.assertThat(context.getStartupFailure())
+                    .isNull();
+                if (context.getStartupFailure() == null) {
+                    final CorsProperties properties;
 
-                softly.assertThat(properties.allowedHeaders())
-                    .as("allowed headers")
-                    .containsExactly("Authorization", "Content-Type");
+                    properties = context.getBean(CorsProperties.class);
+                    softly.assertThat(properties.pattern())
+                        .as("pattern")
+                        .isEqualTo("/**");
 
-                softly.assertThat(properties.allowedMethods())
-                    .as("allowed methods")
-                    .containsExactly("GET");
+                    softly.assertThat(properties.allowedHeaders())
+                        .as("allowed headers")
+                        .containsExactly("Authorization", "Content-Type");
 
-                softly.assertThat(properties.allowedOrigins())
-                    .as("allowed origins")
-                    .isEmpty();
+                    softly.assertThat(properties.allowedMethods())
+                        .as("allowed methods")
+                        .containsExactly("GET");
 
-                softly.assertThat(properties.exposedHeaders())
-                    .as("exposed headers")
-                    .isEmpty();
+                    softly.assertThat(properties.allowedOrigins())
+                        .as("allowed origins")
+                        .isEmpty();
+
+                    softly.assertThat(properties.exposedHeaders())
+                        .as("exposed headers")
+                        .isEmpty();
+                }
             });
         });
     }
 
     @Test
-    @DisplayName("When properties are received, they are binded")
+    @DisplayName("When properties are provided, then they are bound")
     void testProperties_BindsConfiguredValues() {
         contextRunner
             .withPropertyValues("security.cors.pattern=/api/**", "security.cors.allowed-origins=https://example.com",
@@ -65,32 +67,34 @@ final class CorsPropertiesTest {
                 "security.cors.allowed-headers=Authorization,Content-Type,X-Test",
                 "security.cors.exposed-headers=X-Request-Id")
             .run(context -> {
-                final CorsProperties properties;
-
-                assertThat(context).hasNotFailed();
-
-                properties = context.getBean(CorsProperties.class);
-
+                // THEN
                 assertSoftly(softly -> {
-                    softly.assertThat(properties.pattern())
-                        .as("pattern")
-                        .isEqualTo("/api/**");
+                    softly.assertThat(context.getStartupFailure())
+                        .isNull();
+                    if (context.getStartupFailure() == null) {
+                        final CorsProperties properties;
 
-                    softly.assertThat(properties.allowedOrigins())
-                        .as("allowed origins")
-                        .containsExactly("https://example.com");
+                        properties = context.getBean(CorsProperties.class);
+                        softly.assertThat(properties.pattern())
+                            .as("pattern")
+                            .isEqualTo("/api/**");
 
-                    softly.assertThat(properties.allowedMethods())
-                        .as("allowed methods")
-                        .containsExactly("GET", "POST");
+                        softly.assertThat(properties.allowedOrigins())
+                            .as("allowed origins")
+                            .containsExactly("https://example.com");
 
-                    softly.assertThat(properties.allowedHeaders())
-                        .as("allowed headers")
-                        .containsExactly("Authorization", "Content-Type", "X-Test");
+                        softly.assertThat(properties.allowedMethods())
+                            .as("allowed methods")
+                            .containsExactly("GET", "POST");
 
-                    softly.assertThat(properties.exposedHeaders())
-                        .as("exposed headers")
-                        .containsExactly("X-Request-Id");
+                        softly.assertThat(properties.allowedHeaders())
+                            .as("allowed headers")
+                            .containsExactly("Authorization", "Content-Type", "X-Test");
+
+                        softly.assertThat(properties.exposedHeaders())
+                            .as("exposed headers")
+                            .containsExactly("X-Request-Id");
+                    }
                 });
             });
     }

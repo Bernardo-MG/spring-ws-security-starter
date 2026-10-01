@@ -29,7 +29,7 @@ class ITActionRepositorySave {
     private ActionRepository       repository;
 
     @Test
-    @DisplayName("When saving no data nothing is persisted")
+    @DisplayName("When no data is saved, then nothing is persisted")
     void testSaveAll_Empty() {
         final Iterable<ActionEntity> actions;
 
@@ -45,7 +45,7 @@ class ITActionRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving an action that already exists, the data is persisted")
+    @DisplayName("When saving an existing action, then the data is persisted")
     @CreateAction
     void testSaveAll_Existing_Persisted() {
         final Iterable<ActionEntity> actions;
@@ -67,7 +67,7 @@ class ITActionRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving an action the data is persisted")
+    @DisplayName("When saving an action, then the data is persisted")
     void testSaveAll_Persisted() {
         final Iterable<ActionEntity> actions;
         final Action                 action;
@@ -88,7 +88,7 @@ class ITActionRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving an action the data is returned")
+    @DisplayName("When saving an action, then the data is returned")
     void testSaveAll_Returned() {
         final Collection<Action> created;
         final Action             action;

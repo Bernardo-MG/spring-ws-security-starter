@@ -35,7 +35,7 @@ class TestDefaultUserLoginAttempsServiceClear {
     }
 
     @Test
-    @DisplayName("When the user has reached the max login attempts, these are cleared")
+    @DisplayName("When clearing attempts for a user at the maximum limit, then the attempts are cleared")
     void testCheckForLocking_MaxAttempts() {
         // GIVEN
         given(userRepository.findLoginAttempts(UserConstants.USERNAME)).willReturn(UserConstants.MAX_LOGIN_ATTEMPTS);
@@ -48,7 +48,7 @@ class TestDefaultUserLoginAttempsServiceClear {
     }
 
     @Test
-    @DisplayName("When the user has no login attempts, nothing is done")
+    @DisplayName("When the user has no login attempts, then nothing is changed")
     void testCheckForLocking_NoAttempts() {
         // GIVEN
         given(userRepository.findLoginAttempts(UserConstants.USERNAME)).willReturn(0);

@@ -16,7 +16,7 @@ import com.bernardomg.security.springframework.model.ResourceActionGrantedAuthor
 import com.bernardomg.security.springframework.test.auth.config.factory.Authentications;
 import com.bernardomg.security.springframework.test.permission.config.factory.PermissionConstants;
 
-@DisplayName("AuthorityResourcePermissionEvaluator")
+@DisplayName("AuthorityResourcePermissionEvaluator - is authorized")
 class TestAuthorityResourcePermissionEvaluator {
 
     private static final String                  ACTION   = PermissionConstants.CREATE;
@@ -31,7 +31,7 @@ class TestAuthorityResourcePermissionEvaluator {
     }
 
     @Test
-    @DisplayName("When the authentication has the permission, it is authorized")
+    @DisplayName("When the authentication has the permission, then it is authorized")
     void testIsAuthorized() {
         final Authentication authentication;
         final boolean        authorized;
@@ -48,7 +48,7 @@ class TestAuthorityResourcePermissionEvaluator {
     }
 
     @Test
-    @DisplayName("When the case is changed, it is authorized")
+    @DisplayName("When the permission case differs, then the authentication is authorized")
     void testIsAuthorized_CaseSensitive() {
         final ResourceActionGrantedAuthority authority;
         final Authentication                 authentication;
@@ -69,7 +69,7 @@ class TestAuthorityResourcePermissionEvaluator {
     }
 
     @Test
-    @DisplayName("When the authentication has no authorities, it is not authorized")
+    @DisplayName("When the authentication has no authorities, then it is not authorized")
     void testIsAuthorized_NoAuthorities() {
         final Authentication authentication;
         final boolean        authorized;
@@ -86,7 +86,7 @@ class TestAuthorityResourcePermissionEvaluator {
     }
 
     @Test
-    @DisplayName("When no authority matches the action, it is not authorized")
+    @DisplayName("When no authority matches the action, then the authentication is not authorized")
     void testIsAuthorized_NotMatchingAction() {
         final Authentication authentication;
         final boolean        authorized;
@@ -103,7 +103,7 @@ class TestAuthorityResourcePermissionEvaluator {
     }
 
     @Test
-    @DisplayName("When no authority matches the resource, it is not authorized")
+    @DisplayName("When no authority matches the resource, then the authentication is not authorized")
     void testIsAuthorized_NotMatchingResource() {
         final Authentication authentication;
         final boolean        authorized;
@@ -120,14 +120,14 @@ class TestAuthorityResourcePermissionEvaluator {
     }
 
     @Test
-    @DisplayName("A null authentication is rejected")
+    @DisplayName("When authentication is null, then it is rejected")
     void testIsAuthorized_NullAuthentication() {
         Assertions.assertThatNullPointerException()
             .isThrownBy(() -> evaluator.isAuthorized(null, RESOURCE, ACTION));
     }
 
     @Test
-    @DisplayName("When the authentication has multiple authorities and one matches, it is authorized")
+    @DisplayName("When one of multiple authorities matches, then the authentication is authorized")
     void testIsAuthorized_OneAuthorityMatches() {
         final ResourceActionGrantedAuthority nonMatchingResource;
         final ResourceActionGrantedAuthority nonMatchingAction;
@@ -151,7 +151,7 @@ class TestAuthorityResourcePermissionEvaluator {
     }
 
     @Test
-    @DisplayName("When the authentication is not of the expected type, it is not authorized")
+    @DisplayName("When the authentication has an unexpected type, then it is not authorized")
     void testIsAuthorized_SimpleAuthorities() {
         final Authentication authentication;
         final boolean        authorized;

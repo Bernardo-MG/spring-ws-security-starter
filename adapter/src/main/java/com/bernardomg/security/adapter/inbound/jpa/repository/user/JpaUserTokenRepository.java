@@ -25,6 +25,7 @@
 package com.bernardomg.security.adapter.inbound.jpa.repository.user;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,7 +39,6 @@ import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
-import com.bernardomg.security.adapter.inbound.jpa.model.user.UserDataTokenEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserEntity;
 import com.bernardomg.security.adapter.inbound.jpa.model.user.UserTokenEntity;
 import com.bernardomg.security.domain.user.model.UserToken;
@@ -54,26 +54,20 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     /**
      * Logger for the class.
      */
-    private static final Logger                 log = LoggerFactory.getLogger(JpaUserTokenRepository.class);
+    private static final Logger             log = LoggerFactory.getLogger(JpaUserTokenRepository.class);
 
-    /**
-     * User data token repository. This queries a view joining user tokens with their users.
-     */
-    private final UserDataTokenSpringRepository userDataTokenSpringRepository;
-
-    private final UserSpringRepository          userSpringRepository;
+    private final UserSpringRepository      userSpringRepository;
 
     /**
      * User token repository.
      */
-    private final UserTokenSpringRepository     userTokenSpringRepository;
+    private final UserTokenSpringRepository userTokenSpringRepository;
 
     public JpaUserTokenRepository(final UserTokenSpringRepository userTokenSpringRepo,
-            final UserDataTokenSpringRepository userDataTokenSpringRepo, final UserSpringRepository userSpringRepo) {
+            final UserSpringRepository userSpringRepo) {
         super();
 
         userTokenSpringRepository = Objects.requireNonNull(userTokenSpringRepo);
-        userDataTokenSpringRepository = Objects.requireNonNull(userDataTokenSpringRepo);
         userSpringRepository = Objects.requireNonNull(userSpringRepo);
     }
 
@@ -86,8 +80,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
         log.trace("Finding all tokens with pagination {} and sorting {}", pagination, sorting);
 
         pageable = SpringPagination.toPageable(pagination, sorting);
-        page = userDataTokenSpringRepository.findAll(pageable)
-            .map(UserDataTokenEntityMapper::toDomain);
+        page = userTokenSpringRepository.findAllData(pageable)
+            .map(UserTokenEntityMapper::toDomain);
 
         read = SpringPagination.toPage(page);
 
@@ -102,9 +96,9 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         log.trace("Finding all tokens not revoked for {} in scope {}", username, scope);
 
-        read = userDataTokenSpringRepository.findAllByRevokedFalseAndUsernameAndScope(username, scope)
+        read = userTokenSpringRepository.findAllDataByRevokedFalseAndUsernameAndScope(username, scope)
             .stream()
-            .map(UserDataTokenEntityMapper::toDomain)
+            .map(UserTokenEntityMapper::toDomain)
             .toList();
 
         log.trace("Found all tokens not revoked for {} in scope {}: {}", username, scope, read);
@@ -118,8 +112,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         log.trace("Finding token");
 
-        read = userDataTokenSpringRepository.findByToken(token)
-            .map(UserDataTokenEntityMapper::toDomain);
+        read = userTokenSpringRepository.findDataByToken(token)
+            .map(UserTokenEntityMapper::toDomain);
 
         log.trace("Found token: {}", read);
 
@@ -132,8 +126,8 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
         log.trace("Finding token in scope {}", scope);
 
-        read = userDataTokenSpringRepository.findByTokenAndScope(token, scope)
-            .map(UserDataTokenEntityMapper::toDomain);
+        read = userTokenSpringRepository.findDataByTokenAndScope(token, scope)
+            .map(UserTokenEntityMapper::toDomain);
 
         log.trace("Found token in scope {}: {}", scope, read);
 
@@ -142,31 +136,27 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
 
     @Override
     public final UserToken save(final UserToken token) {
-        final Optional<UserDataTokenEntity> existing;
-        final Optional<UserEntity>          existingUser;
-        final UserTokenEntity               entity;
-        final UserTokenEntity               saved;
-        final UserToken                     created;
-        final UserDataTokenEntity           data;
+        final Optional<UserTokenEntity> existing;
+        final Optional<UserEntity>      existingUser;
+        final UserTokenEntity           entity;
+        final UserTokenEntity           saved;
+        final UserToken                 created;
 
         log.trace("Saving token");
 
-        entity = UserDataTokenEntityMapper.toEntity(token);
-
-        existing = userDataTokenSpringRepository.findByToken(token.token());
-        entity.setId(existing.map(UserDataTokenEntity::getId)
-            .orElse(null));
-
+        existing = userTokenSpringRepository.findByToken(token.token());
         existingUser = userSpringRepository.findByUsername(token.username());
+
+        entity = UserTokenEntityMapper.toEntity(token);
+        entity.setId(existing.map(UserTokenEntity::getId)
+            .orElse(null));
         entity.setUserId(existingUser.map(UserEntity::getId)
             .orElse(null));
 
         saved = userTokenSpringRepository.save(entity);
-        data = userDataTokenSpringRepository.findById(saved.getId())
-            .get();
 
-        // TODO: the view is not updating correctly, remove the view and use queries
-        created = UserDataTokenEntityMapper.toDomain(data, saved);
+        created = new UserToken(token.username(), token.name(), saved.getScope(), saved.getToken(),
+            saved.getCreationDate(), saved.getExpirationDate(), saved.isConsumed(), saved.isRevoked());
 
         log.trace("Saved token: {}", created);
 
@@ -177,29 +167,34 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     public final Collection<UserToken> saveAll(final Collection<UserToken> tokens) {
         final Collection<UserTokenEntity> toSave;
         final Collection<UserTokenEntity> saved;
-        final Collection<Long>            savedIds;
         final Collection<UserToken>       created;
         final Map<String, Long>           userIdsByUsername;
         final Map<String, Long>           tokenIdsByToken;
+        final Collection<UserToken>       uniqueTokens;
 
         log.trace("Saving multiple tokens");
-        // TODO: Reject duplicated tokens
 
-        userIdsByUsername = loadUserIds(tokens);
-        tokenIdsByToken = loadTokenIds(tokens);
+        // TODO: maybe this should go the service
+        uniqueTokens = tokens.stream()
+            .collect(Collectors.toMap(UserToken::token, t -> t, (first, duplicate) -> first, LinkedHashMap::new))
+            .values();
 
-        toSave = tokens.stream()
+        userIdsByUsername = loadUserIds(uniqueTokens);
+        tokenIdsByToken = loadTokenIds(uniqueTokens);
+
+        toSave = uniqueTokens.stream()
             .map(t -> toEntity(t, userIdsByUsername.get(t.username()), tokenIdsByToken.get(t.token())))
             .toList();
 
         saved = userTokenSpringRepository.saveAll(toSave);
-        savedIds = saved.stream()
-            .map(UserTokenEntity::getId)
-            .toList();
-
-        created = userDataTokenSpringRepository.findAllById(savedIds)
-            .stream()
-            .map(UserDataTokenEntityMapper::toDomain)
+        created = saved.stream()
+            .map(s -> uniqueTokens.stream()
+                .filter(t -> t.token()
+                    .equals(s.getToken()))
+                .findFirst()
+                .map(t -> new UserToken(t.username(), t.name(), s.getScope(), s.getToken(), s.getCreationDate(),
+                    s.getExpirationDate(), s.isConsumed(), s.isRevoked()))
+                .orElseThrow())
             .toList();
 
         log.trace("Saving multiple tokens: {}", created);
@@ -235,7 +230,7 @@ public final class JpaUserTokenRepository implements UserTokenRepository {
     private final UserTokenEntity toEntity(final UserToken token, final Long userId, final Long existingId) {
         final UserTokenEntity entity;
 
-        entity = UserDataTokenEntityMapper.toEntity(token);
+        entity = UserTokenEntityMapper.toEntity(token);
 
         entity.setUserId(userId);
         entity.setId(existingId);

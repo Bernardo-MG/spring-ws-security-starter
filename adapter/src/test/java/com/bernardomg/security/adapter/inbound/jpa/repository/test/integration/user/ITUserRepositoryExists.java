@@ -35,7 +35,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - exists")
+@DisplayName("UserRepository - exists")
 class ITUserRepositoryExists {
 
     @Autowired
@@ -46,7 +46,7 @@ class ITUserRepositoryExists {
     }
 
     @Test
-    @DisplayName("When the user exists it is returned as existing")
+    @DisplayName("When the user exists, then it is reported as existing")
     @EnabledUserWithRole
     void testExists() {
         final boolean exists;
@@ -61,7 +61,7 @@ class ITUserRepositoryExists {
     }
 
     @Test
-    @DisplayName("When there is no data it is returned as not existing")
+    @DisplayName("When the user does not exist, then it is reported as not existing")
     void testExists_NoData() {
         final boolean exists;
 

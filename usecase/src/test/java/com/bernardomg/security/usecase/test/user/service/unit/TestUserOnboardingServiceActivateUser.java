@@ -33,7 +33,7 @@ import com.bernardomg.validation.domain.model.FieldFailure;
 import com.bernardomg.validation.test.assertion.ValidationAssertions;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("DefaultUserService - activate user")
+@DisplayName("DefaultUserOnboardingService - activate user")
 class TestUserOnboardingServiceActivateUser {
 
     @Mock
@@ -62,7 +62,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a new user consumes the token")
+    @DisplayName("When activating a new user, then the token is consumed")
     void testActivateUser_ConsumesToken() {
         // GIVEN
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
@@ -77,7 +77,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a disabled user saves it as enabled")
+    @DisplayName("When activating a disabled user, then the user is saved as enabled")
     void testActivateUser_Disabled() {
         // GIVEN
         given(passwordEncrypt.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -92,7 +92,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating an enabled user gives a failure")
+    @DisplayName("When activating an already enabled user, then the operation fails")
     void testActivateUser_Enabled_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -112,7 +112,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a expired user gives a failure")
+    @DisplayName("When activating an expired user, then the operation fails")
     void testActivateUser_Expired_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -132,7 +132,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a user with an invalid password throws an exception")
+    @DisplayName("When activating a user with an invalid password, then an exception is thrown")
     void testActivateUser_InvalidPassword() {
         final ThrowingCallable execution;
         final FieldFailure     failure;
@@ -147,7 +147,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a new user keeps its roles")
+    @DisplayName("When activating a new user, then its roles are retained")
     void testActivateUser_KeepsRoles() {
         // GIVEN
         given(passwordEncrypt.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -162,7 +162,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a locked user gives a failure")
+    @DisplayName("When activating a locked user, then the operation fails")
     void testActivateUser_Locked_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -182,7 +182,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a new user saves it as enabled")
+    @DisplayName("When activating a new user, then it is saved as enabled")
     void testActivateUser_NewlyCreated() {
         // GIVEN
         given(passwordEncrypt.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -197,7 +197,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a not existing user gives a failure")
+    @DisplayName("When activating a nonexistent user, then the operation fails")
     void testActivateUser_NotExistingUser_Exception() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -217,7 +217,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a new user with a padded password saves it as enabled")
+    @DisplayName("When activating a new user with a padded password, then it is saved as enabled")
     void testActivateUser_PaddedPassword() {
         // GIVEN
         given(passwordEncrypt.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);
@@ -232,7 +232,7 @@ class TestUserOnboardingServiceActivateUser {
     }
 
     @Test
-    @DisplayName("Activating a user with password expired saves it as enabled")
+    @DisplayName("When activating a user with an expired password, then it is saved as enabled")
     void testActivateUser_PasswordExpired() {
         // GIVEN
         given(passwordEncrypt.encrypt(UserConstants.NEW_PASSWORD)).willReturn(UserConstants.ENCODED_PASSWORD);

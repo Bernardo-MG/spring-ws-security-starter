@@ -18,7 +18,7 @@ import com.bernardomg.security.domain.user.filter.UserFilter;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
-@DisplayName("User repository - find all - pagination")
+@DisplayName("UserRepository - find all paginated")
 @EnabledUserWithRole
 class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
 
@@ -38,13 +38,13 @@ class ITUserRepositoryFindAllPagination extends AbstractPaginationIT<User> {
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
+    @DisplayName("When the first page is requested, then all page data is returned")
     void testGetAll_Page1_Data() {
         testPageData(1, Users.enabled());
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
+    @DisplayName("When the second page is requested, then all page data is returned")
     void testGetAll_Page2_Data() {
         final UserFilter sample;
         final Page<User> users;

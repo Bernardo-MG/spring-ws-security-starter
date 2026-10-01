@@ -19,7 +19,7 @@ import com.bernardomg.security.domain.permission.model.Resource;
 import com.bernardomg.security.domain.permission.repository.ResourceRepository;
 
 @IntegrationTest
-@DisplayName("RolePermissionRepository - save")
+@DisplayName("ResourceRepository - save")
 class ITResourceRepositorySave {
 
     @Autowired
@@ -29,7 +29,7 @@ class ITResourceRepositorySave {
     private ResourceSpringRepository resourceSpringRepository;
 
     @Test
-    @DisplayName("When saving no data nothing is persisted")
+    @DisplayName("When no data is saved, then nothing is persisted")
     void testSaveAll_Empty() {
         final Iterable<ResourceEntity> permissions;
 
@@ -45,7 +45,7 @@ class ITResourceRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving an existing resource, the data is persisted")
+    @DisplayName("When saving an existing resource, then the data is persisted")
     @DataResource
     void testSaveAll_Existing_Persisted() {
         final Iterable<ResourceEntity> permissions;
@@ -67,7 +67,7 @@ class ITResourceRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a resource the data is persisted")
+    @DisplayName("When saving a resource, then the data is persisted")
     void testSaveAll_Persisted() {
         final Iterable<ResourceEntity> permissions;
         final Resource                 permission;
@@ -88,7 +88,7 @@ class ITResourceRepositorySave {
     }
 
     @Test
-    @DisplayName("When saving a resource the data is returned")
+    @DisplayName("When saving a resource, then the data is returned")
     void testSaveAll_Returned() {
         final Collection<Resource> created;
         final Resource             permission;

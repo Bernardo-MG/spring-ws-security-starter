@@ -75,11 +75,13 @@ public final class TokenLoginService implements LoginService {
         final LoginUser  user;
         final String     token;
         TokenLoginStatus status;
+        String           username;
 
         log.trace("Log in attempt for {}", credentials.username());
 
         try {
             user = userAuthenticator.authenticate(credentials);
+            username = user.username();
 
             token = loginTokenEncoder.encode(user);
 
@@ -88,6 +90,7 @@ public final class TokenLoginService implements LoginService {
             log.debug("Successful login for {}", credentials.username());
         } catch (final InvalidCredentialsException exception) {
             status = new TokenLoginStatus(false, "");
+            username = credentials.username();
 
             log.debug("Failed login for {}", credentials.username());
             log.debug("Failed login", exception);
@@ -95,9 +98,8 @@ public final class TokenLoginService implements LoginService {
 
         log.debug("Log in for {} with status {}", credentials.username(), status);
 
-        // FIXME: the event root should be an object
         // TODO: Set source
-        event = new LogInEvent(null, credentials.username(), status.logged());
+        event = new LogInEvent(null, username, status.logged());
         eventEmitter.emit(event);
 
         log.trace("Finished log in attempt for {}", credentials.username());

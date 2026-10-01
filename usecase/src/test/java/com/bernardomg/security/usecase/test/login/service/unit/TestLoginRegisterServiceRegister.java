@@ -23,7 +23,7 @@ import com.bernardomg.security.usecase.login.service.DefaultLoginRegisterService
 import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("LoginRegisterService - register log in")
+@DisplayName("DefaultLoginRegisterService - register log in")
 class TestLoginRegisterServiceRegister {
 
     private final Instant                 dayEnd   = LocalDate.now()
@@ -45,7 +45,7 @@ class TestLoginRegisterServiceRegister {
     private DefaultLoginRegisterService   service;
 
     @Test
-    @DisplayName("Persists a succesful log in attempt")
+    @DisplayName("When a login attempt succeeds, then it is persisted")
     void testRegister_Logged_Persisted() {
         final LoginRegister register;
 
@@ -72,7 +72,7 @@ class TestLoginRegisterServiceRegister {
     }
 
     @Test
-    @DisplayName("Persists a failed log in attempt")
+    @DisplayName("When a login attempt fails, then it is persisted")
     void testRegister_NotLogged_Persisted() {
         final LoginRegister register;
 

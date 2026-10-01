@@ -21,7 +21,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.Users;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringMailPasswordNotificationService")
+@DisplayName("SpringMailPasswordNotificationService - send email")
 class TestSpringMailPasswordNotificationService {
 
     @Mock
@@ -42,7 +42,7 @@ class TestSpringMailPasswordNotificationService {
     }
 
     @Test
-    @DisplayName("The message content is sent to the target email")
+    @DisplayName("When sending a password notification, then the message is sent to the target email")
     void testSendEmail_Content() throws Exception {
         // WHEN
         passwordNotificationService.sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);

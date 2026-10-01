@@ -35,7 +35,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Updates an existing role adding permissions")
+    @DisplayName("When saving an existing role with added permissions, then the role is updated")
     @RoleWithoutPermissions
     @CrudPermissions
     void testSave_AddPermissions_PersistedData() {
@@ -58,7 +58,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns an existing role adding permissions")
+    @DisplayName("When saving an existing role with added permissions, then the updated role is returned")
     @RoleWithoutPermissions
     @CrudPermissions
     void testSave_AddPermissions_ReturnedData() {
@@ -78,7 +78,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Updates an existing role adding a not existing permissions")
+    @DisplayName("When saving an existing role with new permissions, then the role is updated")
     @RoleWithoutPermissions
     void testSave_AddPermissionsPermission_PersistedData() {
         final List<RoleEntity> roles;
@@ -100,7 +100,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns an existing role adding a not existing permissions")
+    @DisplayName("When saving an existing role with new permissions, then the updated role is returned")
     @RoleWithoutPermissions
     void testSave_AddPermissionsPermission_ReturnedData() {
         final Role saved;
@@ -119,7 +119,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a role with no permissions")
+    @DisplayName("When saving a role without permissions, then the role is persisted")
     void testSave_NoPermissions_PersistedData() {
         final List<RoleEntity> roles;
         final Role             role;
@@ -140,7 +140,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns the created data")
+    @DisplayName("When saving a role, then the created role is returned")
     void testSave_NoPermissions_ReturnedData() {
         final Role saved;
         final Role role;
@@ -160,7 +160,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a newly created role")
+    @DisplayName("When saving a new role, then the role is persisted")
     @CrudPermissions
     void testSave_PersistedData() {
         final List<RoleEntity> roles;
@@ -183,7 +183,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Updates an existing role removing permissions")
+    @DisplayName("When saving an existing role with removed permissions, then the role is updated")
     @RoleWithCrudPermissions
     void testSave_RemovePermissions_PersistedData() {
         final List<RoleEntity> roles;
@@ -208,7 +208,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns an existing role removing permissions")
+    @DisplayName("When saving an existing role with removed permissions, then the updated role is returned")
     @RoleWithCrudPermissions
     void testSave_RemovePermissions_ReturnedData() {
         final Role saved;
@@ -227,7 +227,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns a newly created role")
+    @DisplayName("When saving a new role, then the created role is returned")
     @CrudPermissions
     void testSave_ReturnedData() {
         final Role saved;
@@ -248,7 +248,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a role without permissions")
+    @DisplayName("When saving a role without permissions, then the role is persisted")
     @CrudPermissions
     void testSave_WithoutPermissions_PersistedData() {
         final List<RoleEntity> roles;
@@ -270,7 +270,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns a role without permissions")
+    @DisplayName("When saving a role without permissions, then the role is returned")
     @CrudPermissions
     void testSave_WithoutPermissions_ReturnedData() {
         final Role saved;
@@ -291,7 +291,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Persists a role with permissions")
+    @DisplayName("When saving a role with permissions, then the role is persisted")
     @CrudPermissions
     void testSave_WithPermissions_PersistedData() {
         final List<RoleEntity> roles;
@@ -314,7 +314,7 @@ class ITRoleRepositorySave {
     }
 
     @Test
-    @DisplayName("Returns a role with permissions")
+    @DisplayName("When saving a role with permissions, then the role is returned")
     @CrudPermissions
     void testSave_WithPermissions_ReturnedData() {
         final Role saved;

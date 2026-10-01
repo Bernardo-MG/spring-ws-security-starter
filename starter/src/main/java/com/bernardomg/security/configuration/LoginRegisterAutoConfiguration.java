@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.adapter.inbound.event.login.LoginEventRegisterListener;
 import com.bernardomg.security.adapter.inbound.jpa.repository.login.JpaLoginRegisterRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.login.LoginRegisterSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 import com.bernardomg.security.usecase.login.service.DefaultLoginRegisterService;
 import com.bernardomg.security.usecase.login.service.LoginRegisterService;
@@ -51,9 +52,10 @@ public class LoginRegisterAutoConfiguration {
     }
 
     @Bean("loginRegisterRepository")
-    public LoginRegisterRepository
-            getLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepository) {
-        return new JpaLoginRegisterRepository(loginRegisterSpringRepository);
+    public LoginRegisterRepository getLoginRegisterRepository(
+            final LoginRegisterSpringRepository loginRegisterSpringRepository,
+            final UserSpringRepository userSpringRepository) {
+        return new JpaLoginRegisterRepository(loginRegisterSpringRepository, userSpringRepository);
     }
 
     @Bean("loginRegisterService")

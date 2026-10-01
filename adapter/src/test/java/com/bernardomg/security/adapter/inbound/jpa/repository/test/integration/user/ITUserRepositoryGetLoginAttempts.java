@@ -36,7 +36,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find login attempts")
+@DisplayName("UserRepository - get login attempts")
 class ITUserRepositoryGetLoginAttempts {
 
     @Autowired
@@ -47,7 +47,7 @@ class ITUserRepositoryGetLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has login attempts, these are returned")
+    @DisplayName("When the user has login attempts, then the attempts are returned")
     @MaxLoginAttemptsUser
     void testFindLoginAttempts_MaxAttempts() {
         final int attempts;
@@ -62,7 +62,7 @@ class ITUserRepositoryGetLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has no login attempts, zero attempts are returned")
+    @DisplayName("When the user has no login attempts, then zero attempts are returned")
     @EnabledUserWithRole
     void testFindLoginAttempts_NoAttempts() {
         final int attempts;
@@ -77,7 +77,7 @@ class ITUserRepositoryGetLoginAttempts {
     }
 
     @Test
-    @DisplayName("When there is no data, zero attempts are returned")
+    @DisplayName("When the user does not exist, then zero attempts are returned")
     void testFindLoginAttempts_NoData() {
         final int attempts;
 

@@ -21,7 +21,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find all")
+@DisplayName("UserRepository - find all")
 class ITUserRepositoryFindAll {
 
     @Autowired
@@ -32,7 +32,7 @@ class ITUserRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is a user, it is returned")
+    @DisplayName("When a user exists, then it is returned")
     @EnabledUserWithRole
     void testFindAll() {
         final Page<User> users;
@@ -58,7 +58,7 @@ class ITUserRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("When no users exist, then nothing is returned")
     void testFindAll_NoData() {
         final Page<User> users;
         final UserFilter sample;
@@ -83,7 +83,7 @@ class ITUserRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is a user without permissions, it is returned")
+    @DisplayName("When a user has no permissions, then the user is returned")
     @EnabledUserWithoutPermissions
     void testFindAll_WithoutPermissions() {
         final Page<User> users;
@@ -109,7 +109,7 @@ class ITUserRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is a user without roles, it is returned")
+    @DisplayName("When a user has no roles, then the user is returned")
     @OnlyUser
     void testFindAll_WithoutRole() {
         final Page<User> users;

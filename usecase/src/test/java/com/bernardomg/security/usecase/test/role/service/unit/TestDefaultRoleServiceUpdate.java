@@ -67,7 +67,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("When there are duplicated permissions an exception is thrown")
+    @DisplayName("When permissions are duplicated, then an exception is thrown")
     void testUpdate_DuplicatedPermission() {
         final ThrowingCallable executable;
         final Role             data;
@@ -90,7 +90,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("Sends the role with multiple permissions to the repository")
+    @DisplayName("When updating a role with multiple permissions, then it is sent to the repository")
     void testUpdate_MultiplePermissions_PersistedData() {
         final Role data;
 
@@ -114,7 +114,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the updated role with multiple permissions")
+    @DisplayName("When updating a role with multiple permissions, then the updated role is returned")
     void testUpdate_MultiplePermissions_ReturnedData() {
         final Role data;
         final Role role;
@@ -141,7 +141,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("Sends a role without permissions to the repository")
+    @DisplayName("When updating a role without permissions, then it is sent to the repository")
     void testUpdate_NoPermissions_PersistedData() {
         final Role data;
 
@@ -158,7 +158,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("Returns the updated role without permissions")
+    @DisplayName("When updating a role without permissions, then the updated role is returned")
     void testUpdate_NoPermissions_ReturnedData() {
         final Role data;
         final Role role;
@@ -178,7 +178,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the permission doesn't exists an exception is thrown")
+    @DisplayName("When a permission does not exist, then an exception is thrown")
     void testUpdate_NotExistingPermission() {
         final ThrowingCallable execution;
         final Role             data;
@@ -199,7 +199,7 @@ class TestDefaultRoleServiceUpdate {
     }
 
     @Test
-    @DisplayName("When the role doesn't exists an exception is thrown")
+    @DisplayName("When the role does not exist, then an exception is thrown")
     void testUpdate_NotExistingRole() {
         final ThrowingCallable execution;
         final Role             data;

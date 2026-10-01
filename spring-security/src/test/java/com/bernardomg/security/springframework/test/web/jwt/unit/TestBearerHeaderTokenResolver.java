@@ -27,7 +27,7 @@ import com.bernardomg.security.springframework.web.jwt.BearerHeaderTokenResolver
 import jakarta.servlet.http.HttpServletRequest;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("BearerHeaderTokenResolver")
+@DisplayName("BearerHeaderTokenResolver - resolve")
 class TestBearerHeaderTokenResolver {
 
     private static Stream<String> malformedBearerHeaders() {

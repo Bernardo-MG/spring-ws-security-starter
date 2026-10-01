@@ -38,7 +38,7 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserEntities;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - clear login attempts")
+@DisplayName("UserRepository - clear login attempts")
 class ITUserRepositoryClearLoginAttempts {
 
     @Autowired
@@ -52,7 +52,7 @@ class ITUserRepositoryClearLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has login attempts, these are removed")
+    @DisplayName("When clearing attempts for a user with login attempts, then the attempts are removed")
     @MaxLoginAttemptsUser
     void testClearLoginAttempts_MaxAttempts() {
 
@@ -68,7 +68,7 @@ class ITUserRepositoryClearLoginAttempts {
     }
 
     @Test
-    @DisplayName("When the user has no login attempts, these are removed")
+    @DisplayName("When clearing attempts for a user without login attempts, then no attempts remain")
     @EnabledUserWithRole
     void testClearLoginAttempts_NoAttempts() {
 
@@ -84,7 +84,7 @@ class ITUserRepositoryClearLoginAttempts {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is done")
+    @DisplayName("When clearing attempts for a nonexistent user, then nothing is changed")
     void testClearLoginAttempts_NoData() {
 
         // WHEN

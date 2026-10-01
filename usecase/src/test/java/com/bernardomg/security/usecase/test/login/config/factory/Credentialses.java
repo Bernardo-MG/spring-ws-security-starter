@@ -6,6 +6,10 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserConstants;
 
 public class Credentialses {
 
+    public static final Credentials email() {
+        return new Credentials(UserConstants.EMAIL, UserConstants.PASSWORD);
+    }
+
     public static final Credentials valid() {
         return new Credentials(UserConstants.USERNAME, UserConstants.PASSWORD);
     }

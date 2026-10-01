@@ -38,13 +38,13 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     }
 
     @Test
-    @DisplayName("Returns all the data for the first page")
+    @DisplayName("When the first page is requested, then all page data is returned")
     void testFindAll_Page1_Data() {
         testPageData(1, Roles.withoutPermissions());
     }
 
     @Test
-    @DisplayName("Returns all the data for the second page")
+    @DisplayName("When the second page is requested, then all page data is returned")
     void testFindAll_Page2_Data() {
         final RoleFilter sample;
         final Page<Role> roles;

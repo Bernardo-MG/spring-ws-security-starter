@@ -26,7 +26,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserTokens;
 import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Scoped user token store - revoke existing tokens")
+@DisplayName("ScopedUserTokenStore - revoke existing tokens")
 class TestScopedUserTokenStoreRevokeExistingTokens {
 
     @Mock
@@ -57,7 +57,7 @@ class TestScopedUserTokenStoreRevokeExistingTokens {
     }
 
     @Test
-    @DisplayName("When the user exists all active tokens are revoked")
+    @DisplayName("When the user exists, then all active tokens are revoked")
     void testRevokeExistingTokens() {
         final UserToken        firstToRevoke;
         final UserToken        secondToRevoke;
@@ -90,7 +90,7 @@ class TestScopedUserTokenStoreRevokeExistingTokens {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist an exception is thrown")
+    @DisplayName("When the user does not exist, then an exception is thrown")
     void testRevokeExistingTokens_MissingUser() {
         final ThrowingCallable execution;
 
@@ -105,7 +105,7 @@ class TestScopedUserTokenStoreRevokeExistingTokens {
     }
 
     @Test
-    @DisplayName("When there are no active tokens an empty collection is saved")
+    @DisplayName("When no active tokens exist, then an empty collection is saved")
     void testRevokeExistingTokens_NoTokens() {
         final ThrowingCallable execution;
 

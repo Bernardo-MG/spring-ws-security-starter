@@ -25,13 +25,13 @@
 package com.bernardomg.security.adapter.inbound.jpa.repository.test.integration.role;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bernardomg.security.adapter.inbound.jpa.repository.permission.ResourcePermissionSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithPermission;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
@@ -52,12 +52,15 @@ class ITRoleRepositoryDelete {
     @Autowired
     private RoleSpringRepository               springRepository;
 
+    @Autowired
+    private UserSpringRepository               userSpringRepository;
+
     public ITRoleRepositoryDelete() {
         super();
     }
 
     @Test
-    @DisplayName("Deletes a role with no permissions")
+    @DisplayName("When deleting a role without permissions, then the role is deleted")
     @RoleWithoutPermissions
     void testDelete() {
         // WHEN
@@ -69,7 +72,7 @@ class ITRoleRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When there is no data, nothing is removed")
+    @DisplayName("When there is no role, then nothing is removed")
     void testDelete_NoData() {
         // WHEN
         repository.delete(RoleConstants.NAME);
@@ -80,7 +83,7 @@ class ITRoleRepositoryDelete {
     }
 
     @Test
-    @DisplayName("Deletes a role with permissions")
+    @DisplayName("When deleting a role with permissions, then the role is deleted")
     @RoleWithPermission
     void testDelete_WithPermissions() {
         // WHEN
@@ -92,7 +95,7 @@ class ITRoleRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a role, the permissions are not deleted")
+    @DisplayName("When deleting a role, then its permissions are not deleted")
     @RoleWithPermission
     void testDelete_WithPermissions_PermissionsNotDeleted() {
         // WHEN
@@ -104,7 +107,7 @@ class ITRoleRepositoryDelete {
     }
 
     @Test
-    @DisplayName("Deletes a role with user and permissions")
+    @DisplayName("When deleting a role with an associated user and permissions, then the role is deleted")
     @EnabledUserWithRole
     void testDelete_WithUser() {
         // WHEN
@@ -116,7 +119,7 @@ class ITRoleRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a role with user and permissions, the permissions are not deleted")
+    @DisplayName("When deleting a role with an associated user and permissions, then the permissions are not deleted")
     @EnabledUserWithRole
     void testDelete_WithUser_PermissionsNotDeleted() {
         // WHEN
@@ -128,16 +131,15 @@ class ITRoleRepositoryDelete {
     }
 
     @Test
-    @DisplayName("When deleting a role with user and permissions, the user is not deleted")
+    @DisplayName("When deleting a role with an associated user and permissions, then the user is not deleted")
     @EnabledUserWithRole
-    @Disabled("Should this be redone?")
     void testDelete_WithUser_UserNotDeleted() {
         // WHEN
         repository.delete(RoleConstants.NAME);
 
         // THEN
-        // Assertions.assertThat(userSpringRepository.count())
-        // .isNotZero();
+        Assertions.assertThat(userSpringRepository.count())
+            .isNotZero();
     }
 
 }

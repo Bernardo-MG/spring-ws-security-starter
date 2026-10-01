@@ -36,6 +36,7 @@ import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
 import com.bernardomg.pagination.springframework.SpringPagination;
 import com.bernardomg.security.adapter.inbound.jpa.model.login.LoginRegisterEntity;
+import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.domain.login.model.LoginRegister;
 import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 
@@ -56,10 +57,17 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
      */
     private final LoginRegisterSpringRepository loginRegisterSpringRepository;
 
-    public JpaLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepo) {
+    /**
+     * User Spring repository.
+     */
+    private final UserSpringRepository          userSpringRepository;
+
+    public JpaLoginRegisterRepository(final LoginRegisterSpringRepository loginRegisterSpringRepo,
+            final UserSpringRepository userSpringRepo) {
         super();
 
         loginRegisterSpringRepository = Objects.requireNonNull(loginRegisterSpringRepo);
+        userSpringRepository = Objects.requireNonNull(userSpringRepo);
     }
 
     @Override
@@ -97,6 +105,9 @@ public final class JpaLoginRegisterRepository implements LoginRegisterRepository
         } else {
             entity = LoginRegisterEntityMapper.toEntity(register);
         }
+
+        userSpringRepository.findByUsername(register.username())
+            .ifPresent(entity::setUser);
 
         saved = loginRegisterSpringRepository.save(entity);
 

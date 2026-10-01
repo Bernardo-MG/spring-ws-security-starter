@@ -11,7 +11,7 @@
    <parent>
       <groupId>com.bernardomg.framework.security</groupId>
       <artifactId>security-starter</artifactId>
-      <version>0.15.17</version>
+      <version>0.15.18</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -53,6 +53,15 @@
          <groupId>com.bernardomg.framework</groupId>
          <artifactId>ws-response</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.bernardomg.framework.security</groupId>
+         <artifactId>security-model</artifactId>
+      </dependency>
+      <dependency>
+         <!-- JWT Encoding -->
+         <groupId>com.bernardomg.framework.jwt</groupId>
+         <artifactId>jwt-encoding</artifactId>
+      </dependency>
       <!-- ============================================== -->
       <!-- ================= PROJECT ==================== -->
       <!-- ============================================== -->
@@ -80,6 +89,11 @@
          <artifactId>spring-security-core</artifactId>
       </dependency>
       <dependency>
+         <!-- Spring Security Crypto -->
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-crypto</artifactId>
+      </dependency>
+      <dependency>
          <!-- Spring Data Commons -->
          <groupId>org.springframework.data</groupId>
          <artifactId>spring-data-commons</artifactId>
@@ -99,10 +113,13 @@
           <groupId>org.springframework.security</groupId>
           <artifactId>spring-security-web</artifactId>
       </dependency>
+      <!-- ============================================== -->
+      <!-- ================= JACKSON ==================== -->
+      <!-- ============================================== -->
       <dependency>
-         <!-- Spring Aspects -->
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-aspects</artifactId>
+         <!-- Jackson Databind -->
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
       </dependency>
       <!-- ============================================== -->
       <!-- ================== LOGGING =================== -->
@@ -111,36 +128,6 @@
          <!-- SL4J API -->
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
-      </dependency>
-      <dependency>
-         <!-- Log4j SLF4J Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-slf4j2-impl</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <!-- Log4j core -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-core</artifactId>
-         <scope>provided</scope>
-      </dependency>
-      <dependency>
-         <!-- Log4j Commons Logging Bridge -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-jcl</artifactId>
-         <scope>provided</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>commons-logging</groupId>
-               <artifactId>commons-logging</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <!-- Log4j Web -->
-         <groupId>org.apache.logging.log4j</groupId>
-         <artifactId>log4j-web</artifactId>
-         <scope>provided</scope>
       </dependency>
       <!-- ============================================== -->
       <!-- ================= JAKARTA ==================== -->

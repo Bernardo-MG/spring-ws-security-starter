@@ -24,7 +24,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserTokenConstan
 import com.bernardomg.security.usecase.token.ScopedUserTokenStore;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Scoped user token store - consume token")
+@DisplayName("ScopedUserTokenStore - consume token")
 class TestScopedUserTokenStoreConsumeToken {
 
     @Mock
@@ -52,7 +52,7 @@ class TestScopedUserTokenStoreConsumeToken {
     }
 
     @Test
-    @DisplayName("When the token exists it is marked as consumed")
+    @DisplayName("When the token exists, then it is marked as consumed")
     void testConsumeToken() {
         final ThrowingCallable execution;
 
@@ -76,7 +76,7 @@ class TestScopedUserTokenStoreConsumeToken {
     }
 
     @Test
-    @DisplayName("When the token is already consumed an exception is thrown")
+    @DisplayName("When the token is already consumed, then an exception is thrown")
     void testConsumeToken_AlreadyConsumed() {
         final ThrowingCallable execution;
 
@@ -94,7 +94,7 @@ class TestScopedUserTokenStoreConsumeToken {
     }
 
     @Test
-    @DisplayName("When the token doesn't exist an exception is thrown")
+    @DisplayName("When the token does not exist, then an exception is thrown")
     void testConsumeToken_MissingToken() {
         final ThrowingCallable execution;
 

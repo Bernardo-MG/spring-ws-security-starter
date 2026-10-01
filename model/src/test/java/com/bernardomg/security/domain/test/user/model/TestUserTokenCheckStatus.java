@@ -17,7 +17,7 @@ import com.bernardomg.security.domain.user.exception.RevokedTokenException;
 import com.bernardomg.security.domain.user.model.UserToken;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("User token - check status")
+@DisplayName("UserToken - check status")
 class TestUserTokenCheckStatus {
 
     public TestUserTokenCheckStatus() {
@@ -25,7 +25,7 @@ class TestUserTokenCheckStatus {
     }
 
     @Test
-    @DisplayName("When the token is valid no exception is thrown")
+    @DisplayName("When the token is valid, then no exception is thrown")
     void testCheckStatus() {
         final UserToken        token;
         final ThrowingCallable execution;
@@ -42,7 +42,7 @@ class TestUserTokenCheckStatus {
     }
 
     @Test
-    @DisplayName("When the token is consumed a consumed token exception is thrown")
+    @DisplayName("When the token is consumed, then a consumed-token exception is thrown")
     void testCheckStatus_Consumed() {
         final UserToken        token;
         final ThrowingCallable execution;
@@ -59,7 +59,7 @@ class TestUserTokenCheckStatus {
     }
 
     @Test
-    @DisplayName("When the token is expired an expired token exception is thrown")
+    @DisplayName("When the token is expired, then an expired-token exception is thrown")
     void testCheckStatus_Expired() {
         final UserToken        token;
         final ThrowingCallable execution;
@@ -76,7 +76,7 @@ class TestUserTokenCheckStatus {
     }
 
     @Test
-    @DisplayName("When the scope doesn't match an out of scope exception is thrown")
+    @DisplayName("When the scope doesn't match, then an out-of-scope exception is thrown")
     void testCheckStatus_OutOfScope() {
         final UserToken        token;
         final ThrowingCallable execution;
@@ -93,7 +93,7 @@ class TestUserTokenCheckStatus {
     }
 
     @Test
-    @DisplayName("When the token is revoked a revoked token exception is thrown")
+    @DisplayName("When the token is revoked, then a revoked-token exception is thrown")
     void testCheckStatus_Revoked() {
         final UserToken        token;
         final ThrowingCallable execution;

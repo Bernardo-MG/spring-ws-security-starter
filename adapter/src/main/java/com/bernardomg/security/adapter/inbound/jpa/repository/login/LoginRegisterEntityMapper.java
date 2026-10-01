@@ -33,7 +33,16 @@ import com.bernardomg.security.domain.login.model.LoginRegister;
 public final class LoginRegisterEntityMapper {
 
     public static final LoginRegister toDomain(final LoginRegisterEntity login) {
-        return new LoginRegister(login.getUsername(), login.getLoggedIn(), login.getDate());
+        final String username;
+
+        if (login.getUser() == null) {
+            username = login.getUsername();
+        } else {
+            username = login.getUser()
+                .getUsername();
+        }
+
+        return new LoginRegister(username, login.getLoggedIn(), login.getDate());
     }
 
     public static final LoginRegisterEntity toEntity(final LoginRegister login) {

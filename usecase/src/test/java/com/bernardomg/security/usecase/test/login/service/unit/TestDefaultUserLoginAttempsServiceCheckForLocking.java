@@ -39,7 +39,7 @@ class TestDefaultUserLoginAttempsServiceCheckForLocking {
     }
 
     @Test
-    @DisplayName("When this is the first login attempt it is not locked")
+    @DisplayName("When this is the first login attempt, then the user is not locked")
     void testCheckForLocking_FirstAttempt() {
         // GIVEN
         given(userRepository.increaseLoginAttempts(UserConstants.USERNAME)).willReturn(1);
@@ -52,7 +52,7 @@ class TestDefaultUserLoginAttempsServiceCheckForLocking {
     }
 
     @Test
-    @DisplayName("When the user is in the max login attempts it is not locked")
+    @DisplayName("When the user is below the maximum login-attempt limit, then the user is not locked")
     void testCheckForLocking_JustUnderMaxAttempts() {
         // GIVEN
         given(userRepository.increaseLoginAttempts(UserConstants.USERNAME))
@@ -66,7 +66,7 @@ class TestDefaultUserLoginAttempsServiceCheckForLocking {
     }
 
     @Test
-    @DisplayName("When the user has reached the max login attempts it is locked")
+    @DisplayName("When the user has reached the maximum login-attempt limit, then the user is locked")
     void testCheckForLocking_MaxAttempts() {
         // GIVEN
         given(userRepository.increaseLoginAttempts(UserConstants.USERNAME))
@@ -81,7 +81,7 @@ class TestDefaultUserLoginAttempsServiceCheckForLocking {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist it is not locked")
+    @DisplayName("When the user does not exist, then the user is not locked")
     void testCheckForLocking_NoUser() {
         // GIVEN
         given(userRepository.increaseLoginAttempts(UserConstants.USERNAME)).willReturn(0);

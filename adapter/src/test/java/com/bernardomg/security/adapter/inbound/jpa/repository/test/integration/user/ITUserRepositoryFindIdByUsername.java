@@ -14,31 +14,35 @@ import com.bernardomg.security.adapter.test.config.user.factory.UserConstants;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find id by username")
+@DisplayName("UserRepository - find id by username")
 class ITUserRepositoryFindIdByUsername {
 
     @Autowired
     private UserRepository repository;
 
     @Test
-    @DisplayName("Returns an id for an enabled user")
+    @DisplayName("When looking up an enabled user by username, then its id is returned")
     @EnabledUserWithRole
     void testFindOne_Enabled() {
         final Optional<Long> result;
 
+        // WHEN
         result = repository.findIdByUsername(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(UserConstants.ID);
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When no user matches the username, then nothing is returned")
     void testFindOne_NoData() {
         final Optional<Long> result;
 
+        // WHEN
         result = repository.findIdByUsername(UserConstants.USERNAME);
 
+        // THEN
         Assertions.assertThat(result)
             .isEmpty();
     }

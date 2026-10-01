@@ -181,7 +181,6 @@ public final class UserEntities {
         entity.setName(UserConstants.NAME);
         entity.setUsername(UserConstants.USERNAME);
         entity.setEmail(UserConstants.EMAIL);
-        // FIXME: this is not the newly encoded password
         entity.setPassword(UserConstants.ENCODED_NEW_PASSWORD);
         entity.setEnabled(true);
         entity.setNotExpired(true);

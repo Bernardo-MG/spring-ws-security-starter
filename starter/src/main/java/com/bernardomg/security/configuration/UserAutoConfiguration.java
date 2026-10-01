@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +43,6 @@ import com.bernardomg.security.adapter.inbound.event.user.UserInvitationNotifica
 import com.bernardomg.security.adapter.inbound.jpa.repository.role.RoleSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.JpaUserTokenRepository;
-import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserDataTokenSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserSpringRepository;
 import com.bernardomg.security.adapter.inbound.jpa.repository.user.UserTokenSpringRepository;
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
@@ -72,7 +72,8 @@ import com.bernardomg.security.usecase.user.service.UserTokenService;
  */
 @AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class, UserTokenProperties.class })
+@EnableConfigurationProperties({ LoginProperties.class, UserNotificationProperties.class, UserTokenProperties.class,
+        MailSenderAutoConfiguration.class })
 public class UserAutoConfiguration {
 
     /**
@@ -148,8 +149,8 @@ public class UserAutoConfiguration {
 
     @Bean("userTokenRepository")
     public UserTokenRepository getUserTokenRepository(final UserTokenSpringRepository userTokenRepository,
-            final UserDataTokenSpringRepository userDataTokenRepository, final UserSpringRepository userRepository) {
-        return new JpaUserTokenRepository(userTokenRepository, userDataTokenRepository, userRepository);
+            final UserSpringRepository userRepository) {
+        return new JpaUserTokenRepository(userTokenRepository, userRepository);
     }
 
     @Bean("userTokenService")

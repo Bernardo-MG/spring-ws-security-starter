@@ -39,7 +39,7 @@ import com.bernardomg.security.domain.login.repository.LoginRegisterRepository;
 import jakarta.transaction.Transactional;
 
 /**
- * Default implementation of the log in service.
+ * Default implementation of the login register service.
  */
 @Transactional
 public final class DefaultLoginRegisterService implements LoginRegisterService {

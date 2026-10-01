@@ -23,7 +23,7 @@ import com.bernardomg.security.usecase.test.user.config.factory.UserTokenConstan
 import com.bernardomg.security.usecase.token.ScopedUserTokenValidator;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Scoped user token validator - validate")
+@DisplayName("ScopedUserTokenValidator - validate")
 class TestScopedUserTokenValidatorValidate {
 
     @Mock
@@ -44,7 +44,7 @@ class TestScopedUserTokenValidatorValidate {
     }
 
     @Test
-    @DisplayName("When the token exists its status is checked")
+    @DisplayName("When the token exists, then its status is checked")
     void testValidate() {
         final ThrowingCallable execution;
 
@@ -60,7 +60,7 @@ class TestScopedUserTokenValidatorValidate {
     }
 
     @Test
-    @DisplayName("When the token status is invalid the exception is propagated")
+    @DisplayName("When the token status is invalid, then the exception is propagated")
     void testValidate_InvalidStatus() {
         final ThrowingCallable execution;
 
@@ -78,7 +78,7 @@ class TestScopedUserTokenValidatorValidate {
     }
 
     @Test
-    @DisplayName("When the token doesn't exist an exception is thrown")
+    @DisplayName("When the token does not exist, then an exception is thrown")
     void testValidate_MissingToken() {
         final ThrowingCallable execution;
 

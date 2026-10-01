@@ -22,7 +22,7 @@ class ITRoleRepositoryIsLinkedToUser {
     private RoleRepository repository;
 
     @Test
-    @DisplayName("When the role has a user it is linked")
+    @DisplayName("When the role has an associated user, then it is linked to that user")
     @UserWithPermission
     void testIsLinkedToUser_Exists() {
         final boolean exists;
@@ -36,7 +36,7 @@ class ITRoleRepositoryIsLinkedToUser {
     }
 
     @Test
-    @DisplayName("When there is no role it is not linked")
+    @DisplayName("When the role does not exist, then it is not linked to a user")
     void testIsLinkedToUser_NoData() {
         final boolean exists;
 
@@ -49,7 +49,7 @@ class ITRoleRepositoryIsLinkedToUser {
     }
 
     @Test
-    @DisplayName("When there is a role without user it isn't linked")
+    @DisplayName("When the role has no associated user, then it is not linked to a user")
     @UserWithoutRole
     void testIsLinkedToUser_NoRole() {
         final boolean exists;
@@ -63,7 +63,7 @@ class ITRoleRepositoryIsLinkedToUser {
     }
 
     @Test
-    @DisplayName("When the role doesn't exist it is not linked")
+    @DisplayName("When the role doesn't exist, then it is not linked to a user")
     @UserWithPermission
     void testIsLinkedToUser_NotExisting() {
         final boolean exists;
@@ -77,7 +77,7 @@ class ITRoleRepositoryIsLinkedToUser {
     }
 
     @Test
-    @DisplayName("When there is a user without role it isn't linked")
+    @DisplayName("When the user has no associated role, then the role is not linked to that user")
     @RoleWithoutPermissions
     void testIsLinkedToUser_NoUser() {
         final boolean exists;
@@ -91,7 +91,7 @@ class ITRoleRepositoryIsLinkedToUser {
     }
 
     @Test
-    @DisplayName("When the role has a user, and it has no granted permission, it is linked")
+    @DisplayName("When the role has an associated user without granted permissions, then it is linked to that user")
     @UserWithoutPermissions
     void testIsLinkedToUser_WithNotGrantedPermission() {
         final boolean exists;

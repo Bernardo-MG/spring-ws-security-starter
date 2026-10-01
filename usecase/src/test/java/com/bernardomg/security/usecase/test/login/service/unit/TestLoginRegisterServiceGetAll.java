@@ -37,7 +37,7 @@ class TestLoginRegisterServiceGetAll {
     }
 
     @Test
-    @DisplayName("Returns all data")
+    @DisplayName("When all login registers are requested, then all data is returned")
     void testGetAll_Data() {
         final Page<LoginRegister> readLogins;
         final Page<LoginRegister> logins;
@@ -63,7 +63,7 @@ class TestLoginRegisterServiceGetAll {
     }
 
     @Test
-    @DisplayName("With no data it returns nothing")
+    @DisplayName("When no login registers exist, then nothing is returned")
     void testGetAll_Empty_Count() {
         final Page<LoginRegister> readLogins;
         final Page<LoginRegister> logins;

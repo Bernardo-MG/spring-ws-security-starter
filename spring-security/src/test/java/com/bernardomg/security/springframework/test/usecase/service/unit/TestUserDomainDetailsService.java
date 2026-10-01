@@ -24,7 +24,7 @@ import com.bernardomg.security.springframework.test.user.config.factory.Users;
 import com.bernardomg.security.springframework.usecase.service.UserDomainDetailsService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("UserDomainDetailsService")
+@DisplayName("UserDomainDetailsService - load by username")
 class TestUserDomainDetailsService {
 
     @InjectMocks
@@ -38,7 +38,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the user is disabled it is returned")
+    @DisplayName("When the user is disabled, then the user details are returned")
     void testLoadByUsername_Disabled() {
         final UserDetails userDetails;
 
@@ -88,7 +88,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When logging with an email the user details are returned")
+    @DisplayName("When logging in with an email, then the user details are returned")
     void testLoadByUsername_Email() {
         final UserDetails userDetails;
 
@@ -118,7 +118,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the user is enabled it is returned")
+    @DisplayName("When the user is enabled, then the user details are returned")
     void testLoadByUsername_Enabled() {
         final UserDetails userDetails;
 
@@ -168,7 +168,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the user is expired it is returned")
+    @DisplayName("When the user is expired, then the user details are returned")
     void testLoadByUsername_Expired() {
         final UserDetails userDetails;
 
@@ -218,7 +218,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the user is locked it is returned")
+    @DisplayName("When the user is locked, then the user details are returned")
     void testLoadByUsername_Locked() {
         final UserDetails userDetails;
 
@@ -268,7 +268,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the user doesn't have authorities an exception is thrown")
+    @DisplayName("When the user has no authorities, then an exception is thrown")
     void testLoadByUsername_NoAuthorities() {
         final ThrowingCallable executable;
         final Exception        exception;
@@ -287,7 +287,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the user has the password expired it is returned")
+    @DisplayName("When the user has an expired password, then the user details are returned")
     void testLoadByUsername_PasswordExpired() {
         final UserDetails userDetails;
 
@@ -337,7 +337,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the username is in uppercase it is returned")
+    @DisplayName("When the username is uppercase, then the user details are returned")
     void testLoadByUsername_UpperCase() {
         final UserDetails userDetails;
 
@@ -387,7 +387,7 @@ class TestUserDomainDetailsService {
     }
 
     @Test
-    @DisplayName("When the user doesn't exist an exception is thrown")
+    @DisplayName("When the user does not exist, then an exception is thrown")
     void testLoadByUsername_UserNotExisting() {
         final ThrowingCallable executable;
         final Exception        exception;

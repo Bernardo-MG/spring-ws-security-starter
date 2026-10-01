@@ -40,7 +40,7 @@ class TestDefaultRoleServiceGetOne {
     }
 
     @Test
-    @DisplayName("When the role exists it is returned")
+    @DisplayName("When the role exists, then it is returned")
     void testGetOne() {
         final Optional<Role> existing;
         final Optional<Role> role;
@@ -58,7 +58,7 @@ class TestDefaultRoleServiceGetOne {
     }
 
     @Test
-    @DisplayName("When the role doesn't exist an exception is thrown")
+    @DisplayName("When the role does not exist, then an exception is thrown")
     void testGetOne_NoData() {
         final ThrowingCallable execution;
 

@@ -3,6 +3,7 @@ package com.bernardomg.security.springframework.test.web.jwt.unit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -35,7 +36,7 @@ import com.bernardomg.security.springframework.web.jwt.TokenDetailsTokenAuthenti
 import jakarta.servlet.http.HttpServletRequest;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TokenDetailsTokenAuthenticationParser")
+@DisplayName("TokenDetailsTokenAuthenticationParser - parse")
 public class TestTokenDetailsTokenAuthenticationParser {
 
     @InjectMocks
@@ -51,7 +52,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     private TokenDecoder                          tokenDecoder;
 
     @Test
-    @DisplayName("When parsing a token before the start date, an exception is thrown")
+    @DisplayName("When parsing a token before its start date, then an exception is thrown")
     void testParse_BeforeStartDate() {
         final ThrowingCallable executable;
 
@@ -70,7 +71,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     }
 
     @Test
-    @DisplayName("When parsing an expired token, an exception is thrown")
+    @DisplayName("When parsing an expired token, then an exception is thrown")
     void testParse_ExpiredToken() {
         final ThrowingCallable executable;
 
@@ -88,7 +89,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     }
 
     @Test
-    @DisplayName("When parsing a token with an invalid id, an exception is thrown")
+    @DisplayName("When parsing a token with an invalid id, then an exception is thrown")
     void testParse_InvalidId() {
         final ThrowingCallable executable;
 
@@ -110,7 +111,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     }
 
     @Test
-    @DisplayName("When parsing a token without an id, the principal id is null")
+    @DisplayName("When parsing a token without an id, then the principal id is null")
     void testParse_MissingId() {
         final Authentication authentication;
 
@@ -126,12 +127,13 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
-            principal -> assertThat(principal.getId()).isNull());
+        assertSoftly(softly -> softly.assertThat(authentication.getPrincipal())
+            .isInstanceOfSatisfying(SecurityUserDetails.class, principal -> softly.assertThat(principal.getId())
+                .isNull()));
     }
 
     @Test
-    @DisplayName("When parsing a token without permissions, the permissions are empty")
+    @DisplayName("When parsing a token without permissions, then the permissions are empty")
     void testParse_NoPermissions() {
         final Authentication authentication;
 
@@ -150,7 +152,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     }
 
     @Test
-    @DisplayName("When parsing a token without subject, an exception is thrown")
+    @DisplayName("When parsing a token without a subject, then an exception is thrown")
     void testParse_NoSubject() {
         final ThrowingCallable executable;
 
@@ -166,7 +168,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     }
 
     @Test
-    @DisplayName("When parsing, the permissions are added")
+    @DisplayName("When parsing a token with permissions, then the permissions are added")
     void testParse_Permissions() {
         final Authentication authentication;
         final Set<String>    authorities;
@@ -191,7 +193,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     }
 
     @Test
-    @DisplayName("When parsing, the request details are added")
+    @DisplayName("When parsing a token with request details, then the details are added")
     void testParse_RequestDetails() {
         final Authentication authentication;
 
@@ -209,14 +211,17 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.getDetails()).isInstanceOfSatisfying(WebAuthenticationDetails.class, details -> {
-            assertThat(details.getRemoteAddress()).isEqualTo("192.0.2.10");
-            assertThat(details.getSessionId()).isNull();
-        });
+        assertSoftly(softly -> softly.assertThat(authentication.getDetails())
+            .isInstanceOfSatisfying(WebAuthenticationDetails.class, details -> {
+                softly.assertThat(details.getRemoteAddress())
+                    .isEqualTo("192.0.2.10");
+                softly.assertThat(details.getSessionId())
+                    .isNull();
+            }));
     }
 
     @Test
-    @DisplayName("When parsing a token with a valid id, the id is added to the principal")
+    @DisplayName("When parsing a token with a valid id, then the id is added to the principal")
     void testParse_ValidId() {
         final Authentication authentication;
 
@@ -232,12 +237,13 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(SecurityUserDetails.class,
-            principal -> assertThat(principal.getId()).isEqualTo(UserConstants.ID));
+        assertSoftly(softly -> softly.assertThat(authentication.getPrincipal())
+            .isInstanceOfSatisfying(SecurityUserDetails.class, principal -> softly.assertThat(principal.getId())
+                .isEqualTo(UserConstants.ID)));
     }
 
     @Test
-    @DisplayName("When parsing a valid token, all the data is loaded")
+    @DisplayName("When parsing a valid token, then all token data is loaded")
     void testParse_ValidToken() {
         final Authentication authentication;
 
@@ -252,14 +258,23 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.isAuthenticated()).isTrue();
-        assertThat(authentication.getCredentials()).isNull();
-        assertThat(authentication.getName()).isEqualTo(Tokens.SUBJECT);
-        assertThat(authentication.getAuthorities()).isEmpty();
+        assertSoftly(softly -> {
+            softly.assertThat(authentication.isAuthenticated())
+                .isTrue();
+            softly.assertThat(authentication.getCredentials())
+                .isNull();
+            softly.assertThat(authentication.getName())
+                .isEqualTo(Tokens.SUBJECT);
+            softly.assertThat(authentication.getAuthorities())
+                .isEmpty();
 
-        assertThat(authentication.getPrincipal()).isInstanceOfSatisfying(UserDetails.class, principal -> {
-            assertThat(principal.getUsername()).isEqualTo(Tokens.SUBJECT);
-            assertThat(principal.getPassword()).isEmpty();
+            softly.assertThat(authentication.getPrincipal())
+                .isInstanceOfSatisfying(UserDetails.class, principal -> {
+                    softly.assertThat(principal.getUsername())
+                        .isEqualTo(Tokens.SUBJECT);
+                    softly.assertThat(principal.getPassword())
+                        .isEmpty();
+                });
         });
     }
 

@@ -33,7 +33,7 @@ class DefaultPermissionServiceGetAll {
     private DefaultPermissionService     service;
 
     @Test
-    @DisplayName("When there are permissions they are returned")
+    @DisplayName("When permissions exist, then they are returned")
     void testGetAll() {
         final Page<ResourcePermission> read;
         final Pagination               pagination;
@@ -58,7 +58,7 @@ class DefaultPermissionServiceGetAll {
     }
 
     @Test
-    @DisplayName("When there are no permissions nothing is returned")
+    @DisplayName("When no permissions exist, then nothing is returned")
     void testGetAll_NoData() {
         final Page<ResourcePermission> read;
         final Pagination               pagination;

@@ -42,7 +42,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - activate")
+@DisplayName("UserRepository - activate")
 class ITUserRepositoryActivate {
 
     @Autowired
@@ -56,7 +56,7 @@ class ITUserRepositoryActivate {
     }
 
     @Test
-    @DisplayName("When there is no data an empty user is returned")
+    @DisplayName("When there is no user to activate, then an empty user is returned")
     void testActivate_NoData_Returned() {
         final User updated;
 
@@ -70,7 +70,7 @@ class ITUserRepositoryActivate {
     }
 
     @Test
-    @DisplayName("When activating a new user it is updated")
+    @DisplayName("When activating a new user, then it is updated")
     @NewlyCreated
     void testActivate_PersistedData() {
         final List<UserEntity> entities;
@@ -87,7 +87,7 @@ class ITUserRepositoryActivate {
     }
 
     @Test
-    @DisplayName("When activating a new user it is returned")
+    @DisplayName("When activating a new user, then it is returned")
     @NewlyCreated
     void testActivate_ReturnedData() {
         final User user;

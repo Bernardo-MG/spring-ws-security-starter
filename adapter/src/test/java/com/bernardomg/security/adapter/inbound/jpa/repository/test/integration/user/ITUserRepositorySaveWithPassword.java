@@ -42,7 +42,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - save with password")
+@DisplayName("UserRepository - save with password")
 class ITUserRepositorySaveWithPassword {
 
     @Autowired
@@ -56,7 +56,7 @@ class ITUserRepositorySaveWithPassword {
     }
 
     @Test
-    @DisplayName("When the user doesn't exists, it is created")
+    @DisplayName("When the user does not exist, then it is created")
     @RoleWithPermission
     void testSave_PersistedData() {
         final User             user;
@@ -78,7 +78,7 @@ class ITUserRepositorySaveWithPassword {
     }
 
     @Test
-    @DisplayName("When the user it is created, it is returned")
+    @DisplayName("When a user is created with a password, then it is returned")
     @RoleWithPermission
     void testSave_ReturnedData() {
         final User user;

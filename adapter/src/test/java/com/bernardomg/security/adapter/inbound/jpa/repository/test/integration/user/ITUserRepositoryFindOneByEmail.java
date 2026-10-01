@@ -22,7 +22,7 @@ import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.domain.user.repository.UserRepository;
 
 @IntegrationTest
-@DisplayName("User repository - find one by email")
+@DisplayName("UserRepository - find one by email")
 class ITUserRepositoryFindOneByEmail {
 
     @Autowired
@@ -33,96 +33,112 @@ class ITUserRepositoryFindOneByEmail {
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a disabled user")
+    @DisplayName("When reading a disabled user by email, then the correct data is returned")
     @DisabledUserWithRole
     void testFindOneByEmail_Disabled() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.disabled());
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading an enabled user")
+    @DisplayName("When reading an enabled user by email, then the correct data is returned")
     @EnabledUserWithRole
     void testFindOneByEmail_Enabled() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.enabled());
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading an expired user")
+    @DisplayName("When reading an expired user by email, then the correct data is returned")
     @ExpiredUser
     void testFindOneByEmail_Expired() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.expired());
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a user with expired password")
+    @DisplayName("When reading a user with an expired password by email, then the correct data is returned")
     @ExpiredPasswordUser
     void testFindOneByEmail_ExpiredPassword() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.passwordExpired());
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a locked user")
+    @DisplayName("When reading a locked user by email, then the correct data is returned")
     @LockedUser
     void testFindOneByEmail_Locked() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.locked());
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When no user matches the email, then nothing is returned")
     void testFindOneByEmail_NoData() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .isEmpty();
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a user without permissions")
+    @DisplayName("When reading a user without permissions by email, then the correct data is returned")
     @EnabledUserWithoutPermissions
     void testFindOneByEmail_WithoutPermissions() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.withoutPermissions());
     }
 
     @Test
-    @DisplayName("Returns the correct data when reading a user without roles")
+    @DisplayName("When reading a user without roles by email, then the correct data is returned")
     @OnlyUser
     void testFindOneByEmail_WithoutRoles() {
         final Optional<User> result;
 
+        // WHEN
         result = repository.findOneByEmail(UserConstants.EMAIL);
 
+        // THEN
         Assertions.assertThat(result)
             .contains(Users.withoutRoles());
     }

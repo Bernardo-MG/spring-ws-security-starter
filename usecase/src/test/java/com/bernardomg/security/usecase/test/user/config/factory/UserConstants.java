@@ -13,7 +13,7 @@ public final class UserConstants {
 
     public static final String EMAIL                = "mail@somewhere.com";
 
-    public static final String ENCODED_NEW_PASSWORD = "$2a$10$lCFfAzBFfwnYNzSei.fjRORjjF4G4k0pYQ5AF3inwrVUybBGbNhxe";
+    public static final String ENCODED_NEW_PASSWORD = "$2a$10$WLUe6EyPjY5/oYJNDsXCDOVFqthmTOAatxsR70dpCqYlJcEuxEnha";
 
     public static final String ENCODED_PASSWORD     = "$2a$04$gV.k/KKIqr3oPySzs..bx.8absYRTpNe8AbHmPP90.ErW0ICGOsVW";
 

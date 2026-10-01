@@ -24,7 +24,7 @@ class ITResourcePermissionRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("Returns all the permissions")
+    @DisplayName("When all resource permissions are requested, then all permissions are returned")
     @CrudPermissions
     void testFindAll() {
         final Iterable<ResourcePermission> permissions;
@@ -40,7 +40,7 @@ class ITResourcePermissionRepositoryFindAll {
     }
 
     @Test
-    @DisplayName("When there is no data nothing is returned")
+    @DisplayName("When there is no data, then nothing is returned")
     void testFindAll_NoData() {
         final Iterable<ResourcePermission> permissions;
 

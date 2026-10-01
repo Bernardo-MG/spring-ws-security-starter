@@ -3,7 +3,6 @@ package com.bernardomg.security.usecase.test.login.service.unit;
 
 import static org.mockito.BDDMockito.given;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ import com.bernardomg.security.usecase.test.login.config.factory.Credentialses;
 import com.bernardomg.security.usecase.test.user.config.factory.LoginUsers;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("TokenLoginService")
+@DisplayName("TokenLoginService - log in")
 class TestTokenLoginService {
 
     @Mock
@@ -39,7 +38,7 @@ class TestTokenLoginService {
     private LoginUserAuthenticator userAuthenticator;
 
     @Test
-    @DisplayName("When loggin in the status and token is returned")
+    @DisplayName("When login succeeds, then the status and token are returned")
     void testLogIn() {
         final TokenLoginStatus status;
 
@@ -63,7 +62,7 @@ class TestTokenLoginService {
     }
 
     @Test
-    @DisplayName("Doesn't log in using the username and with invalid credentials")
+    @DisplayName("When login uses a username with invalid credentials, then authentication fails")
     void testLogIn_InvalidCredentials() {
         final TokenLoginStatus status;
 
@@ -74,11 +73,14 @@ class TestTokenLoginService {
         status = service.login(Credentialses.valid());
 
         // THEN
-        Assertions.assertThat(status.logged())
-            .isFalse();
-
-        Assertions.assertThat(status.token())
-            .isEmpty();
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(status.logged())
+                .as("logged")
+                .isFalse();
+            softly.assertThat(status.token())
+                .as("token")
+                .isEmpty();
+        });
     }
 
 }
