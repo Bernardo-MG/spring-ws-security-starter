@@ -642,5 +642,7 @@
             Store correct username in login register.
          </action>
       </release>
+      <release version="1.0.0" date="2026-09-01" description="">
+      </release>
    </body>
 </document>
