@@ -4,17 +4,21 @@ package com.bernardomg.security.adapter.outbound.mail.test.password.reset.usecas
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 
+import java.util.Locale;
 import java.util.Properties;
 
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.context.support.StaticMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -31,13 +35,15 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("SpringMailPasswordNotificationService - production template")
+@DisplayName("SpringMailPasswordNotificationService - production template and messages")
 class ITSpringMailPasswordNotificationService {
 
     @Mock
     private JavaMailSender              javaMailSender;
 
     private PasswordNotificationService passwordNotificationService;
+
+    private LocaleContext               previousLocaleContext;
 
     private String htmlBody(final Part part) throws Exception {
         final Multipart multipart;
@@ -65,7 +71,9 @@ class ITSpringMailPasswordNotificationService {
     void initializeService() {
         final ClassLoaderTemplateResolver resolver;
         final SpringTemplateEngine        templateEngine;
-        final StaticMessageSource         messageSource;
+        final ResourceBundleMessageSource messageSource;
+
+        previousLocaleContext = LocaleContextHolder.getLocaleContext();
 
         resolver = new ClassLoaderTemplateResolver();
         resolver.setPrefix("templates/");
@@ -74,19 +82,29 @@ class ITSpringMailPasswordNotificationService {
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(false);
 
+        messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename("security-messages/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setFallbackToSystemLocale(false);
+        messageSource.setUseCodeAsDefaultMessage(false);
+
         templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(resolver);
-
-        messageSource = new StaticMessageSource();
-        messageSource.addMessage("email.password.reset.title", LocaleContextHolder.getLocale(), "{0} password reset");
+        templateEngine.setTemplateEngineMessageSource(messageSource);
 
         passwordNotificationService = new SpringMailPasswordNotificationService(templateEngine, javaMailSender,
             "sender@example.com", "https://example.com/password-reset", "Example App", messageSource);
     }
 
-    @Test
-    @DisplayName("When sending a password notification, then the production template is rendered")
-    void testSendPasswordRecoveryMessage_TemplateRendered() throws Exception {
+    @AfterEach
+    void restoreLocale() {
+        LocaleContextHolder.setLocaleContext(previousLocaleContext);
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @ValueSource(strings = { "en-GB", "es-ES" })
+    @DisplayName("When sending a password notification, then the production template and messages are rendered")
+    void testSendPasswordRecoveryMessage_TemplateAndMessagesRendered(final String languageTag) throws Exception {
         final User                    user;
         final String                  token;
         final MimeMessage             message;
@@ -95,6 +113,8 @@ class ITSpringMailPasswordNotificationService {
         final SoftAssertions          softly;
 
         // GIVEN
+        LocaleContextHolder.setLocale(Locale.forLanguageTag(languageTag));
+
         user = User.newUser("alice", "alice@example.com", "Alice");
         token = "integration-test-token";
         message = new MimeMessage(Session.getInstance(new Properties()));
@@ -132,13 +152,15 @@ class ITSpringMailPasswordNotificationService {
                 .extracting(Object::toString)
                 .containsExactly(user.email());
             softly.assertThat(message.getSubject())
-                .as("Subject")
-                .contains("Example App");
+                .as("Resolved subject")
+                .isNotBlank()
+                .contains("Example App")
+                .doesNotContain("email.password.reset.title", "{0}", "??");
             softly.assertThat(html)
-                .as("Rendered HTML")
+                .as("Rendered HTML with resolved messages")
                 .isNotBlank()
                 .contains("https://example.com/password-reset/" + token)
-                .doesNotContain("${url}");
+                .doesNotContain("${url}", "??");
         }
 
         softly.assertAll();
