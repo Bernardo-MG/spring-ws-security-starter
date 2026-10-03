@@ -650,5 +650,10 @@
             Changed email property.
          </action>
       </release>
+      <release version="0.15.20" date="2026-09-03" description="Email fix">
+         <action dev="bmg" type="fix">
+            Recovered email templates.
+         </action>
+      </release>
    </body>
 </document>
