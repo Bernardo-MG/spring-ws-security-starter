@@ -642,7 +642,7 @@
             Store correct username in login register.
          </action>
       </release>
-      <release version="0.15.19" date="2026-09-01" description="Corrections">
+      <release version="0.15.19" date="2026-10-01" description="Corrections">
          <action dev="bmg" type="fix">
             Corrected email config.
          </action>
@@ -650,9 +650,14 @@
             Changed email property.
          </action>
       </release>
-      <release version="0.15.20" date="2026-09-03" description="Email fix">
+      <release version="0.15.20" date="2026-10-03" description="Email fix">
          <action dev="bmg" type="fix">
             Recovered email templates.
+         </action>
+      </release>
+      <release version="0.15.21" date="2026-10-03" description="Email fix">
+         <action dev="bmg" type="fix">
+            Recovered email messages.
          </action>
       </release>
    </body>
