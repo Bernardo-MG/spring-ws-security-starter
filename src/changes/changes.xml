@@ -642,7 +642,13 @@
             Store correct username in login register.
          </action>
       </release>
-      <release version="1.0.0" date="2026-09-01" description="">
+      <release version="0.15.19" date="2026-09-01" description="Corrections">
+         <action dev="bmg" type="fix">
+            Corrected email config.
+         </action>
+         <action dev="bmg" type="update">
+            Changed email property.
+         </action>
       </release>
    </body>
 </document>
