@@ -43,6 +43,7 @@ public final class UserInvitationEvent extends AbstractEvent {
 
     public UserInvitationEvent(final String source, final NotificationRecipient recipient, final String token) {
         super(source, TYPE, 1);
+
         this.recipient = Objects.requireNonNull(recipient);
         this.token = Objects.requireNonNull(token);
     }
@@ -50,9 +51,7 @@ public final class UserInvitationEvent extends AbstractEvent {
     public UserInvitationEvent(final UUID id, final String source, final int schemaVersion, final Instant timestamp,
             final NotificationRecipient recipient, final String token) {
         super(id, source, TYPE, schemaVersion, timestamp);
-        if (schemaVersion < 1) {
-            throw new IllegalArgumentException("schemaVersion must be positive");
-        }
+
         this.recipient = Objects.requireNonNull(recipient);
         this.token = Objects.requireNonNull(token);
     }
@@ -85,4 +84,5 @@ public final class UserInvitationEvent extends AbstractEvent {
     public String toString() {
         return "UserInvitationEvent [id=" + getId() + ", username=" + recipient.username() + "]";
     }
+
 }

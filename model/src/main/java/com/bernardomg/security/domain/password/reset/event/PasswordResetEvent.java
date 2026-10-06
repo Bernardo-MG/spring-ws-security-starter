@@ -24,7 +24,9 @@
 
 package com.bernardomg.security.domain.password.reset.event;
 
+import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.bernardomg.event.domain.AbstractEvent;
 import com.bernardomg.security.domain.user.model.NotificationRecipient;
@@ -41,6 +43,15 @@ public final class PasswordResetEvent extends AbstractEvent {
 
     public PasswordResetEvent(final String source, final NotificationRecipient recipient, final String token) {
         super(source, TYPE, 1);
+
+        this.recipient = Objects.requireNonNull(recipient);
+        this.token = Objects.requireNonNull(token);
+    }
+
+    public PasswordResetEvent(final UUID id, final String source, final int schemaVersion, final Instant timestamp,
+            final NotificationRecipient recipient, final String token) {
+        super(id, source, TYPE, schemaVersion, timestamp);
+
         this.recipient = Objects.requireNonNull(recipient);
         this.token = Objects.requireNonNull(token);
     }
@@ -73,4 +84,5 @@ public final class PasswordResetEvent extends AbstractEvent {
     public String toString() {
         return "PasswordResetEvent [id=" + getId() + ", username=" + recipient.username() + "]";
     }
+
 }
