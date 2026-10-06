@@ -27,7 +27,7 @@ package com.bernardomg.security.usecase.password.reset.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 
 import jakarta.transaction.Transactional;
 
@@ -47,7 +47,7 @@ public final class DisabledPasswordNotificationService implements PasswordNotifi
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final User user, final String token) {
+    public final void sendPasswordRecoveryMessage(final NotificationRecipient user, final String token) {
         // To avoid sending emails
         log.warn("Password recovery message is disabled");
     }

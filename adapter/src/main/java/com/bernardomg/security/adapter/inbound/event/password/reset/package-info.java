@@ -22,26 +22,8 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.password.reset.service;
-
-import com.bernardomg.security.domain.user.model.NotificationRecipient;
-
 /**
- * Password notification service. Sends emails related to the password workflow, such as password recovery.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
+ * Password reset event adapters.
  */
-public interface PasswordNotificationService {
 
-    /**
-     * Sends a password recovery message to the received email.
-     *
-     * @param user
-     *            user changing password
-     * @param token
-     *            token for the password change
-     */
-    public void sendPasswordRecoveryMessage(final NotificationRecipient user, final String token);
-
-}
+package com.bernardomg.security.adapter.inbound.event.password.reset;

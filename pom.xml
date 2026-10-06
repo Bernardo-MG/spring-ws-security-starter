@@ -12,7 +12,7 @@
    <parent>
       <groupId>com.bernardomg.maven</groupId>
       <artifactId>base-pom</artifactId>
-      <version>1.5.12</version>
+      <version>1.5.13</version>
    </parent>
 
    <!-- ********************************************** -->
@@ -21,7 +21,7 @@
 
    <groupId>com.bernardomg.framework.security</groupId>
    <artifactId>security-starter</artifactId>
-   <version>0.15.21</version>
+   <version>0.15.22</version>
    <packaging>pom</packaging>
 
    <name>Security Starter</name>
@@ -187,30 +187,48 @@
       <!-- ============================================== -->
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
-      <archunit.version>1.4.2</archunit.version>
-      <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
+      <archunit.version>1.5.1</archunit.version>
+      <bernardomg.framework.event.version>1.0.3</bernardomg.framework.event.version>
       <bernardomg.framework.jwt.version>1.0.2</bernardomg.framework.jwt.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
       <bernardomg.framework.test.version>1.0.8</bernardomg.framework.test.version>
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
-      <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.response.version>1.0.0</bernardomg.framework.ws.response.version>
+      <commons.lang3.version>3.21.0</commons.lang3.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
+      <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+      <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+      <jakarta.transaction.version>2.0.1</jakarta.transaction.version>
+      <jakarta.mail.version>2.0.5</jakarta.mail.version>
+      <hibernate.validator.version>8.0.3.Final</hibernate.validator.version>
+      <liquibase.version>4.31.1</liquibase.version>
+      <postgresql.version>42.7.11</postgresql.version>
+      <slf4j.version>2.0.18</slf4j.version>
+      <thymeleaf.version>3.1.5.RELEASE</thymeleaf.version>
+      <snakeyaml.version>2.4</snakeyaml.version>
+      <assertj.version>3.27.7</assertj.version>
+      <bytebuddy.version>1.17.8</bytebuddy.version>
       <jjwt.version>0.13.0</jjwt.version>
-      <openapitools.jackson>0.2.11</openapitools.jackson>
+      <openapitools.jackson>0.2.12</openapitools.jackson>
       <passay.version>1.6.6</passay.version>
       <spring.boot.version>3.5.16</spring.boot.version>
+      <spring.framework.version>6.2.19</spring.framework.version>
+      <spring.data.version>3.5.13</spring.data.version>
+      <spring.security.version>6.5.11</spring.security.version>
+      <jackson.annotations.version>2.21</jackson.annotations.version>
+      <jackson.version>2.21.4</jackson.version>
+      <junit.version>5.12.2</junit.version>
+      <mockito.version>5.17.0</mockito.version>
       <testcontainers.version>2.0.5</testcontainers.version>
-      <swagger.version>2.2.52</swagger.version>
+      <swagger.version>2.2.55</swagger.version>
       <!-- ============================================== -->
       <!-- ============ PLUGIN CONFIGURATION ============ -->
       <!-- ============================================== -->
       <!-- Checkstyle customized rules file -->
       <checkstyle.config.location>${project.basedir}/src/config/checkstyle/checkstyle-rules.xml</checkstyle.config.location>
-      <plugin.openapi.version>7.18.0</plugin.openapi.version>
-      <plugin.spring.boot.version>${spring.boot.version}</plugin.spring.boot.version>
+      <plugin.openapi.version>7.26.0</plugin.openapi.version>
       <!-- ============================================== -->
       <!-- ================= MAVEN SITE ================= -->
       <!-- ============================================== -->
@@ -225,14 +243,6 @@
 
    <dependencyManagement>
       <dependencies>
-         <dependency>
-            <!-- Spring Boot Dependencies BOM -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>${spring.boot.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
          <dependency>
             <!-- Test containers BOM -->
             <groupId>org.testcontainers</groupId>
@@ -309,7 +319,7 @@
             <version>${bernardomg.framework.ws.response.version}</version>
          </dependency>
          <!-- ============================================== -->
-         <!-- ================== OpenAPI =================== -->
+         <!-- ================== OPENAPI =================== -->
          <!-- ============================================== -->
          <dependency>
            <groupId>org.openapitools</groupId>
@@ -330,32 +340,40 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation.version}</version>
          </dependency>
-      <!-- ============================================== -->
-      <!-- ================= JAKARTA ==================== -->
-      <!-- ============================================== -->
+         <!-- ============================================== -->
+         <!-- ================= JAKARTA ==================== -->
+         <!-- ============================================== -->
          <dependency>
             <!-- Jakarta validation -->
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${jakarta.annotation.version}</version>
          </dependency>
-      <!-- ============================================== -->
-      <!-- ================= PASSAY ===================== -->
-      <!-- ============================================== -->
+         <!-- ============================================== -->
+         <!-- ================= PASSAY ===================== -->
+         <!-- ============================================== -->
          <dependency>
             <!-- Passay -->
             <groupId>org.passay</groupId>
             <artifactId>passay</artifactId>
             <version>${passay.version}</version>
          </dependency>
-      <!-- ============================================== -->
-      <!-- ================== JJWT ==??================== -->
-      <!-- ============================================== -->
+         <!-- ============================================== -->
+         <!-- ================== JJWT ====================== -->
+         <!-- ============================================== -->
          <dependency>
             <!-- JJWT API -->
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>${jjwt.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================== APACHE ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
          </dependency>
          <!-- ============================================== -->
          <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->
@@ -387,6 +405,199 @@
             <artifactId>architecture-tests</artifactId>
             <version>${bernardomg.framework.test.version}</version>
             <scope>test</scope>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================ SPRING BOOT ================= -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring.boot.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>${spring.boot.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.boot.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <version>${spring.boot.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================== SPRING ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.framework.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.framework.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.framework.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.framework.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring.data.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring.security.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+            <version>${spring.security.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring.security.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================== JACKSON =================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.annotations.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================== JAKARTA =================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>${jakarta.persistence.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <version>${jakarta.transaction.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- =============== OTHER LIBRARIES ============== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>${jakarta.mail.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring6</artifactId>
+            <version>${thymeleaf.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================ TEST LIBRARIES ============== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${bytebuddy.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>${bytebuddy.version}</version>
          </dependency>
       </dependencies>
    </dependencyManagement>

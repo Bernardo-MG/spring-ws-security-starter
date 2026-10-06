@@ -18,6 +18,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
 import com.bernardomg.security.adapter.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.adapter.test.config.user.factory.Users;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +50,7 @@ class TestSpringMailUserNotificationService {
     @DisplayName("When sending a user notification, then the message is sent")
     void testSendUserInvitation_MessageSent() throws Exception {
         // WHEN
-        userNotificationService.sendUserInvitation(Users.enabled(), Tokens.TOKEN);
+        userNotificationService.sendUserInvitation(NotificationRecipient.from(Users.enabled()), Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

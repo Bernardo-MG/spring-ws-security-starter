@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.domain.event.model.SecurityEventFactory;
 import com.bernardomg.security.domain.password.reset.event.PasswordResetEvent;
 import com.bernardomg.security.domain.user.exception.DisabledUserException;
 import com.bernardomg.security.domain.user.exception.ExpiredUserException;
@@ -180,8 +181,7 @@ public final class DefaultPasswordResetService implements PasswordResetService {
         log.debug("Generating new token to reset password for {}", user.username());
         token = tokenStore.createToken(user.username());
 
-        // TODO: Set source
-        passwordResetEvent = new PasswordResetEvent(null, user, token);
+        passwordResetEvent = SecurityEventFactory.passwordReset(user, token);
         eventEmitter.emit(passwordResetEvent);
 
         log.trace("Finished password recovery request for {}", email);

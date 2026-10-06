@@ -36,7 +36,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 import jakarta.mail.MessagingException;
@@ -97,7 +97,7 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
     }
 
     @Override
-    public final void sendPasswordRecoveryMessage(final User user, final String token) {
+    public final void sendPasswordRecoveryMessage(final NotificationRecipient user, final String token) {
         final String recoveryUrl;
         final String passwordRecoveryEmailText;
         final String passwordRecoverySubject;
@@ -115,7 +115,8 @@ public final class SpringMailPasswordNotificationService implements PasswordNoti
         log.info("Sent password recovery email for {} to {}", user.username(), user.email());
     }
 
-    private final String generateEmailContent(final String templateName, final String url, final User user) {
+    private final String generateEmailContent(final String templateName, final String url,
+            final NotificationRecipient user) {
         final Context context;
 
         context = new Context();

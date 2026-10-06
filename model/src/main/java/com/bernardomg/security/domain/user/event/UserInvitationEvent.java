@@ -24,58 +24,65 @@
 
 package com.bernardomg.security.domain.user.event;
 
-import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 import com.bernardomg.event.domain.AbstractEvent;
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 
-/**
- * User invitation event.
- */
 public final class UserInvitationEvent extends AbstractEvent {
 
-    private static final long serialVersionUID = 4486597593510214141L;
+    public static final String          TYPE             = "security.user-invitation.requested";
 
-    private final String      token;
+    private static final long           serialVersionUID = 9158281731299154307L;
 
-    private final User        user;
+    private final NotificationRecipient recipient;
 
-    public UserInvitationEvent(final Serializable source, final User user, final String token) {
-        super(source);
+    private final String                token;
 
-        this.user = Objects.requireNonNull(user);
+    public UserInvitationEvent(final String source, final NotificationRecipient recipient, final String token) {
+        super(source, TYPE, 1);
+
+        this.recipient = Objects.requireNonNull(recipient);
+        this.token = Objects.requireNonNull(token);
+    }
+
+    public UserInvitationEvent(final UUID id, final String source, final int schemaVersion, final Instant timestamp,
+            final NotificationRecipient recipient, final String token) {
+        super(id, source, TYPE, schemaVersion, timestamp);
+
+        this.recipient = Objects.requireNonNull(recipient);
         this.token = Objects.requireNonNull(token);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final UserInvitationEvent other)) {
             return false;
         }
-        final UserInvitationEvent other = (UserInvitationEvent) obj;
-        return Objects.equals(user, other.user) && Objects.equals(token, other.token);
+        return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
-    public final String getToken() {
+    public NotificationRecipient getRecipient() {
+        return recipient;
+    }
+
+    public String getToken() {
         return token;
     }
 
-    public final User getUser() {
-        return user;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
-    public final int hashCode() {
-        return Objects.hash(user, token);
-    }
-
-    @Override
-    public final String toString() {
-        return "UserInvitationEvent [user=" + user + ", token=" + token + "]";
+    public String toString() {
+        return "UserInvitationEvent [id=" + getId() + ", username=" + recipient.username() + "]";
     }
 
 }
