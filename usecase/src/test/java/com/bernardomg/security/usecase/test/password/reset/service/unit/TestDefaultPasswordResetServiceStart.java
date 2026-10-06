@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.domain.event.model.SecurityEventFactory;
 import com.bernardomg.security.domain.password.reset.event.PasswordResetEvent;
 import com.bernardomg.security.domain.user.exception.DisabledUserException;
 import com.bernardomg.security.domain.user.exception.ExpiredUserException;
@@ -80,14 +81,20 @@ class TestDefaultPasswordResetServiceStart {
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.passwordExpired()));
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        // TODO: Set source
-        passwordResetEvent = new PasswordResetEvent(null, Users.passwordExpired(), Tokens.TOKEN);
+        passwordResetEvent = SecurityEventFactory.passwordReset(Users.passwordExpired(), Tokens.TOKEN);
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(eventEmitter).emit(passwordResetEvent);
+        verify(eventEmitter)
+            .emit(org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final PasswordResetEvent emitted
+                    && emitted.getRecipient()
+                        .equals(passwordResetEvent.getRecipient())
+                    && emitted.getToken()
+                        .equals(passwordResetEvent.getToken())
+                    && emitted.getSource()
+                        .equals(passwordResetEvent.getSource())));
     }
 
     @Test
@@ -227,14 +234,20 @@ class TestDefaultPasswordResetServiceStart {
         // GIVEN
         given(userRepository.findOneByEmail(ArgumentMatchers.anyString())).willReturn(Optional.of(Users.enabled()));
         given(tokenStore.createToken(ArgumentMatchers.anyString())).willReturn(Tokens.TOKEN);
-        // TODO: Set source
-        passwordResetEvent = new PasswordResetEvent(null, Users.enabled(), Tokens.TOKEN);
+        passwordResetEvent = SecurityEventFactory.passwordReset(Users.enabled(), Tokens.TOKEN);
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(eventEmitter).emit(passwordResetEvent);
+        verify(eventEmitter)
+            .emit(org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final PasswordResetEvent emitted
+                    && emitted.getRecipient()
+                        .equals(passwordResetEvent.getRecipient())
+                    && emitted.getToken()
+                        .equals(passwordResetEvent.getToken())
+                    && emitted.getSource()
+                        .equals(passwordResetEvent.getSource())));
     }
 
     @Test
@@ -280,14 +293,20 @@ class TestDefaultPasswordResetServiceStart {
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.enabled()));
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
-        // TODO: Set source
-        passwordResetEvent = new PasswordResetEvent(null, Users.enabled(), Tokens.TOKEN);
+        passwordResetEvent = SecurityEventFactory.passwordReset(Users.enabled(), Tokens.TOKEN);
 
         // WHEN
         service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        verify(eventEmitter).emit(passwordResetEvent);
+        verify(eventEmitter)
+            .emit(org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final PasswordResetEvent emitted
+                    && emitted.getRecipient()
+                        .equals(passwordResetEvent.getRecipient())
+                    && emitted.getToken()
+                        .equals(passwordResetEvent.getToken())
+                    && emitted.getSource()
+                        .equals(passwordResetEvent.getSource())));
     }
 
 }

@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.domain.event.model.SecurityEventFactory;
 import com.bernardomg.security.domain.login.event.LogInEvent;
 import com.bernardomg.security.domain.login.exception.InvalidCredentialsException;
 import com.bernardomg.security.domain.login.model.Credentials;
@@ -98,8 +99,7 @@ public final class TokenLoginService implements LoginService {
 
         log.debug("Log in for {} with status {}", credentials.username(), status);
 
-        // TODO: Set source
-        event = new LogInEvent(null, username, status.logged());
+        event = SecurityEventFactory.loginAttempt(username, status.logged());
         eventEmitter.emit(event);
 
         log.trace("Finished log in attempt for {}", credentials.username());

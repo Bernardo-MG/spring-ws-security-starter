@@ -24,64 +24,52 @@
 
 package com.bernardomg.security.domain.login.event;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
 
-/**
- * Log in attempt event. It is created no matter if the attempt was succesful or not.
- */
 public final class LogInEvent extends AbstractEvent {
 
-    private static final long serialVersionUID = 4486597593510214141L;
+    public static final String TYPE             = "security.login.attempted";
 
-    /**
-     * Logged in successful or not flag.
-     */
-    private final boolean     loggedIn;
+    private static final long  serialVersionUID = -5605953607231205607L;
 
-    /**
-     * Username which attempted the log in.
-     */
-    private final String      username;
+    private final boolean      loggedIn;
 
-    public LogInEvent(final Serializable source, final String user, final boolean logged) {
-        super(source);
+    private final String       username;
 
-        username = Objects.requireNonNull(user);
-        loggedIn = logged;
+    public LogInEvent(final String source, final String username, final boolean loggedIn) {
+        super(source, TYPE, 1);
+        this.username = Objects.requireNonNull(username);
+        this.loggedIn = loggedIn;
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!(o instanceof final LogInEvent that) || !super.equals(o)) {
+        if (!(obj instanceof final LogInEvent other)) {
             return false;
         }
-
-        return (loggedIn == that.loggedIn) && Objects.equals(username, that.username)
-                && Objects.equals(getSource(), that.getSource());
+        return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
-    public String getUsername() {
+    public final String getUsername() {
         return username;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), username, loggedIn);
+    public final int hashCode() {
+        return Objects.hash(getId());
     }
 
-    public boolean isLoggedIn() {
+    public final boolean isLoggedIn() {
         return loggedIn;
     }
 
     @Override
-    public String toString() {
-        return "LogInEvent [username=" + username + ", loggedIn=" + loggedIn + "]";
+    public final String toString() {
+        return "LogInEvent [id=" + getId() + ", username=" + username + ", loggedIn=" + loggedIn + "]";
     }
-
 }

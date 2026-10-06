@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.domain.event.model.SecurityEventFactory;
 import com.bernardomg.security.domain.role.exception.MissingRoleException;
 import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
@@ -195,8 +196,7 @@ public final class DefaultUserOnboardingService implements UserOnboardingService
         // Register new token for activation
         token = tokenStore.createToken(created.username());
 
-        // TODO: Set source
-        userInvitationEvent = new UserInvitationEvent(null, created, token);
+        userInvitationEvent = SecurityEventFactory.userInvitation(created, token);
         eventEmitter.emit(userInvitationEvent);
 
         log.trace("Invited new user {} with email {} and name {}", created.username(), created.email(), user.name());

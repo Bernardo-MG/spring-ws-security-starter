@@ -60,9 +60,9 @@ public final class PasswordResetNotificationListener implements EventListener<Pa
 
     @Override
     public final void handle(final PasswordResetEvent event) {
-        log.debug("Handling password reset notification for user {}", event.getUser()
+        log.debug("Handling password reset notification for user {}", event.getRecipient()
             .username());
-        passwordNotificationService.sendPasswordRecoveryMessage(event.getUser(), event.getToken());
+        passwordNotificationService.sendPasswordRecoveryMessage(event.getRecipient(), event.getToken());
     }
 
 }

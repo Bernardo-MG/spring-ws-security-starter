@@ -24,58 +24,53 @@
 
 package com.bernardomg.security.domain.password.reset.event;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import com.bernardomg.event.domain.AbstractEvent;
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 
-/**
- * Password reset event.
- */
 public final class PasswordResetEvent extends AbstractEvent {
 
-    private static final long serialVersionUID = 4486597593510214141L;
+    public static final String          TYPE             = "security.password-reset.requested";
 
-    private final String      token;
+    private static final long           serialVersionUID = -2301810466410764742L;
 
-    private final User        user;
+    private final NotificationRecipient recipient;
 
-    public PasswordResetEvent(final Serializable source, final User user, final String token) {
-        super(source);
+    private final String                token;
 
-        this.user = Objects.requireNonNull(user);
+    public PasswordResetEvent(final String source, final NotificationRecipient recipient, final String token) {
+        super(source, TYPE, 1);
+        this.recipient = Objects.requireNonNull(recipient);
         this.token = Objects.requireNonNull(token);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if (!(obj instanceof final PasswordResetEvent other)) {
             return false;
         }
-        final PasswordResetEvent other = (PasswordResetEvent) obj;
-        return Objects.equals(user, other.user) && Objects.equals(token, other.token);
+        return Objects.equals(getSource(), other.getSource()) && Objects.equals(getId(), other.getId());
     }
 
-    public final String getToken() {
+    public NotificationRecipient getRecipient() {
+        return recipient;
+    }
+
+    public String getToken() {
         return token;
     }
 
-    public final User getUser() {
-        return user;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
-    public final int hashCode() {
-        return Objects.hash(user, token);
+    public String toString() {
+        return "PasswordResetEvent [id=" + getId() + ", username=" + recipient.username() + "]";
     }
-
-    @Override
-    public final String toString() {
-        return "PasswordResetEvent [user=" + user + ", token=" + token + "]";
-    }
-
 }

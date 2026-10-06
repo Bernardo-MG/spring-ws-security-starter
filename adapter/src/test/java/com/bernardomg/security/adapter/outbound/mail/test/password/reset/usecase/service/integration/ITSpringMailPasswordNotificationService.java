@@ -26,6 +26,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
@@ -127,7 +128,7 @@ class ITSpringMailPasswordNotificationService {
             .send(any(MimeMessagePreparator.class));
 
         // WHEN
-        passwordNotificationService.sendPasswordRecoveryMessage(user, token);
+        passwordNotificationService.sendPasswordRecoveryMessage(NotificationRecipient.from(user), token);
 
         if (preparators[0] != null) {
             preparators[0].prepare(message);
