@@ -37,6 +37,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bernardomg.event.emitter.EventEmitter;
+import com.bernardomg.security.domain.event.model.SecurityEventFactory;
 import com.bernardomg.security.domain.role.exception.MissingRoleException;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 import com.bernardomg.security.domain.user.event.UserInvitationEvent;
@@ -208,14 +209,20 @@ class TestUserOnboardingServiceInviteUser {
         given(tokenStore.createToken(UserConstants.USERNAME)).willReturn(Tokens.TOKEN);
         given(userRepository.save(Users.newlyCreated(), UserConstants.ENCODED_PASSWORD))
             .willReturn(Users.newlyCreated());
-        // TODO: Set source
-        userInvitationEvent = new UserInvitationEvent(null, Users.newlyCreated(), Tokens.TOKEN);
+        userInvitationEvent = SecurityEventFactory.userInvitation(Users.newlyCreated(), Tokens.TOKEN);
 
         // WHEN
         service.inviteUser(Users.withoutRoles());
 
         // THEN
-        verify(eventEmitter).emit(userInvitationEvent);
+        verify(eventEmitter)
+            .emit(org.mockito.ArgumentMatchers.argThat(actual -> actual instanceof final UserInvitationEvent emitted
+                    && emitted.getRecipient()
+                        .equals(userInvitationEvent.getRecipient())
+                    && emitted.getToken()
+                        .equals(userInvitationEvent.getToken())
+                    && emitted.getSource()
+                        .equals(userInvitationEvent.getSource())));
     }
 
     @Test

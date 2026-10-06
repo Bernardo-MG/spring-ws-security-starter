@@ -18,6 +18,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
 import com.bernardomg.security.adapter.test.config.jwt.factory.Tokens;
 import com.bernardomg.security.adapter.test.config.user.factory.Users;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +46,8 @@ class TestSpringMailPasswordNotificationService {
     @DisplayName("When sending a password notification, then the message is sent to the target email")
     void testSendEmail_Content() throws Exception {
         // WHEN
-        passwordNotificationService.sendPasswordRecoveryMessage(Users.enabled(), Tokens.TOKEN);
+        passwordNotificationService.sendPasswordRecoveryMessage(NotificationRecipient.from(Users.enabled()),
+            Tokens.TOKEN);
 
         // THEN
         verify(javaMailSender).send(ArgumentMatchers.any(MimeMessagePreparator.class));

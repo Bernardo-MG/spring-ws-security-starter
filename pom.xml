@@ -188,7 +188,7 @@
       <!-- =========== DEPENDENCIES VERSIONS ============ -->
       <!-- ============================================== -->
       <archunit.version>1.4.2</archunit.version>
-      <bernardomg.framework.event.version>1.0.0</bernardomg.framework.event.version>
+      <bernardomg.framework.event.version>1.0.3</bernardomg.framework.event.version>
       <bernardomg.framework.jwt.version>1.0.2</bernardomg.framework.jwt.version>
       <bernardomg.framework.pagination.version>1.0.2</bernardomg.framework.pagination.version>
       <bernardomg.framework.security.access.version>1.0.0</bernardomg.framework.security.access.version>
@@ -196,6 +196,7 @@
       <bernardomg.framework.validation.version>0.2.5</bernardomg.framework.validation.version>
       <bernardomg.framework.ws.version>0.6.1</bernardomg.framework.ws.version>
       <bernardomg.framework.ws.response.version>1.0.0</bernardomg.framework.ws.response.version>
+      <commons.lang3.version>3.21.0</commons.lang3.version>
       <jakarta.validation.version>3.1.1</jakarta.validation.version>
       <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
       <jjwt.version>0.13.0</jjwt.version>
@@ -309,7 +310,7 @@
             <version>${bernardomg.framework.ws.response.version}</version>
          </dependency>
          <!-- ============================================== -->
-         <!-- ================== OpenAPI =================== -->
+         <!-- ================== OPENAPI =================== -->
          <!-- ============================================== -->
          <dependency>
            <groupId>org.openapitools</groupId>
@@ -330,32 +331,40 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation.version}</version>
          </dependency>
-      <!-- ============================================== -->
-      <!-- ================= JAKARTA ==================== -->
-      <!-- ============================================== -->
+         <!-- ============================================== -->
+         <!-- ================= JAKARTA ==================== -->
+         <!-- ============================================== -->
          <dependency>
             <!-- Jakarta validation -->
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
             <version>${jakarta.annotation.version}</version>
          </dependency>
-      <!-- ============================================== -->
-      <!-- ================= PASSAY ===================== -->
-      <!-- ============================================== -->
+         <!-- ============================================== -->
+         <!-- ================= PASSAY ===================== -->
+         <!-- ============================================== -->
          <dependency>
             <!-- Passay -->
             <groupId>org.passay</groupId>
             <artifactId>passay</artifactId>
             <version>${passay.version}</version>
          </dependency>
-      <!-- ============================================== -->
-      <!-- ================== JJWT ==??================== -->
-      <!-- ============================================== -->
+         <!-- ============================================== -->
+         <!-- ================== JJWT ====================== -->
+         <!-- ============================================== -->
          <dependency>
             <!-- JJWT API -->
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>${jjwt.version}</version>
+         </dependency>
+         <!-- ============================================== -->
+         <!-- ================== APACHE ==================== -->
+         <!-- ============================================== -->
+         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
          </dependency>
          <!-- ============================================== -->
          <!-- ======= TEST ENVIRONMENT DEPENDENCIES ======== -->

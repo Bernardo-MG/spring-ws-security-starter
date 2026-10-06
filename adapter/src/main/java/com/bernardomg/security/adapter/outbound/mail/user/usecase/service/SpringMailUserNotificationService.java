@@ -36,7 +36,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.bernardomg.security.domain.user.model.User;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
 
 import jakarta.mail.MessagingException;
@@ -97,7 +97,7 @@ public final class SpringMailUserNotificationService implements UserNotification
     }
 
     @Override
-    public final void sendUserInvitation(final User user, final String token) {
+    public final void sendUserInvitation(final NotificationRecipient user, final String token) {
         final String activationUrl;
         final String userRegisteredEmailText;
         final String userRegisteredSubject;
@@ -116,7 +116,8 @@ public final class SpringMailUserNotificationService implements UserNotification
         log.debug("Sent user registered email to {} for {}", user.email(), user.username());
     }
 
-    private final String generateEmailContent(final String templateName, final String url, final User user) {
+    private final String generateEmailContent(final String templateName, final String url,
+            final NotificationRecipient user) {
         final Context context;
 
         context = new Context();

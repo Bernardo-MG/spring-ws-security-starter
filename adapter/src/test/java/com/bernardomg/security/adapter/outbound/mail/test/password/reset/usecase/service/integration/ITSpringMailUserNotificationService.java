@@ -26,6 +26,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
+import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
 
@@ -127,7 +128,7 @@ class ITSpringMailUserNotificationService {
             .send(any(MimeMessagePreparator.class));
 
         // WHEN
-        userNotificationService.sendUserInvitation(user, token);
+        userNotificationService.sendUserInvitation(NotificationRecipient.from(user), token);
 
         if (preparators[0] != null) {
             preparators[0].prepare(message);

@@ -22,26 +22,31 @@
  * SOFTWARE.
  */
 
-package com.bernardomg.security.usecase.password.reset.service;
+package com.bernardomg.security.domain.event.model;
 
+import com.bernardomg.security.domain.login.event.LogInEvent;
+import com.bernardomg.security.domain.password.reset.event.PasswordResetEvent;
+import com.bernardomg.security.domain.user.event.UserInvitationEvent;
 import com.bernardomg.security.domain.user.model.NotificationRecipient;
+import com.bernardomg.security.domain.user.model.User;
 
-/**
- * Password notification service. Sends emails related to the password workflow, such as password recovery.
- *
- * @author Bernardo Mart&iacute;nez Garrido
- *
- */
-public interface PasswordNotificationService {
+public final class SecurityEventFactory {
 
-    /**
-     * Sends a password recovery message to the received email.
-     *
-     * @param user
-     *            user changing password
-     * @param token
-     *            token for the password change
-     */
-    public void sendPasswordRecoveryMessage(final NotificationRecipient user, final String token);
+    private static final String source = "com.bernardomg.security";
 
+    public static final LogInEvent loginAttempt(final String username, final boolean loggedIn) {
+        return new LogInEvent(source, username, loggedIn);
+    }
+
+    public static final PasswordResetEvent passwordReset(final User user, final String token) {
+        return new PasswordResetEvent(source, NotificationRecipient.from(user), token);
+    }
+
+    public static final UserInvitationEvent userInvitation(final User user, final String token) {
+        return new UserInvitationEvent(source, NotificationRecipient.from(user), token);
+    }
+
+    private SecurityEventFactory() {
+        super();
+    }
 }
