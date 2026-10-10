@@ -39,7 +39,7 @@ import com.bernardomg.security.springframework.audit.SecurityUserDetailsAuditorA
  *
  */
 @AutoConfiguration(after = JpaSecurityAutoConfiguration.class)
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
+@EnableJpaAuditing(auditorAwareRef = "auditorAware", modifyOnCreate = false)
 public class AuditAutoConfiguration {
 
     public AuditAutoConfiguration() {
