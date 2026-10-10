@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Sorting.Direction;
 import com.bernardomg.pagination.domain.Sorting.Property;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditDetailsDto;
+import com.bernardomg.security.adapter.outbound.rest.user.dto.AuditUserDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.PropertyDto.DirectionEnum;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.ResourcePermissionDto;
@@ -19,6 +21,8 @@ import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RolePageResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.RoleResponseDto;
 import com.bernardomg.security.adapter.outbound.rest.user.dto.SortingDto;
+import com.bernardomg.security.domain.audit.model.AuditDetails;
+import com.bernardomg.security.domain.audit.model.AuditDetails.AuditUser;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.role.model.Role;
 
@@ -60,7 +64,8 @@ public final class RoleDtoMapper {
             .map(RoleDtoMapper::toDto)
             .collect(Collectors.toCollection(ArrayList::new));
         return new RoleDto().name(role.name())
-            .permissions(permissions);
+            .permissions(permissions)
+            .audit(toDto(role.audit()));
     }
 
     public static final RoleResponseDto toResponseDto(final Optional<Role> role) {
@@ -95,6 +100,34 @@ public final class RoleDtoMapper {
 
     public static final RoleResponseDto toResponseDto(final Role role) {
         return new RoleResponseDto().content(toDto(role));
+    }
+
+    private static final AuditDetailsDto toDto(final AuditDetails audit) {
+        final AuditDetailsDto dto;
+
+        if (audit == null) {
+            dto = null;
+        } else {
+            dto = new AuditDetailsDto().createdAt(audit.createdAt())
+                .createdBy(toDto(audit.createdBy()))
+                .updatedAt(audit.updatedAt())
+                .updatedBy(toDto(audit.updatedBy()));
+        }
+
+        return dto;
+    }
+
+    private static final AuditUserDto toDto(final AuditUser user) {
+        final AuditUserDto dto;
+
+        if (user == null) {
+            dto = null;
+        } else {
+            dto = new AuditUserDto().email(user.email())
+                .username(user.username())
+                .name(user.name());
+        }
+        return dto;
     }
 
     private static final PropertyDto toDto(final Property property) {
