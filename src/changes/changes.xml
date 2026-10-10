@@ -662,7 +662,15 @@
       </release>
       <release version="0.15.22" date="2026-10-06" description="Updated events">
          <action dev="bmg" type="update">
-            Updatred and extended events.
+            Updated and extended events.
+         </action>
+      </release>
+      <release version="0.15.23" date="2026-10-10" description="Audit fixes">
+         <action dev="bmg" type="fix">
+            Role audit info is returned correctly.
+         </action>
+         <action dev="bmg" type="fix">
+            Audit info is not updated on creation.
          </action>
       </release>
    </body>
