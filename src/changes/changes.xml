@@ -660,5 +660,10 @@
             Recovered email messages.
          </action>
       </release>
+      <release version="0.15.22" date="2026-10-06" description="Updated events">
+         <action dev="bmg" type="update">
+            Updatred and extended events.
+         </action>
+      </release>
    </body>
 </document>
