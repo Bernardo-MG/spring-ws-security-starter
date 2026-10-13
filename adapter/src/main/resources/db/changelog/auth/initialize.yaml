@@ -78,13 +78,14 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
                   name: created_by
                   type: bigint
                   constraints:
-                    nullable: true
+                    nullable: false
                     foreignKeyName: fk_fees_created_by_user
                     references: security.users(id)
               - column:
@@ -218,13 +219,14 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: true
               - column:
                   name: created_by
                   type: bigint
                   constraints:
-                    nullable: true
+                    nullable: false
                     foreignKeyName: fk_fees_created_by_user
                     references: security.users(id)
               - column:
