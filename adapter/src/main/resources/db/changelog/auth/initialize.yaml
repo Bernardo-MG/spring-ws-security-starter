@@ -3,12 +3,8 @@ databaseChangeLog:
       id: security_schema
       author: Bernardo
       changes:
-        - sqlFile:
-            encoding: UTF-8
-            path: sql/create_schema.sql
-            relativeToChangelogFile: true
-            splitStatements: true
-            stripComments: true
+        - sql:
+            sql: CREATE SCHEMA IF NOT EXISTS security
   - changeSet:
       id: security_tables
       author: Bernardo
