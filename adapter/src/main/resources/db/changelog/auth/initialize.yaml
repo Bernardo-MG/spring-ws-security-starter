@@ -85,7 +85,7 @@ databaseChangeLog:
                   name: created_by
                   type: bigint
                   constraints:
-                    nullable: false
+                    nullable: true
                     foreignKeyName: fk_fees_created_by_user
                     references: security.users(id)
               - column:
@@ -226,7 +226,7 @@ databaseChangeLog:
                   name: created_by
                   type: bigint
                   constraints:
-                    nullable: false
+                    nullable: true
                     foreignKeyName: fk_fees_created_by_user
                     references: security.users(id)
               - column:
