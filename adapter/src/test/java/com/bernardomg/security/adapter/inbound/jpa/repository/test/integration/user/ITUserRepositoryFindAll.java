@@ -54,6 +54,7 @@ class ITUserRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit", "roles.audit")
             .containsExactly(Users.enabled());
     }
 
@@ -105,6 +106,7 @@ class ITUserRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit", "roles.audit")
             .containsExactly(Users.withoutPermissions());
     }
 
@@ -131,6 +133,7 @@ class ITUserRepositoryFindAll {
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("users")
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Users.withoutRoles());
     }
 

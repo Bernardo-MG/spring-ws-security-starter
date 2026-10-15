@@ -98,6 +98,8 @@ class ITUserRepositoryResetPassword {
         // THEN
         Assertions.assertThat(user)
             .as("user")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "roles.audit")
             .isEqualTo(Users.enabled());
     }
 

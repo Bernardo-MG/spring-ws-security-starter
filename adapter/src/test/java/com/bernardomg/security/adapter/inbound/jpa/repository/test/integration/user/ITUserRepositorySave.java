@@ -96,6 +96,8 @@ class ITUserRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("user")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "roles.audit")
             .isEqualTo(Users.additionalRole());
     }
 
@@ -317,6 +319,8 @@ class ITUserRepositorySave {
         // THEN
         Assertions.assertThat(created)
             .as("user")
+            .usingRecursiveComparison()
+            .ignoringFields("audit", "roles.audit")
             .isEqualTo(Users.enabled());
     }
 

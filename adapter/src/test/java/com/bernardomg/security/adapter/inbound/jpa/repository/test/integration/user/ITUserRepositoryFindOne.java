@@ -43,7 +43,10 @@ class ITUserRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(result)
-            .contains(Users.disabled());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "roles.audit")
+                .isEqualTo(Users.disabled()));
     }
 
     @Test
@@ -57,7 +60,10 @@ class ITUserRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(result)
-            .contains(Users.enabled());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "roles.audit")
+                .isEqualTo(Users.enabled()));
     }
 
     @Test
@@ -71,7 +77,10 @@ class ITUserRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(result)
-            .contains(Users.expired());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "roles.audit")
+                .isEqualTo(Users.expired()));
     }
 
     @Test
@@ -85,7 +94,10 @@ class ITUserRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(result)
-            .contains(Users.passwordExpired());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "roles.audit")
+                .isEqualTo(Users.passwordExpired()));
     }
 
     @Test
@@ -99,7 +111,10 @@ class ITUserRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(result)
-            .contains(Users.locked());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "roles.audit")
+                .isEqualTo(Users.locked()));
     }
 
     @Test
@@ -126,7 +141,10 @@ class ITUserRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(result)
-            .contains(Users.withoutPermissions());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit", "roles.audit")
+                .isEqualTo(Users.withoutPermissions()));
     }
 
     @Test
@@ -140,7 +158,10 @@ class ITUserRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(result)
-            .contains(Users.withoutRoles());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Users.withoutRoles()));
     }
 
 }

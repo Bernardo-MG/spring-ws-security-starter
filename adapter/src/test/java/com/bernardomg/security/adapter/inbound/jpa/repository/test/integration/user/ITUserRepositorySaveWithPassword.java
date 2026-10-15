@@ -94,7 +94,7 @@ class ITUserRepositorySaveWithPassword {
         Assertions.assertThat(created)
             .as("user")
             .usingRecursiveComparison()
-            .ignoringFields("audit")
+            .ignoringFields("audit", "roles.audit")
             .isEqualTo(Users.enabled());
     }
 

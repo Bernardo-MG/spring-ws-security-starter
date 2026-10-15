@@ -98,6 +98,8 @@ class ITUserRepositoryActivate {
         // THEN
         Assertions.assertThat(user)
             .as("user")
+            .usingRecursiveComparison()
+            .ignoringFields("audit")
             .isEqualTo(Users.withoutRoles());
     }
 

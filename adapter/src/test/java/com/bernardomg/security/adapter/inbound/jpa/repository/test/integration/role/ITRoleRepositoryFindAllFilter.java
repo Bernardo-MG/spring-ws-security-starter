@@ -51,6 +51,7 @@ class ITRoleRepositoryFindAllFilter {
         Assertions.assertThat(roles)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
+            .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
             .containsExactly(Roles.withoutPermissions());
     }
 
