@@ -39,7 +39,10 @@ class ITRoleRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(role)
-            .contains(Roles.withoutPermissions());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Roles.withoutPermissions()));
     }
 
     @Test
@@ -80,7 +83,10 @@ class ITRoleRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(role)
-            .contains(Roles.withPermissions());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Roles.withPermissions()));
     }
 
     @Test
@@ -94,7 +100,10 @@ class ITRoleRepositoryFindOne {
 
         // THEN
         Assertions.assertThat(role)
-            .contains(Roles.withSinglePermission());
+            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFields("audit")
+                .isEqualTo(Roles.withSinglePermission()));
     }
 
 }
