@@ -673,5 +673,10 @@
             Audit info is not updated on creation.
          </action>
       </release>
+      <release version="0.15.24" date="2026-10-15" description="Audit fixes">
+         <action dev="bmg" type="fix">
+            Audit creation date is set automatically in the DB.
+         </action>
+      </release>
    </body>
 </document>
