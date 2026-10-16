@@ -1,8 +1,8 @@
 
 package com.bernardomg.security.architecture.test;
 
+import com.bernardomg.framework.testing.architecture.rule.TestRules;
 import com.bernardomg.security.architecture.config.IgnoreGenerated;
-import com.bernardomg.security.architecture.rule.TestDisplayNameRules;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.junit.ArchTests;
@@ -11,6 +11,6 @@ import com.tngtech.archunit.junit.ArchTests;
 public class TestTestingArchitectureRules {
 
     @ArchTest
-    static final ArchTests testDisplayNameRules = ArchTests.in(TestDisplayNameRules.class);
+    static final ArchTests testRules = ArchTests.in(TestRules.class);
 
 }

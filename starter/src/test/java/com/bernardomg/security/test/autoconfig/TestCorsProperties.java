@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import com.bernardomg.security.configuration.CorsProperties;
 
 @DisplayName("CorsProperties - bind properties")
-final class CorsPropertiesTest {
+final class TestCorsProperties {
 
     @Configuration(proxyBeanMethods = false)
     @EnableConfigurationProperties(CorsProperties.class)

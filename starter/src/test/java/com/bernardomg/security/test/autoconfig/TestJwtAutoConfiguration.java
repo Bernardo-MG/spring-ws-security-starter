@@ -16,7 +16,7 @@ import com.bernardomg.security.configuration.JwtAutoConfiguration;
 import com.bernardomg.security.test.config.factory.JwtConstants;
 
 @DisplayName("JwtAutoConfiguration - configure")
-final class JwtAutoConfigurationTest {
+final class TestJwtAutoConfiguration {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(JwtAutoConfiguration.class));

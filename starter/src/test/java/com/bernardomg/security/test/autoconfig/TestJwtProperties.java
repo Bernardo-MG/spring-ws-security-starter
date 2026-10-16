@@ -16,7 +16,7 @@ import com.bernardomg.security.configuration.JwtProperties;
 import com.bernardomg.security.test.config.factory.JwtConstants;
 
 @DisplayName("JwtProperties - bind properties")
-final class JwtPropertiesTest {
+final class TestJwtProperties {
 
     @Configuration(proxyBeanMethods = false)
     @EnableConfigurationProperties(JwtProperties.class)
