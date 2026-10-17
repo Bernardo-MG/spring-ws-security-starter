@@ -49,10 +49,6 @@ class TestPasswordResetServiceValidateToken {
     @Mock
     private UserRepository              userRepository;
 
-    public TestPasswordResetServiceValidateToken() {
-        super();
-    }
-
     @Test
     @DisplayName("When the token is valid, then its username and valid status are returned")
     void testValidateToken() {

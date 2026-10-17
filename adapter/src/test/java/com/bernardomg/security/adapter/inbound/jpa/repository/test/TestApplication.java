@@ -1,3 +1,4 @@
+
 package com.bernardomg.security.adapter.inbound.jpa.repository.test;
 
 import org.springframework.boot.SpringApplication;

@@ -55,7 +55,7 @@ class TestSpringSecurityPasswordChangeService {
     @Test
     @DisplayName("When changing the password of a disabled user, then the operation fails")
     void testChangePasswordForUserInSession_Disabled() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -64,19 +64,20 @@ class TestSpringSecurityPasswordChangeService {
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(DisabledUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(DisabledUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When changing the password of a disabled user, then the operation fails (exception get message)")
             .isEqualTo("User " + UserConstants.USERNAME + " is disabled");
     }
 
     @Test
     @DisplayName("When changing the password of an expired user, then the operation fails")
     void testChangePasswordForUserInSession_Expired() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -86,19 +87,20 @@ class TestSpringSecurityPasswordChangeService {
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When changing the password of an expired user, then the operation fails (exception get message)")
             .isEqualTo("User " + UserConstants.USERNAME + " is expired");
     }
 
     @Test
     @DisplayName("When changing the password with invalid input, then an exception is thrown")
     void testChangePasswordForUserInSession_InvalidPassword() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -107,18 +109,18 @@ class TestSpringSecurityPasswordChangeService {
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
-        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, "abc");
 
         // THEN
         failure = new FieldFailure("tooWeak", "password", "password.tooWeak", "");
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When changing the password of a locked user, then the operation fails")
     void testChangePasswordForUserInSession_Locked() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -127,19 +129,20 @@ class TestSpringSecurityPasswordChangeService {
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When changing the password of a locked user, then the operation fails (exception get message)")
             .isEqualTo("User " + UserConstants.USERNAME + " is locked");
     }
 
     @Test
     @DisplayName("When authentication data is missing, then an exception is thrown")
     void testChangePasswordForUserInSession_MissingAuthentication() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -147,38 +150,40 @@ class TestSpringSecurityPasswordChangeService {
             .thenReturn(Optional.ofNullable(null));
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(InvalidPasswordChangeException.class, executable);
+        exception = Assertions.catchThrowableOfType(InvalidPasswordChangeException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When authentication data is missing, then an exception is thrown (exception get message)")
             .isEqualTo("No user authenticated");
     }
 
     @Test
     @DisplayName("When changing the password of a nonexistent user, then the operation fails")
     void testChangePasswordForUserInSession_NotExistingUser() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        executable = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, executable);
+        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When changing the password of a nonexistent user, then the operation fails (exception get message)")
             .isEqualTo("Missing username username for user");
     }
 
     @Test
     @DisplayName("When the current password does not match, then an exception is thrown")
     void testChangePasswordForUserInSession_NotMatchingPassword() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -187,27 +192,28 @@ class TestSpringSecurityPasswordChangeService {
         given(repository.findPassword(UserConstants.USERNAME)).willReturn(Optional.of(UserConstants.PASSWORD));
 
         // WHEN
-        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
         failure = new FieldFailure("notMatch", "oldPassword", "oldPassword.notMatch", UserConstants.PASSWORD);
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When the user does not exist, then an exception is thrown")
     void testChangePasswordForUserInSession_NoUser() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePasswordForUserInSession(UserConstants.PASSWORD, UserConstants.NEW_PASSWORD);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the user does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingUsernameException.class);
     }
 

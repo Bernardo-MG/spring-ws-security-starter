@@ -33,10 +33,6 @@ class TestUserDomainDetailsService {
     @Mock
     private UserRepository           userRepository;
 
-    public TestUserDomainDetailsService() {
-        super();
-    }
-
     @Test
     @DisplayName("When the user is disabled, then the user details are returned")
     void testLoadByUsername_Disabled() {
@@ -103,16 +99,22 @@ class TestUserDomainDetailsService {
         // THEN
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(userDetails.getUsername())
+                .as("When logging in with an email, then the user details are returned (user details get username)")
                 .isEqualTo(UserConstants.USERNAME);
             softly.assertThat(userDetails.getPassword())
+                .as("When logging in with an email, then the user details are returned (user details get password)")
                 .isEqualTo(UserConstants.PASSWORD);
             softly.assertThat(userDetails.isEnabled())
+                .as("When logging in with an email, then the user details are returned (user details is enabled)")
                 .isTrue();
             softly.assertThat(userDetails.isAccountNonExpired())
+                .as("When logging in with an email, then the user details are returned (user details is account non expired)")
                 .isTrue();
             softly.assertThat(userDetails.isAccountNonLocked())
+                .as("When logging in with an email, then the user details are returned (user details is account non locked)")
                 .isTrue();
             softly.assertThat(userDetails.isCredentialsNonExpired())
+                .as("When logging in with an email, then the user details are returned (user details is credentials non expired)")
                 .isTrue();
         });
     }
@@ -270,19 +272,20 @@ class TestUserDomainDetailsService {
     @Test
     @DisplayName("When the user has no authorities, then an exception is thrown")
     void testLoadByUsername_NoAuthorities() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
-        executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
+        action = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, executable);
+        exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When the user has no authorities, then an exception is thrown (exception get message)")
             .isEqualTo("Invalid username or credentials");
     }
 
@@ -389,19 +392,20 @@ class TestUserDomainDetailsService {
     @Test
     @DisplayName("When the user does not exist, then an exception is thrown")
     void testLoadByUsername_UserNotExisting() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        executable = () -> service.loadUserByUsername(UserConstants.USERNAME);
+        action = () -> service.loadUserByUsername(UserConstants.USERNAME);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, executable);
+        exception = Assertions.catchThrowableOfType(UsernameNotFoundException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When the user does not exist, then an exception is thrown (exception get message)")
             .isEqualTo("Invalid username or credentials");
     }
 

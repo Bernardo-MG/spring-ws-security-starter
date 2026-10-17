@@ -50,10 +50,6 @@ class TestUserServiceGetAll {
     @Mock
     private UserRepository     userRepository;
 
-    public TestUserServiceGetAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When users exist, then they are returned")
     void testGetAll() {

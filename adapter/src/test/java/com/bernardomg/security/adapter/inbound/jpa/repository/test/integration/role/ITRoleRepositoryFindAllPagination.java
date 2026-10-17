@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.PaginationTestSupport;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.role.annotation.RoleWithoutPermissions;
 import com.bernardomg.security.adapter.test.config.role.factory.RoleFilters;
 import com.bernardomg.security.adapter.test.config.role.factory.Roles;
@@ -20,14 +21,15 @@ import com.bernardomg.security.domain.role.model.Role;
 import com.bernardomg.security.domain.role.repository.RoleRepository;
 
 @DisplayName("RoleRepository - find all - pagination")
+@IntegrationTest
 @RoleWithoutPermissions
 @Disabled("Comparison fails due to audit")
-class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
+class ITRoleRepositoryFindAllPagination extends PaginationTestSupport<Role> {
 
     @Autowired
     private RoleRepository repository;
 
-    public ITRoleRepositoryFindAllPagination() {
+    ITRoleRepositoryFindAllPagination() {
         super(1);
     }
 
@@ -42,7 +44,17 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
     @Test
     @DisplayName("When the first page is requested, then all page data is returned")
     void testFindAll_Page1_Data() {
-        testPageData(1, Roles.withoutPermissions());
+        final Page<Role> roles;
+        final Pagination pagination;
+
+        // GIVEN
+        pagination = new Pagination(1, 1);
+
+        // WHEN
+        roles = read(pagination);
+
+        // THEN
+        assertPageContents(roles, Roles.withoutPermissions());
     }
 
     @Test
@@ -64,9 +76,42 @@ class ITRoleRepositoryFindAllPagination extends AbstractPaginationIT<Role> {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When the second page is requested, then all page data is returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When a page is returned, then its metadata matches the request and result")
+    void testReadPaged_PageData() {
+        final Page<Role> roles;
+        final Pagination pagination;
+
+        // GIVEN
+        pagination = new Pagination(1, 1);
+
+        // WHEN
+        roles = read(pagination);
+
+        // THEN
+        assertPageMetadata(roles, 1);
+    }
+
+    @Test
+    @DisplayName("When a page size is requested, then the response contains that many records")
+    void testReadPaged_PageMax() {
+        final Page<Role> roles;
+        final Pagination pagination;
+
+        // GIVEN
+        pagination = new Pagination(1, 1);
+
+        // WHEN
+        roles = read(pagination);
+
+        // THEN
+        assertPageSize(roles);
     }
 
 }

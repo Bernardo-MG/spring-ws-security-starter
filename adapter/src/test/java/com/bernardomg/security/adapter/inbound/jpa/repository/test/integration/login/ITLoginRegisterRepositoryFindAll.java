@@ -66,6 +66,7 @@ class ITLoginRegisterRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(logins)
+            .as("When a login register is linked to a user, then the user's username is returned (logins)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(LoginRegisters.loggedIn());

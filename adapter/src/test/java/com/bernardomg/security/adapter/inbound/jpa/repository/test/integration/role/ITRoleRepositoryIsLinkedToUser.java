@@ -32,6 +32,7 @@ class ITRoleRepositoryIsLinkedToUser {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role has an associated user, then it is linked to that user (exists)")
             .isTrue();
     }
 
@@ -45,6 +46,7 @@ class ITRoleRepositoryIsLinkedToUser {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role does not exist, then it is not linked to a user (exists)")
             .isFalse();
     }
 
@@ -59,6 +61,7 @@ class ITRoleRepositoryIsLinkedToUser {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role has no associated user, then it is not linked to a user (exists)")
             .isFalse();
     }
 
@@ -73,6 +76,7 @@ class ITRoleRepositoryIsLinkedToUser {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role doesn't exist, then it is not linked to a user (exists)")
             .isFalse();
     }
 
@@ -87,6 +91,7 @@ class ITRoleRepositoryIsLinkedToUser {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the user has no associated role, then the role is not linked to that user (exists)")
             .isFalse();
     }
 
@@ -101,6 +106,7 @@ class ITRoleRepositoryIsLinkedToUser {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role has an associated user without granted permissions, then it is linked to that user (exists)")
             .isTrue();
     }
 

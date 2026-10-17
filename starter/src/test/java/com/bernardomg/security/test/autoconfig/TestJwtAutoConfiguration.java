@@ -31,6 +31,7 @@ final class TestJwtAutoConfiguration {
                 // THEN
                 assertSoftly(softly -> {
                     softly.assertThat(context.getStartupFailure())
+                        .as("When auto-configuration uses default settings, then the default beans are created (context get startup failure)")
                         .isNull();
                     if (context.getStartupFailure() == null) {
                         softly.assertThat(context.getBeansOfType(SecretKey.class))

@@ -4,6 +4,7 @@ package com.bernardomg.security.springframework.test.access.interceptor.unit;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,6 +61,7 @@ class TestSpringResourceAccessValidator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When an authenticated user has permission, then access is authorized (authorized)")
             .isTrue();
     }
 
@@ -80,6 +82,7 @@ class TestSpringResourceAccessValidator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When the evaluator rejects the permission, then access is denied (authorized)")
             .isFalse();
     }
 
@@ -96,6 +99,7 @@ class TestSpringResourceAccessValidator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When authentication is missing, then access is denied (authorized)")
             .isFalse();
     }
 
@@ -109,14 +113,22 @@ class TestSpringResourceAccessValidator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When the user is not authenticated, then access is denied (authorized)")
             .isFalse();
     }
 
     @Test
     @DisplayName("When the action is null, then it is rejected")
     void testIsAuthorized_NullAction() {
+        final ThrowingCallable action;
+
+        // WHEN
+        action = () -> validator.isAuthorized(PermissionConstants.DATA, null);
+
+        // THEN
         Assertions.assertThatNullPointerException()
-            .isThrownBy(() -> validator.isAuthorized(PermissionConstants.DATA, null))
+            .as("null action is rejected")
+            .isThrownBy(action)
             .withMessage("The action must not be null");
 
         verifyNoInteractions(permissionEvaluator, trustResolver);
@@ -125,8 +137,15 @@ class TestSpringResourceAccessValidator {
     @Test
     @DisplayName("When the resource is null, then it is rejected")
     void testIsAuthorized_NullResource() {
+        final ThrowingCallable action;
+
+        // WHEN
+        action = () -> validator.isAuthorized(null, PermissionConstants.READ);
+
+        // THEN
         Assertions.assertThatNullPointerException()
-            .isThrownBy(() -> validator.isAuthorized(null, PermissionConstants.READ))
+            .as("null resource is rejected")
+            .isThrownBy(action)
             .withMessage("The resource must not be null");
 
         verifyNoInteractions(permissionEvaluator, trustResolver);

@@ -59,6 +59,7 @@ class TestSecurityContextHolderUsernameInSessionProvider {
 
         // THEN
         Assertions.assertThat(username)
+            .as("When an authenticated user is present, then the username is returned (username)")
             .contains("username");
     }
 
@@ -81,6 +82,7 @@ class TestSecurityContextHolderUsernameInSessionProvider {
 
         // THEN
         Assertions.assertThat(username)
+            .as("When the user is not authenticated, then the username is empty (username)")
             .isEmpty();
     }
 
@@ -104,6 +106,7 @@ class TestSecurityContextHolderUsernameInSessionProvider {
 
         // THEN
         Assertions.assertThat(username)
+            .as("When the principal is not UserDetails, then the username is empty (username)")
             .isEmpty();
     }
 

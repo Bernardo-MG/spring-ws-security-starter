@@ -44,10 +44,6 @@ class TestTokenLoginServiceEvent {
     @Mock
     private LoginUserAuthenticator     userAuthenticator;
 
-    public TestTokenLoginServiceEvent() {
-        super();
-    }
-
     @Test
     @DisplayName("When login succeeds with a username, then a logged-in event is generated")
     void testLogIn() {

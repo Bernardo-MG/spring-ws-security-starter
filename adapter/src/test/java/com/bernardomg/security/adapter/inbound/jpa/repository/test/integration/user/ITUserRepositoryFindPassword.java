@@ -20,10 +20,6 @@ class ITUserRepositoryFindPassword {
     @Autowired
     private UserRepository repository;
 
-    public ITUserRepositoryFindPassword() {
-        super();
-    }
-
     @Test
     @DisplayName("When looking up an existing user, then the password is returned")
     @OnlyUser

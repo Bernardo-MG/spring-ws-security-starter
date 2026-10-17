@@ -45,6 +45,7 @@ class TestAccountServiceGetCurrentUser {
 
         // THEN
         Assertions.assertThat(account)
+            .as("When an account exists, then it is returned (account)")
             .contains(Accounts.valid());
     }
 
@@ -61,6 +62,7 @@ class TestAccountServiceGetCurrentUser {
 
         // THEN
         Assertions.assertThat(account)
+            .as("When no account exists, then nothing is returned (account)")
             .isEmpty();
     }
 

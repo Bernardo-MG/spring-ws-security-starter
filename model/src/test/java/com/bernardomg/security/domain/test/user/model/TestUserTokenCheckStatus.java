@@ -20,24 +20,21 @@ import com.bernardomg.security.domain.user.model.UserToken;
 @DisplayName("UserToken - check status")
 class TestUserTokenCheckStatus {
 
-    public TestUserTokenCheckStatus() {
-        super();
-    }
-
     @Test
     @DisplayName("When the token is valid, then no exception is thrown")
     void testCheckStatus() {
         final UserToken        token;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         token = UserTokens.valid();
 
         // WHEN
-        execution = () -> token.checkStatus(UserTokenConstants.SCOPE);
+        action = () -> token.checkStatus(UserTokenConstants.SCOPE);
 
         // THEN
-        Assertions.assertThatCode(execution)
+        Assertions.assertThatCode(action)
+            .as("When the token is valid, then no exception is thrown (action)")
             .doesNotThrowAnyException();
     }
 
@@ -45,16 +42,17 @@ class TestUserTokenCheckStatus {
     @DisplayName("When the token is consumed, then a consumed-token exception is thrown")
     void testCheckStatus_Consumed() {
         final UserToken        token;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         token = UserTokens.consumed();
 
         // WHEN
-        execution = () -> token.checkStatus(UserTokenConstants.SCOPE);
+        action = () -> token.checkStatus(UserTokenConstants.SCOPE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the token is consumed, then a consumed-token exception is thrown (action)")
             .isInstanceOf(ConsumedTokenException.class);
     }
 
@@ -62,16 +60,17 @@ class TestUserTokenCheckStatus {
     @DisplayName("When the token is expired, then an expired-token exception is thrown")
     void testCheckStatus_Expired() {
         final UserToken        token;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         token = UserTokens.expired();
 
         // WHEN
-        execution = () -> token.checkStatus(UserTokenConstants.SCOPE);
+        action = () -> token.checkStatus(UserTokenConstants.SCOPE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the token is expired, then an expired-token exception is thrown (action)")
             .isInstanceOf(ExpiredTokenException.class);
     }
 
@@ -79,16 +78,17 @@ class TestUserTokenCheckStatus {
     @DisplayName("When the scope doesn't match, then an out-of-scope exception is thrown")
     void testCheckStatus_OutOfScope() {
         final UserToken        token;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         token = UserTokens.valid();
 
         // WHEN
-        execution = () -> token.checkStatus("email-verification");
+        action = () -> token.checkStatus("email-verification");
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the scope doesn't match, then an out-of-scope exception is thrown (action)")
             .isInstanceOf(OutOfScopeTokenException.class);
     }
 
@@ -96,16 +96,17 @@ class TestUserTokenCheckStatus {
     @DisplayName("When the token is revoked, then a revoked-token exception is thrown")
     void testCheckStatus_Revoked() {
         final UserToken        token;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         token = UserTokens.revoked();
 
         // WHEN
-        execution = () -> token.checkStatus(UserTokenConstants.SCOPE);
+        action = () -> token.checkStatus(UserTokenConstants.SCOPE);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the token is revoked, then a revoked-token exception is thrown (action)")
             .isInstanceOf(RevokedTokenException.class);
     }
 

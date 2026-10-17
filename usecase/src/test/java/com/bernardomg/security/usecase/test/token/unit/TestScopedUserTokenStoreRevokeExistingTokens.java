@@ -46,10 +46,6 @@ class TestScopedUserTokenStoreRevokeExistingTokens {
     @Mock
     private UserTokenRepository  userTokenRepository;
 
-    public TestScopedUserTokenStoreRevokeExistingTokens() {
-        super();
-    }
-
     @BeforeEach
     void setUp() {
         store = new ScopedUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
@@ -65,7 +61,7 @@ class TestScopedUserTokenStoreRevokeExistingTokens {
         final UserToken        secondRevoked;
         final List<UserToken>  tokensToRevoke;
         final List<UserToken>  tokensRevoked;
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         firstToRevoke = UserTokens.valid();
@@ -83,31 +79,33 @@ class TestScopedUserTokenStoreRevokeExistingTokens {
         given(userTokenRepository.saveAll(tokensRevoked)).willReturn(tokensRevoked);
 
         // WHEN
-        execution = () -> store.revokeExistingTokens(UserTokenConstants.USERNAME);
+        action = () -> store.revokeExistingTokens(UserTokenConstants.USERNAME);
 
         // THEN
-        assertThatCode(execution).doesNotThrowAnyException();
+        assertThatCode(action).as("When the user exists, then all active tokens are revoked (action)")
+            .doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("When the user does not exist, then an exception is thrown")
     void testRevokeExistingTokens_MissingUser() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserTokenConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> store.revokeExistingTokens(UserTokenConstants.USERNAME);
+        action = () -> store.revokeExistingTokens(UserTokenConstants.USERNAME);
 
         // THEN
-        assertThatThrownBy(execution).isInstanceOf(MissingUsernameException.class);
+        assertThatThrownBy(action).as("When the user does not exist, then an exception is thrown (action)")
+            .isInstanceOf(MissingUsernameException.class);
     }
 
     @Test
     @DisplayName("When no active tokens exist, then an empty collection is saved")
     void testRevokeExistingTokens_NoTokens() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserTokenConstants.USERNAME)).willReturn(Optional.of(user));
@@ -116,10 +114,11 @@ class TestScopedUserTokenStoreRevokeExistingTokens {
             .willReturn(List.of());
 
         // WHEN
-        execution = () -> store.revokeExistingTokens(UserTokenConstants.USERNAME);
+        action = () -> store.revokeExistingTokens(UserTokenConstants.USERNAME);
 
         // THEN
-        assertThatCode(execution).doesNotThrowAnyException();
+        assertThatCode(action).as("When no active tokens exist, then an empty collection is saved (action)")
+            .doesNotThrowAnyException();
     }
 
 }

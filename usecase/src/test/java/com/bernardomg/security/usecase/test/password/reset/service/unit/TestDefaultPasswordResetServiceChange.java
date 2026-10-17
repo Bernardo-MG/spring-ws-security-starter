@@ -56,7 +56,7 @@ class TestDefaultPasswordResetServiceChange {
     @Test
     @DisplayName("When changing the password of a disabled user, then an exception is thrown")
     void testChangePassword_Disabled() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -64,10 +64,10 @@ class TestDefaultPasswordResetServiceChange {
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.disabled()));
 
         // WHEN
-        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(DisabledUserException.class, execution);
+        exception = Assertions.catchThrowableOfType(DisabledUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -77,7 +77,7 @@ class TestDefaultPasswordResetServiceChange {
     @Test
     @DisplayName("When changing the password of an expired user, then an exception is thrown")
     void testChangePassword_Expired() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -85,10 +85,10 @@ class TestDefaultPasswordResetServiceChange {
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
 
         // WHEN
-        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, execution);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -98,22 +98,22 @@ class TestDefaultPasswordResetServiceChange {
     @Test
     @DisplayName("When changing the password with invalid input, then an exception is thrown")
     void testChangePassword_InvalidPassword() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.changePassword(Tokens.TOKEN, "abc");
+        action = () -> service.changePassword(Tokens.TOKEN, "abc");
 
         // THEN
         failure = new FieldFailure("tooWeak", "password", "password.tooWeak", "");
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When changing the password of a locked user, then an exception is thrown")
     void testChangePassword_Locked() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -121,10 +121,10 @@ class TestDefaultPasswordResetServiceChange {
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
 
         // WHEN
-        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(LockedUserException.class, execution);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -134,17 +134,17 @@ class TestDefaultPasswordResetServiceChange {
     @Test
     @DisplayName("When changing the password of a nonexistent user, then an exception is thrown")
     void testChangePassword_NotExistingUser() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(tokenStore.getUsername(Tokens.TOKEN)).willReturn(UserConstants.USERNAME);
 
         // WHEN
-        execution = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.changePassword(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, execution);
+        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

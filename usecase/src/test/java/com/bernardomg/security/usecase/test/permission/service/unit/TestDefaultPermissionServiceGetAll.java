@@ -24,7 +24,7 @@ import com.bernardomg.security.usecase.test.permission.config.factory.ResourcePe
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("DefaultPermissionService - get all")
-class DefaultPermissionServiceGetAll {
+class TestDefaultPermissionServiceGetAll {
 
     @Mock
     private ResourcePermissionRepository resourcePermissionRepository;
@@ -52,6 +52,7 @@ class DefaultPermissionServiceGetAll {
 
         // THEN
         Assertions.assertThat(read)
+            .as("When permissions exist, then they are returned (read)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(ResourcePermissions.read());
@@ -77,6 +78,7 @@ class DefaultPermissionServiceGetAll {
 
         // THEN
         Assertions.assertThat(read)
+            .as("When no permissions exist, then nothing is returned (read)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

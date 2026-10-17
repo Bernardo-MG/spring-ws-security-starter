@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2023-2025 the original author or authors.
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.security.usecase.test.role.service.unit;
 
@@ -62,14 +39,10 @@ class TestDefaultRoleServiceUpdate {
     @InjectMocks
     private DefaultRoleService           service;
 
-    public TestDefaultRoleServiceUpdate() {
-        super();
-    }
-
     @Test
     @DisplayName("When permissions are duplicated, then an exception is thrown")
     void testUpdate_DuplicatedPermission() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Role             data;
         final FieldFailure     failure;
 
@@ -81,12 +54,12 @@ class TestDefaultRoleServiceUpdate {
             .willReturn(true);
 
         // WHEN
-        executable = () -> service.update(data);
+        action = () -> service.update(data);
 
         // THEN
         failure = new FieldFailure("duplicated", "permissions[]", "permissions[].duplicated", 1L);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
@@ -137,6 +110,7 @@ class TestDefaultRoleServiceUpdate {
 
         // THEN
         Assertions.assertThat(role)
+            .as("When updating a role with multiple permissions, then the updated role is returned (role)")
             .isEqualTo(Roles.withPermissions());
     }
 
@@ -174,13 +148,14 @@ class TestDefaultRoleServiceUpdate {
 
         // THEN
         Assertions.assertThat(role)
+            .as("When updating a role without permissions, then the updated role is returned (role)")
             .isEqualTo(Roles.withoutPermissions());
     }
 
     @Test
     @DisplayName("When a permission does not exist, then an exception is thrown")
     void testUpdate_NotExistingPermission() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Role             data;
 
         // GIVEN
@@ -191,17 +166,18 @@ class TestDefaultRoleServiceUpdate {
             .willReturn(false);
 
         // WHEN
-        execution = () -> service.update(data);
+        action = () -> service.update(data);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When a permission does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingResourcePermissionException.class);
     }
 
     @Test
     @DisplayName("When the role does not exist, then an exception is thrown")
     void testUpdate_NotExistingRole() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Role             data;
 
         // GIVEN
@@ -210,10 +186,11 @@ class TestDefaultRoleServiceUpdate {
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(data);
+        action = () -> service.update(data);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the role does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingRoleException.class);
     }
 

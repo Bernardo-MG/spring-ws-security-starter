@@ -29,6 +29,7 @@ final class TestCorsProperties {
             // THEN
             assertSoftly(softly -> {
                 softly.assertThat(context.getStartupFailure())
+                    .as("When no properties are provided, then the defaults are applied (context get startup failure)")
                     .isNull();
                 if (context.getStartupFailure() == null) {
                     final CorsProperties properties;
@@ -61,42 +62,47 @@ final class TestCorsProperties {
     @Test
     @DisplayName("When properties are provided, then they are bound")
     void testProperties_BindsConfiguredValues() {
-        contextRunner
-            .withPropertyValues("security.cors.pattern=/api/**", "security.cors.allowed-origins=https://example.com",
-                "security.cors.allowed-methods=GET,POST",
-                "security.cors.allowed-headers=Authorization,Content-Type,X-Test",
-                "security.cors.exposed-headers=X-Request-Id")
-            .run(context -> {
-                // THEN
-                assertSoftly(softly -> {
-                    softly.assertThat(context.getStartupFailure())
-                        .isNull();
-                    if (context.getStartupFailure() == null) {
-                        final CorsProperties properties;
+        final ApplicationContextRunner configuredRunner;
 
-                        properties = context.getBean(CorsProperties.class);
-                        softly.assertThat(properties.pattern())
-                            .as("pattern")
-                            .isEqualTo("/api/**");
+        // GIVEN
+        configuredRunner = contextRunner.withPropertyValues("security.cors.pattern=/api/**",
+            "security.cors.allowed-origins=https://example.com", "security.cors.allowed-methods=GET,POST",
+            "security.cors.allowed-headers=Authorization,Content-Type,X-Test",
+            "security.cors.exposed-headers=X-Request-Id");
 
-                        softly.assertThat(properties.allowedOrigins())
-                            .as("allowed origins")
-                            .containsExactly("https://example.com");
+        // WHEN
+        configuredRunner.run(context -> {
+            // THEN
+            assertSoftly(softly -> {
+                softly.assertThat(context.getStartupFailure())
+                    .as("When properties are provided, then they are bound (context get startup failure)")
+                    .isNull();
+                if (context.getStartupFailure() == null) {
+                    final CorsProperties properties;
 
-                        softly.assertThat(properties.allowedMethods())
-                            .as("allowed methods")
-                            .containsExactly("GET", "POST");
+                    properties = context.getBean(CorsProperties.class);
+                    softly.assertThat(properties.pattern())
+                        .as("pattern")
+                        .isEqualTo("/api/**");
 
-                        softly.assertThat(properties.allowedHeaders())
-                            .as("allowed headers")
-                            .containsExactly("Authorization", "Content-Type", "X-Test");
+                    softly.assertThat(properties.allowedOrigins())
+                        .as("allowed origins")
+                        .containsExactly("https://example.com");
 
-                        softly.assertThat(properties.exposedHeaders())
-                            .as("exposed headers")
-                            .containsExactly("X-Request-Id");
-                    }
-                });
+                    softly.assertThat(properties.allowedMethods())
+                        .as("allowed methods")
+                        .containsExactly("GET", "POST");
+
+                    softly.assertThat(properties.allowedHeaders())
+                        .as("allowed headers")
+                        .containsExactly("Authorization", "Content-Type", "X-Test");
+
+                    softly.assertThat(properties.exposedHeaders())
+                        .as("exposed headers")
+                        .containsExactly("X-Request-Id");
+                }
             });
+        });
     }
 
 }

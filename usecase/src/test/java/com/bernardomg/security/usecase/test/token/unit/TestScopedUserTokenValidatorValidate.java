@@ -34,10 +34,6 @@ class TestScopedUserTokenValidatorValidate {
 
     private ScopedUserTokenValidator validator;
 
-    public TestScopedUserTokenValidatorValidate() {
-        super();
-    }
-
     @BeforeEach
     void setUp() {
         validator = new ScopedUserTokenValidator(userTokenRepository, UserTokenConstants.SCOPE);
@@ -46,23 +42,24 @@ class TestScopedUserTokenValidatorValidate {
     @Test
     @DisplayName("When the token exists, then its status is checked")
     void testValidate() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userTokenRepository.findOne(UserTokenConstants.TOKEN)).willReturn(Optional.of(userToken));
 
         // WHEN
-        execution = () -> validator.validate(UserTokenConstants.TOKEN);
+        action = () -> validator.validate(UserTokenConstants.TOKEN);
 
         // THEN
-        Assertions.assertThatCode(execution)
+        Assertions.assertThatCode(action)
+            .as("When the token exists, then its status is checked (action)")
             .doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("When the token status is invalid, then the exception is propagated")
     void testValidate_InvalidStatus() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userTokenRepository.findOne(UserTokenConstants.TOKEN)).willReturn(Optional.of(userToken));
@@ -70,26 +67,28 @@ class TestScopedUserTokenValidatorValidate {
             .checkStatus(UserTokenConstants.SCOPE);
 
         // WHEN
-        execution = () -> validator.validate(UserTokenConstants.TOKEN);
+        action = () -> validator.validate(UserTokenConstants.TOKEN);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the token status is invalid, then the exception is propagated (action)")
             .isInstanceOf(RevokedTokenException.class);
     }
 
     @Test
     @DisplayName("When the token does not exist, then an exception is thrown")
     void testValidate_MissingToken() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userTokenRepository.findOne(UserTokenConstants.TOKEN)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> validator.validate(UserTokenConstants.TOKEN);
+        action = () -> validator.validate(UserTokenConstants.TOKEN);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the token does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingUserTokenException.class);
     }
 

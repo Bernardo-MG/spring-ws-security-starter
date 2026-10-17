@@ -47,10 +47,6 @@ class TestUserServiceGetOne {
     @Mock
     private UserRepository     userRepository;
 
-    public TestUserServiceGetOne() {
-        super();
-    }
-
     @Test
     @DisplayName("When the user exists, then it is returned")
     void testGetOne() {
@@ -71,16 +67,17 @@ class TestUserServiceGetOne {
     @Test
     @DisplayName("When the user does not exist, then an exception is thrown")
     void testGetOne_NoData() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(UserConstants.USERNAME);
+        action = () -> service.getOne(UserConstants.USERNAME);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the user does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingUsernameException.class);
     }
 

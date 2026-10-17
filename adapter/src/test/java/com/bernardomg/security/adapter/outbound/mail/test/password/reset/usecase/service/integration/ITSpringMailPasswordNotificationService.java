@@ -26,6 +26,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.bernardomg.security.adapter.outbound.mail.password.reset.usecase.service.SpringMailPasswordNotificationService;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.usecase.password.reset.service.PasswordNotificationService;
@@ -36,6 +37,7 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 
 @ExtendWith(MockitoExtension.class)
+@IntegrationTest
 @DisplayName("SpringMailPasswordNotificationService - production template and messages")
 class ITSpringMailPasswordNotificationService {
 

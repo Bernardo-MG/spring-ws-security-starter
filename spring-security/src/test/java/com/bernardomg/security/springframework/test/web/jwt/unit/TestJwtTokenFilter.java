@@ -81,7 +81,9 @@ class TestJwtTokenFilter {
 
         // THEN
         assertThat(SecurityContextHolder.getContext()
-            .getAuthentication()).isSameAs(parsed);
+            .getAuthentication())
+                .as("When a valid token is provided, then existing authentication is replaced (asserted value)")
+                .isSameAs(parsed);
     }
 
     @Test
@@ -102,7 +104,9 @@ class TestJwtTokenFilter {
 
         // THEN
         assertThat(SecurityContextHolder.getContext()
-            .getAuthentication()).isSameAs(existing);
+            .getAuthentication())
+                .as("When no token is provided, then the security context is not modified (asserted value)")
+                .isSameAs(existing);
     }
 
     @Test
@@ -126,7 +130,9 @@ class TestJwtTokenFilter {
 
         // THEN
         assertThat(SecurityContextHolder.getContext()
-            .getAuthentication()).isNull();
+            .getAuthentication())
+                .as("When token parsing fails, then the context is cleared and the failure is handled (asserted value)")
+                .isNull();
     }
 
     @Test
@@ -149,7 +155,9 @@ class TestJwtTokenFilter {
 
         // THEN
         assertThat(SecurityContextHolder.getContext()
-            .getAuthentication()).isNull();
+            .getAuthentication()).as(
+                "When token resolution fails, then the context is cleared and the failure is handled (asserted value)")
+                .isNull();
     }
 
     @Test
@@ -168,7 +176,9 @@ class TestJwtTokenFilter {
 
         // THEN
         assertThat(SecurityContextHolder.getContext()
-            .getAuthentication()).isSameAs(authentication);
+            .getAuthentication())
+                .as("When a valid token is provided, then the parsed authentication is stored (asserted value)")
+                .isSameAs(authentication);
     }
 
 }

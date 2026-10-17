@@ -38,14 +38,10 @@ class TestDefaultRoleServiceCreate {
     @InjectMocks
     private DefaultRoleService           service;
 
-    public TestDefaultRoleServiceCreate() {
-        super();
-    }
-
     @Test
     @DisplayName("When the role name is empty, then a validation exception is thrown")
     void testCreate_NameEmpty() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
         final Role             toCreate;
 
@@ -53,18 +49,18 @@ class TestDefaultRoleServiceCreate {
         toCreate = Roles.noName();
 
         // WHEN
-        executable = () -> service.create(toCreate);
+        action = () -> service.create(toCreate);
 
         // THEN
         failure = new FieldFailure("empty", "name", "name.empty", "");
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When the role name already exists, then a validation exception is thrown")
     void testCreate_NameExists() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
         final Role             toCreate;
 
@@ -75,12 +71,12 @@ class TestDefaultRoleServiceCreate {
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.create(toCreate);
+        action = () -> service.create(toCreate);
 
         // THEN
         failure = new FieldFailure("existing", "name", "name.existing", RoleConstants.NAME);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
@@ -115,6 +111,7 @@ class TestDefaultRoleServiceCreate {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When creating a role without permissions, then the created role is returned (result)")
             .isEqualTo(Roles.withoutPermissions());
     }
 
@@ -154,13 +151,14 @@ class TestDefaultRoleServiceCreate {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When creating a role with permissions, then the created role is returned (result)")
             .isEqualTo(Roles.withSinglePermission());
     }
 
     @Test
     @DisplayName("When a permission does not exist, then an exception is thrown")
     void testUpdate_NotExistingPermission() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Role             data;
 
         // GIVEN
@@ -170,10 +168,11 @@ class TestDefaultRoleServiceCreate {
             .willReturn(false);
 
         // WHEN
-        execution = () -> service.create(data);
+        action = () -> service.create(data);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When a permission does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingResourcePermissionException.class);
     }
 

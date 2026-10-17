@@ -19,10 +19,6 @@ class ITRoleRepositoryExists {
     @Autowired
     private RoleRepository repository;
 
-    public ITRoleRepositoryExists() {
-        super();
-    }
-
     @Test
     @DisplayName("When the role exists, then it is reported as existing")
     @RoleWithoutPermissions
@@ -34,6 +30,7 @@ class ITRoleRepositoryExists {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role exists, then it is reported as existing (exists)")
             .isTrue();
     }
 
@@ -48,6 +45,7 @@ class ITRoleRepositoryExists {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role exists with different casing, then it is reported as existing (exists)")
             .isTrue();
     }
 
@@ -61,6 +59,7 @@ class ITRoleRepositoryExists {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When there is no role, then it is reported as not existing (exists)")
             .isFalse();
     }
 
@@ -75,6 +74,7 @@ class ITRoleRepositoryExists {
 
         // THEN
         Assertions.assertThat(exists)
+            .as("When the role doesn't exist, then it is reported as not existing (exists)")
             .isFalse();
     }
 

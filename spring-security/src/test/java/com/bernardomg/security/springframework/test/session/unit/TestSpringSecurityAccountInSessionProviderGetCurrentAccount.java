@@ -26,7 +26,7 @@ import com.bernardomg.security.springframework.test.user.config.factory.UserCons
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SpringSecurityAccountInSessionProvider - get current account")
-class SpringSecurityAccountInSessionProviderGetCurrentAccount {
+class TestSpringSecurityAccountInSessionProviderGetCurrentAccount {
 
     @Mock
     private AccountRepository                      accountRepository;
@@ -63,6 +63,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
         // THEN
         Assertions.assertThat(account)
+            .as("When the user is authenticated, then the account is returned (account)")
             .contains(Accounts.valid());
     }
 
@@ -82,6 +83,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
         // THEN
         Assertions.assertThat(account)
+            .as("When the principal is invalid, then no account is returned (account)")
             .isEmpty();
     }
 
@@ -99,6 +101,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
         // THEN
         Assertions.assertThat(account)
+            .as("When authentication is missing, then no account is returned (account)")
             .isEmpty();
     }
 
@@ -118,6 +121,7 @@ class SpringSecurityAccountInSessionProviderGetCurrentAccount {
 
         // THEN
         Assertions.assertThat(account)
+            .as("When the user is not authenticated, then no account is returned (account)")
             .isEmpty();
     }
 

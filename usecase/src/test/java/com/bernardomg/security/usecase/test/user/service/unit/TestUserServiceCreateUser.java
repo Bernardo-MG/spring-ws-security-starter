@@ -79,91 +79,93 @@ class TestUserServiceCreateUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When creating a user with case-insensitive input, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreated());
     }
 
     @Test
     @DisplayName("When creating a user with a duplicated role, then a validation error is raised")
     void testCreate_DuplicatedRole() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.create(Users.duplicatedRole());
+        action = () -> service.create(Users.duplicatedRole());
 
         // THEN
         failure = new FieldFailure("duplicated", "roles[]", "roles[].duplicated", 1L);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When creating a user with an existing email, then a validation error is raised")
     void testCreate_ExistingEmail() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
         given(userRepository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
 
         // WHEN
-        executable = () -> service.create(Users.withoutRoles());
+        action = () -> service.create(Users.withoutRoles());
 
         // THEN
         failure = new FieldFailure("existing", "email", "email.existing", UserConstants.EMAIL);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When creating a user with an existing username, then a validation error is raised")
     void testCreate_ExistingUsername() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.create(Users.withoutRoles());
+        action = () -> service.create(Users.withoutRoles());
 
         // THEN
         failure = new FieldFailure("existing", "username", "username.existing", UserConstants.USERNAME);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When creating a user with an invalid email, then a validation error is raised")
     void testCreate_InvalidEmail() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // WHEN
-        executable = () -> service.create(Users.invalidEmail());
+        action = () -> service.create(Users.invalidEmail());
 
         // THEN
         failure = new FieldFailure("invalid", "email", "email.invalid", "abc");
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When creating a user with a missing role, then a MissingRoleException is thrown")
     void testCreate_NotExistingRole() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.create(Users.enabled());
+        action = () -> service.create(Users.enabled());
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When creating a user with a missing role, then a MissingRoleException is thrown (action)")
             .isInstanceOf(MissingRoleException.class);
     }
 
@@ -197,6 +199,7 @@ class TestUserServiceCreateUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When creating a user with padded input, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreated());
     }
 
@@ -232,6 +235,7 @@ class TestUserServiceCreateUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When creating a user with roles, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreatedWithRole());
     }
 
@@ -265,6 +269,7 @@ class TestUserServiceCreateUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When creating a user without roles, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreated());
     }
 

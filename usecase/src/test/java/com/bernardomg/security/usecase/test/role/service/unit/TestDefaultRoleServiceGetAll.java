@@ -61,6 +61,7 @@ class TestDefaultRoleServiceGetAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When roles exist, then they are returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .containsExactly(Roles.withPermissions());
@@ -89,6 +90,7 @@ class TestDefaultRoleServiceGetAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When no roles exist, then nothing is returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

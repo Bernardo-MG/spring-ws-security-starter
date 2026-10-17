@@ -29,10 +29,6 @@ class TestDefaultUserLoginAttempsServiceCheckForLocking {
     @Mock
     private UserRepository          userRepository;
 
-    public TestDefaultUserLoginAttempsServiceCheckForLocking() {
-        super();
-    }
-
     @BeforeEach
     public void setupService() {
         service = new DefaultUserLoginAttempsService(UserConstants.MAX_LOGIN_ATTEMPTS, userRepository);

@@ -37,7 +37,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TokenDetailsTokenAuthenticationParser - parse")
-public class TestTokenDetailsTokenAuthenticationParser {
+class TestTokenDetailsTokenAuthenticationParser {
 
     @InjectMocks
     private TokenDetailsTokenAuthenticationParser parser;
@@ -54,7 +54,7 @@ public class TestTokenDetailsTokenAuthenticationParser {
     @Test
     @DisplayName("When parsing a token before its start date, then an exception is thrown")
     void testParse_BeforeStartDate() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -63,17 +63,19 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.isBeforeStart()).thenReturn(true);
 
         // WHEN
-        executable = () -> parser.parse(Tokens.TOKEN, request);
+        action = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThatThrownBy(executable).isInstanceOf(BadCredentialsException.class)
+        assertThatThrownBy(action)
+            .as("When parsing a token before its start date, then an exception is thrown (action)")
+            .isInstanceOf(BadCredentialsException.class)
             .hasMessage("JWT is not yet valid");
     }
 
     @Test
     @DisplayName("When parsing an expired token, then an exception is thrown")
     void testParse_ExpiredToken() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -81,17 +83,18 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.isExpired()).thenReturn(true);
 
         // WHEN
-        executable = () -> parser.parse(Tokens.TOKEN, request);
+        action = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThatThrownBy(executable).isInstanceOf(CredentialsExpiredException.class)
+        assertThatThrownBy(action).as("When parsing an expired token, then an exception is thrown (action)")
+            .isInstanceOf(CredentialsExpiredException.class)
             .hasMessage("Expired JWT");
     }
 
     @Test
     @DisplayName("When parsing a token with an invalid id, then an exception is thrown")
     void testParse_InvalidId() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
@@ -102,10 +105,11 @@ public class TestTokenDetailsTokenAuthenticationParser {
         when(tokenData.values()).thenReturn(Map.of("id", "invalid"));
 
         // WHEN
-        executable = () -> parser.parse(Tokens.TOKEN, request);
+        action = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThatThrownBy(executable).isInstanceOf(BadCredentialsException.class)
+        assertThatThrownBy(action).as("When parsing a token with an invalid id, then an exception is thrown (action)")
+            .isInstanceOf(BadCredentialsException.class)
             .hasMessage("JWT id claim is invalid")
             .hasCauseInstanceOf(NumberFormatException.class);
     }
@@ -128,7 +132,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
 
         // THEN
         assertSoftly(softly -> softly.assertThat(authentication.getPrincipal())
+            .as("When parsing a token without an id, then the principal id is null (authentication get principal)")
             .isInstanceOfSatisfying(SecurityUserDetails.class, principal -> softly.assertThat(principal.getId())
+                .as("When parsing a token without an id, then the principal id is null (principal get id)")
                 .isNull()));
     }
 
@@ -148,22 +154,25 @@ public class TestTokenDetailsTokenAuthenticationParser {
         authentication = parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        assertThat(authentication.getAuthorities()).isEmpty();
+        assertThat(authentication.getAuthorities()).as(
+            "When parsing a token without permissions, then the permissions are empty (authentication get authorities)")
+            .isEmpty();
     }
 
     @Test
     @DisplayName("When parsing a token without a subject, then an exception is thrown")
     void testParse_NoSubject() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         when(tokenDecoder.decode(Tokens.TOKEN)).thenReturn(tokenData);
 
         // WHEN
-        executable = () -> parser.parse(Tokens.TOKEN, request);
+        action = () -> parser.parse(Tokens.TOKEN, request);
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("When parsing a token without a subject, then an exception is thrown (action)")
             .isInstanceOf(BadCredentialsException.class);
     }
 
@@ -189,7 +198,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.toSet());
 
-        assertThat(authorities).containsExactlyInAnyOrder("users:read", "users:write", "reports:view");
+        assertThat(authorities)
+            .as("When parsing a token with permissions, then the permissions are added (authorities)")
+            .containsExactlyInAnyOrder("users:read", "users:write", "reports:view");
     }
 
     @Test
@@ -212,10 +223,13 @@ public class TestTokenDetailsTokenAuthenticationParser {
 
         // THEN
         assertSoftly(softly -> softly.assertThat(authentication.getDetails())
+            .as("When parsing a token with request details, then the details are added (authentication get details)")
             .isInstanceOfSatisfying(WebAuthenticationDetails.class, details -> {
                 softly.assertThat(details.getRemoteAddress())
+                    .as("When parsing a token with request details, then the details are added (details get remote address)")
                     .isEqualTo("192.0.2.10");
                 softly.assertThat(details.getSessionId())
+                    .as("When parsing a token with request details, then the details are added (details get session id)")
                     .isNull();
             }));
     }
@@ -238,7 +252,9 @@ public class TestTokenDetailsTokenAuthenticationParser {
 
         // THEN
         assertSoftly(softly -> softly.assertThat(authentication.getPrincipal())
+            .as("When parsing a token with a valid id, then the id is added to the principal (authentication get principal)")
             .isInstanceOfSatisfying(SecurityUserDetails.class, principal -> softly.assertThat(principal.getId())
+                .as("When parsing a token with a valid id, then the id is added to the principal (principal get id)")
                 .isEqualTo(UserConstants.ID)));
     }
 
@@ -260,19 +276,26 @@ public class TestTokenDetailsTokenAuthenticationParser {
         // THEN
         assertSoftly(softly -> {
             softly.assertThat(authentication.isAuthenticated())
+                .as("When parsing a valid token, then all token data is loaded (authentication is authenticated)")
                 .isTrue();
             softly.assertThat(authentication.getCredentials())
+                .as("When parsing a valid token, then all token data is loaded (authentication get credentials)")
                 .isNull();
             softly.assertThat(authentication.getName())
+                .as("When parsing a valid token, then all token data is loaded (authentication get name)")
                 .isEqualTo(Tokens.SUBJECT);
             softly.assertThat(authentication.getAuthorities())
+                .as("When parsing a valid token, then all token data is loaded (authentication get authorities)")
                 .isEmpty();
 
             softly.assertThat(authentication.getPrincipal())
+                .as("When parsing a valid token, then all token data is loaded (authentication get principal)")
                 .isInstanceOfSatisfying(UserDetails.class, principal -> {
                     softly.assertThat(principal.getUsername())
+                        .as("When parsing a valid token, then all token data is loaded (principal get username)")
                         .isEqualTo(Tokens.SUBJECT);
                     softly.assertThat(principal.getPassword())
+                        .as("When parsing a valid token, then all token data is loaded (principal get password)")
                         .isEmpty();
                 });
         });

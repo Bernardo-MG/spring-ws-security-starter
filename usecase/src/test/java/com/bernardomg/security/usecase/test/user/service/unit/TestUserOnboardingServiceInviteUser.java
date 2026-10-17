@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2023-2025 the original author or authors.
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.security.usecase.test.user.service.unit;
 
@@ -111,91 +88,93 @@ class TestUserOnboardingServiceInviteUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When inviting a user with case-insensitive input, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreated());
     }
 
     @Test
     @DisplayName("When inviting a user with a duplicated role, then a validation error is raised")
     void testInviteUser_DuplicatedRole() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.inviteUser(Users.duplicatedRole());
+        action = () -> service.inviteUser(Users.duplicatedRole());
 
         // THEN
         failure = new FieldFailure("duplicated", "roles[]", "roles[].duplicated", 1L);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When inviting a user with an existing email, then a validation error is raised")
     void testInviteUser_ExistingEmail() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
         given(userRepository.existsByEmail(UserConstants.EMAIL)).willReturn(true);
 
         // WHEN
-        executable = () -> service.inviteUser(Users.withoutRoles());
+        action = () -> service.inviteUser(Users.withoutRoles());
 
         // THEN
         failure = new FieldFailure("existing", "email", "email.existing", UserConstants.EMAIL);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When inviting a user with an existing username, then a validation error is raised")
     void testInviteUser_ExistingUsername() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
         given(userRepository.exists(UserConstants.USERNAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.inviteUser(Users.withoutRoles());
+        action = () -> service.inviteUser(Users.withoutRoles());
 
         // THEN
         failure = new FieldFailure("existing", "username", "username.existing", UserConstants.USERNAME);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When inviting a user with an invalid email, then a validation error is raised")
     void testInviteUser_InvalidEmail() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // WHEN
-        executable = () -> service.inviteUser(Users.invalidEmail());
+        action = () -> service.inviteUser(Users.invalidEmail());
 
         // THEN
         failure = new FieldFailure("invalid", "email", "email.invalid", "abc");
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When the role does not exist, then an exception is thrown")
     void testInviteUser_NotExistingRole() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.inviteUser(Users.enabled());
+        action = () -> service.inviteUser(Users.enabled());
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the role does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingRoleException.class);
     }
 
@@ -257,6 +236,7 @@ class TestUserOnboardingServiceInviteUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When inviting a user with padded input, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreated());
     }
 
@@ -294,6 +274,7 @@ class TestUserOnboardingServiceInviteUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When inviting a user with roles, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreatedWithRole());
     }
 
@@ -329,6 +310,7 @@ class TestUserOnboardingServiceInviteUser {
 
         // THEN
         Assertions.assertThat(user)
+            .as("When inviting a user without roles, then the created user is returned (user)")
             .isEqualTo(Users.newlyCreated());
     }
 

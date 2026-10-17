@@ -6,37 +6,19 @@ import java.util.Objects;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
-import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 
-@IntegrationTest
-public abstract class AbstractPaginationIT<T> {
+public abstract class PaginationTestSupport<T> {
 
     private final int totalElements;
 
-    public AbstractPaginationIT(final int total) {
-        super();
-
+    protected PaginationTestSupport(final int total) {
         totalElements = Objects.requireNonNull(total);
     }
 
-    protected abstract Page<T> read(final Pagination pagination);
-
-    protected void testPageData(final int page, final T expected) {
-        final Page<T>    data;
-        final Pagination pagination;
-
-        // GIVEN
-        pagination = new Pagination(page, 1);
-
-        // WHEN
-        data = read(pagination);
-
-        // THEN
+    protected final void assertPageContents(final Page<T> data, final T expected) {
         Assertions.assertThat(data)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
@@ -44,22 +26,7 @@ public abstract class AbstractPaginationIT<T> {
             .containsExactly(expected);
     }
 
-    @Test
-    @DisplayName("When a page is returned, then it contains the correct data")
-    void testReadPaged_PageData() {
-        final Page<T>    data;
-        final Pagination pagination;
-        final int        page;
-
-        // GIVEN
-        page = 1;
-        pagination = new Pagination(page, 1);
-
-        // WHEN
-        data = read(pagination);
-
-        // THEN
-
+    protected final void assertPageMetadata(final Page<T> data, final int page) {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(data.size())
                 .as("number of elements in page")
@@ -76,24 +43,14 @@ public abstract class AbstractPaginationIT<T> {
         });
     }
 
-    @Test
-    @DisplayName("When a page request is received, then the response size matches the requested page size")
-    void testReadPaged_PageMax() {
-        final Page<T>    data;
-        final Pagination pagination;
-
-        // GIVEN
-        pagination = new Pagination(1, 1);
-
-        // WHEN
-        data = read(pagination);
-
-        // THEN
+    protected final void assertPageSize(final Page<T> data) {
         Assertions.assertThat(data)
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .as("paged data")
             .hasSize(1);
     }
+
+    protected abstract Page<T> read(final Pagination pagination);
 
 }

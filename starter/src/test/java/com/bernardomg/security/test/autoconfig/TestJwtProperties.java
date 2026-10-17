@@ -36,6 +36,7 @@ final class TestJwtProperties {
                 // THEN
                 assertSoftly(softly -> {
                     softly.assertThat(context.getStartupFailure())
+                        .as("When properties are provided, then they are bound (context get startup failure)")
                         .isNull();
                     if (context.getStartupFailure() == null) {
                         final JwtProperties properties;
@@ -61,6 +62,7 @@ final class TestJwtProperties {
             // THEN
             assertSoftly(softly -> {
                 softly.assertThat(context.getStartupFailure())
+                    .as("When validity is missing, then the default value is used (context get startup failure)")
                     .isNull();
                 if (context.getStartupFailure() == null) {
                     final JwtProperties properties;

@@ -27,10 +27,6 @@ class ITUserRepositoryFindAll {
     @Autowired
     private UserRepository repository;
 
-    public ITUserRepositoryFindAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When a user exists, then it is returned")
     @EnabledUserWithRole

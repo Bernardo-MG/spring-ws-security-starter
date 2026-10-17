@@ -31,10 +31,6 @@ class ITResourcePermissionRepositorySave {
     @Autowired
     private ResourcePermissionSpringRepository resourcePermissionSpringRepository;
 
-    public ITResourcePermissionRepositorySave() {
-        super();
-    }
-
     @Test
     @DisplayName("When no data is saved, then nothing is persisted")
     @ResourceAndActions

@@ -4,6 +4,7 @@ package com.bernardomg.security.adapter.inbound.jpa.repository.test.integration.
 import java.util.Optional;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,6 @@ class ITRoleRepositoryFindOne {
     @Autowired
     private RoleRepository repository;
 
-    public ITRoleRepositoryFindOne() {
-        super();
-    }
-
     @Test
     @DisplayName("When the role exists, then it is returned")
     @RoleWithoutPermissions
@@ -38,11 +35,16 @@ class ITRoleRepositoryFindOne {
         role = repository.findOne(RoleConstants.NAME);
 
         // THEN
-        Assertions.assertThat(role)
-            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(role)
+                .as("the role is present")
+                .isPresent();
+            role.ifPresent(actual -> softly.assertThat(actual)
+                .as("the returned role matches")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Roles.withoutPermissions()));
+        });
     }
 
     @Test
@@ -53,8 +55,9 @@ class ITRoleRepositoryFindOne {
         // WHEN
         role = repository.findOne(RoleConstants.NAME);
 
-        // WHILE
+        // THEN
         Assertions.assertThat(role)
+            .as("When there is no data, then nothing is returned (role)")
             .isEmpty();
     }
 
@@ -67,8 +70,9 @@ class ITRoleRepositoryFindOne {
         // WHEN
         role = repository.findOne("abc");
 
-        // WHILE
+        // THEN
         Assertions.assertThat(role)
+            .as("When the role doesn't exist, then nothing is returned (role)")
             .isEmpty();
     }
 
@@ -82,11 +86,16 @@ class ITRoleRepositoryFindOne {
         role = repository.findOne(RoleConstants.NAME);
 
         // THEN
-        Assertions.assertThat(role)
-            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(role)
+                .as("the role is present")
+                .isPresent();
+            role.ifPresent(actual -> softly.assertThat(actual)
+                .as("the returned role includes its permissions")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Roles.withPermissions()));
+        });
     }
 
     @Test
@@ -99,11 +108,16 @@ class ITRoleRepositoryFindOne {
         role = repository.findOne(RoleConstants.NAME);
 
         // THEN
-        Assertions.assertThat(role)
-            .hasValueSatisfying(actual -> Assertions.assertThat(actual)
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(role)
+                .as("the role is present")
+                .isPresent();
+            role.ifPresent(actual -> softly.assertThat(actual)
+                .as("the returned role includes its permission")
                 .usingRecursiveComparison()
                 .ignoringFields("audit")
                 .isEqualTo(Roles.withSinglePermission()));
+        });
     }
 
 }

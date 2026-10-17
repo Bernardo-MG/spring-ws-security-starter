@@ -28,10 +28,6 @@ class ITAccountRepositorySave {
     @Autowired
     private UserSpringRepository userSpringRepository;
 
-    public ITAccountRepositorySave() {
-        super();
-    }
-
     @Test
     @DisplayName("When changing the name, then the data is persisted")
     @EnabledUserWithoutRole

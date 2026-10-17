@@ -30,10 +30,6 @@ class ITRoleRepositorySave {
     @Autowired
     private RoleSpringRepository springRepository;
 
-    public ITRoleRepositorySave() {
-        super();
-    }
-
     @Test
     @DisplayName("When saving an existing role with added permissions, then the role is updated")
     @RoleWithoutPermissions

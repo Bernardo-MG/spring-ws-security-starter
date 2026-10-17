@@ -27,10 +27,6 @@ class ITRoleRepositoryFindAll {
     @Autowired
     private RoleRepository repository;
 
-    public ITRoleRepositoryFindAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When roles exist, then they are returned")
     @RoleWithoutPermissions
@@ -51,6 +47,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When roles exist, then they are returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -76,6 +73,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When no roles exist, then nothing is returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -101,6 +99,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When roles have permissions, then they are returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -127,6 +126,7 @@ class ITRoleRepositoryFindAll {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When roles have a single permission, then they are returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")

@@ -25,7 +25,7 @@ import com.bernardomg.security.springframework.userdetails.SecurityUserDetails;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SecurityUserDetailsAuditorAware - get current auditor")
-public class TestSecurityUserDetailsAuditorAware {
+class TestSecurityUserDetailsAuditorAware {
 
     @InjectMocks
     private SecurityUserDetailsAuditorAware auditorAware;
@@ -55,7 +55,8 @@ public class TestSecurityUserDetailsAuditorAware {
         result = auditorAware.getCurrentAuditor();
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThat(result).as("When the current user has no id, then the auditor is empty (result)")
+            .isEmpty();
     }
 
     @Test
@@ -77,7 +78,8 @@ public class TestSecurityUserDetailsAuditorAware {
         result = auditorAware.getCurrentAuditor();
 
         // THEN
-        assertThat(result).contains(UserConstants.ID);
+        assertThat(result).as("When the current user is authenticated, then the auditor is returned (result)")
+            .contains(UserConstants.ID);
     }
 
     @Test
@@ -98,7 +100,8 @@ public class TestSecurityUserDetailsAuditorAware {
         result = auditorAware.getCurrentAuditor();
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThat(result).as("When the current user is not authenticated, then the auditor is empty (result)")
+            .isEmpty();
     }
 
     @Test
@@ -119,7 +122,9 @@ public class TestSecurityUserDetailsAuditorAware {
         result = auditorAware.getCurrentAuditor();
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThat(result)
+            .as("When the current user auth is not of the expected type, then the auditor is returned (result)")
+            .isEmpty();
     }
 
     @Test
@@ -142,7 +147,9 @@ public class TestSecurityUserDetailsAuditorAware {
         result = auditorAware.getCurrentAuditor();
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThat(result)
+            .as("When the current user auth details is not of the expected type, then the auditor is returned (result)")
+            .isEmpty();
     }
 
     @Test
@@ -154,7 +161,8 @@ public class TestSecurityUserDetailsAuditorAware {
         result = auditorAware.getCurrentAuditor();
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThat(result).as("When there is no authentication, then the auditor is empty (result)")
+            .isEmpty();
     }
 
 }

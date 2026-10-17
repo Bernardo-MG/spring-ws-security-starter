@@ -64,23 +64,25 @@ class TestBearerHeaderTokenResolver {
         result = resolver.resolve(request);
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThat(result).as("When the authorization header is missing, then nothing is returned (result)")
+            .isEmpty();
     }
 
     @ParameterizedTest(name = "Header: {0}")
     @MethodSource("malformedBearerHeaders")
     @DisplayName("When the bearer header is malformed, then nothing is returned")
     void testResolve_MalformedBearerHeader(final String authorizationHeader) {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authorizationHeader);
 
         // WHEN
-        executable = () -> resolver.resolve(request);
+        action = () -> resolver.resolve(request);
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("When the bearer header is malformed, then nothing is returned (action)")
             .isInstanceOf(BadCredentialsException.class);
     }
 
@@ -88,16 +90,17 @@ class TestBearerHeaderTokenResolver {
     @MethodSource("unsupportedAuthorizationHeaders")
     @DisplayName("When the authorization schema is unsupported, then nothing is returned")
     void testResolve_UnsupportedAuthorizationScheme(final String authorizationHeader) {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         when(request.getHeader(HttpHeaders.AUTHORIZATION)).thenReturn(authorizationHeader);
 
         // WHEN
-        executable = () -> resolver.resolve(request);
+        action = () -> resolver.resolve(request);
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("When the authorization schema is unsupported, then nothing is returned (action)")
             .isInstanceOf(BadCredentialsException.class);
     }
 
@@ -114,7 +117,8 @@ class TestBearerHeaderTokenResolver {
         result = resolver.resolve(request);
 
         // THEN
-        assertThat(result).contains(expectedToken);
+        assertThat(result).as("When the bearer header is valid, then the token is returned (result)")
+            .contains(expectedToken);
     }
 
 }

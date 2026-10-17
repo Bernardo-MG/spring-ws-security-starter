@@ -25,10 +25,6 @@ class TestDefaultUserLoginAttempsServiceClear {
     @Mock
     private UserRepository                 userRepository;
 
-    public TestDefaultUserLoginAttempsServiceClear() {
-        super();
-    }
-
     @BeforeEach
     public void setupService() {
         service = new DefaultUserLoginAttempsService(UserConstants.MAX_LOGIN_ATTEMPTS, userRepository);

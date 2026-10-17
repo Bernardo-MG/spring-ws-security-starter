@@ -1,26 +1,3 @@
-/**
- * The MIT License (MIT)
- * <p>
- * Copyright (c) 2023-2025 the original author or authors.
- * <p>
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * <p>
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * <p>
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
 
 package com.bernardomg.security.usecase.test.user.service.unit;
 
@@ -76,14 +53,10 @@ class TestUserServiceUpdate {
     @Mock
     private UserRepository     userRepository;
 
-    public TestUserServiceUpdate() {
-        super();
-    }
-
     @Test
     @DisplayName("When updating a user with a duplicated role, then a validation error is raised")
     void testUpdate_DuplicatedRole() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -91,18 +64,18 @@ class TestUserServiceUpdate {
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(true);
 
         // WHEN
-        executable = () -> service.update(Users.duplicatedRole());
+        action = () -> service.update(Users.duplicatedRole());
 
         // THEN
         failure = new FieldFailure("duplicated", "roles[]", "roles[].duplicated", 1L);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When updating a user with an existing email, then a validation error is raised")
     void testUpdate_ExistingMail() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
@@ -112,62 +85,64 @@ class TestUserServiceUpdate {
             ArgumentMatchers.anyString())).willReturn(true);
 
         // WHEN
-        executable = () -> service.update(Users.emailChange());
+        action = () -> service.update(Users.emailChange());
 
         // THEN
         failure = new FieldFailure("existing", "email", "email.existing", UserConstants.ALTERNATIVE_EMAIL);
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When updating a user with an invalid email, then a validation error is raised")
     void testUpdate_InvalidMail() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
-        executable = () -> service.update(Users.invalidEmail());
+        action = () -> service.update(Users.invalidEmail());
 
         // THEN
         failure = new FieldFailure("invalid", "email", "email.invalid", "abc");
 
-        ValidationAssertions.assertThatFieldFails(executable, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When the role does not exist, then an exception is thrown")
     void testUpdate_NotExistingRole() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
         given(roleRepository.exists(RoleConstants.NAME)).willReturn(false);
 
         // WHEN
-        execution = () -> service.update(Users.enabled());
+        action = () -> service.update(Users.enabled());
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the role does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingRoleException.class);
     }
 
     @Test
     @DisplayName("When the user does not exist, then an exception is thrown")
     void testUpdate_NotExistingUser() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.update(Users.enabled());
+        action = () -> service.update(Users.enabled());
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the user does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingUsernameException.class);
     }
 
@@ -201,6 +176,7 @@ class TestUserServiceUpdate {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When updating a user's email, then the updated user is returned (result)")
             .isEqualTo(Users.emailChange());
     }
 
@@ -232,6 +208,7 @@ class TestUserServiceUpdate {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When updating a user without roles, then the updated user is returned (result)")
             .isEqualTo(Users.withoutRoles());
     }
 

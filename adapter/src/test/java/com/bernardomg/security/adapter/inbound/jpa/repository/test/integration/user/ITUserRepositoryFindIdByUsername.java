@@ -31,6 +31,7 @@ class ITUserRepositoryFindIdByUsername {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When looking up an enabled user by username, then its id is returned (result)")
             .contains(UserConstants.ID);
     }
 
@@ -44,6 +45,7 @@ class ITUserRepositoryFindIdByUsername {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When no user matches the username, then nothing is returned (result)")
             .isEmpty();
     }
 

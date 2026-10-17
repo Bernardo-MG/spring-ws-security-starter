@@ -19,10 +19,6 @@ class ITResourcePermissionRepositoryFindAll {
     @Autowired
     private ResourcePermissionRepository repository;
 
-    public ITResourcePermissionRepositoryFindAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When all resource permissions are requested, then all permissions are returned")
     @CrudPermissions

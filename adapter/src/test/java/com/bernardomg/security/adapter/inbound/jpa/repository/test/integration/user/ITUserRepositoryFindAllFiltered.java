@@ -24,10 +24,6 @@ class ITUserRepositoryFindAllFiltered {
     @Autowired
     private UserRepository repository;
 
-    public ITUserRepositoryFindAllFiltered() {
-        super();
-    }
-
     @Test
     @DisplayName("When filtering by name, then matching users are returned")
     @OnlyUser
@@ -48,6 +44,7 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When filtering by name, then matching users are returned (result)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .hasSize(1);
@@ -73,6 +70,7 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When filtering by an invalid name, then no users are returned (result)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -98,6 +96,7 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When filtering by username, then matching users are returned (result)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .hasSize(1);
@@ -123,6 +122,7 @@ class ITUserRepositoryFindAllFiltered {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When filtering by an invalid username, then no users are returned (result)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

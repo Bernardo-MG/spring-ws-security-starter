@@ -25,10 +25,6 @@ class ITRoleRepositoryFindAllFilter {
     @Autowired
     private RoleRepository repository;
 
-    public ITRoleRepositoryFindAllFilter() {
-        super();
-    }
-
     @Test
     @DisplayName("When filtering by name, then the matching role is returned")
     @RoleWithoutPermissions
@@ -49,6 +45,7 @@ class ITRoleRepositoryFindAllFilter {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When filtering by name, then the matching role is returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .usingRecursiveFieldByFieldElementComparatorIgnoringFields("audit")
@@ -75,6 +72,7 @@ class ITRoleRepositoryFindAllFilter {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When filtering by a nonexistent name, then nothing is returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
@@ -99,6 +97,7 @@ class ITRoleRepositoryFindAllFilter {
 
         // THEN
         Assertions.assertThat(roles)
+            .as("When filtering by name with no data, then nothing is returned (roles)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();

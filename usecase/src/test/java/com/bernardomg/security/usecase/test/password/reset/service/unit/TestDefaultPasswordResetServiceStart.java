@@ -100,17 +100,17 @@ class TestDefaultPasswordResetServiceStart {
     @Test
     @DisplayName("When starting a password reset for a disabled user, then a DisabledUserException is thrown")
     void testStartPasswordReset_Disabled_Exception() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.disabled()));
 
         // WHEN
-        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+        action = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(DisabledUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(DisabledUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -120,16 +120,16 @@ class TestDefaultPasswordResetServiceStart {
     @Test
     @DisplayName("When starting a password reset for a disabled user, then no token is generated")
     void testStartPasswordReset_Disabled_NoToken() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.disabled()));
 
         // WHEN
-        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+        action = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        Assertions.catchThrowableOfType(DisabledUserException.class, executable);
+        Assertions.catchThrowableOfType(DisabledUserException.class, action);
 
         verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
         verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
@@ -138,17 +138,17 @@ class TestDefaultPasswordResetServiceStart {
     @Test
     @DisplayName("When starting a password reset for an expired user, then an ExpiredUserException is thrown")
     void testStartPasswordReset_Expired_Exception() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.expired()));
 
         // WHEN
-        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+        action = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -158,16 +158,16 @@ class TestDefaultPasswordResetServiceStart {
     @Test
     @DisplayName("When starting a password reset for an expired user, then no token is generated")
     void testStartPasswordReset_Expired_NoToken() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.expired()));
 
         // WHEN
-        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+        action = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
+        Assertions.catchThrowableOfType(ExpiredUserException.class, action);
 
         verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
         verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
@@ -176,32 +176,32 @@ class TestDefaultPasswordResetServiceStart {
     @Test
     @DisplayName("When starting a password reset with an invalid email, then a validation error is raised")
     void testStartPasswordReset_InvalidEmail() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.startPasswordReset("abc");
+        action = () -> service.startPasswordReset("abc");
 
         // THEN
         failure = new FieldFailure("invalid", "email", "email.invalid", "");
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
     @DisplayName("When starting a password reset for a locked user, then a LockedUserException is thrown")
     void testStartPasswordReset_Locked_Exception() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.locked()));
 
         // WHEN
-        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+        action = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")
@@ -211,16 +211,16 @@ class TestDefaultPasswordResetServiceStart {
     @Test
     @DisplayName("When starting a password reset for a locked user, then no token is generated")
     void testStartPasswordReset_Locked_NoToken() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.of(Users.locked()));
 
         // WHEN
-        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+        action = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        Assertions.catchThrowableOfType(LockedUserException.class, executable);
+        Assertions.catchThrowableOfType(LockedUserException.class, action);
 
         verify(tokenStore, Mockito.never()).revokeExistingTokens(ArgumentMatchers.anyString());
         verify(tokenStore, Mockito.never()).createToken(ArgumentMatchers.anyString());
@@ -268,17 +268,17 @@ class TestDefaultPasswordResetServiceStart {
     @Test
     @DisplayName("When no user matches the email, then a MissingUsernameException is thrown")
     void testStartPasswordReset_NoUser() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
         given(userRepository.findOneByEmail(UserConstants.EMAIL)).willReturn(Optional.empty());
 
         // WHEN
-        executable = () -> service.startPasswordReset(UserConstants.EMAIL);
+        action = () -> service.startPasswordReset(UserConstants.EMAIL);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, executable);
+        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, action);
 
         Assertions.assertThat(exception.getMessage())
             .as("exception message")

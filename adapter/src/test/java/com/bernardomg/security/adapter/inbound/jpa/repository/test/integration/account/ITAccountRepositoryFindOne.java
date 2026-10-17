@@ -23,10 +23,6 @@ class ITAccountRepositoryFindOne {
     @Autowired
     private AccountRepository repository;
 
-    public ITAccountRepositoryFindOne() {
-        super();
-    }
-
     @Test
     @DisplayName("When there is no data, then nothing is returned")
     void testGetAll_Empty() {

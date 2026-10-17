@@ -35,10 +35,6 @@ class TestScopedUserTokenStoreGetUsername {
     @Mock
     private UserTokenRepository  userTokenRepository;
 
-    public TestScopedUserTokenStoreGetUsername() {
-        super();
-    }
-
     @BeforeEach
     void setUp() {
         store = new ScopedUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
@@ -68,17 +64,18 @@ class TestScopedUserTokenStoreGetUsername {
     @Test
     @DisplayName("When the token does not exist, then an exception is thrown")
     void testGetUsername_MissingToken() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userTokenRepository.findOneByScope(UserTokenConstants.TOKEN, UserTokenConstants.SCOPE))
             .willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> store.getUsername(UserTokenConstants.TOKEN);
+        action = () -> store.getUsername(UserTokenConstants.TOKEN);
 
         // THEN
-        assertThatThrownBy(execution).isInstanceOf(MissingUserTokenException.class);
+        assertThatThrownBy(action).as("When the token does not exist, then an exception is thrown (action)")
+            .isInstanceOf(MissingUserTokenException.class);
     }
 
 }

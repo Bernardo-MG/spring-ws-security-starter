@@ -38,7 +38,7 @@ class TestAccountServiceUpdate {
     @Test
     @DisplayName("When the account does not exist, then an exception is thrown")
     void testUpdate_NoData() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final Account          data;
 
         // GIVEN
@@ -47,10 +47,11 @@ class TestAccountServiceUpdate {
         data = Accounts.valid();
 
         // WHEN
-        execution = () -> service.update(data);
+        action = () -> service.update(data);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the account does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingAccountException.class);
     }
 
@@ -88,6 +89,7 @@ class TestAccountServiceUpdate {
 
         // THEN
         Assertions.assertThat(account)
+            .as("When updating an account, then the updated account is returned (account)")
             .isEqualTo(data);
     }
 

@@ -35,10 +35,6 @@ class TestDefaultRoleServiceGetOne {
     @InjectMocks
     private DefaultRoleService           service;
 
-    public TestDefaultRoleServiceGetOne() {
-        super();
-    }
-
     @Test
     @DisplayName("When the role exists, then it is returned")
     void testGetOne() {
@@ -54,22 +50,24 @@ class TestDefaultRoleServiceGetOne {
 
         // THEN
         Assertions.assertThat(role)
+            .as("When the role exists, then it is returned (role)")
             .contains(Roles.withPermissions());
     }
 
     @Test
     @DisplayName("When the role does not exist, then an exception is thrown")
     void testGetOne_NoData() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(roleRepository.findOne(RoleConstants.NAME)).willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> service.getOne(RoleConstants.NAME);
+        action = () -> service.getOne(RoleConstants.NAME);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the role does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingRoleException.class);
     }
 

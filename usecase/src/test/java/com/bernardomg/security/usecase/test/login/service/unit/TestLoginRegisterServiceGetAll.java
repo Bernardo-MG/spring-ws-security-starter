@@ -32,10 +32,6 @@ class TestLoginRegisterServiceGetAll {
     @InjectMocks
     private DefaultLoginRegisterService service;
 
-    public TestLoginRegisterServiceGetAll() {
-        super();
-    }
-
     @Test
     @DisplayName("When all login registers are requested, then all data is returned")
     void testGetAll_Data() {

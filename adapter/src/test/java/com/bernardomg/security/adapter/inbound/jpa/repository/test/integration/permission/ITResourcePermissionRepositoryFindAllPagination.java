@@ -10,20 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.bernardomg.pagination.domain.Page;
 import com.bernardomg.pagination.domain.Pagination;
 import com.bernardomg.pagination.domain.Sorting;
-import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.AbstractPaginationIT;
+import com.bernardomg.security.adapter.inbound.jpa.repository.test.config.pagination.PaginationTestSupport;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.adapter.test.config.permission.annotation.SinglePermission;
 import com.bernardomg.security.adapter.test.config.permission.factory.ResourcePermissions;
 import com.bernardomg.security.domain.permission.model.ResourcePermission;
 import com.bernardomg.security.domain.permission.repository.ResourcePermissionRepository;
 
 @DisplayName("ResourcePermissionRepository - find all - pagination")
+@IntegrationTest
 @SinglePermission
-class ITResourcePermissionRepositoryFindAllPagination extends AbstractPaginationIT<ResourcePermission> {
+class ITResourcePermissionRepositoryFindAllPagination extends PaginationTestSupport<ResourcePermission> {
 
     @Autowired
     private ResourcePermissionRepository repository;
 
-    public ITResourcePermissionRepositoryFindAllPagination() {
+    ITResourcePermissionRepositoryFindAllPagination() {
         super(1);
     }
 
@@ -38,7 +40,17 @@ class ITResourcePermissionRepositoryFindAllPagination extends AbstractPagination
     @Test
     @DisplayName("When the first page is requested, then all page data is returned")
     void testFindAll_Page1_Data() {
-        testPageData(1, ResourcePermissions.create());
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+
+        // GIVEN
+        pagination = new Pagination(1, 1);
+
+        // WHEN
+        permissions = read(pagination);
+
+        // THEN
+        assertPageContents(permissions, ResourcePermissions.create());
     }
 
     @Test
@@ -57,9 +69,42 @@ class ITResourcePermissionRepositoryFindAllPagination extends AbstractPagination
 
         // THEN
         Assertions.assertThat(permissions)
+            .as("When the second page is requested, then all page data is returned (permissions)")
             .extracting(Page::content)
             .asInstanceOf(InstanceOfAssertFactories.LIST)
             .isEmpty();
+    }
+
+    @Test
+    @DisplayName("When a page is returned, then its metadata matches the request and result")
+    void testReadPaged_PageData() {
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+
+        // GIVEN
+        pagination = new Pagination(1, 1);
+
+        // WHEN
+        permissions = read(pagination);
+
+        // THEN
+        assertPageMetadata(permissions, 1);
+    }
+
+    @Test
+    @DisplayName("When a page size is requested, then the response contains that many records")
+    void testReadPaged_PageMax() {
+        final Page<ResourcePermission> permissions;
+        final Pagination               pagination;
+
+        // GIVEN
+        pagination = new Pagination(1, 1);
+
+        // WHEN
+        permissions = read(pagination);
+
+        // THEN
+        assertPageSize(permissions);
     }
 
 }

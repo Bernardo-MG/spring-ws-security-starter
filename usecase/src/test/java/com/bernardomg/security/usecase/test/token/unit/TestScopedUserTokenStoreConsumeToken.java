@@ -41,10 +41,6 @@ class TestScopedUserTokenStoreConsumeToken {
     @Mock
     private UserTokenRepository  userTokenRepository;
 
-    public TestScopedUserTokenStoreConsumeToken() {
-        super();
-    }
-
     @BeforeEach
     void setUp() {
         store = new ScopedUserTokenStore(userTokenRepository, userRepository, UserTokenConstants.SCOPE,
@@ -54,7 +50,7 @@ class TestScopedUserTokenStoreConsumeToken {
     @Test
     @DisplayName("When the token exists, then it is marked as consumed")
     void testConsumeToken() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userTokenRepository.findOneByScope(UserTokenConstants.TOKEN, UserTokenConstants.SCOPE))
@@ -63,10 +59,11 @@ class TestScopedUserTokenStoreConsumeToken {
         given(readToken.consume()).willReturn(consumedToken);
 
         // WHEN
-        execution = () -> store.consumeToken(UserTokenConstants.TOKEN);
+        action = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         // THEN
-        Assertions.assertThatCode(execution)
+        Assertions.assertThatCode(action)
+            .as("When the token exists, then it is marked as consumed (action)")
             .doesNotThrowAnyException();
 
         then(readToken).should()
@@ -78,7 +75,7 @@ class TestScopedUserTokenStoreConsumeToken {
     @Test
     @DisplayName("When the token is already consumed, then an exception is thrown")
     void testConsumeToken_AlreadyConsumed() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userTokenRepository.findOneByScope(UserTokenConstants.TOKEN, UserTokenConstants.SCOPE))
@@ -86,27 +83,29 @@ class TestScopedUserTokenStoreConsumeToken {
         given(readToken.consumed()).willReturn(true);
 
         // WHEN
-        execution = () -> store.consumeToken(UserTokenConstants.TOKEN);
+        action = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the token is already consumed, then an exception is thrown (action)")
             .isInstanceOf(ConsumedTokenException.class);
     }
 
     @Test
     @DisplayName("When the token does not exist, then an exception is thrown")
     void testConsumeToken_MissingToken() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
 
         // GIVEN
         given(userTokenRepository.findOneByScope(UserTokenConstants.TOKEN, UserTokenConstants.SCOPE))
             .willReturn(Optional.empty());
 
         // WHEN
-        execution = () -> store.consumeToken(UserTokenConstants.TOKEN);
+        action = () -> store.consumeToken(UserTokenConstants.TOKEN);
 
         // THEN
-        Assertions.assertThatThrownBy(execution)
+        Assertions.assertThatThrownBy(action)
+            .as("When the token does not exist, then an exception is thrown (action)")
             .isInstanceOf(MissingUserTokenException.class);
     }
 

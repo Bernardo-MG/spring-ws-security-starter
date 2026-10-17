@@ -57,10 +57,6 @@ class TestUserOnboardingServiceActivateUser {
     @Mock
     private TokenValidator               tokenValidator;
 
-    public TestUserOnboardingServiceActivateUser() {
-        super();
-    }
-
     @Test
     @DisplayName("When activating a new user, then the token is consumed")
     void testActivateUser_ConsumesToken() {
@@ -94,7 +90,7 @@ class TestUserOnboardingServiceActivateUser {
     @Test
     @DisplayName("When activating an already enabled user, then the operation fails")
     void testActivateUser_Enabled_Exception() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -102,19 +98,20 @@ class TestUserOnboardingServiceActivateUser {
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.enabled()));
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(EnabledUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(EnabledUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When activating an already enabled user, then the operation fails (exception get message)")
             .isEqualTo("User " + UserConstants.USERNAME + " is enabled");
     }
 
     @Test
     @DisplayName("When activating an expired user, then the operation fails")
     void testActivateUser_Expired_Exception() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -122,28 +119,29 @@ class TestUserOnboardingServiceActivateUser {
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.expired()));
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(ExpiredUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When activating an expired user, then the operation fails (exception get message)")
             .isEqualTo("User " + UserConstants.USERNAME + " is expired");
     }
 
     @Test
     @DisplayName("When activating a user with an invalid password, then an exception is thrown")
     void testActivateUser_InvalidPassword() {
-        final ThrowingCallable execution;
+        final ThrowingCallable action;
         final FieldFailure     failure;
 
         // WHEN
-        execution = () -> service.activateUser(Tokens.TOKEN, "abc");
+        action = () -> service.activateUser(Tokens.TOKEN, "abc");
 
         // THEN
         failure = new FieldFailure("tooWeak", "password", "password.tooWeak", "");
 
-        ValidationAssertions.assertThatFieldFails(execution, failure);
+        ValidationAssertions.assertThatFieldFails(action, failure);
     }
 
     @Test
@@ -164,7 +162,7 @@ class TestUserOnboardingServiceActivateUser {
     @Test
     @DisplayName("When activating a locked user, then the operation fails")
     void testActivateUser_Locked_Exception() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -172,12 +170,13 @@ class TestUserOnboardingServiceActivateUser {
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.of(Users.locked()));
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(LockedUserException.class, executable);
+        exception = Assertions.catchThrowableOfType(LockedUserException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When activating a locked user, then the operation fails (exception get message)")
             .isEqualTo("User " + UserConstants.USERNAME + " is locked");
     }
 
@@ -199,7 +198,7 @@ class TestUserOnboardingServiceActivateUser {
     @Test
     @DisplayName("When activating a nonexistent user, then the operation fails")
     void testActivateUser_NotExistingUser_Exception() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
         final Exception        exception;
 
         // GIVEN
@@ -207,12 +206,13 @@ class TestUserOnboardingServiceActivateUser {
         given(repository.findOne(UserConstants.USERNAME)).willReturn(Optional.empty());
 
         // WHEN
-        executable = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
+        action = () -> service.activateUser(Tokens.TOKEN, UserConstants.NEW_PASSWORD);
 
         // THEN
-        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, executable);
+        exception = Assertions.catchThrowableOfType(MissingUsernameException.class, action);
 
         Assertions.assertThat(exception.getMessage())
+            .as("When activating a nonexistent user, then the operation fails (exception get message)")
             .isEqualTo("Missing username username for user");
     }
 

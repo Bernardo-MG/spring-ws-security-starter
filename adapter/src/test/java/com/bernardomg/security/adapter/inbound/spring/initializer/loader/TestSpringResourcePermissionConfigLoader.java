@@ -65,21 +65,26 @@ class TestSpringResourcePermissionConfigLoader {
             final ResourcePermissionConfig permission;
 
             softly.assertThat(result)
+                .as("When a permission configuration is available, then it is loaded (result)")
                 .hasSize(1);
 
             config = result.iterator()
                 .next();
             softly.assertThat(config.getActions())
+                .as("When a permission configuration is available, then it is loaded (config get actions)")
                 .containsExactly("create");
             softly.assertThat(config.getPermissions())
+                .as("When a permission configuration is available, then it is loaded (config get permissions)")
                 .hasSize(1);
 
             permission = config.getPermissions()
                 .iterator()
                 .next();
             softly.assertThat(permission.getResource())
+                .as("When a permission configuration is available, then it is loaded (permission get resource)")
                 .isEqualTo("data");
             softly.assertThat(permission.getActions())
+                .as("When a permission configuration is available, then it is loaded (permission get actions)")
                 .containsExactly("create");
         });
     }
@@ -103,13 +108,16 @@ class TestSpringResourcePermissionConfigLoader {
             final PermissionConfig config;
 
             softly.assertThat(result)
+                .as("When the resource is empty, then an empty configuration is produced (result)")
                 .hasSize(1);
 
             config = result.iterator()
                 .next();
             softly.assertThat(config.getActions())
+                .as("When the resource is empty, then an empty configuration is produced (config get actions)")
                 .isEmpty();
             softly.assertThat(config.getPermissions())
+                .as("When the resource is empty, then an empty configuration is produced (config get permissions)")
                 .isEmpty();
         });
     }
@@ -130,7 +138,8 @@ class TestSpringResourcePermissionConfigLoader {
         exception = catchThrowableOfType(UncheckedIOException.class, loader::load);
 
         // THEN
-        assertThat(exception).isNotNull()
+        assertThat(exception).as("When the permissions resource is missing, then an exception is thrown (exception)")
+            .isNotNull()
             .hasCauseInstanceOf(IOException.class)
             .hasRootCauseMessage("Missing permissions resource " + resource);
     }
@@ -166,12 +175,15 @@ class TestSpringResourcePermissionConfigLoader {
         // THEN
         assertSoftly(softly -> {
             softly.assertThat(result)
+                .as("When multiple permission configuration resources are available, then all are loaded (result)")
                 .hasSize(2);
             softly.assertThat(result.get(0)
                 .getActions())
+                .as("When multiple permission configuration resources are available, then all are loaded (asserted value)")
                 .containsExactly("create");
             softly.assertThat(result.get(1)
                 .getActions())
+                .as("When multiple permission configuration resources are available, then all are loaded (asserted value)")
                 .containsExactly("read");
         });
     }
@@ -189,7 +201,8 @@ class TestSpringResourcePermissionConfigLoader {
         result = loader.load();
 
         // THEN
-        assertThat(result).isEmpty();
+        assertThat(result).as("When no resources are available, then no configurations are produced (result)")
+            .isEmpty();
     }
 
 }

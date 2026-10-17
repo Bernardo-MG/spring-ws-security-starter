@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,7 @@ class TestAuthorityResourcePermissionEvaluator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When the authentication has the permission, then it is authorized (authorized)")
             .isTrue();
     }
 
@@ -56,15 +58,17 @@ class TestAuthorityResourcePermissionEvaluator {
         // GIVEN
         authority = new ResourceActionGrantedAuthority(RESOURCE.toUpperCase(Locale.ROOT),
             ACTION.toUpperCase(Locale.ROOT));
-
         authentication = Authentications.withAuthorities(List.of(authority));
 
         // WHEN
-        final boolean authorized = evaluator.isAuthorized(authentication, RESOURCE.toLowerCase(Locale.ROOT),
+        final boolean authorized;
+
+        authorized = evaluator.isAuthorized(authentication, RESOURCE.toLowerCase(Locale.ROOT),
             ACTION.toLowerCase(Locale.ROOT));
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When the permission case differs, then the authentication is authorized (authorized)")
             .isFalse();
     }
 
@@ -82,6 +86,7 @@ class TestAuthorityResourcePermissionEvaluator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When the authentication has no authorities, then it is not authorized (authorized)")
             .isFalse();
     }
 
@@ -99,6 +104,7 @@ class TestAuthorityResourcePermissionEvaluator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When no authority matches the action, then the authentication is not authorized (authorized)")
             .isFalse();
     }
 
@@ -116,14 +122,22 @@ class TestAuthorityResourcePermissionEvaluator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When no authority matches the resource, then the authentication is not authorized (authorized)")
             .isFalse();
     }
 
     @Test
     @DisplayName("When authentication is null, then it is rejected")
     void testIsAuthorized_NullAuthentication() {
+        final ThrowingCallable action;
+
+        // WHEN
+        action = () -> evaluator.isAuthorized(null, RESOURCE, ACTION);
+
+        // THEN
         Assertions.assertThatNullPointerException()
-            .isThrownBy(() -> evaluator.isAuthorized(null, RESOURCE, ACTION));
+            .as("null authentication is rejected")
+            .isThrownBy(action);
     }
 
     @Test
@@ -133,6 +147,7 @@ class TestAuthorityResourcePermissionEvaluator {
         final ResourceActionGrantedAuthority nonMatchingAction;
         final ResourceActionGrantedAuthority matching;
         final Authentication                 authentication;
+        final boolean                        authorized;
 
         // GIVEN
         nonMatchingResource = new ResourceActionGrantedAuthority("alternative-resource", ACTION);
@@ -143,10 +158,11 @@ class TestAuthorityResourcePermissionEvaluator {
             List.of(nonMatchingResource, new SimpleGrantedAuthority("ROLE_USER"), nonMatchingAction, matching));
 
         // WHEN
-        final boolean authorized = evaluator.isAuthorized(authentication, RESOURCE, ACTION);
+        authorized = evaluator.isAuthorized(authentication, RESOURCE, ACTION);
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When one of multiple authorities matches, then the authentication is authorized (authorized)")
             .isTrue();
     }
 
@@ -164,6 +180,7 @@ class TestAuthorityResourcePermissionEvaluator {
 
         // THEN
         Assertions.assertThat(authorized)
+            .as("When the authentication has an unexpected type, then it is not authorized (authorized)")
             .isFalse();
     }
 }

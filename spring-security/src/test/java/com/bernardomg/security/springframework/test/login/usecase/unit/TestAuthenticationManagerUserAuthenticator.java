@@ -43,7 +43,7 @@ class TestAuthenticationManagerUserAuthenticator {
     @DisplayName("When authentication fails, then an invalid-credentials exception is thrown")
     void testAuthenticate_AuthenticationFailure() {
         final AuthenticationException cause;
-        final ThrowingCallable        executable;
+        final ThrowingCallable        action;
 
         // GIVEN
         cause = new BadCredentialsException("Invalid credentials");
@@ -53,10 +53,11 @@ class TestAuthenticationManagerUserAuthenticator {
                 .willThrow(cause);
 
         // WHEN
-        executable = () -> authenticator.authenticate(Credentialses.valid());
+        action = () -> authenticator.authenticate(Credentialses.valid());
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("When authentication fails, then an invalid-credentials exception is thrown (action)")
             .isInstanceOf(InvalidCredentialsException.class)
             .hasCause(cause);
     }
@@ -64,7 +65,7 @@ class TestAuthenticationManagerUserAuthenticator {
     @Test
     @DisplayName("When the authenticated principal has an unexpected type, then an invalid-credentials exception is thrown")
     void testAuthenticate_InvalidCredentials() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(authenticationManager.authenticate(
@@ -77,17 +78,18 @@ class TestAuthenticationManagerUserAuthenticator {
             .build());
 
         // WHEN
-        executable = () -> authenticator.authenticate(Credentialses.valid());
+        action = () -> authenticator.authenticate(Credentialses.valid());
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("When the authenticated principal has an unexpected type, then an invalid-credentials exception is thrown (action)")
             .isInstanceOf(InvalidCredentialsException.class);
     }
 
     @Test
     @DisplayName("When the authenticated user is not found, then an invalid-credentials exception is thrown")
     void testAuthenticate_UserNotFound() {
-        final ThrowingCallable executable;
+        final ThrowingCallable action;
 
         // GIVEN
         given(authenticationManager.authenticate(
@@ -95,10 +97,11 @@ class TestAuthenticationManagerUserAuthenticator {
                 .willReturn(authentication);
 
         // WHEN
-        executable = () -> authenticator.authenticate(Credentialses.valid());
+        action = () -> authenticator.authenticate(Credentialses.valid());
 
         // THEN
-        Assertions.assertThatThrownBy(executable)
+        Assertions.assertThatThrownBy(action)
+            .as("When the authenticated user is not found, then an invalid-credentials exception is thrown (action)")
             .isInstanceOf(InvalidCredentialsException.class);
     }
 
@@ -119,6 +122,7 @@ class TestAuthenticationManagerUserAuthenticator {
 
         // THEN
         Assertions.assertThat(result)
+            .as("When authentication succeeds with a valid principal, then the domain user is returned (result)")
             .isEqualTo(LoginUsers.valid());
     }
 

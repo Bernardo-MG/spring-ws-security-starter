@@ -36,10 +36,6 @@ class TestSpringMailUserNotificationService {
 
     private UserNotificationService userNotificationService;
 
-    public TestSpringMailUserNotificationService() {
-        super();
-    }
-
     @BeforeEach
     private final void initializeSender() {
         userNotificationService = new SpringMailUserNotificationService(templateEng, javaMailSender,

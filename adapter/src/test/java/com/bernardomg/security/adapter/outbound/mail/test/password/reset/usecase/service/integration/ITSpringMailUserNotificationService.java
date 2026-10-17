@@ -26,6 +26,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.bernardomg.security.adapter.outbound.mail.user.usecase.service.SpringMailUserNotificationService;
+import com.bernardomg.security.adapter.test.config.annotation.IntegrationTest;
 import com.bernardomg.security.domain.user.model.NotificationRecipient;
 import com.bernardomg.security.domain.user.model.User;
 import com.bernardomg.security.usecase.user.service.UserNotificationService;
@@ -36,6 +37,7 @@ import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
 
 @ExtendWith(MockitoExtension.class)
+@IntegrationTest
 @DisplayName("SpringMailUserNotificationService - production template and messages")
 class ITSpringMailUserNotificationService {
 
