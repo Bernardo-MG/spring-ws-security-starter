@@ -68,7 +68,7 @@ public final class JpaActionRepository implements ActionRepository {
 
         names = actionSpringRepository.findAllNames();
 
-        log.debug("Found all action names: {}");
+        log.debug("Found all action names: {}", names);
 
         return names;
     }
@@ -95,7 +95,7 @@ public final class JpaActionRepository implements ActionRepository {
         return created;
     }
 
-    private void loadIds(final List<ActionEntity> entities) {
+    private final void loadIds(final List<ActionEntity> entities) {
         final Collection<String>       names;
         final Collection<ActionEntity> existing;
         final Map<String, Long>        idMap;
