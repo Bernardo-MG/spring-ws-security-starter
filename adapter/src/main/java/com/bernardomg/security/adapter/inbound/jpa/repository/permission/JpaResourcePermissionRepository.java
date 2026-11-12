@@ -89,7 +89,7 @@ public final class JpaResourcePermissionRepository implements ResourcePermission
             .map(ResourcePermissionEntityMapper::toDomain)
             .toList();
 
-        log.debug("Found all resource permissions: {}");
+        log.debug("Found all resource permissions: {}", read);
 
         return read;
     }
