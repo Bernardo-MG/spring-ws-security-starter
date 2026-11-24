@@ -1,0 +1,94 @@
+databaseChangeLog:
+  - changeSet:
+      id: security_permissions
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: security
+            tableName: resources
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_resources
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: uk_resources_name
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: security
+            tableName: resources
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: security
+            tableName: actions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_actions
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: uk_actions_name
+                    nullable: false
+        - addAutoIncrement:
+            schemaName: security
+            tableName: actions
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: security
+            tableName: permissions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_permissions
+                    nullable: false
+              - column:
+                  name: resource
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_permissions_resource
+                    references: security.resources(name)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: action
+                  type: varchar(60)
+                  constraints:
+                    foreignKeyName: fk_permissions_action
+                    references: security.actions(name)
+                    nullable: false
+                    deleteCascade: true
+        - addUniqueConstraint:
+            constraintName: uk_permissions_resource_action
+            schemaName: security
+            tableName: permissions
+            columnNames: 'resource, action'
+        - addAutoIncrement:
+            schemaName: security
+            tableName: permissions
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1

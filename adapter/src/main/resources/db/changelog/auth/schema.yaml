@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: security_schema
+      author: Bernardo
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/create_security_schema.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

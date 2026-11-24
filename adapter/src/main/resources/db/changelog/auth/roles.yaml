@@ -1,0 +1,118 @@
+databaseChangeLog:
+  - changeSet:
+      id: security_roles
+      author: Bernardo
+      changes:
+        - createTable:
+            schemaName: security
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_roles
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(60)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: uk_roles_name
+                    nullable: false
+              # Audit columns
+              - column:
+                  name: created_at
+                  type: datetime
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_at
+                  type: datetime
+                  constraints:
+                    nullable: true
+              - column:
+                  name: updated_by
+                  type: bigint
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_roles_created_by_user
+            baseTableSchemaName: security
+            baseTableName: roles
+            baseColumnNames: created_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: fk_roles_updated_by_user
+            baseTableSchemaName: security
+            baseTableName: roles
+            baseColumnNames: updated_by
+            referencedTableSchemaName: security
+            referencedTableName: users
+            referencedColumnNames: id
+        - addAutoIncrement:
+            schemaName: security
+            tableName: roles
+            columnName: id
+            columnDataType: bigint
+            incrementBy: 1
+            startWith: 1
+        - createTable:
+            schemaName: security
+            tableName: role_permissions
+            columns:
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_role_permissions_role
+                    references: security.roles(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: permission_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_role_permissions_permission
+                    references: security.permissions(id)
+                    nullable: false
+                    deleteCascade: true
+        - addPrimaryKey:
+            constraintName: pk_role_permissions
+            schemaName: security
+            tableName: role_permissions
+            columnNames: 'role_id, permission_id'
+        - createTable:
+            schemaName: security
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_roles_user
+                    references: security.users(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_user_roles_role
+                    references: security.roles(id)
+                    nullable: false
+                    deleteCascade: true
+        - addPrimaryKey:
+            constraintName: pk_user_roles
+            schemaName: security
+            tableName: user_roles
+            columnNames: 'user_id, role_id'
